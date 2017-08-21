@@ -18,8 +18,9 @@ int Parser::parse () {
   ifstream readStream(m_filename);
   if (readStream.is_open()) {
     while (getline(readStream, stmtLine)) {
-      std::cout << stmtLine << "\n";
+      std::cout << stmtLine << std::endl;
     }
+    return 0;
   }
-	return 0;
+  return -1;
 }
