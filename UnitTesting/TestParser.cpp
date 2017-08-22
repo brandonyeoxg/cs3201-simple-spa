@@ -24,6 +24,5 @@ namespace UnitTesting
       int actual = parser->parse();
       Assert::AreEqual(0, actual);
     }
-
   };
 }
