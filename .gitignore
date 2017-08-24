@@ -297,3 +297,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+SPA/SPA.vcxproj
+SPA/SPA.vcxproj.filters
+UnitTesting/UnitTesting.vcxproj
+UnitTesting/UnitTesting.vcxproj.filters
