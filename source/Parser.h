@@ -20,10 +20,12 @@ private:
   unsigned int m_curLineNum;
   PKB *m_pkb;
   PROC m_curProcNum;
-  std::stack<char> m_bracesStack;
+  std::stack<std::string> m_bracesStack;
 
   int parseForProcedure(ifstream &t_readStream, const std::string &t_line);
   int parseCodeInProcedure(ifstream &t_readStream);
-  bool parseForBraces(vector<string> &t_tokens);
+  int parseLine(std::vector<std::string> t_tokens);
+  bool parseForBraces(const string &t_token);
+  bool parseForVariable(const string &t_token);
   std::vector<std::string> tokeniseLine(const std::string &t_line);
 };
