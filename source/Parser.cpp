@@ -34,7 +34,8 @@ int Parser::parseForProcedure(ifstream &t_readStream, const std::string &t_line)
   // Remove unecessary spaces, tabs	
   std::vector<std::string> tokens = tokeniseLine(t_line);
   if (tokens.at(0) == "procedure") {
-    parseForBraces(tokens);
+    m_pkb->setProcToAST(m_curProcNum++, new TNode());
+    parseForBraces(tokens.at(2));
     return parseCodeInProcedure(t_readStream);
   }
   return -1;
@@ -45,26 +46,44 @@ int Parser::parseCodeInProcedure(ifstream &t_readStream) {
   std::string stmtLine;
   while (getline(t_readStream, stmtLine)) {
     std::vector<std::string> tokens = tokeniseLine(stmtLine);
-    parseForBraces(tokens);
-    m_pkb->varTable;
+    m_curLineNum++;
+    parseLine(tokens);
   }
   return -1;
 }
 
-bool Parser::parseForBraces(vector<string> &t_tokens) {
-  // Iterate through the tokens to identify braces
+int Parser::parseLine(std::vector<std::string> t_tokens) {
   std::vector<string>::iterator itr = t_tokens.begin();
-  for (; itr != t_tokens.end(); itr++) {
-    if (*itr == "{") {
-      m_bracesStack.push('{');
+  bool varFlag = false;
+  for (; itr != t_tokens.end(); ++itr) {
+    if (*itr == "{" || *itr == "}") {
+      parseForBraces(*itr);
+      continue;
     }
-    else if (*itr == "}") {
-      if (m_bracesStack.empty()) {
-        return false;
-      }
-      m_bracesStack.pop();
+    if (!varFlag) {
+      varFlag = parseForVariable(*itr);
     }
   }
+
+  return 1;
+}
+
+bool Parser::parseForBraces(const std::string &t_token) {
+  // Iterate through the tokens to identify braces
+  if (t_token == "{") {
+    m_bracesStack.push(t_token);
+    return true;
+  }
+  if (m_bracesStack.empty()) {
+    return false;
+  }
+  m_bracesStack.pop();
+  return true;
+}
+
+bool Parser::parseForVariable(const string &t_token) {
+  m_pkb->varTable;
+  std::cout << "The Var in this line: " << t_token << "\n";
   return true;
 }
 
