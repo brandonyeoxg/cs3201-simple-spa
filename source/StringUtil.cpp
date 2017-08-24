@@ -2,16 +2,14 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
-StringUtil::StringUtil()
-{
+StringUtil::StringUtil() {
 }
 
 
-StringUtil::~StringUtil()
-{
+StringUtil::~StringUtil() {
 }
-
 
 std::vector<std::string> StringUtil::splitString(std::string t_line, char t_delim) {
   std::vector<std::string> tokens;
@@ -26,11 +24,11 @@ std::vector<std::string> StringUtil::splitString(std::string t_line, char t_deli
 }
 
 std::string StringUtil::trimString(const std::string& str,
-  const std::string& whitespace)
-{
+  const std::string& whitespace) {
   const auto strBegin = str.find_first_not_of(whitespace);
-  if (strBegin == std::string::npos)
+  if (strBegin == std::string::npos) {
     return ""; // no content
+  }
 
   const auto strEnd = str.find_last_not_of(whitespace);
   const auto strRange = strEnd - strBegin + 1;
@@ -40,15 +38,13 @@ std::string StringUtil::trimString(const std::string& str,
 
 std::string StringUtil::reduceString(const std::string& str,
   const std::string& fill,
-  const std::string& whitespace)
-{
+  const std::string& whitespace) {
   // trim first
   auto result = trimString(str, whitespace);
 
   // replace sub ranges
   auto beginSpace = result.find_first_of(whitespace);
-  while (beginSpace != std::string::npos)
-  {
+  while (beginSpace != std::string::npos) {
     const auto endSpace = result.find_first_not_of(whitespace, beginSpace);
     const auto range = endSpace - beginSpace;
 
@@ -59,4 +55,8 @@ std::string StringUtil::reduceString(const std::string& str,
   }
 
   return result;
+}
+
+void StringUtil::toLower(std::string &str) {
+  std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
