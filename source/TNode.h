@@ -7,8 +7,11 @@ private:
   int lineNum;
   std::vector<TNode*> children;
   enum Type {
+    procedure,
+    statementList,
     assign,
-    statementList
+    variable,
+    whileType // 'while' will have compilation error
   };
   TNode* parent;
 };
