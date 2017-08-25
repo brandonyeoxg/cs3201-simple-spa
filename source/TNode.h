@@ -3,19 +3,21 @@
 class TNode {
 public:
   enum Type {
-    procedure,
-    statementList,
-    assign,
-    variable,
-    whileType, // 'while' will have compilation error
-    constant
+    Procedure,
+    StatementList,
+    Assign,
+    Variable,
+    While,
+    Constant,
+    Add,
+    If
   };
   TNode(Type type);
 
 private:
-  int lineNum;
-  std::vector<TNode *> children;
-  Type type;
-  TNode *parent;
+  int m_lineNum;
+  std::vector<TNode *> m_children;
+  Type m_type;
+  TNode *m_parent;
   
 };
