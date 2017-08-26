@@ -51,13 +51,21 @@ public:
     AST *ast = builder->createAST();
     Assert::IsTrue(ast->getRoot()->getType() == TNode::Type::Procedure);  // Check root initialized properly
 
+    TNode *slNode = builder->createStmtList();
+    // Check parent and child linked properly
+    builder->linkParentToChild(ast->getRoot(), slNode);
+    Assert::IsTrue(ast->getRoot()->getChildren()->at(0) == slNode);
+    Assert::IsTrue(ast->getRoot() == slNode->getParent());
+
+    // Add variable node
     int varLineNum = 2;
     std::string varName = "x";
-    TNode *tNode = builder->createVariable(varLineNum, varName);
-    builder->linkParentToChild(ast->getRoot(), tNode);
+    TNode *varNode = builder->createVariable(varLineNum, varName);
+
     // Check parent and child linked properly
-    Assert::IsTrue(ast->getRoot() == tNode->getParent());
-    Assert::IsTrue(ast->getRoot()->getChildren()->at(0) == tNode);
+    builder->linkParentToChild(slNode, varNode);
+    Assert::IsTrue(slNode == varNode->getParent());
+    Assert::IsTrue(slNode->getChildren()->at(0) == varNode);
   }
 
   };
