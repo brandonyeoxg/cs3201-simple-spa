@@ -14,7 +14,7 @@ public:
   };
   TNode(Type type);
 
-private:
+protected:
   int m_lineNum;
   std::vector<TNode *> m_children;
   Type m_type;
