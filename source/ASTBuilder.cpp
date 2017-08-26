@@ -4,7 +4,7 @@
 
 ASTBuilder::ASTBuilder() {}
 
-/* Creates AST and returns pointer to it
+/* Creates an AST and returns pointer to it
 */
 AST *ASTBuilder::createAST() {
   AST *ast = new AST();
@@ -33,6 +33,10 @@ TNode *ASTBuilder::buildAdd() {
   return nullptr;
 }
 
+/********** Helper Methods **********/
+
+/*  Given parent and child nodes, adds child to parent node, and sets parent for child node.
+*/
 void ASTBuilder::linkParentToChild(TNode * t_parent, TNode * t_child) {
   t_parent->addChild(t_child);
   t_child->setParent(t_parent);
