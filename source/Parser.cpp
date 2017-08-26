@@ -14,15 +14,14 @@ using namespace std;
 #include "StringUtil.h"
 #include "TNode.h"
 
+
 int Parser::parse (const std::string &t_filename) {
-  // Open file
   ifstream readStream(t_filename);
   if (!readStream.is_open()) {
     return -1;
   }
   std::string stmtLine;
   while (getline(readStream, stmtLine)) {
-    // Search for procedure
     parseForProcedure(readStream, stmtLine);
   }
 
@@ -34,6 +33,7 @@ int Parser::parseForProcedure(ifstream &t_readStream, const std::string &t_line)
   // Remove unecessary spaces, tabs	
   std::vector<std::string> tokens = tokeniseLine(t_line);
   if (tokens.at(0) == "procedure") {
+
     m_pkb->setProcToAST(m_curProcNum++, new TNode());
     parseForBraces(tokens.at(2));
     return parseCodeInProcedure(t_readStream);
@@ -85,6 +85,9 @@ bool Parser::parseForVariable(const string &t_token) {
   m_pkb->varTable;
   std::cout << "The Var in this line: " << t_token << "\n";
   return true;
+}
+
+bool Parser::matchToken(const std::string &t_token, ifstream &t_readStream) {
 }
 
 std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
