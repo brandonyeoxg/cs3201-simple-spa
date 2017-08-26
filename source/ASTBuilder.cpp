@@ -2,10 +2,11 @@
 
 #include "ASTBuilder.h"
 
-/* Creates root TNode of AST and returns pointer
+/* Creates AST and returns pointer to it
 */
-TNode *createAST() {
-  return &TNode();
+AST *createAST() {
+  AST *ast = new AST();
+  return ast;
 }
 
 /********** Create Singular Abstraction **********/
