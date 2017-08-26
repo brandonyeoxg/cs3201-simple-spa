@@ -57,6 +57,10 @@ std::string StringUtil::reduceString(const std::string& str,
   return result;
 }
 
+void StringUtil::removeWhiteSpace(std::string &str) {
+  str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+}
+
 void StringUtil::toLower(std::string &str) {
   std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
