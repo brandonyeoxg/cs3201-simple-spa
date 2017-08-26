@@ -15,6 +15,8 @@ public:
     If
   };
   TNode();
+  int getLineNum();
+  TNode::Type getType();
 
 protected:
   Type m_type;
