@@ -28,13 +28,13 @@ public:
   int parse(const std::string &t_filename); //! < returns 0 if no issue, -1 if there is a problem.
 
 private:
-  unsigned int m_curLineNum;
   PKB *m_pkb;
   PROC m_curProcNum;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
   std::vector<std::string> curTokens;
   ifstream m_readStream;
+  int m_curLineNum;
   bool m_isParsingProcedureContent;
 
   enum tokenType {
@@ -53,6 +53,8 @@ private:
   bool matchToken(const tokenType &t_token);
 
   bool isOperator(const std::string &t_token);
+  bool isBrace(const std::string &t_token);
+  bool isKeyDelimiter(const std::string &t_token);
 
   std::string getCurrentLineToken();
   std::string getToken();
