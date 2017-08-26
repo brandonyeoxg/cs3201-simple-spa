@@ -14,7 +14,6 @@ public:
     Add,
     If
   };
-  TNode();
 
   void setParent(TNode *t_tNode);
   void addChild(TNode *t_tNode);

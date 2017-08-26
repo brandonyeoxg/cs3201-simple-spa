@@ -1,7 +1,5 @@
 #include "TNode.h"
 
-TNode::TNode() {} //default empty constructor
-
 /********** Setter Functions **********/
 
 void TNode::setParent(TNode * t_tNode) {
