@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "TNode.h"
 #include "VariableNode.h"
+#include "ASTBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -10,12 +11,11 @@ namespace UnitTesting {
 public:
 
   TEST_METHOD(TestMethod1) {
-    TNode T;
     // TODO: Your test code here
   }
 
-  TEST_METHOD(TestTNodeConstructor) {
-    Logger::WriteMessage("Running TNode constructor test");
+  TEST_METHOD(TestVariableNodeConstructor) {
+    Logger::WriteMessage("Running Variable Node constructor test");
 
     int lineNum = 5;
     std::string varName = "penguin";
@@ -28,6 +28,13 @@ public:
 
     varNode = new VariableNode();
     Assert::IsFalse(varNode->getLineNum() == lineNum);
+  }
+
+  TEST_METHOD(TestASTBuilder) {
+    Logger::WriteMessage("Running ASTBuilder test");
+    ASTBuilder *ab = new ASTBuilder();
+    AST *ast = ab->createAST();
+    Assert::IsTrue(ast->getRoot()->getType() == TNode::Type::Procedure);
   }
 
   };
