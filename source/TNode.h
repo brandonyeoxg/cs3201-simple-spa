@@ -23,6 +23,8 @@ public:
   TNode *TNode::getParent();
   std::vector<TNode *> *getChildren();
 
+  void printDataMembers();
+
 protected:
   Type m_type;
   int m_lineNum;
