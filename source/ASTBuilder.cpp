@@ -15,8 +15,9 @@ TNode *createConstant(int lineNum, int constNum) {
   return &TNode();
 }
 
-TNode *createVariable(int lineNum, std::string variableName) {
-  return &TNode();
+TNode *createVariable(int lineNum, std::string varName) {
+  VariableNode *varNode = new VariableNode(lineNum, varName);
+  return varNode;
 }
 
 /********** Build Abstraction Subtree **********/
