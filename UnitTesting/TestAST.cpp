@@ -32,9 +32,17 @@ public:
 
   TEST_METHOD(TestASTBuilder) {
     Logger::WriteMessage("Running ASTBuilder test");
-    ASTBuilder *ab = new ASTBuilder();
-    AST *ast = ab->createAST();
-    Assert::IsTrue(ast->getRoot()->getType() == TNode::Type::Procedure);
+    ASTBuilder *builder = new ASTBuilder();
+    AST *ast = builder->createAST();
+    Assert::IsTrue(ast->getRoot()->getType() == TNode::Type::Procedure);  // Check root initialized properly
+
+    int varLineNum = 2;
+    std::string varName = "x";
+    TNode *tNode = builder->createVariable(varLineNum, varName);
+    builder->linkParentToChild(ast->getRoot(), tNode);
+    // Check parent and child linked properly
+    Assert::IsTrue(ast->getRoot() == tNode->getParent());
+    Assert::IsTrue(ast->getRoot()->getChildren()->at(0) == tNode);
   }
 
   };
