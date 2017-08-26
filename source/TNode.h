@@ -15,8 +15,13 @@ public:
     If
   };
   TNode();
+
+  void setParent(TNode *tNode);
+  void addChild(TNode *tNode);
+
   int getLineNum();
   TNode::Type getType();
+  TNode *TNode::getParent();
 
 protected:
   Type m_type;
