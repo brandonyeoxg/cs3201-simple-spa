@@ -13,9 +13,9 @@ AST * ASTBuilder::createAST() {
 
 /********** Create Singular Abstraction **********/
 
-TNode *ASTBuilder::createConstant(int t_lineNum, int t_constNum) {
-
-  return &TNode();
+TNode *ASTBuilder::createConstant(int t_lineNum, int t_constantValue) {
+  ConstantNode *constNode = new ConstantNode(t_lineNum, t_constantValue);
+  return constNode;
 }
 
 TNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName) {
