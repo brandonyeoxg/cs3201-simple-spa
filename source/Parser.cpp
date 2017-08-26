@@ -1,6 +1,6 @@
 #pragma once
 
-#include<stdio.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +10,7 @@ using namespace std;
 #include "PKB.h"
 #include "TNode.h"
 
-int Parse () {
+int Parse() {
 
-	return 0;
+  return 0;
 }
