@@ -16,4 +16,6 @@ public:
   TNode *createVariable(int t_lineNum, std::string t_varName);
   TNode *buildAssign();
   TNode *buildAdd();
+
+  void linkParentToChild(TNode *t_parent, TNode *t_child);
 };
