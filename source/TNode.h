@@ -12,12 +12,12 @@ public:
     Add,
     If
   };
-  TNode(Type type);
+  TNode();
 
 protected:
-  int m_lineNum;
-  std::vector<TNode *> m_children;
   Type m_type;
+  int m_lineNum;
+  std::vector<TNode *> *m_children;
   TNode *m_parent;
   
 };
