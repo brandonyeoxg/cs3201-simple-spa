@@ -33,6 +33,7 @@ std::vector<TNode*>* TNode::getChildren() {
   return m_children;
 }
 
+//TODO need testing
 void TNode::printDataMembers() {
   std::cout << "Type: " << m_type << std::endl;
   std::cout << "Line: " << m_lineNum << std::endl;

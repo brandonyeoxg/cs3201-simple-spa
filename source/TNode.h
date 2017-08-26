@@ -4,6 +4,7 @@
 
 class TNode {
 public:
+  const int NO_LINE_NUM = 0;  // To be used for when there is no line number for node
   enum Type {
     Procedure,
     StatementList,

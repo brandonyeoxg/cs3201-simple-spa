@@ -4,5 +4,9 @@
 
 class ProcedureNode: public TNode {
 public:
-  ProcedureNode(int lineNum);
+  ProcedureNode(std::string t_procName);
+  std::string getName();
+
+private:
+  std::string m_procName;
 };

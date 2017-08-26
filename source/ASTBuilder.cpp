@@ -23,6 +23,16 @@ TNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName) {
   return varNode;
 }
 
+TNode * ASTBuilder::createProcedure(std::string t_procName) {
+  ProcedureNode *procNode = new ProcedureNode(t_procName);
+  return procNode;
+}
+
+TNode * ASTBuilder::createStmtList() {
+  StmtListNode *slNode = new StmtListNode();
+  return slNode;
+}
+
 /********** Build Abstraction Subtree **********/
 
 TNode *ASTBuilder::buildAssign() {
@@ -35,7 +45,7 @@ TNode *ASTBuilder::buildAdd() {
 
 /********** Helper Methods **********/
 
-/*  Given parent and child nodes, adds child to parent node, and sets parent for child node.
+/*  Given parent and child nodes, establishes parent-child relationship.
 */
 void ASTBuilder::linkParentToChild(TNode * t_parent, TNode * t_child) {
   t_parent->addChild(t_child);

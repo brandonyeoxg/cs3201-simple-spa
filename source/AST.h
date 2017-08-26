@@ -5,6 +5,7 @@
 
 class AST {
 public:
+  const std::string DEFAULT_PROC_NAME = "main";
   AST();
   TNode *getRoot();
 
