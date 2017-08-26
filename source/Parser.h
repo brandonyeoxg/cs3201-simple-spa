@@ -1,5 +1,9 @@
 #pragma once
 #include <stack>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
 #include "PKB.h"
 using namespace std;
 
@@ -16,7 +20,8 @@ public:
     : m_pkb(t_pkb), 
       m_curLineNum(0),
       m_curProcNum(0),
-      m_nextToken("") {};
+      m_nextToken(""),
+      m_isParsingProcedureContent(false) {};
 
   ~Parser() {};
   
@@ -28,13 +33,28 @@ private:
   PROC m_curProcNum;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
+  std::vector<std::string> curTokens;
+  ifstream m_readStream;
+  bool m_isParsingProcedureContent;
 
-  int parseForProcedure(ifstream &t_readStream, const std::string &t_line);
-  int parseCodeInProcedure(ifstream &t_readStream);
-  int parseLine(std::vector<std::string> t_tokens);
+  enum tokenType {
+    PROC_NAME,
+    VAR_NAME,
+    EXPR,
+  };
+
+  int parseForProcedure();
+  int parseStmtLst();
+  int parseStmt();
   bool parseForBraces(const string &t_token);
   bool parseForVariable(const string &t_token);
 
-  bool matchToken(const std::string &t_token, ifstream &t_readStream);
+  bool matchToken(const std::string &t_token);
+  bool matchToken(const tokenType &t_token);
+
+  bool isOperator(const std::string &t_token);
+
+  std::string getCurrentLineToken();
+  std::string getToken();
   std::vector<std::string> tokeniseLine(const std::string &t_line);
 };

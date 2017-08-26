@@ -1,12 +1,10 @@
 #pragma once
 
 #include <stdio.h>
-#include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <sstream>
 #include <algorithm>
+#include <assert.h>
 
 using namespace std;
 
@@ -16,55 +14,46 @@ using namespace std;
 
 
 int Parser::parse (const std::string &t_filename) {
-  ifstream readStream(t_filename);
-  if (!readStream.is_open()) {
+  m_readStream = ifstream (t_filename);
+  if (!m_readStream.is_open()) {
     return -1;
   }
-  std::string stmtLine;
-  while (getline(readStream, stmtLine)) {
-    parseForProcedure(readStream, stmtLine);
+  m_nextToken = getCurrentLineToken();
+  while (!m_readStream.eof()) {
+    parseForProcedure();
+    m_isParsingProcedureContent = false;
   }
-
   return 0;
 }
 
-int Parser::parseForProcedure(ifstream &t_readStream, const std::string &t_line) {
+int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
-  std::vector<std::string> tokens = tokeniseLine(t_line);
-  if (tokens.at(0) == "procedure") {
-
-    m_pkb->setProcToAST(m_curProcNum++, new TNode());
-    parseForBraces(tokens.at(2));
-    return parseCodeInProcedure(t_readStream);
+  if (matchToken("procedure")) {
+    matchToken(tokenType::PROC_NAME);
+    m_isParsingProcedureContent = true;
+    matchToken("{");
+    return parseStmtLst();
   }
   return -1;
 }
 
-int Parser::parseCodeInProcedure(ifstream &t_readStream) {
+int Parser::parseStmtLst() {
   // Parse the rest of the code in the
-  std::string stmtLine;
-  while (getline(t_readStream, stmtLine)) {
-    std::vector<std::string> tokens = tokeniseLine(stmtLine);
-    m_curLineNum++;
-    parseLine(tokens);
+  parseStmt();
+  matchToken(";");
+  if (m_nextToken == "}") {
+    return 1;
   }
-  return -1;
+  return parseStmtLst();
 }
 
-int Parser::parseLine(std::vector<std::string> t_tokens) {
-  std::vector<string>::iterator itr = t_tokens.begin();
-  bool varFlag = false;
-  for (; itr != t_tokens.end(); ++itr) {
-    if (*itr == "{" || *itr == "}") {
-      parseForBraces(*itr);
-      continue;
-    }
-    if (!varFlag) {
-      varFlag = parseForVariable(*itr);
-    }
-  }
-
+int Parser::parseStmt() {
+  m_curLineNum += 1;
+  // Var name
+  matchToken(tokenType::VAR_NAME);
+  matchToken("=");
+  matchToken(tokenType::EXPR);
   return 1;
 }
 
@@ -82,17 +71,80 @@ bool Parser::parseForBraces(const std::string &t_token) {
 }
 
 bool Parser::parseForVariable(const string &t_token) {
-  m_pkb->varTable;
-  std::cout << "The Var in this line: " << t_token << "\n";
   return true;
 }
 
-bool Parser::matchToken(const std::string &t_token, ifstream &t_readStream) {
+bool Parser::matchToken(const std::string &t_token) {
+  if (m_nextToken == t_token) {
+    m_nextToken = getCurrentLineToken();
+    return true;
+  }
+  return false;
+}
+
+bool Parser::matchToken(const tokenType &t_token) {
+  switch (t_token) {
+    case tokenType::PROC_NAME:
+      // Update proc name with line num
+      cout << "Proc name: " << m_nextToken << "\n";
+      m_nextToken = getCurrentLineToken();
+      break;
+    case tokenType::VAR_NAME:
+      // Var name with line num
+      cout << "Var name: " << m_nextToken << "\n";
+      m_nextToken = getCurrentLineToken();
+      break;
+    case tokenType::EXPR :
+      // const val with line num
+      cout << "Const val: " << m_nextToken << "\n";
+      m_nextToken = getCurrentLineToken();
+      break;
+    default:
+      assert(true);
+      break;
+  }
+  return true;
+}
+
+std::string Parser::getCurrentLineToken() {
+  if (curTokens.empty()) {
+    std::string extractedLine;
+    if (getline(m_readStream, extractedLine)) {
+      curTokens = tokeniseLine(extractedLine);
+      return getToken();
+    }
+  }
+  return getToken();
+}
+
+std::string Parser::getToken() {
+  assert(!curTokens.empty(), "Token list must not be empty");
+  if (!m_isParsingProcedureContent) {
+    std::string token = curTokens.front();
+    curTokens.erase(curTokens.begin());
+    return token;
+  }
+  if (isOperator(curTokens.front())) {
+    std::string token = curTokens.front();
+    curTokens.erase(curTokens.begin());
+    return token;
+  }
+  // keep moving right until find special operator
+  std::string token = "";
+  while (!isOperator(curTokens.front())) {
+    token += curTokens.front();
+    curTokens.erase(curTokens.begin());
+  }
+  return token;
+}
+
+bool Parser::isOperator(const std::string &t_token) {
+  return t_token == "+"
+    || t_token == "-"
+    || t_token == "*";
 }
 
 std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
-  std::string lowerStr = t_line;
-  StringUtil::toLower(lowerStr);
-  lowerStr = StringUtil::reduceString(lowerStr);
-  return StringUtil::splitString(lowerStr);
+  std::string formatString = StringUtil::reduceString(t_line);
+  return StringUtil::splitString(formatString);
 }
