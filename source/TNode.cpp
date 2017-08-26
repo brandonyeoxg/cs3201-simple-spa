@@ -6,7 +6,7 @@ TNode::TNode() {} //default empty constructor
 /********** Getter Functions **********/
 
 int TNode::getLineNum() {
-  return 0;
+  return m_lineNum;
 }
 
 TNode::Type TNode::getType() {
