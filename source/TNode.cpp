@@ -1,13 +1,22 @@
+#include <assert.h>
+
 #include "TNode.h"
 
 /********** Setter Functions **********/
 
 void TNode::setParent(TNode * t_tNode) {
+  assert(m_parent == nullptr); // If false, node already has a parent
   m_parent = t_tNode;
 }
 
 void TNode::addChild(TNode * t_tNode) {
+  assert(m_children != nullptr); // m_children == nullptr means there should be no children
   m_children->push_back(t_tNode);
+}
+
+void TNode::linkParentToChild(TNode * t_parent, TNode * t_child) {
+  t_parent->addChild(t_child);
+  t_child->setParent(t_parent);
 }
 
 /********** Getter Functions **********/
@@ -23,6 +32,12 @@ TNode::Type TNode::getType() {
 TNode *TNode::getParent() {
   return m_parent;
 }
+
+std::vector<TNode*>* TNode::getChildren() {
+  return m_children;
+}
+
+
 
 
 

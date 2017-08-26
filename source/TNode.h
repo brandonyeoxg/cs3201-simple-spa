@@ -17,10 +17,12 @@ public:
 
   void setParent(TNode *t_tNode);
   void addChild(TNode *t_tNode);
+  void linkParentToChild(TNode *t_parent, TNode *t_child);
 
   int getLineNum();
   TNode::Type getType();
   TNode *TNode::getParent();
+  std::vector<TNode *> *getChildren();
 
 protected:
   Type m_type;
