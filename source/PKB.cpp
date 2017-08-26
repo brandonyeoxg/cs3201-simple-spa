@@ -11,9 +11,9 @@ using namespace std;
 #include "TNode.h"
 
 int PKB::setProcToAST(PROC p, TNode* r) {
-	return NULL;
+  return NULL;
 }
 
-TNode* PKB::getRootAST (PROC p){
-	return NULL;
+TNode* PKB::getRootAST(PROC p) {
+  return NULL;
 }
