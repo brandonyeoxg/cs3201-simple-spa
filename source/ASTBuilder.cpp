@@ -26,9 +26,9 @@ TNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName) {
 /********** Build Abstraction Subtree **********/
 
 TNode *ASTBuilder::buildAssign() {
-  return &TNode();
+  return nullptr;
 }
 
 TNode *ASTBuilder::buildAdd() {
-  return &TNode();
+  return nullptr;
 }
