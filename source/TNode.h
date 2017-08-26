@@ -16,8 +16,8 @@ public:
   };
   TNode();
 
-  void setParent(TNode *tNode);
-  void addChild(TNode *tNode);
+  void setParent(TNode *t_tNode);
+  void addChild(TNode *t_tNode);
 
   int getLineNum();
   TNode::Type getType();

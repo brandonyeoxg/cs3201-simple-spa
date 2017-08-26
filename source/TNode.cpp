@@ -4,12 +4,12 @@ TNode::TNode() {} //default empty constructor
 
 /********** Setter Functions **********/
 
-void TNode::setParent(TNode * tNode) {
-  m_parent = tNode;
+void TNode::setParent(TNode * t_tNode) {
+  m_parent = t_tNode;
 }
 
-void TNode::addChild(TNode * tNode) {
-  m_children->push_back(tNode);
+void TNode::addChild(TNode * t_tNode) {
+  m_children->push_back(t_tNode);
 }
 
 /********** Getter Functions **********/

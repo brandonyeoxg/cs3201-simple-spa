@@ -11,13 +11,13 @@ AST *createAST() {
 
 /********** Create Singular Abstraction **********/
 
-TNode *createConstant(int lineNum, int constNum) {
+TNode *createConstant(int t_lineNum, int t_constNum) {
 
   return &TNode();
 }
 
-TNode *createVariable(int lineNum, std::string varName) {
-  VariableNode *varNode = new VariableNode(lineNum, varName);
+TNode *createVariable(int t_lineNum, std::string t_varName) {
+  VariableNode *varNode = new VariableNode(t_lineNum, t_varName);
   return varNode;
 }
 

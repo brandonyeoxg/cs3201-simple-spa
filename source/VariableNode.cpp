@@ -7,10 +7,10 @@ VariableNode::VariableNode() {
   m_children = NULL;
 }
 
-VariableNode::VariableNode(int lineNum, std::string varName) {
+VariableNode::VariableNode(int t_lineNum, std::string t_varName) {
   m_type = TNode::Type::Variable;
-  m_lineNum = lineNum;
-  m_varName = varName;
+  m_lineNum = t_lineNum;
+  m_varName = t_varName;
   m_children = NULL;
 }
 

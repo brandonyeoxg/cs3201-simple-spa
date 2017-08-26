@@ -5,7 +5,7 @@
 class VariableNode: public TNode {
 public:
   VariableNode();
-  VariableNode(int lineNum, std::string varName);
+  VariableNode(int t_lineNum, std::string t_varName);
   std::string getVarName();
 
 private:
