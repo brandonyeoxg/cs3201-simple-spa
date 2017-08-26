@@ -16,6 +16,8 @@ public:
   */
   enum class DAType { FOLLOWS, FOLLOWS_, PARENT, PARENT_, USES, MODIFIES };
 
+  DesignAbstraction() {}
+
   /**
   * A constructor.
   * Constructs a new Design Abstraction object with a DAType corresponding to the specified initial capacity and a string with the specified t_name.
