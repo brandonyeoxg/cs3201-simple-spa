@@ -9,4 +9,10 @@
 
 class ASTBuilder {
 public:
+  ASTBuilder();
+  AST *createAST();
+  TNode *createConstant(int t_lineNum, int t_constNum);
+  TNode *createVariable(int t_lineNum, std::string t_varName);
+  TNode *buildAssign();
+  TNode *buildAdd();
 };
