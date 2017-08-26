@@ -1,11 +1,14 @@
 #pragma once
+
 #include "TNode.h"
+#include "ProcedureNode.h"
 
 class AST {
 public:
   AST();
+  TNode *getRoot();
 
 private:
-  TNode *rootNode;
+  TNode *m_rootNode;
 };
 

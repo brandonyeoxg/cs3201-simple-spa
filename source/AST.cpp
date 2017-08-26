@@ -1,6 +1,10 @@
 #include "AST.h"
 
 AST::AST() {
-  //create a ProcedureNode here
+  m_rootNode = new ProcedureNode(1);
+}
+
+TNode * AST::getRoot() {
+  return m_rootNode;
 }
 
