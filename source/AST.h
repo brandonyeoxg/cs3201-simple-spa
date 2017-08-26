@@ -7,6 +7,6 @@ public:
   ~AST();
 
 private:
-  TNode* rootNode;
+  TNode *rootNode;
 };
 
