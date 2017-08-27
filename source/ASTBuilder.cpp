@@ -35,11 +35,15 @@ TNode * ASTBuilder::createStmtList() {
 
 /********** Build Abstraction Subtree **********/
 
-TNode *ASTBuilder::buildAssign() {
+TNode *ASTBuilder::buildAssignment() {
   return nullptr;
 }
 
-TNode *ASTBuilder::buildAdd() {
+TNode *ASTBuilder::buildAddition() {
+  return nullptr;
+}
+
+TNode * ASTBuilder::buildSubtraction() {
   return nullptr;
 }
 

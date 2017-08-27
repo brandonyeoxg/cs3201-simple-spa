@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ASTBuilderAPI.h"
+
 #include "AST.h"
 #include "TNode.h"
 #include "VariableNode.h"
@@ -9,16 +11,17 @@
 /* Builds AST
 */
 
-class ASTBuilder {
+class ASTBuilder: public ASTBuilderAPI {
 public:
   ASTBuilder();
   AST *createAST();
   TNode *createConstant(int t_lineNum, int t_constantValue);
   TNode *createVariable(int t_lineNum, std::string t_varName);
-  TNode *createProcedure(std::string procName);
+  TNode *createProcedure(std::string t_procName);
   TNode *createStmtList();
-  TNode *buildAssign();
-  TNode *buildAdd();
+  TNode *buildAssignment();
+  TNode *buildAddition();
+  TNode *buildSubtraction();
 
   void linkParentToChild(TNode *t_parent, TNode *t_child);
 };

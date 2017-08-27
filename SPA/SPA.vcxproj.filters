@@ -101,5 +101,8 @@
     <ClInclude Include="..\source\ConstantNode.h">
       <Filter>Header Files\AbstractNodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ASTBuilderAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
