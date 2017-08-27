@@ -7,7 +7,11 @@
  * @date 8/27/2017
  */
 
+class ParentsTable;
+class FollowsTable;
+
 class DesignExtractor {
 public:
-  
+  ParentsTable* obtainParentsStar(TNode *t_astRoot);
+  FollowsTable* obtainFollowsStar(TNode *t_astRoot);
 };
