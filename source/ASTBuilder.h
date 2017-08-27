@@ -9,6 +9,7 @@
 #include "StmtListNode.h"
 #include "ProcedureNode.h"
 #include "AssignNode.h"
+#include "WhileNode.h"
 
 /* Builds AST
 */
@@ -22,7 +23,7 @@ public:
   TNode *createProcedure(std::string t_procName);
   TNode *createStmtList();
   TNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
-  TNode *buildWhile();
+  TNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   TNode *buildAddition();
   TNode *buildSubtraction();
 
