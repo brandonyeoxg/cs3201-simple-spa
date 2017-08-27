@@ -75,6 +75,9 @@
     <ClCompile Include="..\source\ConstantNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\AssignNode.cpp">
+      <Filter>Source Files\AbstractNodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="..\source\ASTBuilderAPI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AssignNode.h">
+      <Filter>Header Files\AbstractNodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
