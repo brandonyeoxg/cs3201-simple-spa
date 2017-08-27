@@ -32,7 +32,7 @@ void VarTable::insert(string key, int lineNum) {
 }
 
 /**
- * Method that retrieves the vector containing all line numbers that the variable var.
+ * Method that retrieves the vector containing all line numbers that contain the variable var.
  * @param key a string argument.
  * @return a vector<int> object.
  */
