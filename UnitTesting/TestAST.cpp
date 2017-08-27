@@ -57,15 +57,24 @@ public:
     Assert::IsTrue(ast->getRoot()->getChildren()->at(0) == slNode);
     Assert::IsTrue(ast->getRoot() == slNode->getParent());
 
-    // Add variable node
-    int varLineNum = 2;
+    // Build assignment statement: x = 5;
+    int lineNum1 = 2;
     std::string varName = "x";
-    TNode *varNode = builder->createVariable(varLineNum, varName);
+    TNode *varNode = builder->createVariable(lineNum1, varName);
+
+    int value = 5;
+    TNode *constNode = builder->createConstant(lineNum1, value);
+
+    TNode *assignNode = builder->buildAssignment(lineNum1, varNode, constNode);
 
     // Check parent and child linked properly
-    builder->linkParentToChild(slNode, varNode);
-    Assert::IsTrue(slNode == varNode->getParent());
-    Assert::IsTrue(slNode->getChildren()->at(0) == varNode);
+    builder->linkParentToChild(slNode, assignNode);
+    Assert::IsTrue(slNode == assignNode->getParent());
+    Assert::IsTrue(slNode->getChildren()->at(0) == assignNode);
+
+    AssignNode *assignNodeCopy = (AssignNode *)assignNode;
+    Assert::IsTrue(assignNodeCopy->getLeftChild() == varNode);
+    Assert::IsTrue(assignNodeCopy->getRightChild() == constNode);
   }
 
   };
