@@ -35,7 +35,12 @@ TNode * ASTBuilder::createStmtList() {
 
 /********** Build Abstraction Subtree **********/
 
-TNode *ASTBuilder::buildAssignment() {
+TNode * ASTBuilder::buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
+  AssignNode *assignNode = new AssignNode(t_lineNum, t_leftNode, t_rightNode);
+  return assignNode;
+}
+
+TNode * ASTBuilder::buildWhile() {
   return nullptr;
 }
 

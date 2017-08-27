@@ -7,6 +7,8 @@
 #include "VariableNode.h"
 #include "ConstantNode.h"
 #include "StmtListNode.h"
+#include "ProcedureNode.h"
+#include "AssignNode.h"
 
 /* Builds AST
 */
@@ -19,7 +21,8 @@ public:
   TNode *createVariable(int t_lineNum, std::string t_varName);
   TNode *createProcedure(std::string t_procName);
   TNode *createStmtList();
-  TNode *buildAssignment();
+  TNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
+  TNode *buildWhile();
   TNode *buildAddition();
   TNode *buildSubtraction();
 

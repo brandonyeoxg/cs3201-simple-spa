@@ -15,6 +15,7 @@ public:
   virtual TNode *createProcedure(std::string procName) = 0;
   virtual TNode *createStmtList() = 0;
   virtual TNode *buildAssignment() = 0;
+  virtual TNode *buildWhile() = 0;
   virtual TNode *buildAddition() = 0;
   virtual TNode *buildSubtraction() = 0;
 
