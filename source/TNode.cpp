@@ -12,7 +12,7 @@ void TNode::setParent(TNode * t_tNode) {
 
 void TNode::addChild(TNode * t_tNode) {
   assert(m_children != nullptr); // m_children == nullptr means there should be no children
-  assert(m_type != TNode::Type::Assign);
+  assert(!(m_type == TNode::Type::Assign && m_children->size() > 2));
   m_children->push_back(t_tNode);
 }
 

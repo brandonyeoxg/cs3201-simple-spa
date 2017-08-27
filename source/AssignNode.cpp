@@ -10,8 +10,8 @@ AssignNode::AssignNode(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   m_children = new std::vector<TNode *>();
   m_parent = nullptr;
 
-  m_children->push_back(t_leftNode);
-  m_children->push_back(t_rightNode);
+  addChild(t_leftNode);
+  addChild(t_rightNode);
 }
 
 TNode * AssignNode::getLeftChild() {
