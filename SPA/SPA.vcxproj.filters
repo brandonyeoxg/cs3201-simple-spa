@@ -78,6 +78,9 @@
     <ClCompile Include="..\source\AssignNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\WhileNode.cpp">
+      <Filter>Source Files\AbstractNodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\AssignNode.h">
+      <Filter>Header Files\AbstractNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\WhileNode.h">
       <Filter>Header Files\AbstractNodes</Filter>
     </ClInclude>
   </ItemGroup>
