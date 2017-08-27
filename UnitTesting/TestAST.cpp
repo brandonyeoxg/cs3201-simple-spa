@@ -45,6 +45,21 @@ public:
     Assert::IsFalse(varNode->getLineNum() == lineNum);
   }
 
+  TEST_METHOD(TestWhileNode) {
+    Logger::WriteMessage("Running While Node test");
+
+    // while i {}
+    int lineNum = 5;
+    std::string varName = "i";
+    TNode *varNode = new VariableNode(lineNum, varName);
+
+    TNode *slNode = new StmtListNode();
+
+    WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
+    Assert::IsTrue(whileNode->getLeftChild() == varNode);
+    Assert::IsTrue(whileNode->getRightChild() == slNode);
+  }
+
   TEST_METHOD(TestASTBuilder) {
     Logger::WriteMessage("Running ASTBuilder test");
     ASTBuilder *builder = new ASTBuilder();
