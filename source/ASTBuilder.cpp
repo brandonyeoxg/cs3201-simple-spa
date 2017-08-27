@@ -45,10 +45,12 @@ TNode * ASTBuilder::buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightN
   return whileNode;
 }
 
+//TODO implement
 TNode *ASTBuilder::buildAddition() {
   return nullptr;
 }
 
+//TODO implement
 TNode * ASTBuilder::buildSubtraction() {
   return nullptr;
 }
