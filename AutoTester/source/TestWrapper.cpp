@@ -19,6 +19,10 @@ TestWrapper::TestWrapper() {
 void TestWrapper::parse(std::string filename) {
   // call your parser to do the parsing
   // ...rest of your code...
+  Parser *parser = new Parser(filename);
+  parser->parse();
+  delete parser;
+  parser = nullptr;
 }
 
 // method to evaluating a query
