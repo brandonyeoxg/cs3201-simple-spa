@@ -1,7 +1,7 @@
 #include "QueryProcessor.h"
 #include "QueryPreProcessor.h"
 #include "QueryEvaluator.h"
-#include "QueryProjector.h"
+#include "QueryResultProjector.h"
 #include <iostream>
 #include <string>
 
@@ -19,7 +19,7 @@ QueryProcessor::~QueryProcessor()
 void QueryProcessor::runQueryProcessor(void) {
   QueryPreProcessor.tokenizeInput();
   QueryPreProcessor.xxx();
-  QueryEvaluator.evaluateResult();
-  QueryProjector.formatResult();
-  QueryProjector.printResult();
+  QueryEvaluator.getResult();
+  QueryResultProjector.formatResult();
+  QueryResultProjector.printResult();
 }
