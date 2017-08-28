@@ -20,8 +20,10 @@ class VarTable {
 public:
   void insert(string key, int lineNum);
   vector<int> get(string var);
+  void setVarTable(unordered_map<string, vector<int>> table);
+  unordered_map<string, vector<int>> getVarTable();
   VarTable();
 
-protected:
-  unordered_map<string, vector<int>> varTable;
+private:
+  unordered_map<string, vector<int>> m_varTable;
 };

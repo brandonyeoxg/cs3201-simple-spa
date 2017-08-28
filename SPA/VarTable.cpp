@@ -16,7 +16,7 @@ using namespace std;
  * @param lineNum an integer argument.
  */
 void VarTable::insert(string key, int lineNum) {
-  
+  unordered_map<string, vector<int>> varTable = getVarTable();
   if (varTable.find(key) == varTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
@@ -40,6 +40,7 @@ vector<int> VarTable::get(string key) {
   //return the vector containing all line numbers that the variable var.
   //if not present in varTable, return an empty vector.
   vector<int> emptyVector;
+  unordered_map<string, vector<int>> varTable = getVarTable();
   if (varTable.find(key) == varTable.end()) {
     return emptyVector;
   }
@@ -48,12 +49,20 @@ vector<int> VarTable::get(string key) {
   return vect;
 }
 
+void VarTable::setVarTable(unordered_map<string, vector<int>> table) {
+  m_varTable = table;
+}
+
+unordered_map<string, vector<int>> VarTable::getVarTable() {
+  return m_varTable;
+}
+
 /**
  * A constructor.
  * Instantiates an unordered map (hashmap) of variables to vector of line numbers associated.
  */
 VarTable::VarTable() {
-  unordered_map<string, vector<int>> varTable;
+  unordered_map<string, vector<int>> m_varTable;
 }
 
 
