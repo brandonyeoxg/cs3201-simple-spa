@@ -24,7 +24,6 @@ unordered_map<int, vector<int>> FollowTable::getFollowTable() {
 * @param s2 an integer argument.
 */
 FollowTable FollowTable::insert(FollowTable table, int s1, int s2) {
-  int testingVar = 0;
   unordered_map<int, vector<int>> followTable = table.getFollowTable();
   if (followTable.find(s1) == followTable.end()) {
     //if the key is not present in followTable
@@ -48,9 +47,6 @@ FollowTable FollowTable::insert(FollowTable table, int s1, int s2) {
     }
   }
   table.setFollowTable(followTable);
-  if (table.getFollowTable() == followTable) {
-    testingVar = 3;
-  }
 
   return table;
   
