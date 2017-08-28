@@ -10,12 +10,21 @@ using namespace std;
 
 #include "FollowTable.h"
 
+void FollowTable::setFollowTable(unordered_map<int, vector<int>> table) {
+  m_followTable = table;
+}
+
+unordered_map<int, vector<int>> FollowTable::getFollowTable() {
+  return m_followTable;
+}
+
 /**
 * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
 * @param s1 an integer argument.
 * @param s2 an integer argument.
 */
 void FollowTable::insert(int s1, int s2) {
+  unordered_map<int, vector<int>> followTable = getFollowTable();
   if (followTable.find(s1) == followTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
@@ -43,6 +52,7 @@ vector<int> FollowTable::getS1(int s2) {
   //for every vector, check if s2 exists
   //eliminate duplicates from vector (check if exists before adding), then sort(?)
   vector<int> result;
+  unordered_map<int, vector<int>> followTable = getFollowTable();
   for (auto it = followTable.begin(); it != followTable.end(); it++) {
     vector<int> vect = it->second;
     if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
@@ -63,13 +73,14 @@ vector<int> FollowTable::getS1(int s2) {
 */
 vector<int> FollowTable::getS2(int s1) {
   //retrieves unordered_map with key==s1
-  return followTable.at(s1);
+  return getFollowTable().at(s1);
 }
+
 
 /**
 * A constructor.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 FollowTable::FollowTable() {
-  unordered_map<int, vector<int>> followTable;
+  unordered_map<int, vector<int>> m_followTable;
 }
