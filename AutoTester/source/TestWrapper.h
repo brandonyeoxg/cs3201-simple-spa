@@ -7,6 +7,8 @@
 
 // include your other headers here
 #include "AbstractWrapper.h"
+#include "Parser.h"
+#include "PKB.h"
 
 class TestWrapper : public AbstractWrapper {
 public:
@@ -21,6 +23,9 @@ public:
 
   // method for evaluating a query
   virtual void evaluate(std::string query, std::list<std::string>& results);
+
+private: 
+  PKB *m_pkb;
 };
 
 #endif
