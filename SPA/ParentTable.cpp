@@ -16,6 +16,7 @@ using namespace std;
 * @param s2 an integer argument.
 */
 void ParentTable::insert(int s1, int s2) {
+  unordered_map<int, vector<int>> parentTable = getParentTable();
   if (parentTable.find(s1) == parentTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
@@ -44,6 +45,7 @@ vector<int> ParentTable::getS1(int s2) {
   //for every vector, check if s2 exists
   //eliminate duplicates from vector (check if exists before adding), then sort(?)
   vector<int> result;
+  unordered_map<int, vector<int>> parentTable = getParentTable();
   for (auto it = parentTable.begin(); it != parentTable.end(); it++) {
     vector<int> vect = it->second;
     if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
@@ -64,7 +66,15 @@ vector<int> ParentTable::getS1(int s2) {
 */
 vector<int> ParentTable::getS2(int s1) {
   //retrieves unordered_map with key==s1
-  return parentTable.at(s1);
+  return getParentTable().at(s1);
+}
+
+void ParentTable::setParentTable(unordered_map<int, vector<int>> table) {
+  m_parentTable = table;
+}
+
+unordered_map<int, vector<int>> ParentTable::getParentTable() {
+  return m_parentTable;
 }
 
 /**
