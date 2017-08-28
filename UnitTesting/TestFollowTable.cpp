@@ -5,27 +5,32 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
-  TEST_CLASS(TestAST) {
+  TEST_CLASS(TestFollowTable) {
   public:
 
     TEST_METHOD(TestInsert) {
-      unordered_map<int, vector<int>> testFollowTable;
-      testFollowTable = {
-        { '1', { 2, 3 } },
-        { '2', { 3, 4 } },
-        { '3', { 4 } }
+      Logger::WriteMessage("Running follow table test");
+      FollowTable testFollowTable;
+      unordered_map<int, std::vector<int>> test = {
+        { 1, { 2, 3 } },
+        { 2, { 3, 4 } },
+        { 3, { 4 } }
+      }; 
+      
+      testFollowTable.setFollowTable(test);
+      testFollowTable = testFollowTable.insert(testFollowTable, 4, 5);
+      unordered_map<int, std::vector<int>> testFollowTableResult;
+      testFollowTableResult = {
+        { 1, { 2, 3 } },
+        { 2, { 3, 4, 5 } },
+        { 3, { 4, 5 } },
+        { 4, { 5 } }
       };
-
-      unordered_map<int, vector<int>> testFollowTableResult;
-      testFollowTable = {
-        { '1', { 2, 3 } },
-        { '2', { 3, 4 } },
-        { '3', { 4 } },
-        { '4', { 5 } }
-      };
-      testFollowTable.insert(4, 5);
-      Assert::AreEqual(testFollowTable, testFollowTableResult);
-
+      //testFollowTable.setFollowTable(testFollowTableResult);
+      Assert::IsTrue(testFollowTable.getFollowTable() == testFollowTableResult);
+      //Assert::IsTrue(2 == 2);
+      //Assert:AreEquals
+      //return;
     }
   };
 }
