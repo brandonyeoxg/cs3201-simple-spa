@@ -12,7 +12,7 @@ namespace UnitTesting {
       { 2,{ 3, 4 } },
       { 3,{ 4 } }
     };
-    TEST_METHOD(TestInsert) {
+    TEST_METHOD(TestInsertFollow) {
       Logger::WriteMessage("Running follow table test insert");
       FollowTable testFollowTable;
       testFollowTable.setFollowTable(test);
@@ -24,14 +24,11 @@ namespace UnitTesting {
         { 3, { 4, 5 } },
         { 4, { 5 } }
       };
-      //testFollowTable.setFollowTable(testFollowTableResult);
       Assert::IsTrue(testFollowTable.getFollowTable() == testFollowTableResult);
-      //Assert::IsTrue(2 == 2);
-      //Assert:AreEquals
-      //return;
+
     }
 
-    TEST_METHOD(TestGetS1) {
+    TEST_METHOD(TestGetS1Follow) {
       Logger::WriteMessage("Running follow table test getS1");
       static const int arr[] = { 1, 2 };
       std::vector<int> expected (arr, arr + sizeof(arr) / sizeof(arr[0]));
@@ -41,7 +38,7 @@ namespace UnitTesting {
       Assert::IsTrue(actual == expected);
     }
 
-    TEST_METHOD(TestGetS2) {
+    TEST_METHOD(TestGetS2Follow) {
       Logger::WriteMessage("Running follow table test getS2");
       static const int arr[] = { 3, 4 };
       std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
