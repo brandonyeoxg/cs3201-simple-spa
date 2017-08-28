@@ -27,6 +27,12 @@
     <ClCompile Include="..\source\TNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="QueryPreProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QueryPreProcessor.h">
