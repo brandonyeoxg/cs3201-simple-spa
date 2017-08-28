@@ -23,24 +23,38 @@ unordered_map<int, vector<int>> FollowTable::getFollowTable() {
 * @param s1 an integer argument.
 * @param s2 an integer argument.
 */
-void FollowTable::insert(int s1, int s2) {
-  unordered_map<int, vector<int>> followTable = getFollowTable();
+FollowTable FollowTable::insert(FollowTable table, int s1, int s2) {
+  int testingVar = 0;
+  unordered_map<int, vector<int>> followTable = table.getFollowTable();
   if (followTable.find(s1) == followTable.end()) {
-    //if the key is not present in varTable
+    //if the key is not present in followTable
+    cout << "key not in table" << endl;
     vector<int> lineNums;
     lineNums.push_back(s2);
     followTable.emplace(s1, lineNums);
-  } else {
+  }
     //if not, retrieve the existing vector, append, and put back to followTable.
     //for every existing vector, check if s1 exists. If it does, append s2
-    for (auto it = followTable.begin(); it != followTable.end(); it++) {
-      vector<int> vect = it->second;  //test?
-      if (std::find(vect.begin(), vect.end(), s1) != vect.end()) {
-        //if s1 present in vector
+  for (auto it = followTable.begin(); it != followTable.end(); ++it) {
+    vector<int> vect = it->second;  
+    cout << vect.size() << endl;
+    
+    for (int i = 0; i < vect.size(); i++) {
+      if (vect[i] == s1) { //if s1 present in vector
         vect.push_back(s2);
+        //update followtable!
+        followTable[it->first] = vect;
       }
     }
   }
+  table.setFollowTable(followTable);
+  if (table.getFollowTable() == followTable) {
+    testingVar = 3;
+  }
+
+  return table;
+  
+  
 }
 
 /**
@@ -57,10 +71,7 @@ vector<int> FollowTable::getS1(int s2) {
     vector<int> vect = it->second;
     if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
       int lineNum = it->first;
-      if (std::find(result.begin(), result.end(), lineNum) == result.end()) {
-        //only append to result vector if lineNum is not present (no duplicates).
-        result.push_back(lineNum);
-      }     
+      result.push_back(lineNum);     
     }
   }
   return vector<int>();
