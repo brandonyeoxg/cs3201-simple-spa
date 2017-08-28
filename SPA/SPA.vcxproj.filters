@@ -49,19 +49,28 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ASTBuilder.cpp">
+    <ClCompile Include="Pattern.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ProcedureNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
+    <ClCompile Include="QueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\StmtListNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
+    <ClCompile Include="QueryPreProcessor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\VariableNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
+    <ClCompile Include="QueryProcessor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ProcedureNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
+    <ClCompile Include="QueryResultProjector.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\StmtListNode.cpp">
       <Filter>Source Files\AbstractNodes</Filter>
@@ -87,6 +96,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\TNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryPreProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProcedureNode.h">
