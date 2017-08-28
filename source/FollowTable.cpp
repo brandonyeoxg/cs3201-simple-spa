@@ -74,7 +74,7 @@ vector<int> FollowTable::getS1(int s2) {
       result.push_back(lineNum);     
     }
   }
-  return vector<int>();
+  return result;
 }
 
 /**
