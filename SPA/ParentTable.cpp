@@ -15,25 +15,30 @@ using namespace std;
 * @param s1 an integer argument.
 * @param s2 an integer argument.
 */
-void ParentTable::insert(int s1, int s2) {
-  unordered_map<int, vector<int>> parentTable = getParentTable();
+ParentTable ParentTable::insert(ParentTable table, int s1, int s2) {
+  unordered_map<int, vector<int>> parentTable = table.getParentTable();
   if (parentTable.find(s1) == parentTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
     lineNums.push_back(s2);
     parentTable.emplace(s1, lineNums);
   }
-  else {
+  
     //if not, retrieve the existing vector, append, and put back to followTable.
     //for every existing vector, check if s1 exists. If it does, append s2
-    for (auto it = parentTable.begin(); it != parentTable.end(); it++) {
-      vector<int> vect = it->second;  //test?
-      if (std::find(vect.begin(), vect.end(), s1) != vect.end()) {
-        //if s1 present in vector
+  for (auto it = parentTable.begin(); it != parentTable.end(); it++) {
+    vector<int> vect = it->second;  //test?
+    for (int i = 0; i < vect.size(); i++) {
+      if (vect[i] == s1) { //if s1 present in vector
         vect.push_back(s2);
+        //update followtable!
+        parentTable[it->first] = vect;
       }
     }
   }
+  
+  table.setParentTable(parentTable);
+  return table;
 }
 
 /**
@@ -56,7 +61,7 @@ vector<int> ParentTable::getS1(int s2) {
       }
     }
   }
-  return vector<int>();
+  return result;
 }
 
 /**
