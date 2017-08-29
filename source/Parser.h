@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "PKB.h"
-using namespace std;
+#include "ASTBuilder.h"
 
 /**
  * Represents a parser. Parses the SIMPLE program and builds an ast.
@@ -29,6 +29,7 @@ public:
 
 private:
   PKB *m_pkb;
+  ASTBuilder m_builder;
   PROC m_curProcNum;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
@@ -44,10 +45,10 @@ private:
   };
 
   int parseForProcedure();
-  int parseStmtLst();
-  int parseStmt();
+  int parseStmtLst(TNode *t_node);
+  int parseStmt(TNode *t_node);
+  int parseAssignStmt(TNode *t_node);
   bool parseForBraces(const string &t_token);
-  bool parseForVariable(const string &t_token);
 
   bool matchToken(const std::string &t_token);
   bool matchToken(const tokenType &t_token);

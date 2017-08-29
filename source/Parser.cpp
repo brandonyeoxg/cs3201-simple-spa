@@ -5,13 +5,9 @@
 #include <vector>
 #include <algorithm>
 #include <assert.h>
-
-using namespace std;
-
 #include "Parser.h"
 #include "StringUtil.h"
 #include "TNode.h"
-
 
 int Parser::parse (const std::string &t_filename) {
   m_readStream = ifstream (t_filename);
@@ -30,29 +26,49 @@ int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (matchToken("procedure")) {
+    TNode *procNode = m_builder.createProcedure(m_nextToken);
+    m_pkb->setProcToAST(m_curProcNum, procNode);
+    TNode *stmtLst = m_builder.createStmtList();
+    m_builder.linkParentToChild(procNode, stmtLst);
+
     matchToken(tokenType::PROC_NAME);
     matchToken("{");
-    return parseStmtLst();
+    return parseStmtLst(stmtLst);
   }
   return -1;
 }
 
-int Parser::parseStmtLst() {
+int Parser::parseStmtLst(TNode *t_node) {
   // Parse the rest of the code in the
-  parseStmt();
+  parseStmt(t_node);
   matchToken(";");
   if (m_nextToken == "}") {
     return 1;
   }
-  return parseStmtLst();
+  return parseStmtLst(t_node);
 }
 
-int Parser::parseStmt() {
+int Parser::parseStmt(TNode *t_node) {
   m_curLineNum += 1;
   // Var name
+  if (m_nextToken != "while" || m_nextToken != "if") {
+    parseAssignStmt(t_node);
+  }
+  else {
+    // Parse container stmts
+  }
+  return 1;
+}
+
+int Parser::parseAssignStmt(TNode *t_node) {
+  TNode *left = m_builder.createVariable(m_curLineNum, m_nextToken);
   matchToken(tokenType::VAR_NAME);
   matchToken("=");
+  TNode *right = m_builder.createVariable(m_curLineNum, m_nextToken);
   matchToken(tokenType::EXPR);
+  TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
+  //m_builder.linkParentToChild(t_node, stmt);
+
   return 1;
 }
 
@@ -66,10 +82,6 @@ bool Parser::parseForBraces(const std::string &t_token) {
     return false;
   }
   m_bracesStack.pop();
-  return true;
-}
-
-bool Parser::parseForVariable(const string &t_token) {
   return true;
 }
 
