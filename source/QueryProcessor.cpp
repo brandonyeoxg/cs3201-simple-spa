@@ -17,9 +17,9 @@ QueryProcessor::~QueryProcessor()
 }
 
 void QueryProcessor::runQueryProcessor(void) {
-  QueryPreProcessor.tokenizeInput();
-  QueryPreProcessor.xxx();
-  QueryEvaluator.getResult();
-  QueryResultProjector.formatResult();
-  QueryResultProjector.printResult();
+  //QueryPreProcessor.tokenizeInput();
+  //QueryPreProcessor.xxx();
+  //QueryEvaluator.getResult();
+  //QueryResultProjector.formatResult();
+  //QueryResultProjector.printResult();
 }
