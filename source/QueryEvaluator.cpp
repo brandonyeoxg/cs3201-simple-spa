@@ -20,12 +20,10 @@ std::vector<std::string> QueryEvaluator::getResult(std::vector<std::string> t_qu
     if (t_query[i].find("Follows") != std::string::npos) {
       //call the API from PKB - suchThat()
       std::cout << "Calling suchThat(Follows) API from PKB...\n";
-    }
-    else if (t_query[i].find("Parent") != std::string::npos) {
+    } else if (t_query[i].find("Parent") != std::string::npos) {
       //call the API from PKB - suchThat()
       std::cout << "Calling suchThat(Parent) API from PKB...\n";
-    }
-    else {
+    } else {
       //call the API from PKB - select() or pattern()
       std::cout << "Calling select() or pattern() API from PKB...\n";
     }
