@@ -15,7 +15,7 @@ namespace UnitTesting
     {
       PKB pkb;
       Parser parser(&pkb);
-      int actual = parser.parse("../simple-prog.txt");
+      int actual = parser.parse("../AutoTester/simple-prog.txt");
       int expected = 0;
       Assert::AreEqual(expected, actual);
 
