@@ -4,12 +4,6 @@
 
 using namespace std;
 
-class QueryResultProjector {
-public:
-  void formatResult();
-  string printResult(list<string>);
-};
-
 void QueryResultProjector::formatResult(){
 
 }
