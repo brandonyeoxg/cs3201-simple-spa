@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
 
@@ -16,9 +14,9 @@ using namespace std;
 
 class QueryEvaluator {
 public:
-  static vector<string> getResult(vector<string> t_query);
-  static void storeResult(vector<string> t_result);
-  static vector<string> getFinalResult(vector<string> t_listOfResults);
+  static std::vector<std::string> getResult(std::vector<std::string> t_query);
+  static void storeResult(std::vector<std::string> t_result);
+  static std::vector<std::string> getFinalResult(std::vector<std::string> t_listOfResults);
 };
 
 #endif QUERYEVALUATOR_H

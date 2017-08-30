@@ -5,25 +5,23 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #ifndef PATTERN_H
 #define PATTERN_H
 
 class Pattern {
 public:
   Pattern();
-  Pattern(string t_left, string t_right, bool t_subtree);
-  string getLeft();
-  string getRight();
+  Pattern(std::string t_left, std::string t_right, bool t_subtree);
+  std::string getLeft();
+  std::string getRight();
   bool getSubtree();
-  void setLeft(string);
-  void setRight(string);
+  void setLeft(std::string);
+  void setRight(std::string);
   void setSubtree(bool);
 
 private:
-  string m_left;
-  string m_right;
+  std::string m_left;
+  std::string m_right;
   bool m_subtree;
 };
 
