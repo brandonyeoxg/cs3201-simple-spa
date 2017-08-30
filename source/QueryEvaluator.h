@@ -14,9 +14,15 @@
 
 class QueryEvaluator {
 public:
-  static std::vector<std::string> getResult(std::vector<std::string> t_query);
-  static void storeResult(std::vector<std::string> t_result);
-  static std::vector<std::string> getFinalResult(std::vector<std::string> t_listOfResults);
+  static void evaluateQuery();
+  static std::vector<std::string> getQueryResult();
+
+private:
+  static std::vector<std::string> m_queryResult;
+  static std::vector<std::string> getResultFromPkb(std::vector<std::string> t_query);
+  static void storeResultFromPkb(std::vector<std::string> t_result);
+  static std::vector<std::string> evaluateFinalResult(std::vector<std::string> t_listOfResults);
+  static void storeFinalResult(std::vector<std::string> t_result);
 };
 
 #endif QUERYEVALUATOR_H
