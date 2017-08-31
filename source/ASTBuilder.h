@@ -24,7 +24,7 @@ public:
   ProcedureNode *createProcedure(std::string t_procName);
   StmtListNode *createStmtList();
   AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
-  TNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
+  WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   TNode *buildAddition();
   TNode *buildSubtraction();
 

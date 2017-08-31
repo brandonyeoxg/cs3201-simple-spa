@@ -36,14 +36,13 @@ public:
   virtual StmtListNode *createStmtList() = 0;
 
 
-
   ///////////////////////////////////////////////////////
   //  Build Abstraction Subtree  
   ///////////////////////////////////////////////////////
   // Create node with subtree (i.e. require children to make logical sense)
 
   virtual AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
-  virtual TNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+  virtual WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
   virtual TNode *buildAddition() = 0;
   virtual TNode *buildSubtraction() = 0;
 

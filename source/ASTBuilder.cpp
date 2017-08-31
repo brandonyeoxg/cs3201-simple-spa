@@ -40,7 +40,7 @@ AssignNode * ASTBuilder::buildAssignment(int t_lineNum, TNode *t_leftNode, TNode
   return assignNode;
 }
 
-TNode * ASTBuilder::buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
+WhileNode * ASTBuilder::buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   WhileNode *whileNode = new WhileNode(t_lineNum, t_leftNode, t_rightNode);
   return whileNode;
 }
