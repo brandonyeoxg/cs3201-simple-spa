@@ -9,7 +9,7 @@
 #include "AssignNode.h"
 #include "WhileNode.h"
 
-/* API for ASTBuilder
+/* API for building AST
 */
 
 class ASTBuilderAPI {
