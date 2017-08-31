@@ -23,19 +23,19 @@ VariableNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName) {
   return varNode;
 }
 
-TNode * ASTBuilder::createProcedure(std::string t_procName) {
+ProcedureNode * ASTBuilder::createProcedure(std::string t_procName) {
   ProcedureNode *procNode = new ProcedureNode(t_procName);
   return procNode;
 }
 
-TNode * ASTBuilder::createStmtList() {
+StmtListNode * ASTBuilder::createStmtList() {
   StmtListNode *slNode = new StmtListNode();
   return slNode;
 }
 
 /********** Build Abstraction Subtree **********/
 
-TNode * ASTBuilder::buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
+AssignNode * ASTBuilder::buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   AssignNode *assignNode = new AssignNode(t_lineNum, t_leftNode, t_rightNode);
   return assignNode;
 }

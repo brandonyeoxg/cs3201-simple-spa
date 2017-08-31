@@ -30,10 +30,10 @@ public:
   virtual VariableNode *createVariable(int t_lineNum, std::string t_varName) = 0;
 
   /* Create ProcedureNode, returns pointer to node */
-  virtual TNode *createProcedure(std::string t_procName) = 0;
+  virtual ProcedureNode *createProcedure(std::string t_procName) = 0;
 
   /* Create StmtListNode, returns pointer to node */
-  virtual TNode *createStmtList() = 0;
+  virtual StmtListNode *createStmtList() = 0;
 
 
 
@@ -42,7 +42,7 @@ public:
   ///////////////////////////////////////////////////////
   // Create node with subtree (i.e. require children to make logical sense)
 
-  virtual TNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+  virtual AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
   virtual TNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
   virtual TNode *buildAddition() = 0;
   virtual TNode *buildSubtraction() = 0;

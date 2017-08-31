@@ -21,9 +21,9 @@ public:
   AST *createAST();
   ConstantNode *createConstant(int t_lineNum, int t_constantValue);
   VariableNode *createVariable(int t_lineNum, std::string t_varName);
-  TNode *createProcedure(std::string t_procName);
-  TNode *createStmtList();
-  TNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
+  ProcedureNode *createProcedure(std::string t_procName);
+  StmtListNode *createStmtList();
+  AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   TNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   TNode *buildAddition();
   TNode *buildSubtraction();

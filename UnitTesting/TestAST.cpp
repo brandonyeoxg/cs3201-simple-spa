@@ -76,7 +76,7 @@ public:
     isEqualNode(ast->getRoot(), slNode->getParent());
 
     // Build assignment statement: x = 5;
-    int lineNum1 = 2;
+    int lineNum1 = 1;
     std::string varName = "x";
     TNode *varNode = builder->createVariable(lineNum1, varName);
 
