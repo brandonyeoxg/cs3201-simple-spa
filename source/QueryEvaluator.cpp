@@ -4,21 +4,51 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 
 #include "QueryEvaluator.h"
+#include "QueryPreProcessor.h"
+#include "Grammar.h"
+#include "DesignAbstraction.h"
+#include "Pattern.h"
+
+
+/**
+* Default Constructor
+*/
+QueryEvaluator::QueryEvaluator() {
+  std::cout << "Creating a QueryEvaluator object...\n";
+};
 
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
 void QueryEvaluator::evaluateQuery() {
-
+  std::cout << "Evaluating Query...\n";
 }
 
 /**
 * A function that gets the result of the query.
 * @return the result of the query
 */
-std::vector<std::string> QueryEvaluator::getQueryResult() { return m_queryResult; }
+std::vector<std::string> QueryEvaluator::getQueryResult() { 
+  std::cout << "Getting the query result...\n";
+  return m_queryResult;
+}
+
+/**
+* A function that gets the clauses of the query stored in a data structure in QueryPreProcessor.
+*/
+void QueryEvaluator::getQueryClauses() {
+  std::cout << "Getting the queue that stores the clauses of the query from QueryPreProcessor.\n";
+}
+
+/**
+* A function that store the clauses of the query in a data structure in QueryEvaluator.
+*/
+void QueryEvaluator::storeQueryClauses() {
+  std::cout << "Storing the clauses of the query from QueryPreProcessor into different queues.\n";
+}
 
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
@@ -26,6 +56,7 @@ std::vector<std::string> QueryEvaluator::getQueryResult() { return m_queryResult
 * @return the result of the clauses
 */
 std::vector<std::string> QueryEvaluator::getResultFromPkb(std::vector<std::string> t_query) {
+  std::cout << "Getting results from PKB...\n";
   std::vector<std::string> result;
 
   //This part needs to be re-implement after discussing with group...
@@ -51,7 +82,7 @@ std::vector<std::string> QueryEvaluator::getResultFromPkb(std::vector<std::strin
 */
 void QueryEvaluator::storeResultFromPkb(std::vector<std::string> t_result) {
   //This part also needs to be re-implement after discussing with group...
-  std::cout << "Storing the result to a suitable data structure...\n";
+  std::cout << "Storing the result from PKB to different queues...\n";
 }
 
 /**
@@ -60,9 +91,8 @@ void QueryEvaluator::storeResultFromPkb(std::vector<std::string> t_result) {
 * @return The query results
 */
 std::vector<std::string> QueryEvaluator::evaluateFinalResult(std::vector<std::string> t_listOfResults) {
+  std::cout << "Evaluating the final result...\n";
   std::vector<std::string> finalResult;
-
-  std::cout << "Compare all the results and get the final result based on select()...\n";
 
   return finalResult;
 }
@@ -72,5 +102,5 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult(std::vector<std::st
 * @param t_result a vector<string> argument
 */
 void QueryEvaluator::storeFinalResult(std::vector<std::string> t_result) {
-
+  std::cout << "Storing the final result...\n";
 }

@@ -7,6 +7,9 @@
 
 #include "Pattern.h"
 
+/**
+* Default Constructor
+*/
 Pattern::Pattern() {}
 
 /**
