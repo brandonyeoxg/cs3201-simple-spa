@@ -55,8 +55,8 @@ public:
     TNode *slNode = new StmtListNode();
 
     WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
-    Assert::IsTrue(whileNode->getLeftChild() == varNode);
-    Assert::IsTrue(whileNode->getRightChild() == slNode);
+    isEqualNode(whileNode->getLeftChild(), varNode);
+    isEqualNode(whileNode->getRightChild(), slNode);
   }
 
   /*  Test ASTBuilder
@@ -71,8 +71,8 @@ public:
     TNode *slNode = builder->createStmtList();
     // Check parent and child linked properly
     builder->linkParentToChild(ast->getRoot(), slNode);
-    Assert::IsTrue(ast->getRoot()->getChildren()->at(0) == slNode);
-    Assert::IsTrue(ast->getRoot() == slNode->getParent());
+    isEqualNode(ast->getRoot()->getChildren()->at(0), slNode);
+    isEqualNode(ast->getRoot(), slNode->getParent());
 
     // Build assignment statement: x = 5;
     int lineNum1 = 2;
@@ -86,12 +86,12 @@ public:
 
     // Check parent and child linked properly
     builder->linkParentToChild(slNode, assignNode);
-    Assert::IsTrue(slNode == assignNode->getParent());
-    Assert::IsTrue(slNode->getChildren()->at(0) == assignNode);
+    isEqualNode(slNode, assignNode->getParent());
+    isEqualNode(slNode->getChildren()->at(0), assignNode);
 
     AssignNode *assignNodeCopy = (AssignNode *)assignNode;
-    Assert::IsTrue(assignNodeCopy->getLeftChild() == varNode);
-    Assert::IsTrue(assignNodeCopy->getRightChild() == constNode);
+    isEqualNode(assignNodeCopy->getLeftChild(), varNode);
+    isEqualNode(assignNodeCopy->getRightChild(), constNode);
   }
 
 private:
@@ -106,6 +106,12 @@ private:
   */
   void isEqualLineNum(TNode * t_tNode, int t_lineNum) {
     Assert::IsTrue(t_tNode->getLineNum() == t_lineNum);
+  }
+
+  /*  Given 2 TNode pointers, checks if they are both pointing to the same TNode
+  */
+  void isEqualNode(TNode * t_tNode1, TNode * t_tNode2) {
+    Assert::IsTrue(t_tNode1 == t_tNode2);
   }
 
   };
