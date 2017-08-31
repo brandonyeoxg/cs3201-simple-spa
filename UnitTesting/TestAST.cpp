@@ -11,6 +11,8 @@ namespace UnitTesting {
   TEST_CLASS(TestAST) {
 public:
 
+  /*  Test ConstantNode constructor and methods
+  */
   TEST_METHOD(TestConstantNode) {
     Logger::WriteMessage("Running Constant Node test");
 
@@ -25,6 +27,8 @@ public:
     Assert::IsTrue(constNode->getValue() == value);
   }
 
+  /*  Test VariableNode constructor and methods
+  */
   TEST_METHOD(TestVariableNode) {
     Logger::WriteMessage("Running Variable Node test");
 
@@ -38,10 +42,12 @@ public:
     Assert::IsTrue(varNode->getVarName() == varName);
   }
 
+  /*  Test WhileNode constructor and methods
+  */
   TEST_METHOD(TestWhileNode) {
     Logger::WriteMessage("Running While Node test");
 
-    // while i {}
+    // while i { empty stmtList }
     int lineNum = 5;
     std::string varName = "i";
     TNode *varNode = new VariableNode(lineNum, varName);
@@ -53,9 +59,11 @@ public:
     Assert::IsTrue(whileNode->getRightChild() == slNode);
   }
 
+  /*  Test ASTBuilder
+  */
   TEST_METHOD(TestASTBuilder) {
     Logger::WriteMessage("Running ASTBuilder test");
-    ASTBuilder *builder = new ASTBuilder();
+    ASTBuilderAPI *builder = new ASTBuilder();
     AST *ast = builder->createAST();
     isEqualType(ast->getRoot(), TNode::Type::Procedure);  // Check root initialized properly
     isEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
