@@ -11,10 +11,6 @@ namespace UnitTesting {
   TEST_CLASS(TestAST) {
 public:
 
-  TEST_METHOD(TestMethod1) {
-    // TODO: Your test code here
-  }
-
   TEST_METHOD(TestConstantNode) {
     Logger::WriteMessage("Running Constant Node test");
 
