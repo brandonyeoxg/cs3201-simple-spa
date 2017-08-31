@@ -11,15 +11,16 @@
 #include "AssignNode.h"
 #include "WhileNode.h"
 
-/* Builds AST
+/*  Builder class that implements ASTBuilderAPI to build AST
+    Refer to ASTBuilderAPI on how to use functions to build nodes in AST
 */
 
 class ASTBuilder: public ASTBuilderAPI {
 public:
   ASTBuilder();
   AST *createAST();
-  TNode *createConstant(int t_lineNum, int t_constantValue);
-  TNode *createVariable(int t_lineNum, std::string t_varName);
+  ConstantNode *createConstant(int t_lineNum, int t_constantValue);
+  VariableNode *createVariable(int t_lineNum, std::string t_varName);
   TNode *createProcedure(std::string t_procName);
   TNode *createStmtList();
   TNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
