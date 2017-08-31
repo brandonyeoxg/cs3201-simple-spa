@@ -39,19 +39,7 @@ std::vector<TNode*>* TNode::getChildren() {
   return m_children;
 }
 
-//TODO need testing
-void TNode::printDataMembers() {
-  std::cout << "Type: " << m_type << std::endl;
-  std::cout << "Line: " << m_lineNum << std::endl;
-  std::cout << "Parent: " << std::endl;
-  m_parent->printDataMembers();
-  std::cout << std::endl;
-  std::cout << "Children: " << std::endl;
-  for (int i = 0; i < m_children->size(); i++) {
-    m_children->at(i)->printDataMembers();
-    std::cout << std::endl;
-  }
-}
+
 
 
 
