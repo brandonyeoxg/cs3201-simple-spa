@@ -36,9 +36,6 @@ public:
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
-
-    varNode = new VariableNode();
-    Assert::IsFalse(varNode->getLineNum() == lineNum);
   }
 
   TEST_METHOD(TestWhileNode) {
