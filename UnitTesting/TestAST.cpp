@@ -61,8 +61,9 @@ public:
 
   /*  Test ASTBuilder
   */
-  TEST_METHOD(TestASTBuilder) {
-    Logger::WriteMessage("Running ASTBuilder test");
+  TEST_METHOD(TestASTBuilderAPI) {
+    Logger::WriteMessage("Running ASTBuilderAPI test");
+
     ASTBuilderAPI *builder = new ASTBuilder();
     AST *ast = builder->createAST();
     isEqualType(ast->getRoot(), TNode::Type::Procedure);  // Check root initialized properly
