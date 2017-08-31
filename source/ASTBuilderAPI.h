@@ -41,10 +41,20 @@ public:
   ///////////////////////////////////////////////////////
   // Create node with subtree (i.e. require children to make logical sense)
 
+  /* Create Assignment statement, returns pointer to AssignNode */
   virtual AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+
+  /* Create While statement, returns pointer to WhileNode */
   virtual WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+
   virtual TNode *buildAddition() = 0;
   virtual TNode *buildSubtraction() = 0;
 
+
+  ///////////////////////////////////////////////////////
+  //  Linking Nodes in AST 
+  ///////////////////////////////////////////////////////
+
+  /*  Given parent and child nodes, links the 2 nodes together */
   virtual void linkParentToChild(TNode *t_parent, TNode *t_child) = 0;
 };

@@ -57,7 +57,7 @@ TNode * ASTBuilder::buildSubtraction() {
 
 /********** Helper Methods **********/
 
-/*  Given parent and child nodes, establishes parent-child relationship.
+/*  Given parent and child nodes, establishes parent-child relationship
 */
 void ASTBuilder::linkParentToChild(TNode * t_parent, TNode * t_child) {
   t_parent->addChild(t_child);
