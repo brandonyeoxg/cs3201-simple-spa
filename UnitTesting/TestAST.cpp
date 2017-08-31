@@ -90,6 +90,7 @@ public:
     isEqualNode(slNode, assignNode->getParent());
     isEqualNode(slNode->getChildren()->at(0), assignNode);
 
+    // Test child node able to get data members
     AssignNode *assignNodeCopy = (AssignNode *)assignNode;
     isEqualNode(assignNodeCopy->getLeftChild(), varNode);
     isEqualNode(assignNodeCopy->getRightChild(), constNode);

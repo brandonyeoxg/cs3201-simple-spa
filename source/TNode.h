@@ -26,8 +26,8 @@ public:
 
 protected:
   Type m_type;
-  int m_lineNum;
-  std::vector<TNode *> *m_children;
-  TNode *m_parent;
+  int m_lineNum;  // Statement line number, to be set to NO_LINE_NUM if node is not a statement
+  std::vector<TNode *> *m_children; // To be set to nullptr if node should have no children
+  TNode *m_parent;  // To be set to nullptr on instantiation to show parent is not yet set
   
 };
