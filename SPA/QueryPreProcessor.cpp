@@ -1,10 +1,4 @@
 #include "QueryPreProcessor.h"
-#include <string>
-#include <iostream>
-#include <vector>
-#include <sstream>
-
-using namespace std;
 
 QueryPreProcessor::QueryPreProcessor()
 {
@@ -15,6 +9,10 @@ QueryPreProcessor::~QueryPreProcessor()
 {
 }
 
+/** This is the main tokenizing function
+    @param t_Input string input from query
+    @return results This returns a 
+    */
 vector<string> QueryPreProcessor::tokenizeInput(string t_Input) {
   vector<string> results;
   string buf;
@@ -23,7 +21,8 @@ vector<string> QueryPreProcessor::tokenizeInput(string t_Input) {
   string declaration = t_Input.substr(0, t_Input.find(delimiter) + 1);  //.find(delimiter) finds starting position of the delimiter, hence need to + 1
   string query = t_Input.substr(t_Input.find(delimiter) + 2, t_Input.size()); //same for this as delimiter is "; Select"
 
-  stringstream ss(declaration);
+  //parse declaration with "; " first. then check with ", " inside.
+
 
   return results;
 }

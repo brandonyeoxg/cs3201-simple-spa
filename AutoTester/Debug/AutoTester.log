@@ -1,11 +1,2 @@
-﻿  TestWrapper.cpp
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(10): warning C4356: 'AbstractWrapper::GlobalStop': static data member cannot be initialized via derived class
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(22): error C2065: 'Parser': undeclared identifier
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(22): error C2065: 'parser': undeclared identifier
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(22): error C2061: syntax error: identifier 'Parser'
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(23): error C2065: 'parser': undeclared identifier
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(23): error C2227: left of '->parse' must point to class/struct/union/generic type
-  c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(23): note: type is 'unknown-type'
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(24): error C2065: 'parser': undeclared identifier
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(24): error C2541: 'delete': cannot delete objects that are not pointers
-c:\users\aaron\onedrive\documents\cs3201-simple-spa\autotester\source\testwrapper.cpp(25): error C2065: 'parser': undeclared identifier
+﻿  AutoTester.vcxproj -> C:\Users\aaron\OneDrive\Documents\cs3201-simple-spa\Debug\AutoTester.exe
+  AutoTester.vcxproj -> C:\Users\aaron\OneDrive\Documents\cs3201-simple-spa\Debug\AutoTester.pdb (Full PDB)
