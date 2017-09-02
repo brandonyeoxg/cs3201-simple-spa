@@ -1,7 +1,8 @@
 #pragma once
 
-#include "TNode.h"
+#include "TwoChildrenNode.h"
 
-class PlusNode : public TNode {
-
+class PlusNode : public TwoChildrenNode {
+public:
+  PlusNode(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
 };
