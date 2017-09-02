@@ -52,6 +52,7 @@ public:
   /* Create Addition expression, returns pointer to PlusNode */
   virtual PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
+  /* Create Subtraction expression, returns pointer to MinusNode */
   virtual MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
 
