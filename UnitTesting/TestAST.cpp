@@ -42,6 +42,22 @@ public:
     Assert::IsTrue(varNode->getVarName() == varName);
   }
 
+  /*  Test AssignNode constructor and methods
+  */
+  TEST_METHOD(TestAssignNode) {
+    Logger::WriteMessage("Running Assign Node test");
+
+    // x = y;
+    int lineNum = 5;
+    std::string varNameX = "x", varNameY = "y";
+    TNode *varNodeX = new VariableNode(lineNum, varNameX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+
+    AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
+    isEqualNode(assignNode->getLeftChild(), varNodeX);
+    isEqualNode(assignNode->getRightChild(), varNodeY);
+  }
+
   /*  Test WhileNode constructor and methods
   */
   TEST_METHOD(TestWhileNode) {
