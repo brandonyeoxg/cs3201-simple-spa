@@ -103,7 +103,7 @@ private:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool matchToken(const std::string &t_token);
+  bool isMatchToken(const std::string &t_token);
 
   /*
   * Matches the token from the file with the expected token type.
@@ -111,7 +111,7 @@ private:
   * @param t_token the expected token type.
   * @return true if the token type matches.
   */
-  bool matchToken(const tokenType &t_token);
+  std::string getMatchToken(const tokenType &t_token);
 
   /*
   * Returns true if the token is an operator.

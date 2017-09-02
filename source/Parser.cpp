@@ -25,14 +25,12 @@ int Parser::parse (const std::string &t_filename) {
 int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
-  if (matchToken("procedure")) {
-    TNode *procNode = m_builder.createProcedure(m_nextToken);
+  if (isMatchToken("procedure")) {
+    TNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
     m_pkb->setProcToAST(m_curProcNum, procNode);
     TNode *stmtLst = m_builder.createStmtList();
     m_builder.linkParentToChild(procNode, stmtLst);
-
-    matchToken(tokenType::PROC_NAME);
-    matchToken("{");
+    isMatchToken("{");
     return parseStmtLst(stmtLst);
   }
   return -1;
@@ -41,7 +39,7 @@ int Parser::parseForProcedure() {
 int Parser::parseStmtLst(TNode *t_node) {
   // Parse the rest of the code in the
   parseStmt(t_node);
-  matchToken(";");
+  isMatchToken(";");
   if (m_nextToken == "}") {
     return 1;
   }
@@ -62,11 +60,9 @@ int Parser::parseStmt(TNode *t_node) {
 }
 
 int Parser::parseAssignStmt(TNode *t_node) {
-  TNode *left = m_builder.createVariable(m_curLineNum, m_nextToken);
-  matchToken(tokenType::VAR_NAME);
-  matchToken("=");
-  TNode *right = m_builder.createVariable(m_curLineNum, m_nextToken);
-  matchToken(tokenType::EXPR);
+  TNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  isMatchToken("=");
+  TNode *right = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::EXPR));
   TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
   m_builder.linkParentToChild(t_node, stmt);
 
@@ -74,26 +70,21 @@ int Parser::parseAssignStmt(TNode *t_node) {
 }
 
 int Parser::parseContainerStmt(TNode *t_node) {
-  if (matchToken("while")) {
+  if (isMatchToken("while")) {
     parseWhileStmt(t_node);
   }
-  else if (m_nextToken == "if") {
-
+  else if (isMatchToken("if")) {
   }
 
   return 1;
 }
 
 int Parser::parseWhileStmt(TNode *t_node) {
-  std::string varName = m_nextToken;
-  matchToken(tokenType::VAR_NAME);
-  TNode *varNode = m_builder.createVariable(m_curLineNum, varName);
-  matchToken("{");
+  TNode *varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  isMatchToken("{");
   TNode *stmtLstNode = m_builder.createStmtList();
   parseStmtLst(stmtLstNode);
-
   TNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
-
   m_builder.linkParentToChild(t_node, whileNode);
   return 1;
 }
@@ -111,7 +102,7 @@ bool Parser::parseForBraces(const std::string &t_token) {
   return true;
 }
 
-bool Parser::matchToken(const std::string &t_token) {
+bool Parser::isMatchToken(const std::string &t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -119,13 +110,13 @@ bool Parser::matchToken(const std::string &t_token) {
   return false;
 }
 
-bool Parser::matchToken(const tokenType &t_token) {
+std::string Parser::getMatchToken(const tokenType &t_token) {
+  std::string output = m_nextToken;
   switch (t_token) {
     case tokenType::PROC_NAME:
       // Update proc name with line num
       cout << "Proc name: " << m_nextToken << "\n";
       m_nextToken = getCurrentLineToken();
-      m_pkb->setProcToAST(m_curProcNum++, new TNode());
       break;
     case tokenType::VAR_NAME:
       // Var name with line num
@@ -141,7 +132,7 @@ bool Parser::matchToken(const tokenType &t_token) {
       assert(true);
       break;
   }
-  return true;
+  return output;
 }
 
 std::string Parser::getCurrentLineToken() {
