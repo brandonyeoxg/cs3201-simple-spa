@@ -127,6 +127,33 @@ public:
     assertIsEqualNode(assignNodeCopy->getRightChild(), constNode);
   }
 
+  TEST_METHOD(TestASTBuilderAPI_AssignAndPlus) {
+    Logger::WriteMessage("Running ASTBuilderAPI test: x = a + b + 5;");
+
+    ASTBuilderAPI *builder = new ASTBuilder();
+
+    std::string varNameX = "x", varNameA = "a", varNameB = "b";
+    int constValue = 5, lineNum = 100;
+
+    // build x = a + b + 5 assignment subtree
+    AssignNode *node = builder->buildAssignment(lineNum, builder->createVariable(lineNum, varNameX),
+      builder->buildAddition(lineNum,
+        builder->buildAddition(lineNum, 
+          builder->createVariable(lineNum, varNameA),
+          builder->createVariable(lineNum, varNameB)),
+        builder->createConstant(lineNum, constValue)
+      )
+    );
+
+    assertIsEqualType(node->getLeftChild(), TNode::Type::Variable);
+    assertIsEqualNode(node->getLeftChild()->getParent(), node);
+
+    assertIsEqualType(node->getRightChild(), TNode::Type::Plus);
+    ConstantNode * constNode = (ConstantNode *)((TwoChildrenNode *)node->getRightChild())->getRightChild();
+    assertIsEqualType(constNode, TNode::Type::Constant);
+    Assert::IsTrue(constNode->getValue() == constValue);
+  }
+
 private:
 
   /*  Given a TNode, checks if its type is equal to given type
