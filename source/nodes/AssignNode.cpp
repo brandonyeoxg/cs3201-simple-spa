@@ -14,10 +14,3 @@ AssignNode::AssignNode(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   addChild(t_rightNode);
 }
 
-TNode * AssignNode::getLeftChild() {
-  return m_children->at(LEFT_CHILD_INDEX);
-}
-
-TNode * AssignNode::getRightChild() {
-  return m_children->at(RIGHT_CHILD_INDEX);
-}

@@ -19,6 +19,7 @@
     <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\nodes\AssignNode.cpp" />
     <ClCompile Include="..\source\nodes\ConstantNode.cpp" />
+    <ClCompile Include="..\source\nodes\PlusNode.cpp" />
     <ClCompile Include="..\source\nodes\ProcedureNode.cpp" />
     <ClCompile Include="..\source\nodes\ProgramNode.cpp" />
     <ClCompile Include="..\source\nodes\StmtListNode.cpp" />
@@ -46,10 +47,12 @@
     <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\nodes\AssignNode.h" />
     <ClInclude Include="..\source\nodes\ConstantNode.h" />
+    <ClInclude Include="..\source\nodes\PlusNode.h" />
     <ClInclude Include="..\source\nodes\ProcedureNode.h" />
     <ClInclude Include="..\source\nodes\ProgramNode.h" />
     <ClInclude Include="..\source\nodes\StmtListNode.h" />
     <ClInclude Include="..\source\nodes\TNode.h" />
+    <ClInclude Include="..\source\nodes\TwoChildrenNode.h" />
     <ClInclude Include="..\source\nodes\VariableNode.h" />
     <ClInclude Include="..\source\nodes\WhileNode.h" />
     <ClInclude Include="..\source\ParentTable.h" />

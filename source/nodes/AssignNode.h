@@ -1,14 +1,8 @@
 #pragma once
 
-#include "TNode.h"
+#include "TwoChildrenNode.h"
 
-class AssignNode : public TNode {
+class AssignNode : public TwoChildrenNode {
 public:
   AssignNode(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
-  TNode *getLeftChild();
-  TNode *getRightChild();
-
-private:
-  const int LEFT_CHILD_INDEX = 0;
-  const int RIGHT_CHILD_INDEX = 1;
 };

@@ -17,12 +17,8 @@ void TNode::setParent(TNode * t_tNode) {
     (i.e. Variable and Constant nodes are not supposed to have children nodes)
 */
 void TNode::addChild(TNode * t_tNode) {
-
   // m_children == nullptr means there should be no children for this node
   assert(m_children != nullptr);
-
-  // if node is of type Assign and has 2 children, max number of children reached
-  assert(!(m_type == TNode::Type::Assign && m_children->size() > 2));
 
   m_children->push_back(t_tNode);
 }
