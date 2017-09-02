@@ -53,6 +53,24 @@ public:
     AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
     assertIsEqualNode(assignNode->getLeftChild(), varNodeX);
     assertIsEqualNode(assignNode->getRightChild(), varNodeY);
+    assertIsEqualLineNum(assignNode, lineNum);
+  }
+
+  /*  Test PlusNode constructor and methods
+  */
+  TEST_METHOD(TestPlusNode) {
+    Logger::WriteMessage("Running Plus Node test");
+
+    // x + y;
+    int lineNum = 30;
+    std::string varNameX = "x", varNameY = "y";
+    TNode *varNodeX = new VariableNode(lineNum, varNameX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+
+    PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
+    assertIsEqualLineNum(plusNode, lineNum);
+    assertIsEqualNode(plusNode->getLeftChild(), varNodeX);
+    assertIsEqualNode(plusNode->getRightChild(), varNodeY);
   }
 
   /*  Test WhileNode constructor and methods
