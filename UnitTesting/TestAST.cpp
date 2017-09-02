@@ -71,6 +71,7 @@ public:
     assertIsEqualLineNum(plusNode, lineNum);
     assertIsEqualNode(plusNode->getLeftChild(), varNodeX);
     assertIsEqualNode(plusNode->getRightChild(), varNodeY);
+    assertIsEqualNode(varNodeX->getParent(), plusNode);
   }
 
   /*  Test WhileNode constructor and methods
@@ -88,6 +89,7 @@ public:
     WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
     assertIsEqualNode(whileNode->getLeftChild(), varNode);
     assertIsEqualNode(whileNode->getRightChild(), slNode);
+    assertIsEqualNode(whileNode->getLeftChild()->getParent(), whileNode);
   }
 
   /*  Test ASTBuilder
@@ -149,9 +151,12 @@ public:
     assertIsEqualNode(node->getLeftChild()->getParent(), node);
 
     assertIsEqualType(node->getRightChild(), TNode::Type::Plus);
+    assertIsEqualNode(node->getRightChild()->getParent(), node);
     ConstantNode * constNode = (ConstantNode *)((TwoChildrenNode *)node->getRightChild())->getRightChild();
     assertIsEqualType(constNode, TNode::Type::Constant);
     Assert::IsTrue(constNode->getValue() == constValue);
+
+    assertIsEqualType(((TwoChildrenNode *)node->getRightChild())->getLeftChild(), TNode::Type::Plus);
   }
 
 private:
