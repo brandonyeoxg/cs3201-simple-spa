@@ -19,8 +19,8 @@ public:
     int lineNum = 5;
     int value = 100;
     TNode *tNode = new ConstantNode(lineNum, value);
-    isEqualType(tNode, TNode::Type::Constant);
-    isEqualLineNum(tNode, lineNum);
+    assertIsEqualType(tNode, TNode::Type::Constant);
+    assertIsEqualLineNum(tNode, lineNum);
     Assert::IsTrue(tNode->getChildren() == nullptr);
 
     ConstantNode *constNode = (ConstantNode *) tNode;
@@ -35,8 +35,8 @@ public:
     int lineNum = 5;
     std::string varName = "penguin";
     TNode *tNode = new VariableNode(lineNum, varName);
-    isEqualType(tNode, TNode::Type::Variable);
-    isEqualLineNum(tNode, lineNum);
+    assertIsEqualType(tNode, TNode::Type::Variable);
+    assertIsEqualLineNum(tNode, lineNum);
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
@@ -54,8 +54,8 @@ public:
     TNode *varNodeY = new VariableNode(lineNum, varNameY);
 
     AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
-    isEqualNode(assignNode->getLeftChild(), varNodeX);
-    isEqualNode(assignNode->getRightChild(), varNodeY);
+    assertIsEqualNode(assignNode->getLeftChild(), varNodeX);
+    assertIsEqualNode(assignNode->getRightChild(), varNodeY);
   }
 
   /*  Test WhileNode constructor and methods
@@ -71,8 +71,8 @@ public:
     TNode *slNode = new StmtListNode();
 
     WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
-    isEqualNode(whileNode->getLeftChild(), varNode);
-    isEqualNode(whileNode->getRightChild(), slNode);
+    assertIsEqualNode(whileNode->getLeftChild(), varNode);
+    assertIsEqualNode(whileNode->getRightChild(), slNode);
   }
 
   /*  Test ASTBuilder
@@ -82,14 +82,14 @@ public:
 
     ASTBuilderAPI *builder = new ASTBuilder();
     AST *ast = builder->createAST();
-    isEqualType(ast->getRoot(), TNode::Type::Program);  // Check root initialized properly
-    isEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
+    assertIsEqualType(ast->getRoot(), TNode::Type::Program);  // Check root initialized properly
+    assertIsEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
 
     TNode *slNode = builder->createStmtList();
     // Check parent and child linked properly
     builder->linkParentToChild(ast->getRoot(), slNode);
-    isEqualNode(ast->getRoot()->getChildren()->at(0), slNode);
-    isEqualNode(ast->getRoot(), slNode->getParent());
+    assertIsEqualNode(ast->getRoot()->getChildren()->at(0), slNode);
+    assertIsEqualNode(ast->getRoot(), slNode->getParent());
 
     // Build assignment statement: x = 5;
     int lineNum1 = 1;
@@ -103,32 +103,32 @@ public:
 
     // Check parent and child linked properly
     builder->linkParentToChild(slNode, assignNode);
-    isEqualNode(slNode, assignNode->getParent());
-    isEqualNode(slNode->getChildren()->at(0), assignNode);
+    assertIsEqualNode(slNode, assignNode->getParent());
+    assertIsEqualNode(slNode->getChildren()->at(0), assignNode);
 
     // Test child node able to get data members
     AssignNode *assignNodeCopy = (AssignNode *)assignNode;
-    isEqualNode(assignNodeCopy->getLeftChild(), varNode);
-    isEqualNode(assignNodeCopy->getRightChild(), constNode);
+    assertIsEqualNode(assignNodeCopy->getLeftChild(), varNode);
+    assertIsEqualNode(assignNodeCopy->getRightChild(), constNode);
   }
 
 private:
 
   /*  Given a TNode, checks if its type is equal to given type
   */
-  void isEqualType(TNode * t_tNode, TNode::Type t_type) {
+  void assertIsEqualType(TNode * t_tNode, TNode::Type t_type) {
     Assert::IsTrue(t_tNode->getType() == t_type);
   }
 
   /*  Given a TNode, checks if its line number is equal to given line number
   */
-  void isEqualLineNum(TNode * t_tNode, int t_lineNum) {
+  void assertIsEqualLineNum(TNode * t_tNode, int t_lineNum) {
     Assert::IsTrue(t_tNode->getLineNum() == t_lineNum);
   }
 
   /*  Given 2 TNode pointers, checks if they are both pointing to the same TNode
   */
-  void isEqualNode(TNode * t_tNode1, TNode * t_tNode2) {
+  void assertIsEqualNode(TNode * t_tNode1, TNode * t_tNode2) {
     Assert::IsTrue(t_tNode1 == t_tNode2);
   }
 
