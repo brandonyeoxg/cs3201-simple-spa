@@ -66,7 +66,7 @@ public:
 
     ASTBuilderAPI *builder = new ASTBuilder();
     AST *ast = builder->createAST();
-    isEqualType(ast->getRoot(), TNode::Type::Procedure);  // Check root initialized properly
+    isEqualType(ast->getRoot(), TNode::Type::Program);  // Check root initialized properly
     isEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
 
     TNode *slNode = builder->createStmtList();
