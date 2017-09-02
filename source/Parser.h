@@ -6,6 +6,7 @@
 
 #include "PKB.h"
 #include "ASTBuilder.h"
+#include "SyntaxErrorException.h"
 
 /**
 * Represents a parser. Parses the SIMPLE program and builds an ast.
@@ -35,7 +36,7 @@ public:
   * @param t_filename filename of the file to be passed. Must be a valid readable file.
   * @return -1 if the file cannot be read or syntax error.
   */
-  int parse(const std::string &t_filename); //! < returns 0 if no issue, -1 if there is a problem.
+  int parse(const std::string &t_filename) throw(SyntaxErrorException); //! < returns 0 if no issue, -1 if there is a problem.
 
 private:
   PKB *m_pkb;
@@ -59,7 +60,7 @@ private:
   * 
   * @return -1 if there is syntax error.
   */
-  int parseForProcedure();
+  int parseForProcedure() throw(SyntaxErrorException);
   
   /*
   * Parses the statement list block.
@@ -67,7 +68,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  int parseStmtLst(TNode *t_node);
+  int parseStmtLst(TNode *t_node) throw (SyntaxErrorException);
 
   /*
   * Parses the statement.
@@ -75,7 +76,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseStmt(TNode *t_node);
+  int parseStmt(TNode *t_node) throw (SyntaxErrorException);
 
   /*
   * Parses the assignment statement.
@@ -83,7 +84,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseAssignStmt(TNode *t_node);
+  int parseAssignStmt(TNode *t_node) throw (SyntaxErrorException);
 
   /*
    * Parses the container statement.
@@ -91,11 +92,9 @@ private:
    * @param t_node the reference to the stmtLst node
    * @return -1 if there is syntax error.
    */
-  int parseContainerStmt(TNode *t_node);
+  int parseContainerStmt(TNode *t_node) throw (SyntaxErrorException);
 
-  int parseWhileStmt(TNode *t_node);
-
-  bool parseForBraces(const string &t_token);
+  int parseWhileStmt(TNode *t_node) throw (SyntaxErrorException);
 
   /*
   * Matches the token from the file with the expected token.
@@ -103,7 +102,7 @@ private:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool isMatchToken(const std::string &t_token);
+  bool isMatchToken(const std::string &t_token) throw(SyntaxErrorException);
 
   /*
   * Matches the token from the file with the expected token type.
@@ -111,7 +110,7 @@ private:
   * @param t_token the expected token type.
   * @return true if the token type matches.
   */
-  std::string getMatchToken(const tokenType &t_token);
+  std::string getMatchToken(const tokenType &t_token) throw(SyntaxErrorException);
 
   /*
   * Returns true if the token is an operator.
@@ -142,7 +141,7 @@ private:
   /*
   * Returns the the next token in the line
   */
-  std::string getToken();
+  std::string getToken() throw(SyntaxErrorException);
 
   /*
   * Tokenises the line into tokens 

@@ -8,8 +8,12 @@
 #include "Parser.h"
 #include "StringUtil.h"
 #include "TNode.h"
+#include "SyntaxOpenBraceException.h"
+#include "SyntaxNoEndOfStatementException.h"
+#include "SyntaxUnknownCommandException.h"
+#include "SyntaxEmptyLineException.h"
 
-int Parser::parse (const std::string &t_filename) {
+int Parser::parse (const std::string &t_filename) throw(SyntaxErrorException) {
   m_readStream = ifstream (t_filename);
   if (!m_readStream.is_open()) {
     return -1;
@@ -21,7 +25,7 @@ int Parser::parse (const std::string &t_filename) {
   return 0;
 }
 
-int Parser::parseForProcedure() {
+int Parser::parseForProcedure() throw (SyntaxErrorException) {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
@@ -29,13 +33,15 @@ int Parser::parseForProcedure() {
     m_pkb->setProcToAST(m_curProcNum, procNode);
     TNode *stmtLst = m_builder.createStmtList();
     m_builder.linkParentToChild(procNode, stmtLst);
-    isMatchToken("{");
+    if (!isMatchToken("{")) {
+      throw SyntaxOpenBraceException(m_curLineNum);
+    }
     return parseStmtLst(stmtLst);
   }
   return -1;
 }
 
-int Parser::parseStmtLst(TNode *t_node) {
+int Parser::parseStmtLst(TNode *t_node) throw (SyntaxErrorException) {
   // Parse the rest of the code in the
   parseStmt(t_node);
   if (isMatchToken("}")) {
@@ -44,12 +50,17 @@ int Parser::parseStmtLst(TNode *t_node) {
   return parseStmtLst(t_node);
 }
 
-int Parser::parseStmt(TNode *t_node) {
+int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
+  if (isMatchToken("")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
   m_curLineNum += 1;
   // Var name
   if (m_nextToken != "while" && m_nextToken != "if") {
     parseAssignStmt(t_node);
-    isMatchToken(";");
+    if (!isMatchToken(";")) {
+      throw SyntaxNoEndOfStatmentException(m_curLineNum);
+    }
   }
   else {
     // Parse container stmts
@@ -58,9 +69,11 @@ int Parser::parseStmt(TNode *t_node) {
   return 1;
 }
 
-int Parser::parseAssignStmt(TNode *t_node) {
+int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
   TNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
-  isMatchToken("=");
+  if (!isMatchToken("=")) {
+    throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
+  }
   TNode *right = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::EXPR));
   TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
   m_builder.linkParentToChild(t_node, stmt);
@@ -68,19 +81,21 @@ int Parser::parseAssignStmt(TNode *t_node) {
   return 1;
 }
 
-int Parser::parseContainerStmt(TNode *t_node) {
+int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
   if (isMatchToken("while")) {
     parseWhileStmt(t_node);
+  } else if (isMatchToken("if")) {
+  } else {
+    throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  else if (isMatchToken("if")) {
-  }
-
   return 1;
 }
 
-int Parser::parseWhileStmt(TNode *t_node) {
+int Parser::parseWhileStmt(TNode *t_node) throw(SyntaxErrorException) {
   TNode *varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
-  isMatchToken("{");
+  if (!isMatchToken("{")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
   TNode *stmtLstNode = m_builder.createStmtList();
   parseStmtLst(stmtLstNode);
   TNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
@@ -88,20 +103,7 @@ int Parser::parseWhileStmt(TNode *t_node) {
   return 1;
 }
 
-bool Parser::parseForBraces(const std::string &t_token) {
-  // Iterate through the tokens to identify braces
-  if (t_token == "{") {
-    m_bracesStack.push(t_token);
-    return true;
-  }
-  if (m_bracesStack.empty()) {
-    return false;
-  }
-  m_bracesStack.pop();
-  return true;
-}
-
-bool Parser::isMatchToken(const std::string &t_token) {
+bool Parser::isMatchToken(const std::string &t_token) throw(SyntaxErrorException) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -109,22 +111,14 @@ bool Parser::isMatchToken(const std::string &t_token) {
   return false;
 }
 
-std::string Parser::getMatchToken(const tokenType &t_token) {
+std::string Parser::getMatchToken(const tokenType &t_token) throw(SyntaxErrorException) {
   std::string output = m_nextToken;
   switch (t_token) {
     case tokenType::PROC_NAME:
-      // Update proc name with line num
-      cout << "Proc name: " << m_nextToken << "\n";
-      m_nextToken = getCurrentLineToken();
-      break;
     case tokenType::VAR_NAME:
-      // Var name with line num
-      cout << "Var name: " << m_nextToken << " = ";
       m_nextToken = getCurrentLineToken();
       break;
     case tokenType::EXPR :
-      // const val with line num
-      cout << "Const val: " << m_nextToken << "\n";
       m_nextToken = getCurrentLineToken();
       break;
     default:
@@ -138,19 +132,26 @@ std::string Parser::getCurrentLineToken() {
   if (curTokens.empty()) {
     std::string extractedLine;
     if (getline(m_readStream, extractedLine)) {
-      curTokens = tokeniseLine(extractedLine);
-      return getToken();
+      try {
+        curTokens = tokeniseLine(extractedLine);
+        return getToken();
+      } catch (SyntaxEmptyLineException sele) {
+        return "";
+      }
     }
     return "";
   }
   return getToken();
 }
 
-std::string Parser::getToken() {
-  assert(!curTokens.empty());
-    std::string token = curTokens.front();
-    curTokens.erase(curTokens.begin());
-    return token;
+std::string Parser::getToken() throw(SyntaxErrorException) {
+  /*assert(!curTokens.empty());*/
+  if (curTokens.empty()) {
+    throw SyntaxEmptyLineException();
+  }
+  std::string token = curTokens.front();
+  curTokens.erase(curTokens.begin());
+  return token;
 }
 
 bool Parser::isOperator(const std::string &t_token) {
