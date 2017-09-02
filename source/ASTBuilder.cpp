@@ -45,9 +45,9 @@ WhileNode * ASTBuilder::buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_ri
   return whileNode;
 }
 
-//TODO implement
-TNode *ASTBuilder::buildAddition() {
-  return nullptr;
+TNode *ASTBuilder::buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
+  PlusNode *plusNode = new PlusNode(t_lineNum, t_leftNode, t_rightNode);
+  return plusNode;
 }
 
 //TODO implement
