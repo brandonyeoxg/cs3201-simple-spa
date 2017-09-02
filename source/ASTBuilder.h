@@ -17,7 +17,7 @@ public:
   AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
-  TNode *buildSubtraction();
+  MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
 
   void linkParentToChild(TNode *t_parent, TNode *t_child);
 };

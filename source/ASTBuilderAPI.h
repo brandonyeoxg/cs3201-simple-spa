@@ -9,6 +9,7 @@
 #include "nodes\AssignNode.h"
 #include "nodes\WhileNode.h"
 #include "nodes\PlusNode.h"
+#include "nodes\MinusNode.h"
 
 /* API for building AST
 */
@@ -51,7 +52,7 @@ public:
   /* Create Addition expression, returns pointer to PlusNode */
   virtual PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
-  virtual TNode *buildSubtraction() = 0;
+  virtual MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
 
   ///////////////////////////////////////////////////////
