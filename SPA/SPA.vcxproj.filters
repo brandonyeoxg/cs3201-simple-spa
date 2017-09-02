@@ -144,6 +144,21 @@
     <ClInclude Include="..\source\Grammar.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxErrorException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxOpenBraceException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxUnknownCommandException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxEmptyLineException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -169,6 +184,9 @@
     </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd\Exception">
+      <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
