@@ -51,7 +51,7 @@ int Parser::parseStmtLst(TNode *t_node) {
 int Parser::parseStmt(TNode *t_node) {
   m_curLineNum += 1;
   // Var name
-  if (m_nextToken != "while" || m_nextToken != "if") {
+  if (m_nextToken != "while" && m_nextToken != "if") {
     parseAssignStmt(t_node);
   }
   else {
@@ -74,7 +74,28 @@ int Parser::parseAssignStmt(TNode *t_node) {
 }
 
 int Parser::parseContainerStmt(TNode *t_node) {
+  if (matchToken("while")) {
+    parseWhileStmt(t_node);
+  }
+  else if (m_nextToken == "if") {
 
+  }
+
+  return 1;
+}
+
+int Parser::parseWhileStmt(TNode *t_node) {
+  std::string varName = m_nextToken;
+  matchToken(tokenType::VAR_NAME);
+  TNode *varNode = m_builder.createVariable(m_curLineNum, varName);
+  matchToken("{");
+  TNode *stmtLstNode = m_builder.createStmtList();
+  parseStmtLst(stmtLstNode);
+
+  TNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
+
+  m_builder.linkParentToChild(t_node, whileNode);
+  return 1;
 }
 
 bool Parser::parseForBraces(const std::string &t_token) {

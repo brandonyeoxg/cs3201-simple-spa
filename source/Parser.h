@@ -92,6 +92,9 @@ private:
    * @return -1 if there is syntax error.
    */
   int parseContainerStmt(TNode *t_node);
+
+  int parseWhileStmt(TNode *t_node);
+
   bool parseForBraces(const string &t_token);
 
   /*
