@@ -8,4 +8,6 @@ PlusNode::PlusNode(int t_lineNum, TNode * t_leftNode, TNode * t_rightNode) {
 
   addChild(t_leftNode);
   addChild(t_rightNode);
+  t_leftNode->setParent(this);
+  t_rightNode->setParent(this);
 }
