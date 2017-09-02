@@ -50,7 +50,6 @@ PlusNode *ASTBuilder::buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_r
   return plusNode;
 }
 
-//TODO implement
 MinusNode * ASTBuilder::buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   MinusNode *minusNode = new MinusNode(t_lineNum, t_leftNode, t_rightNode);
   return minusNode;
