@@ -2,4 +2,7 @@ procedure main {
   x=y;
   z=y;
   c=v;
+  while i {
+    x=y;
+  }
 }
