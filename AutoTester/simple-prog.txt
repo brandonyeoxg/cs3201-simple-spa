@@ -3,6 +3,5 @@ procedure main {
   z=y;
   c=v;
   while i {
-    x=y;
-  }
+    x=y;}
 }
