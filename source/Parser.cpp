@@ -56,6 +56,7 @@ int Parser::parseStmt(TNode *t_node) {
   }
   else {
     // Parse container stmts
+    parseContainerStmt(t_node);
   }
   return 1;
 }
@@ -67,9 +68,13 @@ int Parser::parseAssignStmt(TNode *t_node) {
   TNode *right = m_builder.createVariable(m_curLineNum, m_nextToken);
   matchToken(tokenType::EXPR);
   TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
-  //m_builder.linkParentToChild(t_node, stmt);
+  m_builder.linkParentToChild(t_node, stmt);
 
   return 1;
+}
+
+int Parser::parseContainerStmt(TNode *t_node) {
+
 }
 
 bool Parser::parseForBraces(const std::string &t_token) {
@@ -131,7 +136,7 @@ std::string Parser::getCurrentLineToken() {
 }
 
 std::string Parser::getToken() {
-  assert(!curTokens.empty(), "Token list must not be empty");
+  assert(!curTokens.empty());
     std::string token = curTokens.front();
     curTokens.erase(curTokens.begin());
     return token;

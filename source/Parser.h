@@ -8,14 +8,18 @@
 #include "ASTBuilder.h"
 
 /**
- * Represents a parser. Parses the SIMPLE program and builds an ast.
- *
- * @author Brandon
- * @date 8/26/2017
- *
- */
+* Represents a parser. Parses the SIMPLE program and builds an ast.
+*
+* @author Brandon
+* @date 8/26/2017
+*
+*/
 class Parser {
 public:
+  /*
+  * Constructs parser using pkb.
+  * Also initialises other fields  
+  */
   Parser(PKB *t_pkb) 
     : m_pkb(t_pkb), 
       m_curLineNum(0),
@@ -25,6 +29,12 @@ public:
 
   ~Parser() {};
   
+  /**
+  * Parses the file through the filename.
+  * 
+  * @param t_filename filename of the file to be passed. Must be a valid readable file.
+  * @return -1 if the file cannot be read or syntax error.
+  */
   int parse(const std::string &t_filename); //! < returns 0 if no issue, -1 if there is a problem.
 
 private:
@@ -44,20 +54,97 @@ private:
     EXPR,
   };
 
+  /*
+  * Parses the procedure block.
+  * 
+  * @return -1 if there is syntax error.
+  */
   int parseForProcedure();
+  
+  /*
+  * Parses the statement list block.
+  * 
+  * @param t_node the reference to the procedure node
+  * @return -1 if there is syntax error.
+  */
   int parseStmtLst(TNode *t_node);
+
+  /*
+  * Parses the statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
   int parseStmt(TNode *t_node);
+
+  /*
+  * Parses the assignment statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
   int parseAssignStmt(TNode *t_node);
+
+  /*
+   * Parses the container statement.
+   *
+   * @param t_node the reference to the stmtLst node
+   * @return -1 if there is syntax error.
+   */
+  int parseContainerStmt(TNode *t_node);
   bool parseForBraces(const string &t_token);
 
+  /*
+  * Matches the token from the file with the expected token.
+  * 
+  * @param t_token the expected token.
+  * @return true if the token matches.
+  */
   bool matchToken(const std::string &t_token);
+
+  /*
+  * Matches the token from the file with the expected token type.
+  *
+  * @param t_token the expected token type.
+  * @return true if the token type matches.
+  */
   bool matchToken(const tokenType &t_token);
 
+  /*
+  * Returns true if the token is an operator.
+  * 
+  * @param t_token the token to be checked.
+  */
   bool isOperator(const std::string &t_token);
+
+  /*
+  * Returns true if the token is a brace.
+  *
+  * @param t_token the token to be checked.
+  */
   bool isBrace(const std::string &t_token);
+
+  /*
+  * Returns true if the token is any key delimiter like a space or a brace or operator.
+  *
+  * @param t_token the token to be checked.
+  */
   bool isKeyDelimiter(const std::string &t_token);
 
+  /*
+  * Returns the first token in a line 
+  */
   std::string getCurrentLineToken();
+
+  /*
+  * Returns the the next token in the line
+  */
   std::string getToken();
+
+  /*
+  * Tokenises the line into tokens 
+  * 
+  * @param t_line the line to be tokenised
+  */
   std::vector<std::string> tokeniseLine(const std::string &t_line);
 };
