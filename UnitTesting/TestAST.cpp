@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "TNode.h"
-#include "VariableNode.h"
-#include "ConstantNode.h"
+#include "nodes/TNode.h"
+#include "nodes/VariableNode.h"
+#include "nodes/ConstantNode.h"
 #include "ASTBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

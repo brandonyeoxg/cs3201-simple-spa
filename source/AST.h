@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TNode.h"
-#include "ProcedureNode.h"
+#include "nodes/TNode.h"
+#include "nodes/ProcedureNode.h"
 
 /* Abstract Syntax Tree class
 */
