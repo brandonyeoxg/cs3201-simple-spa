@@ -17,7 +17,6 @@ int Parser::parse (const std::string &t_filename) {
   m_nextToken = getCurrentLineToken();
   while (!m_readStream.eof()) {
     parseForProcedure();
-    m_nextToken = getCurrentLineToken();
   }
   return 0;
 }
@@ -39,8 +38,7 @@ int Parser::parseForProcedure() {
 int Parser::parseStmtLst(TNode *t_node) {
   // Parse the rest of the code in the
   parseStmt(t_node);
-  isMatchToken(";");
-  if (m_nextToken == "}") {
+  if (isMatchToken("}")) {
     return 1;
   }
   return parseStmtLst(t_node);
@@ -51,6 +49,7 @@ int Parser::parseStmt(TNode *t_node) {
   // Var name
   if (m_nextToken != "while" && m_nextToken != "if") {
     parseAssignStmt(t_node);
+    isMatchToken(";");
   }
   else {
     // Parse container stmts
