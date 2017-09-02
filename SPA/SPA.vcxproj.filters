@@ -76,6 +76,9 @@
     <ClCompile Include="..\source\nodes\PlusNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\nodes\MinusNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -157,6 +160,9 @@
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\TwoChildrenNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\MinusNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
