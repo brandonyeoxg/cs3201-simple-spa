@@ -16,7 +16,7 @@ public:
   StmtListNode *createStmtList();
   AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
-  TNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
+  PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   TNode *buildSubtraction();
 
   void linkParentToChild(TNode *t_parent, TNode *t_child);

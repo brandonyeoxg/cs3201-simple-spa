@@ -48,7 +48,9 @@ public:
   /* Create While statement, returns pointer to WhileNode */
   virtual WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
-  virtual TNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+  /* Create Addition expression, returns pointer to PlusNode */
+  virtual PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+
   virtual TNode *buildSubtraction() = 0;
 
 
