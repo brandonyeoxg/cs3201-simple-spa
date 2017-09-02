@@ -9,6 +9,7 @@ public:
     Assign,
     Constant,
     If,
+    Minus,
     Plus,
     Procedure,
     Program,
