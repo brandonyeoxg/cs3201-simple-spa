@@ -1,13 +1,14 @@
 #pragma once
 
 #include "AST.h"
-#include "nodes/TNode.h"
-#include "nodes/VariableNode.h"
-#include "nodes/ConstantNode.h"
-#include "nodes/StmtListNode.h"
-#include "nodes/ProcedureNode.h"
-#include "nodes/AssignNode.h"
-#include "nodes/WhileNode.h"
+#include "nodes\TNode.h"
+#include "nodes\VariableNode.h"
+#include "nodes\ConstantNode.h"
+#include "nodes\StmtListNode.h"
+#include "nodes\ProcedureNode.h"
+#include "nodes\AssignNode.h"
+#include "nodes\WhileNode.h"
+#include "nodes\PlusNode.h"
 
 /* API for building AST
 */

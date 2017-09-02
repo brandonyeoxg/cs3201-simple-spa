@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nodes/ProgramNode.h"
+#include "nodes\ProgramNode.h"
 
 /* Abstract Syntax Tree class
 */

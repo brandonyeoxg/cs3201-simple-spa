@@ -10,7 +10,7 @@ using namespace std;
 
 #include "Parser.h"
 #include "StringUtil.h"
-#include "nodes/TNode.h"
+#include "nodes\TNode.h"
 
 
 int Parser::parse (const std::string &t_filename) {
