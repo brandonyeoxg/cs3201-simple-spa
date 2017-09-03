@@ -12,7 +12,6 @@ using namespace std;
 typedef short PROC;
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
-const string VARIABLE = "VARIABLE";
 
 
 class TNode;
@@ -27,7 +26,9 @@ public:
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-
+  unordered_map<int, vector<int>> returnFollowTable(int s1, int s2);
+  unordered_map<int, vector<int>> returnParentTable(int s1, int s2);
+  unordered_map<string, vector<int>> returnVarTable(string var);
 
 private:
   FollowTable* m_followTable;
