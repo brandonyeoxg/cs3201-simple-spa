@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 #include <assert.h>
+#include <stack>
+
 #include "Parser.h"
 #include "StringUtil.h"
 #include "TNode.h"
@@ -81,6 +83,26 @@ int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
   return 1;
 }
 
+int Parser::parseExpr(TNode* t_node) throw (SyntaxErrorException) {
+  std::stack<TNode *> exprStack;
+  while (isMatchToken("+") || isMatchToken(tokenType::VAR_NAME)) {
+    if (((VariableNode*)exprStack.top())->getVarName() == "+") {
+      // Create plus Node
+      // PlusNode right = TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+      // Pop plus node
+      // pop the prev var node
+      // push back
+      continue;
+    }
+    TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+    exprStack.push(varNode);
+  }
+
+  TNode *childNode = exprStack.top();
+  m_builder.linkParentToChild(t_node, childNode);
+  return 1;
+}
+
 int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
   if (isMatchToken("while")) {
     parseWhileStmt(t_node);
@@ -111,11 +133,27 @@ bool Parser::isMatchToken(const std::string &t_token) throw(SyntaxErrorException
   return false;
 }
 
+bool Parser::isMatchToken(tokenType t_type) throw (SyntaxErrorException) {
+  switch (t_type) {
+    case tokenType::PROC_NAME:
+      if (!isKeyDelimiter(m_nextToken)) {
+        m_nextToken = getCurrentLineToken();
+        return true;
+      }
+      break;
+    default:
+      assert(true);
+      break;
+  }
+  return false;
+}
+
 std::string Parser::getMatchToken(const tokenType &t_token) throw(SyntaxErrorException) {
   std::string output = m_nextToken;
   switch (t_token) {
     case tokenType::PROC_NAME:
     case tokenType::VAR_NAME:
+    case tokenType::CONSTANT:
       m_nextToken = getCurrentLineToken();
       break;
     case tokenType::EXPR :

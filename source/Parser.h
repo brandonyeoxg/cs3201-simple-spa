@@ -52,6 +52,7 @@ private:
   enum tokenType {
     PROC_NAME,
     VAR_NAME,
+    CONSTANT,
     EXPR,
   };
 
@@ -68,7 +69,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  int parseStmtLst(TNode *t_node) throw (SyntaxErrorException);
+  int parseStmtLst(TNode* t_node) throw(SyntaxErrorException);
 
   /*
   * Parses the statement.
@@ -76,7 +77,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseStmt(TNode *t_node) throw (SyntaxErrorException);
+  int parseStmt(TNode* t_node) throw(SyntaxErrorException);
 
   /*
   * Parses the assignment statement.
@@ -84,7 +85,15 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseAssignStmt(TNode *t_node) throw (SyntaxErrorException);
+  int parseAssignStmt(TNode* t_node) throw(SyntaxErrorException);
+
+  /*
+  * Parses the expr stmt.
+  *
+  * @param t_expr the string representation of the expression
+  * @return the completed expr's root node
+  */
+  int parseExpr(TNode* t_node) throw(SyntaxErrorException);
 
   /*
    * Parses the container statement.
@@ -92,9 +101,9 @@ private:
    * @param t_node the reference to the stmtLst node
    * @return -1 if there is syntax error.
    */
-  int parseContainerStmt(TNode *t_node) throw (SyntaxErrorException);
+  int parseContainerStmt(TNode* t_node) throw(SyntaxErrorException);
 
-  int parseWhileStmt(TNode *t_node) throw (SyntaxErrorException);
+  int parseWhileStmt(TNode* t_node) throw(SyntaxErrorException);
 
   /*
   * Matches the token from the file with the expected token.
@@ -102,36 +111,37 @@ private:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool isMatchToken(const std::string &t_token) throw(SyntaxErrorException);
+  bool isMatchToken(const std::string& t_token) throw(SyntaxErrorException);
 
+  bool isMatchToken(tokenType t_type);
   /*
   * Matches the token from the file with the expected token type.
   *
   * @param t_token the expected token type.
   * @return true if the token type matches.
   */
-  std::string getMatchToken(const tokenType &t_token) throw(SyntaxErrorException);
+  std::string getMatchToken(const tokenType& t_token) throw(SyntaxErrorException);
 
   /*
   * Returns true if the token is an operator.
   * 
   * @param t_token the token to be checked.
   */
-  bool isOperator(const std::string &t_token);
+  bool isOperator(const std::string& t_token);
 
   /*
   * Returns true if the token is a brace.
   *
   * @param t_token the token to be checked.
   */
-  bool isBrace(const std::string &t_token);
+  bool isBrace(const std::string& t_token);
 
   /*
   * Returns true if the token is any key delimiter like a space or a brace or operator.
   *
   * @param t_token the token to be checked.
   */
-  bool isKeyDelimiter(const std::string &t_token);
+  bool isKeyDelimiter(const std::string& t_token);
 
   /*
   * Returns the first token in a line 
@@ -148,5 +158,5 @@ private:
   * 
   * @param t_line the line to be tokenised
   */
-  std::vector<std::string> tokeniseLine(const std::string &t_line);
+  std::vector<std::string> tokeniseLine(const std::string& t_line);
 };
