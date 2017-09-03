@@ -15,8 +15,8 @@ using namespace std;
 * @param s1 an integer argument.
 * @param s2 an integer argument.
 */
-ParentTable ParentTable::insert(ParentTable table, int s1, int s2) {
-  unordered_map<int, vector<int>> parentTable = table.getParentTable();
+ParentTable* ParentTable::insert(ParentTable* table, int s1, int s2) {
+  unordered_map<int, vector<int>> parentTable = table->getParentTable();
   if (parentTable.find(s1) == parentTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
@@ -37,7 +37,7 @@ ParentTable ParentTable::insert(ParentTable table, int s1, int s2) {
     }
   }
   
-  table.setParentTable(parentTable);
+  table->setParentTable(parentTable);
   return table;
 }
 
