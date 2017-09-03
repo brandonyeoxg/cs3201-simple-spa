@@ -24,10 +24,13 @@ public:
   static int setProcToAST(PROC p, TNode* r);
   static TNode* getRootAST(PROC p);
   PKB();
-  unordered_map<int, vector<int>> getFollowTable(int s1, int s2);
-  unordered_map<int, vector<int>> getParentTable(int s1, int s2);
-  unordered_map<string, vector<int>> getVarTable(string var);
+  FollowTable* getFollowTable();
+  ParentTable* getParentTable();
+  VarTable* getVarTable();
+
 
 private:
-
+  FollowTable* m_followTable;
+  ParentTable* m_parentTable;
+  VarTable* m_varTable;
 };

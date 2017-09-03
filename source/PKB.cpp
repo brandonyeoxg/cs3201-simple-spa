@@ -15,10 +15,23 @@ using namespace std;
 * Instantiates one VarTable, FollowTable, ParentTable each.
 */
 PKB::PKB() {
-  FollowTable *followTable = new FollowTable();
-  ParentTable *parentTable = new ParentTable();
-  VarTable *varTable = new VarTable();
+  m_followTable = new FollowTable();
+  m_parentTable = new ParentTable();
+  m_varTable = new VarTable();
 }
+
+FollowTable* PKB:: getFollowTable() {
+  return m_followTable;
+}
+
+ParentTable* PKB:: getParentTable() {
+  return m_parentTable;
+}
+
+VarTable* PKB::getVarTable() {
+  return m_varTable;
+}
+
 int PKB::setProcToAST(PROC p, TNode* r) {
   return NULL;
 }
