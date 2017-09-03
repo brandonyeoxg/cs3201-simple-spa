@@ -113,6 +113,12 @@ private:
   */
   bool isMatchToken(const std::string& t_token) throw(SyntaxErrorException);
 
+  /*
+  * Matches the tokenType from the file with the expected tokenType.
+  *
+  * @param t_token the expected tokenType.
+  * @return true if the token matches.
+  */
   bool isMatchToken(tokenType t_type);
   /*
   * Matches the token from the file with the expected token type.
