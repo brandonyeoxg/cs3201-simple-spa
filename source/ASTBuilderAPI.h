@@ -41,7 +41,9 @@ public:
   ///////////////////////////////////////////////////////
   //  Build Abstraction Subtree  
   ///////////////////////////////////////////////////////
-  // Create node with subtree (i.e. require children to make logical sense)
+  //  Create node with subtree (i.e. require children to make logical sense)
+  //  Note: all parent-child relationships within subtree will be done by API
+  //  i.e. children of AssignNode will know AssignNode is parent and vice versa.
 
   /* Create Assignment statement, returns pointer to AssignNode */
   virtual AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
