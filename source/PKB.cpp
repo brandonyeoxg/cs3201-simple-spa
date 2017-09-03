@@ -54,8 +54,13 @@ unordered_map<int, vector<int>> PKB:: returnFollowTable(int s1, int s2) {
   if (s1 == VARIABLE_S1) {
     vector<int> s1Results = table->getS1(s2);
     finalResult.emplace(s2, s1Results);
-  }
-  else if (s2 == VARIABLE_S2) {
+  } else if (s2 == VARIABLE_S2) {
+    vector<int> s2Results = table->getS2(s1);
+    finalResult.emplace(s1, s2Results);
+  } else if (s1 != VARIABLE_S1 && s2 != VARIABLE_S2) {
+    //both s1 and s2 are not querying variables
+    //e.g. follow(3,4)
+    //just return the map with 3 as key
     vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   }
@@ -80,11 +85,16 @@ unordered_map<int, vector<int>> PKB::returnParentTable(int s1, int s2) {
 
   unordered_map<int, vector<int>> finalResult;
   //if only s1 is querying variable
-  if (s1 == VARIABLE_S1) {
+  if (s1 == VARIABLE_S1 && s2 != VARIABLE_S2) {
     vector<int> s1Results = table->getS1(s2);
     finalResult.emplace(s2, s1Results);
-  }
-  else if (s2 == VARIABLE_S2) {
+  } else if (s1 != VARIABLE_S1 && s2 == VARIABLE_S2) {
+    vector<int> s2Results = table->getS2(s1);
+    finalResult.emplace(s1, s2Results);
+  } else if (s1 != VARIABLE_S1 && s2 != VARIABLE_S2) {
+    //both s1 and s2 are not querying variables
+    //e.g. follow(3,4)
+    //just return the map with 3 as key
     vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   }

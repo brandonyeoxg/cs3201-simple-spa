@@ -44,6 +44,13 @@ namespace UnitTesting {
       expected = pkb->returnFollowTable(-1, -2);
       //test with both s1 and s2 as querying variable
       Assert::IsTrue(expected == test);
+
+      //test with both s1 and s2 not being querying variable
+      expected = pkb->returnFollowTable(2, 3);
+      actual = {
+        { 2,{ 3, 4 } }
+      };
+      Assert::IsTrue(expected == actual);
     }
 
     TEST_METHOD(TestReturnVarTable) {
