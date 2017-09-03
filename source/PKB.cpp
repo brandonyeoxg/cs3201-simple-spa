@@ -92,6 +92,20 @@ unordered_map<int, vector<int>> PKB::returnParentTable(int s1, int s2) {
   return finalResult;
 }
 
+
+/**
+* Method that returns an unordered_map for variable query.
+* @param s1 an integer argument (-1 denotes it being the querying variable).
+* @param s2 an integer argument (-2 denotes it being the querying variable).
+*/
+unordered_map<string, vector<int>> PKB::returnVarTable(string var) {
+  VarTable* table = getVarTable();
+  unordered_map<string, vector<int>> result;
+  result.emplace(var, table->get(var));
+
+  return result;
+}
+
 //TBD
 int PKB::setProcToAST(PROC p, TNode* r) {
   return NULL;
