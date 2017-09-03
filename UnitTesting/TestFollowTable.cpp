@@ -33,9 +33,9 @@ namespace UnitTesting {
       Logger::WriteMessage("Running follow table test getS1");
       static const int arr[] = { 1, 2 };
       std::vector<int> expected (arr, arr + sizeof(arr) / sizeof(arr[0]));
-      FollowTable testFollowTable;
-      testFollowTable.setFollowTable(test);
-      vector<int> actual = testFollowTable.getS1(3);
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      vector<int> actual = testFollowTable->getS1(3);
       Assert::IsTrue(actual == expected);
     }
 
@@ -43,9 +43,9 @@ namespace UnitTesting {
       Logger::WriteMessage("Running follow table test getS2");
       static const int arr[] = { 3, 4 };
       std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      FollowTable testFollowTable;
-      testFollowTable.setFollowTable(test);
-      vector<int> actual = testFollowTable.getS2(2);
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      vector<int> actual = testFollowTable->getS2(2);
       Assert::IsTrue(actual == expected);
     }
   };
