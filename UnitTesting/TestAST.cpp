@@ -19,6 +19,7 @@ public:
     assertIsEqualType(tNode, TNode::Type::Constant);
     assertIsEqualLineNum(tNode, lineNum);
     Assert::IsTrue(tNode->getChildren() == nullptr);
+    assertIsEqualNode(tNode->getParent(), nullptr);
 
     ConstantNode *constNode = (ConstantNode *) tNode;
     Assert::IsTrue(constNode->getValue() == value);
@@ -34,6 +35,7 @@ public:
     TNode *tNode = new VariableNode(lineNum, varName);
     assertIsEqualType(tNode, TNode::Type::Variable);
     assertIsEqualLineNum(tNode, lineNum);
+    assertIsEqualNode(tNode->getParent(), nullptr);
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
@@ -53,6 +55,8 @@ public:
     AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
     assertIsEqualNode(assignNode->getLeftChild(), varNodeX);
     assertIsEqualNode(assignNode->getRightChild(), varNodeY);
+    assertIsEqualNode(assignNode->getLeftChild()->getParent(), assignNode);
+    assertIsEqualNode(assignNode->getRightChild()->getParent(), assignNode);
     assertIsEqualLineNum(assignNode, lineNum);
   }
 
