@@ -11,6 +11,7 @@
 #include "Grammar.h"
 #include "DesignAbstraction.h"
 #include "Pattern.h"
+#include "PKB.h"
 
 
 /**
@@ -25,6 +26,14 @@ QueryEvaluator::QueryEvaluator() {
 */
 void QueryEvaluator::evaluateQuery() {
   std::cout << "Evaluating Query...\n";
+  getQueryClauses();
+  bool hasResult = getResultFromPkb();
+  if (hasResult) {
+    storeFinalResult(evaluateFinalResult());
+  } else if (!hasResult) {
+    std::vector<std::string> result;
+    storeFinalResult(result);
+  }
 }
 
 /**
@@ -40,59 +49,188 @@ std::vector<std::string> QueryEvaluator::getQueryResult() {
 * A function that gets the clauses of the query stored in a data structure in QueryPreProcessor.
 */
 void QueryEvaluator::getQueryClauses() {
-  std::cout << "Getting the queue that stores the clauses of the query from QueryPreProcessor.\n";
-}
-
-/**
-* A function that store the clauses of the query in a data structure in QueryEvaluator.
-*/
-void QueryEvaluator::storeQueryClauses() {
-  std::cout << "Storing the clauses of the query from QueryPreProcessor into different queues.\n";
+  std::cout << "Getting the queues that stores the clauses of the query from QueryPreProcessor.\n";
+  QueryPreProcessor qpp;
+  //m_selects = qpp.getSelects();
+  //m_relations = qpp.getRelations();
+  //m_patterns = qpp.getPatterns();
 }
 
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
-* @param t_query a vector<string> argument
-* @return the result of the clauses
+* @return true if there are results otherwise false
 */
-std::vector<std::string> QueryEvaluator::getResultFromPkb(std::vector<std::string> t_query) {
+bool QueryEvaluator::getResultFromPkb() {
   std::cout << "Getting results from PKB...\n";
-  std::vector<std::string> result;
+  int selectSize = m_selects.size();
+  int relationSize = m_relations.size();
+  int patternSize = m_patterns.size();
 
-  //This part needs to be re-implement after discussing with group...
-  for (int i = 0; i < t_query.size(); i++) {
-    if (t_query[i].find("Follows") != std::string::npos) {
-      //call the API from PKB - suchThat()
-      std::cout << "Calling suchThat(Follows) API from PKB...\n";
-    } else if (t_query[i].find("Parent") != std::string::npos) {
-      //call the API from PKB - suchThat()
-      std::cout << "Calling suchThat(Parent) API from PKB...\n";
-    } else {
-      //call the API from PKB - select() or pattern()
-      std::cout << "Calling select() or pattern() API from PKB...\n";
-    }
+  for (int i = 0; i < selectSize; ++i) {
+    Grammar grammar = m_selects.front();
+    selectedSynonym = grammar.getName();
+    // Todo: Get results for select by calling the API from PKB
+    m_selects.pop();
+    m_selects.push(grammar);
   }
 
-  return result;
+  for (int i = 0; i < relationSize; ++i) {
+    std::unordered_map<int, std::vector<int>> result;
+    DesignAbstraction relation = m_relations.front();
+    if (relation.getType() == DesignAbstraction::DAType::FOLLOWS) {
+      if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnFollowTable(VARIABLE_S1, VARIABLE_S2);
+      }
+    } else if (relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
+      if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnFollowTable(VARIABLE_S1, VARIABLE_S2);
+      }
+    } else if (relation.getType() == DesignAbstraction::DAType::PARENT) {
+      if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnParentTable(VARIABLE_S1, VARIABLE_S2);
+      }
+    } else if (relation.getType() == DesignAbstraction::DAType::PARENT_) {
+      if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        //result = returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //result = returnParentTable(VARIABLE_S1, VARIABLE_S2);
+      }
+    } else {
+      cout << "Relation Type: " + relation.getType();
+    }
+
+    if (result.empty()) {
+      return false;
+    }
+
+    if (relation.getG1().getType() == Grammar::GType::STMT || relation.getG2().getType() == Grammar::GType::STMT) {
+      if (relation.getG1().getName() == selectedSynonym || relation.getG2().getName() == selectedSynonym) {
+        storeResultFromPkb(result, RELATION);
+        m_relations.push(relation);
+      }
+    }
+    
+    m_relations.pop();
+  }
+
+  for (int i = 0; i < patternSize; ++i) {
+    Pattern pattern = m_patterns.front();
+    // Todo: Get results for pattern clauses by calling the API from PKB
+    m_patterns.pop();
+    m_patterns.push(pattern);
+  }
+
+  return true;
 }
 
 /**
 * A function that stores the result in a data structure.
 * @param t_result a vector<string> argument
+* @param t_type a string argument
 */
-void QueryEvaluator::storeResultFromPkb(std::vector<std::string> t_result) {
+void QueryEvaluator::storeResultFromPkb(std::unordered_map<int, std::vector<int>> t_result, std::string t_type) {
   //This part also needs to be re-implement after discussing with group...
   std::cout << "Storing the result from PKB to different queues...\n";
+
+  if (t_type.compare(SELECT) == 0) {
+    //m_selectResults.push(t_result);
+  } else if (t_type.compare(RELATION) == 0) {
+    m_relationResults.push(t_result);
+  } else if (t_type.compare(PATTERN) == 0) {
+    m_patternResults.push(t_result);
+  } else {
+    cout << "Result Type: " + t_type;
+  }
 }
 
 /**
 * A function that evaluates the final result of the query by comparing the results based on what the query wants.
-* @param t_listOfResults a vector<string> argument
 * @return The query results
 */
-std::vector<std::string> QueryEvaluator::evaluateFinalResult(std::vector<std::string> t_listOfResults) {
+std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   std::cout << "Evaluating the final result...\n";
   std::vector<std::string> finalResult;
+
+  if (m_relationResults.empty() && m_patternResults.empty()) {
+    finalResult = m_selectResults.front();
+  }
+
+  while (!m_relationResults.empty()) {
+    //Todo: format result to vector<string>
+    unordered_map<int, std::vector<int>> resultMap = m_relationResults.front();
+    DesignAbstraction relation = m_relations.front();
+    if (relation.getType() == DesignAbstraction::DAType::FOLLOWS || relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
+      if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
+        vector<int> stmtVector = getVector->second;
+        for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
+          finalResult.push_back(std::to_string(*getStmts));
+        }
+      } else if (relation.getG2().getType() == Grammar::GType::STMT && relation.getG1().getType() == Grammar::GType::CONST) {
+        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
+        vector<int> stmtVector = getVector->second;
+        for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
+          finalResult.push_back(std::to_string(*getStmts));
+        }
+      } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //Todo: Get the results for query Select s1 such that Follows (s1, s2) or Select s2 such that Follows (s1, s2)
+      }
+    }
+    else if (relation.getType() == DesignAbstraction::DAType::PARENT || relation.getType() == DesignAbstraction::DAType::PARENT_) {
+      if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
+        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
+        vector<int> stmtVector = getVector->second;
+        for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
+          finalResult.push_back(std::to_string(*getStmts));
+        }
+      }
+      else if (relation.getG2().getType() == Grammar::GType::STMT && relation.getG1().getType() == Grammar::GType::CONST) {
+        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
+        vector<int> stmtVector = getVector->second;
+        for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
+          finalResult.push_back(std::to_string(*getStmts));
+        }
+      }
+      else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
+        //Todo: Get the results for query Select s1 such that Follows (s1, s2) or Select s2 such that Follows (s1, s2)
+      }
+    } else if (relation.getType() == DesignAbstraction::DAType::USES) {
+      //Todo: Get the results for Uses
+    } else if (relation.getType() == DesignAbstraction::DAType::MODIFIES) {
+      //Todo: Get ther results for Modifies
+    } else {
+      cout << "Relation Type: " + relation.getType();
+    }
+
+    m_relations.pop();
+    m_relationResults.pop();
+  }
+
+  while (!m_patternResults.empty()) {
+    //Todo: format result to vector<string>
+  }
 
   return finalResult;
 }
@@ -103,4 +241,5 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult(std::vector<std::st
 */
 void QueryEvaluator::storeFinalResult(std::vector<std::string> t_result) {
   std::cout << "Storing the final result...\n";
+  m_queryResult = t_result;
 }
