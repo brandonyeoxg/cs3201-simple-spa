@@ -45,6 +45,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestPattern.cpp">
+    <ClCompile Include="TestPKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
