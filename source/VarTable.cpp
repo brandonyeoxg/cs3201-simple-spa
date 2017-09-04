@@ -51,7 +51,7 @@ vector<int> VarTable::get(string key) {
   return vect;
 }
 
-void VarTable::setVarTable(unordered_map<string, vector<int>> table) {
+void VarTable::setVarTable(unordered_map<string, vector<int>>& table) {
   m_varTable = table;
 }
 
