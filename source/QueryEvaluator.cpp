@@ -60,7 +60,7 @@ bool QueryEvaluator::getResultFromPkb() {
 
   for (int i = 0; i < selectSize; ++i) {
     Grammar grammar = m_selects.front();
-    selectedSynonym = grammar.getName();
+    m_selectedSynonym = grammar.getName();
     // Todo: Get results for select by calling the API from PKB
     m_selects.pop();
     m_selects.push(grammar);
@@ -71,43 +71,43 @@ bool QueryEvaluator::getResultFromPkb() {
     DesignAbstraction relation = m_relations.front();
     if (relation.getType() == DesignAbstraction::DAType::FOLLOWS) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+        //result = m_pkb->returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnFollowTable(VARIABLE_S1, VARIABLE_S2);
+        //result = m_pkb->returnFollowTable(VARIABLE_S1, VARIABLE_S2);
       }
     } else if (relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnFollowTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+        //result = m_pkb->returnFollowTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnFollowTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnFollowTable(VARIABLE_S1, VARIABLE_S2);
+        //result = m_pkb->returnFollowTable(VARIABLE_S1, VARIABLE_S2);
       }
     } else if (relation.getType() == DesignAbstraction::DAType::PARENT) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+        //result = m_pkb->returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnParentTable(VARIABLE_S1, VARIABLE_S2);
+        //result = m_pkb->returnParentTable(VARIABLE_S1, VARIABLE_S2);
       }
     } else if (relation.getType() == DesignAbstraction::DAType::PARENT_) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnParentTable(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
+        //result = m_pkb->returnParentTable(std::stoi(relation.getG1().getName()), VARIABLE_S1);
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        //result = returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
+        //result = m_pkb->returnParentTable(VARIABLE_S1, std::stoi(relation.getG2().getName()));
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
-        //result = returnParentTable(VARIABLE_S1, VARIABLE_S2);
+        //result = m_pkb->returnParentTable(VARIABLE_S1, VARIABLE_S2);
       }
     } else {
       cout << "Relation Type: " + relation.getType();
@@ -118,7 +118,7 @@ bool QueryEvaluator::getResultFromPkb() {
     }
 
     if (relation.getG1().getType() == Grammar::GType::STMT || relation.getG2().getType() == Grammar::GType::STMT) {
-      if (relation.getG1().getName() == selectedSynonym || relation.getG2().getName() == selectedSynonym) {
+      if (relation.getG1().getName() == m_selectedSynonym || relation.getG2().getName() == m_selectedSynonym) {
         storeResultFromPkb(result, RELATION);
         m_relations.push(relation);
       }
