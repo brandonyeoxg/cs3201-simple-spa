@@ -15,8 +15,8 @@ using namespace std;
  * @param key a string argument.
  * @param lineNum an integer argument.
  */
-VarTable VarTable::insert(VarTable table, string key, int lineNum) {
-  unordered_map<string, vector<int>> varTable = table.getVarTable();
+VarTable* VarTable::insert(VarTable* table, string key, int lineNum) {
+  unordered_map<string, vector<int>> varTable = table->getVarTable();
   if (varTable.find(key) == varTable.end()) {
     //if the key is not present in varTable
     vector<int> lineNums;
@@ -28,7 +28,7 @@ VarTable VarTable::insert(VarTable table, string key, int lineNum) {
     vect.push_back(lineNum);
     varTable[key] = vect;
   } 
-  table.setVarTable(varTable);
+  table->setVarTable(varTable);
   return table;
 
 }
@@ -51,7 +51,7 @@ vector<int> VarTable::get(string key) {
   return vect;
 }
 
-void VarTable::setVarTable(unordered_map<string, vector<int>> table) {
+void VarTable::setVarTable(unordered_map<string, vector<int>>& table) {
   m_varTable = table;
 }
 

@@ -66,6 +66,11 @@
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QueryResultProjector.h" />
     <ClInclude Include="..\source\StringUtil.h" />
+    <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
+    <ClInclude Include="..\source\SyntaxErrorException.h" />
+    <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
+    <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
+    <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
     <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

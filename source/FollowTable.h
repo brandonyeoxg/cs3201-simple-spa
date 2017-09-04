@@ -18,7 +18,7 @@ using namespace std;
 */
 class FollowTable {
 public:
-  FollowTable insert(FollowTable table, int s1, int s2);
+  FollowTable* insert(FollowTable* table, int s1, int s2);
   vector<int> getS1(int s2);
   vector<int> getS2(int s1);
   void setFollowTable(unordered_map<int, vector<int>> table);

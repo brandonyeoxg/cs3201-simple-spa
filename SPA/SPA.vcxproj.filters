@@ -132,20 +132,35 @@
     <ClInclude Include="..\source\Grammar.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxErrorException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\nodes\AssignNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\ConstantNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxOpenBraceException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\nodes\ProcedureNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h">
+      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\ProgramNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxUnknownCommandException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\nodes\StmtListNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxEmptyLineException.h">
+      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\TNode.h">
       <Filter>PKB\AST\Nodes</Filter>
@@ -190,6 +205,9 @@
     </Filter>
     <Filter Include="PKB\AST\Nodes">
       <UniqueIdentifier>{7eaa0571-0185-4f8f-8086-08aa23043856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd\Exception">
+      <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
