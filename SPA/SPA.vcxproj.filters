@@ -37,27 +37,6 @@
     <ClCompile Include="..\source\ASTBuilder.cpp">
       <Filter>PKB\AST</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AssignNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ConstantNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\StmtListNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProcedureNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\TNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\VariableNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\WhileNode.cpp">
-      <Filter>PKB\AST\Node</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>PKB\Util</Filter>
     </ClCompile>
@@ -69,6 +48,36 @@
     </ClCompile>
     <ClCompile Include="..\source\Pattern.cpp">
       <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\AssignNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ConstantNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ProcedureNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ProgramNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\StmtListNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\TNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\VariableNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\WhileNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\PlusNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\MinusNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,27 +120,6 @@
     <ClInclude Include="..\source\ASTBuilderAPI.h">
       <Filter>PKB\AST</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\AssignNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ConstantNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\StmtListNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProcedureNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\TNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\VariableNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\WhileNode.h">
-      <Filter>PKB\AST\Node</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\StringUtil.h">
       <Filter>PKB\Util</Filter>
     </ClInclude>
@@ -143,6 +131,39 @@
     </ClInclude>
     <ClInclude Include="..\source\Grammar.h">
       <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\AssignNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ConstantNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ProcedureNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ProgramNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\StmtListNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\TNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\VariableNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\WhileNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\PlusNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\TwoChildrenNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\MinusNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,14 +182,14 @@
     <Filter Include="PKB\AST">
       <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PKB\AST\Node">
-      <UniqueIdentifier>{7eaa0571-0185-4f8f-8086-08aa23043856}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PKB\Util">
       <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
     </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PKB\AST\Nodes">
+      <UniqueIdentifier>{7eaa0571-0185-4f8f-8086-08aa23043856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
