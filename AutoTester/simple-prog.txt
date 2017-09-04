@@ -1,5 +1,0 @@
-procedure main {
-  x=y;
-  z=y;
-  c=v;
-}

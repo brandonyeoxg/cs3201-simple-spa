@@ -1,5 +1,6 @@
 #pragma once
 
+#include<stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,6 +17,5 @@ public:
   static VarTable* varTable;
   static int setProcToAST(PROC p, TNode* r);
   static TNode* getRootAST(PROC p);
-private:
 
 };
