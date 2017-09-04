@@ -12,6 +12,9 @@
 #include <sstream>
 #include <vector>
 #include <queue>
+#include "Grammar.h"
+#include "DesignAbstraction.h"
+#include "PKB.h"
 
 class QueryPreProcessor
 {
@@ -20,16 +23,18 @@ public:
   ~QueryPreProcessor();
   std::vector<std::string> tokenizeDeclaration(std::string);
   std::vector<std::string> tokenizeQuery(std::string);
-  std::string splitString(std::string);
+  std::string splitStringDeclaration(std::string);
+  std::string splitStringQuery(std::string);
   void QueryPreProcessor::printVector(std::vector<std::string>);
-  std::queue<std::string> QueryPreProcessor::getSelect(void);
-  std::queue<std::string> QueryPreProcessor::getSuchThat(void);
+  std::queue<Grammar> QueryPreProcessor::getSelect(void);
+  std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void);
   std::queue<std::string> QueryPreProcessor::getPattern(void);
-
 private:
-  std::queue<std::string> m_selectQueue;
-  std::queue<std::string> m_suchThatQueue;
+  std::queue<Grammar> m_selectQueue;
+  std::queue<DesignAbstraction> m_suchThatQueue;
   std::queue<std::string> m_patternQueue;
+  std::vector<Grammar> m_grammarVector;
+  std::vector<DesignAbstraction> m_designAbstractionVector;
 };
 
 #endif QUERYPREPROCESSOR_H
