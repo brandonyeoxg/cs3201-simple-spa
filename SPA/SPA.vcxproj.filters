@@ -1,39 +1,195 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\source\QueryEvaluator.cpp">
+      <Filter>PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\source\QueryPreProcessor.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessor.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryResultProjector.cpp">
+      <Filter>PQL</Filter>
     </ClCompile>
     <ClCompile Include="..\source\PKB.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>PKB</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\TNode.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\source\Parser.cpp">
+      <Filter>FrontEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
+      <Filter>FrontEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\FollowTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\VarTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST.cpp">
+      <Filter>PKB\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ASTBuilder.cpp">
+      <Filter>PKB\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\StringUtil.cpp">
+      <Filter>PKB\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DesignAbstraction.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Grammar.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Pattern.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\AssignNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ConstantNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ProcedureNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\ProgramNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\StmtListNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\TNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\VariableNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\WhileNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\PlusNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\MinusNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\QueryEvaluator.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryResultProjector.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryPreProcessor.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessor.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\PKB.h">
-      <Filter>Header Files</Filter>
+      <Filter>PKB</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\TNode.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\source\Parser.h">
+      <Filter>FrontEnd</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\DesignExtractor.h">
+      <Filter>FrontEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\VarTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST.h">
+      <Filter>PKB\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ASTBuilder.h">
+      <Filter>PKB\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ASTBuilderAPI.h">
+      <Filter>PKB\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\StringUtil.h">
+      <Filter>PKB\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Pattern.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\DesignAbstraction.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Grammar.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\AssignNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ConstantNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ProcedureNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\ProgramNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\StmtListNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\TNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\VariableNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\WhileNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\PlusNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\TwoChildrenNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\MinusNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PKB">
+      <UniqueIdentifier>{740f70fb-8942-461c-8fd7-5a1316a937a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL">
+      <UniqueIdentifier>{8005ab10-4695-4e1b-83ab-28f5f64e9cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd">
+      <UniqueIdentifier>{a1b4975b-66f3-4f33-8677-c7bb7906176a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PKB\Relationship Table">
+      <UniqueIdentifier>{a8c379f3-62de-4a55-9618-aa69599f4b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PKB\AST">
+      <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PKB\Util">
+      <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL\Query Types">
+      <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PKB\AST\Nodes">
+      <UniqueIdentifier>{7eaa0571-0185-4f8f-8086-08aa23043856}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
