@@ -18,7 +18,7 @@ using namespace std;
 */
 class VarTable {
 public:
-  VarTable insert(VarTable table, string key, int lineNum);
+  VarTable* insert(VarTable* table, string key, int lineNum);
   vector<int> get(string var);
   void setVarTable(unordered_map<std::string, vector<int>> table);
   unordered_map<string, vector<int>> getVarTable();
