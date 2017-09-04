@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+#include "Grammar.h"
 
 #ifndef PATTERN_H
 #define PATTERN_H
@@ -13,18 +13,22 @@ using namespace std;
 class Pattern {
 public:
   Pattern();
-  Pattern(string t_left, string t_right, bool t_subtree);
-  string getLeft();
-  string getRight();
+  Pattern(Grammar t_grammar, std::string t_left, std::string t_right, bool t_subtree);
+  Grammar getGrammar();
+  std::string getLeft();
+  std::string getRight();
   bool getSubtree();
-  void setLeft(string);
-  void setRight(string);
+  void setGrammar(Grammar);
+  void setLeft(std::string);
+  void setRight(std::string);
   void setSubtree(bool);
 
 private:
-  string m_left;
-  string m_right;
-  bool m_subtree;
+  Grammar m_grammar; /**< grammar of the pattern clause */
+  std::string m_left; /**< left hand side of the pattern clause */
+  std::string m_right; /**< right hand side of the pattern clause */
+  bool m_subtree; /**< true if m_right can be a sub-expression of the expression on the right hand side
+                       false if the expression on the right hand side has to be the exact match as m_right*/
 };
 
 #endif PATTERN_H
