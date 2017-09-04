@@ -11,15 +11,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    unordered_map<int, std::vector<int>> test = {
+    std::unordered_map<int, std::vector<int>> test = {
       { 1,{ 2, 3 } },
       { 2,{ 3, 4 } },
       { 3,{ 4 } }
-    };
-    unordered_map<std::string, std::vector<int>> testVar = {
-      { "x",{ 1, 2 } },
-      { "y",{ 2, 3 } },
-      { "z",{ 4 } }
     };
     TEST_METHOD(TestReturnFollowTable) {
       Logger::WriteMessage("Running return follow table test...");
@@ -55,6 +50,11 @@ namespace UnitTesting {
 
     TEST_METHOD(TestReturnVarTable) {
       Logger::WriteMessage("Running return parent table test...");
+      std::unordered_map<std::string, std::vector<int>> testVar = {
+        { "x",{ 1, 2 } },
+        { "y",{ 2, 3 } },
+        { "z",{ 4 } }
+      };
       PKB *pkb = new PKB();
       VarTable *varTable = pkb->getVarTable();
       varTable->setVarTable(testVar);
