@@ -1,5 +1,5 @@
 #include "TestWrapper.h"
-
+#include "SyntaxErrorException.h"
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper() {
@@ -21,9 +21,13 @@ void TestWrapper::parse(std::string filename) {
   // call your parser to do the parsing
   // ...rest of your code...
   Parser *parser = new Parser(m_pkb);
-  parser->parse(filename);
-  delete parser;
-  parser = nullptr;
+  try {
+    parser->parse(filename);
+    delete parser;
+    parser = nullptr;
+  } catch (SyntaxErrorException see) {
+    cout << see.what() << "\n";
+  }
 }
 
 // method to evaluating a query
