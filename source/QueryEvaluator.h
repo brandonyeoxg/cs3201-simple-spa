@@ -30,7 +30,7 @@ public:
   const string PATTERN = "Pattern";
 
 private:
-  std::string selectedSynonym; /**< the synonym that the query selects */
+  std::string m_selectedSynonym; /**< the synonym that the query selects */
   std::vector<std::string> m_queryResult; /**< result of the query */
   std::queue<Grammar> m_selects; /**< queue which stores the grammars to be selected in the query */
   std::queue<DesignAbstraction> m_relations; /**< queue which stores the relation clauses in the query */

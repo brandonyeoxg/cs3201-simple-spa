@@ -68,7 +68,7 @@ bool QueryEvaluator::getResultFromPkb() {
 
   for (int i = 0; i < selectSize; ++i) {
     Grammar grammar = m_selects.front();
-    selectedSynonym = grammar.getName();
+    m_selectedSynonym = grammar.getName();
     // Todo: Get results for select by calling the API from PKB
     m_selects.pop();
     m_selects.push(grammar);
@@ -126,7 +126,7 @@ bool QueryEvaluator::getResultFromPkb() {
     }
 
     if (relation.getG1().getType() == Grammar::GType::STMT || relation.getG2().getType() == Grammar::GType::STMT) {
-      if (relation.getG1().getName() == selectedSynonym || relation.getG2().getName() == selectedSynonym) {
+      if (relation.getG1().getName() == m_selectedSynonym || relation.getG2().getName() == m_selectedSynonym) {
         storeResultFromPkb(result, RELATION);
         m_relations.push(relation);
       }
