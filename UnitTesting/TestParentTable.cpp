@@ -14,9 +14,9 @@ namespace UnitTesting {
     };
 
     TEST_METHOD(TestInsertParent) {
-      ParentTable testParentTable;
-      testParentTable.setParentTable(test);
-      testParentTable = testParentTable.insert(testParentTable, 4, 5);
+      ParentTable* testParentTable = new ParentTable();
+      testParentTable->setParentTable(test);
+      testParentTable = testParentTable->insert(testParentTable, 4, 5);
       unordered_map<int, std::vector<int>> testParentTableResult;
       testParentTableResult = {
         { 1,{ 2, 3 } },
@@ -24,7 +24,7 @@ namespace UnitTesting {
         { 3,{ 4, 5 } },
         { 4,{ 5 } }
       };
-      Assert::IsTrue(testParentTable.getParentTable() == testParentTableResult);
+      Assert::IsTrue(testParentTable->getParentTable() == testParentTableResult);
     }
   };
 }
