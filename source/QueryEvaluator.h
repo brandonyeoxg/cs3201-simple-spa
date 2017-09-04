@@ -10,6 +10,7 @@
 #include "Grammar.h"
 #include "DesignAbstraction.h"
 #include "Pattern.h"
+#include "PKB.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -20,7 +21,13 @@
 
 class QueryEvaluator {
 public:
-  QueryEvaluator();
+  QueryEvaluator(PKB *t_pkb)
+    : m_pkb(t_pkb),
+      selectedSynonym(""),
+      m_queryResult(0) {};
+
+  ~QueryEvaluator() {};
+
   void evaluateQuery();
   std::vector<std::string> getQueryResult();
 
@@ -30,6 +37,7 @@ public:
   const string PATTERN = "Pattern";
 
 private:
+  PKB *m_pkb;
   std::string selectedSynonym; /**< the synonym that the query selects */
   std::vector<std::string> m_queryResult; /**< result of the query */
   std::queue<Grammar> m_selects; /**< queue which stores the grammars to be selected in the query */

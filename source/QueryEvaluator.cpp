@@ -13,14 +13,6 @@
 #include "Pattern.h"
 #include "PKB.h"
 
-
-/**
-* Default Constructor
-*/
-QueryEvaluator::QueryEvaluator() {
-  std::cout << "Creating a QueryEvaluator object...\n";
-};
-
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
@@ -51,9 +43,9 @@ std::vector<std::string> QueryEvaluator::getQueryResult() {
 void QueryEvaluator::getQueryClauses() {
   std::cout << "Getting the queues that stores the clauses of the query from QueryPreProcessor.\n";
   QueryPreProcessor qpp;
-  //m_selects = qpp.getSelects();
-  //m_relations = qpp.getRelations();
-  //m_patterns = qpp.getPatterns();
+  m_selects = qpp.getSelect();
+  m_relations = qpp.getSuchThat();
+  //m_patterns = qpp.getPattern();
 }
 
 /**
@@ -174,7 +166,9 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   std::vector<std::string> finalResult;
 
   if (m_relationResults.empty() && m_patternResults.empty()) {
-    finalResult = m_selectResults.front();
+    if (!m_selectResults.empty()) {
+      finalResult = m_selectResults.front();
+    } 
   }
 
   while (!m_relationResults.empty()) {
