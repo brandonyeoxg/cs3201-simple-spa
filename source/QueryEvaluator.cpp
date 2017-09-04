@@ -13,14 +13,6 @@
 #include "Pattern.h"
 #include "PKB.h"
 
-
-/**
-* Default Constructor
-*/
-QueryEvaluator::QueryEvaluator() {
-  std::cout << "Creating a QueryEvaluator object...\n";
-};
-
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
