@@ -13,7 +13,7 @@ public:
   TNode *getRightChild() { return m_children->at(RIGHT_CHILD_INDEX); };
 
   /** Overrides TNode addChild() to ensure only 2 children are added.
-  *   @param t_tNode: child to be added
+  *   @param t_tNode - child to be added
   */
   void addChild(TNode *t_tNode) {
     assert(m_children->size() < 2);
