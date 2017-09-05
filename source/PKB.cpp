@@ -116,6 +116,7 @@ std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::strin
 
 //TBD
 int PKB::setProcToAST(PROC p, TNode* r) {
+  m_ast = r;
   return NULL;
 }
 

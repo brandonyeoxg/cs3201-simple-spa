@@ -19,8 +19,8 @@ class TNode;
 
 class PKB {
 public:
-  static int setProcToAST(PROC p, TNode* r);
-  static TNode* getRootAST(PROC p);
+  int setProcToAST(PROC p, TNode* r);
+  TNode* getRootAST(PROC p);
   PKB();
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
@@ -33,4 +33,7 @@ private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
+
+  
+  TNode* m_ast; /*< Brandon stuff */
 };
