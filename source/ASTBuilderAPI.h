@@ -11,7 +11,8 @@
 #include "nodes\PlusNode.h"
 #include "nodes\MinusNode.h"
 
-/* API for building AST
+/** API for building AST
+*   @author jazlyn
 */
 
 class ASTBuilderAPI {
@@ -22,19 +23,19 @@ public:
   ///////////////////////////////////////////////////////
   // Create singular nodes that can exist on their own
 
-  /* Create AST, create root node for AST, returns pointer to AST */
+  /** Create AST, create root node for AST, returns pointer to AST */
   virtual AST *createAST() = 0;
 
-  /* Create ConstantNode, returns pointer to node */
+  /** Create ConstantNode, returns pointer to node */
   virtual ConstantNode *createConstant(int t_lineNum, int t_constantValue) = 0;
 
-  /* Create VariableNode, returns pointer to node */
+  /** Create VariableNode, returns pointer to node */
   virtual VariableNode *createVariable(int t_lineNum, std::string t_varName) = 0;
 
-  /* Create ProcedureNode, returns pointer to node */
+  /** Create ProcedureNode, returns pointer to node */
   virtual ProcedureNode *createProcedure(std::string t_procName) = 0;
 
-  /* Create StmtListNode, returns pointer to node */
+  /** Create StmtListNode, returns pointer to node */
   virtual StmtListNode *createStmtList() = 0;
 
 
@@ -45,16 +46,16 @@ public:
   //  Note: all parent-child relationships within subtree will be done by API
   //  i.e. children of AssignNode will know AssignNode is parent and vice versa.
 
-  /* Create Assignment statement, returns pointer to AssignNode */
+  /** Create Assignment statement, returns pointer to AssignNode */
   virtual AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
-  /* Create While statement, returns pointer to WhileNode */
+  /** Create While statement, returns pointer to WhileNode */
   virtual WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
-  /* Create Addition expression, returns pointer to PlusNode */
+  /** Create Addition expression, returns pointer to PlusNode */
   virtual PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
-  /* Create Subtraction expression, returns pointer to MinusNode */
+  /** Create Subtraction expression, returns pointer to MinusNode */
   virtual MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
 
@@ -62,6 +63,6 @@ public:
   //  Linking Nodes in AST 
   ///////////////////////////////////////////////////////
 
-  /*  Given parent and child nodes, links the 2 nodes together */
+  /**  Given parent and child nodes, links the 2 nodes together */
   virtual void linkParentToChild(TNode *t_parent, TNode *t_child) = 0;
 };
