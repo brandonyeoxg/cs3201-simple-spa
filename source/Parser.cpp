@@ -16,7 +16,7 @@
 #include "SyntaxEmptyLineException.h"
 
 int Parser::parse (const std::string &t_filename) throw(SyntaxErrorException) {
-  m_readStream = ifstream (t_filename);
+  m_readStream = std::ifstream (t_filename);
   if (!m_readStream.is_open()) {
     return -1;
   }
@@ -215,7 +215,7 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   std::vector<std::string> tokens;
   std::string token = "";
   for (std::string::iterator itr = formatString.begin(); itr != formatString.end(); itr++) {
-    const std::string curStrChar = string(1, (*itr));
+    const std::string curStrChar = std::string(1, (*itr));
     if (isKeyDelimiter(curStrChar) && token != "") {
       tokens.push_back(token);
       token = "";

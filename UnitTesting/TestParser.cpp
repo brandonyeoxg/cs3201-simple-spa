@@ -56,7 +56,7 @@ namespace UnitTesting
     void assertParseOnProgramExpectException(const std::string &t_programString) {
       PKB pkb;
       Parser *parser = new Parser(&pkb);
-      ofstream tmpFile;
+      std::ofstream tmpFile;
       const std::string tmpFileName = "testSimple.txt";
       tmpFile.open(tmpFileName);
       tmpFile << t_programString;

@@ -7,7 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestParentTable) {
   public:
-    unordered_map<int, std::vector<int>> test = {
+    std::unordered_map<int, std::vector<int>> test = {
       { 1,{ 2, 3 } },
       { 2,{ 3, 4 } },
       { 3,{ 4 } }
@@ -17,7 +17,7 @@ namespace UnitTesting {
       ParentTable* testParentTable = new ParentTable();
       testParentTable->setParentTable(test);
       testParentTable = testParentTable->insert(testParentTable, 4, 5);
-      unordered_map<int, std::vector<int>> testParentTableResult;
+      std::unordered_map<int, std::vector<int>> testParentTableResult;
       testParentTableResult = {
         { 1,{ 2, 3 } },
         { 2,{ 3, 4, 5 } },

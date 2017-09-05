@@ -26,7 +26,7 @@ void TestWrapper::parse(std::string filename) {
     delete parser;
     parser = nullptr;
   } catch (SyntaxErrorException see) {
-    cout << see.what() << "\n";
+    std::cout << see.what() << "\n";
   }
 }
 

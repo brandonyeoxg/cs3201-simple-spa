@@ -8,7 +8,6 @@
 #include "ParentTable.h"
 #include "VarTable.h"
 
-using namespace std;
 typedef short PROC;
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -26,9 +25,9 @@ public:
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-  unordered_map<int, vector<int>> returnFollowTable(int s1, int s2);
-  unordered_map<int, vector<int>> returnParentTable(int s1, int s2);
-  unordered_map<string, vector<int>> returnVarTable(string var);
+  std::unordered_map<int, std::vector<int>> returnFollowTable(int s1, int s2);
+  std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
+  std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
 
 private:
   FollowTable* m_followTable;

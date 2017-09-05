@@ -8,7 +8,7 @@ std::string QueryProcessor::runQueryProcessor(void) {
   std::string testInput = "assign a; Select a such that Parent*(s,v)";
   std::string declaration, query;
   std::string result;
-  list<std::string> resultlist;
+  std::list<std::string> resultlist;
 
   declaration = qpp.splitStringDeclaration(testInput);
   qpp.tokenizeDeclaration(declaration);

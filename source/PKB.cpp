@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "PKB.h"
 #include "nodes\TNode.h"
 
@@ -38,7 +36,7 @@ VarTable* PKB::getVarTable() {
 * @param s1 an integer argument (-1 denotes it being the querying variable).
 * @param s2 an integer argument (-2 denotes it being the querying variable).
 */
-unordered_map<int, vector<int>> PKB:: returnFollowTable(int s1, int s2) {
+std::unordered_map<int, std::vector<int>> PKB:: returnFollowTable(int s1, int s2) {
   //obtain the follow table ptr
   FollowTable* table = getFollowTable();
   
@@ -49,19 +47,19 @@ unordered_map<int, vector<int>> PKB:: returnFollowTable(int s1, int s2) {
     return table->getFollowTable();
   }
 
-  unordered_map<int, vector<int>> finalResult;
+  std::unordered_map<int, std::vector<int>> finalResult;
   //if only s1 is querying variable
   if (s1 == VARIABLE_S1) {
-    vector<int> s1Results = table->getS1(s2);
+    std::vector<int> s1Results = table->getS1(s2);
     finalResult.emplace(s2, s1Results);
   } else if (s2 == VARIABLE_S2) {
-    vector<int> s2Results = table->getS2(s1);
+    std::vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   } else if (s1 != VARIABLE_S1 && s2 != VARIABLE_S2) {
     //both s1 and s2 are not querying variables
     //e.g. follow(3,4)
     //just return the map with 3 as key
-    vector<int> s2Results = table->getS2(s1);
+    std::vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   }
 
@@ -73,7 +71,7 @@ unordered_map<int, vector<int>> PKB:: returnFollowTable(int s1, int s2) {
 * @param s1 an integer argument (-1 denotes it being the querying variable).
 * @param s2 an integer argument (-2 denotes it being the querying variable).
 */
-unordered_map<int, vector<int>> PKB::returnParentTable(int s1, int s2) {
+std::unordered_map<int, std::vector<int>> PKB::returnParentTable(int s1, int s2) {
   ParentTable* table = getParentTable();
 
   //check s1 and s2
@@ -83,19 +81,19 @@ unordered_map<int, vector<int>> PKB::returnParentTable(int s1, int s2) {
     return table->getParentTable();
   }
 
-  unordered_map<int, vector<int>> finalResult;
+  std::unordered_map<int, std::vector<int>> finalResult;
   //if only s1 is querying variable
   if (s1 == VARIABLE_S1 && s2 != VARIABLE_S2) {
-    vector<int> s1Results = table->getS1(s2);
+    std::vector<int> s1Results = table->getS1(s2);
     finalResult.emplace(s2, s1Results);
   } else if (s1 != VARIABLE_S1 && s2 == VARIABLE_S2) {
-    vector<int> s2Results = table->getS2(s1);
+    std::vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   } else if (s1 != VARIABLE_S1 && s2 != VARIABLE_S2) {
     //both s1 and s2 are not querying variables
     //e.g. follow(3,4)
     //just return the map with 3 as key
-    vector<int> s2Results = table->getS2(s1);
+    std::vector<int> s2Results = table->getS2(s1);
     finalResult.emplace(s1, s2Results);
   }
 
@@ -108,9 +106,9 @@ unordered_map<int, vector<int>> PKB::returnParentTable(int s1, int s2) {
 * @param s1 an integer argument (-1 denotes it being the querying variable).
 * @param s2 an integer argument (-2 denotes it being the querying variable).
 */
-unordered_map<string, vector<int>> PKB::returnVarTable(string var) {
+std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::string var) {
   VarTable* table = getVarTable();
-  unordered_map<string, vector<int>> result;
+  std::unordered_map<std::string, std::vector<int>> result;
   result.emplace(var, table->get(var));
 
   return result;
