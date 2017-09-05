@@ -92,6 +92,8 @@ int Parser::parseExpr(TNode* t_node) throw (SyntaxErrorException) {
       // Pop plus node
       // pop the prev var node
       // push back
+      //VariableNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+      //TNode* additionNode = m_builder.buildAddition(,)
       continue;
     }
     TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
