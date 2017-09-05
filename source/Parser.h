@@ -45,7 +45,7 @@ private:
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
   std::vector<std::string> curTokens;
-  ifstream m_readStream;
+  std::ifstream m_readStream;
   int m_curLineNum;
   bool m_isParsingProcedureContent;
 

@@ -5,14 +5,12 @@
 #include "Grammar.h"
 #include <string>
 
-using namespace std;
-
 class DesignAbstraction
 {
 public:
   enum DAType { FOLLOWS, FOLLOWS_, PARENT, PARENT_, USES, MODIFIES };
   DesignAbstraction();
-  DesignAbstraction(string t_type, Grammar t_g1, Grammar t_g2);
+  DesignAbstraction(std::string t_type, Grammar t_g1, Grammar t_g2);
   DAType getType();
   Grammar getG1();
   Grammar getG2();

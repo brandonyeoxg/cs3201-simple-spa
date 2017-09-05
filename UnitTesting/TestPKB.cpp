@@ -22,8 +22,8 @@ namespace UnitTesting {
       FollowTable* table = pkb->getFollowTable();
       table->setFollowTable(test);
 
-      unordered_map<int, std::vector<int>> expected = pkb->returnFollowTable(-1, 3);
-      unordered_map<int, std::vector<int>> actual;
+      std::unordered_map<int, std::vector<int>> expected = pkb->returnFollowTable(-1, 3);
+      std::unordered_map<int, std::vector<int>> actual;
       actual = {
         { 3,{ 1, 2 } }
       };
@@ -58,10 +58,10 @@ namespace UnitTesting {
       PKB *pkb = new PKB();
       VarTable *varTable = pkb->getVarTable();
       varTable->setVarTable(testVar);
-      unordered_map<std::string, std::vector<int>> actual = {
+      std::unordered_map<std::string, std::vector<int>> actual = {
         { "x",{ 1, 2 } }
       };
-      unordered_map<std::string, std::vector<int>> expected = pkb->returnVarTable("x");
+      std::unordered_map<std::string, std::vector<int>> expected = pkb->returnVarTable("x");
       Assert::IsTrue(expected == actual);
     }
 
