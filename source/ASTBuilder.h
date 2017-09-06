@@ -2,8 +2,9 @@
 
 #include "ASTBuilderAPI.h"
 
-/*  Builder class that implements ASTBuilderAPI to build AST
-    Refer to ASTBuilderAPI on how to use functions to build nodes in AST
+/**  Builder class that implements ASTBuilderAPI to build AST
+*   Refer to ASTBuilderAPI on how to use functions to build nodes in AST
+*   @author jazlyn
 */
 
 class ASTBuilder: public ASTBuilderAPI {

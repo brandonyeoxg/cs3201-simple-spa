@@ -9,20 +9,20 @@ namespace UnitTesting {
   public:
 
     TEST_METHOD(TestInsertVar) {
-      unordered_map<std::string, std::vector<int>> testVar = {
+      std::unordered_map<std::string, std::vector<int>> testVar = {
         { "x",{ 1, 2 } },
         { "y",{ 2, 3 } },
         { "z",{ 4 } }
       };
       VarTable* testVarTable = new VarTable();
       testVarTable->setVarTable(testVar);
-      unordered_map<std::string, std::vector<int>> testInsertResult = {
+      std::unordered_map<std::string, std::vector<int>> testInsertResult = {
         { "x",{ 1, 2 } },
         { "y",{ 2, 3, 4 } },
         { "z",{ 4 } }
       };
 
-      unordered_map<std::string, std::vector<int>> testInsertResultNew = {
+      std::unordered_map<std::string, std::vector<int>> testInsertResultNew = {
         { "x",{ 1, 2 } },
         { "y",{ 2, 3, 4 } },
         { "z",{ 4 } },
@@ -36,7 +36,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetVar) {
-      unordered_map<std::string, std::vector<int>> testVar = {
+      std::unordered_map<std::string, std::vector<int>> testVar = {
         { "x",{ 1, 2 } },
         { "y",{ 2, 3 } },
         { "z",{ 4 } }
@@ -46,7 +46,7 @@ namespace UnitTesting {
       static const int arr[] = { 1, 2 };
       std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
-      vector<int> actual = testVarTable->get("x");
+      std::vector<int> actual = testVarTable->get("x");
       Assert::IsTrue(actual == expected);
     }
   };

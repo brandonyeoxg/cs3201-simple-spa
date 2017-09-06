@@ -45,7 +45,7 @@ private:
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
   std::vector<std::string> curTokens;
-  ifstream m_readStream;
+  std::ifstream m_readStream;
   int m_curLineNum;
   bool m_isParsingProcedureContent;
 
@@ -93,7 +93,7 @@ private:
   * @param t_expr the string representation of the expression
   * @return the completed expr's root node
   */
-  int parseExpr(TNode* t_node) throw(SyntaxErrorException);
+  TNode* parseExpr() throw(SyntaxErrorException);
 
   /*
    * Parses the container statement.

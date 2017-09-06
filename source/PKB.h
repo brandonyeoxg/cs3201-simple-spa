@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
 #include "VarTable.h"
+#include "ASTBuilder.h"
 
-using namespace std;
 typedef short PROC;
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -20,18 +21,20 @@ class TNode;
 
 class PKB {
 public:
-  static int setProcToAST(PROC p, TNode* r);
-  static TNode* getRootAST(PROC p);
   PKB();
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-  unordered_map<int, vector<int>> returnFollowTable(int s1, int s2);
-  unordered_map<int, vector<int>> returnParentTable(int s1, int s2);
-  unordered_map<string, vector<int>> returnVarTable(string var);
-
+  std::unordered_map<int, std::vector<int>> returnFollowTable(int s1, int s2);
+  std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
+  std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
+  int setProcToAST(PROC p, TNode* r);
+  TNode* getRootAST(PROC p);
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
+
+  AST m_programNode;
+  ASTBuilder m_builder;
 };

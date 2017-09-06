@@ -2,6 +2,10 @@
 #include "CppUnitTest.h"
 #include "ASTBuilder.h"
 
+/** Unit testing for AST related classes
+*   @author jazlyn
+*/
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {

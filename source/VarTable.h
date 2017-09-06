@@ -6,8 +6,6 @@
 #include <vector>
 #include <unordered_map>
 
-using namespace std;
-
 /**
 * Represents the variable table, which is a vector of unordered_maps to 
 * track which variable appear on which line.
@@ -18,12 +16,12 @@ using namespace std;
 */
 class VarTable {
 public:
-  VarTable* insert(VarTable* table, string key, int lineNum);
-  vector<int> get(string var);
-  void setVarTable(unordered_map<std::string, vector<int>>& table);
-  unordered_map<string, vector<int>> getVarTable();
+  VarTable* insert(VarTable* table, std::string key, int lineNum);
+  std::vector<int> get(std::string var);
+  void setVarTable(std::unordered_map<std::string, std::vector<int>>& table);
+  std::unordered_map<std::string, std::vector<int>> getVarTable();
   VarTable();
 
 private:
-  unordered_map<string, vector<int>> m_varTable;
+  std::unordered_map<std::string, std::vector<int>> m_varTable;
 };
