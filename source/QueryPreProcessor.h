@@ -30,6 +30,7 @@ public:
   std::queue<Grammar> QueryPreProcessor::getSelect(void);
   std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void);
   std::queue<std::string> QueryPreProcessor::getPattern(void);
+  std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<DesignAbstraction> m_suchThatQueue;

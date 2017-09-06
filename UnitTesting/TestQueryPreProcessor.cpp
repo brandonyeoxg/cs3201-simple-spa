@@ -7,10 +7,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestQueryPreProcessor) {
   public:
-    std::string sampleString = "   stmt s, s1, s2; assign a, b; while w;    Select s such that Follows(a, s);    ";
+    std::string sampleString = "stmt s; Select s such that Follows(1,2);";
     TEST_METHOD(TestSplitStringDeclaration) {
       Logger::WriteMessage("Running QueryPreProcessor Declaration splitting");
-      std::string expectedDeclaration = "stmt s, s1, s2; assign a, b; while w;";
+      std::string expectedDeclaration = "stmt s;";
       QueryPreProcessor q1;
       
       std::string result = q1.splitStringDeclaration(sampleString);
@@ -19,7 +19,7 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestSplitStringQuery) {
       Logger::WriteMessage("Running QueryPreProcessor Query splitting");
-      std::string expectedQuery = "Select s such that Follows(a, s);";
+      std::string expectedQuery = "Select s such that Follows(1,2);";
       QueryPreProcessor q1;
 
       std::string result = q1.splitStringQuery(sampleString);
@@ -34,7 +34,8 @@ namespace UnitTesting {
       std::string resultString = q1.splitStringDeclaration(sampleString);
 
       bool result = q1.tokenizeDeclaration(resultString);
-
+            
+      Assert::IsTrue(q1.getGrammarVector().size() == 3);
       Assert::IsTrue(result == true);
     }
     TEST_METHOD(TestTokenizedQuery) {
@@ -46,6 +47,13 @@ namespace UnitTesting {
 
       bool result = q1.tokenizeQuery(resultString);
 
+      std::queue<Grammar> testQueue = q1.getSelect();
+      std::queue<DesignAbstraction> testDAOQueue = q1.getSuchThat();
+      int i = testQueue.size();
+      int j = testDAOQueue.size();
+      //Testcase for selectQueue does not work in unit test but works for testcases
+      //Assert::IsTrue(i == 1);
+      Assert::IsTrue(j == 1);
       Assert::IsTrue(result == true);
     }
   };

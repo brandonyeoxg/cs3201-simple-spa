@@ -21,13 +21,17 @@ std::queue<std::string> QueryPreProcessor::getPattern(void) {
   return m_patternQueue;
 }
 
+std::vector<Grammar> QueryPreProcessor::getGrammarVector(void) {
+  return m_grammarVector;
+}
+
 std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
   std::string delimiter = "Select";
   std::string declaration = t_Input.substr(0, t_Input.find(delimiter));  //.find(delimiter) finds starting position of the delimiter, hence need to + 1
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
   
   declaration = m_stringUtil.trimString(declaration);
-  std::cout << "this is splitString debugging declaration: " << declaration << std::endl;
+  //std::cout << "this is splitString debugging declaration: " << declaration << std::endl;
   return declaration;
 }
 
@@ -36,7 +40,7 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
   std::string declaration = t_Input.substr(0, t_Input.find(delimiter));  //.find(delimiter) finds starting position of the delimiter, hence need to + 1
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
 
-  std::cout << "this is splitString debugging query: " << query << std::endl;
+  //std::cout << "this is splitString debugging query: " << query << std::endl;
   query = m_stringUtil.trimString(query);
   return query;
 }
@@ -78,7 +82,7 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
       declarationVector.push_back(starterString.substr(prev_pos + 1, std::string::npos));  //prev pos + 1 so that we can delete the trailing space in "; "
     }
   }
-  printVector(declarationVector);
+  //printVector(declarationVector);
 
   //tokens are split by entities and split by variables
   //int numberOfVectors = declarationVector.size();
@@ -89,15 +93,15 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
 
   for (std::size_t j = 0; j != declarationVector.size(); ++j) {
     tempString = declarationVector.at(j);
-    std::cout << tempString << " testing" << std::endl;
+    //std::cout << tempString << " testing" << std::endl;
     std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
     std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
 
     entity = m_stringUtil.trimString(entity);
     variables = m_stringUtil.trimString(variables);
     
-    std::cout << "This is entity: " << entity << std::endl;
-    std::cout << "This is variables: " << variables << std::endl;
+    //std::cout << "This is entity: " << entity << std::endl;
+    //std::cout << "This is variables: " << variables << std::endl;
 
     prev_pos = 0;
     std::vector<std::string> variableVector;
@@ -195,6 +199,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   synonym = m_stringUtil.trimString(synonym);
   //std::cout << synonym << " after trimming " << std::endl;
   
+  //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
   //storing select queue synonyms
   int counterM = 0;
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
@@ -203,6 +208,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
         m_selectQueue.push(g1);
+        //std::cout << m_selectQueue.size() << std::endl;
         //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
       }
       else {
@@ -339,6 +345,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
     //printVector(patternVector);
   }
+
+  std::queue<Grammar> selectQueue = getSelect();
+  //std::cout << "This is select queue size: " << selectQueue.size() << std::endl;
+  std::queue<DesignAbstraction> daoQueue = getSuchThat();
+  //std::cout << "This is relation queue size: " << selectQueue.size() << std::endl;
+
   isTokenized = true;
   return isTokenized;
 }
