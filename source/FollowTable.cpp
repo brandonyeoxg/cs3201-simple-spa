@@ -21,39 +21,34 @@ std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
 * @param s1 an integer argument.
 * @param s2 an integer argument.
 */
-FollowTable* FollowTable::insert(FollowTable* table, int s1, int s2) {
-  int testingVar = 0;
-  std::unordered_map<int, std::vector<int>> followTable = table->getFollowTable();
-  if (followTable.find(s1) == followTable.end()) {
-    //if the key is not present in followTable
-    std::cout << "key not in table" << "\n";
+bool FollowTable::insertFollows(int s1, int s2) {
+  if (m_followTable.find(s1) == m_followTable.end()) {
+  //if the key is not present in followTable
     std::vector<int> lineNums;
     lineNums.push_back(s2);
-    followTable.emplace(s1, lineNums);
+    m_followTable.emplace(s1, lineNums);
+  } else {
+    //if not, first check if the existing vector consists s2; if it does, return false
+    std::vector<int> lineNums = m_followTable[s1];
+    if (std::find(lineNums.begin(), lineNums.end(), s2) != lineNums.end()) {
+      return false;
+    }
   }
-    //if not, retrieve the existing vector, append, and put back to followTable.
-    //for every existing vector, check if s1 exists. If it does, append s2
-  for (auto it = followTable.begin(); it != followTable.end(); ++it) {
-    std::vector<int> vect = it->second;  
-    std::cout << vect.size() << "\n";
-    
+  //else, retrieve the existing vector, append, and put back to followTable.
+  //also for every existing vector, check if s1 exists. If it does, append s2.
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
+    std::vector<int> vect = it->second;
     for (int i = 0; i < vect.size(); i++) {
       if (vect[i] == s1) { //if s1 present in vector
         vect.push_back(s2);
         //update followtable!
-        followTable[it->first] = vect;
+        m_followTable[it->first] = vect;
       }
     }
   }
-  table->setFollowTable(followTable);
-  if (table->getFollowTable() == followTable) {
-    testingVar = 3;
-  }
-
-  return table;
-  
-  
+  return true;
 }
+
 
 /**
 * Method that retrieves the vector containing all line numbers that follows line s2.

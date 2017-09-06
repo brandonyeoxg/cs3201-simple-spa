@@ -14,10 +14,10 @@ namespace UnitTesting {
     };
     TEST_METHOD(TestInsertFollow) {
       Logger::WriteMessage("Running follow table test insert");
-      //FollowTable testFollowTable;
       FollowTable *testFollowTable = new FollowTable();
       testFollowTable->setFollowTable(test);
-      testFollowTable = testFollowTable->insert(testFollowTable, 4, 5);
+      //test insertFollows method.
+      testFollowTable->insertFollows(4, 5);
       std::unordered_map<int, std::vector<int>> testFollowTableResult;
       testFollowTableResult = {
         { 1, { 2, 3 } },

@@ -6,17 +6,23 @@
 #include <vector>
 #include <unordered_map>
 
-/**
-* Represents the follow relationship table, which is a vector of unordered_maps to
-* track which line follows which lines.
-*
+/** 
+* Represents the follow relationship table.
+* The table consists an unordered_map of line numbers mapped to vectors of line numbers that
+track which line is followed by which lines.
 * @author pengcheng
 * @date 8/27/2017
 *
 */
 class FollowTable {
 public:
-  FollowTable* insert(FollowTable* table, int s1, int s2);
+
+  /**
+  * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  */
+  bool insertFollows(int s1, int s2);
   std::vector<int> getS1(int s2);
   std::vector<int> getS2(int s1);
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);
