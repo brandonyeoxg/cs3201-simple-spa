@@ -4,13 +4,11 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 class QueryResultProjector
 {
 public:
   void formatResult();
-  string printResult(list<string>);
+  std::string printResult(std::list<std::string>);
 };
 
 #endif

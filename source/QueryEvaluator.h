@@ -35,9 +35,9 @@ public:
   std::vector<std::string> getQueryResult();
 
   // Todo: Find a better place to put these 3 strings.
-  const string SELECT = "Select";
-  const string RELATION = "Relation";
-  const string PATTERN = "Pattern";
+  const std::string SELECT = "Select";
+  const std::string RELATION = "Relation";
+  const std::string PATTERN = "Pattern";
 
 private:
   PKB *m_pkb;

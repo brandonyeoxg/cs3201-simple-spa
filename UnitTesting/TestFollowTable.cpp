@@ -7,7 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    unordered_map<int, std::vector<int>> test = {
+    std::unordered_map<int, std::vector<int>> test = {
       { 1,{ 2, 3 } },
       { 2,{ 3, 4 } },
       { 3,{ 4 } }
@@ -18,7 +18,7 @@ namespace UnitTesting {
       FollowTable *testFollowTable = new FollowTable();
       testFollowTable->setFollowTable(test);
       testFollowTable = testFollowTable->insert(testFollowTable, 4, 5);
-      unordered_map<int, std::vector<int>> testFollowTableResult;
+      std::unordered_map<int, std::vector<int>> testFollowTableResult;
       testFollowTableResult = {
         { 1, { 2, 3 } },
         { 2, { 3, 4, 5 } },
@@ -35,7 +35,7 @@ namespace UnitTesting {
       std::vector<int> expected (arr, arr + sizeof(arr) / sizeof(arr[0]));
       FollowTable *testFollowTable = new FollowTable();
       testFollowTable->setFollowTable(test);
-      vector<int> actual = testFollowTable->getS1(3);
+      std::vector<int> actual = testFollowTable->getS1(3);
       Assert::IsTrue(actual == expected);
     }
 
@@ -45,7 +45,7 @@ namespace UnitTesting {
       std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
       FollowTable *testFollowTable = new FollowTable();
       testFollowTable->setFollowTable(test);
-      vector<int> actual = testFollowTable->getS2(2);
+      std::vector<int> actual = testFollowTable->getS2(2);
       Assert::IsTrue(actual == expected);
     }
   };

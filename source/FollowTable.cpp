@@ -6,15 +6,13 @@
 #include <vector>
 #include <unordered_map>
 
-using namespace std;
-
 #include "FollowTable.h"
 
-void FollowTable::setFollowTable(unordered_map<int, vector<int>> table) {
+void FollowTable::setFollowTable(std::unordered_map<int, std::vector<int>> table) {
   m_followTable = table;
 }
 
-unordered_map<int, vector<int>> FollowTable::getFollowTable() {
+std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
   return m_followTable;
 }
 
@@ -25,19 +23,19 @@ unordered_map<int, vector<int>> FollowTable::getFollowTable() {
 */
 FollowTable* FollowTable::insert(FollowTable* table, int s1, int s2) {
   int testingVar = 0;
-  unordered_map<int, vector<int>> followTable = table->getFollowTable();
+  std::unordered_map<int, std::vector<int>> followTable = table->getFollowTable();
   if (followTable.find(s1) == followTable.end()) {
     //if the key is not present in followTable
-    cout << "key not in table" << endl;
-    vector<int> lineNums;
+    std::cout << "key not in table" << "\n";
+    std::vector<int> lineNums;
     lineNums.push_back(s2);
     followTable.emplace(s1, lineNums);
   }
     //if not, retrieve the existing vector, append, and put back to followTable.
     //for every existing vector, check if s1 exists. If it does, append s2
   for (auto it = followTable.begin(); it != followTable.end(); ++it) {
-    vector<int> vect = it->second;  
-    cout << vect.size() << endl;
+    std::vector<int> vect = it->second;  
+    std::cout << vect.size() << "\n";
     
     for (int i = 0; i < vect.size(); i++) {
       if (vect[i] == s1) { //if s1 present in vector
@@ -62,13 +60,13 @@ FollowTable* FollowTable::insert(FollowTable* table, int s1, int s2) {
 * @param key a string argument.
 * @return a vector<int> object.
 */
-vector<int> FollowTable::getS1(int s2) {
+std::vector<int> FollowTable::getS1(int s2) {
   //for every vector, check if s2 exists
   //eliminate duplicates from vector (check if exists before adding), then sort(?)
-  vector<int> result;
-  unordered_map<int, vector<int>> followTable = getFollowTable();
+  std::vector<int> result;
+  std::unordered_map<int, std::vector<int>> followTable = getFollowTable();
   for (auto it = followTable.begin(); it != followTable.end(); it++) {
-    vector<int> vect = it->second;
+    std::vector<int> vect = it->second;
     if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
       int lineNum = it->first;
       result.push_back(lineNum);     
@@ -82,7 +80,7 @@ vector<int> FollowTable::getS1(int s2) {
 * @param key a string argument.
 * @return a vector<int> object.
 */
-vector<int> FollowTable::getS2(int s1) {
+std::vector<int> FollowTable::getS2(int s1) {
   //retrieves unordered_map with key==s1
   return getFollowTable().at(s1);
 }
@@ -93,5 +91,5 @@ vector<int> FollowTable::getS2(int s1) {
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 FollowTable::FollowTable() {
-  unordered_map<int, vector<int>> m_followTable;
+  std::unordered_map<int, std::vector<int>> m_followTable;
 }

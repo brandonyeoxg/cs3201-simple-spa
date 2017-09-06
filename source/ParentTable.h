@@ -6,8 +6,6 @@
 #include <vector>
 #include <unordered_map>
 
-using namespace std;
-
 /**
 * Represents the parent relationship table, which is a vector of unordered_maps to
 * track which line is nested within which lines.
@@ -19,12 +17,12 @@ using namespace std;
 class ParentTable {
 public:
   ParentTable* insert(ParentTable* table, int s1, int s2);
-  vector<int> getS1(int s2);
-  vector<int> getS2(int s1);
-  void setParentTable(unordered_map<int, vector<int>> table);
-  unordered_map<int, vector<int>> getParentTable();
+  std::vector<int> getS1(int s2);
+  std::vector<int> getS2(int s1);
+  void setParentTable(std::unordered_map<int, std::vector<int>> table);
+  std::unordered_map<int, std::vector<int>> getParentTable();
   ParentTable();
 
 protected:
-  unordered_map<int, vector<int>> m_parentTable;
+  std::unordered_map<int, std::vector<int>> m_parentTable;
 };

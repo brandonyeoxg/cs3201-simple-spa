@@ -110,7 +110,7 @@ bool QueryEvaluator::getResultFromPkb() {
         result = m_pkb->returnParentTable(VARIABLE_S1, VARIABLE_S2);
       }
     } else {
-      cout << "Relation Type: " + relation.getType();
+      std::cout << "Relation Type: " + relation.getType();
     }
 
     if (result.empty()) {
@@ -153,7 +153,7 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<int, std::vector<int>
   } else if (t_type.compare(PATTERN) == 0) {
     m_patternResults.push(t_result);
   } else {
-    cout << "Result Type: " + t_type;
+    std::cout << "Result Type: " + t_type;
   }
 }
 
@@ -173,18 +173,18 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
 
   while (!m_relationResults.empty()) {
     //Todo: format result to vector<string>
-    unordered_map<int, std::vector<int>> resultMap = m_relationResults.front();
+    std::unordered_map<int, std::vector<int>> resultMap = m_relationResults.front();
     DesignAbstraction relation = m_relations.front();
     if (relation.getType() == DesignAbstraction::DAType::FOLLOWS || relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
       if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
-        vector<int> stmtVector = getVector->second;
+        std::unordered_map<int, std::vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
+        std::vector<int> stmtVector = getVector->second;
         for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
           finalResult.push_back(std::to_string(*getStmts));
         }
       } else if (relation.getG2().getType() == Grammar::GType::STMT && relation.getG1().getType() == Grammar::GType::CONST) {
-        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
-        vector<int> stmtVector = getVector->second;
+        std::unordered_map<int, std::vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
+        std::vector<int> stmtVector = getVector->second;
         for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
           finalResult.push_back(std::to_string(*getStmts));
         }
@@ -194,15 +194,15 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     }
     else if (relation.getType() == DesignAbstraction::DAType::PARENT || relation.getType() == DesignAbstraction::DAType::PARENT_) {
       if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
-        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
-        vector<int> stmtVector = getVector->second;
+        std::unordered_map<int, std::vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG1().getName()));
+        std::vector<int> stmtVector = getVector->second;
         for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
           finalResult.push_back(std::to_string(*getStmts));
         }
       }
       else if (relation.getG2().getType() == Grammar::GType::STMT && relation.getG1().getType() == Grammar::GType::CONST) {
-        std::unordered_map<int, vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
-        vector<int> stmtVector = getVector->second;
+        std::unordered_map<int, std::vector<int>>::const_iterator getVector = resultMap.find(std::stoi(relation.getG2().getName()));
+        std::vector<int> stmtVector = getVector->second;
         for (std::vector<int>::iterator getStmts = stmtVector.begin(); getStmts != stmtVector.end(); ++getStmts) {
           finalResult.push_back(std::to_string(*getStmts));
         }
@@ -215,7 +215,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     } else if (relation.getType() == DesignAbstraction::DAType::MODIFIES) {
       //Todo: Get ther results for Modifies
     } else {
-      cout << "Relation Type: " + relation.getType();
+      std::cout << "Relation Type: " + relation.getType();
     }
 
     m_relations.pop();

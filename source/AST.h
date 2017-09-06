@@ -2,7 +2,8 @@
 
 #include "nodes\ProgramNode.h"
 
-/* Abstract Syntax Tree class
+/** Abstract Syntax Tree class
+*   @author jazlyn
 */
 
 class AST {
