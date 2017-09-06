@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <list>
 
 #include "QueryEvaluator.h"
 #include "QueryPreProcessor.h"
@@ -16,36 +17,15 @@
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
-void QueryEvaluator::evaluateQuery() {
+std::list<std::string> QueryEvaluator::evaluateQuery() {
   std::cout << "Evaluating Query...\n";
-  getQueryClauses();
   bool hasResult = getResultFromPkb();
   if (hasResult) {
-    storeFinalResult(evaluateFinalResult());
+    return evaluateFinalResult();
   } else if (!hasResult) {
-    std::vector<std::string> result;
-    storeFinalResult(result);
+    std::list<std::string> result;
+    return result;
   }
-}
-
-/**
-* A function that gets the result of the query.
-* @return the result of the query
-*/
-std::vector<std::string> QueryEvaluator::getQueryResult() { 
-  std::cout << "Getting the query result...\n";
-  return m_queryResult;
-}
-
-/**
-* A function that gets the clauses of the query stored in a data structure in QueryPreProcessor.
-*/
-void QueryEvaluator::getQueryClauses() {
-  std::cout << "Getting the queues that stores the clauses of the query from QueryPreProcessor.\n";
-  QueryPreProcessor qpp;
-  m_selects = qpp.getSelect();
-  m_relations = qpp.getSuchThat();
-  //m_patterns = qpp.getPattern();
 }
 
 /**
@@ -119,7 +99,7 @@ bool QueryEvaluator::getResultFromPkb() {
 
     if (relation.getG1().getType() == Grammar::GType::STMT || relation.getG2().getType() == Grammar::GType::STMT) {
       if (relation.getG1().getName() == m_selectedSynonym || relation.getG2().getName() == m_selectedSynonym) {
-        storeResultFromPkb(result, RELATION);
+        storeResultFromPkb(result, queryType::RELATION);
         m_relations.push(relation);
       }
     }
@@ -142,15 +122,15 @@ bool QueryEvaluator::getResultFromPkb() {
 * @param t_result a vector<string> argument
 * @param t_type a string argument
 */
-void QueryEvaluator::storeResultFromPkb(std::unordered_map<int, std::vector<int>> t_result, std::string t_type) {
+void QueryEvaluator::storeResultFromPkb(std::unordered_map<int, std::vector<int>> t_result, queryType t_type) {
   //This part also needs to be re-implement after discussing with group...
   std::cout << "Storing the result from PKB to different queues...\n";
 
-  if (t_type.compare(SELECT) == 0) {
+  if (t_type == queryType::SELECT) {
     //m_selectResults.push(t_result);
-  } else if (t_type.compare(RELATION) == 0) {
+  } else if (t_type == queryType::RELATION) {
     m_relationResults.push(t_result);
-  } else if (t_type.compare(PATTERN) == 0) {
+  } else if (t_type == queryType::PATTERN) {
     m_patternResults.push(t_result);
   } else {
     cout << "Result Type: " + t_type;
@@ -161,9 +141,9 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<int, std::vector<int>
 * A function that evaluates the final result of the query by comparing the results based on what the query wants.
 * @return The query results
 */
-std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
+std::list<std::string> QueryEvaluator::evaluateFinalResult() {
   std::cout << "Evaluating the final result...\n";
-  std::vector<std::string> finalResult;
+  std::list<std::string> finalResult;
 
   if (m_relationResults.empty() && m_patternResults.empty()) {
     if (!m_selectResults.empty()) {
@@ -227,13 +207,4 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   }
 
   return finalResult;
-}
-
-/**
-* A function that stores the final result in a data structure.
-* @param t_result a vector<string> argument
-*/
-void QueryEvaluator::storeFinalResult(std::vector<std::string> t_result) {
-  std::cout << "Storing the final result...\n";
-  m_queryResult = t_result;
 }
