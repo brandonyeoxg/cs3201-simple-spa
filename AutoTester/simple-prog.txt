@@ -1,5 +1,5 @@
 procedure main {
-  x=y;
+  x=y+xx+z;
   z=y;
   c=v;
   while i {

@@ -31,7 +31,7 @@ int Parser::parseForProcedure() throw (SyntaxErrorException) {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    TNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
+    ProcedureNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
     m_pkb->setProcToAST(m_curProcNum, procNode);
     TNode *stmtLst = m_builder.createStmtList();
     m_builder.linkParentToChild(procNode, stmtLst);
@@ -76,22 +76,25 @@ int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  TNode *right = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::EXPR));
-  TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
+  TNode *exprNode = parseExpr();
+  TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
   m_builder.linkParentToChild(t_node, stmt);
-
   return 1;
 }
 
-int Parser::parseExpr(TNode* t_node) throw (SyntaxErrorException) {
+TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   std::stack<TNode *> exprStack;
-  while (isMatchToken("+") || isMatchToken(tokenType::VAR_NAME)) {
-    if (((VariableNode*)exprStack.top())->getVarName() == "+") {
-      // Create plus Node
-      // PlusNode right = TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
-      // Pop plus node
-      // pop the prev var node
-      // push back
+  std::string varName = getMatchToken(tokenType::VAR_NAME);
+  TNode* varNode = m_builder.createVariable(m_curLineNum, varName);
+  exprStack.push(varNode);
+  while (m_nextToken == "+") {
+    if (exprStack.empty() != true && isMatchToken("+")) {
+      varName = getMatchToken(tokenType::VAR_NAME);
+      TNode* right = m_builder.createVariable(m_curLineNum, varName);
+      TNode* left = exprStack.top();
+      exprStack.pop();
+      PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
+      exprStack.push(plusNode);
       continue;
     }
     TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
@@ -99,8 +102,7 @@ int Parser::parseExpr(TNode* t_node) throw (SyntaxErrorException) {
   }
 
   TNode *childNode = exprStack.top();
-  m_builder.linkParentToChild(t_node, childNode);
-  return 1;
+  return childNode;
 }
 
 int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
@@ -136,6 +138,7 @@ bool Parser::isMatchToken(const std::string &t_token) throw(SyntaxErrorException
 bool Parser::isMatchToken(tokenType t_type) throw (SyntaxErrorException) {
   switch (t_type) {
     case tokenType::PROC_NAME:
+    case tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;

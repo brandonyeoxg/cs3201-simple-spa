@@ -31,6 +31,7 @@
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
