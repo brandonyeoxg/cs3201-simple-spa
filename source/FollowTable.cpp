@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
+#include <assert.h>
 
 #include "FollowTable.h"
 
@@ -113,6 +114,30 @@ int FollowTable::getFollows(int s1) {
     std::vector<int> lineNums = m_followTable[s1];
     return lineNums[0];
   }
+}
+
+/**
+* Method that returns the line number that follows(s, s2) holds, where s is a variable and s1 is a known line number.
+* Check every vector in the map until s2 appears, then return the statement number that is positioned right before s2.
+* @param s1 an integer argument.
+* @param s2 an integer argument.
+* @return the line number that line s1 follows.
+*/
+int FollowTable::getFollowedBy(int s2) {
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
+    std::vector<int> vect = it->second;
+    for (int i = 0; i < vect.size(); i++) {
+      if (vect[i] == s2) { //if s2 present in vector
+        if (i == 0) { //if s2 is the only element, it means s2 is followed by line number (the key).
+          return it->first;
+        } else {
+          return vect[i - 1];
+        }
+      }
+    }
+  }
+  //if nothing is returned after the for loop terminates, throw invalid_argument exception (i.e. s2 does not exist in followTable).
+  throw std::invalid_argument("s2 does not exist in FollowTable");
 }
 
 /**

@@ -89,7 +89,33 @@ namespace UnitTesting {
       try {
         int expected = testFollowTable->getFollows(5);
       } catch(std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown");
+        Logger::WriteMessage("Exception thrown in getFollows");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+    }
+
+    TEST_METHOD(TestGetFollowedBy) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollowedBy");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      //test getFollowedBy method (correct behaviour)
+      int expected = testFollowTable->getFollowedBy(3);
+      Assert::IsTrue(expected == 2);
+      //test getFollowedBy method (s2 being the first element in vector)
+      expected = testFollowTable->getFollowedBy(2);
+      Assert::IsTrue(expected == 1);
+      //test getFollowed method (non-existing s2, expects exception)
+      bool exceptionThrown = false;
+      try {
+        expected = testFollowTable->getFollowedBy(5);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getFollowedBy");
         exceptionThrown = true;
       }
       Assert::IsTrue(exceptionThrown);

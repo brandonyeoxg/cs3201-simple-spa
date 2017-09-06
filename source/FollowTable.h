@@ -51,6 +51,15 @@ public:
   * @return the line number that line s1 follows.
   */
   int getFollows(int s1);
+
+  /**
+  * Method that returns the line number that follows(s, s2) holds, where s is a variable and s1 is a known line number.
+  * Returns the first element in the vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return the line number that line s1 follows.
+  */
+  int getFollowedBy(int s2);
   std::vector<int> getS1(int s2);
   std::vector<int> getS2(int s1);
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);
