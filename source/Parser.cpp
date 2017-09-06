@@ -32,7 +32,8 @@ int Parser::parseForProcedure() throw (SyntaxErrorException) {
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
     ProcedureNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
-    m_pkb->setProcToAST(m_curProcNum, procNode);
+    PROC_INDEX_NO index = m_pkb->insertProc(procNode);
+    m_pkb->setProcToAST(index, procNode);
     TNode *stmtLst = m_builder.createStmtList();
     m_builder.linkParentToChild(procNode, stmtLst);
     if (!isMatchToken("{")) {

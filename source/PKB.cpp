@@ -118,6 +118,11 @@ std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::strin
   return result;
 }
 
+
+PROC_INDEX_NO PKB::insertProc(ProcedureNode* t_node) {
+  return m_procTable->insertIntoProcTable(t_node);
+}
+
 //TBD
 int PKB::setProcToAST(PROC_INDEX_NO t_index, ProcedureNode* t_node) {
    //Grab the proc node that as been inserted
