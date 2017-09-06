@@ -3,14 +3,16 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <queue>
+#include <list>
+#include <vector>
 #include <unordered_map>
 
 #include "Grammar.h"
 #include "DesignAbstraction.h"
 #include "Pattern.h"
 #include "PKB.h"
+#include "QueryPreProcessor.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H

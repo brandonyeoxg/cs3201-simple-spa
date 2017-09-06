@@ -1,18 +1,6 @@
 #pragma once
 
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <queue>
-#include <list>
-
 #include "QueryEvaluator.h"
-#include "QueryPreProcessor.h"
-#include "Grammar.h"
-#include "DesignAbstraction.h"
-#include "Pattern.h"
-#include "PKB.h"
 
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
