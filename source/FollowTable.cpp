@@ -23,7 +23,7 @@ std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
 */
 bool FollowTable::insertFollows(int s1, int s2) {
   if (m_followTable.find(s1) == m_followTable.end()) {
-  //if the key is not present in followTable
+  //if s1 is not present in followTable
     std::vector<int> lineNums;
     lineNums.push_back(s2);
     m_followTable.emplace(s1, lineNums);
@@ -57,9 +57,32 @@ bool FollowTable::insertFollows(int s1, int s2) {
 */
 bool FollowTable::isFollows(int s1, int s2) {
   //if s1 doesn't exist in followtable, returns false.
-  //else, check if s2 exists in vector of s1.
+  //else, check if s2 is the first element in vector of s1.
   if (m_followTable.find(s1) == m_followTable.end()) {
-    //if the key is not present in followTable
+    //if s1 is not present in followTable
+    return false;
+  } else {
+    std::vector<int> lineNums = m_followTable[s1];
+    if (lineNums[0] == s2) {
+      //is the first element in vector
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+/**
+* Method that checks if follows*(s1, s2) holds.
+* @param s1 an integer argument.
+* @param s2 an integer argument.
+* @return true if the relationship holds, false if otherwise.
+*/
+bool FollowTable::isFollowsStar(int s1, int s2) {
+  //in this case, since s1 is known,
+  //we just retrieve the vector mapped to s1 and check if s2 exists.
+  if (m_followTable.find(s1) == m_followTable.end()) {
+    //if s1 is not present in followTable
     return false;
   } else {
     std::vector<int> lineNums = m_followTable[s1];
@@ -71,7 +94,6 @@ bool FollowTable::isFollows(int s1, int s2) {
     }
   }
 }
-
 /**
 * Method that retrieves the vector containing all line numbers that follows line s2.
 * @param key a string argument.

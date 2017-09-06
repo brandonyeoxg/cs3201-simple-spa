@@ -27,11 +27,21 @@ public:
 
   /**
   * Method that checks if follows(s1, s2) holds.
+  * Checks if s2 exists as the first element in vector mapped to key s1.
   * @param s1 an integer argument.
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
   bool isFollows(int s1, int s2);
+
+  /**
+  * Method that checks if follows*(s1, s2) holds.
+  * Checks if s2 exists within the vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
+  bool isFollowsStar(int s1, int s2);
   std::vector<int> getS1(int s2);
   std::vector<int> getS2(int s1);
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);
