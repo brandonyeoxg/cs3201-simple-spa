@@ -82,9 +82,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="source\TestWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="source\AbstractWrapper.h" />
     <ClInclude Include="source\TestWrapper.h" />
   </ItemGroup>

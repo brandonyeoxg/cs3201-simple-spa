@@ -41,7 +41,7 @@ public:
 private:
   PKB *m_pkb;
   ASTBuilder m_builder;
-  PROC m_curProcNum;
+  PROC_INDEX_NO m_curProcNum;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
   std::vector<std::string> curTokens;
@@ -93,7 +93,7 @@ private:
   * @param t_expr the string representation of the expression
   * @return the completed expr's root node
   */
-  int parseExpr(TNode* t_node) throw(SyntaxErrorException);
+  TNode* parseExpr() throw(SyntaxErrorException);
 
   /*
    * Parses the container statement.
