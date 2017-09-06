@@ -9,8 +9,20 @@
 */
 class TwoChildrenNode : public TNode {
 public:
-  TNode *getLeftChild() { return m_children->at(LEFT_CHILD_INDEX); };
-  TNode *getRightChild() { return m_children->at(RIGHT_CHILD_INDEX); };
+  TNode *getLeftChild() { 
+    try {
+      return m_children->at(LEFT_CHILD_INDEX);
+    } catch (const std::exception&) {
+      return nullptr;
+    }
+  };
+  TNode *getRightChild() { 
+    try {
+      return m_children->at(RIGHT_CHILD_INDEX);
+    } catch (const std::exception&) {
+      return nullptr;
+    }
+  };
 
   /** Overrides TNode addChild() to ensure only 2 children are added.
   *   @param t_tNode - child to be added
