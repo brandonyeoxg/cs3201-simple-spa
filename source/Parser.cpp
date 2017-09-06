@@ -31,7 +31,7 @@ int Parser::parseForProcedure() throw (SyntaxErrorException) {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    TNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
+    ProcedureNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
     m_pkb->setProcToAST(m_curProcNum, procNode);
     TNode *stmtLst = m_builder.createStmtList();
     m_builder.linkParentToChild(procNode, stmtLst);
