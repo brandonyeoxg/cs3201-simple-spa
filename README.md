@@ -10,4 +10,5 @@ Coding Standard: [Here](https://gist.github.com/lefticus/10191322)
 ```
 doxygen doxygenConfig
 ```
+> * Note: running this in Git bash may not work sometimes, so try using command prompt if Git bash does not work
 4. Navigate to ./Doxygen/html/index.html and open the file in a browser to view documentation
