@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "FollowTable.h"
+#include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -70,6 +71,30 @@ namespace UnitTesting {
       expected = testFollowTable->isFollows(2, 5);
       Assert::IsFalse(expected);
     }
+
+    TEST_METHOD(TestGetFollows) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollows");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      //test getFollows method (correct behaviour)
+      int expected = testFollowTable->getFollows(1);
+      Assert::IsTrue(expected == 2);
+      //test getFollows method (non-existing s1, expects exception)
+      bool exceptionThrown = false;
+      try {
+        int expected = testFollowTable->getFollows(5);
+      } catch(std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+    }
+
     TEST_METHOD(TestGetS1Follow) {
       std::unordered_map<int, std::vector<int>> test = {
         { 1,{ 2, 3, 4 } },
