@@ -1,22 +1,18 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "FollowTable.h"
-#include "ParentTable.h"
-#include "VarTable.h"
 #include "PKB.h"
-
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    std::unordered_map<int, std::vector<int>> test = {
-      { 1,{ 2, 3 } },
-      { 2,{ 3, 4 } },
-      { 3,{ 4 } }
-    };
     TEST_METHOD(TestReturnFollowTable) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
       Logger::WriteMessage("Running return follow table test...");
       PKB *pkb = new PKB();
       FollowTable* table = pkb->getFollowTable();
