@@ -18,12 +18,18 @@
     <ClCompile Include="source\TestWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProcTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AbstractWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\TestWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProcTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
