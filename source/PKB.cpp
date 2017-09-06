@@ -1,11 +1,12 @@
 #pragma once
 
-#include <stdio.h>
+#include<stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "PKB.h"
+#include "nodes\TNode.h"
 
 /**
 * A constructor.
@@ -15,11 +16,6 @@ PKB::PKB() {
   m_followTable = new FollowTable();
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
-  m_procTable = new ProcTable();
-}
-
-PKB::~PKB() {
-  delete m_procTable;
 }
 
 /* Getter methods*/
@@ -118,21 +114,12 @@ std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::strin
   return result;
 }
 
-
-PROC_INDEX_NO PKB::insertProc(ProcedureNode* t_node) {
-  return m_procTable->insertIntoProcTable(t_node);
+//TBD
+int PKB::setProcToAST(PROC p, TNode* r) {
+  return NULL;
 }
 
 //TBD
-int PKB::setProcToAST(PROC_INDEX_NO t_index, ProcedureNode* t_node) {
-   //Grab the proc node that as been inserted
-  ProcedureNode* procNode = m_procTable->getProcTableFromIndex(t_index);
-  m_builder.linkParentToChild(m_programAst.getRoot(), procNode);
-  return t_index;
-}
-
-//TBD
-TNode* PKB::getRootAST(PROC_INDEX_NO t_index) {
-  return (TNode*)m_procTable->getProcTableFromIndex(t_index);
-  //return nullptr;
+TNode* PKB::getRootAST(PROC p) {
+  return NULL;
 }
