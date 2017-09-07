@@ -57,18 +57,22 @@ public:
   std::vector<int> getChildrenStarOf(int s1);
 
   //statementTypeTable and typeOfStatementTable Methods
+  std::unordered_map<int, std::string> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(int line_num, std::string type);
+  std::unordered_map<std::string, std::vector<int>>  getStatementTypeTable();
+  bool insertStatementTypeTable(std::string type, int line_num);
+  /*
   std::unordered_map<int, std::string> getStatementTypeTable();
   bool insertStatementTypeTable(int line_num, std::string type);
   std::unordered_map<std::string, std::vector<int>> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(std::string type, int line_num);
-
+  bool insertTypeOfStatementTable(std::string type, int line_num); */
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
-  std::unordered_map<int, std::string> m_statementTypeTable;
-  std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
+  std::unordered_map<int, std::string> m_typeOfStatementTable;
+  std::unordered_map<std::string, std::vector<int>> m_statementTypeTable;
 
   AST m_programNode;
   ASTBuilder m_builder;

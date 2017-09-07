@@ -55,39 +55,39 @@ namespace UnitTesting {
       Assert::IsTrue(expected == actual);
     }
 
-    TEST_METHOD(TestPKBInsertStatementTypeTable) {
-      std::unordered_map<int, std::string> testStatementTypeTable = {
+    TEST_METHOD(TestPKBTypeOfStatementTable) {
+      std::unordered_map<int, std::string> testTypeOfStatementTable = {
         {1, "ASGN"},
         {2, "WHILE"},
         {3, "IF"}
       };     
       PKB *pkb = new PKB();
-      pkb->insertStatementTypeTable(1, "ASGN");
-      pkb->insertStatementTypeTable(2, "WHILE");
-      pkb->insertStatementTypeTable(3, "IF");
-      Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
+      pkb->insertTypeOfStatementTable(1, "ASGN");
+      pkb->insertTypeOfStatementTable(2, "WHILE");
+      pkb->insertTypeOfStatementTable(3, "IF");
+      Assert::IsTrue(testTypeOfStatementTable == pkb->getTypeOfStatementTable());
       //test duplicate line number.
-      bool actual = pkb->insertStatementTypeTable(1, "WHILE");
+      bool actual = pkb->insertTypeOfStatementTable(1, "WHILE");
       //Assert::IsFalse(actual);
 
     }
 
-    TEST_METHOD(TestPKBTypeOfStatementTable) {
-      std::unordered_map<std::string, std::vector<int>> testTypeOfStatementTable = {
+    TEST_METHOD(TestPKBInsertStatementTypeTable) {
+      std::unordered_map<std::string, std::vector<int>> testStatementTypeTable = {
         {"ASGN", {1, 2, 3}},
         {"WHILE", {4, 5}},
         {"IF", {6}}
       };
       PKB *pkb = new PKB();
-      pkb->insertTypeOfStatementTable("ASGN", 1);
-      pkb->insertTypeOfStatementTable("ASGN", 2);
-      pkb->insertTypeOfStatementTable("ASGN", 3);
-      pkb->insertTypeOfStatementTable("WHILE", 4);
-      pkb->insertTypeOfStatementTable("WHILE", 5);
-      pkb->insertTypeOfStatementTable("IF", 6);
-      Assert::IsTrue(testTypeOfStatementTable == pkb->getTypeOfStatementTable());
+      pkb->insertStatementTypeTable("ASGN", 1);
+      pkb->insertStatementTypeTable("ASGN", 2);
+      pkb->insertStatementTypeTable("ASGN", 3);
+      pkb->insertStatementTypeTable("WHILE", 4);
+      pkb->insertStatementTypeTable("WHILE", 5);
+      pkb->insertStatementTypeTable("IF", 6);
+      Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
       //test for duplicate entry. 
-      bool actual = pkb->insertTypeOfStatementTable("IF", 6);
+      bool actual = pkb->insertStatementTypeTable("IF", 6);
       Assert::IsFalse(actual);
 
     }
