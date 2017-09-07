@@ -141,6 +141,23 @@ int FollowTable::getFollowedBy(int s2) {
 }
 
 /**
+* Method that returns the list of line numbers that follows(s1, s) holds, where s is a variable and s1 is a known line number.
+* Returns all the line numbers in the vector mapped to key s1.
+* @param s1 an integer argument.
+* @return the line number that line s1 follows.
+*/
+std::vector<int> FollowTable::getFollowsStar(int s1) {
+  if (m_followTable.find(s1) == m_followTable.end()) {
+    //if s1 is not present in followTable, throw exception
+    throw std::invalid_argument("key s1 does not exist in FollowTable");
+  } else {
+    std::vector<int> lineNums = m_followTable[s1];
+    return lineNums;
+  }
+
+}
+
+/**
 * Method that retrieves the vector containing all line numbers that follows line s2.
 * @param key a string argument.
 * @return a vector<int> object.
