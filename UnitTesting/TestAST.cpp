@@ -177,9 +177,9 @@ public:
     Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
     Assert::IsTrue(generatedStrings.at(1) == "x+y-z");
 
-    for (int i = 0; i < generatedStrings.size(); i++) {
-      Logger::WriteMessage(generatedStrings.at(i).c_str());
-    }
+    //for (int i = 0; i < generatedStrings.size(); i++) {
+    //  Logger::WriteMessage(generatedStrings.at(i).c_str());
+    //}
 
   }
 
@@ -231,7 +231,7 @@ private:
     Assert::IsTrue(t_tNode1 == t_tNode2);
   }
 
-  // x + y - z + y
+  // Generates tree: x + y - z + y
   TNode *getTree() {
     int lineNum = 30;
     std::string varNameX = "x", varNameY = "y", varNameZ = "z";
