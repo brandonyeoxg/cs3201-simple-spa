@@ -11,7 +11,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    
     TEST_METHOD(TestPKBInsertFollow) {
       std::unordered_map<int, std::vector<int>> test = {
         { 1,{ 2, 3, 4 } },
@@ -23,6 +22,20 @@ namespace UnitTesting {
       pkb->insertFollows(2, 3);
       pkb->insertFollows(3, 4);
       Assert::IsTrue(pkb->getFollowTable()->getFollowTable() == test);
+    }
+
+    TEST_METHOD(TestPKBGetFollows) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollows");
+      PKB *pkb = new PKB();
+      pkb->setFollowTable(test);
+      //test getFollows method (correct behaviour)
+      int expected = pkb->getFollows(1);
+      Assert::IsTrue(expected == 2);
     }
 
     TEST_METHOD(TestReturnVarTable) {
