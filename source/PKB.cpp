@@ -31,6 +31,9 @@ VarTable* PKB::getVarTable() {
   return m_varTable;
 }
 
+void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> table) {
+  m_followTable->setFollowTable(table);
+}
 /***********FollowTable Methods****************/
 bool PKB::insertFollows(int s1, int s2) {
   return m_followTable->insertFollows(s1, s2);
