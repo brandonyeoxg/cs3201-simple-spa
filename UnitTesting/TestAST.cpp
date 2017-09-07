@@ -187,9 +187,10 @@ public:
     std::vector<std::string> generatedStrings = ASTUtilities::generateStrings(plusNode);
     Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
     Assert::IsTrue(generatedStrings.at(1) == "x+y-z");
-    //Assert::IsTrue(generatedStrings.at(2) == "x+y");
 
-    Logger::WriteMessage(generatedStrings.at(0).c_str());
+    for (int i = 0; i < generatedStrings.size(); i++) {
+      Logger::WriteMessage(generatedStrings.at(i).c_str());
+    }
 
   }
 
