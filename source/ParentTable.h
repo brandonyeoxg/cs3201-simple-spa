@@ -30,6 +30,7 @@ public:
   bool isParent(int s1, int s2);
   bool isParentStar(int s1, int s2);
   int getParentOf(int s2);
+  std::vector<int> getChildrenOf(int s1);
 protected:
   std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
   std::unordered_map<int, std::vector<int>> m_childMap;

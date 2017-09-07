@@ -71,6 +71,24 @@ namespace UnitTesting {
       }
       Assert::IsTrue(exceptionThrown);
     }
+
+    TEST_METHOD(TestGetChildrenOf) {
+      ParentTable *testParentTable = new ParentTable();
+      testParentTable->setChildMap(testChildMap);
+      //test getChildrenOf method (correct behaviour).
+      static const int arr[] = { 2, 3 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(testParentTable->getChildrenOf(1) == actual);
+      //test getChildrenOf method (catch exception for non-existent s1).
+      bool exceptionThrown = false;
+      try {
+        std::vector<int> expected = testParentTable->getChildrenOf(5);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getParentOf");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+    }
     
   };
 }

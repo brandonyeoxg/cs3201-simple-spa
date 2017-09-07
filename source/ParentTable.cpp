@@ -141,6 +141,15 @@ int ParentTable::getParentOf(int s2) {
     return m_parentMap[s2];
   }
 }
+
+std::vector<int> ParentTable::getChildrenOf(int s1) {
+  if (m_childMap.find(s1) == m_childMap.end()) {
+    //if s1 is not present in childMap, throw exception
+    throw std::invalid_argument("key s1 does not exist in ParentTable");
+  } else {
+    return m_childMap[s1];
+  }
+}
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
