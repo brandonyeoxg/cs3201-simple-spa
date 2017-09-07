@@ -100,6 +100,15 @@ std::unordered_map<int, std::string> PKB::getStatementTypeTable() {
   return m_statementTypeTable;
 }
 
+bool PKB::insertStatementTypeTable(int line_num, std::string type) {
+  //if line_num already exists as key in table, return false.
+  if (m_statementTypeTable.find(line_num) != m_statementTypeTable.end()) {
+    return false;
+  } else {
+    m_statementTypeTable.emplace(line_num, type);
+    return true;
+  }
+}
 std::unordered_map<std::string, std::vector<int>> PKB::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }

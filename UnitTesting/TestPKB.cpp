@@ -55,6 +55,23 @@ namespace UnitTesting {
       Assert::IsTrue(expected == actual);
     }
 
+    TEST_METHOD(TestPKBInsertStatementTypeTable) {
+      std::unordered_map<int, std::string> testStatementTypeTable = {
+        {1, "ASGN"},
+        {2, "WHILE"},
+        {3, "IF"}
+      };     
+      PKB *pkb = new PKB();
+      pkb->insertStatementTypeTable(1, "ASGN");
+      pkb->insertStatementTypeTable(2, "WHILE");
+      pkb->insertStatementTypeTable(3, "IF");
+      Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
+      //test duplicate line number.
+      bool actual = pkb->insertStatementTypeTable(1, "WHILE");
+      //Assert::IsFalse(actual);
+
+    }
+
   };
 
 }

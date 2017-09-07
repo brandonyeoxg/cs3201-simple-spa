@@ -58,6 +58,7 @@ public:
 
   //statementTypeTable and typeOfStatementTable Methods
   std::unordered_map<int, std::string> getStatementTypeTable();
+  bool insertStatementTypeTable(int line_num, std::string type);
   std::unordered_map<std::string, std::vector<int>> getTypeOfStatementTable();
 
 private:
