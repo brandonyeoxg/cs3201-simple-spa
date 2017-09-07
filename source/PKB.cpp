@@ -64,7 +64,34 @@ std::vector<int> PKB::getFollowedByStar(int s2) {
   return m_followTable->getFollowedByStar(s2);
 }
 
+/***********ParentTable Methods****************/
+bool PKB::insertParent(int s1, int s2) {
+  return m_parentTable->insertParent(s1, s2);
+}
 
+bool PKB::isParent(int s1, int s2) {
+  return m_parentTable->isParent(s1, s2);
+}
+
+bool PKB::isParentStar(int s1, int s2) {
+  return m_parentTable->isParentStar(s1, s2);
+}
+
+int PKB::getParentOf(int s2) {
+  return m_parentTable->getParentOf(s2);
+}
+
+std::vector<int> PKB::getChildrenOf(int s1) {
+  return m_parentTable->getChildrenOf(s1);
+}
+
+std::vector<int> PKB::getParentStarOf(int s2) {
+  return m_parentTable->getParentStarOf(s2);
+}
+
+std::vector<int> PKB::getChildrenStarOf(int s1) {
+  return m_parentTable->getChildrenStarOf(s1);
+}
 
 /**
 * STUB. To be removed.
