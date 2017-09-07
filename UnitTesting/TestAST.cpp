@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "ASTBuilder.h"
+#include "ASTUtilities.h"
 
 /** Unit testing for AST related classes
 *   @author jazlyn
@@ -165,6 +166,31 @@ public:
     Assert::IsTrue(constNode->getValue() == constValue);
 
     assertIsEqualType(((TwoChildrenNode *)node->getRightChild())->getLeftChild(), TNode::Type::Plus);
+  }
+
+  TEST_METHOD(TestGenerateStrings) {
+    
+    int lineNum = 30;
+    std::string varNameX = "x", varNameY = "y", varNameZ = "z";
+
+    // x + y
+    TNode *varNodeX = new VariableNode(lineNum, varNameX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+
+    PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
+
+    // x + y - z
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameZ));
+
+    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameY));
+
+    std::vector<std::string> generatedStrings = ASTUtilities::generateStrings(plusNode);
+    Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
+    Assert::IsTrue(generatedStrings.at(1) == "x+y-z");
+    //Assert::IsTrue(generatedStrings.at(2) == "x+y");
+
+    Logger::WriteMessage(generatedStrings.at(0).c_str());
+
   }
 
 private:
