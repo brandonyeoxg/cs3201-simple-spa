@@ -7,8 +7,9 @@
 #include "nodes\VariableNode.h"
 #include "nodes\ConstantNode.h"
 
-static class ASTUtilities {
+class ASTUtilities {
 public:
   static bool matchExact(TNode *node, std::string pattern);
   static bool matchSubtree(TNode *node, std::string pattern);
+
 };
