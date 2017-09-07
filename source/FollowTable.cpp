@@ -15,7 +15,7 @@
 * A setter method for followTable.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
-void FollowTable::setFollowTable(std::unordered_map<int, std::vector<int>> table) {
+void FollowTable::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
   m_followTable = table;
 }
 

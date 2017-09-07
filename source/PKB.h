@@ -25,7 +25,7 @@ public:
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-  void setFollowTable(std::unordered_map<int, std::vector<int>> table);
+  void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
   std::unordered_map<int, std::vector<int>> returnFollowTable(int s1, int s2);
   std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
   std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);

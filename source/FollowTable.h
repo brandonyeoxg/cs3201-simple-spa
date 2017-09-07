@@ -78,7 +78,7 @@ public:
   * A setter method for followTable.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
   */
-  void setFollowTable(std::unordered_map<int, std::vector<int>> table);
+  void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
 
   /**
   * A getter method for followTable.
