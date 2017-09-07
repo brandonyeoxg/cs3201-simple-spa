@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <algorithm>
 
 #include "nodes\TNode.h"
 #include "nodes\TwoChildrenNode.h"
@@ -9,9 +10,9 @@
 
 class ASTUtilities {
 public:
-  static bool matchExact(TNode *node, std::string pattern);
-  static bool matchSubtree(TNode *node, std::string pattern);
-  static std::vector<std::string> generateStrings(TwoChildrenNode *t_node);
+  static bool matchExact(TNode *t_node, std::string t_pattern);
+  static bool matchSubtree(TNode *t_node, std::string t_pattern);
+  static std::vector<std::string> generateSubtreeStrings(TNode *t_node);
 
 private:
   static std::string getStringFromNode(TNode *t_node);

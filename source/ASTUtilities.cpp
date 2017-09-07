@@ -71,17 +71,27 @@ std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_nod
   return t_listOfStr;
 }
 
-//TODO given tree should generate strings from possible subtrees
-std::vector<std::string> ASTUtilities::generateStrings(TwoChildrenNode *t_node) {
+std::vector<std::string> ASTUtilities::generateSubtreeStrings(TNode *t_node) {
   std::vector<std::string> listOfStr = std::vector<std::string>();
-  return generateStringList(t_node, listOfStr);
+  return generateStringList((TwoChildrenNode *)t_node, listOfStr);
 }
 
-bool ASTUtilities::matchExact(TNode *node, std::string pattern) {
+bool ASTUtilities::matchExact(TNode *t_node, std::string t_pattern) {
   return false;
 }
 
-bool ASTUtilities::matchSubtree(TNode *node, std::string pattern) {
+bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
+  // remove whitespaces
+  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
+  
+  std::vector<std::string> listOfStr = generateSubtreeStrings(t_node);
+
+  for (int i = 0; i < listOfStr.size(); i++) {
+    if (listOfStr.at(i) == t_pattern) {
+      return true;
+    }
+  }
+
   return false;
 }
 
