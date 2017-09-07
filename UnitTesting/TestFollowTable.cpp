@@ -147,7 +147,25 @@ namespace UnitTesting {
       Assert::IsTrue(exceptionThrown);
     }
 
-
+    TEST_METHOD(TestGetFollowedByStar) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollowedByStar");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      //test getFollowedByStar method (correct behaviour)
+      std::vector<int> expected = testFollowTable->getFollowedByStar(4);
+      static const int arr[] = { 1, 2, 3 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(expected == actual);
+      //test getFollowedByStar method (non-existent s1, return empty vector)
+      std::vector<int> emptyResult;
+      expected = testFollowTable->getFollowedByStar(5);
+      Assert::IsTrue(expected == emptyResult);
+    }
 
 
 

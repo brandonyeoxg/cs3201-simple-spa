@@ -59,12 +59,20 @@ public:
   int getFollowedBy(int s2);
 
   /**
-  * Method that returns the list of line numbers that follows(s1, s) holds, where s is a variable and s1 is a known line number.
+  * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
   * Returns the first element in the vector mapped to key s1.
   * @param s1 an integer argument.
-  * @return the line number that line s1 follows.
+  * @return the vector of line numbers that line s1 follows*.
   */
   std::vector<int> getFollowsStar(int s1);
+
+  /**
+  * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
+  * Returns the vector of keys that the vector mapped to the key contains s2.
+  * @param s1 an integer argument.
+  * @return the vector of line numbers that are followedBy* s2.
+  */
+  std::vector<int> getFollowedByStar(int s2);
   std::vector<int> getS1(int s2);
   std::vector<int> getS2(int s1);
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);

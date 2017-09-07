@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <stdexcept>
 #include <assert.h>
+#include <algorithm>
 
 #include "FollowTable.h"
 
@@ -157,6 +158,24 @@ std::vector<int> FollowTable::getFollowsStar(int s1) {
 
 }
 
+/**
+* Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
+* Returns the vector of keys that the vector mapped to the key contains s2.
+* @param s1 an integer argument.
+* @return the vector of line numbers that are followedBy* s2.
+*/
+std::vector<int> FollowTable::getFollowedByStar(int s2) {
+  std::vector<int> result;
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); it++) {
+    std::vector<int> vect = it->second;
+    if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
+      int lineNum = it->first;
+      result.push_back(lineNum);
+    }
+  }
+  std::sort(result.begin(), result.end());  //sort according to ascending order.
+  return result;
+}
 /**
 * Method that retrieves the vector containing all line numbers that follows line s2.
 * @param key a string argument.
