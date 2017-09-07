@@ -17,6 +17,8 @@ PKB::PKB() {
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
   m_procTable = new ProcTable();
+  std::unordered_map<int, std::string> m_statementTypeTable;
+  std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
 
 /* Getter methods*/
@@ -91,6 +93,44 @@ std::vector<int> PKB::getParentStarOf(int s2) {
 
 std::vector<int> PKB::getChildrenStarOf(int s1) {
   return m_parentTable->getChildrenStarOf(s1);
+}
+
+//statementTypeTable and typeOfStatementTable Methods
+std::unordered_map<int, std::string> PKB::getTypeOfStatementTable() {
+  return m_typeOfStatementTable;
+}
+
+bool PKB::insertTypeOfStatementTable(int line_num, std::string type) {
+  //if line_num already exists as key in table, return false.
+  if (m_typeOfStatementTable.find(line_num) != m_typeOfStatementTable.end()) {
+    return false;
+  } else {
+    m_typeOfStatementTable.emplace(line_num, type);
+    return true;
+  }
+}
+std::unordered_map<std::string, std::vector<int>> PKB::getStatementTypeTable() {
+  return m_statementTypeTable;
+}
+
+bool PKB::insertStatementTypeTable(std::string type, int line_num) {
+  //if type does not exist as key
+  if (m_statementTypeTable.find(type) == m_statementTypeTable.end()) {
+    std::vector<int> lineNums;
+    lineNums.push_back(line_num);
+    m_statementTypeTable.emplace(type, lineNums);
+    return true;
+  } else {  //type already exists
+    std::vector<int> lineNums = m_statementTypeTable[type];
+    if (std::find(lineNums.begin(), lineNums.end(), line_num) != lineNums.end()) {
+      //return false if duplicate already exists in table.
+      return false;
+    }
+    //else just push to the vector.
+    lineNums.push_back(line_num);
+    m_statementTypeTable[type] = lineNums;
+    return true;
+  }
 }
 
 /**
