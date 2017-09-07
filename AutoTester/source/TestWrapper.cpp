@@ -39,7 +39,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
   // each result must be a string.
   
    QueryProcessor *q1 = new QueryProcessor(m_pkb);
-   std::string resultString = q1->runQueryProcessor(query);
+   std::list<std::string> resultString = q1->runQueryProcessor(query);
    std::cout << "queryRead" << "\n";
    results.push_back("");
 }

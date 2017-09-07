@@ -17,7 +17,7 @@ std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void) {
   return m_suchThatQueue;
 }
 
-std::queue<std::string> QueryPreProcessor::getPattern(void) {
+std::queue<Pattern> QueryPreProcessor::getPattern(void) {
   return m_patternQueue;
 }
 
@@ -208,7 +208,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
         m_selectQueue.push(g1);
-        //std::cout << m_selectQueue.size() << std::endl;
+        //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
         //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
       }
       else {
@@ -234,6 +234,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
     designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
     designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
+
+    //std::cout << designAbstractionEntity << std::endl;
 
     int pos1;
     int prev_pos_new = 0;

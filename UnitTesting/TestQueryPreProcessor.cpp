@@ -35,7 +35,7 @@ namespace UnitTesting {
 
       bool result = q1.tokenizeDeclaration(resultString);
             
-      Assert::IsTrue(q1.getGrammarVector().size() == 3);
+      Assert::IsTrue(q1.getGrammarVector().size() == 1);
       Assert::IsTrue(result == true);
     }
     TEST_METHOD(TestTokenizedQuery) {
@@ -43,16 +43,18 @@ namespace UnitTesting {
 
       QueryPreProcessor q1;
 
-      std::string resultString = q1.splitStringQuery(sampleString);
+      std::string declarationResultString = q1.splitStringDeclaration(sampleString);
+      std::string queryResultString = q1.splitStringQuery(sampleString);
 
-      bool result = q1.tokenizeQuery(resultString);
+      bool resultDeclaration = q1.tokenizeDeclaration(declarationResultString);
+      bool result = q1.tokenizeQuery(queryResultString);
 
       std::queue<Grammar> testQueue = q1.getSelect();
       std::queue<DesignAbstraction> testDAOQueue = q1.getSuchThat();
       int i = testQueue.size();
       int j = testDAOQueue.size();
-      //Testcase for selectQueue does not work in unit test but works for testcases
-      //Assert::IsTrue(i == 1);
+      
+      Assert::IsTrue(i == 1);
       Assert::IsTrue(j == 1);
       Assert::IsTrue(result == true);
     }
