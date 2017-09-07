@@ -77,7 +77,10 @@ std::vector<std::string> ASTUtilities::generateSubtreeStrings(TNode *t_node) {
 }
 
 bool ASTUtilities::matchExact(TNode *t_node, std::string t_pattern) {
-  return false;
+  // remove whitespaces
+  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
+
+  return (convertTreeToString(t_node) == t_pattern);
 }
 
 bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
