@@ -136,15 +136,10 @@ namespace UnitTesting {
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
 
-      //test getFollowed method (non-existing s1, expects exception)
-      bool exceptionThrown = false;
-      try {
-        expected = testFollowTable->getFollowsStar(5);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in getFollowedBy");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
+      //test getFollowsStar method (non-existent s1, return empty vector)
+      std::vector<int> emptyResult;
+      expected = testFollowTable->getFollowsStar(5);
+      Assert::IsTrue(expected == emptyResult);
     }
 
     TEST_METHOD(TestGetFollowedByStar) {
@@ -161,7 +156,7 @@ namespace UnitTesting {
       static const int arr[] = { 1, 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
-      //test getFollowedByStar method (non-existent s1, return empty vector)
+      //test getFollowedByStar method (non-existent s2, return empty vector)
       std::vector<int> emptyResult;
       expected = testFollowTable->getFollowedByStar(5);
       Assert::IsTrue(expected == emptyResult);

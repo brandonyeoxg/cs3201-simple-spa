@@ -148,14 +148,11 @@ int FollowTable::getFollowedBy(int s2) {
 * @return the line number that line s1 follows.
 */
 std::vector<int> FollowTable::getFollowsStar(int s1) {
-  if (m_followTable.find(s1) == m_followTable.end()) {
-    //if s1 is not present in followTable, throw exception
-    throw std::invalid_argument("key s1 does not exist in FollowTable");
-  } else {
-    std::vector<int> lineNums = m_followTable[s1];
-    return lineNums;
+  std::vector<int> lineNums;
+  if (m_followTable.find(s1) != m_followTable.end()) {
+    lineNums = m_followTable[s1];
   }
-
+  return lineNums;
 }
 
 /**
