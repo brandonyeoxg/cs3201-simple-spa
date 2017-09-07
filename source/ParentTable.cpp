@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 #include "ParentTable.h"
 
@@ -112,7 +113,6 @@ bool ParentTable::isParent(int s1, int s2) {
 }
 
 bool ParentTable::isParentStar(int s1, int s2) {
-  //bool flag = false;
   int counter = 0;
   int intermediate;
   //if s2 does not exist, return false.
@@ -150,6 +150,32 @@ std::vector<int> ParentTable::getChildrenOf(int s1) {
     return m_childMap[s1];
   }
 }
+
+std::vector<int> ParentTable::getParentStarOf(int s2) {
+  int counter = 0;
+  int intermediate;
+  std::vector<int> result;
+  //if s2 does not exist, throw invalid_argument exception.
+  if (m_parentMap.find(s2) == m_parentMap.end()) {
+    throw std::invalid_argument("key s2 does not exist in ParentTable");
+  } else {  //if s2 exists, check its mapped value. if it's s1, return true. 
+    intermediate = m_parentMap[s2];
+    result.push_back(intermediate);
+    while (counter <= m_parentMap.size()) {
+      //if the mapped value is not s1, check that number's mapped value.
+      if (m_parentMap.find(intermediate) == m_parentMap.end()) {
+        break;
+      } else {
+        intermediate = m_parentMap[intermediate];
+        result.push_back(intermediate);
+        counter++;
+      }
+    }
+    std::sort(result.begin(), result.end());
+    return result;
+  }
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }

@@ -6,7 +6,6 @@
 #include <vector>
 #include <unordered_map>
 #include <stdexcept>
-#include <assert.h>
 #include <algorithm>
 
 #include "FollowTable.h"
