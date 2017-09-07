@@ -4,11 +4,13 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
 #include "VarTable.h"
+#include "ASTBuilder.h"
+#include "ProcTable.h"
 
-typedef short PROC;
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
 
@@ -19,8 +21,6 @@ class TNode;
 
 class PKB {
 public:
-  static int setProcToAST(PROC p, TNode* r);
-  static TNode* getRootAST(PROC p);
   PKB();
   //getter methods
   FollowTable* getFollowTable();
@@ -34,6 +34,7 @@ public:
   std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
   std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
 
+
   //FollowTable Methods
   bool insertFollows(int s1, int s2);
   bool isFollows(int s1, int s2);
@@ -42,10 +43,16 @@ public:
   int getFollowedBy(int s2);
   std::vector<int> getFollowsStar(int s1);
   std::vector<int> getFollowedByStar(int s2);
-
-
+  
+  PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
+  ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
+  
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
+  ProcTable* m_procTable;
+
+  AST m_programNode;
+  ASTBuilder m_builder;
 };

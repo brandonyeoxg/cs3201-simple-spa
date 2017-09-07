@@ -16,6 +16,7 @@ PKB::PKB() {
   m_followTable = new FollowTable();
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
+  m_procTable = new ProcTable();
 }
 
 /* Getter methods*/
@@ -122,11 +123,13 @@ std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::strin
 }
 
 //TBD
-int PKB::setProcToAST(PROC p, TNode* r) {
-  return NULL;
+PROC_INDEX_NO PKB::insertProcToAST(ProcedureNode* t_node) {
+  TNode* rootNode = m_programNode.getRoot();
+  m_builder.linkParentToChild(rootNode, t_node);
+  return m_procTable->insertProcByProcNode(t_node);
 }
 
 //TBD
-TNode* PKB::getRootAST(PROC p) {
-  return NULL;
+ProcedureNode* PKB::getRootAST(PROC_INDEX_NO t_index) {
+  return m_procTable->getProcWithIndex(t_index);
 }
