@@ -173,36 +173,6 @@ std::vector<int> FollowTable::getFollowedByStar(int s2) {
   std::sort(result.begin(), result.end());  //sort according to ascending order.
   return result;
 }
-/**
-* Method that retrieves the vector containing all line numbers that follows line s2.
-* @param key a string argument.
-* @return a vector<int> object.
-*/
-std::vector<int> FollowTable::getS1(int s2) {
-  //for every vector, check if s2 exists
-  //eliminate duplicates from vector (check if exists before adding), then sort(?)
-  std::vector<int> result;
-  std::unordered_map<int, std::vector<int>> followTable = getFollowTable();
-  for (auto it = followTable.begin(); it != followTable.end(); it++) {
-    std::vector<int> vect = it->second;
-    if (std::find(vect.begin(), vect.end(), s2) != vect.end()) {
-      int lineNum = it->first;
-      result.push_back(lineNum);     
-    }
-  }
-  return result;
-}
-
-/**
-* Method that retrieves the vector containing all line numbers that line s1 follows.
-* @param key a string argument.
-* @return a vector<int> object.
-*/
-std::vector<int> FollowTable::getS2(int s1) {
-  //retrieves unordered_map with key==s1
-  return getFollowTable().at(s1);
-}
-
 
 /**
 * A constructor.

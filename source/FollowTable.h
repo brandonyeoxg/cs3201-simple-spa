@@ -73,8 +73,6 @@ public:
   * @return the vector of line numbers that are followedBy* s2.
   */
   std::vector<int> getFollowedByStar(int s2);
-  std::vector<int> getS1(int s2);
-  std::vector<int> getS2(int s1);
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);
   std::unordered_map<int, std::vector<int>> getFollowTable();
   FollowTable();

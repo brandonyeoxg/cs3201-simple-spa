@@ -161,38 +161,5 @@ namespace UnitTesting {
       expected = testFollowTable->getFollowedByStar(5);
       Assert::IsTrue(expected == emptyResult);
     }
-
-
-
-
-    TEST_METHOD(TestGetS1Follow) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
-      Logger::WriteMessage("Running follow table test getS1");
-      static const int arr[] = { 1, 2 };
-      std::vector<int> expected (arr, arr + sizeof(arr) / sizeof(arr[0]));
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
-      std::vector<int> actual = testFollowTable->getS1(3);
-      Assert::IsTrue(actual == expected);
-    }
-
-    TEST_METHOD(TestGetS2Follow) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
-      Logger::WriteMessage("Running follow table test getS2");
-      static const int arr[] = { 3, 4 };
-      std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
-      std::vector<int> actual = testFollowTable->getS2(2);
-      Assert::IsTrue(actual == expected);
-    }
   };
 }
