@@ -16,13 +16,25 @@
 */
 class ParentTable {
 public:
-  ParentTable* insert(ParentTable* table, int s1, int s2);
-  std::vector<int> getS1(int s2);
-  std::vector<int> getS2(int s1);
-  void setParentTable(std::unordered_map<int, std::vector<int>> table);
-  std::unordered_map<int, std::vector<int>> getParentTable();
+  //ParentTable* insert(ParentTable* table, int s1, int s2);
+  //std::vector<int> getS1(int s2);
+  //std::vector<int> getS2(int s1);
+
+  void setChildMap(std::unordered_map<int, std::vector<int>> &map);
+  void setParentMap(std::unordered_map<int, int> &map);
+  std::unordered_map<int, std::vector<int>> getChildMap();
+  std::unordered_map<int, int> getParentMap();
   ParentTable();
 
+  bool insertParent(int s1, int s2);
+  bool isParent(int s1, int s2);
+  bool isParentStar(int s1, int s2);
+  int getParentOf(int s2);
+  std::vector<int> getChildrenOf(int s1);
+  std::vector<int> getParentStarOf(int s2);
+  std::vector<int> getChildrenStarOf(int s1);
 protected:
-  std::unordered_map<int, std::vector<int>> m_parentTable;
+  std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
+  std::unordered_map<int, std::vector<int>> m_childMap;
+
 };

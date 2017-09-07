@@ -81,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="..\source\ASTUtilities.cpp">
       <Filter>PKB\AST</Filter>
+	</ClCompile>
+    <ClCompile Include="..\source\ProcTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="..\source\ASTUtilities.h">
       <Filter>PKB\AST</Filter>
+	  </ClInclude>
+    <ClInclude Include="..\source\ProcTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
