@@ -13,6 +13,9 @@ std::string ASTUtilities::getStringFromNode(TNode *t_node) {
 
     case TNode::Type::Constant:
       return std::to_string(((ConstantNode *)t_node)->getValue());
+
+    default:
+      return "";
   }
 }
 
@@ -47,8 +50,8 @@ std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_nod
   t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getLeftChild()));
   t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getRightChild()));
 
-  generateStringList((TwoChildrenNode *)t_node->getLeftChild(), t_listOfStr);
-  generateStringList((TwoChildrenNode *)t_node->getRightChild(), t_listOfStr);
+  t_listOfStr = generateStringList((TwoChildrenNode *)t_node->getLeftChild(), t_listOfStr);
+  t_listOfStr = generateStringList((TwoChildrenNode *)t_node->getRightChild(), t_listOfStr);
 
   return t_listOfStr;
 }
@@ -56,7 +59,6 @@ std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_nod
 //TODO given tree should generate strings from possible subtrees
 std::vector<std::string> ASTUtilities::generateStrings(TwoChildrenNode *t_node) {
   std::vector<std::string> listOfStr = std::vector<std::string>();
-
   return generateStringList(t_node, listOfStr);
 }
 
