@@ -98,6 +98,18 @@ bool ParentTable::insertParent(int s1, int s2) {
   return true;
 }
 
+bool ParentTable::isParent(int s1, int s2) {
+  //return true if s2 exists in parentMap as key and s1 is the value.
+  if (m_parentMap.find(s2) != m_parentMap.end()) {
+    if (m_parentMap[s2] == s1) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }

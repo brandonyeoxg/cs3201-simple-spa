@@ -27,6 +27,7 @@ public:
   ParentTable();
 
   bool insertParent(int s1, int s2);
+  bool isParent(int s1, int s2);
 protected:
   std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
   std::unordered_map<int, std::vector<int>> m_childMap;

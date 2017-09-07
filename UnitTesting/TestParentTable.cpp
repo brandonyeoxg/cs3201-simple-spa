@@ -26,5 +26,18 @@ namespace UnitTesting {
       //Assert::IsTrue(expected == testParentMap);
       Assert::IsTrue(testParentTable->getChildMap() == testChildMap);
     }
+
+    TEST_METHOD(TestIsParent) {
+      ParentTable *testParentTable = new ParentTable();
+      testParentTable->setParentMap(testParentMap);
+      //test isParent method (correct behaviour).
+      Assert::IsTrue(testParentTable->isParent(1, 2));
+      //test isParent method (non-existent parent relationship).
+      Assert::IsFalse(testParentTable->isParent(5, 2));
+      //test isParent method (non-existent s2).
+      Assert::IsFalse(testParentTable->isParent(1, 5));
+      //test isParent method (non-existent s1).
+      Assert::IsFalse(testParentTable->isParent(5, 2));
+    }
   };
 }
