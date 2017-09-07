@@ -79,6 +79,9 @@
     <ClCompile Include="..\source\nodes\MinusNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProcTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="..\source\nodes\MinusNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProcTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
