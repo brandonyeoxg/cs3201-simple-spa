@@ -12,8 +12,10 @@ public:
   enum Type {
     Assign,
     Constant,
+    Divide,
     If,
     Minus,
+    Multiply,
     Plus,
     Procedure,
     Program,

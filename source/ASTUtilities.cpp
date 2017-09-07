@@ -35,7 +35,8 @@ std::string ASTUtilities::convertTreeToString(TNode *t_node) {
 
 bool ASTUtilities::isNodeAnOperator(TNode * t_node) {
   TNode::Type type = t_node->getType();
-  return (type == TNode::Type::Plus || type == TNode::Type::Minus);
+  return (type == TNode::Type::Plus || type == TNode::Type::Minus
+    || type == TNode::Type::Multiply || type == TNode::Type::Divide);
 }
 
 std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
