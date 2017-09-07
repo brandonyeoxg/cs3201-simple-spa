@@ -61,6 +61,8 @@ private:
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
+  std::unordered_map<int, std::string> m_statementTypeTable;
+  std::unordered_map<int, std::string> m_typeOfStatementTable;
 
   AST m_programNode;
   ASTBuilder m_builder;

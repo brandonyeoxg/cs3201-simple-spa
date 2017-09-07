@@ -17,6 +17,8 @@ PKB::PKB() {
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
   m_procTable = new ProcTable();
+  std::unordered_map<int, std::string> m_statementTypeTable;
+  std::unordered_map<int, std::string> m_typeOfStatementTable;
 }
 
 /* Getter methods*/
