@@ -73,6 +73,31 @@ std::vector<int> ParentTable::getS2(int s1) {
   return getParentTable().at(s1);
 }
 */
+
+bool ParentTable::insertParent(int s1, int s2) {
+  if (m_parentMap.find(s2) == m_parentMap.end()) {
+    //if s2 does not exist in parentMap
+    m_parentMap.emplace(s2, s1);
+    //if s1 does not exist in childMap,
+    //push s2 into a new vector and map to s1.
+    if (m_childMap.find(s1) == m_childMap.end()) {
+      std::vector<int> lineNums;
+      lineNums.push_back(s2);
+      m_childMap.emplace(s1, lineNums);
+    } else {
+      //s1 already exists, push s2 to existing vector
+      std::vector<int> lineNums = m_childMap[s1];
+      lineNums.push_back(s2);
+      m_childMap[s1] = lineNums;
+    }
+  } else {
+    //s2 already exists in parentMap. Violates the rule that every statement can only have 1 parent.
+    return false;
+  }
+
+  return true;
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
