@@ -183,6 +183,18 @@ public:
 
   }
 
+  TEST_METHOD(TestMatchByExactPattern) {
+    Logger::WriteMessage("Test match pattern exactly");
+    // x + y - z + y
+    TNode * node = getTree();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "x +    y   - z + y"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y + z"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x+y"));
+  }
+
   TEST_METHOD(TestMatchBySubtree) {
     Logger::WriteMessage("Test match pattern by subtree");
 
