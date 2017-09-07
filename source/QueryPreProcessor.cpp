@@ -274,10 +274,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     int counterK = 0;
     
     //storing designabstractionqueue synonyms
-    Grammar g1, g2;
+   
     //case: both synonyms are the same. e.g Follows(s, s)
-    if (sTName1 == sTName2) {
+    if (sTInt1 == sTInt2 || sTName1 == sTName2) {
       //return empty list
+      std::cout << "work" << std::endl;
     }
     else {
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
@@ -285,29 +286,46 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         std::string grammarName = tempGrammar.getName();
 
         if (sTName1 == grammarName) {
-          g1 = tempGrammar;
+          Grammar g1 = tempGrammar;
           //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
+          if (sTName2 == grammarName) {
+            Grammar g2 = tempGrammar;
+            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
+          else if (sTInt2 > 0) {
+            Grammar g2(8, sTName2);
+            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
         }
         else if (sTInt1 > 0) {
           Grammar g1(8, sTName1);
           //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
-        }
-
-        if (sTName2 == grammarName) {
-          g2 = tempGrammar;
-          //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-        }
-        else if (sTInt2 > 0) {
-          Grammar g2(8, sTName2);
-          //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+          if (sTName2 == grammarName) {
+            Grammar g2 = tempGrammar;
+            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
+          else if (sTInt2 > 0) {
+            Grammar g2(8, sTName2);
+            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
         }
       }
+      //DesignAbstraction class to be discussed: only caters for single DAO
+      //test whether designabstractionobject is created properly
+      /*DesignAbstraction object = m_suchThatQueue.front();
+      Grammar g10 = object.getG1();
+      Grammar g20 = object.getG2();
+      std::cout << g10.getName() << std::endl;
+      std::cout << g20.getName() << std::endl;*/
     }
-
-    //DesignAbstraction class to be discussed: only caters for single DAO
-    DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-
-    m_suchThatQueue.push(DAO);
   }
     
   //creation of pattern object
