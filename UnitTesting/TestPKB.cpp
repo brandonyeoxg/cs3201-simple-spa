@@ -11,12 +11,19 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    std::unordered_map<int, std::vector<int>> test = {
-      { 1,{ 2, 3 } },
-      { 2,{ 3, 4 } },
-      { 3,{ 4 } }
-    };
     
+    TEST_METHOD(TestPKBInsertFollow) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      PKB *pkb = new PKB();
+      pkb->insertFollows(1, 2);
+      pkb->insertFollows(2, 3);
+      pkb->insertFollows(3, 4);
+      Assert::IsTrue(pkb->getFollowTable()->getFollowTable() == test);
+    }
 
     TEST_METHOD(TestReturnVarTable) {
       Logger::WriteMessage("Running return parent table test...");
