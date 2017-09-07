@@ -29,6 +29,16 @@ public:
   std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
   std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
 
+  /***********FollowTable Methods****************/
+  bool insertFollows(int s1, int s2);
+  bool isFollows(int s1, int s2);
+  bool isFollowsStar(int s1, int s2);
+  int getFollows(int s1);
+  int getFollowedBy(int s2);
+  std::vector<int> getFollowsStar(int s1);
+  std::vector<int> getFollowedByStar(int s2);
+
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
