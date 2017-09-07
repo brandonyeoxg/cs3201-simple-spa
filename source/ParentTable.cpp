@@ -110,6 +110,29 @@ bool ParentTable::isParent(int s1, int s2) {
     return false;
   }
 }
+
+bool ParentTable::isParentStar(int s1, int s2) {
+  //bool flag = false;
+  int counter = 0;
+  int intermediate;
+  //if s2 does not exist, return false.
+  if (m_parentMap.find(s2) == m_parentMap.end()) {
+    return false;
+  } else {  //if s2 exists, check its mapped value. if it's s1, return true. 
+    intermediate = m_parentMap[s2];
+    while (counter <= m_parentMap.size()) {
+      //if the mapped value is not s1, check that number's mapped value.
+      if (intermediate == s1) {
+        return true;
+      } else {
+        intermediate = m_parentMap[intermediate];
+        counter++;
+      }
+    }
+    return false;
+  }
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
