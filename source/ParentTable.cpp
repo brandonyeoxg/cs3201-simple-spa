@@ -12,7 +12,7 @@
 * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
 * @param s1 an integer argument.
 * @param s2 an integer argument.
-*/
+
 ParentTable* ParentTable::insert(ParentTable* table, int s1, int s2) {
   std::unordered_map<int, std::vector<int>> parentTable = table->getParentTable();
   if (parentTable.find(s1) == parentTable.end()) {
@@ -38,12 +38,12 @@ ParentTable* ParentTable::insert(ParentTable* table, int s1, int s2) {
   table->setParentTable(parentTable);
   return table;
 }
-
+*/
 /**
 * Method that retrieves the vector containing all line numbers that line s2 nests within.
 * @param key a string argument.
 * @return a vector<int> object.
-*/
+
 std::vector<int> ParentTable::getS1(int s2) {
   //for every vector, check if s2 exists
   //eliminate duplicates from vector (check if exists before adding), then sort(?)
@@ -61,23 +61,32 @@ std::vector<int> ParentTable::getS1(int s2) {
   }
   return result;
 }
+*/
 
 /**
 * Method that retrieves the vector containing all line numbers that line s1 nests within.
 * @param key a string argument.
 * @return a vector<int> object.
-*/
+
 std::vector<int> ParentTable::getS2(int s1) {
   //retrieves unordered_map with key==s1
   return getParentTable().at(s1);
 }
-
-void ParentTable::setParentTable(std::unordered_map<int, std::vector<int>> table) {
-  m_parentTable = table;
+*/
+void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
+  m_childMap = map;
 }
 
-std::unordered_map<int, std::vector<int>> ParentTable::getParentTable() {
-  return m_parentTable;
+void ParentTable::setParentMap(std::unordered_map<int, int> &map) {
+  m_parentMap = map;
+}
+
+std::unordered_map<int, std::vector<int>> ParentTable::getChildMap() {
+  return m_childMap;
+}
+
+std::unordered_map<int, int> ParentTable::getParentMap() {
+  return m_parentMap;
 }
 
 /**
@@ -85,5 +94,6 @@ std::unordered_map<int, std::vector<int>> ParentTable::getParentTable() {
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 ParentTable::ParentTable() {
-  std::unordered_map<int, std::vector<int>> parentTable;
+  std::unordered_map<int, int> m_parentMap;
+  std::unordered_map<int, std::vector<int>> m_childMap;
 }
