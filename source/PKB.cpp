@@ -18,7 +18,7 @@ PKB::PKB() {
   m_varTable = new VarTable();
   m_procTable = new ProcTable();
   std::unordered_map<int, std::string> m_statementTypeTable;
-  std::unordered_map<int, std::string> m_typeOfStatementTable;
+  std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
 
 /* Getter methods*/
@@ -93,6 +93,15 @@ std::vector<int> PKB::getParentStarOf(int s2) {
 
 std::vector<int> PKB::getChildrenStarOf(int s1) {
   return m_parentTable->getChildrenStarOf(s1);
+}
+
+//statementTypeTable and typeOfStatementTable Methods
+std::unordered_map<int, std::string> PKB::getStatementTypeTable() {
+  return m_statementTypeTable;
+}
+
+std::unordered_map<std::string, std::vector<int>> PKB::getTypeOfStatementTable() {
+  return m_typeOfStatementTable;
 }
 
 /**

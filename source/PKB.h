@@ -56,13 +56,17 @@ public:
   std::vector<int> getParentStarOf(int s2);
   std::vector<int> getChildrenStarOf(int s1);
 
+  //statementTypeTable and typeOfStatementTable Methods
+  std::unordered_map<int, std::string> getStatementTypeTable();
+  std::unordered_map<std::string, std::vector<int>> getTypeOfStatementTable();
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
   std::unordered_map<int, std::string> m_statementTypeTable;
-  std::unordered_map<int, std::string> m_typeOfStatementTable;
+  std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 
   AST m_programNode;
   ASTBuilder m_builder;
