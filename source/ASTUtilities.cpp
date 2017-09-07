@@ -38,17 +38,32 @@ bool ASTUtilities::isNodeAnOperator(TNode * t_node) {
   return (type == TNode::Type::Plus || type == TNode::Type::Minus);
 }
 
+std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
+  std::vector<std::string> t_listOfStr, std::string t_str) {
+
+  for (int i = 0; i < t_listOfStr.size(); i++) {
+    if (t_listOfStr.at(i) == t_str) {
+      return t_listOfStr;
+    }
+  }
+
+  t_listOfStr.push_back(t_str);
+
+  return t_listOfStr;
+}
+
 std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_node,
   std::vector<std::string> t_listOfStr) {
-
   if (isNodeAnOperator(t_node)) {
-    t_listOfStr.push_back(convertTreeToString(t_node));
+    t_listOfStr = addStrIfNotDuplicate(t_listOfStr, convertTreeToString(t_node));
   } else {
     return t_listOfStr;
   }
 
-  t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getLeftChild()));
-  t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getRightChild()));
+  t_listOfStr = addStrIfNotDuplicate(t_listOfStr, 
+    convertTreeToString((TwoChildrenNode *)t_node->getLeftChild()));
+  t_listOfStr = addStrIfNotDuplicate(t_listOfStr, 
+    convertTreeToString((TwoChildrenNode *)t_node->getRightChild()));
 
   t_listOfStr = generateStringList((TwoChildrenNode *)t_node->getLeftChild(), t_listOfStr);
   t_listOfStr = generateStringList((TwoChildrenNode *)t_node->getRightChild(), t_listOfStr);
