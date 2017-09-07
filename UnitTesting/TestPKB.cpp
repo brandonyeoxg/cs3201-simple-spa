@@ -11,41 +11,31 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    std::unordered_map<int, std::vector<int>> test = {
-      { 1,{ 2, 3 } },
-      { 2,{ 3, 4 } },
-      { 3,{ 4 } }
-    };
-    TEST_METHOD(TestReturnFollowTable) {
-      Logger::WriteMessage("Running return follow table test...");
+    TEST_METHOD(TestPKBInsertFollow) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
       PKB *pkb = new PKB();
-      FollowTable* table = pkb->getFollowTable();
-      table->setFollowTable(test);
+      pkb->insertFollows(1, 2);
+      pkb->insertFollows(2, 3);
+      pkb->insertFollows(3, 4);
+      Assert::IsTrue(pkb->getFollowTable()->getFollowTable() == test);
+    }
 
-      std::unordered_map<int, std::vector<int>> expected = pkb->returnFollowTable(-1, 3);
-      std::unordered_map<int, std::vector<int>> actual;
-      actual = {
-        { 3,{ 1, 2 } }
+    TEST_METHOD(TestPKBGetFollows) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
       };
-      //test with s1 as querying variable
-      Assert::IsTrue(expected == actual);
-      actual = {
-        { 2,{ 3, 4 } }
-      };
-      expected = pkb->returnFollowTable(2, -2);
-      //test with s2 as querying variable
-      Assert::IsTrue(expected == actual);
-
-      expected = pkb->returnFollowTable(-1, -2);
-      //test with both s1 and s2 as querying variable
-      Assert::IsTrue(expected == test);
-
-      //test with both s1 and s2 not being querying variable
-      expected = pkb->returnFollowTable(2, 3);
-      actual = {
-        { 2,{ 3, 4 } }
-      };
-      Assert::IsTrue(expected == actual);
+      Logger::WriteMessage("Running follow table test getFollows");
+      PKB *pkb = new PKB();
+      pkb->setFollowTable(test);
+      //test getFollows method (correct behaviour)
+      int expected = pkb->getFollows(1);
+      Assert::IsTrue(expected == 2);
     }
 
     TEST_METHOD(TestReturnVarTable) {
