@@ -24,7 +24,6 @@ public:
   Parser(PKB *t_pkb) 
     : m_pkb(t_pkb), 
       m_curLineNum(0),
-      m_curProcNum(0),
       m_nextToken(""),
       m_isParsingProcedureContent(false) {};
 
@@ -41,7 +40,6 @@ public:
 private:
   PKB *m_pkb;
   ASTBuilder m_builder;
-  PROC m_curProcNum;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
   std::vector<std::string> curTokens;
