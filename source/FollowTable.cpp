@@ -11,10 +11,18 @@
 
 #include "FollowTable.h"
 
+/**
+* A setter method for followTable.
+* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+*/
 void FollowTable::setFollowTable(std::unordered_map<int, std::vector<int>> table) {
   m_followTable = table;
 }
 
+/**
+* A getter method for followTable.
+* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+*/
 std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
   return m_followTable;
 }

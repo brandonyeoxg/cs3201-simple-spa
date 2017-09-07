@@ -73,8 +73,23 @@ public:
   * @return the vector of line numbers that are followedBy* s2.
   */
   std::vector<int> getFollowedByStar(int s2);
+
+  /**
+  * A setter method for followTable.
+  * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+  */
   void setFollowTable(std::unordered_map<int, std::vector<int>> table);
+
+  /**
+  * A getter method for followTable.
+  * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+  */
   std::unordered_map<int, std::vector<int>> getFollowTable();
+
+  /**
+  * A constructor.
+  * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+  */
   FollowTable();
 
 private:
