@@ -97,7 +97,7 @@ namespace UnitTesting {
       static const int arr[] = { 1, 2 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(testParentTable->getParentStarOf(4) == actual);
-      //test getParentStarOf method (catch exception for non-existent s1).
+      //test getParentStarOf method (catch exception for non-existent s2).
       bool exceptionThrown = false;
       try {
         std::vector<int> expected = testParentTable->getParentStarOf(5);
@@ -108,5 +108,34 @@ namespace UnitTesting {
       Assert::IsTrue(exceptionThrown);
     }
     
+    TEST_METHOD(TestGetChildrenStarOf) {
+      ParentTable *testParentTable = new ParentTable();
+      std::unordered_map<int, int> testGetChildrenStarParentMap = {
+        { 3, 2 },
+        { 4, 2 },
+        { 5, 4 }
+      };
+      std::unordered_map<int, std::vector<int>> testGetChildrenStarMapChildMap = {
+        { 2,{ 3, 4 } },
+        { 4,{ 5 } }
+      };
+      testParentTable->setParentMap(testGetChildrenStarParentMap);
+      testParentTable->setChildMap(testGetChildrenStarMapChildMap);
+      //test getChildrenStarOf method (correct behaviour).
+      static const int arr[] = { 3, 4, 5 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      std::vector<int> expected = testParentTable->getChildrenStarOf(2);
+      Assert::IsTrue(expected == actual);
+      //test getChildrenStarOf method (catch exception for non-existent s1).
+      bool exceptionThrown = false;
+      try {
+        std::vector<int> expected = testParentTable->getChildrenStarOf(5);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getChildrenStarOf");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+
+    }
   };
 }

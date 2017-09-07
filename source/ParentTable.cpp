@@ -176,6 +176,44 @@ std::vector<int> ParentTable::getParentStarOf(int s2) {
   }
 }
 
+std::vector<int> ParentTable::getChildrenStarOf(int s1) {
+  //if does not exist in childMap, throw invalid_argument exception.
+  if (m_childMap.find(s1) == m_childMap.end()) {
+    throw std::invalid_argument("key s1 does not exist in ParentTable");
+  }
+
+  std::vector<int> result;
+  int intermediate;
+  int counter = 0;
+  bool flag = false;
+  //for every child in parentMap
+  for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
+    flag = false;
+    counter = 0;
+    int parent = it->second;
+    if (parent == s1) {
+      result.push_back(it->first);
+    } else {
+      //check if parent exists in parentMap
+      intermediate = parent;
+      if (m_parentMap.find(parent) != m_parentMap.end()) {
+        //if parent exists as a key in parentMap,
+        while (counter < m_parentMap.size() && flag == false) { //while loop for multi-nested cases.
+          if (m_parentMap[intermediate] == s1) {
+            //if parent of intermediate is s1, then parent* relationship holds.
+            result.push_back(it->first);
+            flag = true;  //flag true, move on to next child in map.
+          } else {
+            intermediate = m_parentMap[intermediate];
+            counter++;
+          }
+        }
+      }
+    }
+  }
+  return result;
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }

@@ -32,6 +32,7 @@ public:
   int getParentOf(int s2);
   std::vector<int> getChildrenOf(int s1);
   std::vector<int> getParentStarOf(int s2);
+  std::vector<int> getChildrenStarOf(int s1);
 protected:
   std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
   std::unordered_map<int, std::vector<int>> m_childMap;
