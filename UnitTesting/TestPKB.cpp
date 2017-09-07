@@ -72,6 +72,26 @@ namespace UnitTesting {
 
     }
 
+    TEST_METHOD(TestPKBTypeOfStatementTable) {
+      std::unordered_map<std::string, std::vector<int>> testTypeOfStatementTable = {
+        {"ASGN", {1, 2, 3}},
+        {"WHILE", {4, 5}},
+        {"IF", {6}}
+      };
+      PKB *pkb = new PKB();
+      pkb->insertTypeOfStatementTable("ASGN", 1);
+      pkb->insertTypeOfStatementTable("ASGN", 2);
+      pkb->insertTypeOfStatementTable("ASGN", 3);
+      pkb->insertTypeOfStatementTable("WHILE", 4);
+      pkb->insertTypeOfStatementTable("WHILE", 5);
+      pkb->insertTypeOfStatementTable("IF", 6);
+      Assert::IsTrue(testTypeOfStatementTable == pkb->getTypeOfStatementTable());
+      //test for duplicate entry. 
+      bool actual = pkb->insertTypeOfStatementTable("IF", 6);
+      Assert::IsFalse(actual);
+
+    }
+    //TODO: combine the two stmt tables for insertion, test for duplicate line number entries.
   };
 
 }

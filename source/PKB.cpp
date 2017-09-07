@@ -113,6 +113,26 @@ std::unordered_map<std::string, std::vector<int>> PKB::getTypeOfStatementTable()
   return m_typeOfStatementTable;
 }
 
+bool PKB::insertTypeOfStatementTable(std::string type, int line_num) {
+  //if type does not exist as key
+  if (m_typeOfStatementTable.find(type) == m_typeOfStatementTable.end()) {
+    std::vector<int> lineNums;
+    lineNums.push_back(line_num);
+    m_typeOfStatementTable.emplace(type, lineNums);
+    return true;
+  } else {  //type already exists
+    std::vector<int> lineNums = m_typeOfStatementTable[type];
+    if (std::find(lineNums.begin(), lineNums.end(), line_num) != lineNums.end()) {
+      //return false if duplicate already exists in table.
+      return false;
+    }
+    //else just push to the vector.
+    lineNums.push_back(line_num);
+    m_typeOfStatementTable[type] = lineNums;
+    return true;
+  }
+}
+
 /**
 * STUB. To be removed.
 */
