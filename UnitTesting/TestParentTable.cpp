@@ -52,5 +52,25 @@ namespace UnitTesting {
       //test isParentStar method (non-existent s1 and s2, check to avoid infinite loop).
       Assert::IsFalse(testParentTable->isParentStar(5, 10));
     }
+
+    TEST_METHOD(TestGetParentOf) {
+      ParentTable *testParentTable = new ParentTable();
+      testParentTable->setParentMap(testParentMap);
+      //test getParentOf method (correct behaviour).
+      Assert::IsTrue(testParentTable->getParentOf(2) == 1);
+      Assert::IsTrue(testParentTable->getParentOf(4) == 2);
+      //test getParentOf method (non-existent parent relationship).
+      Assert::IsFalse(testParentTable->getParentOf(4) == 1);
+      //test getParentOf method (catch exception for non-existent s2).
+      bool exceptionThrown = false;
+      try {
+        int expected = testParentTable->getParentOf(5);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getParentOf");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+    }
+    
   };
 }

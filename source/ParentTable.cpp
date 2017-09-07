@@ -133,6 +133,14 @@ bool ParentTable::isParentStar(int s1, int s2) {
   }
 }
 
+int ParentTable::getParentOf(int s2) {
+  if (m_parentMap.find(s2) == m_parentMap.end()) {
+    //if s2 is not present in parentMap, throw exception
+    throw std::invalid_argument("key s2 does not exist in ParentTable");
+  } else {
+    return m_parentMap[s2];
+  }
+}
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
