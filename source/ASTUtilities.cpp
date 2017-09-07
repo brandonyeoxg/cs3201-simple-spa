@@ -1,6 +1,6 @@
 #include "ASTUtilities.h"
 
-std::string getStringFromNode(TNode *t_node) {
+std::string ASTUtilities::getStringFromNode(TNode *t_node) {
   switch (t_node->getType()) {
     case TNode::Type::Plus:
       return "+";
@@ -16,21 +16,49 @@ std::string getStringFromNode(TNode *t_node) {
   }
 }
 
-std::string convertTreeToString(TNode *t_node) {
-  TwoChildrenNode *node = (TwoChildrenNode *)t_node;
-  if (node->getLeftChild() == nullptr && node->getRightChild() == nullptr) {
-    return getStringFromNode(node);
+std::string ASTUtilities::convertTreeToString(TNode *t_node) {
+  
+  // reached an end node
+  if (t_node->getType() == TNode::Type::Constant || t_node->getType() == TNode::Type::Variable) {
+    return getStringFromNode(t_node);
   }
+
+  // Operator node
+  TwoChildrenNode *node = (TwoChildrenNode *)t_node;
 
   return convertTreeToString(node->getLeftChild()) + getStringFromNode(node)
     + convertTreeToString(node->getRightChild());
 }
 
-//TODO given tree should generate strings from possible subtrees
-std::vector<std::string> generateStrings(TwoChildrenNode *t_node) {
-
+bool ASTUtilities::isNodeAnOperator(TNode * t_node) {
+  TNode::Type type = t_node->getType();
+  return (type == TNode::Type::Plus || type == TNode::Type::Minus);
 }
 
+std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_node,
+  std::vector<std::string> t_listOfStr) {
+
+  if (isNodeAnOperator(t_node)) {
+    t_listOfStr.push_back(convertTreeToString(t_node));
+  } else {
+    return t_listOfStr;
+  }
+
+  t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getLeftChild()));
+  t_listOfStr.push_back(convertTreeToString((TwoChildrenNode *)t_node->getRightChild()));
+
+  generateStringList((TwoChildrenNode *)t_node->getLeftChild(), t_listOfStr);
+  generateStringList((TwoChildrenNode *)t_node->getRightChild(), t_listOfStr);
+
+  return t_listOfStr;
+}
+
+//TODO given tree should generate strings from possible subtrees
+std::vector<std::string> ASTUtilities::generateStrings(TwoChildrenNode *t_node) {
+  std::vector<std::string> listOfStr = std::vector<std::string>();
+
+  return generateStringList(t_node, listOfStr);
+}
 
 bool ASTUtilities::matchExact(TNode *node, std::string pattern) {
   return false;
