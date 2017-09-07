@@ -31,6 +31,37 @@ VarTable* PKB::getVarTable() {
   return m_varTable;
 }
 
+/***********FollowTable Methods****************/
+bool PKB::insertFollows(int s1, int s2) {
+  return m_followTable->insertFollows(s1, s2);
+}
+
+bool PKB::isFollows(int s1, int s2) {
+  return m_followTable->isFollows(s1, s2);
+}
+
+bool PKB::isFollowsStar(int s1, int s2) {
+  return m_followTable->isFollowsStar(s1, s2);
+}
+
+int PKB::getFollows(int s1) {
+  return m_followTable->getFollows(s1);
+}
+
+int PKB::getFollowedBy(int s2) {
+  return m_followTable->getFollowedBy(s2);
+}
+
+std::vector<int> PKB::getFollowsStar(int s1) {
+  return m_followTable->getFollowedByStar(s1);
+}
+
+std::vector<int> PKB::getFollowedByStar(int s2) {
+  return m_followTable->getFollowedByStar(s2);
+}
+
+
+
 /**
 * STUB. To be removed.
 */
