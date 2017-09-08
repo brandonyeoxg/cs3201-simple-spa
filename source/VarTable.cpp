@@ -60,6 +60,10 @@ std::unordered_map<std::string, std::vector<int>> VarTable::getVarTable() {
 
 */
 
+std::unordered_map<int, VarRelations> VarTable::getVarTable() {
+  return m_varTable;
+}
+
 /**
  * A constructor.
  * Instantiates an unordered map (hashmap) of variables to vector of line numbers associated.
@@ -232,9 +236,24 @@ std::unordered_map<std::string, std::vector<int>> VarTable::getAllStmtUses() {
   return result;
 }
 
-std::unordered_map<int, VarRelations> VarTable::getVarTable() {
-  return m_varTable;
+int VarTable::getIndexOfVar(std::string varName) {
+  VarRelations var;
+  int index;
+  bool isFound = false;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    index = it->first;
+    if (var.getVarName() == varName) {
+      isFound = true;
+      return index;
+    }
+  }
+  //if not found, throw invalid_argument exception.
+  if (isFound == false) {
+    throw std::invalid_argument("variable name does not exist in varTable");
+  }
 }
+
 
 
 

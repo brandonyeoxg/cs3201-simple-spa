@@ -113,7 +113,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 3);
 
       Assert::IsTrue(testVarTable.isModifies(2, "y"));
@@ -128,7 +127,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertUsesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 3);
 
       Assert::IsTrue(testVarTable.isUses(2, "y"));
@@ -143,7 +141,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 3);
       std::vector<std::string> actual;
       actual.push_back("y");
@@ -162,7 +159,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertUsesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 3);
       std::vector<std::string> actual;
       actual.push_back("y");
@@ -181,7 +177,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 3);
       std::vector<int> actual;
       actual.push_back(2);
@@ -201,7 +196,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertUsesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 3);
       std::vector<int> actual;
       actual.push_back(2);
@@ -225,7 +219,6 @@ namespace UnitTesting {
       int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertModifiesForStmt(index, "y", 3);
 
       std::unordered_map<std::string, std::vector<int>> actual = testVarTable.getAllStmtModifies();
@@ -243,11 +236,34 @@ namespace UnitTesting {
       int ans = testVarTable.insertUsesForStmt(index, "x", 1);
       index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      index++;
       ans = testVarTable.insertUsesForStmt(index, "y", 3);
 
       std::unordered_map<std::string, std::vector<int>> actual = testVarTable.getAllStmtUses();
       Assert::IsTrue(actual == expected);
     }
+
+    TEST_METHOD(TestGetIndexOfVar) {
+      Logger::WriteMessage("testing getIndexOfVar");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 2);
+      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+
+      int expected = testVarTable.getIndexOfVar("y");
+      Assert::IsTrue(expected == 2);
+
+      //test getIndexOfVar (non-existent varName).
+      bool exceptionThrown = false;
+      try {
+        expected = testVarTable.getIndexOfVar("z");
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getIndexOfVar");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+    }
+
   };
 }
