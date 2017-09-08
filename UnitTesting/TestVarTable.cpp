@@ -58,21 +58,35 @@ namespace UnitTesting {
 
       //test insertUses (correct behaviour).
       int ans = testVarTable.insertUsesForStmt(index, "x", 2);
+      ans = testVarTable.insertUsesForStmt(index, "x", 3);
       std::unordered_map<int, VarRelations> actual = testVarTable.getVarTable();
       VarRelations expected = actual[1];
       std::vector<int> expectedVector = expected.getUses();
       Assert::IsTrue(2 == expectedVector[0]);
-      index++;
+      Assert::IsTrue(3 == expectedVector[1]);
       
-      //test insertUses (duplicate entry, expect exception).
+
+      
+      //test insertUses (duplicate varName with different indices).
       bool exceptionThrown = false;
       try {
-        int expected = testVarTable.insertUsesForStmt(index, "x", 2);
+        int expected = testVarTable.insertUsesForStmt(2, "x", 2);
       } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertUses");
+        Logger::WriteMessage("Exception thrown in insertUses (diff indices for same variable name)");
         exceptionThrown = true;
       }
-      Assert::IsTrue(exceptionThrown); 
+      Assert::IsTrue(exceptionThrown);
+
+      //test insertUses (duplicate entry, expect exception).
+      exceptionThrown = false;
+
+      try {
+        int expected = testVarTable.insertUsesForStmt(1, "x", 2);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in insertUses (duplicate entries)");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
     }
 
     TEST_METHOD(TestInsertModifies) {
@@ -82,7 +96,7 @@ namespace UnitTesting {
       VarTable testVarTable;
 
       //test insertModifies (correct behaviour).
-      int ans = testVarTable.insertModifiesForStmt(index, "y", 2);
+      int ans = testVarTable.insertModifiesForStmt(1, "y", 2);
       std::unordered_map<int, VarRelations> actual = testVarTable.getVarTable();
       VarRelations expected = actual[1];
       std::vector<int> expectedVector = expected.getModifies();
@@ -100,10 +114,19 @@ namespace UnitTesting {
       try {
         int expected = testVarTable.insertModifiesForStmt(index, "y", 2);
       } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertModifies");
+        Logger::WriteMessage("Exception thrown in insertModifies (duplicate entry)");
         exceptionThrown = true;
       }
       Assert::IsTrue(exceptionThrown); 
+
+      exceptionThrown = false;
+      try {
+        int expected = testVarTable.insertModifiesForStmt(2, "y", 2);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in insertModifies (diff indices for same variable name)");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
     }
 
     TEST_METHOD(TestIsModifies) {
