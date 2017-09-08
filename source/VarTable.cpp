@@ -188,6 +188,17 @@ std::vector<std::string> VarTable::getUses(int lineNum) {
   return result;
 }
 
+std::vector<int> VarTable::getStmtModifies(std::string varName) {
+  std::vector<int> emptyResult;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    if (varName == var.getVarName()) {
+      return var.getModifies();
+    }
+  }
+  return emptyResult;
+}
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
 }
