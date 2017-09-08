@@ -1,25 +1,29 @@
 #include "QueryProcessor.h"
 
-std::string QueryProcessor::runQueryProcessor(void) {
+std::list<std::string> QueryProcessor::runQueryProcessor(std::string testInput) {
   QueryPreProcessor qpp;
-  QueryEvaluator *qe = new QueryEvaluator(m_pkb);
   QueryResultProjector qrp;
 
-  std::string testInput = "assign a; Select a such that Parent*(s,v)";
+  std::cout << "initial test input: " << testInput << std::endl;
   std::string declaration, query;
   std::string result;
-  list<std::string> resultlist;
+  std::list<std::string> resultlist;
 
   declaration = qpp.splitStringDeclaration(testInput);
   qpp.tokenizeDeclaration(declaration);
   query = qpp.splitStringQuery(testInput);
   qpp.tokenizeQuery(query);
 
+  std::queue<Grammar> selectQueue = qpp.getSelect();
+  std::queue<DesignAbstraction> suchThatQueue = qpp.getSuchThat();
+  std::queue<Pattern> patternQueue = qpp.getPattern();
+
+  QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue);
   qe->evaluateQuery();
 
   qrp.formatResult();
   result = qrp.printResult(resultlist);
 
-  return result;
+  return resultlist;
 
 }

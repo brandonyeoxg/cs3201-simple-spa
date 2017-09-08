@@ -2,8 +2,6 @@
 #include <string>
 #include "Grammar.h"
 
-using namespace std;
-
 DesignAbstraction::DesignAbstraction() {}
 
 
@@ -29,7 +27,7 @@ Grammar DesignAbstraction::getG2() { return m_g2; }
 * A constructor.
 * Constructs a new Design Abstraction object with a DAType corresponding to the specified initial capacity and a string with the specified t_name.
 */
-DesignAbstraction::DesignAbstraction(string t_type, Grammar t_g1, Grammar t_g2) {
+DesignAbstraction::DesignAbstraction(std::string t_type, Grammar t_g1, Grammar t_g2) {
   if (t_type.compare("Follows") == 0) {
     m_type = DAType::FOLLOWS;
   }

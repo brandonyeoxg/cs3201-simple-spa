@@ -4,8 +4,6 @@
 
 #include <string>
 
-using namespace std;
-
 /**
 *  A class representing the multiple types of grammar used in SIMPLE. It is used to store the name of the given grammar and the type of grammar specified.
 *  @author Ryan Tan
@@ -29,6 +27,9 @@ public:
     STR /**< An enum value representing a String. */
   };
 
+  /**
+  * Default Constructor
+  */
   Grammar();
 
   /**
@@ -37,7 +38,7 @@ public:
   * @param t_type is an integer argument which corresponds to a specific GType.
   * @param t_name is a string argument that is the Query's name for the Grammar.
   */
-  Grammar(int t_type, string t_name);
+  Grammar(int t_type, std::string t_name);
 
   /**
   * A Getter that returns the type of this Grammar object.
@@ -51,11 +52,11 @@ public:
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object.
   */
-  string getName();
+  std::string getName();
 
 private:
-  GType m_type; /**< The type of this Grammar object. */
-  string m_name; /**< The name of this Grammar object. */
+  GType m_type; /**< type of this Grammar object */
+  std::string m_name; /**< name of this Grammar object */
 };
 
 #endif

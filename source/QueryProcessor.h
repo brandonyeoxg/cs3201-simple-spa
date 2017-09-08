@@ -14,7 +14,7 @@ public:
 
   ~QueryProcessor();
 
-  std::string QueryProcessor::runQueryProcessor(void);
+  std::list<std::string> QueryProcessor::runQueryProcessor(std::string);
 
 private:
   PKB *m_pkb;

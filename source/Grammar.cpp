@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <string>
 
-using namespace std;
-
   Grammar::Grammar() {}
 
   /**
@@ -12,7 +10,7 @@ using namespace std;
    * @param t_type is an integer argument which corresponds to a specific GType
    * @param t_name is a string argument that is the Query's name for the Grammar.
    */
-  Grammar::Grammar(int t_type, string t_name) {
+  Grammar::Grammar(int t_type, std::string t_name) {
     switch (t_type) {
     case 0:
       m_type = GType::PROC;
@@ -60,5 +58,5 @@ using namespace std;
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object
   */
-  string Grammar::getName() { return m_name; }
+  std::string Grammar::getName() { return m_name; }
 
