@@ -37,7 +37,7 @@ public:
   std::vector<int> getStmtUses(std::string varName);
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
-  int getIndexOfVar(std::string);
+  int getIndexOfVar(std::string varName);
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;
