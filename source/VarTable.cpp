@@ -82,6 +82,7 @@ int VarTable::insertUsesForStmt(int index, std::string varName, int lineNum) {
         throw std::invalid_argument("lineNum for variable already exists in varTable");
       } else {
         var.insertUses(lineNum);
+        m_varTable[index] = var;
         return index;
       }
     }
@@ -104,6 +105,7 @@ int VarTable::insertModifiesForStmt(int index, std::string varName, int lineNum)
         throw std::invalid_argument("lineNum for variable already exists in varTable");
       } else {
         var.insertModifies(lineNum);
+        m_varTable[index] = var;
         return index;
       }
     }
@@ -114,6 +116,25 @@ int VarTable::insertModifiesForStmt(int index, std::string varName, int lineNum)
   varRelations.insertModifies(lineNum);
   m_varTable.emplace(index, varRelations);
   return index;
+}
+
+bool VarTable::isModifies(int lineNum, std::string varName) {
+  //for every index check if varName exists.
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    VarRelations var = it->second;
+    if (var.getVarName() == varName) {
+      //return true if lineNum can be found in vector modifies.
+      std::vector<int> modifies = var.getModifies();
+      if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  //if cannot find varName after all indices, return false
+  return false;
 }
 
 

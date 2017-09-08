@@ -52,9 +52,7 @@ namespace UnitTesting {
     }
     */
     TEST_METHOD(TestInsertUses) {
-      VarRelations var;
-      var.insertUses(2);
-      var.setVarName("x");
+      Logger::WriteMessage("testing insert uses");
       int index = 1;
       VarTable testVarTable;
 
@@ -79,9 +77,6 @@ namespace UnitTesting {
 
     TEST_METHOD(TestInsertModifies) {
       Logger::WriteMessage("testing insertModifies");
-      VarRelations var;
-      var.insertModifies(2);
-      var.setVarName("y");
 
       int index = 1;
       VarTable testVarTable;
@@ -93,6 +88,13 @@ namespace UnitTesting {
       std::vector<int> expectedVector = expected.getModifies();
       Assert::IsTrue(2 == expectedVector[0]);
       
+      //test insertModifies(add another line to same variable).
+      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      actual = testVarTable.getVarTable();
+      expected = actual[1];
+      expectedVector = expected.getModifies();
+      Assert::IsTrue(3 == expectedVector[1]);
+      
       //test insertModifies (duplicate entry, expect exception).
       bool exceptionThrown = false;
       try {
@@ -101,9 +103,27 @@ namespace UnitTesting {
         Logger::WriteMessage("Exception thrown in insertModifies");
         exceptionThrown = true;
       }
-      Assert::IsTrue(exceptionThrown);
+      Assert::IsTrue(exceptionThrown); 
     }
 
+    TEST_METHOD(TestIsModifies) {
+      Logger::WriteMessage("testing isModifies");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+
+      Assert::IsTrue(testVarTable.isModifies(2, "y"));
+      Assert::IsTrue(testVarTable.isModifies(3, "y"));
+      Assert::IsFalse(testVarTable.isModifies(2, "x"));
+
+
+
+      
+    }
   };
   
   
