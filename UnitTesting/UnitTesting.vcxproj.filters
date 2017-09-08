@@ -12,6 +12,7 @@
     <ClCompile Include="TestVarTable.cpp" />
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
+    <ClCompile Include="TestAssignTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
