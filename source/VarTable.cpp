@@ -222,6 +222,16 @@ std::unordered_map<std::string, std::vector<int>> VarTable::getAllStmtModifies()
   return result;
 }
 
+std::unordered_map<std::string, std::vector<int>> VarTable::getAllStmtUses() {
+  std::unordered_map<std::string, std::vector<int>> result;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    result.emplace(var.getVarName(), var.getUses());
+  }
+  return result;
+}
+
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
 }
