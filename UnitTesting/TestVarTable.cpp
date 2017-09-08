@@ -213,5 +213,23 @@ namespace UnitTesting {
       expected = testVarTable.getStmtUses("z");
       Assert::IsTrue(expected.size() == 0);
     }
+
+    TEST_METHOD(TestGetAllStmtModifies) {
+      std::unordered_map<std::string, std::vector<int>> expected = {
+        {"x", {1}},
+        {"y", {2, 3}}
+      };
+      Logger::WriteMessage("testing getAllStmtModifies");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+
+      std::unordered_map<std::string, std::vector<int>> actual = testVarTable.getAllStmtModifies();
+      Assert::IsTrue(actual == expected);
+    }
   };
 }
