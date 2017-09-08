@@ -10,6 +10,7 @@
 #include "VarTable.h"
 #include "ASTBuilder.h"
 #include "ProcTable.h"
+#include "VarTable.h"
 
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -61,6 +62,20 @@ public:
   bool insertTypeOfStatementTable(int line_num, std::string type);
   std::unordered_map<std::string, std::vector<int>>  getStatementTypeTable();
   bool insertStatementTypeTable(std::string type, int line_num);
+
+  //VarTable Methods
+  int insertUsesForStmt(int index, std::string varName, int lineNum);
+  int insertModifiesForStmt(int index, std::string varName, int lineNum);
+  bool isModifies(int lineNum, std::string varName);
+  bool isUses(int lineNum, std::string varName);
+  std::vector<std::string> getModifies(int lineNum);
+  std::vector<std::string> getUses(int line_num);
+  std::vector<int> getStmtModifies(std::string varName);
+  std::vector<int> getStmtUses(std::string varName);
+  std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
+  std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
+  int getIndexOfVar(std::string varName);
+
 
 private:
   FollowTable* m_followTable;

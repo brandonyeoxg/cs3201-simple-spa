@@ -133,6 +133,51 @@ bool PKB::insertStatementTypeTable(std::string type, int line_num) {
   }
 }
 
+/***********FollowTable Methods****************/
+int PKB::insertUsesForStmt(int index, std::string varName, int lineNum) {
+  return m_varTable->insertUsesForStmt(index, varName, lineNum);
+}
+
+int PKB::insertModifiesForStmt(int index, std::string varName, int lineNum) {
+  return m_varTable->insertModifiesForStmt(index, varName, lineNum);
+}
+
+bool PKB::isModifies(int lineNum, std::string varName) {
+  return m_varTable->isModifies(lineNum, varName);
+}
+
+bool PKB::isUses(int lineNum, std::string varName) {
+  return m_varTable->isUses(lineNum, varName);
+}
+
+std::vector<std::string> PKB::getModifies(int lineNum) {
+  return m_varTable->getModifies(lineNum);
+}
+
+std::vector<std::string> PKB::getUses(int lineNum) {
+  return m_varTable->getUses(lineNum);
+}
+
+std::vector<int> PKB::getStmtModifies(std::string varName) {
+  return m_varTable->getStmtModifies(varName);
+}
+
+std::vector<int> PKB::getStmtUses(std::string varName) {
+  return m_varTable->getStmtUses(varName);
+}
+
+std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtModifies() {
+  return m_varTable->getAllStmtModifies();
+}
+
+std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtUses() {
+  return m_varTable->getAllStmtUses();
+}
+
+int PKB::getIndexOfVar(std::string varName) {
+  return m_varTable->getIndexOfVar(varName);
+}
+
 /**
 * STUB. To be removed.
 */
@@ -158,10 +203,7 @@ std::unordered_map<int, std::vector<int>> PKB::returnParentTable(int s1, int s2)
 * @param s2 an integer argument (-2 denotes it being the querying variable).
 */
 std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::string var) {
-  VarTable* table = getVarTable();
   std::unordered_map<std::string, std::vector<int>> result;
-  result.emplace(var, table->get(var));
-
   return result;
 }
 
