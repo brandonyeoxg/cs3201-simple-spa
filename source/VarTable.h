@@ -31,7 +31,8 @@ public:
   int insertModifiesForStmt(int index, std::string varName, int lineNum);
   bool isModifies(int lineNum, std::string varName);
   bool isUses(int lineNum, std::string varName);
-  std::vector<int> getUses(int line_num);
+  std::vector<std::string> getModifies(int lineNum);
+  std::vector<std::string> getUses(int line_num);
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;

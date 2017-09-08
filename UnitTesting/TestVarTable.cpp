@@ -135,7 +135,25 @@ namespace UnitTesting {
       Assert::IsTrue(testVarTable.isUses(3, "y"));
       Assert::IsFalse(testVarTable.isUses(2, "x"));
     }
+
+    TEST_METHOD(TestGetModifies) {
+      Logger::WriteMessage("testing getModifies");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      std::vector<std::string> actual;
+      actual.push_back("y");
+      std::vector<std::string> expected = testVarTable.getModifies(2);
+      Assert::IsTrue("y" == expected[0]);
+
+      //test for non-existent relationship. expects empty vector.
+      expected = testVarTable.getModifies(4);
+      Assert::IsTrue(expected.size() == 0);
+    }
+
   };
-  
-  
 }

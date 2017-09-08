@@ -156,6 +156,22 @@ bool VarTable::isUses(int lineNum, std::string varName) {
   return false;
 }
 
+std::vector<std::string> VarTable::getModifies(int lineNum) {
+  //for every index, if lineNum present, append to vector.
+  std::vector<int> modifies;
+  std::vector<std::string> result;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    modifies = var.getModifies();
+    if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+      result.push_back(var.getVarName());
+    }
+  }
+
+  return result;
+}
+
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
 }
