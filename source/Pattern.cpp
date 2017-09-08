@@ -16,61 +16,61 @@ Pattern::Pattern() {}
 * A constructor.
 * The constructor takes in the values of the pattern clause in the queries.
 */
-Pattern::Pattern(Grammar t_grammar, std::string t_left, std::string t_right, bool t_subtree) {
-  m_grammar = t_grammar;
-  m_left = t_left;
-  m_right = t_right;
-  m_subtree = t_subtree;
+Pattern::Pattern(Grammar t_clause, Grammar t_left, Grammar t_right, bool t_subtree) {
+  setStmt(t_clause);
+  setLeft(t_left);
+  setRight(t_right);
+  setSubtree(t_subtree);
 }
 
 /**
 * A Getter that returns the grammar of the pattern clause.
 * Returns the grammar of the pattern clause.
 */
-Grammar Pattern::getGrammar() { return m_grammar; }
+Grammar Pattern::getStmt() { return m_statement; }
 
 /**
 * A Getter that returns the left string of the pattern clause.
 * Returns the left string of the pattern clause.
 */
-std::string Pattern::getLeft() { return m_left; }
+Grammar Pattern::getLeft() { return m_left; }
 
 /**
 * A Getter that returns the right string of the pattern clause.
 * Returns the right string of the pattern clause.
 */
-std::string Pattern::getRight() { return m_right; }
+Grammar Pattern::getRight() { return m_right; }
 
 /**
 * A Getter that returns a boolean of whether the pattern clause includes the subtree.
 * Returns a boolean of whether the pattern clause includes the subtree.
 */
-bool Pattern::getSubtree() { return m_subtree; }
+bool Pattern::isSubtree() { return m_subtree; }
 
 /**
 * A Setter that sets the grammar of the pattern clause.
 */
-void Pattern::setGrammar(Grammar t_grammar) {
-  m_grammar = t_grammar;
+void Pattern::setStmt(Grammar t_stmt) {
+  m_statement = t_stmt;
 }
 
 /**
 * A Setter that sets the left string of the pattern clause.
 */
-void Pattern::setLeft(std::string t_left) {
+void Pattern::setLeft(Grammar t_left) {
   m_left = t_left;
 }
 
 /**
 * A Setter that sets the right string of the pattern clause.
 */
-void Pattern::setRight(std::string t_right) {
+void Pattern::setRight(Grammar t_right) {
   m_right = t_right;
 }
 
 /**
 * A Setter that sets the boolean of whether the pattern clause includes the subtree.
 */
-void Pattern::setSubtree(bool t_subtree) {
-  m_subtree = t_subtree;
+void Pattern::setSubtree(bool t_subT) {
+  m_subtree = t_subT;
 }

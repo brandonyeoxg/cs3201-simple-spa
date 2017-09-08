@@ -14,6 +14,7 @@
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
+    <ClCompile Include="..\source\ASTUtilities.cpp" />
     <ClCompile Include="..\source\DesignAbstraction.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\FollowTable.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\QueryResultProjector.cpp" />
     <ClCompile Include="..\source\StringUtil.cpp" />
+    <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +47,7 @@
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
+    <ClInclude Include="..\source\ASTUtilities.h" />
     <ClInclude Include="..\source\DesignAbstraction.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
@@ -75,6 +78,7 @@
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
+    <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

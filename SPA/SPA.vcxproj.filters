@@ -79,12 +79,16 @@
     <ClCompile Include="..\source\nodes\MinusNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ASTUtilities.cpp">
+      <Filter>PKB\AST</Filter>
+	</ClCompile>
     <ClCompile Include="..\source\ProcTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\AssignTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\VarRelations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -186,12 +190,16 @@
     <ClInclude Include="..\source\nodes\MinusNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ASTUtilities.h">
+      <Filter>PKB\AST</Filter>
+	  </ClInclude>
     <ClInclude Include="..\source\ProcTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\AssignTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\VarRelations.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">

@@ -11,60 +11,72 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-    std::unordered_map<int, std::vector<int>> test = {
-      { 1,{ 2, 3 } },
-      { 2,{ 3, 4 } },
-      { 3,{ 4 } }
-    };
-    TEST_METHOD(TestReturnFollowTable) {
-      Logger::WriteMessage("Running return follow table test...");
-      PKB *pkb = new PKB();
-      FollowTable* table = pkb->getFollowTable();
-      table->setFollowTable(test);
-
-      std::unordered_map<int, std::vector<int>> expected = pkb->returnFollowTable(-1, 3);
-      std::unordered_map<int, std::vector<int>> actual;
-      actual = {
-        { 3,{ 1, 2 } }
-      };
-      //test with s1 as querying variable
-      Assert::IsTrue(expected == actual);
-      actual = {
-        { 2,{ 3, 4 } }
-      };
-      expected = pkb->returnFollowTable(2, -2);
-      //test with s2 as querying variable
-      Assert::IsTrue(expected == actual);
-
-      expected = pkb->returnFollowTable(-1, -2);
-      //test with both s1 and s2 as querying variable
-      Assert::IsTrue(expected == test);
-
-      //test with both s1 and s2 not being querying variable
-      expected = pkb->returnFollowTable(2, 3);
-      actual = {
-        { 2,{ 3, 4 } }
-      };
-      Assert::IsTrue(expected == actual);
-    }
-
-    TEST_METHOD(TestReturnVarTable) {
-      Logger::WriteMessage("Running return parent table test...");
-      std::unordered_map<std::string, std::vector<int>> testVar = {
-        { "x",{ 1, 2 } },
-        { "y",{ 2, 3 } },
-        { "z",{ 4 } }
+    TEST_METHOD(TestPKBInsertFollow) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
       };
       PKB *pkb = new PKB();
-      VarTable *varTable = pkb->getVarTable();
-      varTable->setVarTable(testVar);
-      std::unordered_map<std::string, std::vector<int>> actual = {
-        { "x",{ 1, 2 } }
-      };
-      std::unordered_map<std::string, std::vector<int>> expected = pkb->returnVarTable("x");
-      Assert::IsTrue(expected == actual);
+      pkb->insertFollows(1, 2);
+      pkb->insertFollows(2, 3);
+      pkb->insertFollows(3, 4);
+      Assert::IsTrue(pkb->getFollowTable()->getFollowTable() == test);
     }
 
+    TEST_METHOD(TestPKBGetFollows) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollows");
+      PKB *pkb = new PKB();
+      pkb->setFollowTable(test);
+      //test getFollows method (correct behaviour)
+      int expected = pkb->getFollows(1);
+      Assert::IsTrue(expected == 2);
+    }
+
+
+
+    TEST_METHOD(TestPKBTypeOfStatementTable) {
+      std::unordered_map<int, std::string> testTypeOfStatementTable = {
+        {1, "ASGN"},
+        {2, "WHILE"},
+        {3, "IF"}
+      };     
+      PKB *pkb = new PKB();
+      pkb->insertTypeOfStatementTable(1, "ASGN");
+      pkb->insertTypeOfStatementTable(2, "WHILE");
+      pkb->insertTypeOfStatementTable(3, "IF");
+      Assert::IsTrue(testTypeOfStatementTable == pkb->getTypeOfStatementTable());
+      //test duplicate line number.
+      bool actual = pkb->insertTypeOfStatementTable(1, "WHILE");
+      //Assert::IsFalse(actual);
+
+    }
+
+    TEST_METHOD(TestPKBInsertStatementTypeTable) {
+      std::unordered_map<std::string, std::vector<int>> testStatementTypeTable = {
+        {"ASGN", {1, 2, 3}},
+        {"WHILE", {4, 5}},
+        {"IF", {6}}
+      };
+      PKB *pkb = new PKB();
+      pkb->insertStatementTypeTable("ASGN", 1);
+      pkb->insertStatementTypeTable("ASGN", 2);
+      pkb->insertStatementTypeTable("ASGN", 3);
+      pkb->insertStatementTypeTable("WHILE", 4);
+      pkb->insertStatementTypeTable("WHILE", 5);
+      pkb->insertStatementTypeTable("IF", 6);
+      Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
+      //test for duplicate entry. 
+      bool actual = pkb->insertStatementTypeTable("IF", 6);
+      Assert::IsFalse(actual);
+
+    }
+    //TODO: combine the two stmt tables for insertion, test for duplicate line number entries.
   };
 
 }

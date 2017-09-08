@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "ASTBuilder.h"
+#include "ASTUtilities.h"
 
 /** Unit testing for AST related classes
 *   @author jazlyn
@@ -167,6 +168,49 @@ public:
     assertIsEqualType(((TwoChildrenNode *)node->getRightChild())->getLeftChild(), TNode::Type::Plus);
   }
 
+  TEST_METHOD(TestGenerateStrings) {
+    Logger::WriteMessage("Test Generate Strings method");
+    
+    TNode * node = getTree();
+
+    std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
+    Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
+    Assert::IsTrue(generatedStrings.at(1) == "x+y-z");
+
+    //for (int i = 0; i < generatedStrings.size(); i++) {
+    //  Logger::WriteMessage(generatedStrings.at(i).c_str());
+    //}
+
+  }
+
+  TEST_METHOD(TestMatchByExactPattern) {
+    Logger::WriteMessage("Test match pattern exactly");
+    // x + y - z + y
+    TNode * node = getTree();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "x +    y   - z + y"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y + z"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x+y"));
+  }
+
+  TEST_METHOD(TestMatchBySubtree) {
+    Logger::WriteMessage("Test match pattern by subtree");
+
+    // x + y - z + y
+    TNode * node = getTree();
+
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "x + y + z"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "y - z"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "z+y"));
+
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x   +   y"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  y  "));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y - z"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y - z + y"));
+  }
+
 private:
 
   /*  Given a TNode, checks if its type is equal to given type
@@ -185,6 +229,26 @@ private:
   */
   void assertIsEqualNode(TNode * t_tNode1, TNode * t_tNode2) {
     Assert::IsTrue(t_tNode1 == t_tNode2);
+  }
+
+  // Generates tree: x + y - z + y
+  TNode *getTree() {
+    int lineNum = 30;
+    std::string varNameX = "x", varNameY = "y", varNameZ = "z";
+
+    // x + y
+    TNode *varNodeX = new VariableNode(lineNum, varNameX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+
+    PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
+
+    // x + y - z
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameZ));
+
+    // x + y - z + y
+    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameY));
+
+    return plusNode;
   }
 
   };
