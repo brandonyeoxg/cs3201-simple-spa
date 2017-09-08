@@ -119,10 +119,21 @@ namespace UnitTesting {
       Assert::IsTrue(testVarTable.isModifies(2, "y"));
       Assert::IsTrue(testVarTable.isModifies(3, "y"));
       Assert::IsFalse(testVarTable.isModifies(2, "x"));
+    }
 
+    TEST_METHOD(TestIsUses) {
+      Logger::WriteMessage("testing isUses");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 3);
 
-
-      
+      Assert::IsTrue(testVarTable.isUses(2, "y"));
+      Assert::IsTrue(testVarTable.isUses(3, "y"));
+      Assert::IsFalse(testVarTable.isUses(2, "x"));
     }
   };
   

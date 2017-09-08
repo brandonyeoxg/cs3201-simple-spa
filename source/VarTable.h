@@ -30,6 +30,7 @@ public:
   int insertUsesForStmt(int index, std::string varName, int lineNum);
   int insertModifiesForStmt(int index, std::string varName, int lineNum);
   bool isModifies(int lineNum, std::string varName);
+  bool isUses(int lineNum, std::string varName);
   std::vector<int> getUses(int line_num);
 
 private:

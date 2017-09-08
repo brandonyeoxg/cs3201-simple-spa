@@ -137,6 +137,24 @@ bool VarTable::isModifies(int lineNum, std::string varName) {
   return false;
 }
 
+bool VarTable::isUses(int lineNum, std::string varName) {
+  //for every index check if varName exists.
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    VarRelations var = it->second;
+    if (var.getVarName() == varName) {
+      //return true if lineNum can be found in vector modifies.
+      std::vector<int> uses = var.getUses();
+      if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  //if cannot find varName after all indices, return false
+  return false;
+}
 
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
