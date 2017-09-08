@@ -85,6 +85,9 @@
     <ClCompile Include="..\source\ProcTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\AssignTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\VarRelations.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +194,9 @@
       <Filter>PKB\AST</Filter>
 	  </ClInclude>
     <ClInclude Include="..\source\ProcTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AssignTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\VarRelations.h" />
