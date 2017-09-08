@@ -6,6 +6,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "VarTable.h"
+
 /**
 * Represents the variable table, which is a vector of unordered_maps to 
 * track which variable appear on which line.

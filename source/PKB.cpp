@@ -158,10 +158,7 @@ std::unordered_map<int, std::vector<int>> PKB::returnParentTable(int s1, int s2)
 * @param s2 an integer argument (-2 denotes it being the querying variable).
 */
 std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::string var) {
-  VarTable* table = getVarTable();
   std::unordered_map<std::string, std::vector<int>> result;
-  result.emplace(var, table->get(var));
-
   return result;
 }
 

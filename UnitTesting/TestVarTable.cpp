@@ -7,7 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   public:
-
+    /*
     TEST_METHOD(TestInsertVar) {
       std::unordered_map<std::string, std::vector<int>> testVar = {
         { "x",{ 1, 2 } },
@@ -49,5 +49,8 @@ namespace UnitTesting {
       std::vector<int> actual = testVarTable->get("x");
       Assert::IsTrue(actual == expected);
     }
+    */
   };
+  
+  
 }

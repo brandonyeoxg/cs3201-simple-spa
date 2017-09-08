@@ -7,12 +7,12 @@
 #include <unordered_map>
 
 #include "VarTable.h"
+/*
 
-/**
  * Method that inserts the line number to the unordered map of vectors containing the variable as key.
  * @param key a string argument.
  * @param lineNum an integer argument.
- */
+ 
 VarTable* VarTable::insert(VarTable* table, std::string key, int lineNum) {
   std::unordered_map<std::string, std::vector<int>> varTable = table->getVarTable();
   if (varTable.find(key) == varTable.end()) {
@@ -31,11 +31,11 @@ VarTable* VarTable::insert(VarTable* table, std::string key, int lineNum) {
 
 }
 
-/**
+
  * Method that retrieves the vector containing all line numbers that contain the variable var.
  * @param key a string argument.
  * @return a vector<int> object.
- */
+ 
 std::vector<int> VarTable::get(std::string key) {
   //return the vector containing all line numbers that the variable var.
   //if not present in varTable, return an empty vector.
@@ -56,6 +56,8 @@ void VarTable::setVarTable(std::unordered_map<std::string, std::vector<int>>& ta
 std::unordered_map<std::string, std::vector<int>> VarTable::getVarTable() {
   return m_varTable;
 }
+
+*/
 
 /**
  * A constructor.
