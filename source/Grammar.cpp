@@ -41,6 +41,9 @@ using namespace std;
     case 8:
       m_type = GType::CONST;
       break;
+    case 9:
+      m_type = GType::STR;
+      break;
     }
     m_name = t_name;
   }
