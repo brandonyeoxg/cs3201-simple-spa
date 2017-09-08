@@ -155,5 +155,24 @@ namespace UnitTesting {
       Assert::IsTrue(expected.size() == 0);
     }
 
+    TEST_METHOD(TestGetUses) {
+      Logger::WriteMessage("testing getUses");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      std::vector<std::string> actual;
+      actual.push_back("y");
+      std::vector<std::string> expected = testVarTable.getUses(2);
+      Assert::IsTrue("y" == expected[0]);
+
+      //test for non-existent relationship. expects empty vector.
+      expected = testVarTable.getUses(4);
+      Assert::IsTrue(expected.size() == 0);
+    }
+
   };
 }

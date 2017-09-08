@@ -172,6 +172,22 @@ std::vector<std::string> VarTable::getModifies(int lineNum) {
   return result;
 }
 
+std::vector<std::string> VarTable::getUses(int lineNum) {
+  //for every index, if lineNum present, append to vector.
+  std::vector<int> uses;
+  std::vector<std::string> result;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    uses = var.getUses();
+    if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
+      result.push_back(var.getVarName());
+    }
+  }
+
+  return result;
+}
+
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
 }
