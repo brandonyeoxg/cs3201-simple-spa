@@ -199,6 +199,19 @@ std::vector<int> VarTable::getStmtModifies(std::string varName) {
   }
   return emptyResult;
 }
+
+std::vector<int> VarTable::getStmtUses(std::string varName) {
+  std::vector<int> emptyResult;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    if (varName == var.getVarName()) {
+      return var.getUses();
+    }
+  }
+  return emptyResult;
+}
+
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
 }

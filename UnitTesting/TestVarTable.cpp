@@ -175,7 +175,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetStmtModifies) {
-      Logger::WriteMessage("testing getUses");
+      Logger::WriteMessage("testing getStmtModifies");
       int index = 1;
       VarTable testVarTable;
       int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
@@ -191,6 +191,26 @@ namespace UnitTesting {
 
       //test for non-existent relationship. expects empty vector.
       expected = testVarTable.getStmtModifies("z");
+      Assert::IsTrue(expected.size() == 0);
+    }
+
+    TEST_METHOD(TestGetStmtUses) {
+      Logger::WriteMessage("testing getStmtUses");
+      int index = 1;
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 2);
+      index++;
+      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      std::vector<int> actual;
+      actual.push_back(2);
+      actual.push_back(3);
+      std::vector<int> expected = testVarTable.getStmtUses("y");
+      Assert::IsTrue(actual == expected);
+
+      //test for non-existent relationship. expects empty vector.
+      expected = testVarTable.getStmtUses("z");
       Assert::IsTrue(expected.size() == 0);
     }
   };

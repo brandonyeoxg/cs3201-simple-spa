@@ -34,6 +34,7 @@ public:
   std::vector<std::string> getModifies(int lineNum);
   std::vector<std::string> getUses(int line_num);
   std::vector<int> getStmtModifies(std::string varName);
+  std::vector<int> getStmtUses(std::string varName);
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;
