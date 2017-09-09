@@ -12,7 +12,7 @@ public:
   QueryProcessor(PKB *t_pkb)
     : m_pkb(t_pkb) {};
 
-  ~QueryProcessor();
+  ~QueryProcessor() {};
 
   std::list<std::string> QueryProcessor::runQueryProcessor(std::string);
 

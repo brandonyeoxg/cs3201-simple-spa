@@ -86,6 +86,8 @@ int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   }
   TNode* exprNode = parseExpr();
   AssignNode* stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
+  m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, m_curLineNum);
+  m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::ASGN);
   m_pkb->insertAssignRelation(varIndx, stmt);
   m_builder.linkParentToChild(t_node, stmt);
   return 1;
@@ -132,6 +134,8 @@ int Parser::parseWhileStmt(TNode* t_node) throw(SyntaxErrorException) {
   }
   StmtListNode* stmtLstNode = m_builder.createStmtList(m_curLineNum);
   WhileNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
+  m_pkb->insertStatementTypeTable(Grammar::GType::WHILE, m_curLineNum);
+  m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::WHILE);
   parseStmtLst(stmtLstNode);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
   m_builder.linkParentToChild(t_node, whileNode);

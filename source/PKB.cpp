@@ -97,39 +97,39 @@ std::vector<int> PKB::getChildrenStarOf(int s1) {
 }
 
 //statementTypeTable and typeOfStatementTable Methods
-std::unordered_map<int, std::string> PKB::getTypeOfStatementTable() {
+std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
 
-bool PKB::insertTypeOfStatementTable(int line_num, std::string type) {
+bool PKB::insertTypeOfStatementTable(int line_num, Grammar::GType t_type) {
   //if line_num already exists as key in table, return false.
   if (m_typeOfStatementTable.find(line_num) != m_typeOfStatementTable.end()) {
     return false;
   } else {
-    m_typeOfStatementTable.emplace(line_num, type);
+    m_typeOfStatementTable.emplace(line_num, t_type);
     return true;
   }
 }
-std::unordered_map<std::string, std::vector<int>> PKB::getStatementTypeTable() {
+std::unordered_map<Grammar::GType, std::vector<int>> PKB::getStatementTypeTable() {
   return m_statementTypeTable;
 }
 
-bool PKB::insertStatementTypeTable(std::string type, int line_num) {
+bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
   //if type does not exist as key
-  if (m_statementTypeTable.find(type) == m_statementTypeTable.end()) {
+  if (m_statementTypeTable.find(t_type) == m_statementTypeTable.end()) {
     std::vector<int> lineNums;
     lineNums.push_back(line_num);
-    m_statementTypeTable.emplace(type, lineNums);
+    m_statementTypeTable.emplace(t_type, lineNums);
     return true;
   } else {  //type already exists
-    std::vector<int> lineNums = m_statementTypeTable[type];
+    std::vector<int> lineNums = m_statementTypeTable[t_type];
     if (std::find(lineNums.begin(), lineNums.end(), line_num) != lineNums.end()) {
       //return false if duplicate already exists in table.
       return false;
     }
     //else just push to the vector.
     lineNums.push_back(line_num);
-    m_statementTypeTable[type] = lineNums;
+    m_statementTypeTable[t_type] = lineNums;
     return true;
   }
 }

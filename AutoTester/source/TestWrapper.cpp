@@ -14,17 +14,24 @@ TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
   m_pkb = new PKB();
+  m_parser = new Parser(m_pkb);
+  m_qProcessor = new QueryProcessor(m_pkb);
+  m_designExtractor = new DesignExtractor(m_pkb);
+}
+
+TestWrapper::~TestWrapper() {
+  delete m_designExtractor;
+  delete m_parser;
+  delete m_qProcessor;
+  delete m_pkb;
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
   // call your parser to do the parsing
   // ...rest of your code...
-  Parser *parser = new Parser(m_pkb);
   try {
-    parser->parse(filename);
-    delete parser;
-    parser = nullptr;
+    m_parser->parse(filename);
   } catch (SyntaxErrorException see) {
     std::cout << see.what() << "\n";
   }
@@ -40,8 +47,5 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
   // store the answers to the query in the results list (it is initially empty)
   // each result must be a string.
   
-   QueryProcessor *q1 = new QueryProcessor(m_pkb);
-   std::list<std::string> resultString = q1->runQueryProcessor(query);
-   std::cout << "queryRead" << "\n";
-   results.push_back("");
+   results = m_qProcessor->runQueryProcessor(query);
 }

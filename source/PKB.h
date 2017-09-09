@@ -12,6 +12,7 @@
 #include "ProcTable.h"
 #include "VarTable.h"
 #include "AssignTable.h"
+#include "Grammar.h"
 
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -59,10 +60,10 @@ public:
   std::vector<int> getChildrenStarOf(int s1);
 
   //statementTypeTable and typeOfStatementTable Methods
-  std::unordered_map<int, std::string> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(int line_num, std::string type);
-  std::unordered_map<std::string, std::vector<int>>  getStatementTypeTable();
-  bool insertStatementTypeTable(std::string type, int line_num);
+  std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(int line_num, Grammar::GType t_type);
+  std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
+  bool insertStatementTypeTable(Grammar::GType t_type, int line_num);
 
   //VarTable Methods
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
@@ -91,8 +92,8 @@ private:
   VarTable* m_varTable;
   ProcTable* m_procTable;
   AssignTable* m_assignTable;
-  std::unordered_map<int, std::string> m_typeOfStatementTable;
-  std::unordered_map<std::string, std::vector<int>> m_statementTypeTable;
+  std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
+  std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
 
   AST m_programNode;
   ASTBuilder m_builder;
