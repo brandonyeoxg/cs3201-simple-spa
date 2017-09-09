@@ -28,6 +28,8 @@ void TestWrapper::parse(std::string filename) {
   } catch (SyntaxErrorException see) {
     std::cout << see.what() << "\n";
   }
+  DesignExtractor* designExtractor = new DesignExtractor(m_pkb);
+  designExtractor->extractRestOfDesignAbstractions();
 }
 
 // method to evaluating a query
