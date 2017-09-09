@@ -17,6 +17,7 @@ PKB::PKB() {
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
   m_procTable = new ProcTable();
+  m_assignTable = new AssignTable();
   std::unordered_map<int, std::string> m_statementTypeTable;
   std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
@@ -184,6 +185,23 @@ std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtUses() {
 
 int PKB::getIndexOfVar(std::string varName) {
   return m_varTable->getIndexOfVar(varName);
+}
+
+/***********AssignNode Methods****************/
+VAR_INDEX_NO PKB::insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node) {
+  return m_assignTable->insertAssignRelation(t_index, t_node);
+}
+
+std::list<STMT_NO> PKB::getAllStmtListByVar(VAR_INDEX_NO &t_index) {
+  return m_assignTable->getAllStmtListByVar(t_index);
+}
+
+std::list<STMT_NO> PKB::getAllStmtList() {
+  return m_assignTable->getAllStmtList();
+}
+
+std::unordered_map<std::string, std::list<STMT_NO>> PKB::getAllAssignStmtWithVar() {
+  return m_assignTable->getAllAssignStmtWithVar();
 }
 
 /**

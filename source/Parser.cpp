@@ -79,12 +79,13 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
-  m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
+  VAR_INDEX_NO varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  TNode *exprNode = parseExpr();
-  TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
+  TNode* exprNode = parseExpr();
+  AssignNode* stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
+  m_pkb->insertAssignRelation(varIndx, stmt);
   m_builder.linkParentToChild(t_node, stmt);
   return 1;
 }
