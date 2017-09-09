@@ -10,6 +10,9 @@
 #include "VarTable.h"
 #include "ASTBuilder.h"
 #include "ProcTable.h"
+#include "VarTable.h"
+#include "AssignTable.h"
+#include "Grammar.h"
 
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -57,18 +60,40 @@ public:
   std::vector<int> getChildrenStarOf(int s1);
 
   //statementTypeTable and typeOfStatementTable Methods
-  std::unordered_map<int, std::string> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(int line_num, std::string type);
-  std::unordered_map<std::string, std::vector<int>>  getStatementTypeTable();
-  bool insertStatementTypeTable(std::string type, int line_num);
+  std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(int line_num, Grammar::GType t_type);
+  std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
+  bool insertStatementTypeTable(Grammar::GType t_type, int line_num);
+
+  //VarTable Methods
+  int insertUsesForStmt(std::string t_varName, int t_lineNum);
+  int insertUsesForStmt(int index, std::string varName, int lineNum);
+  int insertModifiesForStmt(std::string t_varName, int t_lineNum);
+  int insertModifiesForStmt(int index, std::string varName, int lineNum);
+  bool isModifies(int lineNum, std::string varName);
+  bool isUses(int lineNum, std::string varName);
+  std::vector<std::string> getModifies(int lineNum);
+  std::vector<std::string> getUses(int line_num);
+  std::vector<int> getStmtModifies(std::string varName);
+  std::vector<int> getStmtUses(std::string varName);
+  std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
+  std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
+  int getIndexOfVar(std::string varName);
+
+  //AssignTable Methods
+  VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);
+  std::list<STMT_NO> getAllStmtListByVar(VAR_INDEX_NO& t_index);
+  std::list<STMT_NO> getAllStmtList();
+  std::unordered_map<std::string, std::list<STMT_NO>> getAllAssignStmtWithVar();
 
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
-  std::unordered_map<int, std::string> m_typeOfStatementTable;
-  std::unordered_map<std::string, std::vector<int>> m_statementTypeTable;
+  AssignTable* m_assignTable;
+  std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
+  std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
 
   AST m_programNode;
   ASTBuilder m_builder;

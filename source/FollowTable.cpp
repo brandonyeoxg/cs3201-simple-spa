@@ -32,6 +32,9 @@ std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
 * @param s2 an integer argument.
 */
 bool FollowTable::insertFollows(int s1, int s2) {
+  if (s1 == 0) {
+    return false;
+  }
   if (m_followTable.find(s1) == m_followTable.end()) {
   //if s1 is not present in followTable
     std::vector<int> lineNums;

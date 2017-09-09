@@ -76,6 +76,9 @@ std::vector<int> ParentTable::getS2(int s1) {
 */
 
 bool ParentTable::insertParent(int s1, int s2) {
+  if (s1 == 0) {
+    return false;
+  }
   if (m_parentMap.find(s2) == m_parentMap.end()) {
     //if s2 does not exist in parentMap
     m_parentMap.emplace(s2, s1);

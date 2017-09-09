@@ -52,7 +52,7 @@ public:
   /** Create StmtListNode
   *   @return pointer to StmtListNode
   */
-  virtual StmtListNode *createStmtList() = 0;
+  virtual StmtListNode *createStmtList(int t_lineNum) = 0;
 
 
   ///////////////////////////////////////////////////////
