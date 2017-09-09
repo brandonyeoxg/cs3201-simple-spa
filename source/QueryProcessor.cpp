@@ -18,8 +18,10 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string testInput) 
   std::queue<DesignAbstraction> suchThatQueue = qpp.getSuchThat();
   std::queue<Pattern> patternQueue = qpp.getPattern();
 
-  QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue);
-  qe->evaluateQuery();
+  Grammar testGrammar = selectQueue.front();
+  std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
+  //QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue);
+  //qe->evaluateQuery();
 
   qrp.formatResult();
   result = qrp.printResult(resultlist);
