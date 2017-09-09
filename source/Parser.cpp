@@ -56,10 +56,12 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
   if (isMatchToken("")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
+  int prev_line = m_curLineNum;
   m_curLineNum += 1;
   // Var name
   if (m_nextToken != "while" && m_nextToken != "if") {
     parseAssignStmt(t_node);
+    m_pkb->insertFollows(prev_line, m_curLineNum);
     if (!isMatchToken(";")) {
       throw SyntaxNoEndOfStatmentException(m_curLineNum);
     }
@@ -67,12 +69,14 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
   else {
     // Parse container stmts
     parseContainerStmt(t_node);
+    m_pkb->insertFollows(prev_line, m_curLineNum);
   }
   return 1;
 }
 
 int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
-  TNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
@@ -85,7 +89,8 @@ int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
 TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   std::stack<TNode *> exprStack;
   std::string varName = getMatchToken(tokenType::VAR_NAME);
-  TNode* varNode = m_builder.createVariable(m_curLineNum, varName);
+  VariableNode* varNode = m_builder.createVariable(m_curLineNum, varName);
+  m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
   exprStack.push(varNode);
   while (m_nextToken == "+") {
     if (exprStack.empty() != true && isMatchToken("+")) {
@@ -97,10 +102,9 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
       exprStack.push(plusNode);
       continue;
     }
-    TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+    VariableNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
     exprStack.push(varNode);
   }
-
   TNode *childNode = exprStack.top();
   return childNode;
 }
@@ -116,12 +120,13 @@ int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
 }
 
 int Parser::parseWhileStmt(TNode *t_node) throw(SyntaxErrorException) {
-  TNode *varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  VariableNode* varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  TNode *stmtLstNode = m_builder.createStmtList();
+  StmtListNode* stmtLstNode = m_builder.createStmtList();
   parseStmtLst(stmtLstNode);
+  m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
   TNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
   m_builder.linkParentToChild(t_node, whileNode);
   return 1;
