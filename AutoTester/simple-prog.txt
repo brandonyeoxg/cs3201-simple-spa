@@ -1,7 +1,11 @@
 procedure main {
   x=y+z+x+y;
+  while i {
+    x=y;
+    I = am + awesome!;}
   z=y;
   c=v;
   while i {
-    x=y;}
+    x=y;
+    I = can+ do! +it;}
 }
