@@ -9,6 +9,7 @@
 #include "AbstractWrapper.h"
 #include "Parser.h"
 #include "QueryProcessor.h"
+#include "DesignExtractor.h"
 #include "PKB.h"
 
 class TestWrapper : public AbstractWrapper {

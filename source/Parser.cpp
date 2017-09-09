@@ -72,6 +72,7 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
   }
   else {
     // Parse container stmts
+    m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
     parseContainerStmt(t_node);
   }
   return 1;
