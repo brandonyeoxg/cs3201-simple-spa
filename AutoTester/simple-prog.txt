@@ -2,7 +2,9 @@ procedure main {
   x=y+z+x+y;
   while i {
     x=y;
-    I = am + awesome!;}
+    I = am + awesome!;
+	while j {
+x=y;}}
   z=y;
   c=v;
   while i {
