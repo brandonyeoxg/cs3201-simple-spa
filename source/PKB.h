@@ -11,6 +11,7 @@
 #include "ASTBuilder.h"
 #include "ProcTable.h"
 #include "VarTable.h"
+#include "AssignTable.h"
 
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -78,12 +79,18 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
 
+  //AssignTable Methods
+  VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);
+  std::list<STMT_NO> getAllStmtListByVar(VAR_INDEX_NO& t_index);
+  std::list<STMT_NO> getAllStmtList();
+  std::unordered_map<std::string, std::list<STMT_NO>> getAllAssignStmtWithVar();
 
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
+  AssignTable* m_assignTable;
   std::unordered_map<int, std::string> m_typeOfStatementTable;
   std::unordered_map<std::string, std::vector<int>> m_statementTypeTable;
 
