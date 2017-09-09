@@ -93,6 +93,7 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   VarRelations varRelations;
   varRelations.setVarName(t_varName);
   varRelations.insertUses(t_lineNum);
+  index = m_varTable.size();
   m_varTable.emplace(m_varTable.size(), varRelations);
   return index;
 }
@@ -149,7 +150,8 @@ int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
   VarRelations varRelations;
   varRelations.setVarName(varName);
   varRelations.insertModifies(lineNum);
-  m_varTable.emplace(m_varTable.size(), varRelations);
+  index = m_varTable.size();
+  m_varTable.emplace(index, varRelations);
   return index;
 }
 
