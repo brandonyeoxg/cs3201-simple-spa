@@ -285,7 +285,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //case: both synonyms are the same. e.g Follows(s, s)
     if (sTInt1 == sTInt2 || sTName1 == sTName2) {
       //return empty list
-      std::cout << "work" << std::endl;
+      std::cout << "return an empty list of strings" << std::endl;
     }
     else {
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
