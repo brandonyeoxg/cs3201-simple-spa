@@ -16,6 +16,30 @@ void DesignExtractor::extractRestOfDesignAbstractions() {
   extractParentStarAbstraction();
 }
 
+
+std::unordered_map<int, std::list<std::list<int>>> DesignExtractor::testExtractParentStarMap() {
+  ParentTable* parentTable = m_pkb->getParentTable();
+  auto parentMap = parentTable->getParentMap();
+  std::unordered_map<int, std::list<std::list<int>>> parentStarMap;
+
+  for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
+    extractParentStarMap(mapItr, parentMap, parentStarMap);
+  }
+
+  return parentStarMap;
+}
+
+std::unordered_map<int, std::list<int>> DesignExtractor::testExtractParentedByStarMap() {
+  ParentTable* parentTable = m_pkb->getParentTable();
+  auto parentMap = parentTable->getParentMap();
+  std::unordered_map<int, std::list<int>> parentedByStarMap;
+
+  for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
+    extractParentedByStarMap(mapItr, parentMap, parentedByStarMap);
+  }
+  return parentedByStarMap;
+}
+
 void DesignExtractor::extractParentStarAbstraction() {
   ParentTable* parentTable = m_pkb->getParentTable();
   auto parentMap = parentTable->getParentMap();
