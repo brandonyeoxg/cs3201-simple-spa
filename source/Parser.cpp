@@ -227,7 +227,7 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   std::vector<std::string> tokens;
   std::string token = "";
   for (std::string::iterator itr = formatString.begin(); itr != formatString.end(); itr++) {
-    const std::string curStrChar = std::string(1, (*itr));
+     const std::string curStrChar = std::string(1, (*itr));
     if (isKeyDelimiter(curStrChar) && token != "") {
       tokens.push_back(token);
       token = "";
@@ -236,7 +236,14 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
       }
       continue;
     }
-    token += (*itr);
+    if (isOperator(curStrChar)) {
+      tokens.push_back(curStrChar);
+      token = "";
+      continue;
+    }
+    if (curStrChar != " ") {
+      token += (*itr);
+    }
   }
   if (token.length() > 0) {
     tokens.push_back(token);
