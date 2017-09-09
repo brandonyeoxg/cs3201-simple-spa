@@ -25,6 +25,7 @@ public:
   ~QueryPreProcessor();
   bool tokenizeDeclaration(std::string);
   bool tokenizeQuery(std::string);
+  void removeCharsFromString(std::string & str, char * charsToRemove);
   std::string splitStringDeclaration(std::string);
   std::string splitStringQuery(std::string);
   void QueryPreProcessor::printVector(std::vector<std::string>);

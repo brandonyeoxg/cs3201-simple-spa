@@ -7,7 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestQueryPreProcessor) {
   public:
-    std::string sampleString = "stmt s; Select s such that Follows(1,2);";
+    std::string sampleString = "stmt s; Select s such that Uses(2, \"x\")";
     TEST_METHOD(TestSplitStringDeclaration) {
       Logger::WriteMessage("Running QueryPreProcessor Declaration splitting");
       std::string expectedDeclaration = "stmt s;";
@@ -19,7 +19,7 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestSplitStringQuery) {
       Logger::WriteMessage("Running QueryPreProcessor Query splitting");
-      std::string expectedQuery = "Select s such that Follows(1,2);";
+      std::string expectedQuery = "Select s such that Uses(2, \"x\")";
       QueryPreProcessor q1;
 
       std::string result = q1.splitStringQuery(sampleString);
