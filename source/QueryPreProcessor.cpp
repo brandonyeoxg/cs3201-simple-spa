@@ -162,7 +162,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string tempStatement;
 
   //test comment
-  t_queryInput = "Select s such that Uses(2, \"x\")";
+  //t_queryInput = "Select s such that Uses(2, \"x\")";
 
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
     if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
@@ -199,11 +199,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
-  std::cout << synonym << " before trimming " << std::endl;
+  //std::cout << synonym << " before trimming " << std::endl;
   synonym = m_stringUtil.trimString(synonym);
-  std::cout << synonym << " after trimming " << std::endl;
+  //std::cout << synonym << " after trimming " << std::endl;
   
-  std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
+  //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
   //storing select queue synonyms
   int counterM = 0;
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
@@ -212,16 +212,16 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
         m_selectQueue.push(g1);
-        std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
-        std::cout << "pushed " << grammarName << " into select queue" << std::endl;
+        //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
+        //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
       }
       else {
         //std::cout << "skip" << std::endl;
       }
     }
-  std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
+  //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
-  std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
+  //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
   if (suchThatStatement == "") {
@@ -365,14 +365,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
       //DesignAbstraction class to be discussed: only caters for single DAO
       //test whether designabstractionobject is created properly
-      DesignAbstraction object = m_suchThatQueue.front();
+      /**DesignAbstraction object = m_suchThatQueue.front();
       Grammar g10 = object.getG1();
       Grammar g20 = object.getG2();
       std::cout << g10.getName() << std::endl;
       std::cout << g20.getName() << std::endl;
 
       Grammar getSelectGrammar = m_selectQueue.front();
-      std::cout << getSelectGrammar.getName() << std::endl;
+      std::cout << getSelectGrammar.getName() << std::endl;*/
     }
   }
     
