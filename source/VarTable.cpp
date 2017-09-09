@@ -82,7 +82,7 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
     if (var.getVarName() == t_varName) {
       std::vector<int> uses = var.getUses();
       if (std::find(uses.begin(), uses.end(), t_lineNum) != uses.end()) {
-        throw std::invalid_argument("lineNum for variable already exists in varTable");
+        return index;
       }
       var.insertUses(t_lineNum);
       m_varTable[index] = var;
@@ -139,7 +139,7 @@ int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
     if (var.getVarName() == varName) {
       std::vector<int> modifies = var.getModifies();
       if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
-        throw std::invalid_argument("lineNum for variable already exists in varTable");
+        return index;
       }
       var.insertModifies(lineNum);
       m_varTable[index] = var;
