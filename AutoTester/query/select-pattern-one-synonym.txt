@@ -1,15 +1,58 @@
-1 - comment
-stmt s;
+1 - Trivial Test Case: Select s if "x=y"
+stmt s; assign a;
 Select s pattern a("x", "y");
-1, 2, 3, 4
+1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
-2 - comment
-assign a;
-Select a pattern a("c", _"v"_);
-1, 2, 3, 4
+2 - Trivial Test Case: Select s1 if LHS is "x" and RHS contains the subtree "y"
+stmt s1; assign a;
+Select s1 pattern a("x", "_y_");
+1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 3 - comment
-while w;
-Select w pattern a("z", "x+y");
-4
+stmt s2; assign a;
+Select s2 pattern a("x", "v");
+none
+5000
+4 - comment
+stmt s3; assign a;
+Select s3 pattern a("x", "_v_");
+none
+5000
+5 - comment
+assign a0;
+Select a0 pattern a0("x", "y");
+3
+6 - comment
+assign a1;
+Select a1 pattern a1("x", "v");
+3
+5000
+7 - comment
+assign a2;
+Select a2 pattern a2("y", _"y"_);
+4, 5
+8 - comment
+assign a3;
+Select a3 pattern a3("x", _"v"_);
+none
+5000
+9 - comment
+while w; assign a4;
+Select w pattern a4("z", "x+y");
+2, 6
+5000
+10 - comment
+while w; assign a5;
+Select w pattern a5("z", _"x+y"_);
+2, 6
+5000
+11 - comment
+while w1; assign a6;
+Select w1 pattern a6("z", "y");
+none
+5000
+12 - comment
+while w2; assign a7;
+Select w2 pattern a7("z", _"y+1"_);
+none
 5000
