@@ -14,7 +14,7 @@ public:
   ConstantNode *createConstant(int t_lineNum, int t_constantValue);
   VariableNode *createVariable(int t_lineNum, std::string t_varName);
   ProcedureNode *createProcedure(std::string t_procName);
-  StmtListNode *createStmtList();
+  StmtListNode *createStmtList(int t_lineNum);
   AssignNode *buildAssignment(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   WhileNode *buildWhile(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
