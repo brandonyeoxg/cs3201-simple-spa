@@ -27,7 +27,9 @@ public:
 
   VarTable();
 
+  int insertUsesForStmt(std::string varName, int lineNum);
   int insertUsesForStmt(int index, std::string varName, int lineNum);
+  int insertModifiesForStmt(std::string varName, int lineNum);
   int insertModifiesForStmt(int index, std::string varName, int lineNum);
   bool isModifies(int lineNum, std::string varName);
   bool isUses(int lineNum, std::string varName);
