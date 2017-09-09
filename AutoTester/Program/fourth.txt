@@ -1,0 +1,7 @@
+procedure fourth {
+  x=1;
+  while i {
+    x=y;
+    y=y-1;}
+  y=y+3;
+}

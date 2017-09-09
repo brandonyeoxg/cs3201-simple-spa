@@ -1,58 +1,58 @@
 1 - Trivial Test Case: Select s if "x=y"
 stmt s; assign a;
-Select s pattern a("x", "y");
+Select s pattern a ("x", "y");
 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 2 - Trivial Test Case: Select s1 if LHS is "x" and RHS contains the subtree "y"
 stmt s1; assign a;
-Select s1 pattern a("x", "_y_");
+Select s1 pattern a ("x", "_y_");
 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
 3 - Trivial Negative Test Case: Select s2 if "x=v"; Expected none result
 stmt s2; assign a;
-Select s2 pattern a("x", "v");
+Select s2 pattern a ("x", "v");
 none
 5000
 4 - Trivial Negative Test Case: Select s3 if LHS is "x" and RHS contains the subtree "v"; Expected none result
 stmt s3; assign a;
-Select s3 pattern a("x", "_v_");
+Select s3 pattern a ("x", "_v_");
 none
 5000
 5 - Assign Test Case: Select a0 if a0 contains the pattern "x=y"
 assign a0;
-Select a0 pattern a0("x", "y");
+Select a0 pattern a0 ("x", "y");
 3
 6 - Assign Negative Test Case: Select a1 if a1 contains the pattern "x=v" ; Expected none result
 assign a1;
-Select a1 pattern a1("x", "v");
+Select a1 pattern a1 ("x", "v");
 3
 5000
 7 - Assign Test Case: Select a2 if a2 contains a pattern such that LHS is "x" and RHS contains the subtree "y"
 assign a2;
-Select a2 pattern a2("y", _"y"_);
+Select a2 pattern a2 ("y", _"y"_);
 4, 5
 8 - Assign Negative Test Case: Select a3 if a3 contains a pattern such that LHS is "x" and RHS contains the subtree "v"; Expected none result
 assign a3;
-Select a3 pattern a3("x", _"v"_);
+Select a3 pattern a3 ("x", _"v"_);
 none
 5000
 9 - While Test Case: Select w if a4 contains the pattern "z=x+y"
 while w; assign a4;
-Select w pattern a4("z", "x+y");
+Select w pattern a4 ("z", "x+y");
 2, 6
 5000
 10 - While Test Case: Select w1 if a5 contains a pattern such that LHS is "z" and RHS contains the subtree "x+y"
 while w1; assign a5;
-Select w1 pattern a5("z", _"x+y"_);
+Select w1 pattern a5 ("z", _"x+y"_);
 2, 6
 5000
 11 - While Negative Test Case: Select w2 if a6 contains the pattern "z=y"; Expected none result
 while w2; assign a6;
-Select w2 pattern a6("z", "y");
+Select w2 pattern a6 ("z", "y");
 none
 5000
 12 - While Negative Test Case: Select w3 if a7 contains a pattern such that LHS is "z" and RHS contains the subtree "y+1"; Expected none result
 while w3; assign a7;
-Select w3 pattern a7("z", _"y+1"_);
+Select w3 pattern a7 ("z", _"y+1"_);
 none
 5000

@@ -1,0 +1,60 @@
+1 - Trivial Test Case: Select s
+stmt s;
+Select s such that Follows (,) pattern a (,)
+1, 2
+5000
+2 - Assign Test Case: Select a
+assign a;
+Select a such that Follows (,) pattern a (,)
+2
+5000
+3 - While Test Case: Select w
+while w;
+Select w such that Follows (,) pattern a (,)
+1
+5000
+4 - Procedure Test Case: Select p
+Procedure p;
+Select p such that Follows (,) pattern a (,)
+first
+5000
+5 - Trivial Negative Test Case: Select s
+stmt s;
+Select s such that Follows (,) pattern a (,)
+1, 2
+5000
+6 - Assign Negative Test Case: Select a
+assign a;
+Select a such that Follows (,) pattern a (,)
+2
+5000
+7 - While Negative Test Case: Select w
+while w;
+Select w such that Follows (,) pattern a (,)
+1
+5000
+8 - Procedure Negative Test Case: Select p
+Procedure p;
+Select p such that Follows (,) pattern a (,)
+first
+5000
+9 - Trivial Negative Test Case: Select s
+stmt s;
+Select s such that Follows (,) pattern a (,)
+1, 2
+5000
+10 - Assign Negative Test Case: Select a
+assign a;
+Select a such that Follows (,) pattern a (,)
+2
+5000
+11 - While Negative Test Case: Select w
+while w;
+Select w such that Follows (,) pattern a (,)
+1
+5000
+12 - Procedure Negative Test Case: Select p
+Procedure p;
+Select p such that Follows (,) pattern a (,)
+first
+5000
