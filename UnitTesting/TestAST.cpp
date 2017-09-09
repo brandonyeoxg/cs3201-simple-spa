@@ -93,7 +93,7 @@ public:
     std::string varName = "i";
     TNode *varNode = new VariableNode(lineNum, varName);
 
-    TNode *slNode = new StmtListNode();
+    TNode *slNode = new StmtListNode(TNode::NO_LINE_NUM);
 
     WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
     assertIsEqualNode(whileNode->getLeftChild(), varNode);
@@ -111,7 +111,7 @@ public:
     assertIsEqualType(ast->getRoot(), TNode::Type::Program);  // Check root initialized properly
     assertIsEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
 
-    TNode *slNode = builder->createStmtList();
+    TNode *slNode = builder->createStmtList(TNode::NO_LINE_NUM);
     // Check parent and child linked properly
     builder->linkParentToChild(ast->getRoot(), slNode);
     assertIsEqualNode(ast->getRoot()->getChildren()->at(0), slNode);

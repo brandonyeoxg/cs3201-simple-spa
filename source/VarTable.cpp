@@ -73,6 +73,30 @@ VarTable::VarTable() {
   std::unordered_map<int, VarRelations> m_varTable;
 }
 
+int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
+  int index = 0;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    index = it->first;
+    VarRelations var = it->second;
+
+    if (var.getVarName() == t_varName) {
+      std::vector<int> uses = var.getUses();
+      if (std::find(uses.begin(), uses.end(), t_lineNum) != uses.end()) {
+        return index;
+      }
+      var.insertUses(t_lineNum);
+      m_varTable[index] = var;
+      return index;
+    }
+  }
+  //if dont have,
+  VarRelations varRelations;
+  varRelations.setVarName(t_varName);
+  varRelations.insertUses(t_lineNum);
+  m_varTable.emplace(m_varTable.size(), varRelations);
+  return index;
+}
+
 int VarTable::insertUsesForStmt(int input_index, std::string varName, int lineNum) {
   //for every key, search varRelation to check if varName exists.
   //if have, append lineNum to uses vector.
@@ -81,8 +105,7 @@ int VarTable::insertUsesForStmt(int input_index, std::string varName, int lineNu
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     index = it->first;
     var = it->second;
-    if (var.getVarName() == varName) {
-      
+    if (var.getVarName() == varName) {    
       //check if lineNum exists in vector uses. If it is, throw invalid_argument exception.
       std::vector<int> uses = var.getUses();
       if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
@@ -105,6 +128,29 @@ int VarTable::insertUsesForStmt(int input_index, std::string varName, int lineNu
   varRelations.insertUses(lineNum);
   m_varTable.emplace(input_index, varRelations);
   return input_index;
+}
+
+int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
+  int index = 0;
+  VarRelations var;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    index = it->first;
+    var = it->second;
+    if (var.getVarName() == varName) {
+      std::vector<int> modifies = var.getModifies();
+      if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+        return index;
+      }
+      var.insertModifies(lineNum);
+      m_varTable[index] = var;
+      return index;
+    }
+  }
+  VarRelations varRelations;
+  varRelations.setVarName(varName);
+  varRelations.insertModifies(lineNum);
+  m_varTable.emplace(m_varTable.size(), varRelations);
+  return index;
 }
 
 int VarTable::insertModifiesForStmt(int input_index, std::string varName, int lineNum) {

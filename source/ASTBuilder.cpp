@@ -28,8 +28,8 @@ ProcedureNode * ASTBuilder::createProcedure(std::string t_procName) {
   return procNode;
 }
 
-StmtListNode * ASTBuilder::createStmtList() {
-  StmtListNode *slNode = new StmtListNode();
+StmtListNode * ASTBuilder::createStmtList(int t_lineNum) {
+  StmtListNode *slNode = new StmtListNode(t_lineNum);
   return slNode;
 }
 

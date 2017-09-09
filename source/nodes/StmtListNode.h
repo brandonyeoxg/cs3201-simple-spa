@@ -4,5 +4,5 @@
 
 class StmtListNode: public TNode {
 public:
-  StmtListNode();
+  StmtListNode(int t_lineNum);
 };

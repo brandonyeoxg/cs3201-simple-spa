@@ -64,7 +64,9 @@ public:
   bool insertStatementTypeTable(std::string type, int line_num);
 
   //VarTable Methods
+  int insertUsesForStmt(std::string t_varName, int t_lineNum);
   int insertUsesForStmt(int index, std::string varName, int lineNum);
+  int insertModifiesForStmt(std::string t_varName, int t_lineNum);
   int insertModifiesForStmt(int index, std::string varName, int lineNum);
   bool isModifies(int lineNum, std::string varName);
   bool isUses(int lineNum, std::string varName);
