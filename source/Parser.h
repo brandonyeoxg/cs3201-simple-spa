@@ -67,7 +67,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  int parseStmtLst(TNode* t_node) throw(SyntaxErrorException);
+  int parseStmtLst(StmtListNode* t_node) throw(SyntaxErrorException);
 
   /*
   * Parses the statement.
