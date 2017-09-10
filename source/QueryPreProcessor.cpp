@@ -100,8 +100,8 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     entity = m_stringUtil.trimString(entity);
     variables = m_stringUtil.trimString(variables);
     
-    //std::cout << "This is entity: " << entity << std::endl;
-    //std::cout << "This is variables: " << variables << std::endl;
+    std::cout << "This is entity: " << entity << std::endl;
+    std::cout << "This is variables: " << variables << std::endl;
 
     prev_pos = 0;
     std::vector<std::string> variableVector;
@@ -114,6 +114,8 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     if (prev_pos < variables.length()) {
       variableVector.push_back(variables.substr(prev_pos, std::string::npos));
     }
+
+    std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
 
     int counterL=0;
     for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
@@ -162,7 +164,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string tempStatement;
 
   //test comment
-  //t_queryInput = "Select s such that Uses(2, \"x\")";
+  //t_queryInput = "Select s such that Uses(2, v)";
 
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
     if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
@@ -279,11 +281,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
 
     int counterK = 0;
+    int counterQ = 0;
     
     //storing designabstractionqueue synonyms
    
     //case: both synonyms are the same. e.g Follows(s, s)
-    if (sTInt1 == sTInt2 || sTName1 == sTName2) {
+    if (sTInt1 == sTInt2 && sTInt1 != 0 || sTName1 == sTName2) {
       //return empty list
       std::cout << "return an empty list of strings" << std::endl;
     }
@@ -291,81 +294,95 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
         Grammar tempGrammar = m_grammarVector.at(counterK);
         std::string grammarName = tempGrammar.getName();
-
+        counterQ = 0;
         if (sTName1 == grammarName) {
           Grammar g1 = tempGrammar;
           //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
-          if (sTName2 == grammarName) {
-            Grammar g2 = tempGrammar;
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTInt2 > 0) {
-            Grammar g2(8, sTName2);
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTName2.find("\\")) {
-            //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
-            removeCharsFromString(sTName2, "\\\"");
-            Grammar g2(6, sTName2);
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
+          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+            std::string grammarName2 = tempGrammar2.getName();
+            if (sTName2 == grammarName2) {
+              Grammar g2 = tempGrammar2;
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTInt2 > 0) {
+              Grammar g2(8, sTName2);
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTName2.find('"') != std::string::npos) {
+              //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
+              removeCharsFromString(sTName2, "\\\"");
+              Grammar g2(6, sTName2);
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
           }
         }
         else if (sTInt1 > 0) {
+          counterQ = 0;
           Grammar g1(8, sTName1);
           //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
-          if (sTName2 == grammarName) {
-            Grammar g2 = tempGrammar;
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTInt2 > 0) {
-            Grammar g2(8, sTName2);
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTName2.find("\\")) {
-            //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
-            removeCharsFromString(sTName2, "\\\"");
-            Grammar g2(6, sTName2);
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
+          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+            std::string grammarName2 = tempGrammar2.getName();
+            if (sTName2 == grammarName2) {
+              Grammar g2 = tempGrammar2;
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTInt2 > 0) {
+              Grammar g2(8, sTName2);
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTName2.find('"') != std::string::npos) {
+              //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
+              removeCharsFromString(sTName2, "\\\"");
+              Grammar g2(6, sTName2);
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
           }
         }
-        else if (sTName1.find("\\")) {
+        else if (sTName1.find('"') != std::string::npos) {
           //sTName1.erase(std::remove(sTName1.begin(), sTName1.end(), '\"'), sTName1.end());
           removeCharsFromString(sTName2, "\\\"");
+          counterQ = 0;
           Grammar g1(6, sTName1);
-          if (sTName2 == grammarName) {
-            Grammar g2 = tempGrammar;
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTInt2 > 0) {
-            Grammar g2(8, sTName2);
-            //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
-          }
-          else if (sTName2.find("\\")) {
-            //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
-            removeCharsFromString(sTName2, "\\\"");
-            Grammar g2(6, sTName2);
-            DesignAbstraction DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
+          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+            std::string grammarName2 = tempGrammar2.getName();
+            if (sTName2 == grammarName2) {
+              Grammar g2 = tempGrammar2;
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTInt2 > 0) {
+              Grammar g2(8, sTName2);
+              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
+            else if (sTName2.find('"') != std::string::npos) {
+              //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
+              removeCharsFromString(sTName2, "\\\"");
+              Grammar g2(6, sTName2);
+              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              m_suchThatQueue.push(DAO);
+            }
           }
         }
       }
       //DesignAbstraction class to be discussed: only caters for single DAO
       //test whether designabstractionobject is created properly
-      /**DesignAbstraction object = m_suchThatQueue.front();
+      /*DesignAbstraction object = m_suchThatQueue.front();
       Grammar g10 = object.getG1();
       Grammar g20 = object.getG2();
       std::cout << g10.getName() << std::endl;
@@ -373,6 +390,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       Grammar getSelectGrammar = m_selectQueue.front();
       std::cout << getSelectGrammar.getName() << std::endl;*/
+      //std::cout << "This is suchThat queue size: " << m_suchThatQueue.size() << std::endl;
     }
   }
     
@@ -385,18 +403,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
     std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
 
-    //std::cout << patternEntity << std::endl;
-    //std::cout << patternObject << std::endl;
+    std::cout << patternEntity << std::endl;
+    std::cout << patternObject << std::endl;
 
     patternObject = m_stringUtil.trimString(patternObject);
 
-    //std::cout << patternObject << std::endl;
+    std::cout << patternObject << std::endl;
 
     std::string delimiterBracket1 = "(";
     std::string patternSynonym = patternObject.substr(0, patternObject.find(delimiterBracket1));
     std::string patternParameters = patternObject.substr(patternObject.find(delimiterBracket1), patternObject.size());
 
-    //std::cout << patternSynonym << std::endl;
+    std::cout << patternSynonym << std::endl;
 
     std::vector<std::string> patternVector;
     
@@ -411,13 +429,16 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     if (prev_pos_2 < patternParameters.length()) {
       patternVector.push_back(patternParameters.substr(prev_pos_2, std::string::npos));
     }
-    //printVector(patternVector);
+    
+    
+
+    printVector(patternVector);
   }
 
   std::queue<Grammar> selectQueue = getSelect();
   //std::cout << "This is select queue size: " << selectQueue.size() << std::endl;
   std::queue<DesignAbstraction> daoQueue = getSuchThat();
-  //std::cout << "This is relation queue size: " << selectQueue.size() << std::endl;
+  //std::cout << "This is relation queue size: " << daoQueue.size() << std::endl;
 
   isTokenized = true;
   return isTokenized;
@@ -431,6 +452,6 @@ void QueryPreProcessor::removeCharsFromString(std::string &str, char* charsToRem
 
 void QueryPreProcessor::printVector(std::vector<std::string>declarationVector) {
   for (auto i = declarationVector.begin(); i != declarationVector.end(); ++i) {
-    std::cout << *i << ":  vectorPrinter" << std::endl;
+    std::cout <<"vector printing function: "<< *i << std::endl;
   }
 }

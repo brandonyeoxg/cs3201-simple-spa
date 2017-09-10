@@ -7,10 +7,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestQueryPreProcessor) {
   public:
-    std::string sampleString = "stmt s; Select s such that Uses(2, \"x\")";
+    std::string sampleString = "stmt s; variable v; Select s such that Uses(2, v)";
     TEST_METHOD(TestSplitStringDeclaration) {
       Logger::WriteMessage("Running QueryPreProcessor Declaration splitting");
-      std::string expectedDeclaration = "stmt s;";
+      std::string expectedDeclaration = "stmt s; variable v;";
       QueryPreProcessor q1;
       
       std::string result = q1.splitStringDeclaration(sampleString);
@@ -19,7 +19,7 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestSplitStringQuery) {
       Logger::WriteMessage("Running QueryPreProcessor Query splitting");
-      std::string expectedQuery = "Select s such that Uses(2, \"x\")";
+      std::string expectedQuery = "Select s such that Uses(2, v)";
       QueryPreProcessor q1;
 
       std::string result = q1.splitStringQuery(sampleString);
@@ -35,7 +35,7 @@ namespace UnitTesting {
 
       bool result = q1.tokenizeDeclaration(resultString);
             
-      Assert::IsTrue(q1.getGrammarVector().size() == 1);
+      Assert::IsTrue(q1.getGrammarVector().size() == 2);
       Assert::IsTrue(result == true);
     }
     TEST_METHOD(TestTokenizedQuery) {
@@ -55,7 +55,7 @@ namespace UnitTesting {
       int j = testDAOQueue.size();
       
       Assert::IsTrue(i == 1);
-      Assert::IsTrue(j == 1);
+      Assert::IsTrue(j == 2);
       Assert::IsTrue(result == true);
     }
   };
