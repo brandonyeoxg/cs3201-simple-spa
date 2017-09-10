@@ -4,6 +4,7 @@
 #include "ASTUtilities.h"
 
 /** Unit testing for AST related classes
+*   Include AST, ASTBuilderAPI, ASTBuilder, and node classes
 *   @author jazlyn
 */
 
@@ -13,7 +14,7 @@ namespace UnitTesting {
   TEST_CLASS(TestAST) {
 public:
 
-  /*  Test ConstantNode constructor and methods
+  /**  Test ConstantNode constructor and methods
   */
   TEST_METHOD(TestConstantNode) {
     Logger::WriteMessage("Running Constant Node test");
@@ -30,7 +31,7 @@ public:
     Assert::IsTrue(constNode->getValue() == value);
   }
 
-  /*  Test VariableNode constructor and methods
+  /**  Test VariableNode constructor and methods
   */
   TEST_METHOD(TestVariableNode) {
     Logger::WriteMessage("Running Variable Node test");
@@ -46,7 +47,7 @@ public:
     Assert::IsTrue(varNode->getVarName() == varName);
   }
 
-  /*  Test AssignNode constructor and methods
+  /**  Test AssignNode constructor and methods
   */
   TEST_METHOD(TestAssignNode) {
     Logger::WriteMessage("Running Assign Node test");
@@ -65,7 +66,7 @@ public:
     assertIsEqualLineNum(assignNode, lineNum);
   }
 
-  /*  Test PlusNode constructor and methods
+  /**  Test PlusNode constructor and methods
   */
   TEST_METHOD(TestPlusNode) {
     Logger::WriteMessage("Running Plus Node test");
@@ -83,7 +84,7 @@ public:
     assertIsEqualNode(varNodeX->getParent(), plusNode);
   }
 
-  /*  Test WhileNode constructor and methods
+  /**  Test WhileNode constructor and methods
   */
   TEST_METHOD(TestWhileNode) {
     Logger::WriteMessage("Running While Node test");
@@ -101,7 +102,7 @@ public:
     assertIsEqualNode(whileNode->getLeftChild()->getParent(), whileNode);
   }
 
-  /*  Test ASTBuilder
+  /**  Test ASTBuilderAPI and ASTBuilder basic
   */
   TEST_METHOD(TestASTBuilderAPI) {
     Logger::WriteMessage("Running ASTBuilderAPI test");
@@ -138,6 +139,8 @@ public:
     assertIsEqualNode(assignNodeCopy->getRightChild(), constNode);
   }
 
+  /**  Test ASTBuilderAPI with assign expression with plus operator 
+  */
   TEST_METHOD(TestASTBuilderAPI_AssignAndPlus) {
     Logger::WriteMessage("Running ASTBuilderAPI test: x = a + b + 5;");
 
@@ -168,6 +171,8 @@ public:
     assertIsEqualType(((TwoChildrenNode *)node->getRightChild())->getLeftChild(), TNode::Type::Plus);
   }
 
+  /** Test generate strings method generates the required strings from each subtree
+  */
   TEST_METHOD(TestGenerateStrings) {
     Logger::WriteMessage("Test Generate Strings method");
     
