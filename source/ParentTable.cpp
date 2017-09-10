@@ -217,6 +217,10 @@ std::vector<int> ParentTable::getChildrenStarOf(int s1) {
   return result;
 }
 
+std::unordered_map<int, std::vector<int>> ParentTable::getAllParents() {
+  return m_childMap;
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
