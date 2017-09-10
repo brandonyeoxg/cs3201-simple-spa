@@ -176,7 +176,7 @@ public:
   TEST_METHOD(TestGenerateStrings) {
     Logger::WriteMessage("Test Generate Strings method");
     
-    TNode * node = getTree();
+    TNode * node = getTreeWithPlusMinus();
 
     std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
     Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
@@ -191,7 +191,7 @@ public:
   TEST_METHOD(TestMatchByExactPattern) {
     Logger::WriteMessage("Test match pattern exactly");
     // x + y - z + y
-    TNode * node = getTree();
+    TNode * node = getTreeWithPlusMinus();
 
     Assert::IsTrue(ASTUtilities::matchExact(node, "x +    y   - z + y"));
 
@@ -204,7 +204,7 @@ public:
     Logger::WriteMessage("Test match pattern by subtree");
 
     // x + y - z + y
-    TNode * node = getTree();
+    TNode * node = getTreeWithPlusMinus();
 
     Assert::IsFalse(ASTUtilities::matchSubtree(node, "x + y + z"));
     Assert::IsFalse(ASTUtilities::matchSubtree(node, "y - z"));
@@ -237,7 +237,7 @@ private:
   }
 
   // Generates tree: x + y - z + y
-  TNode *getTree() {
+  TNode *getTreeWithPlusMinus() {
     int lineNum = 30;
     std::string varNameX = "x", varNameY = "y", varNameZ = "z";
 
