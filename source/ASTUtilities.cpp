@@ -32,6 +32,12 @@ std::string ASTUtilities::getStringFromNode(TNode *t_node) {
     case TNode::Type::Minus:
       return "-";
 
+    case TNode::Type::Multiply:
+      return "*";
+
+    case TNode::Type::Divide:
+      return "/";
+
     case TNode::Type::Variable:
       return ((VariableNode *)t_node)->getVarName();
 
