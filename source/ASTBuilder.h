@@ -22,6 +22,7 @@ public:
   PlusNode *buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
   MultiplyNode *buildMultiplication(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
+  DivideNode *buildDivision(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode);
 
   void linkParentToChild(TNode *t_parent, TNode *t_child);
 };

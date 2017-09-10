@@ -94,6 +94,9 @@
     <ClCompile Include="..\source\nodes\MultiplyNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\nodes\DivideNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -208,6 +211,9 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\MultiplyNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\DivideNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
   </ItemGroup>

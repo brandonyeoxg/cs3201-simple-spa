@@ -4,7 +4,7 @@
 #include "ASTUtilities.h"
 
 /** Unit testing for AST related classes
-*   Include AST, ASTBuilderAPI, ASTBuilder, and node classes
+*   Include AST, ASTBuilderAPI, ASTBuilder, ASTUtilities, and node classes
 *   @author jazlyn
 */
 
