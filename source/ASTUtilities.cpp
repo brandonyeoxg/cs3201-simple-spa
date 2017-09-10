@@ -1,5 +1,29 @@
 #include "ASTUtilities.h"
 
+bool ASTUtilities::matchExact(TNode *t_node, std::string t_pattern) {
+  t_pattern = removeWhitespaces(t_pattern);
+
+  return (convertTreeToString(t_node) == t_pattern);
+}
+
+bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
+  t_pattern = removeWhitespaces(t_pattern);
+
+  std::vector<std::string> listOfStr = generateSubtreeStrings(t_node);
+
+  for (int i = 0; i < listOfStr.size(); i++) {
+    if (listOfStr.at(i) == t_pattern) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/** Given a node, returns the string form of the node.
+*   Only for types: operators, assign and constant
+*   Helper method to generate strings from assignment statements
+*/
 std::string ASTUtilities::getStringFromNode(TNode *t_node) {
   switch (t_node->getType()) {
     case TNode::Type::Plus:
@@ -7,6 +31,12 @@ std::string ASTUtilities::getStringFromNode(TNode *t_node) {
 
     case TNode::Type::Minus:
       return "-";
+
+    case TNode::Type::Multiply:
+      return "*";
+
+    case TNode::Type::Divide:
+      return "/";
 
     case TNode::Type::Variable:
       return ((VariableNode *)t_node)->getVarName();
@@ -19,6 +49,8 @@ std::string ASTUtilities::getStringFromNode(TNode *t_node) {
   }
 }
 
+/** Given a tree (node pointer), returns its string representation
+*/
 std::string ASTUtilities::convertTreeToString(TNode *t_node) {
   
   // reached an end node
@@ -39,6 +71,7 @@ bool ASTUtilities::isNodeAnOperator(TNode * t_node) {
     || type == TNode::Type::Multiply || type == TNode::Type::Divide);
 }
 
+// Helper method to add string to list of strings only if it is not duplicate string
 std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
   std::vector<std::string> t_listOfStr, std::string t_str) {
 
@@ -53,6 +86,7 @@ std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
   return t_listOfStr;
 }
 
+// Recursive method to generate strings of subtrees from given tree
 std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_node,
   std::vector<std::string> t_listOfStr) {
   if (isNodeAnOperator(t_node)) {
@@ -72,31 +106,17 @@ std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_nod
   return t_listOfStr;
 }
 
+/** Given a tree, generates string representations of all possible subtrees within it
+*/
 std::vector<std::string> ASTUtilities::generateSubtreeStrings(TNode *t_node) {
   std::vector<std::string> listOfStr = std::vector<std::string>();
   return generateStringList((TwoChildrenNode *)t_node, listOfStr);
 }
 
-bool ASTUtilities::matchExact(TNode *t_node, std::string t_pattern) {
-  // remove whitespaces
+/** Helper function to remove all whitespaces in a pattern string */
+std::string ASTUtilities::removeWhitespaces(std::string t_pattern) {
   t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
-
-  return (convertTreeToString(t_node) == t_pattern);
-}
-
-bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
-  // remove whitespaces
-  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
-  
-  std::vector<std::string> listOfStr = generateSubtreeStrings(t_node);
-
-  for (int i = 0; i < listOfStr.size(); i++) {
-    if (listOfStr.at(i) == t_pattern) {
-      return true;
-    }
-  }
-
-  return false;
+  return t_pattern;
 }
 
 

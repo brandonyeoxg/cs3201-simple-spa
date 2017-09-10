@@ -55,6 +55,16 @@ MinusNode * ASTBuilder::buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode
   return minusNode;
 }
 
+MultiplyNode * ASTBuilder::buildMultiplication(int t_lineNum, TNode * t_leftNode, TNode * t_rightNode) {
+  MultiplyNode *multiplyNode = new MultiplyNode(t_lineNum, t_leftNode, t_rightNode);
+  return multiplyNode;
+}
+
+DivideNode * ASTBuilder::buildDivision(int t_lineNum, TNode * t_leftNode, TNode * t_rightNode) {
+  DivideNode *divideNode = new DivideNode(t_lineNum, t_leftNode, t_rightNode);
+  return divideNode;
+}
+
 /********** Helper Methods **********/
 
 /*  Given parent and child nodes, establishes parent-child relationship

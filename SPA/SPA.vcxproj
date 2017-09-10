@@ -21,7 +21,9 @@
     <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\nodes\AssignNode.cpp" />
     <ClCompile Include="..\source\nodes\ConstantNode.cpp" />
+    <ClCompile Include="..\source\nodes\DivideNode.cpp" />
     <ClCompile Include="..\source\nodes\MinusNode.cpp" />
+    <ClCompile Include="..\source\nodes\MultiplyNode.cpp" />
     <ClCompile Include="..\source\nodes\PlusNode.cpp" />
     <ClCompile Include="..\source\nodes\ProcedureNode.cpp" />
     <ClCompile Include="..\source\nodes\ProgramNode.cpp" />
@@ -54,7 +56,9 @@
     <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\nodes\AssignNode.h" />
     <ClInclude Include="..\source\nodes\ConstantNode.h" />
+    <ClInclude Include="..\source\nodes\DivideNode.h" />
     <ClInclude Include="..\source\nodes\MinusNode.h" />
+    <ClInclude Include="..\source\nodes\MultiplyNode.h" />
     <ClInclude Include="..\source\nodes\PlusNode.h" />
     <ClInclude Include="..\source\nodes\ProcedureNode.h" />
     <ClInclude Include="..\source\nodes\ProgramNode.h" />
