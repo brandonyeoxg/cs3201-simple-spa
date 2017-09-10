@@ -53,6 +53,10 @@ int Parser::parseStmtLst(StmtListNode *t_node) throw (SyntaxErrorException) {
   }
   parseStmt(t_node);
   if (isMatchToken("}")) {
+    // Remove from back
+    if (!m_nestedStmtLineNo.empty()) {
+      m_nestedStmtLineNo.pop_back();
+    }
     return 1;
   }
   return parseStmtLst(t_node);
@@ -81,6 +85,9 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
   VAR_INDEX_NO varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
+  for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
+    m_pkb->insertModifiesForStmt(left->getVarName(), (*containerItr));
+  }
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
@@ -98,12 +105,18 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   std::string varName = getMatchToken(tokenType::VAR_NAME);
   VariableNode* varNode = m_builder.createVariable(m_curLineNum, varName);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
+  for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
+    m_pkb->insertUsesForStmt(varNode->getVarName(), *containerItr);
+  }
   exprStack.push(varNode);
   while (m_nextToken == "+") {
     if (exprStack.empty() != true && isMatchToken("+")) {
       varName = getMatchToken(tokenType::VAR_NAME);
       TNode* right = m_builder.createVariable(m_curLineNum, varName);
       m_pkb->insertUsesForStmt(varName, m_curLineNum);
+      for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
+        m_pkb->insertUsesForStmt(varName, *containerItr);
+      }
       TNode* left = exprStack.top();
       exprStack.pop();
       PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
@@ -118,6 +131,7 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
 }
 
 int Parser::parseContainerStmt(TNode* t_node) throw(SyntaxErrorException) {
+  m_nestedStmtLineNo.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt((WhileNode*)t_node);
   } else if (isMatchToken("if")) {
@@ -136,8 +150,10 @@ int Parser::parseWhileStmt(TNode* t_node) throw(SyntaxErrorException) {
   WhileNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
   m_pkb->insertStatementTypeTable(Grammar::GType::WHILE, m_curLineNum);
   m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::WHILE);
-  parseStmtLst(stmtLstNode);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
+  parseStmtLst(stmtLstNode);
+  //Update the while stmt with all the available uses and modifies
+  //m_pkb->getall
   m_builder.linkParentToChild(t_node, whileNode);
   return 1;
 }
