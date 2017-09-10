@@ -10,6 +10,7 @@
 #include "nodes\WhileNode.h"
 #include "nodes\PlusNode.h"
 #include "nodes\MinusNode.h"
+#include "nodes\MultiplyNode.h"
 
 /** API for building AST
 *   @author jazlyn
@@ -93,6 +94,14 @@ public:
   *   @return pointer to MinusNode
   */
   virtual MinusNode *buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
+
+  /** Create Multiplication expression
+  *   @param t_lineNum statement number
+  *   @param t_leftNode left child (should be expression/value)
+  *   @param t_rightNode right child (should be expression/value)
+  *   @return pointer to MultiplyNode
+  */
+  virtual MultiplyNode *buildMultiplication(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) = 0;
 
 
   ///////////////////////////////////////////////////////
