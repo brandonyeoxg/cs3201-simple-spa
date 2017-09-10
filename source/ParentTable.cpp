@@ -229,12 +229,28 @@ void ParentTable::setParentMap(std::unordered_map<int, int> &map) {
   m_parentMap = map;
 }
 
+void ParentTable::setParentStarMap(std::unordered_map<int, std::list<std::list<int>>> &map) {
+  m_parentStarMap = map;
+}
+
+void ParentTable::setParentedByStarMap(std::unordered_map<int, std::list<int>> &map) {
+  m_parentedByStarMap = map;
+}
+
 std::unordered_map<int, std::vector<int>> ParentTable::getChildMap() {
   return m_childMap;
 }
 
 std::unordered_map<int, int> ParentTable::getParentMap() {
   return m_parentMap;
+}
+
+std::unordered_map<int, std::list<std::list<int>>> ParentTable::getParentStarMap() {
+  return m_parentStarMap;
+}
+
+std::unordered_map<int, std::list<int>> ParentTable::getParentedByStarMap() {
+  return m_parentedByStarMap;
 }
 
 /**
@@ -244,4 +260,6 @@ std::unordered_map<int, int> ParentTable::getParentMap() {
 ParentTable::ParentTable() {
   std::unordered_map<int, int> m_parentMap;
   std::unordered_map<int, std::vector<int>> m_childMap;
+  std::unordered_map<int, std::list<std::list<int>>> m_parentStarMap;
+  std::unordered_map<int, std::list<int>> m_parentedByStarMap;
 }

@@ -22,8 +22,13 @@ public:
 
   void setChildMap(std::unordered_map<int, std::vector<int>> &map);
   void setParentMap(std::unordered_map<int, int> &map);
+  void setParentStarMap(std::unordered_map<int, std::list<std::list<int>>> &map);
+  void setParentedByStarMap(std::unordered_map<int, std::list<int>> &map);
   std::unordered_map<int, std::vector<int>> getChildMap();
   std::unordered_map<int, int> getParentMap();
+  std::unordered_map<int, std::list<std::list<int>>> getParentStarMap();
+  std::unordered_map<int, std::list<int>> getParentedByStarMap();
+
   ParentTable();
 
   bool insertParent(int s1, int s2);
@@ -34,8 +39,13 @@ public:
   std::vector<int> getParentStarOf(int s2);
   std::vector<int> getChildrenStarOf(int s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
-protected:
+  void populateParentStarMap(std::unordered_map<int, int>::iterator t_mapItr);
+  void populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr);
+
+  
+private:
   std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
   std::unordered_map<int, std::vector<int>> m_childMap;
-
+  std::unordered_map<int, std::list<std::list<int>>> m_parentStarMap;
+  std::unordered_map<int, std::list<int>> m_parentedByStarMap;
 };
