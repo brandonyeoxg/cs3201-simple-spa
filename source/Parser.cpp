@@ -83,7 +83,7 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 }
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
-  VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME), DUMMY_INDEX);
   VAR_INDEX_NO varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
   for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
     m_pkb->insertModifiesForStmt(left->getVarName(), (*containerItr));
@@ -103,7 +103,7 @@ int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
 TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   std::stack<TNode *> exprStack;
   std::string varName = getMatchToken(tokenType::VAR_NAME);
-  VariableNode* varNode = m_builder.createVariable(m_curLineNum, varName);
+  VariableNode* varNode = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
   for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
     m_pkb->insertUsesForStmt(varNode->getVarName(), *containerItr);
@@ -112,7 +112,7 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   while (m_nextToken == "+") {
     if (exprStack.empty() != true && isMatchToken("+")) {
       varName = getMatchToken(tokenType::VAR_NAME);
-      TNode* right = m_builder.createVariable(m_curLineNum, varName);
+      TNode* right = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
       m_pkb->insertUsesForStmt(varName, m_curLineNum);
       for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
         m_pkb->insertUsesForStmt(varName, *containerItr);
@@ -123,7 +123,7 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
       exprStack.push(plusNode);
       continue;
     }
-    VariableNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+    VariableNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken, DUMMY_INDEX);
     exprStack.push(varNode);
   }
   TNode *childNode = exprStack.top();
@@ -142,7 +142,7 @@ int Parser::parseContainerStmt(TNode* t_node) throw(SyntaxErrorException) {
 }
 
 int Parser::parseWhileStmt(TNode* t_node) throw(SyntaxErrorException) {
-  VariableNode* varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+  VariableNode* varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME), DUMMY_INDEX);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }

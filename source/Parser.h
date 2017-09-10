@@ -17,6 +17,7 @@
 */
 class Parser {
 public:
+  const int DUMMY_INDEX = 0; // dummy index for creating variable, remove when no longer needed
   /*
   * Constructs parser using pkb.
   * Also initialises other fields  
