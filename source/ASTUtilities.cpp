@@ -78,15 +78,13 @@ std::vector<std::string> ASTUtilities::generateSubtreeStrings(TNode *t_node) {
 }
 
 bool ASTUtilities::matchExact(TNode *t_node, std::string t_pattern) {
-  // remove whitespaces
-  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
+  t_pattern = removeWhitespaces(t_pattern);
 
   return (convertTreeToString(t_node) == t_pattern);
 }
 
 bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
-  // remove whitespaces
-  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
+  t_pattern = removeWhitespaces(t_pattern);
   
   std::vector<std::string> listOfStr = generateSubtreeStrings(t_node);
 
@@ -97,6 +95,12 @@ bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
   }
 
   return false;
+}
+
+/** Helper function to remove all whitespaces in a pattern string */
+std::string ASTUtilities::removeWhitespaces(std::string t_pattern) {
+  t_pattern.erase(std::remove(t_pattern.begin(), t_pattern.end(), ' '), t_pattern.end());
+  return t_pattern;
 }
 
 
