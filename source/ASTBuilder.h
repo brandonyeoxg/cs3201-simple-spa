@@ -13,7 +13,7 @@ public:
   AST *createAST();
 
   ConstantNode *createConstant(int t_lineNum, int t_constantValue);
-  VariableNode *createVariable(int t_lineNum, std::string t_varName);
+  VariableNode *createVariable(int t_lineNum, int t_varIndex);
   ProcedureNode *createProcedure(std::string t_procName);
   StmtListNode *createStmtList(int t_lineNum);
 

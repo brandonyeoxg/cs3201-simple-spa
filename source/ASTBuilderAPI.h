@@ -42,7 +42,7 @@ public:
   *   @param t_varName variable name
   *   @return pointer to VariableNode
   */
-  virtual VariableNode *createVariable(int t_lineNum, std::string t_varName) = 0;
+  virtual VariableNode *createVariable(int t_lineNum, int t_varIndex) = 0;
 
   /** Create ProcedureNode
   *   @param t_lineNum statement number
