@@ -46,6 +46,7 @@ public:
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
+    Assert::IsTrue(varNode->getVarIndex() == DUMMY_VAR_INDEX);
   }
 
   /**  Test AssignNode constructor and methods
