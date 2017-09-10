@@ -13,6 +13,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestAST) {
 public:
+  const int DUMMY_VAR_INDEX = 0;  //  For creating new variables
 
   /**  Test ConstantNode constructor and methods
   */
@@ -38,13 +39,14 @@ public:
 
     int lineNum = 5;
     std::string varName = "penguin";
-    TNode *tNode = new VariableNode(lineNum, varName);
+    TNode *tNode = new VariableNode(lineNum, varName, DUMMY_VAR_INDEX);
     assertIsEqualType(tNode, TNode::Type::Variable);
     assertIsEqualLineNum(tNode, lineNum);
     assertIsEqualNode(tNode->getParent(), nullptr);
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
+    Assert::IsTrue(varNode->getVarIndex() == DUMMY_VAR_INDEX);
   }
 
   /**  Test AssignNode constructor and methods
@@ -55,8 +57,8 @@ public:
     // x = y;
     int lineNum = 5;
     std::string varNameX = "x", varNameY = "y";
-    TNode *varNodeX = new VariableNode(lineNum, varNameX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
 
     AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
     assertIsEqualNode(assignNode->getLeftChild(), varNodeX);
@@ -74,8 +76,8 @@ public:
     // x + y;
     int lineNum = 30;
     std::string varNameX = "x", varNameY = "y";
-    TNode *varNodeX = new VariableNode(lineNum, varNameX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
 
     PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
     assertIsEqualLineNum(plusNode, lineNum);
@@ -92,7 +94,7 @@ public:
     // while i { empty stmtList }
     int lineNum = 5;
     std::string varName = "i";
-    TNode *varNode = new VariableNode(lineNum, varName);
+    TNode *varNode = new VariableNode(lineNum, varName, DUMMY_VAR_INDEX);
 
     TNode *slNode = new StmtListNode(TNode::NO_LINE_NUM);
 
@@ -121,7 +123,7 @@ public:
     // Build assignment statement: x = 5;
     int lineNum1 = 1;
     std::string varName = "x";
-    TNode *varNode = builder->createVariable(lineNum1, varName);
+    TNode *varNode = builder->createVariable(lineNum1, varName, DUMMY_VAR_INDEX);
 
     int value = 5;
     TNode *constNode = builder->createConstant(lineNum1, value);
@@ -150,11 +152,12 @@ public:
     int constValue = 5, lineNum = 100;
 
     // build x = a + b + 5 assignment subtree
-    AssignNode *node = builder->buildAssignment(lineNum, builder->createVariable(lineNum, varNameX),
+    AssignNode *node = builder->buildAssignment(lineNum, 
+      builder->createVariable(lineNum, varNameX, DUMMY_VAR_INDEX),
       builder->buildAddition(lineNum,
         builder->buildAddition(lineNum, 
-          builder->createVariable(lineNum, varNameA),
-          builder->createVariable(lineNum, varNameB)),
+          builder->createVariable(lineNum, varNameA, DUMMY_VAR_INDEX),
+          builder->createVariable(lineNum, varNameB, DUMMY_VAR_INDEX)),
         builder->createConstant(lineNum, constValue)
       )
     );
@@ -297,16 +300,16 @@ private:
     std::string varNameX = "x", varNameY = "y", varNameZ = "z";
 
     // x + y
-    TNode *varNodeX = new VariableNode(lineNum, varNameX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
 
     PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
 
     // x + y - z
-    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameZ));
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameZ, DUMMY_VAR_INDEX));
 
     // x + y - z + y
-    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameY));
+    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX));
 
     return plusNode;
   }
@@ -317,13 +320,13 @@ private:
     std::string varNameX = "x", varNameY = "y", varNameA = "a";
 
     // y * a
-    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY),
-      new VariableNode(lineNum, varNameA));
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX),
+      new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
 
-    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX),
+    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX),
       multiplyNode);
 
-    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameA));
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
 
     return minusNode;
   }
@@ -334,16 +337,16 @@ private:
     std::string varNameX = "x", varNameY = "y", varNameA = "a", varNameB = "b";
 
     // y * a
-    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY),
-      new VariableNode(lineNum, varNameA));
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX),
+      new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
 
     // x + y * a
-    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX),
+    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX),
       multiplyNode);
 
     // x + y * a - a / b
     MinusNode *minusNode = new MinusNode(lineNum, plusNode, 
-      new DivideNode(lineNum, new VariableNode(lineNum, varNameA), new VariableNode(lineNum, varNameB)));
+      new DivideNode(lineNum, new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX), new VariableNode(lineNum, varNameB, DUMMY_VAR_INDEX)));
 
     return minusNode;
   }

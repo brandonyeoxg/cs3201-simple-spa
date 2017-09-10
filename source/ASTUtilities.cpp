@@ -11,7 +11,7 @@ bool ASTUtilities::matchSubtree(TNode *t_node, std::string t_pattern) {
 
   std::vector<std::string> listOfStr = generateSubtreeStrings(t_node);
 
-  for (int i = 0; i < listOfStr.size(); i++) {
+  for (int i = 0; i < (int)listOfStr.size(); i++) {
     if (listOfStr.at(i) == t_pattern) {
       return true;
     }
@@ -75,7 +75,7 @@ bool ASTUtilities::isNodeAnOperator(TNode * t_node) {
 std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
   std::vector<std::string> t_listOfStr, std::string t_str) {
 
-  for (int i = 0; i < t_listOfStr.size(); i++) {
+  for (int i = 0; i < (int)t_listOfStr.size(); i++) {
     if (t_listOfStr.at(i) == t_str) {
       return t_listOfStr;
     }

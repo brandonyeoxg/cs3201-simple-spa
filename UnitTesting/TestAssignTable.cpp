@@ -8,11 +8,14 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestAssignTable) {
   public:
+
+    const int DUMMY_VAR_INDEX = 0;
+
     TEST_METHOD(insertAssignRelation) {
       AssignTable assignTable;
       ASTBuilder builder;
-      VariableNode* varNode = builder.createVariable(1, "x");
-      VariableNode* rhsVarNode = builder.createVariable(1, "y");
+      VariableNode* varNode = builder.createVariable(1, "x", DUMMY_VAR_INDEX);
+      VariableNode* rhsVarNode = builder.createVariable(1, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(1, varNode, rhsVarNode);
       
       VAR_INDEX_NO varIndex= assignTable.insertAssignRelation(1, assignNode);
@@ -24,8 +27,8 @@ namespace UnitTesting {
       ASTBuilder builder;
       STMT_NO curStmtNo = 1;
       VAR_INDEX_NO varIndex = 1;
-      VariableNode* varNode = builder.createVariable(curStmtNo, "x");
-      VariableNode* rhsVarNode = builder.createVariable(curStmtNo, "y");
+      VariableNode* varNode = builder.createVariable(curStmtNo, "x", DUMMY_VAR_INDEX);
+      VariableNode* rhsVarNode = builder.createVariable(curStmtNo, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(curStmtNo, varNode, rhsVarNode);
 
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
@@ -37,7 +40,7 @@ namespace UnitTesting {
     
       varIndex = 1;
       curStmtNo = 2;
-      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo,"x"), builder.createVariable(curStmtNo,"z"));
+      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo,"x", DUMMY_VAR_INDEX), builder.createVariable(curStmtNo,"z", DUMMY_VAR_INDEX));
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
       stmts = assignTable.getAllStmtList();
       listSize = stmts.size();
@@ -46,7 +49,7 @@ namespace UnitTesting {
 
       varIndex = 2;
       curStmtNo = 3;
-      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo, "z"), builder.createVariable(curStmtNo, "c"));
+      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo, "z", DUMMY_VAR_INDEX), builder.createVariable(curStmtNo, "c", DUMMY_VAR_INDEX));
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
       stmts = assignTable.getAllStmtList();
       listSize = stmts.size();
@@ -58,8 +61,8 @@ namespace UnitTesting {
     {
       AssignTable assignTable;
       ASTBuilder builder;
-      VariableNode* varNode = builder.createVariable(1, "x");
-      VariableNode* rhsVarNode = builder.createVariable(1, "y");
+      VariableNode* varNode = builder.createVariable(1, "x", DUMMY_VAR_INDEX);
+      VariableNode* rhsVarNode = builder.createVariable(1, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(1, varNode, rhsVarNode);
       VAR_INDEX_NO varIndex = 1;
       STMT_NO curLineNo = 1;
@@ -71,7 +74,7 @@ namespace UnitTesting {
 
       varIndex = 1;
       curLineNo = 2;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x"), builder.createVariable(curLineNo, "x"));
+      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX));
       assignTable.insertAssignRelation(1, assignNode);
       stmts = assignTable.getAllStmtListByVar(varIndex);
       listSize = stmts.size();
@@ -80,7 +83,7 @@ namespace UnitTesting {
 
       varIndex = 2;
       curLineNo = 3;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y"), builder.createVariable(curLineNo, "c"));
+      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
       assignTable.insertAssignRelation(varIndex, assignNode);
       stmts = assignTable.getAllStmtListByVar(varIndex);
       listSize = stmts.size();
@@ -94,8 +97,8 @@ namespace UnitTesting {
       ASTBuilder builder;
       VAR_INDEX_NO varIndex = 1;
       STMT_NO curLineNo = 1;
-      VariableNode* varNode = builder.createVariable(curLineNo, "x");
-      VariableNode* rhsVarNode = builder.createVariable(curLineNo, "y");
+      VariableNode* varNode = builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX);
+      VariableNode* rhsVarNode = builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(curLineNo, varNode, rhsVarNode);
 
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
@@ -109,7 +112,7 @@ namespace UnitTesting {
 
       varIndex = 1;
       curLineNo = 2;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x"), builder.createVariable(curLineNo, "c"));
+      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
       stmtMap = assignTable.getAllAssignStmtWithVar();
 
@@ -121,7 +124,7 @@ namespace UnitTesting {
 
       varIndex = 2;
       curLineNo = 3;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y"), builder.createVariable(curLineNo, "c"));
+      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
       stmtMap = assignTable.getAllAssignStmtWithVar();
 
