@@ -151,6 +151,9 @@ int Parser::parseWhileStmt(TNode* t_node) throw(SyntaxErrorException) {
   m_pkb->insertStatementTypeTable(Grammar::GType::WHILE, m_curLineNum);
   m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::WHILE);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
+  for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
+    m_pkb->insertUsesForStmt(varNode->getVarName(), (*containerItr));
+  }
   parseStmtLst(stmtLstNode);
   //Update the while stmt with all the available uses and modifies
   //m_pkb->getall
