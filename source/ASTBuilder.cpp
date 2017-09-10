@@ -18,8 +18,8 @@ ConstantNode *ASTBuilder::createConstant(int t_lineNum, int t_constantValue) {
   return constNode;
 }
 
-VariableNode *ASTBuilder::createVariable(int t_lineNum, int t_varIndex) {
-  VariableNode *varNode = new VariableNode(t_lineNum, t_varIndex);
+VariableNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName, int t_varIndex) {
+  VariableNode *varNode = new VariableNode(t_lineNum, t_varName, t_varIndex);
   return varNode;
 }
 

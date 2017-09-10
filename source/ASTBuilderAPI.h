@@ -40,9 +40,10 @@ public:
   /** Create VariableNode
   *   @param t_lineNum statement number
   *   @param t_varName variable name
+  *   @param t_varIndex variable index from varTable
   *   @return pointer to VariableNode
   */
-  virtual VariableNode *createVariable(int t_lineNum, int t_varIndex) = 0;
+  virtual VariableNode *createVariable(int t_lineNum, std::string t_varName, int t_varIndex) = 0;
 
   /** Create ProcedureNode
   *   @param t_lineNum statement number
