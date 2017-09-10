@@ -243,6 +243,34 @@ public:
     Assert::IsFalse(ASTUtilities::matchSubtree(node, "   y  - a "));
   }
 
+  TEST_METHOD(TestMatchByExactPatternWithAllOperators) {
+    Logger::WriteMessage("Test match pattern exactly: x + y * a - a / b");
+    // x + y * a - a / b
+    TNode * node = getTreeWithAllOperators();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "x + y * a - a / b"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y * a - a"));
+  }
+
+  TEST_METHOD(TestMatchBySubtreeWithAllOperators) {
+    Logger::WriteMessage("Test match pattern by subtree: x + y * a - a / b");
+    // x + y * a - a / b
+    TNode * node = getTreeWithAllOperators();
+
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y * a - a / b"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "y * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "a / b"));
+
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "x + y * a - a "));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "  x + y"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "y * a - a"));
+  }
+
 private:
 
   /*  Given a TNode, checks if its type is equal to given type
@@ -296,6 +324,26 @@ private:
       multiplyNode);
 
     MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameA));
+
+    return minusNode;
+  }
+
+  // Generates tree: x + y * a - a / b
+  TNode *getTreeWithAllOperators() {
+    int lineNum = 25;
+    std::string varNameX = "x", varNameY = "y", varNameA = "a", varNameB = "b";
+
+    // y * a
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY),
+      new VariableNode(lineNum, varNameA));
+
+    // x + y * a
+    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX),
+      multiplyNode);
+
+    // x + y * a - a / b
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, 
+      new DivideNode(lineNum, new VariableNode(lineNum, varNameA), new VariableNode(lineNum, varNameB)));
 
     return minusNode;
   }
