@@ -223,3 +223,53 @@ Procedure p; assign a;
 Select p such that Follows (1,2) pattern a ("x","v")
 none
 5000
+46 - Extra Follows* Test Case
+stmt s;
+Select s such that Follows* (s,6)
+none
+5000
+47 - Extra Parent Test Case
+stmt s;
+Select s such that Parent (3,4)
+none
+5000
+48 - Extra Parent* Test Case
+stmt s;
+Select s such that Parent* (3,5)
+none
+5000
+49 - Extra Uses Test Case
+stmt s;
+Select s such that Uses (4,v)
+none
+5000
+50 - Extra Modifies Test Case
+stmt s;
+Select s such that Modifies (1,z)
+none
+5000
+51 - Extra Follows* and pattern
+stmt s; assign a;
+Select s such that Follows* (3,6) pattern a ("x","y")
+none
+5000
+52 - Extra Parent and pattern
+stmt s; assign a;
+Select s such that Parent (2,3) pattern a ("x","v")
+none
+5000
+53 - Extra Parent* and pattern
+stmt s; assign a;
+Select s such that Parent* (2,5) pattern a ("x",_"y"_)
+none
+5000
+54 - Extra Uses and pattern
+stmt s; assign a;
+Select s such that Uses (3,x) pattern a ("x","v")
+none
+5000
+55 - Extra Modifies and pattern
+stmt s; assign a;
+Select s such that Modifies (2,z) pattern a ("x","v")
+none
+5000
