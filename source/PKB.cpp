@@ -187,7 +187,7 @@ int PKB::getIndexOfVar(std::string varName) {
   return m_varTable->getIndexOfVar(varName);
 }
 
-/***********AssignNode Methods****************/
+/***********AssignTable Methods****************/
 VAR_INDEX_NO PKB::insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node) {
   return m_assignTable->insertAssignRelation(t_index, t_node);
 }
@@ -203,6 +203,51 @@ std::list<STMT_NO> PKB::getAllStmtList() {
 std::unordered_map<std::string, std::list<STMT_NO>> PKB::getAllAssignStmtWithVar() {
   return m_assignTable->getAllAssignStmtWithVar();
 }
+
+/***********ProcTable Methods****************/
+bool PKB::insertProcModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx) {
+  return m_procTable->insertModifies(t_procIdx, t_varIdx);
+}
+bool PKB::insertProcUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx) {
+  return m_procTable->insertUses(t_procIdx, t_varIdx);
+}
+
+void PKB::convertProcSetToList() {
+  m_procTable->convertProcTableSetToList();
+}
+
+bool PKB::isModifies(PROC_INDEX_NO& t_procIdx, std::string t_varName) {
+  return m_procTable->isModifies(t_procIdx, t_varName);
+}
+
+std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX_NO& t_procIdx) {
+  return m_procTable->getProcOfVarModifies(t_procIdx);
+}
+
+std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
+  return m_procTable->getProcNameThatModifiesVar(t_varName);
+}
+
+std::unordered_map<std::string, std::list<std::string>>& PKB::getProcAndVarModifies() {
+  return m_procTable->getProcAndVarModifies();
+}
+
+bool PKB::isModifiesInProc(std::string& t_procName) {
+  return m_procTable->isModifiesInProc(t_procName);
+}
+
+std::list<std::string>& PKB::getProcThatModifies() {
+  return m_procTable->getProcNameThatModifies();
+}
+
+bool PKB::isUses(PROC_INDEX_NO& t_procIdx, std::string& t_varName) {
+  return m_procTable->isUses(t_procIdx, t_varName);
+}
+
+std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX_NO& t_procIdx) {
+  return m_procTable->getProcOfVarUses(t_procIdx);
+}
+
 
 /**
 * STUB. To be removed.
@@ -242,5 +287,5 @@ PROC_INDEX_NO PKB::insertProcToAST(ProcedureNode* t_node) {
 
 //TBD
 ProcedureNode* PKB::getRootAST(PROC_INDEX_NO t_index) {
-  return m_procTable->getProcWithIndex(t_index);
+  return m_procTable->getProcNodeWithIdx(t_index);
 }

@@ -86,6 +86,25 @@ public:
   std::list<STMT_NO> getAllStmtList();
   std::unordered_map<std::string, std::list<STMT_NO>> getAllAssignStmtWithVar();
 
+  //ProcTable Methods
+  bool insertProcModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
+  bool insertProcUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
+  void convertProcSetToList();
+
+  bool isModifies(PROC_INDEX_NO& t_procIdx, std::string t_varName); /*< Modifies("First", "x")*/
+  std::list<std::string>& getVarOfProcModifies(PROC_INDEX_NO& t_procIdx); /*< Modifies("First", x) */
+  std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
+  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies(p, v) */
+  bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
+  std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
+
+  bool isUses(PROC_INDEX_NO& t_procIdx, std::string& t_varName);
+  std::list<std::string>& getVarOfProcUses(PROC_INDEX_NO& t_procIdx); /*< Uses("First", x) */
+  std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
+  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
+  bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
+  std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
