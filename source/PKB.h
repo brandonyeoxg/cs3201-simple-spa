@@ -60,10 +60,9 @@ public:
   bool isParentStar(int s1, int s2);
   int getParentOf(int s2);
   std::vector<int> getChildrenOf(int s1);
-  std::vector<int> getParentStarOf(int s2); //TO BE REVAMPED WITH parentedByStarMap
-  std::vector<int> getChildrenStarOf(int s1); //TO BE REVAMPED WITH parentStarMap
+  std::vector<int> getParentStarOf(int s2);
+  std::vector<int> getChildrenStarOf(int s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
-  //TBD getAllParentsStar();
   std::unordered_map<int, std::vector<int>> getAllParentsStar();
   
 

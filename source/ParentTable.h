@@ -16,10 +16,6 @@
 */
 class ParentTable {
 public:
-  //ParentTable* insert(ParentTable* table, int s1, int s2);
-  //std::vector<int> getS1(int s2);
-  //std::vector<int> getS2(int s1);
-
   void setChildMap(std::unordered_map<int, std::vector<int>> &map);
   void setParentMap(std::unordered_map<int, int> &map);
   void setParentStarMap(std::unordered_map<int, std::vector<int>> &map);
