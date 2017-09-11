@@ -64,12 +64,17 @@ bool ProcTable::insertModifies(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx
   return true;
 }
 
-bool ProcTable::isModifies(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx) {
-  auto procItr = m_data.begin() + t_procIdxNo;
-  if (procItr == m_data.end()) {
+bool ProcTable::isModifies(std::string& t_procName, std::string& t_varIdx) {
+  auto procItr = m_procWithVarNamesModifies.find(t_procName);
+  if (procItr == m_procWithVarNamesModifies.end()) {
     return false;
   }
-  return procItr->isModifies(t_varIdx);
+  for (auto& innerItr : procItr->second) {
+    if (innerItr == t_varIdx) {
+      return true;
+    }
+  }
+  return false;
 }
 
 std::list<std::string>& ProcTable::getProcOfVarModifies(PROC_INDEX_NO& t_procIdx) {
@@ -113,12 +118,17 @@ bool ProcTable::insertUses(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx) {
   return true;
 }
 
-bool ProcTable::isUses(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx) {
-  auto procItr = m_data.begin() + t_procIdxNo;
-  if (procItr == m_data.end()) {
+bool ProcTable::isUses(std::string& t_procName, std::string& t_varIdx) {
+  auto procItr = m_procWithVarNamesUses.find(t_procName);
+  if (procItr == m_procWithVarNamesUses.end()) {
     return false;
   }
-  return procItr->isUses(t_varIdx);
+  for (auto& innerItr : procItr->second) {
+    if (innerItr == t_varIdx) {
+      return true;
+    }
+  }
+  return false;
 }
 
 std::list<std::string>& ProcTable::getProcOfVarUses(PROC_INDEX_NO& t_procIdx) {

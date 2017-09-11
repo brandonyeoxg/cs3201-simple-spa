@@ -52,7 +52,7 @@ public:
   std::string getProcNameWithIdx(PROC_INDEX_NO& t_procIdx);
 
   bool insertModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
-  bool isModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varName);
+  bool isModifies(std::string& t_procIdx, std::string& t_varName);
   std::list<std::string>& getProcOfVarModifies(PROC_INDEX_NO& t_procIdx);
   std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName);
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies();
@@ -60,7 +60,7 @@ public:
   std::list<std::string>& getProcNameThatModifies();
 
   bool insertUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
-  bool isUses(PROC_INDEX_NO& t_procIdx, std::string& t_varName);
+  bool isUses(std::string& t_procName, std::string& t_varName);
   std::list<std::string>& getProcOfVarUses(PROC_INDEX_NO& t_procIdx);
   std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName);
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses();
