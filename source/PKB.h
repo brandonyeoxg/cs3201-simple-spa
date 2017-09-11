@@ -91,14 +91,14 @@ public:
   bool insertProcUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
   void convertProcSetToList();
 
-  bool isModifies(PROC_INDEX_NO& t_procIdx, std::string t_varName); /*< Modifies("First", "x")*/
+  bool isModifies(std::string& t_procName, std::string t_varName); /*< Modifies("First", "x")*/
   std::list<std::string>& getVarOfProcModifies(PROC_INDEX_NO& t_procIdx); /*< Modifies("First", x) */
   std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies(p, v) */
   bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
   std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
 
-  bool isUses(PROC_INDEX_NO& t_procIdx, std::string& t_varName);
+  bool isUses(std::string& t_procName, std::string& t_varName);
   std::list<std::string>& getVarOfProcUses(PROC_INDEX_NO& t_procIdx); /*< Uses("First", x) */
   std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */

@@ -216,8 +216,8 @@ void PKB::convertProcSetToList() {
   m_procTable->convertProcTableSetToList();
 }
 
-bool PKB::isModifies(PROC_INDEX_NO& t_procIdx, std::string t_varName) {
-  return m_procTable->isModifies(t_procIdx, t_varName);
+bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
+  return m_procTable->isModifies(t_procName, t_varName);
 }
 
 std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX_NO& t_procIdx) {
@@ -240,8 +240,8 @@ std::list<std::string>& PKB::getProcThatModifies() {
   return m_procTable->getProcNameThatModifies();
 }
 
-bool PKB::isUses(PROC_INDEX_NO& t_procIdx, std::string& t_varName) {
-  return m_procTable->isUses(t_procIdx, t_varName);
+bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
+  return m_procTable->isUses(t_procName, t_varName);
 }
 
 std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX_NO& t_procIdx) {
