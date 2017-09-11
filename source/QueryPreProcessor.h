@@ -33,11 +33,13 @@ public:
   std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void);
   std::queue<Pattern> QueryPreProcessor::getPattern(void);
   std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
+  std::vector<std::string> QueryPreProcessor::getSynonym(void);
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<DesignAbstraction> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
   std::vector<Grammar> m_grammarVector;
+  std::vector<std::string> m_synonymVector;
   std::vector<DesignAbstraction> m_designAbstractionVector;
   StringUtil m_stringUtil;
 };
