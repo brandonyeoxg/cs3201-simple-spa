@@ -22,27 +22,26 @@ namespace UnitTesting {
       dummyProc = builder.createProcedure(dummyProcName + "1");
       index = procTable.insertProcByProcNode(dummyProc);
       Assert::AreEqual(index, (PROC_INDEX_NO)1);
-
     }
 
-    TEST_METHOD(getProcWithIndex)
+    TEST_METHOD(getProcIdxNumWithName)
     {
       ASTBuilder builder;
       std::string dummyProcName = "dummy";
-      ProcTable procTable;
-
-      ProcedureNode* actualProcNode = procTable.getProcWithIndex(0);
-      Assert::IsNull(actualProcNode);
-
       ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      procTable.insertProcByProcNode(dummyProc);
-      actualProcNode = procTable.getProcWithIndex(0);
-      Assert::IsTrue(dummyProc == actualProcNode);
+      ProcTable procTable;
+      PROC_INDEX_NO index = procTable.insertProcByProcNode(dummyProc);
+
+      PROC_INDEX_NO actual = procTable.getProcIdxNumWithName(std::string("dummy"));
+
+      Assert::AreEqual(actual, (PROC_INDEX_NO)0);
 
       dummyProc = builder.createProcedure(dummyProcName + "1");
-      procTable.insertProcByProcNode(dummyProc);
-      actualProcNode = procTable.getProcWithIndex(1);
-      Assert::IsTrue(dummyProc == actualProcNode);
+      index = procTable.insertProcByProcNode(dummyProc);
+
+      actual = procTable.getProcIdxNumWithName(std::string("dummy1"));
+
+      Assert::AreEqual(actual, (PROC_INDEX_NO)1);
     }
   };
 }
