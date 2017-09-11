@@ -64,6 +64,7 @@ public:
   std::vector<int> getChildrenStarOf(int s1); //TO BE REVAMPED WITH parentStarMap
   std::unordered_map<int, std::vector<int>> getAllParents();
   //TBD getAllParentsStar();
+  std::unordered_map<int, std::vector<int>> getAllParentsStar();
   
 
   //statementTypeTable and typeOfStatementTable Methods

@@ -120,6 +120,9 @@ std::unordered_map<int, std::vector<int>> PKB::getAllParents() {
   return m_parentTable->getAllParents();
 }
 
+std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
+  return m_parentTable->getParentStarMap();
+}
 
 //statementTypeTable and typeOfStatementTable Methods
 std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
