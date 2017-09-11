@@ -43,5 +43,35 @@ namespace UnitTesting {
 
       Assert::AreEqual(actual, (PROC_INDEX_NO)1);
     }
+
+    TEST_METHOD(isModifies) 
+    {
+      ASTBuilder builder;
+      std::string dummyProcName = "dummy";
+      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
+      ProcTable procTable;
+      PROC_INDEX_NO index = procTable.insertProcByProcNode(dummyProc);
+      
+      procTable.insertModifies(index, std::string("HELLO"));
+      procTable.convertProcTableSetToList();
+
+      Assert::IsTrue(procTable.isModifies(dummyProcName, std::string("HELLO")));
+      Assert::IsFalse(procTable.isModifies(dummyProcName, std::string("BYEBYE")));
+    }
+
+    TEST_METHOD(isUses)
+    {
+      ASTBuilder builder;
+      std::string dummyProcName = "dummy";
+      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
+      ProcTable procTable;
+      PROC_INDEX_NO index = procTable.insertProcByProcNode(dummyProc);
+
+      procTable.insertUses(index, std::string("HELLO"));
+      procTable.convertProcTableSetToList();
+
+      Assert::IsTrue(procTable.isUses(dummyProcName, std::string("HELLO")));
+      Assert::IsFalse(procTable.isUses(dummyProcName, std::string("BYEBYE")));
+    }
   };
 }
