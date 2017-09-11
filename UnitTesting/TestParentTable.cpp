@@ -121,6 +121,7 @@ namespace UnitTesting {
       };
       testParentTable->setParentMap(testGetChildrenStarParentMap);
       testParentTable->setChildMap(testGetChildrenStarMapChildMap);
+      testParentTable->populateParentStarMap();
       //test getChildrenStarOf method (correct behaviour).
       static const int arr[] = { 3, 4, 5 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
