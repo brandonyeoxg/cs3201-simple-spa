@@ -161,5 +161,23 @@ namespace UnitTesting {
       expected = testFollowTable->getFollowedByStar(5);
       Assert::IsTrue(expected == emptyResult);
     }
+
+    TEST_METHOD(TestGetAllFollows) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getAllFollows");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      //test getAllFollows method (correct behaviour)
+      std::unordered_map<int, int> expected = {
+        { 1, 2 },
+        { 2, 3 },
+        { 3, 4 }
+      };
+      Assert::IsTrue(expected == testFollowTable->getAllFollows());
+    }
   };
 }

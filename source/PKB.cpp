@@ -43,6 +43,19 @@ bool PKB::insertFollows(int s1, int s2) {
   return m_followTable->insertFollows(s1, s2);
 }
 
+void PKB::populateParentStarMap() {
+    m_parentTable->populateParentStarMap();
+}
+
+void PKB::populateParentedByStarMap() {
+  auto parentMap = m_parentTable->getParentMap();
+  std::unordered_map<int, std::list<std::list<int>>> parentStarMap;
+
+  for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
+    m_parentTable->populateParentedByStarMap(mapItr);
+  }
+}
+
 bool PKB::isFollows(int s1, int s2) {
   return m_followTable->isFollows(s1, s2);
 }
@@ -67,6 +80,13 @@ std::vector<int> PKB::getFollowedByStar(int s2) {
   return m_followTable->getFollowedByStar(s2);
 }
 
+std::unordered_map<int, int> PKB::getAllFollows() {
+  return m_followTable->getAllFollows();
+}
+
+std::unordered_map<int, std::vector<int>> PKB::getAllFollowsStar() {
+  return m_followTable->getAllFollowsStar();
+}
 /***********ParentTable Methods****************/
 bool PKB::insertParent(int s1, int s2) {
   return m_parentTable->insertParent(s1, s2);
@@ -94,6 +114,14 @@ std::vector<int> PKB::getParentStarOf(int s2) {
 
 std::vector<int> PKB::getChildrenStarOf(int s1) {
   return m_parentTable->getChildrenStarOf(s1);
+}
+
+std::unordered_map<int, std::vector<int>> PKB::getAllParents() {
+  return m_parentTable->getAllParents();
+}
+
+std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
+  return m_parentTable->getParentStarMap();
 }
 
 //statementTypeTable and typeOfStatementTable Methods

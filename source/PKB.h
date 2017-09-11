@@ -46,18 +46,25 @@ public:
   int getFollowedBy(int s2);
   std::vector<int> getFollowsStar(int s1);
   std::vector<int> getFollowedByStar(int s2);
+  std::unordered_map<int, int> getAllFollows();
+  std::unordered_map<int, std::vector<int>> getAllFollowsStar();
   
   PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
   ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
   
   //ParentTable Methods
   bool insertParent(int s1, int s2);
+  void populateParentStarMap();
+  void populateParentedByStarMap();
   bool isParent(int s1, int s2);
   bool isParentStar(int s1, int s2);
   int getParentOf(int s2);
   std::vector<int> getChildrenOf(int s1);
   std::vector<int> getParentStarOf(int s2);
   std::vector<int> getChildrenStarOf(int s1);
+  std::unordered_map<int, std::vector<int>> getAllParents();
+  std::unordered_map<int, std::vector<int>> getAllParentsStar();
+  
 
   //statementTypeTable and typeOfStatementTable Methods
   std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();

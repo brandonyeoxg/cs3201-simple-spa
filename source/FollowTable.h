@@ -75,6 +75,18 @@ public:
   std::vector<int> getFollowedByStar(int s2);
 
   /**
+  * Method that returns the entire map of line numbers that follows(s1, s2) holds, where s1 and s2 are both variables.
+  * @return the entire map that keep tracks of the follow relationship.
+  */
+  std::unordered_map<int, int> getAllFollows();
+
+  /**
+  * Method that returns the entire map of line numbers that follows*(s1, s2) holds, where s1 and s2 are both variables.
+  * @return the entire map that keep tracks of the follow relationship.
+  */
+  std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+
+  /**
   * A setter method for followTable.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
   */
