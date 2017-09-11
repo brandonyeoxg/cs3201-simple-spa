@@ -11,6 +11,7 @@ class DesignExtractor {
 public:
   DesignExtractor(PKB* t_pkb);
   void extractRestOfDesignAbstractions();
+  void extractProcTableAbstraction();
 
   std::unordered_map<int, std::list<std::list<int>>> testExtractParentStarMap();
   std::unordered_map<int, std::list<int>> testExtractParentedByStarMap();

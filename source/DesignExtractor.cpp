@@ -13,9 +13,13 @@ DesignExtractor::DesignExtractor(PKB* t_pkb) {
 }
 
 void DesignExtractor::extractRestOfDesignAbstractions() {
+  extractProcTableAbstraction();
   extractParentStarAbstraction();
 }
 
+void DesignExtractor::extractProcTableAbstraction() {
+  m_pkb->convertProcSetToList();
+}
 
 std::unordered_map<int, std::list<std::list<int>>> DesignExtractor::testExtractParentStarMap() {
   ParentTable* parentTable = m_pkb->getParentTable();
