@@ -223,7 +223,24 @@ std::unordered_map<int, std::vector<int>> ParentTable::getAllParents() {
 }
 
 void ParentTable::populateParentStarMap() {
-  
+  //for every key in childMap
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    int parent = it->first;
+    std::vector<int> children = it->second;
+    m_parentStarMap.emplace(parent, children);
+    std::vector<int> childrenStar = children;
+    for (int i = 0; i < childrenStar.size(); i++) {
+      //for every child, if it can be found in the map, append all from it's mapped vector to children
+      auto iterator = m_childMap.find(childrenStar[i]);
+      if (iterator != m_childMap.end()) {
+        std::vector<int> toBeAppended = iterator->second;
+        childrenStar.reserve(childrenStar.size() + toBeAppended.size());
+        childrenStar.insert(childrenStar.end(), toBeAppended.begin(), toBeAppended.end());
+      }
+    }
+    m_parentStarMap[parent] = childrenStar;
+  }
+
 }
 
 void ParentTable::populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr) {

@@ -137,5 +137,23 @@ namespace UnitTesting {
       Assert::IsTrue(exceptionThrown);
 
     }
+
+    TEST_METHOD(TestPopulateParentStarMap) {
+      ParentTable *testParentTable = new ParentTable();
+      std::unordered_map<int, std::vector<int>> testChildMap = {
+        { 1,{ 2, 3, 4 } },
+        { 4,{ 5, 6, 7 } },
+        { 7, {8} }
+      };
+      testParentTable->setChildMap(testChildMap);
+      testParentTable->populateParentStarMap();
+      std::unordered_map<int, std::vector<int>> expected = {
+        { 1,{ 2, 3, 4, 5, 6, 7, 8 } },
+        { 4,{ 5, 6, 7, 8} },
+        { 7, {8}}
+      };
+
+      Assert::IsTrue(expected == testParentTable->getParentStarMap());
+    }
   };
 }
