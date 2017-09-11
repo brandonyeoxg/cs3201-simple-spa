@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <stack>
 #include <algorithm>
 
 #include "ParentTable.h"
@@ -221,6 +222,22 @@ std::unordered_map<int, std::vector<int>> ParentTable::getAllParents() {
   return m_childMap;
 }
 
+void ParentTable::populateParentStarMap() {
+  
+}
+
+void ParentTable::populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr) {
+  int baseStmtNo = t_mapItr->first;
+  std::vector<int> stmtsOfParentedBy;
+  stmtsOfParentedBy.push_back(t_mapItr->second);
+  auto nextParentLink = m_parentMap.find(t_mapItr->second);
+  while (nextParentLink != m_parentMap.end()) {
+    stmtsOfParentedBy.push_back(nextParentLink->second);
+    nextParentLink = m_parentMap.find(nextParentLink->second);
+  }
+  m_parentedByStarMap.insert({ baseStmtNo, stmtsOfParentedBy });
+}
+
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }
@@ -229,11 +246,11 @@ void ParentTable::setParentMap(std::unordered_map<int, int> &map) {
   m_parentMap = map;
 }
 
-void ParentTable::setParentStarMap(std::unordered_map<int, std::list<std::list<int>>> &map) {
+void ParentTable::setParentStarMap(std::unordered_map<int, std::vector<int>> &map) {
   m_parentStarMap = map;
 }
 
-void ParentTable::setParentedByStarMap(std::unordered_map<int, std::list<int>> &map) {
+void ParentTable::setParentedByStarMap(std::unordered_map<int, std::vector<int>> &map) {
   m_parentedByStarMap = map;
 }
 
@@ -245,11 +262,11 @@ std::unordered_map<int, int> ParentTable::getParentMap() {
   return m_parentMap;
 }
 
-std::unordered_map<int, std::list<std::list<int>>> ParentTable::getParentStarMap() {
+std::unordered_map<int, std::vector<int>> ParentTable::getParentStarMap() {
   return m_parentStarMap;
 }
 
-std::unordered_map<int, std::list<int>> ParentTable::getParentedByStarMap() {
+std::unordered_map<int, std::vector<int>> ParentTable::getParentedByStarMap() {
   return m_parentedByStarMap;
 }
 
@@ -260,6 +277,6 @@ std::unordered_map<int, std::list<int>> ParentTable::getParentedByStarMap() {
 ParentTable::ParentTable() {
   std::unordered_map<int, int> m_parentMap;
   std::unordered_map<int, std::vector<int>> m_childMap;
-  std::unordered_map<int, std::list<std::list<int>>> m_parentStarMap;
-  std::unordered_map<int, std::list<int>> m_parentedByStarMap;
+  std::unordered_map<int, std::vector<std::vector<int>>> m_parentStarMap;
+  std::unordered_map<int, std::vector<int>> m_parentedByStarMap;
 }

@@ -54,13 +54,17 @@ public:
   
   //ParentTable Methods
   bool insertParent(int s1, int s2);
+  void populateParentStarMap();
+  void populateParentedByStarMap();
   bool isParent(int s1, int s2);
   bool isParentStar(int s1, int s2);
   int getParentOf(int s2);
   std::vector<int> getChildrenOf(int s1);
-  std::vector<int> getParentStarOf(int s2);
-  std::vector<int> getChildrenStarOf(int s1);
+  std::vector<int> getParentStarOf(int s2); //TO BE REVAMPED WITH parentedByStarMap
+  std::vector<int> getChildrenStarOf(int s1); //TO BE REVAMPED WITH parentStarMap
   std::unordered_map<int, std::vector<int>> getAllParents();
+  //TBD getAllParentsStar();
+  
 
   //statementTypeTable and typeOfStatementTable Methods
   std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
