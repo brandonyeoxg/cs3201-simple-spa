@@ -235,7 +235,7 @@ none
 5000
 48 - Extra Parent* Test Case
 stmt s;
-Select s such that Parent* (3,5)
+Select s such that Parent* (6,9)
 none
 5000
 49 - Extra Uses Test Case
