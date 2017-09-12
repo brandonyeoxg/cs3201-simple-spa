@@ -22,14 +22,17 @@ class TNode;
 class PKB {
 public:
   PKB();
-  //getter methods
+  ///////////////////////////////////////////////////////
+  //  Getter and Setter methods 
+  ///////////////////////////////////////////////////////
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-  //setter methods
   void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
 
-  //FollowTable Methods
+  ///////////////////////////////////////////////////////
+  //  FollowTable methods 
+  ///////////////////////////////////////////////////////
   bool insertFollows(int s1, int s2);
   bool isFollows(int s1, int s2);
   bool isFollowsStar(int s1, int s2);
@@ -41,20 +44,17 @@ public:
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
   std::vector<int> getFollowedByAnything();
   std::vector<int> getFollowsAnything();
-  std::vector<int> getFollowedByStarAnything();
-  std::vector<int> getFollowsStarAnything();
   bool hasFollowRelationship();
-  bool hasFollowStarRelationship();
   bool isFollowsAnything(int t_s2);
   bool isFollowedByAnything(int t_s1);
-  bool isFollowsStarAnything(int t_s2);
-  bool isFollowedByStarAnything(int t_s1);
 
   
   PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
   ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
   
-  //ParentTable Methods
+  ///////////////////////////////////////////////////////
+  //  ParentTable methods 
+  ///////////////////////////////////////////////////////
   bool insertParent(int s1, int s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
@@ -79,14 +79,18 @@ public:
 
 
   
-
-  //statementTypeTable and typeOfStatementTable Methods
+  //////////////////////////////////////////////////////////
+  //  statementTypeTable and typeOfStatementTable Methods
+  //////////////////////////////////////////////////////////
+  
   std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
   bool insertTypeOfStatementTable(int line_num, Grammar::GType t_type);
   std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
   bool insertStatementTypeTable(Grammar::GType t_type, int line_num);
 
-  //VarTable Methods
+  ///////////////////////////////////////////////////////
+  //  VarTable methods 
+  ///////////////////////////////////////////////////////
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
   int insertModifiesForStmt(std::string t_varName, int t_lineNum);
   bool isModifies(int lineNum, std::string varName);
@@ -103,7 +107,9 @@ public:
   std::vector<int> getStmtModifiesAnything();
   std::vector<int> getStmtUsesAnything();
 
-  //AssignTable Methods
+  ///////////////////////////////////////////////////////
+  //  AssignTable methods 
+  ///////////////////////////////////////////////////////
   VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);
   std::list<STMT_NO> getAllStmtListByVar(VAR_INDEX_NO& t_index);
   std::list<STMT_NO> getAllStmtList();

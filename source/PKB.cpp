@@ -22,7 +22,9 @@ PKB::PKB() {
   std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
 
-/* Getter methods*/
+///////////////////////////////////////////////////////
+//  Getter and Setter methods 
+///////////////////////////////////////////////////////
 FollowTable* PKB:: getFollowTable() {
   return m_followTable;
 }
@@ -38,7 +40,10 @@ VarTable* PKB::getVarTable() {
 void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
   m_followTable->setFollowTable(table);
 }
-/***********FollowTable Methods****************/
+
+///////////////////////////////////////////////////////
+//  FollowTable methods 
+///////////////////////////////////////////////////////
 bool PKB::insertFollows(int s1, int s2) {
   return m_followTable->insertFollows(s1, s2);
 }
@@ -87,7 +92,10 @@ std::unordered_map<int, int> PKB::getAllFollows() {
 std::unordered_map<int, std::vector<int>> PKB::getAllFollowsStar() {
   return m_followTable->getAllFollowsStar();
 }
-/***********ParentTable Methods****************/
+
+///////////////////////////////////////////////////////
+//  ParentTable methods 
+///////////////////////////////////////////////////////
 bool PKB::insertParent(int s1, int s2) {
   return m_parentTable->insertParent(s1, s2);
 }
@@ -124,7 +132,9 @@ std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
   return m_parentTable->getParentStarMap();
 }
 
-//statementTypeTable and typeOfStatementTable Methods
+//////////////////////////////////////////////////////////
+//  statementTypeTable and typeOfStatementTable Methods
+//////////////////////////////////////////////////////////
 std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
@@ -162,7 +172,9 @@ bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
   }
 }
 
-/***********VarTable Methods****************/
+///////////////////////////////////////////////////////
+//  VarTable methods 
+///////////////////////////////////////////////////////
 int PKB::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
@@ -207,7 +219,9 @@ int PKB::getIndexOfVar(std::string varName) {
   return m_varTable->getIndexOfVar(varName);
 }
 
-/***********AssignNode Methods****************/
+///////////////////////////////////////////////////////
+//  AssignTable methods 
+///////////////////////////////////////////////////////
 VAR_INDEX_NO PKB::insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node) {
   return m_assignTable->insertAssignRelation(t_index, t_node);
 }

@@ -87,28 +87,39 @@ public:
   */
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
 
-  std::vector<int> getFollowedByAnything(); //Follows(s1, _)
-  std::vector<int> getFollowsAnything();  //Follows (_, s2)
-  std::vector<int> getFollowedByStarAnything(); //Follows*(s1, _)
-  std::vector<int> getFollowsStarAnything();  //Follows* (_, s2)
-  bool hasFollowRelationship(); //Follows (_, _)
-  bool hasFollowStarRelationship(); //Follows* (_, _)
-  bool isFollowsAnything(int t_s2); //follows(_, 2)
-  bool isFollowedByAnything(int t_s1);  //follows(2, _)
-  bool isFollowsStarAnything(int t_s2); //follows*(_, 2)
-  bool isFollowedByStarAnything(int t_s1);  //follows*(2, _)
+  /**
+  * Method that returns the list of line numbers that follows(s1, _) and follows*(s1, _) holds, where s1 is a variable.
+  * @return the vector of keys within the followTable.
+  */
+  std::vector<int> getFollowedByAnything();
 
+  /**
+  * Method that returns the list of line numbers that follows (_, s2) and Follows* (_, s2) holds, where s1 is a variable.
+  * @return the vector of keys within the followTable.
+  */
+  std::vector<int> getFollowsAnything();
 
+  /**
+  * Method that checks if follows(_, _) or follows*(_, _) holds, where s2 is a variable.
+  * @return true if the size of the followTable is more than zero, return false if otherwise.
+  */
+  bool hasFollowRelationship();
 
+  /**
+  * Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
+  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  */
+  bool isFollowsAnything(int t_s2);
 
+  /**
+  * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
+  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  */
+  bool isFollowedByAnything(int t_s1);
 
-
-
-
-
-
-
-
+  ///////////////////////////////////////////////////////
+  //  Getter and Setter methods 
+  ///////////////////////////////////////////////////////
 
   /**
   * A setter method for followTable.
