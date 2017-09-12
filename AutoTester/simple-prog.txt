@@ -2,12 +2,12 @@ procedure main {
   x=y+z+x+y;
   while i {
     x=y;
-    I = am + awesome!;
+    I = am + awesome;
 	while j {
-x=y;}}
+	  a=b;}}
   z=y;
   c=v;
   while i {
     x=y;
-    I = can+ do! +it;}
+    I = can + do + it;}
 }
