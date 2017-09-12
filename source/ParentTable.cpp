@@ -145,6 +145,21 @@ void ParentTable::populateParentedByStarMap(std::unordered_map<int, int>::iterat
   m_parentedByStarMap.insert({ baseStmtNo, stmtsOfParentedBy });
 }
 
+std::vector<int> ParentTable::getChildrenOfAnything() {
+  //parent(_,s2) s2 variable
+  //return list of children i.e. keys of m_parentMap
+  std::vector<int> result;
+  for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
+    result.push_back(it->first);
+  }
+
+  return result;
+}
+
+
+
+
+//getter and setters
 void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
   m_childMap = map;
 }

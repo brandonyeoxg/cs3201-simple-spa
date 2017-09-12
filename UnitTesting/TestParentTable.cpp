@@ -167,5 +167,19 @@ namespace UnitTesting {
 
       Assert::IsTrue(expected == testParentTable->getParentStarMap());
     }
+
+    TEST_METHOD(TestGetChildrenOfAnything) {
+      ParentTable *testParentTable = new ParentTable();
+      std::unordered_map<int, int> testParentMap = {
+        { 2, 1 },
+        { 3, 1 },
+        { 4, 2 }
+      };
+      testParentTable->setParentMap(testParentMap);
+      static const int arr[] = { 2, 3, 4 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      std::vector<int> expected = testParentTable->getChildrenOfAnything();
+      Assert::IsTrue(expected == actual);
+    }
   };
 }
