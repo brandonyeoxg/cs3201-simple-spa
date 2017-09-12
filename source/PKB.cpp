@@ -151,6 +151,46 @@ std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
   return m_parentTable->getParentStarMap();
 }
 
+std::vector<int> PKB::getChildrenOfAnything() {
+  return m_parentTable->getChildrenOfAnything();
+}
+
+std::vector<int> PKB::getParentOfAnything() {
+  return m_parentTable->getParentOfAnything();
+}
+
+std::vector<int> PKB::getChildrenStarOfAnything() {
+  return m_parentTable->getChildrenStarOfAnything();
+}
+
+std::vector<int> PKB::getParentStarOfAnything() {
+  return m_parentTable->getParentStarOfAnything();
+}
+
+bool PKB::hasParentRelationship() {
+  return m_parentTable->hasParentRelationship();
+}
+
+bool PKB::hasParentStarRelationship() {
+  return m_parentTable->hasParentStarRelationship();
+}
+
+bool PKB::isChildrenOfAnything(int t_s2) {
+  return m_parentTable->isChildrenOfAnything(t_s2);
+}
+
+bool PKB::isParentOfAnything(int t_s1) {
+  return m_parentTable->isParentOfAnything(t_s1);
+}
+
+bool PKB::isChildrenOfStarAnything(int t_s2) {
+  return m_parentTable->isChildrenOfStarAnything(t_s2);
+}
+
+bool PKB::isParentOfStarAnything(int t_s1) {
+  return m_parentTable->isParentOfStarAnything(t_s1);
+}
+
 //////////////////////////////////////////////////////////
 //  statementTypeTable and typeOfStatementTable Methods
 //////////////////////////////////////////////////////////
