@@ -221,7 +221,7 @@ bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
 }
 
 std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX_NO& t_procIdx) {
-  return m_procTable->getProcOfVarModifies(t_procIdx);
+  return m_procTable->getVarFromProcModifies(t_procIdx);
 }
 
 std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
@@ -245,9 +245,8 @@ bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
 }
 
 std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX_NO& t_procIdx) {
-  return m_procTable->getProcOfVarUses(t_procIdx);
+  return m_procTable->getVarFromProcUses(t_procIdx);
 }
-
 
 /**
 * STUB. To be removed.

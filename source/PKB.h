@@ -98,12 +98,13 @@ public:
   bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
   std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
 
-  bool isUses(std::string& t_procName, std::string& t_varName);
+  bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
   std::list<std::string>& getVarOfProcUses(PROC_INDEX_NO& t_procIdx); /*< Uses("First", x) */
   std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
   bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
+
 
 private:
   FollowTable* m_followTable;
