@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 #include <stdexcept>
 #include <algorithm>
 
@@ -40,6 +41,7 @@ bool FollowTable::insertFollows(int s1, int s2) {
     std::vector<int> lineNums;
     lineNums.push_back(s2);
     m_followTable.emplace(s1, lineNums);
+    m_allFollows.insert(s2);
   } else {
     //if not, first check if the existing vector consists s2; if it does, return false
     std::vector<int> lineNums = m_followTable[s1];
@@ -56,6 +58,7 @@ bool FollowTable::insertFollows(int s1, int s2) {
         vect.push_back(s2);
         //update followtable!
         m_followTable[it->first] = vect;
+        m_allFollows.insert(s2);
       }
     }
   }
@@ -219,10 +222,23 @@ std::vector<int> FollowTable::getFollowedByAnything() {
   }
   return keys;
 }
+
+/**
+* Method that returns the list of line numbers that follows(_, s2) holds, where s2 is a variable.
+* @return the vector of unique values within the followTable.
+*/
+std::vector<int> FollowTable::getFollowsAnything() {
+  std::vector<int> values;
+  //copy the m_allFollows set to values vector.
+  values.assign(m_allFollows.begin(), m_allFollows.end());
+  return values;
+}
+
 /**
 * A constructor.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 FollowTable::FollowTable() {
   std::unordered_map<int, std::vector<int>> m_followTable;
+  std::set<int> m_allFollows;
 }

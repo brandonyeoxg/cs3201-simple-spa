@@ -195,5 +195,18 @@ namespace UnitTesting {
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
     }
+
+    TEST_METHOD(TestGetFollowsAnything) {
+      Logger::WriteMessage("Running follow table test getFollowsAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+      static const int arr[] = { 2, 3, 4 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
+      std::vector<int> expected = testFollowTable->getFollowsAnything();
+      Assert::IsTrue(expected == actual);
+    }
   };
 }

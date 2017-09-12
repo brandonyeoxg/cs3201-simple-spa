@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 
 /** 
 * Represents the follow relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
@@ -129,4 +130,5 @@ public:
 
 private:
   std::unordered_map<int, std::vector<int>> m_followTable;
+  std::set<int> m_allFollows;
 };
