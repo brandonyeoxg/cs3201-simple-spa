@@ -77,7 +77,7 @@ bool ProcTable::isModifies(std::string& t_procName, std::string& t_varIdx) {
   return false;
 }
 
-std::list<std::string>& ProcTable::getProcOfVarModifies(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& ProcTable::getVarFromProcModifies(PROC_INDEX_NO& t_procIdx) {
   auto pItr = m_data.begin() + t_procIdx;
   if (pItr == m_data.end()) {
     return std::list<std::string>();
@@ -131,7 +131,7 @@ bool ProcTable::isUses(std::string& t_procName, std::string& t_varIdx) {
   return false;
 }
 
-std::list<std::string>& ProcTable::getProcOfVarUses(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& ProcTable::getVarFromProcUses(PROC_INDEX_NO& t_procIdx) {
   auto pItr = m_data.begin();
   if (pItr == m_data.end()) {
     return std::list<std::string>();

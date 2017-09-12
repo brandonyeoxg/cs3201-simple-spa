@@ -52,20 +52,20 @@ public:
   std::string getProcNameWithIdx(PROC_INDEX_NO& t_procIdx);
 
   bool insertModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
-  bool isModifies(std::string& t_procIdx, std::string& t_varName);
-  std::list<std::string>& getProcOfVarModifies(PROC_INDEX_NO& t_procIdx);
-  std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName);
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies();
-  bool isModifiesInProc(std::string& t_procName);
-  std::list<std::string>& getProcNameThatModifies();
+  bool isModifies(std::string& t_procIdx, std::string& t_varName); /*< Modifies("First", "x") */
+  std::list<std::string>& getVarFromProcModifies(PROC_INDEX_NO& t_procIdx); /*< Modifies("First", x) */
+  std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
+  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies("First", _) */
+  bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
+  std::list<std::string>& getProcNameThatModifies(); /*< Modifies(p, _) */
 
-  bool insertUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
-  bool isUses(std::string& t_procName, std::string& t_varName);
-  std::list<std::string>& getProcOfVarUses(PROC_INDEX_NO& t_procIdx);
-  std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName);
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses();
-  bool isUsesInProc(std::string& t_procName);
-  std::list<std::string>& getProcNameThatUses();
+  bool insertUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx); 
+  bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
+  std::list<std::string>& getVarFromProcUses(PROC_INDEX_NO& t_procIdx); /*< Uses("First", x) */
+  std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
+  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
+  bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
+  std::list<std::string>& getProcNameThatUses(); /*< Uses(p, _) */
 
   void convertProcTableSetToList();
 private:
