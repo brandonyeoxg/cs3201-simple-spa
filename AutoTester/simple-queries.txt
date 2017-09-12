@@ -236,7 +236,7 @@ Select s2 such that Parent*(s1,s2)
 48 - Select with Uses and no synonyms - True
 stmt s;
 Select s such that Uses(3,"y")
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
 49 - Select with Uses and no synonyms - False
 stmt s;
@@ -246,12 +246,12 @@ none
 50 - Select with Uses and no synonyms - True for control variable in a container statement
 stmt s;
 Select s such that Uses(2,"i")
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
 51 - Select with Uses and no synonyms - True for assign variable in a container statement
 stmt s;
 Select s such that Uses(2,"y")
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
 52 - Select with Uses and no synonyms - False for container statement
 stmt s;
@@ -331,7 +331,7 @@ x, y, z, i, am, awesome, j, b, v, can, do, it
 67 - Select with Modifies and no synonyms - True
 stmt s;
 Select s such that Modifies(3,"x")
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
 68 - Select with Modifies and no synonyms - False
 stmt s;
@@ -341,7 +341,7 @@ none
 69 - Select with Modifies and no synonyms - True for container statement
 stmt s;
 Select s such that Modifies(2,"x")
-none
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
 70 - Select with Modifies and no synonyms - False for container statement
 stmt s;
