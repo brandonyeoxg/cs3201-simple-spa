@@ -172,13 +172,13 @@ bool QueryEvaluator::getResultFromPkb() {
   std::cout << "\nRelation Queue\n";
   for (int i = 0; i < relationSize; ++i) {
     std::unordered_map<std::string, std::vector<std::string>> result;
-    DesignAbstraction relation = m_relations.front();
+    Relation relation = m_relations.front();
     std::cout << i + 1 << ": " << relation.getType() << " ";
     std::cout << relation.getG1().getName() << " ";
     std::cout << relation.getG2().getName() << "\n";
 
     // Call the PKB API to get the results of the relation clauses
-    if (relation.getType() == DesignAbstraction::DAType::FOLLOWS) {
+    if (relation.getType() == Relation::RType::FOLLOWS) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
         if (m_pkb->isFollows(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()))) {
           std::cout << "Follows: True\n";
@@ -220,7 +220,7 @@ bool QueryEvaluator::getResultFromPkb() {
         // Todo: Get the whole Follows Table.
         //result = m_pkb->getAllFollows();
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
+    } else if (relation.getType() == Relation::RType::FOLLOWS_) {
       std::cout << "FOLLOWS STAR\n";
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
         if (m_pkb->isFollowsStar(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()))) {
@@ -261,7 +261,7 @@ bool QueryEvaluator::getResultFromPkb() {
         // Todo: Get the whole Follows Table.
         //result = m_pkb->getAllFollows();
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::PARENT) {
+    } else if (relation.getType() == Relation::RType::PARENT) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
         if (m_pkb->isParent(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()))) {
           std::cout << "Parent: True\n";
@@ -298,7 +298,7 @@ bool QueryEvaluator::getResultFromPkb() {
         // Todo: Get the whole Parent Table.
         //result = m_pkb->getAllParent();
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::PARENT_) {
+    } else if (relation.getType() == Relation::RType::PARENT_) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::CONST) {
         if (m_pkb->isParentStar(std::stoi(relation.getG1().getName()), std::stoi(relation.getG2().getName()))) {
           std::cout << "Parent*: True\n";
@@ -334,7 +334,7 @@ bool QueryEvaluator::getResultFromPkb() {
         // Todo: Get the whole Parent Table.
         //result = m_pkb->getAllParent();
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::USES) {
+    } else if (relation.getType() == Relation::RType::USES) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::EXPR) {
         if (m_pkb->isUses(std::stoi(relation.getG1().getName()), relation.getG2().getName())) {
           std::cout << "Uses: True\n";
@@ -353,7 +353,7 @@ bool QueryEvaluator::getResultFromPkb() {
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::VAR) {
         std::cout << "USES (STMT, VAR) WORKS!\n";
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::MODIFIES) {
+    } else if (relation.getType() == Relation::RType::MODIFIES) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::EXPR) {
         if (m_pkb->isModifies(std::stoi(relation.getG1().getName()), relation.getG2().getName())) {
           std::cout << "Modifies: True\n";
@@ -548,8 +548,8 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   while (!m_relationResults.empty()) {
     //Todo: format result to vector<string>
     std::unordered_map<std::string, std::vector<std::string>> resultMap = m_relationResults.front();
-    DesignAbstraction relation = m_relations.front();
-    if (relation.getType() == DesignAbstraction::DAType::FOLLOWS || relation.getType() == DesignAbstraction::DAType::FOLLOWS_) {
+    Relation relation = m_relations.front();
+    if (relation.getType() == Relation::RType::FOLLOWS || relation.getType() == Relation::RType::FOLLOWS_) {
       if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
         std::unordered_map<std::string, std::vector<std::string>>::const_iterator getVector = resultMap.find(relation.getG1().getName());
         std::vector<std::string> stmtVector = getVector->second;
@@ -566,7 +566,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
         //Todo: Get the results for query Select s1 such that Follows (s1, s2) or Select s2 such that Follows (s1, s2)
       }
     }
-    else if (relation.getType() == DesignAbstraction::DAType::PARENT || relation.getType() == DesignAbstraction::DAType::PARENT_) {
+    else if (relation.getType() == Relation::RType::PARENT || relation.getType() == Relation::RType::PARENT_) {
       if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::CONST) {
         std::unordered_map<std::string, std::vector<std::string>>::const_iterator getVector = resultMap.find(relation.getG1().getName());
         std::vector<std::string> stmtVector = getVector->second;
@@ -584,9 +584,9 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::STMT) {
         //Todo: Get the results for query Select s1 such that Follows (s1, s2) or Select s2 such that Follows (s1, s2)
       }
-    } else if (relation.getType() == DesignAbstraction::DAType::USES) {
+    } else if (relation.getType() == Relation::RType::USES) {
       //Todo: Get the results for Uses
-    } else if (relation.getType() == DesignAbstraction::DAType::MODIFIES) {
+    } else if (relation.getType() == Relation::RType::MODIFIES) {
       //Todo: Get ther results for Modifies
     } else {
       std::cout << "Relation Type: " << relation.getType() << "\n";
