@@ -166,6 +166,92 @@ std::vector<int> ParentTable::getParentOfAnything() {
   return result;
 }
 
+std::vector<int> ParentTable::getChildrenStarOfAnything() {
+  //parent*(_, s2)
+  //return list of children* i.e. keys of parentedByStarMap
+  std::vector<int> result;
+  for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
+    result.push_back(it->first);
+  }
+
+  return result;
+}
+
+std::vector<int> ParentTable::getParentStarOfAnything() {
+  //parent*(s1, _)
+  //return list of parent* i.e. keys of parentStarMap
+  std::vector<int> result;
+  for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
+    result.push_back(it->first);
+  }
+
+  return result;
+}
+
+bool ParentTable::hasParentRelationship() {
+  //Parent (_, _)
+  bool isFollowTableEmpty;
+  if (m_parentMap.size() > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool ParentTable::hasParentStarRelationship() {
+  //Parent* (_, _)
+  bool isFollowTableEmpty;
+  if (m_parentStarMap.size() > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool ParentTable::isChildrenOfAnything(int t_s2) {
+  //parent(_, 2)
+  //check if 2 exists as a child (key in parentMap)
+  for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
+    if (t_s2 == it->first) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool ParentTable::isParentOfAnything(int t_s1) {
+  //parent(2, _)
+  //check if 2 exists as a parent (key in childMap)
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    if (t_s1 == it->first) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool ParentTable::isChildrenOfStarAnything(int t_s2) {
+  //parent*(_, 2)
+  //check if 2 exists as a key in parentedByStarMap
+  for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
+    if (t_s2 == it->first) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool ParentTable::isParentOfStarAnything(int t_s1) {
+  //parent*(2, _)
+  //check if 2 exists as a key in parentStarMap
+  for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
+    if (t_s1 == it->first) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
 
 
