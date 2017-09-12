@@ -131,35 +131,41 @@ bool QueryEvaluator::getResultFromPkb() {
     std::cout << i + 1 << ": " << grammar.getName() << "\n";
     m_selectedSynonym = grammar.getName();
 
-    // Call the PKB API getStatementTypeTable().
-    std::unordered_map<Grammar::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
+    if (grammar.getType() != Grammar::GType::VAR && grammar.getType() != Grammar::GType::CONST) {
+      // Call the PKB API getStatementTypeTable().
+      std::unordered_map<Grammar::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
 
-    // Check if there are results else return false.
-    if (allStmts.empty()) {
-      return false;
-    }
+      // Check if there are results else return false.
+      if (allStmts.empty()) {
+        return false;
+      }
 
-    // Get all the statements of the type of statements that has been selected.
-    std::vector<int> allSelectedStmtsInInt;
-    if (grammar.getType() == Grammar::GType::STMT) {
-      allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[Grammar::GType::ASGN].begin(), allStmts[Grammar::GType::ASGN].end());
-      allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[Grammar::GType::WHILE].begin(), allStmts[Grammar::GType::WHILE].end());
-    } else if (grammar.getType() == Grammar::GType::ASGN) {
-      allSelectedStmtsInInt = allStmts[Grammar::GType::ASGN];
-    } else if (grammar.getType() == Grammar::GType::WHILE) {
-      allSelectedStmtsInInt = allStmts[Grammar::GType::WHILE];
+      // Get all the statements of the type of statements that has been selected.
+      std::vector<int> allSelectedStmtsInInt;
+      if (grammar.getType() == Grammar::GType::STMT || grammar.getType() == Grammar::GType::PROG_LINE) {
+        allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[Grammar::GType::ASGN].begin(), allStmts[Grammar::GType::ASGN].end());
+        allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[Grammar::GType::WHILE].begin(), allStmts[Grammar::GType::WHILE].end());
+      } else if (grammar.getType() == Grammar::GType::ASGN) {
+        allSelectedStmtsInInt = allStmts[Grammar::GType::ASGN];
+      } else if (grammar.getType() == Grammar::GType::WHILE) {
+        allSelectedStmtsInInt = allStmts[Grammar::GType::WHILE];
+      }
+
+      // Change from vector<int> to vector<string>
+      std::vector<std::string> allSelectedStmts;
+      for (std::vector<int>::iterator getStmts = allSelectedStmtsInInt.begin(); getStmts != allSelectedStmtsInInt.end(); ++getStmts) {
+        allSelectedStmts.push_back(std::to_string(*getStmts));
+      }
+
+      // Push into the selectResults queue.
+      m_selectResults.push(allSelectedStmts);
     } else if (grammar.getType() == Grammar::GType::VAR) {
-      allSelectedStmtsInInt = allStmts[Grammar::GType::VAR];
+      std::vector<std::string> allVariables; //= m_pkb->getAllVariables();
+      m_selectResults.push(allVariables);
+    } else if (grammar.getType() == Grammar::GType::CONST) {
+      std::vector<std::string> allConstants; //= m_pkb->getAllConstants();
+      m_selectResults.push(allConstants);
     }
-
-    // Change from vector<int> to vector<string>
-    std::vector<std::string> allSelectedStmts;
-    for (std::vector<int>::iterator getStmts = allSelectedStmtsInInt.begin(); getStmts != allSelectedStmtsInInt.end(); ++getStmts) {
-      allSelectedStmts.push_back(std::to_string(*getStmts));
-    }
-
-    // Push into the selectResults queue.
-    m_selectResults.push(allSelectedStmts);
 
     // Print Select Results Queue
     printSelectResultQueue();
@@ -348,10 +354,35 @@ bool QueryEvaluator::getResultFromPkb() {
         }
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::VAR) {
         std::cout << "USES (CONST, VAR) WORKS!\n";
+        std::vector<std::string> varUsedByStmt = m_pkb->getUses((std::stoi(relation.getG1().getName())));
+        if (varUsedByStmt.empty()) {
+          return false;
+        }
+        
+        result[relation.getG2().getName()] = varUsedByStmt;
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::EXPR) {
         std::cout << "USES (STMT, EXPR) WORKS!\n";
+        std::vector<int> stmtIntVector = m_pkb->getStmtUses(relation.getG2().getName());
+        if (stmtIntVector.empty()) {
+          return false;
+        }
+
+        std::vector<std::string> stmtStrVector;
+        for (std::vector<int>::iterator getStmts = stmtIntVector.begin(); getStmts != stmtIntVector.end(); ++getStmts) {
+          stmtStrVector.push_back(std::to_string(*getStmts));
+        }
+
+        result[relation.getG1().getName()] = stmtStrVector;
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::VAR) {
         std::cout << "USES (STMT, VAR) WORKS!\n";
+        std::unordered_map<std::string, std::vector<int>> stmtsUsedVar = m_pkb->getAllStmtUses();
+        for (auto& x : stmtsUsedVar) {
+          std::vector<std::string> stmtStrVector;
+          for (auto& y : x.second) {
+            stmtStrVector.push_back(std::to_string(y));
+          }
+          result[x.first] = stmtStrVector;
+        }
       }
     } else if (relation.getType() == Relation::RType::MODIFIES) {
       if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::EXPR) {
@@ -367,10 +398,35 @@ bool QueryEvaluator::getResultFromPkb() {
         }
       } else if (relation.getG1().getType() == Grammar::GType::CONST && relation.getG2().getType() == Grammar::GType::VAR) {
         std::cout << "Modifies (CONST, VAR) WORKS!\n";
+        std::vector<std::string> varModifiedByStmt = m_pkb->getModifies((std::stoi(relation.getG1().getName())));
+        if (varModifiedByStmt.empty()) {
+          return false;
+        }
+
+        result[relation.getG2().getName()] = varModifiedByStmt;
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::EXPR) {
         std::cout << "Modifies (STMT, EXPR) WORKS!\n";
+        std::vector<int> stmtIntVector = m_pkb->getStmtModifies(relation.getG2().getName());
+        if (stmtIntVector.empty()) {
+          return false;
+        }
+
+        std::vector<std::string> stmtStrVector;
+        for (std::vector<int>::iterator getStmts = stmtIntVector.begin(); getStmts != stmtIntVector.end(); ++getStmts) {
+          stmtStrVector.push_back(std::to_string(*getStmts));
+        }
+
+        result[relation.getG1().getName()] = stmtStrVector;
       } else if (relation.getG1().getType() == Grammar::GType::STMT && relation.getG2().getType() == Grammar::GType::VAR) {
         std::cout << "Modifies (STMT, VAR) WORKS!\n";
+        std::unordered_map<std::string, std::vector<int>> stmtsUsedVar = m_pkb->getAllStmtModifies();
+        for (auto& x : stmtsUsedVar) {
+          std::vector<std::string> stmtStrVector;
+          for (auto& y : x.second) {
+            stmtStrVector.push_back(std::to_string(y));
+          }
+          result[x.first] = stmtStrVector;
+        }
       }
     } else {
       std::cout << "Relation Type: " + relation.getType() << "\n";
@@ -384,24 +440,17 @@ bool QueryEvaluator::getResultFromPkb() {
     // Print the result
     std::cout << "\nRelation Result: \n";
     for (auto& x : result) {
-      std::cout << x.first << "\n";
+      std::cout << x.first << ": ";
       for (std::vector<std::string>::iterator getStmts = x.second.begin(); getStmts != x.second.end(); ++getStmts) {
         std::cout << *getStmts << " ";
       }
       std::cout << "\n";
     }
 
-    /*if (relation.getG1().getType() == Grammar::GType::STMT || relation.getG2().getType() == Grammar::GType::STMT) {
-      if (relation.getG1().getName() == m_selectedSynonym || relation.getG2().getName() == m_selectedSynonym) {
-        storeResultFromPkb(result, queryType::RELATION);
-        m_relations.push(relation);
-      }
-    }*/
-
     std::unordered_map<std::string, int>::const_iterator got;
     if (relation.getG1().getType() != Grammar::GType::CONST) {
       got = m_synonymsUsedInQuery.find(relation.getG1().getName());
-    } else if (relation.getG2().getType() != Grammar::GType::CONST) {
+    } else if (relation.getG2().getType() != Grammar::GType::CONST && relation.getG2().getType() != Grammar::GType::EXPR) {
       got = m_synonymsUsedInQuery.find(relation.getG2().getName());
     }
 
@@ -424,15 +473,15 @@ bool QueryEvaluator::getResultFromPkb() {
     std::cout << pattern.isSubtree() << "\n";
     
     // Todo: Get results for pattern clauses by calling the API from PKB
-    /*if (pattern.getGrammar().getType() == Grammar::GType::ASGN) {
-      if (pattern.getLeft() != "_" && pattern.getRight() != "_") {
-        if (!pattern.getSubtree()) {
+    if (pattern.getStmt().getType() == Grammar::GType::ASGN) {
+      if (pattern.getLeft().getName() != "_" && pattern.getRight().getName() != "_") {
+        if (!pattern.isSubtree()) {
 
-        } else if (pattern.getSubtree()) {
+        } else if (pattern.isSubtree()) {
 
         }
       }
-    }*/
+    }
 
     m_patterns.pop();
     m_patterns.push(pattern);
@@ -476,24 +525,49 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       finalResult = m_selectResults.front();
     } 
   } else if (!m_relationResults.empty() && m_patternResults.empty()) {
-    if (m_relations.front().getG1().getType() == Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::CONST) {
+    if (m_relations.front().getG1().getType() == Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::EXPR) {
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
       for (auto& x : results) {
         for (auto& y : x.second) {
           finalResult.push_back(y);
         }
       }
-    } else if (m_relations.front().getG1().getType() != Grammar::GType::CONST && m_relations.front().getG2().getType() == Grammar::GType::CONST) {
+    } else if (m_relations.front().getG1().getType() != Grammar::GType::CONST && (m_relations.front().getG2().getType() == Grammar::GType::CONST || m_relations.front().getG2().getType() == Grammar::GType::EXPR)) {
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
       for (auto& x : results) {
         for (auto& y : x.second) {
           finalResult.push_back(y);
         }
       }
-    } else if (m_relations.front().getG1().getType() != Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::CONST) {
+    } else if (m_relations.front().getG1().getType() != Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::CONST && m_relations.front().getG2().getType() != Grammar::GType::EXPR) {
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      for (auto& x : results) {
-        finalResult.push_back(x.first);
+      
+      if (m_relations.front().getG1().getName() == m_selectedSynonym) {
+        std::cout << "Selected Synonym 1: " << m_relations.front().getG1().getName() << "\n";
+        if (m_relations.front().getType() == Relation::RType::USES || m_relations.front().getType() == Relation::RType::MODIFIES) {
+          for (auto& x : results) {
+            for (auto& y : x.second) {
+              finalResult.push_back(y);
+            }
+          }
+        } else {
+          for (auto& x : results) {
+            finalResult.push_back(x.first);
+          }
+        }   
+      } else if (m_relations.front().getG2().getName() == m_selectedSynonym) {
+        std::cout << "Selected Synonym 2: " << m_relations.front().getG2().getName() << "\n";
+        if (m_relations.front().getType() == Relation::RType::USES || m_relations.front().getType() == Relation::RType::MODIFIES) {
+          for (auto& x : results) {
+            finalResult.push_back(x.first);
+          }
+        } else {
+          for (auto& x : results) {
+            for (auto& y : x.second) {
+              finalResult.push_back(y);
+            }
+          }
+        }   
       }
     }
 
