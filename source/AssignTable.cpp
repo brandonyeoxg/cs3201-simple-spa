@@ -30,6 +30,14 @@ std::list<STMT_NUM> AssignTable::getAllStmtListByVar(VAR_INDEX t_index) {
   return output;
 }
 
+std::list<AssignData>& AssignTable::getAssignDataByVar(VAR_INDEX t_index) {
+  auto mItr = m_data.find(t_index);
+  if (mItr == m_data.end()) {
+    return std::list<AssignData>();
+  }
+  return mItr->second;
+}
+
 std::list<STMT_NUM> AssignTable::getAllStmtList() {
   std::list<STMT_NUM> output;
   std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.begin();
@@ -56,4 +64,16 @@ std::unordered_map<std::string, std::list<STMT_NUM>> AssignTable::getAllAssignSt
     output.insert({ varName, outputStmtNo });
   }
   return output;
+}
+
+std::list<AssignData>  AssignTable::getAssignData() {
+  return m_assignMapToVar;
+}
+
+void AssignTable::populateAssignToVarMap(VarTable* t_varTable) {
+  for (auto& mItr : m_data) {;
+    for (auto& aItr : mItr.second) {
+      m_assignMapToVar.push_back(aItr);
+    }
+  }
 }
