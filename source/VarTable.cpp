@@ -8,57 +8,6 @@
 #include <stdexcept>
 
 #include "VarTable.h"
-/*
-
- * Method that inserts the line number to the unordered map of vectors containing the variable as key.
- * @param key a string argument.
- * @param lineNum an integer argument.
- 
-VarTable* VarTable::insert(VarTable* table, std::string key, int lineNum) {
-  std::unordered_map<std::string, std::vector<int>> varTable = table->getVarTable();
-  if (varTable.find(key) == varTable.end()) {
-    //if the key is not present in varTable
-    std::vector<int> lineNums;
-    lineNums.push_back(lineNum);
-    varTable.emplace(key, lineNums);
-  } else {
-    //if not, retrieve the existing vector, append, and put back to varTable.
-    std::vector<int> vect = varTable[key];
-    vect.push_back(lineNum);
-    varTable[key] = vect;
-  } 
-  table->setVarTable(varTable);
-  return table;
-
-}
-
-
- * Method that retrieves the vector containing all line numbers that contain the variable var.
- * @param key a string argument.
- * @return a vector<int> object.
- 
-std::vector<int> VarTable::get(std::string key) {
-  //return the vector containing all line numbers that the variable var.
-  //if not present in varTable, return an empty vector.
-  std::vector<int> emptyVector;
-  std::unordered_map<std::string, std::vector<int>> varTable = getVarTable();
-  if (varTable.find(key) == varTable.end()) {
-    return emptyVector;
-  }
-  std::vector<int> vect = varTable.at(key);
-
-  return vect;
-}
-
-void VarTable::setVarTable(std::unordered_map<std::string, std::vector<int>>& table) {
-  m_varTable = table;
-}
-
-std::unordered_map<std::string, std::vector<int>> VarTable::getVarTable() {
-  return m_varTable;
-}
-
-*/
 
 std::unordered_map<int, VarRelations> VarTable::getVarTable() {
   return m_varTable;
@@ -71,6 +20,7 @@ std::unordered_map<int, VarRelations> VarTable::getVarTable() {
 VarTable::VarTable() {
   int m_index = 1;
   std::unordered_map<int, VarRelations> m_varTable;
+  std::set<std::string> m_allVariables;
 }
 
 int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
@@ -86,6 +36,7 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
       }
       var.insertUses(t_lineNum);
       m_varTable[index] = var;
+      m_allVariables.insert(t_varName);
       return index;
     }
   }
@@ -95,30 +46,33 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   varRelations.insertUses(t_lineNum);
   index = m_varTable.size();
   m_varTable.emplace(m_varTable.size(), varRelations);
+  m_allVariables.insert(t_varName);
   return index;
 }
 
-int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
+int VarTable::insertModifiesForStmt(std::string t_varName, int lineNum) {
   int index = 0;
   VarRelations var;
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     index = it->first;
     var = it->second;
-    if (var.getVarName() == varName) {
+    if (var.getVarName() == t_varName) {
       std::vector<int> modifies = var.getModifies();
       if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
         return index;
       }
       var.insertModifies(lineNum);
       m_varTable[index] = var;
+      m_allVariables.insert(t_varName);
       return index;
     }
   }
   VarRelations varRelations;
-  varRelations.setVarName(varName);
+  varRelations.setVarName(t_varName);
   varRelations.insertModifies(lineNum);
   index = m_varTable.size();
   m_varTable.emplace(index, varRelations);
+  m_allVariables.insert(t_varName);
   return index;
 }
 

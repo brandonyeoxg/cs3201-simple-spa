@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 
 #include "VarRelations.h"
 
@@ -40,4 +41,5 @@ public:
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;
+  std::set<std::string> m_allVariables;
 };
