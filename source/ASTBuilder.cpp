@@ -18,8 +18,8 @@ ConstantNode *ASTBuilder::createConstant(int t_lineNum, int t_constantValue) {
   return constNode;
 }
 
-VariableNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName) {
-  VariableNode *varNode = new VariableNode(t_lineNum, t_varName);
+VariableNode *ASTBuilder::createVariable(int t_lineNum, std::string t_varName, int t_varIndex) {
+  VariableNode *varNode = new VariableNode(t_lineNum, t_varName, t_varIndex);
   return varNode;
 }
 
@@ -53,6 +53,16 @@ PlusNode *ASTBuilder::buildAddition(int t_lineNum, TNode *t_leftNode, TNode *t_r
 MinusNode * ASTBuilder::buildSubtraction(int t_lineNum, TNode *t_leftNode, TNode *t_rightNode) {
   MinusNode *minusNode = new MinusNode(t_lineNum, t_leftNode, t_rightNode);
   return minusNode;
+}
+
+MultiplyNode * ASTBuilder::buildMultiplication(int t_lineNum, TNode * t_leftNode, TNode * t_rightNode) {
+  MultiplyNode *multiplyNode = new MultiplyNode(t_lineNum, t_leftNode, t_rightNode);
+  return multiplyNode;
+}
+
+DivideNode * ASTBuilder::buildDivision(int t_lineNum, TNode * t_leftNode, TNode * t_rightNode) {
+  DivideNode *divideNode = new DivideNode(t_lineNum, t_leftNode, t_rightNode);
+  return divideNode;
 }
 
 /********** Helper Methods **********/

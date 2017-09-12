@@ -91,13 +91,24 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetParentStarOf) {
+      std::unordered_map<int, int> testParentMap = {
+        { 2, 1 },
+        { 3, 1 },
+        { 4, 2 }
+      };
       ParentTable *testParentTable = new ParentTable();
       testParentTable->setParentMap(testParentMap);
+      for (auto it = testParentMap.begin(); it != testParentMap.end(); it++) {
+        testParentTable->populateParentedByStarMap(it);
+      }
+      
       //test getParentStarOf method (correct behaviour).
-      static const int arr[] = { 1, 2 };
-      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(testParentTable->getParentStarOf(4) == actual);
+      static const int arr[] = { 2, 1 };
+      std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      std::vector<int> actual = testParentTable->getParentStarOf(4);
+      Assert::IsTrue( expected == actual);
       //test getParentStarOf method (catch exception for non-existent s2).
+      
       bool exceptionThrown = false;
       try {
         std::vector<int> expected = testParentTable->getParentStarOf(5);
@@ -105,7 +116,7 @@ namespace UnitTesting {
         Logger::WriteMessage("Exception thrown in getParentStarOf");
         exceptionThrown = true;
       }
-      Assert::IsTrue(exceptionThrown);
+      Assert::IsTrue(exceptionThrown);  
     }
     
     TEST_METHOD(TestGetChildrenStarOf) {
@@ -121,6 +132,7 @@ namespace UnitTesting {
       };
       testParentTable->setParentMap(testGetChildrenStarParentMap);
       testParentTable->setChildMap(testGetChildrenStarMapChildMap);
+      testParentTable->populateParentStarMap();
       //test getChildrenStarOf method (correct behaviour).
       static const int arr[] = { 3, 4, 5 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
@@ -136,6 +148,24 @@ namespace UnitTesting {
       }
       Assert::IsTrue(exceptionThrown);
 
+    }
+
+    TEST_METHOD(TestPopulateParentStarMap) {
+      ParentTable *testParentTable = new ParentTable();
+      std::unordered_map<int, std::vector<int>> testChildMap = {
+        { 1,{ 2, 3, 4 } },
+        { 4,{ 5, 6, 7 } },
+        { 7, {8} }
+      };
+      testParentTable->setChildMap(testChildMap);
+      testParentTable->populateParentStarMap();
+      std::unordered_map<int, std::vector<int>> expected = {
+        { 1,{ 2, 3, 4, 5, 6, 7, 8 } },
+        { 4,{ 5, 6, 7, 8} },
+        { 7, {8}}
+      };
+
+      Assert::IsTrue(expected == testParentTable->getParentStarMap());
     }
   };
 }

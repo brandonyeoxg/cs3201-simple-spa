@@ -37,5 +37,5 @@ private:
   static bool isNodeAnOperator(TNode * t_node);
   static std::vector<std::string> addStrIfNotDuplicate(std::vector<std::string> t_listOfStr, std::string t_str);
   static std::vector<std::string> generateStringList(TwoChildrenNode *t_node, std::vector<std::string> t_listOfStr);
-
+  static std::string removeWhitespaces(std::string t_pattern);
 };

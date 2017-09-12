@@ -13,6 +13,7 @@
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
     <ClCompile Include="TestAssignTable.cpp" />
+    <ClCompile Include="TestDesignExtractor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

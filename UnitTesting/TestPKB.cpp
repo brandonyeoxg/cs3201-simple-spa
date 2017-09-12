@@ -4,7 +4,7 @@
 #include "ParentTable.h"
 #include "VarTable.h"
 #include "PKB.h"
-
+#include "Grammar.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -41,38 +41,38 @@ namespace UnitTesting {
 
 
     TEST_METHOD(TestPKBTypeOfStatementTable) {
-      std::unordered_map<int, std::string> testTypeOfStatementTable = {
-        {1, "ASGN"},
-        {2, "WHILE"},
-        {3, "IF"}
+      std::unordered_map<int, Grammar::GType> testTypeOfStatementTable = {
+        {1, Grammar::GType::ASGN},
+        {2, Grammar::GType::WHILE },
+        {3, Grammar::GType::IF }
       };     
       PKB *pkb = new PKB();
-      pkb->insertTypeOfStatementTable(1, "ASGN");
-      pkb->insertTypeOfStatementTable(2, "WHILE");
-      pkb->insertTypeOfStatementTable(3, "IF");
+      pkb->insertTypeOfStatementTable(1, Grammar::GType::ASGN);
+      pkb->insertTypeOfStatementTable(2, Grammar::GType::WHILE);
+      pkb->insertTypeOfStatementTable(3, Grammar::GType::IF);
       Assert::IsTrue(testTypeOfStatementTable == pkb->getTypeOfStatementTable());
       //test duplicate line number.
-      bool actual = pkb->insertTypeOfStatementTable(1, "WHILE");
+      bool actual = pkb->insertTypeOfStatementTable(1, Grammar::GType::WHILE);
       //Assert::IsFalse(actual);
 
     }
 
     TEST_METHOD(TestPKBInsertStatementTypeTable) {
-      std::unordered_map<std::string, std::vector<int>> testStatementTypeTable = {
-        {"ASGN", {1, 2, 3}},
-        {"WHILE", {4, 5}},
-        {"IF", {6}}
+      std::unordered_map<Grammar::GType, std::vector<int>> testStatementTypeTable = {
+        { Grammar::GType::ASGN, {1, 2, 3}},
+        { Grammar::GType::WHILE, {4, 5}},
+        { Grammar::GType::IF, {6}}
       };
       PKB *pkb = new PKB();
-      pkb->insertStatementTypeTable("ASGN", 1);
-      pkb->insertStatementTypeTable("ASGN", 2);
-      pkb->insertStatementTypeTable("ASGN", 3);
-      pkb->insertStatementTypeTable("WHILE", 4);
-      pkb->insertStatementTypeTable("WHILE", 5);
-      pkb->insertStatementTypeTable("IF", 6);
+      pkb->insertStatementTypeTable(Grammar::GType::ASGN, 1);
+      pkb->insertStatementTypeTable(Grammar::GType::ASGN, 2);
+      pkb->insertStatementTypeTable(Grammar::GType::ASGN, 3);
+      pkb->insertStatementTypeTable(Grammar::GType::WHILE, 4);
+      pkb->insertStatementTypeTable(Grammar::GType::WHILE, 5);
+      pkb->insertStatementTypeTable(Grammar::GType::IF, 6);
       Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
       //test for duplicate entry. 
-      bool actual = pkb->insertStatementTypeTable("IF", 6);
+      bool actual = pkb->insertStatementTypeTable(Grammar::GType::IF, 6);
       Assert::IsFalse(actual);
 
     }

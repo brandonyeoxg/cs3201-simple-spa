@@ -17,6 +17,7 @@
 */
 class Parser {
 public:
+  const int DUMMY_INDEX = 0; // dummy index for creating variable, remove when no longer needed
   /*
   * Constructs parser using pkb.
   * Also initialises other fields  
@@ -42,6 +43,7 @@ private:
   ASTBuilder m_builder;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
+  std::list<STMT_NO> m_nestedStmtLineNo;
   std::vector<std::string> curTokens;
   std::ifstream m_readStream;
   int m_curLineNum;
