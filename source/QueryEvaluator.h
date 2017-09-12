@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 #include "Grammar.h"
-#include "DesignAbstraction.h"
+#include "Relation.h"
 #include "Pattern.h"
 #include "PKB.h"
 #include "QueryPreProcessor.h"
@@ -35,12 +35,13 @@ public:
   * @param t_relations A queue to store all the such that clauses in the query.
   * @param t_patterns A queue to store all the pattern clauses in the query.
   */
-  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<DesignAbstraction> t_relations, std::queue<Pattern> t_patterns)
+  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
-      m_patterns(t_patterns) {};
+      m_patterns(t_patterns),
+      m_synonymsUsedInQuery(t_synonymsList) {};
 
   /**
   * A destructor.
@@ -52,18 +53,27 @@ public:
   * Get the results of all the clauses in the query from PKB, then compare and get the result of the query.
   * @return the result of the query in a list of strings.
   */
-  std::list<std::string> evaluateQuery();
+  std::vector<std::string> evaluateQuery();
+
+  void printDivider();
+  void printSelectQueue();
+  void printRelationQueue();
+  void printPatternQueue();
+  void printSelectResultQueue();
+  void printRelationResultQueue();
+  void printPatternResultQueue();
 
 private:
   PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
+  std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
-  std::queue<DesignAbstraction> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
+  std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
   std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
-  std::queue<std::list<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
-  std::queue<std::unordered_map<int, std::vector<int>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
-  std::queue<std::unordered_map<int, std::vector<int>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
-  
+  std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
+  std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
+  std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
+
   /**
   * Represents a queryType.
   * An enum type representing the queryType.
@@ -88,14 +98,14 @@ private:
   * @param t_result An unordered map which holds the result returned from PKB.
   * @param t_type A enum value to indicate the type of query that the result belongs to.
   */
-  void storeResultFromPkb(std::unordered_map<int, std::vector<int>> t_result, queryType t_type);
+  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type);
 
   /**
   * A private function to evaluate the final result of the query.
   * By comparing all the results with the common synonyms, get the final result of the query.
   * @return A list of strings as the query result.
   */
-  std::list<std::string> evaluateFinalResult();
+  std::vector<std::string> evaluateFinalResult();
 };
 
 #endif QUERYEVALUATOR_H

@@ -3,12 +3,12 @@
 #define QRP_H
 #include <string>
 #include <list>
+#include <vector>
 
 class QueryResultProjector
 {
 public:
-  void formatResult();
-  std::string printResult(std::list<std::string>);
+  std::list<std::string> formatResult(std::vector<std::string>);
 };
 
 #endif
