@@ -53,90 +53,44 @@ namespace UnitTesting {
     */
     TEST_METHOD(TestInsertUses) {
       Logger::WriteMessage("testing insert uses");
-      int index = 1;
       VarTable testVarTable;
 
       //test insertUses (correct behaviour).
-      int ans = testVarTable.insertUsesForStmt(index, "x", 2);
-      ans = testVarTable.insertUsesForStmt(index, "x", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 2);
+      ans = testVarTable.insertUsesForStmt("x", 3);
       std::unordered_map<int, VarRelations> actual = testVarTable.getVarTable();
-      VarRelations expected = actual[1];
+      VarRelations expected = actual[0];
       std::vector<int> expectedVector = expected.getUses();
       Assert::IsTrue(2 == expectedVector[0]);
       Assert::IsTrue(3 == expectedVector[1]);
-      
-
-      
-      //test insertUses (duplicate varName with different indices).
-      bool exceptionThrown = false;
-      try {
-        int expected = testVarTable.insertUsesForStmt(2, "x", 2);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertUses (diff indices for same variable name)");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
-
-      //test insertUses (duplicate entry, expect exception).
-      exceptionThrown = false;
-
-      try {
-        int expected = testVarTable.insertUsesForStmt(1, "x", 2);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertUses (duplicate entries)");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
     }
 
     TEST_METHOD(TestInsertModifies) {
       Logger::WriteMessage("testing insertModifies");
-
-      int index = 1;
       VarTable testVarTable;
 
       //test insertModifies (correct behaviour).
-      int ans = testVarTable.insertModifiesForStmt(1, "y", 2);
+      int ans = testVarTable.insertModifiesForStmt("y", 2);
       std::unordered_map<int, VarRelations> actual = testVarTable.getVarTable();
-      VarRelations expected = actual[1];
+      VarRelations expected = actual[0];
       std::vector<int> expectedVector = expected.getModifies();
       Assert::IsTrue(2 == expectedVector[0]);
       
       //test insertModifies(add another line to same variable).
-      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
       actual = testVarTable.getVarTable();
-      expected = actual[1];
+      expected = actual[0];
       expectedVector = expected.getModifies();
       Assert::IsTrue(3 == expectedVector[1]);
-      
-      //test insertModifies (duplicate entry, expect exception).
-      bool exceptionThrown = false;
-      try {
-        int expected = testVarTable.insertModifiesForStmt(index, "y", 2);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertModifies (duplicate entry)");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown); 
 
-      exceptionThrown = false;
-      try {
-        int expected = testVarTable.insertModifiesForStmt(2, "y", 2);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in insertModifies (diff indices for same variable name)");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
     }
 
     TEST_METHOD(TestIsModifies) {
       Logger::WriteMessage("testing isModifies");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
 
       Assert::IsTrue(testVarTable.isModifies(2, "y"));
       Assert::IsTrue(testVarTable.isModifies(3, "y"));
@@ -145,12 +99,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestIsUses) {
       Logger::WriteMessage("testing isUses");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("y", 3);
 
       Assert::IsTrue(testVarTable.isUses(2, "y"));
       Assert::IsTrue(testVarTable.isUses(3, "y"));
@@ -159,12 +111,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetModifies) {
       Logger::WriteMessage("testing getModifies");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
       std::vector<std::string> actual;
       actual.push_back("y");
       std::vector<std::string> expected = testVarTable.getModifies(2);
@@ -177,12 +127,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetUses) {
       Logger::WriteMessage("testing getUses");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("y", 3);
       std::vector<std::string> actual;
       actual.push_back("y");
       std::vector<std::string> expected = testVarTable.getUses(2);
@@ -195,12 +143,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetStmtModifies) {
       Logger::WriteMessage("testing getStmtModifies");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
       std::vector<int> actual;
       actual.push_back(2);
       actual.push_back(3);
@@ -214,12 +160,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetStmtUses) {
       Logger::WriteMessage("testing getStmtUses");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("y", 3);
       std::vector<int> actual;
       actual.push_back(2);
       actual.push_back(3);
@@ -237,12 +181,10 @@ namespace UnitTesting {
         {"y", {2, 3}}
       };
       Logger::WriteMessage("testing getAllStmtModifies");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertModifiesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertModifiesForStmt(index, "y", 2);
-      ans = testVarTable.insertModifiesForStmt(index, "y", 3);
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
 
       std::unordered_map<std::string, std::vector<int>> actual = testVarTable.getAllStmtModifies();
       Assert::IsTrue(actual == expected);
@@ -254,12 +196,10 @@ namespace UnitTesting {
         { "y",{ 2, 3 } }
       };
       Logger::WriteMessage("testing getAllStmtUses");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("y", 3);
 
       std::unordered_map<std::string, std::vector<int>> actual = testVarTable.getAllStmtUses();
       Assert::IsTrue(actual == expected);
@@ -267,15 +207,13 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetIndexOfVar) {
       Logger::WriteMessage("testing getIndexOfVar");
-      int index = 1;
       VarTable testVarTable;
-      int ans = testVarTable.insertUsesForStmt(index, "x", 1);
-      index++;
-      ans = testVarTable.insertUsesForStmt(index, "y", 2);
-      ans = testVarTable.insertUsesForStmt(index, "y", 3);
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("y", 3);
 
       int expected = testVarTable.getIndexOfVar("y");
-      Assert::IsTrue(expected == 2);
+      Assert::IsTrue(expected == 1);
 
       //test getIndexOfVar (non-existent varName).
       bool exceptionThrown = false;

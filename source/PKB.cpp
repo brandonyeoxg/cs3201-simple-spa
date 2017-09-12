@@ -163,20 +163,12 @@ bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
 }
 
 /***********FollowTable Methods****************/
-int PKB::insertUsesForStmt(int index, std::string varName, int lineNum) {
-  return m_varTable->insertUsesForStmt(index, varName, lineNum);
-}
-
 int PKB::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
 
 int PKB::insertModifiesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
-}
-
-int PKB::insertModifiesForStmt(int index, std::string varName, int lineNum) {
-  return m_varTable->insertModifiesForStmt(index, varName, lineNum);
 }
 
 bool PKB::isModifies(int lineNum, std::string varName) {

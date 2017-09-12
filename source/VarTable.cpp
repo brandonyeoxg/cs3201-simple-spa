@@ -98,39 +98,6 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return index;
 }
 
-int VarTable::insertUsesForStmt(int input_index, std::string varName, int lineNum) {
-  //for every key, search varRelation to check if varName exists.
-  //if have, append lineNum to uses vector.
-  int index;
-  VarRelations var;
-  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
-    index = it->first;
-    var = it->second;
-    if (var.getVarName() == varName) {    
-      //check if lineNum exists in vector uses. If it is, throw invalid_argument exception.
-      std::vector<int> uses = var.getUses();
-      if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
-        throw std::invalid_argument("lineNum for variable already exists in varTable");
-      } else {
-        //check whether input_index corresponds to index. If not, throw exception.
-        if (input_index != index) {
-          throw std::invalid_argument("different indices for same variable in varTable");
-        } else {
-          var.insertUses(lineNum);
-          m_varTable[input_index] = var;
-          return input_index;
-        }
-      }
-    }
-  }
-  //if dont have,
-  VarRelations varRelations;
-  varRelations.setVarName(varName);
-  varRelations.insertUses(lineNum);
-  m_varTable.emplace(input_index, varRelations);
-  return input_index;
-}
-
 int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
   int index = 0;
   VarRelations var;
@@ -153,36 +120,6 @@ int VarTable::insertModifiesForStmt(std::string varName, int lineNum) {
   index = m_varTable.size();
   m_varTable.emplace(index, varRelations);
   return index;
-}
-
-int VarTable::insertModifiesForStmt(int input_index, std::string varName, int lineNum) {
-  int index;
-  VarRelations var;
-  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
-    index = it->first;
-    var = it->second;
-    if (var.getVarName() == varName) {
-      std::vector<int> modifies = var.getModifies();
-      if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
-        throw std::invalid_argument("lineNum for variable already exists in varTable");
-      } else {
-        //check whether input_index corresponds to index. If not, throw exception.
-        if (input_index != index) {
-          throw std::invalid_argument("different indices for same variable in varTable");
-        } else {
-          var.insertModifies(lineNum);
-          m_varTable[input_index] = var;
-          return input_index;
-        }
-      }
-    }
-  }
-
-  VarRelations varRelations;
-  varRelations.setVarName(varName);
-  varRelations.insertModifies(lineNum);
-  m_varTable.emplace(input_index, varRelations);
-  return input_index;
 }
 
 bool VarTable::isModifies(int lineNum, std::string varName) {
