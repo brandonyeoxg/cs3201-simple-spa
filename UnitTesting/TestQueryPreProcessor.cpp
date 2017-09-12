@@ -50,12 +50,12 @@ namespace UnitTesting {
       bool result = q1.tokenizeQuery(queryResultString);
 
       std::queue<Grammar> testQueue = q1.getSelect();
-      std::queue<DesignAbstraction> testDAOQueue = q1.getSuchThat();
+      std::queue<Relation> testDAOQueue = q1.getSuchThat();
       int i = testQueue.size();
       int j = testDAOQueue.size();
       
       Assert::IsTrue(i == 1);
-      Assert::IsTrue(j == 2);
+      Assert::IsTrue(j == 1);
       Assert::IsTrue(result == true);
     }
   };

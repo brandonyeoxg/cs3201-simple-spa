@@ -13,7 +13,7 @@ std::queue<Grammar> QueryPreProcessor::getSelect(void) {
   return m_selectQueue;
 }
 
-std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void) {
+std::queue<Relation> QueryPreProcessor::getSuchThat(void) {
   return m_suchThatQueue;
 }
 
@@ -242,7 +242,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::cout << "suchthatStatement is empty" << std::endl;
   } 
 
-  //if design abstraction object exists, create designabstractionobject with parameters type, g1 g2
+  //if design abstraction object exists, create Relation object with parameters type, g1 g2
   else {
     std::string delimiterDesignAbstraction = "such that";
     std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
@@ -327,7 +327,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
               if (got == m_synonymMap.end()) {
@@ -340,14 +340,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
             else if (sTName2.find('"') != std::string::npos) {
               //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
               removeCharsFromString(sTName2, "\\\"");
               Grammar g2(6, sTName2);
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
           }
@@ -362,7 +362,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
               if (got == m_synonymMap.end()) {
@@ -375,14 +375,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
             else if (sTName2.find('"') != std::string::npos) {
               //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
               removeCharsFromString(sTName2, "\\\"");
               Grammar g2(6, sTName2);
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
           }
@@ -398,7 +398,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
               if (got == m_synonymMap.end()) {
@@ -411,14 +411,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
             else if (sTName2.find('"') != std::string::npos) {
               //sTName2.erase(std::remove(sTName2.begin(), sTName2.end(), '\"'), sTName2.end());
               removeCharsFromString(sTName2, "\\\"");
               Grammar g2(6, sTName2);
-              DesignAbstraction DAO(designAbstractionEntity, g1, g2);
+              Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
             }
           }
@@ -426,7 +426,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
       //DesignAbstraction class to be discussed: only caters for single DAO
       //test whether designabstractionobject is created properly
-      /*DesignAbstraction object = m_suchThatQueue.front();
+      /*Relation object = m_suchThatQueue.front();
       Grammar g10 = object.getG1();
       Grammar g20 = object.getG2();
       std::cout << g10.getName() << std::endl;
@@ -576,7 +576,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //std::queue<Grammar> selectQueue = getSelect();
   //std::cout << "This is select queue size: " << selectQueue.size() << std::endl;
-  //std::queue<DesignAbstraction> daoQueue = getSuchThat();
+  //std::queue<Relation> daoQueue = getSuchThat();
   //std::cout << "This is relation queue size: " << daoQueue.size() << std::endl;
 
   isTokenized = true;

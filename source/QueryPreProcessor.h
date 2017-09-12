@@ -13,7 +13,7 @@
 #include <vector>
 #include <queue>
 #include "Grammar.h"
-#include "DesignAbstraction.h"
+#include "Relation.h"
 #include "Pattern.h"
 #include "PKB.h"
 #include "StringUtil.h"
@@ -30,17 +30,17 @@ public:
   std::string splitStringQuery(std::string);
   void QueryPreProcessor::printVector(std::vector<std::string>);
   std::queue<Grammar> QueryPreProcessor::getSelect(void);
-  std::queue<DesignAbstraction> QueryPreProcessor::getSuchThat(void);
+  std::queue<Relation> QueryPreProcessor::getSuchThat(void);
   std::queue<Pattern> QueryPreProcessor::getPattern(void);
   std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
   std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
 private:
   std::queue<Grammar> m_selectQueue;
-  std::queue<DesignAbstraction> m_suchThatQueue;
+  std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_synonymMap;
-  std::vector<DesignAbstraction> m_designAbstractionVector;
+  std::vector<Relation> m_RelationVector;
   StringUtil m_stringUtil;
 };
 

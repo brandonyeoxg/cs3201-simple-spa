@@ -35,12 +35,13 @@ public:
   * @param t_relations A queue to store all the such that clauses in the query.
   * @param t_patterns A queue to store all the pattern clauses in the query.
   */
-  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns)
+  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
-      m_patterns(t_patterns) {};
+      m_patterns(t_patterns),
+      m_synonymsUsedInQuery(t_synonymsList) {};
 
   /**
   * A destructor.

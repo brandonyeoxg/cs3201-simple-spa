@@ -22,8 +22,8 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string testInput) 
 
   Grammar testGrammar = selectQueue.front();
   //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
-  //QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue);
-  //evaluatedResults = qe->evaluateQuery();
+  QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
+  evaluatedResults = qe->evaluateQuery();
 
   QueryResultProjector qrp;
   resultList = qrp.formatResult(evaluatedResults);
