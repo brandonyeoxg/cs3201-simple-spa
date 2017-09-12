@@ -33,13 +33,13 @@ public:
   ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
-  bool insertFollows(int s1, int s2);
-  bool isFollows(int s1, int s2);
-  bool isFollowsStar(int s1, int s2);
-  int getFollows(int s1);
-  int getFollowedBy(int s2);
-  std::vector<int> getFollowsStar(int s1);
-  std::vector<int> getFollowedByStar(int s2);
+  bool insertFollows(int t_s1, int t_s2);
+  bool isFollows(int t_s1, int t_s2);
+  bool isFollowsStar(int t_s1, int t_s2);
+  int getFollows(int t_s1);
+  int getFollowedBy(int t_s2);
+  std::vector<int> getFollowsStar(int t_s1);
+  std::vector<int> getFollowedByStar(int t_s2);
   std::unordered_map<int, int> getAllFollows();
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
   std::vector<int> getFollowedByAnything();

@@ -44,8 +44,8 @@ void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
 ///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
-bool PKB::insertFollows(int s1, int s2) {
-  return m_followTable->insertFollows(s1, s2);
+bool PKB::insertFollows(int t_s1, int t_s2) {
+  return m_followTable->insertFollows(t_s1, t_s2);
 }
 
 void PKB::populateParentStarMap() {
@@ -61,28 +61,28 @@ void PKB::populateParentedByStarMap() {
   }
 }
 
-bool PKB::isFollows(int s1, int s2) {
-  return m_followTable->isFollows(s1, s2);
+bool PKB::isFollows(int t_s1, int t_s2) {
+  return m_followTable->isFollows(t_s1, t_s2);
 }
 
-bool PKB::isFollowsStar(int s1, int s2) {
-  return m_followTable->isFollowsStar(s1, s2);
+bool PKB::isFollowsStar(int t_s1, int t_s2) {
+  return m_followTable->isFollowsStar(t_s1, t_s2);
 }
 
-int PKB::getFollows(int s1) {
-  return m_followTable->getFollows(s1);
+int PKB::getFollows(int t_s1) {
+  return m_followTable->getFollows(t_s1);
 }
 
-int PKB::getFollowedBy(int s2) {
-  return m_followTable->getFollowedBy(s2);
+int PKB::getFollowedBy(int t_s2) {
+  return m_followTable->getFollowedBy(t_s2);
 }
 
-std::vector<int> PKB::getFollowsStar(int s1) {
-  return m_followTable->getFollowsStar(s1);
+std::vector<int> PKB::getFollowsStar(int t_s1) {
+  return m_followTable->getFollowsStar(t_s1);
 }
 
-std::vector<int> PKB::getFollowedByStar(int s2) {
-  return m_followTable->getFollowedByStar(s2);
+std::vector<int> PKB::getFollowedByStar(int t_s2) {
+  return m_followTable->getFollowedByStar(t_s2);
 }
 
 std::unordered_map<int, int> PKB::getAllFollows() {
