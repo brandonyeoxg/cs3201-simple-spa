@@ -162,7 +162,7 @@ bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
   }
 }
 
-/***********FollowTable Methods****************/
+/***********VarTable Methods****************/
 int PKB::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
