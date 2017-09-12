@@ -21,8 +21,8 @@ std::queue<Pattern> QueryPreProcessor::getPattern(void) {
   return m_patternQueue;
 }
 
-std::vector<std::string> QueryPreProcessor::getSynonym(void) {
-  return m_synonymVector;
+std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void) {
+  return m_synonymMap;
 }
 
 std::vector<Grammar> QueryPreProcessor::getGrammarVector(void) {
@@ -166,6 +166,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string suchThatStatement;
   std::string patternStatement;
   std::string tempStatement;
+  std::vector<std::string> tempSynonymVector;
+  int mapValue = 1;
+  int mapDefaultValue = 1;
 
   //test comment
   //t_queryInput = "Select s such that Uses(2, v)";
@@ -176,13 +179,15 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
       suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterPattern));
       patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-    } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)) {
+    } 
+    else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)) {
       selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
       tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
       patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterSuchThat));
       suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
       //std::cout << "abc2" << std::endl;
-    } else {
+    } 
+    else {
       //std::cout << "" << std::endl;
     }
   }
@@ -190,11 +195,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
     suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
     //std::cout << "abc3" << std::endl;
-  } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
+  } 
+  else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
     selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
     patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
     //std::cout << "abc4" << std::endl;
-  } else {
+  } 
+  else {
      selectStatement = t_queryInput;
      //std::cout << "abc5" << std::endl;
      //std::cout << selectStatement << std::endl;
@@ -208,7 +215,6 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   //std::cout << synonym << " before trimming " << std::endl;
   synonym = m_stringUtil.trimString(synonym);
   //std::cout << synonym << " after trimming " << std::endl;
-  m_synonymVector.push_back(synonym);
   
   //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
   //storing select queue synonyms
@@ -228,6 +234,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
+  m_synonymMap.insert({ selectGrammar.getName(), 1});
   //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
@@ -305,17 +312,30 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
         if (sTName1 == grammarName) {
           Grammar g1 = tempGrammar;
-          m_synonymVector.push_back(sTName1);
+          tempSynonymVector.push_back(g1.getName());
+          std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName1);
+          if (got == m_synonymMap.end()) {
+            m_synonymMap.insert({ sTName1, 1 });
+          }
+          else {
+            m_synonymMap[sTName1]++;
+          }
           //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
           for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
             Grammar tempGrammar2 = m_grammarVector.at(counterQ);
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
-              m_synonymVector.push_back(sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               DesignAbstraction DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
+              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+              if (got == m_synonymMap.end()) {
+                m_synonymMap.insert({ sTName2, 1 });
+              }
+              else {
+                m_synonymMap[sTName2]++;
+              }
             }
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
@@ -341,10 +361,16 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
-              m_synonymVector.push_back(sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               DesignAbstraction DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
+              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+              if (got == m_synonymMap.end()) {
+                m_synonymMap.insert({ sTName2, 1 });
+              }
+              else {
+                m_synonymMap[sTName2]++;
+              }
             }
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
@@ -371,10 +397,16 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
-              m_synonymVector.push_back(sTName2);
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               DesignAbstraction DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
+              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+              if (got == m_synonymMap.end()) {
+                m_synonymMap.insert({ sTName2, 1 });
+              }
+              else {
+                m_synonymMap[sTName2]++;
+              }
             }
             else if (sTInt2 > 0) {
               Grammar g2(8, sTName2);
@@ -427,8 +459,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::string patternParameters = patternObject.substr(patternObject.find(delimiterBracket1), patternObject.size());
 
     //std::cout << patternSynonym << std::endl;
-    patternSynonym = m_stringUtil.trimString();
-    m_synonymVector.push_back(patternSynonym);
+    patternSynonym = m_stringUtil.trimString(patternSynonym);
 
     std::vector<std::string> patternVector;
     
@@ -454,6 +485,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       std::string tempPatternGrammarString = tempPatternGrammar.getName();
       if (patternSynonym == tempPatternGrammarString) {
         patternOfGrammar = tempPatternGrammar;
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ patternSynonym, 1 });
+        }
+        else {
+          m_synonymMap[patternSynonym]++;
+        }
       }
     }
     std::string patternLeftName = patternVector.front();
@@ -466,7 +504,27 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       removeCharsFromString(patternLeftName, "\"");
       grammarPatternLeft = Grammar(6, patternLeftName);
     }
-    
+    else {
+      int counterT = 0;
+      removeCharsFromString(patternLeftName, "\\\" ");
+      for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
+        Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
+        std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
+        if (patternLeftName == tempPatternGrammarStringTemp) {
+          grammarPatternLeft = tempPatternGrammarTemp;
+          tempSynonymVector.push_back(grammarPatternLeft.getName());
+          //created all entries to be pushed into vector. to work on parsing thru to add into map
+          std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
+          if (got == m_synonymMap.end()) {
+            m_synonymMap.insert({ patternLeftName, 1 });
+          }
+          else {
+            m_synonymMap[patternLeftName]++;
+          }
+        }
+      }
+    }
+    //to check whether left side can have variables or not. 11/9/2017 5pm
     std::string patternRightName = patternVector.back();
     patternRightName = m_stringUtil.trimString(patternRightName);
     if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
@@ -479,6 +537,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       grammarPatternRight = Grammar(6, patternRightName);
     }
 
+    //todo: else condition for outputting invalid input
+
     //create pattern object
     Pattern patternObjectCreated(patternOfGrammar, grammarPatternLeft, grammarPatternRight, isSubTree);
     m_patternQueue.push(patternObjectCreated);
@@ -487,7 +547,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     /*std::cout << "this is grammarpatternleft name: " << grammarPatternLeft.getName() << std::endl;
     if (grammarPatternLeft.getType() == Grammar::GType::EXPR) {
       std::cout << "this is grammarpatternleft type: EXPR " << std::endl;
-    }
+    }*/
+    /*
     Pattern tempP = m_patternQueue.front();
     Grammar pGrammerStmt = tempP.getStmt();
     std::string pGrammerStmtString = pGrammerStmt.getName();
@@ -495,11 +556,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::string pGrammerLeftString = pGrammerLeft.getName();
     Grammar pGrammerRight = tempP.getRight();
     std::string pGrammerRightString = pGrammerRight.getName();
+    
     std::cout << "This is pGrammerStmt: " << pGrammerStmtString << std::endl;
     std::cout << "This is pGrammerLeft: " << pGrammerLeftString << std::endl;
     std::cout << "This is pGrammerRight: " << pGrammerRightString << std::endl;
     printVector(patternVector);*/
-  }
+    /*int counterU = 0;
+    for (auto u = tempSynonymVector.begin(); u != tempSynonymVector.end(); u++, counterU++) {
+      std::string tempSynonymString = m_grammarVector.at(counterU);
+      std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
+      if (patternLeftName == tempPatternGrammarStringTemp) {
+        grammarPatternLeft = tempPatternGrammarTemp;
+        tempSynonymVector.push_back(grammarPatternLeft.getName());
+        //created all entries to be pushed into vector. to work on parsing thru to add into map
+      }*/
+    }
+  
+  
 
   //std::queue<Grammar> selectQueue = getSelect();
   //std::cout << "This is select queue size: " << selectQueue.size() << std::endl;
