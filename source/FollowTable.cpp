@@ -235,6 +235,30 @@ std::vector<int> FollowTable::getFollowsAnything() {
 }
 
 /**
+* Method that returns the list of line numbers that follows*(s1, _) holds, where s1 is a variable.
+* @return the vector of keys within the followTable.
+*/
+std::vector<int> FollowTable::getFollowedByStarAnything() {
+  std::vector<int> keys;
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
+    int lineNum = it->first;
+    keys.push_back(lineNum);
+  }
+  return keys;
+}
+
+/**
+* Method that returns the list of line numbers that follows*(_, s2) holds, where s2 is a variable.
+* @return the vector of unique values within the followTable.
+*/
+std::vector<int> FollowTable::getFollowsStarAnything() {
+  std::vector<int> values;
+  //copy the m_allFollows set to values vector.
+  values.assign(m_allFollows.begin(), m_allFollows.end());
+  return values;
+}
+
+/**
 * A constructor.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
