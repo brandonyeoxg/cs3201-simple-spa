@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "GlobalTypeDef.h"
 #include "VarRelations.h"
 
 /**
@@ -40,6 +41,7 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
+  VAR_NAME getVarNameFromIndex(VAR_INDEX t_varIdx);
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;

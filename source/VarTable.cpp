@@ -317,6 +317,10 @@ int VarTable::getIndexOfVar(std::string varName) {
   }
 }
 
-
-
-
+VAR_NAME VarTable::getVarNameFromIndex(VAR_INDEX t_varIdx) {
+  auto mItr = m_varTable.find(t_varIdx);
+  if (mItr == m_varTable.end()) {
+    return NULL;
+  }
+  mItr->second.getVarName();
+}
