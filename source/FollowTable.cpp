@@ -208,6 +208,18 @@ std::unordered_map<int, std::vector<int>> FollowTable::getAllFollowsStar() {
 }
 
 /**
+* Method that returns the list of line numbers that follows(s1, _) holds, where s1 is a variable.
+* @return the vector of keys within the followTable.
+*/
+std::vector<int> FollowTable::getFollowedByAnything() {
+  std::vector<int> keys;
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
+    int lineNum = it->first;
+    keys.push_back(lineNum);
+  }
+  return keys;
+}
+/**
 * A constructor.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
