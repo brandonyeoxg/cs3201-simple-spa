@@ -86,6 +86,29 @@ public:
   */
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
 
+  std::vector<int> getFollowedByAnything(); //Follows(s1, _)
+  std::vector<int> getFollowsAnything();  //Follows (_, s2)
+  std::vector<int> getFollowedByStarAnything(); //Follows*(s1, _)
+  std::vector<int> getFollowsStarAnything();  //Follows* (_, s2)
+  bool hasFollowRelationship(); //Follows (_, _)
+  bool hasFollowStarRelationship(); //Follows* (_, _)
+  bool isFollowsAnything(int t_s2); //follows(_, 2)
+  bool isFollowedByAnything(int t_s1);  //follows(2, _)
+  bool isFollowsStarAnything(int t_s2); //follows*(_, 2)
+  bool isFollowedByStarAnything(int t_s1);  //follows*(2, _)
+
+
+
+
+
+
+
+
+
+
+
+
+
   /**
   * A setter method for followTable.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.

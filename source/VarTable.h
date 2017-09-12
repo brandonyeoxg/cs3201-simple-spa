@@ -18,11 +18,6 @@
 */
 class VarTable {
 public:
-  //old methods
-  VarTable* insert(VarTable* table, std::string key, int lineNum);
-  std::vector<int> get(std::string var);
-  void setVarTable(std::unordered_map<std::string, std::vector<int>>& table);
-
   std::unordered_map<int, VarRelations> getVarTable();
 
   VarTable();
@@ -40,6 +35,10 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
+  bool isModifiesAnything(int t_line_num);  //uses(2, _)
+  bool isUsesAnything(int t_line_num);  //modifies(2, _)
+  std::vector<int> getStmtModifiesAnything(); //uses(s, _)
+  std::vector<int> getStmtUsesAnything(); //modifies(s, _)
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;

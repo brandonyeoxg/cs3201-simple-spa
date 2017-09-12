@@ -14,9 +14,6 @@
 #include "AssignTable.h"
 #include "Grammar.h"
 
-const int VARIABLE_S1 = -1;
-const int VARIABLE_S2 = -2;
-
 
 class TNode;
 
@@ -32,12 +29,6 @@ public:
   //setter methods
   void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
 
-  //to be removed
-  std::unordered_map<int, std::vector<int>> returnFollowTable(int s1, int s2);
-  std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
-  std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
-
-
   //FollowTable Methods
   bool insertFollows(int s1, int s2);
   bool isFollows(int s1, int s2);
@@ -48,6 +39,17 @@ public:
   std::vector<int> getFollowedByStar(int s2);
   std::unordered_map<int, int> getAllFollows();
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+  std::vector<int> getFollowedByAnything();
+  std::vector<int> getFollowsAnything();
+  std::vector<int> getFollowedByStarAnything();
+  std::vector<int> getFollowsStarAnything();
+  bool hasFollowRelationship();
+  bool hasFollowStarRelationship();
+  bool isFollowsAnything(int t_s2);
+  bool isFollowedByAnything(int t_s1);
+  bool isFollowsStarAnything(int t_s2);
+  bool isFollowedByStarAnything(int t_s1);
+
   
   PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
   ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
@@ -64,6 +66,18 @@ public:
   std::vector<int> getChildrenStarOf(int s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
   std::unordered_map<int, std::vector<int>> getAllParentsStar();
+  std::vector<int> getChildrenOfAnything();
+  std::vector<int> getParentOfAnything();
+  std::vector<int> getChildrenStarOfAnything();
+  std::vector<int> getParentStarOfAnything();
+  bool hasParentRelationship();
+  bool hasParentStarRelationship();
+  bool isChildrenOfAnything(int t_s2);
+  bool isParentOfAnything(int t_s1);
+  bool isChildrenOfStarAnything(int t_s2);
+  bool isParentOfStarAnything(int t_s1);
+
+
   
 
   //statementTypeTable and typeOfStatementTable Methods
@@ -86,6 +100,10 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
+  bool isModifiesAnything(int t_line_num);
+  bool isUsesAnything(int t_line_num);
+  std::vector<int> getStmtModifiesAnything();
+  std::vector<int> getStmtUsesAnything();
 
   //AssignTable Methods
   VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);

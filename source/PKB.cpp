@@ -73,7 +73,7 @@ int PKB::getFollowedBy(int s2) {
 }
 
 std::vector<int> PKB::getFollowsStar(int s1) {
-  return m_followTable->getFollowedByStar(s1);
+  return m_followTable->getFollowsStar(s1);
 }
 
 std::vector<int> PKB::getFollowedByStar(int s2) {
@@ -232,34 +232,6 @@ std::unordered_map<std::string, std::list<STMT_NO>> PKB::getAllAssignStmtWithVar
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
-/**
-* STUB. To be removed.
-*/
-std::unordered_map<int, std::vector<int>> PKB:: returnFollowTable(int s1, int s2) {
-  std::unordered_map<int, std::vector<int>> finalResult;
-  return finalResult;
-}
-
-/**
-* Method that returns an unordered_map for parent relationship.
-* @param s1 an integer argument (-1 denotes it being the querying variable).
-* @param s2 an integer argument (-2 denotes it being the querying variable).
-*/
-std::unordered_map<int, std::vector<int>> PKB::returnParentTable(int s1, int s2) {
-  std::unordered_map<int, std::vector<int>> finalResult;
-  return finalResult;
-}
-
-
-/**
-* Method that returns an unordered_map for variable query.
-* @param s1 an integer argument (-1 denotes it being the querying variable).
-* @param s2 an integer argument (-2 denotes it being the querying variable).
-*/
-std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::string var) {
-  std::unordered_map<std::string, std::vector<int>> result;
-  return result;
-}
 
 //TBD
 PROC_INDEX_NO PKB::insertProcToAST(ProcedureNode* t_node) {
