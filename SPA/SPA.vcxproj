@@ -15,7 +15,7 @@
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\ASTUtilities.cpp" />
-    <ClCompile Include="..\source\DesignAbstraction.cpp" />
+    <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\FollowTable.cpp" />
     <ClCompile Include="..\source\Grammar.cpp" />
@@ -48,7 +48,7 @@
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
-    <ClInclude Include="..\source\DesignAbstraction.h" />
+    <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
     <ClInclude Include="..\source\Grammar.h" />
