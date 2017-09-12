@@ -10,24 +10,24 @@
 
 #include "ParentTable.h"
 
-bool ParentTable::insertParent(int s1, int s2) {
-  if (s1 == 0) {
+bool ParentTable::insertParent(int t_s1, int t_s2) {
+  if (t_s1 == 0) {
     return false;
   }
-  if (m_parentMap.find(s2) == m_parentMap.end()) {
+  if (m_parentMap.find(t_s2) == m_parentMap.end()) {
     //if s2 does not exist in parentMap
-    m_parentMap.emplace(s2, s1);
+    m_parentMap.emplace(t_s2, t_s1);
     //if s1 does not exist in childMap,
     //push s2 into a new vector and map to s1.
-    if (m_childMap.find(s1) == m_childMap.end()) {
+    if (m_childMap.find(t_s1) == m_childMap.end()) {
       std::vector<int> lineNums;
-      lineNums.push_back(s2);
-      m_childMap.emplace(s1, lineNums);
+      lineNums.push_back(t_s2);
+      m_childMap.emplace(t_s1, lineNums);
     } else {
       //s1 already exists, push s2 to existing vector
-      std::vector<int> lineNums = m_childMap[s1];
-      lineNums.push_back(s2);
-      m_childMap[s1] = lineNums;
+      std::vector<int> lineNums = m_childMap[t_s1];
+      lineNums.push_back(t_s2);
+      m_childMap[t_s1] = lineNums;
     }
   } else {
     //s2 already exists in parentMap. Violates the rule that every statement can only have 1 parent.
@@ -37,10 +37,10 @@ bool ParentTable::insertParent(int s1, int s2) {
   return true;
 }
 
-bool ParentTable::isParent(int s1, int s2) {
+bool ParentTable::isParent(int t_s1, int t_s2) {
   //return true if s2 exists in parentMap as key and s1 is the value.
-  if (m_parentMap.find(s2) != m_parentMap.end()) {
-    if (m_parentMap[s2] == s1) {
+  if (m_parentMap.find(t_s2) != m_parentMap.end()) {
+    if (m_parentMap[t_s2] == t_s1) {
       return true;
     } else {
       return false;
@@ -50,17 +50,17 @@ bool ParentTable::isParent(int s1, int s2) {
   }
 }
 
-bool ParentTable::isParentStar(int s1, int s2) {
+bool ParentTable::isParentStar(int t_s1, int t_s2) {
   int counter = 0;
   int intermediate;
   //if s2 does not exist, return false.
-  if (m_parentMap.find(s2) == m_parentMap.end()) {
+  if (m_parentMap.find(t_s2) == m_parentMap.end()) {
     return false;
   } else {  //if s2 exists, check its mapped value. if it's s1, return true. 
-    intermediate = m_parentMap[s2];
+    intermediate = m_parentMap[t_s2];
     while (counter <= m_parentMap.size()) {
       //if the mapped value is not s1, check that number's mapped value.
-      if (intermediate == s1) {
+      if (intermediate == t_s1) {
         return true;
       } else {
         intermediate = m_parentMap[intermediate];
@@ -71,40 +71,40 @@ bool ParentTable::isParentStar(int s1, int s2) {
   }
 }
 
-int ParentTable::getParentOf(int s2) {
-  if (m_parentMap.find(s2) == m_parentMap.end()) {
+int ParentTable::getParentOf(int t_s2) {
+  if (m_parentMap.find(t_s2) == m_parentMap.end()) {
     //if s2 is not present in parentMap, throw exception
     throw std::invalid_argument("key s2 does not exist in ParentTable");
   } else {
-    return m_parentMap[s2];
+    return m_parentMap[t_s2];
   }
 }
 
-std::vector<int> ParentTable::getChildrenOf(int s1) {
-  if (m_childMap.find(s1) == m_childMap.end()) {
+std::vector<int> ParentTable::getChildrenOf(int t_s1) {
+  if (m_childMap.find(t_s1) == m_childMap.end()) {
     //if s1 is not present in childMap, throw exception
     throw std::invalid_argument("key s1 does not exist in ParentTable");
   } else {
-    return m_childMap[s1];
+    return m_childMap[t_s1];
   }
 }
 
-std::vector<int> ParentTable::getParentStarOf(int s2) {
-  if (m_parentedByStarMap.find(s2) == m_parentedByStarMap.end()) {
+std::vector<int> ParentTable::getParentStarOf(int t_s2) {
+  if (m_parentedByStarMap.find(t_s2) == m_parentedByStarMap.end()) {
     throw std::invalid_argument("key s2 does not exist in ParentTable");
   }
-  auto iterator = m_parentedByStarMap.find(s2);
+  auto iterator = m_parentedByStarMap.find(t_s2);
   return iterator->second;
 }
 
-std::vector<int> ParentTable::getChildrenStarOf(int s1) {
+std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
   //if does not exist in childMap, throw invalid_argument exception.
-  if (m_childMap.find(s1) == m_childMap.end()) {
+  if (m_childMap.find(t_s1) == m_childMap.end()) {
     throw std::invalid_argument("key s1 does not exist in ParentTable");
   }
 
   //new implementation: use m_parentStarTable to query for s1.
-  auto iterator = m_parentStarMap.find(s1);
+  auto iterator = m_parentStarMap.find(t_s1);
   return iterator->second;
 }
 
@@ -256,20 +256,20 @@ bool ParentTable::isParentOfStarAnything(int t_s1) {
 
 
 //getter and setters
-void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &map) {
-  m_childMap = map;
+void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &t_map) {
+  m_childMap = t_map;
 }
 
-void ParentTable::setParentMap(std::unordered_map<int, int> &map) {
-  m_parentMap = map;
+void ParentTable::setParentMap(std::unordered_map<int, int> &t_map) {
+  m_parentMap = t_map;
 }
 
-void ParentTable::setParentStarMap(std::unordered_map<int, std::vector<int>> &map) {
-  m_parentStarMap = map;
+void ParentTable::setParentStarMap(std::unordered_map<int, std::vector<int>> &t_map) {
+  m_parentStarMap = t_map;
 }
 
-void ParentTable::setParentedByStarMap(std::unordered_map<int, std::vector<int>> &map) {
-  m_parentedByStarMap = map;
+void ParentTable::setParentedByStarMap(std::unordered_map<int, std::vector<int>> &t_map) {
+  m_parentedByStarMap = t_map;
 }
 
 std::unordered_map<int, std::vector<int>> ParentTable::getChildMap() {
