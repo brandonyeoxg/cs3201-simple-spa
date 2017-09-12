@@ -9,7 +9,7 @@
 #include <unordered_map>
 
 #include "Grammar.h"
-#include "DesignAbstraction.h"
+#include "Relation.h"
 #include "Pattern.h"
 #include "PKB.h"
 #include "QueryPreProcessor.h"
@@ -35,7 +35,7 @@ public:
   * @param t_relations A queue to store all the such that clauses in the query.
   * @param t_patterns A queue to store all the pattern clauses in the query.
   */
-  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<DesignAbstraction> t_relations, std::queue<Pattern> t_patterns)
+  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
@@ -67,7 +67,7 @@ private:
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
   std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
-  std::queue<DesignAbstraction> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
+  std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
   std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
   std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
