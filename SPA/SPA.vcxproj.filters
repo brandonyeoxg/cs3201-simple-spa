@@ -40,9 +40,6 @@
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>PKB\Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\DesignAbstraction.cpp">
-      <Filter>PQL\Query Types</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Grammar.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
     <ClCompile Include="..\source\VarRelations.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Relation.cpp">
+      <Filter>PQL\Query Types</Filter>
+	</ClCompile>
     <ClCompile Include="..\source\nodes\MultiplyNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
@@ -142,9 +142,6 @@
       <Filter>PKB\Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Pattern.h">
-      <Filter>PQL\Query Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\DesignAbstraction.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Grammar.h">
@@ -210,6 +207,9 @@
     <ClInclude Include="..\source\VarRelations.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\Relation.h">
+      <Filter>PQL\Query Types</Filter>
+	</ClInclude>
     <ClInclude Include="..\source\nodes\MultiplyNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
