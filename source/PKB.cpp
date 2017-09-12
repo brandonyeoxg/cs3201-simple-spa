@@ -7,6 +7,7 @@
 
 #include "PKB.h"
 #include "nodes\TNode.h"
+#include "ASTUtilities.h"
 
 /**
 * A constructor.
@@ -220,16 +221,21 @@ VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node
   return m_assignTable->insertAssignRelation(t_index, t_node);
 }
 
-std::list<STMT_NUM> PKB::getAllStmtListByVar(VAR_INDEX& t_index) {
-  return m_assignTable->getAllStmtListByVar(t_index);
+std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  return m_assignTable->getAllStmtListByVar(varIdx);
 }
 
-std::list<STMT_NUM> PKB::getAllStmtList() {
+std::list<STMT_NUM> PKB::getAllAssignStmtList() {
   return m_assignTable->getAllStmtList();
 }
 
 std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllAssignStmtWithVar() {
   return m_assignTable->getAllAssignStmtWithVar();
+}
+
+void PKB::populateAssignTableAbstractions() {
+  m_assignTable->populateAssignToVarMap(m_varTable);
 }
 
 /***********ProcTable Methods****************/
@@ -277,9 +283,38 @@ std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
 }
 
 /***********Pattern****************/
-//std::list<int> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
-//  int VAR_INDEX = m_varTable->getIndexOfVar(t_varName);
-//}
+std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
+  VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
+  auto aItr = m_assignTable->getAssignDataByVar(index);
+  std::list<STMT_NUM> output;
+  for (auto& assignData : aItr) {
+    TNode* opNode = assignData.m_assignNode->getRightChild();
+    if (t_isExact && ASTUtilities::matchExact(opNode, pattern)) {
+      output.push_back(opNode->getLineNum());
+      continue;
+    }
+    if (!t_isExact && ASTUtilities::matchSubtree(opNode, pattern)) {
+      output.push_back(opNode->getLineNum());
+    }
+  }
+  return output;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact) {
+  std::unordered_map<STMT_NUM, VAR_NAME> output;
+  for (auto& aItr : m_assignTable->getAssignData()) {
+    TNode* oprNode = aItr.m_assignNode->getRightChild();
+    VAR_NAME varName = ((VariableNode*)aItr.m_assignNode->getLeftChild())->getVarName();
+    if (t_isExact && ASTUtilities::matchExact(oprNode, t_pattern)) {
+      output.emplace(aItr.m_assignStmt, varName);
+      continue;
+    }
+    if (!t_isExact && ASTUtilities::matchSubtree(oprNode, t_pattern)) {
+      output.emplace(aItr.m_assignStmt, varName);
+    }
+  }
+  return output;
+}
 
 /**
 * STUB. To be removed.

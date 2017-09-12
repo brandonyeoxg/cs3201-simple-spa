@@ -90,9 +90,10 @@ public:
 
   //AssignTable Methods
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
-  std::list<STMT_NUM> getAllStmtListByVar(VAR_INDEX& t_index);
-  std::list<STMT_NUM> getAllStmtList();
+  std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
+  std::list<STMT_NUM> getAllAssignStmtList();
   std::unordered_map<std::string, std::list<STMT_NUM>> getAllAssignStmtWithVar();
+  void populateAssignTableAbstractions();
 
   //ProcTable Methods
   bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
@@ -113,11 +114,9 @@ public:
   bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
-
   // Pattern methods
-  std::list<int> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
-  std::list<int> getAllAssignStmtByVar(std::string t_varName); /*< Pattern a("x", _) */
-  std::unordered_map<std::string, int> getAllAssignStmtAndVarByPattern(std::string t_varName, std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+  std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   // Jazlyn's stuff for patterns
 private:
   FollowTable* m_followTable;
