@@ -239,7 +239,6 @@ std::vector<int> FollowTable::getFollowsAnything() {
 * @return true if the size of the followTable is more than zero, return false if otherwise.
 */
 bool FollowTable::hasFollowRelationship() {
-  bool isFollowTableEmpty;
   if (m_followTable.size() > 0) {
     return true;
   } else {

@@ -190,7 +190,6 @@ std::vector<int> ParentTable::getParentStarOfAnything() {
 
 bool ParentTable::hasParentRelationship() {
   //Parent (_, _)
-  bool isFollowTableEmpty;
   if (m_parentMap.size() > 0) {
     return true;
   } else {
@@ -200,7 +199,6 @@ bool ParentTable::hasParentRelationship() {
 
 bool ParentTable::hasParentStarRelationship() {
   //Parent* (_, _)
-  bool isFollowTableEmpty;
   if (m_parentStarMap.size() > 0) {
     return true;
   } else {
