@@ -40,6 +40,11 @@
       m_type = GType::CONST;
       break;
     case 9:
+      m_type = GType::PROG_LINE;
+      break;
+    case 10:
+      m_type = GType::STMT_NO;
+    case 11:
       m_type = GType::STR;
       break;
     }

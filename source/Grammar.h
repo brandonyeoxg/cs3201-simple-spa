@@ -15,7 +15,7 @@ public:
   *  An enum type representing the type of the component of the SIMPLE Grammar.
   */
   enum class GType {
-    PROC, /**< An enum value representing a Process. */
+    PROC, /**< An enum value representing a Procedure. */
     ST_LST, /**< An enum value representing a Statement List. */
     STMT, /**< An enum value representing a Statement. */
     ASGN, /**< An enum value representing an Assign Statement. */
@@ -24,6 +24,8 @@ public:
     EXPR, /**< An enum value representing an Expression (or operator, "+","-","*"). */
     VAR, /**< An enum value representing a Variable. */
     CONST, /**< An enum value representing an Integer Constant. */
+    PROG_LINE, /**< An enum value representing a Program Line. */
+    STMT_NO, /**< An enum value representing a Statement Number. */
     STR /**< An enum value representing a String. */
   };
 
