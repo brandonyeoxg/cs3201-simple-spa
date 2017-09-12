@@ -211,7 +211,7 @@ std::unordered_map<int, std::vector<int>> FollowTable::getAllFollowsStar() {
 }
 
 /**
-* Method that returns the list of line numbers that follows(s1, _) holds, where s1 is a variable.
+* Method that returns the list of line numbers that follows(s1, _) and follows*(s1, _) holds, where s1 is a variable.
 * @return the vector of keys within the followTable.
 */
 std::vector<int> FollowTable::getFollowedByAnything() {
@@ -235,27 +235,37 @@ std::vector<int> FollowTable::getFollowsAnything() {
 }
 
 /**
-* Method that returns the list of line numbers that follows*(s1, _) holds, where s1 is a variable.
-* @return the vector of keys within the followTable.
+* Method that checks if follows(_, _) or follows*(_, _) holds, where s2 is a variable.
+* @return true if the size of the followTable is more than zero, return false if otherwise.
 */
-std::vector<int> FollowTable::getFollowedByStarAnything() {
-  std::vector<int> keys;
-  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
-    int lineNum = it->first;
-    keys.push_back(lineNum);
+bool FollowTable::hasFollowRelationship() {
+  bool isFollowTableEmpty;
+  if (m_followTable.size() > 0) {
+    return true;
+  } else {
+    return false;
   }
-  return keys;
 }
 
 /**
-* Method that returns the list of line numbers that follows*(_, s2) holds, where s2 is a variable.
-* @return the vector of unique values within the followTable.
+* Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
+* @return true if s2 exists in the allFollows map, return false if otherwise.
 */
-std::vector<int> FollowTable::getFollowsStarAnything() {
-  std::vector<int> values;
-  //copy the m_allFollows set to values vector.
-  values.assign(m_allFollows.begin(), m_allFollows.end());
-  return values;
+bool FollowTable::isFollowsAnything(int t_s2) {
+  return (m_allFollows.find(t_s2) != m_allFollows.end());
+}
+
+/**
+* Method that checks if follows(s1, _) and follows*(s1, _) holds, where s1 is a statement number.
+* @return true if s1 exists as a key in followTable, return false if otherwise.
+*/
+bool FollowTable::isFollowedByAnything(int t_s1) {
+  for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
+    if (t_s1 == it->first) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**

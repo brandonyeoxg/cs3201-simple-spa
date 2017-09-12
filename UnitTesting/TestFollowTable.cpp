@@ -208,5 +208,31 @@ namespace UnitTesting {
       std::vector<int> expected = testFollowTable->getFollowsAnything();
       Assert::IsTrue(expected == actual);
     }
+
+    TEST_METHOD(TestIsFollowsAnything) {
+      Logger::WriteMessage("Running follow table test isFollowsAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+
+      Assert::IsFalse(testFollowTable->isFollowsAnything(1));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(2));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(3));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(4));
+    }
+
+    TEST_METHOD(TestIsFollowedByAnything) {
+      Logger::WriteMessage("Running follow table test isFollowedByAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+
+      Assert::IsTrue(testFollowTable->isFollowedByAnything(2));
+      Assert::IsTrue(testFollowTable->isFollowedByAnything(3));
+      Assert::IsFalse(testFollowTable->isFollowedByAnything(4));
+
+    }
   };
 }
