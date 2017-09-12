@@ -30,28 +30,5 @@ namespace UnitTesting {
       delete m_designExtractor;
     }
 
-    TEST_METHOD(extractParentStarAbstraction)
-    {
-      std::unordered_map<int, std::list<std::list<int>>> expected = 
-      { 
-        {1, {{2}, {3}, {2, 4}}},
-      };
-      auto actualParentMap = m_designExtractor->testExtractParentStarMap();
-      
-      Assert::IsTrue(expected == actualParentMap);
-    }
-
-    TEST_METHOD(extractParentedByStarAbstraction)
-    {
-      std::unordered_map<int, std::list<int>> expected =
-      {
-        {2, {1} },
-        {3, {1} },
-        {4, {2,1} }
-      };
-      auto actualParentMap = m_designExtractor->testExtractParentedByStarMap();
-
-      Assert::IsTrue(expected == actualParentMap);
-    }
   };
 }
