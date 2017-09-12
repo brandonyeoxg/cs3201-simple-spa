@@ -93,6 +93,25 @@ std::unordered_map<int, std::vector<int>> PKB::getAllFollowsStar() {
   return m_followTable->getAllFollowsStar();
 }
 
+std::vector<int> PKB::getFollowedByAnything() {
+  return m_followTable->getFollowedByAnything();
+}
+
+std::vector<int> PKB::getFollowsAnything() {
+  return m_followTable->getFollowsAnything();
+}
+
+bool PKB::hasFollowRelationship() {
+  return m_followTable->hasFollowRelationship();
+}
+
+bool PKB::isFollowsAnything(int t_s2) {
+  return m_followTable->isFollowsAnything(t_s2);
+}
+
+bool PKB::isFollowedByAnything(int t_s1) {
+  return m_followTable->isFollowedByAnything(t_s1);
+}
 ///////////////////////////////////////////////////////
 //  ParentTable methods 
 ///////////////////////////////////////////////////////
