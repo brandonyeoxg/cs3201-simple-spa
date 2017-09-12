@@ -84,7 +84,7 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME), DUMMY_INDEX);
-  VAR_INDEX_NO varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
+  VAR_INDEX varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
   for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
     m_pkb->insertModifiesForStmt(left->getVarName(), (*containerItr));
   }

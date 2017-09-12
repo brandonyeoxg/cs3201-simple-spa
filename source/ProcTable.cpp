@@ -1,6 +1,6 @@
 #include "ProcTable.h"
 
-PROC_INDEX_NO ProcTable::insertProcByProcNode(ProcedureNode* t_node) {
+PROC_INDEX ProcTable::insertProcByProcNode(ProcedureNode* t_node) {
   // Check if the procedure is already included
   auto procItr = m_data.begin();
   while (procItr != m_data.end()) {
@@ -11,12 +11,12 @@ PROC_INDEX_NO ProcTable::insertProcByProcNode(ProcedureNode* t_node) {
   }
   // Add a new entry into the table
   ProcTableData procTableData(t_node);
-  PROC_INDEX_NO idxNum = m_data.size();
+  PROC_INDEX idxNum = m_data.size();
   m_data.push_back(procTableData);
   return idxNum;
 }
 
-ProcedureNode* ProcTable::getProcNodeWithIdx(PROC_INDEX_NO& t_procIdx) {
+ProcedureNode* ProcTable::getProcNodeWithIdx(PROC_INDEX& t_procIdx) {
   auto mItr = m_data.begin() + t_procIdx;
   if (mItr != m_data.end()) {
     return mItr->getProcNode();
@@ -35,7 +35,7 @@ ProcTableData* ProcTable::getProcTableDataWithName(std::string& procName) {
   return nullptr;
 }
 
-PROC_INDEX_NO ProcTable::getProcIdxNumWithName(std::string& procName) {
+PROC_INDEX ProcTable::getProcIdxNumWithName(std::string& procName) {
   auto procItr = m_data.begin();
   while (procItr != m_data.end()) {
     if (procItr->getProcNode()->getName() == procName) {
@@ -46,7 +46,7 @@ PROC_INDEX_NO ProcTable::getProcIdxNumWithName(std::string& procName) {
   return INVALID_PROC_NO;
 }
 
-std::string ProcTable::getProcNameWithIdx(PROC_INDEX_NO& t_procIdx) {
+std::string ProcTable::getProcNameWithIdx(PROC_INDEX& t_procIdx) {
   auto procItr = m_data.begin() + t_procIdx;
   if (procItr == m_data.end()) {
     return NULL;
@@ -54,7 +54,7 @@ std::string ProcTable::getProcNameWithIdx(PROC_INDEX_NO& t_procIdx) {
   return procItr->getProcNode()->getName();
 }
 
-bool ProcTable::insertModifies(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx) {
+bool ProcTable::insertModifies(PROC_INDEX& t_procIdxNo, std::string& t_varIdx) {
   auto procItr = m_data.begin() + t_procIdxNo;
   if (procItr == m_data.end()) {
     // GG proc does not exist
@@ -77,7 +77,7 @@ bool ProcTable::isModifies(std::string& t_procName, std::string& t_varIdx) {
   return false;
 }
 
-std::list<std::string>& ProcTable::getVarFromProcModifies(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& ProcTable::getVarFromProcModifies(PROC_INDEX& t_procIdx) {
   auto pItr = m_data.begin() + t_procIdx;
   if (pItr == m_data.end()) {
     return std::list<std::string>();
@@ -109,7 +109,7 @@ std::list<std::string>& ProcTable::getProcNameThatModifies() {
   return m_procThatModifies;
 }
 
-bool ProcTable::insertUses(PROC_INDEX_NO& t_procIdxNo, std::string& t_varIdx) {
+bool ProcTable::insertUses(PROC_INDEX& t_procIdxNo, std::string& t_varIdx) {
   auto procItr = m_data.begin() + t_procIdxNo;
   if (procItr == m_data.end()) {
     return false;
@@ -131,7 +131,7 @@ bool ProcTable::isUses(std::string& t_procName, std::string& t_varIdx) {
   return false;
 }
 
-std::list<std::string>& ProcTable::getVarFromProcUses(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& ProcTable::getVarFromProcUses(PROC_INDEX& t_procIdx) {
   auto pItr = m_data.begin();
   if (pItr == m_data.end()) {
     return std::list<std::string>();

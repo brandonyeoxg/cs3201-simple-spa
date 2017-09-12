@@ -216,27 +216,27 @@ int PKB::getIndexOfVar(std::string varName) {
 }
 
 /***********AssignTable Methods****************/
-VAR_INDEX_NO PKB::insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node) {
+VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node) {
   return m_assignTable->insertAssignRelation(t_index, t_node);
 }
 
-std::list<STMT_NO> PKB::getAllStmtListByVar(VAR_INDEX_NO &t_index) {
+std::list<STMT_NUM> PKB::getAllStmtListByVar(VAR_INDEX& t_index) {
   return m_assignTable->getAllStmtListByVar(t_index);
 }
 
-std::list<STMT_NO> PKB::getAllStmtList() {
+std::list<STMT_NUM> PKB::getAllStmtList() {
   return m_assignTable->getAllStmtList();
 }
 
-std::unordered_map<std::string, std::list<STMT_NO>> PKB::getAllAssignStmtWithVar() {
+std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllAssignStmtWithVar() {
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
 /***********ProcTable Methods****************/
-bool PKB::insertProcModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx) {
+bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
   return m_procTable->insertModifies(t_procIdx, t_varIdx);
 }
-bool PKB::insertProcUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx) {
+bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
   return m_procTable->insertUses(t_procIdx, t_varIdx);
 }
 
@@ -248,7 +248,7 @@ bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
   return m_procTable->isModifies(t_procName, t_varName);
 }
 
-std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
   return m_procTable->getVarFromProcModifies(t_procIdx);
 }
 
@@ -272,9 +272,14 @@ bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
   return m_procTable->isUses(t_procName, t_varName);
 }
 
-std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX_NO& t_procIdx) {
+std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
   return m_procTable->getVarFromProcUses(t_procIdx);
 }
+
+/***********Pattern****************/
+//std::list<int> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
+//  int VAR_INDEX = m_varTable->getIndexOfVar(t_varName);
+//}
 
 /**
 * STUB. To be removed.
@@ -306,13 +311,13 @@ std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::strin
 }
 
 //TBD
-PROC_INDEX_NO PKB::insertProcToAST(ProcedureNode* t_node) {
+PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
   TNode* rootNode = m_programNode.getRoot();
   m_builder.linkParentToChild(rootNode, t_node);
   return m_procTable->insertProcByProcNode(t_node);
 }
 
 //TBD
-ProcedureNode* PKB::getRootAST(PROC_INDEX_NO t_index) {
+ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
   return m_procTable->getProcNodeWithIdx(t_index);
 }

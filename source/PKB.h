@@ -13,6 +13,7 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "Grammar.h"
+#include "GlobalTypeDef.h"
 
 const int VARIABLE_S1 = -1;
 const int VARIABLE_S2 = -2;
@@ -49,8 +50,8 @@ public:
   std::unordered_map<int, int> getAllFollows();
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
   
-  PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
-  ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
+  PROC_INDEX insertProcToAST(ProcedureNode* t_node);
+  ProcedureNode* getRootAST(PROC_INDEX t_index);
   
   //ParentTable Methods
   bool insertParent(int s1, int s2);
@@ -88,31 +89,36 @@ public:
   int getIndexOfVar(std::string varName);
 
   //AssignTable Methods
-  VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);
-  std::list<STMT_NO> getAllStmtListByVar(VAR_INDEX_NO& t_index);
-  std::list<STMT_NO> getAllStmtList();
-  std::unordered_map<std::string, std::list<STMT_NO>> getAllAssignStmtWithVar();
+  VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
+  std::list<STMT_NUM> getAllStmtListByVar(VAR_INDEX& t_index);
+  std::list<STMT_NUM> getAllStmtList();
+  std::unordered_map<std::string, std::list<STMT_NUM>> getAllAssignStmtWithVar();
 
   //ProcTable Methods
-  bool insertProcModifies(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
-  bool insertProcUses(PROC_INDEX_NO& t_procIdx, std::string& t_varIdx);
+  bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
+  bool insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   void convertProcSetToList();
 
   bool isModifies(std::string& t_procName, std::string t_varName); /*< Modifies("First", "x")*/
-  std::list<std::string>& getVarOfProcModifies(PROC_INDEX_NO& t_procIdx); /*< Modifies("First", x) */
+  std::list<std::string>& getVarOfProcModifies(PROC_INDEX& t_procIdx); /*< Modifies("First", x) */
   std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies(p, v) */
   bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
   std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
 
   bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
-  std::list<std::string>& getVarOfProcUses(PROC_INDEX_NO& t_procIdx); /*< Uses("First", x) */
+  std::list<std::string>& getVarOfProcUses(PROC_INDEX& t_procIdx); /*< Uses("First", x) */
   std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
   std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
   bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
 
+  // Pattern methods
+  std::list<int> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
+  std::list<int> getAllAssignStmtByVar(std::string t_varName); /*< Pattern a("x", _) */
+  std::unordered_map<std::string, int> getAllAssignStmtAndVarByPattern(std::string t_varName, std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+  // Jazlyn's stuff for patterns
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
