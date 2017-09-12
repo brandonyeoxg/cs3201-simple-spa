@@ -12,19 +12,6 @@ public:
   DesignExtractor(PKB* t_pkb);
   void extractRestOfDesignAbstractions();
 
-  std::unordered_map<int, std::list<std::list<int>>> testExtractParentStarMap();
-  std::unordered_map<int, std::list<int>> testExtractParentedByStarMap();
 private:
-  void extractParentStarAbstraction();
-  void extractParentStarMap(
-    std::unordered_map<int, int>::iterator t_mapItr,
-    std::unordered_map<int, int>& t_parentMap,
-    std::unordered_map<int, std::list<std::list<int>>>& t_parentStarMap);
-
-  void extractParentedByStarMap(
-    std::unordered_map<int, int>::iterator t_mapItr,
-    std::unordered_map<int, int>& t_parentMap,
-    std::unordered_map<int, std::list<int>>& t_parentedByStarMap);
-
   PKB* m_pkb;
 };
