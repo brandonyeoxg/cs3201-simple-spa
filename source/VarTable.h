@@ -24,16 +24,16 @@ public:
   VarTable();
 
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
-  int insertModifiesForStmt(std::string varName, int lineNum);
-  bool isModifies(int lineNum, std::string varName);
-  bool isUses(int lineNum, std::string varName);
-  std::vector<std::string> getModifies(int lineNum);
-  std::vector<std::string> getUses(int line_num);
-  std::vector<int> getStmtModifies(std::string varName);
-  std::vector<int> getStmtUses(std::string varName);
+  int insertModifiesForStmt(std::string t_varName, int t_lineNum);
+  bool isModifies(int t_lineNum, std::string t_varName);
+  bool isUses(int t_lineNum, std::string t_varName);
+  std::vector<std::string> getModifies(int t_lineNum);
+  std::vector<std::string> getUses(int t_line_num);
+  std::vector<int> getStmtModifies(std::string t_varName);
+  std::vector<int> getStmtUses(std::string t_varName);
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
-  int getIndexOfVar(std::string varName);
+  int getIndexOfVar(std::string t_varName);
   bool isModifiesAnything(int t_line_num);  //uses(2, _)
   bool isUsesAnything(int t_line_num);  //modifies(2, _)
   std::vector<int> getStmtModifiesAnything(); //uses(s, _)

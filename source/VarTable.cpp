@@ -50,7 +50,7 @@ int VarTable::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return index;
 }
 
-int VarTable::insertModifiesForStmt(std::string t_varName, int lineNum) {
+int VarTable::insertModifiesForStmt(std::string t_varName, int t_lineNum) {
   int index = 0;
   VarRelations var;
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
@@ -58,10 +58,10 @@ int VarTable::insertModifiesForStmt(std::string t_varName, int lineNum) {
     var = it->second;
     if (var.getVarName() == t_varName) {
       std::vector<int> modifies = var.getModifies();
-      if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+      if (std::find(modifies.begin(), modifies.end(), t_lineNum) != modifies.end()) {
         return index;
       }
-      var.insertModifies(lineNum);
+      var.insertModifies(t_lineNum);
       m_varTable[index] = var;
       m_allVariables.insert(t_varName);
       return index;
@@ -69,21 +69,21 @@ int VarTable::insertModifiesForStmt(std::string t_varName, int lineNum) {
   }
   VarRelations varRelations;
   varRelations.setVarName(t_varName);
-  varRelations.insertModifies(lineNum);
+  varRelations.insertModifies(t_lineNum);
   index = m_varTable.size();
   m_varTable.emplace(index, varRelations);
   m_allVariables.insert(t_varName);
   return index;
 }
 
-bool VarTable::isModifies(int lineNum, std::string varName) {
+bool VarTable::isModifies(int t_lineNum, std::string t_varName) {
   //for every index check if varName exists.
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     VarRelations var = it->second;
-    if (var.getVarName() == varName) {
+    if (var.getVarName() == t_varName) {
       //return true if lineNum can be found in vector modifies.
       std::vector<int> modifies = var.getModifies();
-      if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+      if (std::find(modifies.begin(), modifies.end(), t_lineNum) != modifies.end()) {
         return true;
       } else {
         return false;
@@ -95,14 +95,14 @@ bool VarTable::isModifies(int lineNum, std::string varName) {
   return false;
 }
 
-bool VarTable::isUses(int lineNum, std::string varName) {
+bool VarTable::isUses(int t_lineNum, std::string t_varName) {
   //for every index check if varName exists.
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     VarRelations var = it->second;
-    if (var.getVarName() == varName) {
+    if (var.getVarName() == t_varName) {
       //return true if lineNum can be found in vector modifies.
       std::vector<int> uses = var.getUses();
-      if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
+      if (std::find(uses.begin(), uses.end(), t_lineNum) != uses.end()) {
         return true;
       } else {
         return false;
@@ -114,7 +114,7 @@ bool VarTable::isUses(int lineNum, std::string varName) {
   return false;
 }
 
-std::vector<std::string> VarTable::getModifies(int lineNum) {
+std::vector<std::string> VarTable::getModifies(int t_lineNum) {
   //for every index, if lineNum present, append to vector.
   std::vector<int> modifies;
   std::vector<std::string> result;
@@ -122,7 +122,7 @@ std::vector<std::string> VarTable::getModifies(int lineNum) {
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     var = it->second;
     modifies = var.getModifies();
-    if (std::find(modifies.begin(), modifies.end(), lineNum) != modifies.end()) {
+    if (std::find(modifies.begin(), modifies.end(), t_lineNum) != modifies.end()) {
       result.push_back(var.getVarName());
     }
   }
@@ -130,7 +130,7 @@ std::vector<std::string> VarTable::getModifies(int lineNum) {
   return result;
 }
 
-std::vector<std::string> VarTable::getUses(int lineNum) {
+std::vector<std::string> VarTable::getUses(int t_lineNum) {
   //for every index, if lineNum present, append to vector.
   std::vector<int> uses;
   std::vector<std::string> result;
@@ -138,7 +138,7 @@ std::vector<std::string> VarTable::getUses(int lineNum) {
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     var = it->second;
     uses = var.getUses();
-    if (std::find(uses.begin(), uses.end(), lineNum) != uses.end()) {
+    if (std::find(uses.begin(), uses.end(), t_lineNum) != uses.end()) {
       result.push_back(var.getVarName());
     }
   }
@@ -146,24 +146,24 @@ std::vector<std::string> VarTable::getUses(int lineNum) {
   return result;
 }
 
-std::vector<int> VarTable::getStmtModifies(std::string varName) {
+std::vector<int> VarTable::getStmtModifies(std::string t_varName) {
   std::vector<int> emptyResult;
   VarRelations var;
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     var = it->second;
-    if (varName == var.getVarName()) {
+    if (t_varName == var.getVarName()) {
       return var.getModifies();
     }
   }
   return emptyResult;
 }
 
-std::vector<int> VarTable::getStmtUses(std::string varName) {
+std::vector<int> VarTable::getStmtUses(std::string t_varName) {
   std::vector<int> emptyResult;
   VarRelations var;
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     var = it->second;
-    if (varName == var.getVarName()) {
+    if (t_varName == var.getVarName()) {
       return var.getUses();
     }
   }
@@ -190,14 +190,14 @@ std::unordered_map<std::string, std::vector<int>> VarTable::getAllStmtUses() {
   return result;
 }
 
-int VarTable::getIndexOfVar(std::string varName) {
+int VarTable::getIndexOfVar(std::string t_varName) {
   VarRelations var;
   int index;
   bool isFound = false;
   for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
     var = it->second;
     index = it->first;
-    if (var.getVarName() == varName) {
+    if (var.getVarName() == t_varName) {
       isFound = true;
       return index;
     }

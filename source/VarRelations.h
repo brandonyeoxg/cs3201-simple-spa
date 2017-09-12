@@ -9,9 +9,9 @@
 class VarRelations {
 public:
   VarRelations();
-  void setVarName(std::string varName);
-  bool insertUses(int line_num);
-  bool insertModifies(int line_num);
+  void setVarName(std::string t_varName);
+  bool insertUses(int t_line_num);
+  bool insertModifies(int t_line_num);
   
   //getter methods
   std::string getVarName();
