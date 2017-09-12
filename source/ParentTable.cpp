@@ -156,6 +156,16 @@ std::vector<int> ParentTable::getChildrenOfAnything() {
   return result;
 }
 
+std::vector<int> ParentTable::getParentOfAnything() {
+  //return list of parents i.e. keys of m_childMap
+  std::vector<int> result;
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    result.push_back(it->first);
+  }
+
+  return result;
+}
+
 
 
 
