@@ -102,10 +102,12 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
+  std::string getVarNameFromIndex(int t_index);
   bool isModifiesAnything(int t_line_num);
   bool isUsesAnything(int t_line_num);
   std::vector<int> getStmtModifiesAnything();
   std::vector<int> getStmtUsesAnything();
+  std::vector<std::string> getAllVariables();
 
   ///////////////////////////////////////////////////////
   //  AssignTable methods 

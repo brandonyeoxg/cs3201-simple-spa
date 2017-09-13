@@ -278,6 +278,30 @@ int PKB::getIndexOfVar(std::string varName) {
   return m_varTable->getIndexOfVar(varName);
 }
 
+std::string PKB::getVarNameFromIndex(int t_index) {
+  return m_varTable->getVarNameFromIndex(t_index);
+}
+
+bool PKB::isModifiesAnything(int t_line_num) {
+  return m_varTable->isModifiesAnything(t_line_num);
+}
+
+bool PKB::isUsesAnything(int t_line_num) {
+  return m_varTable->isUsesAnything(t_line_num);
+}
+
+std::vector<int> PKB::getStmtModifiesAnything() {
+  return m_varTable->getStmtModifiesAnything();
+}
+
+std::vector<int> PKB::getStmtUsesAnything() {
+  return m_varTable->getStmtUsesAnything();
+}
+
+std::vector<std::string> PKB::getAllVariables() {
+  return m_varTable->getAllVariables();
+}
+
 ///////////////////////////////////////////////////////
 //  AssignTable methods 
 ///////////////////////////////////////////////////////
