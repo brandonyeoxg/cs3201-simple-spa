@@ -34,6 +34,7 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string t_varName);
+  std::string getVarNameFromIndex(int t_index);
   bool isModifiesAnything(int t_line_num);  //uses(2, _)
   bool isUsesAnything(int t_line_num);  //modifies(2, _)
   std::vector<int> getStmtModifiesAnything(); //uses(s, _)

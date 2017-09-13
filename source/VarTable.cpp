@@ -208,6 +208,16 @@ int VarTable::getIndexOfVar(std::string t_varName) {
   }
 }
 
+std::string VarTable::getVarNameFromIndex(int t_index) {
+  if (t_index > m_varTable.size()) {
+    throw std::invalid_argument("var Index does not exist.");
+  } else {
+    VarRelations varRelation = m_varTable.find(t_index)->second;
+    return varRelation.getVarName();
+  }
+  
+}
+
 
 
 
