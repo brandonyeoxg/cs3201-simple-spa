@@ -11,6 +11,7 @@ class DesignExtractor {
 public:
   DesignExtractor(PKB* t_pkb);
   void extractRestOfDesignAbstractions();
+  void extractProcTableAbstraction();
 
 private:
   PKB* m_pkb;

@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <set>
 
+#include "GlobalTypeDef.h"
 #include "VarRelations.h"
 
 /**

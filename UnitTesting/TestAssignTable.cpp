@@ -18,25 +18,25 @@ namespace UnitTesting {
       VariableNode* rhsVarNode = builder.createVariable(1, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(1, varNode, rhsVarNode);
       
-      VAR_INDEX_NO varIndex= assignTable.insertAssignRelation(1, assignNode);
+      VAR_INDEX varIndex= assignTable.insertAssignRelation(1, assignNode);
       Assert::AreEqual(varIndex, 1);
     }
 
     TEST_METHOD(getAllStmtList) {
       AssignTable assignTable;
       ASTBuilder builder;
-      STMT_NO curStmtNo = 1;
-      VAR_INDEX_NO varIndex = 1;
+      STMT_NUM curStmtNo = 1;
+      VAR_INDEX varIndex = 1;
       VariableNode* varNode = builder.createVariable(curStmtNo, "x", DUMMY_VAR_INDEX);
       VariableNode* rhsVarNode = builder.createVariable(curStmtNo, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(curStmtNo, varNode, rhsVarNode);
 
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      std::list<STMT_NO> stmts = assignTable.getAllStmtList();
+      std::list<STMT_NUM> stmts = assignTable.getAllStmtList();
       
       int listSize = stmts.size();
       Assert::AreEqual(listSize, 1);
-      Assert::AreEqual(stmts.front(), (STMT_NO)1);
+      Assert::AreEqual(stmts.front(), (STMT_NUM)1);
     
       varIndex = 1;
       curStmtNo = 2;
@@ -45,7 +45,7 @@ namespace UnitTesting {
       stmts = assignTable.getAllStmtList();
       listSize = stmts.size();
       Assert::AreEqual(listSize, 2);
-      Assert::AreEqual(stmts.front() + 1, (STMT_NO)2);
+      Assert::AreEqual(stmts.front() + 1, (STMT_NUM)2);
 
       varIndex = 2;
       curStmtNo = 3;
@@ -54,7 +54,7 @@ namespace UnitTesting {
       stmts = assignTable.getAllStmtList();
       listSize = stmts.size();
       Assert::AreEqual(listSize, 3);
-      Assert::AreEqual(stmts.front() + 2, (STMT_NO)curStmtNo);
+      Assert::AreEqual(stmts.front() + 2, (STMT_NUM)curStmtNo);
     }
 
     TEST_METHOD(getAllStmtListByVar)
@@ -64,10 +64,10 @@ namespace UnitTesting {
       VariableNode* varNode = builder.createVariable(1, "x", DUMMY_VAR_INDEX);
       VariableNode* rhsVarNode = builder.createVariable(1, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(1, varNode, rhsVarNode);
-      VAR_INDEX_NO varIndex = 1;
-      STMT_NO curLineNo = 1;
+      VAR_INDEX varIndex = 1;
+      STMT_NUM curLineNo = 1;
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      std::list<STMT_NO> stmts = assignTable.getAllStmtListByVar(varIndex);
+      std::list<STMT_NUM> stmts = assignTable.getAllStmtListByVar(varIndex);
       int listSize = stmts.size();
       Assert::AreEqual(listSize, 1);
       Assert::AreEqual(stmts.front(), curLineNo);
@@ -95,44 +95,51 @@ namespace UnitTesting {
     {
       AssignTable assignTable;
       ASTBuilder builder;
-      VAR_INDEX_NO varIndex = 1;
-      STMT_NO curLineNo = 1;
+      VAR_INDEX varIndex = 1;
+      STMT_NUM curLineNo = 1;
       VariableNode* varNode = builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX);
       VariableNode* rhsVarNode = builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX);
       AssignNode* assignNode = builder.buildAssignment(curLineNo, varNode, rhsVarNode);
 
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      std::unordered_map<std::string, std::list<STMT_NO>> stmtMap = assignTable.getAllAssignStmtWithVar();
+      VarTable varTable;
+      varTable.insertModifiesForStmt("x", 1);
+      assignTable.populateAssignToVarMap(&varTable);
+      auto actual = assignTable.getAllAssignStmtWithVar();
+      unordered_map<STMT_NUM, VAR_NAME> expected;
+      expected.emplace((STMT_NUM)1, VAR_NAME("x"));
+      Assert::IsTrue(actual == expected);
+      //std::unordered_map<std::string, std::list<STMT_NUM>> stmtMap = assignTable.getAllAssignStmtWithVar();
 
-      int listSize = stmtMap.size();
-      Assert::AreEqual(listSize, 1);
-      std::unordered_map<std::string, std::list<STMT_NO>>::iterator mapItr = stmtMap.find(std::string("x"));
-      Assert::AreEqual((*mapItr).first, std::string("x"));
-      Assert::AreEqual((int)(*mapItr).second.size(), 1);
+      //int listSize = stmtMap.size();
+      //Assert::AreEqual(listSize, 1);
+      //std::unordered_map<std::string, std::list<STMT_NUM>>::iterator mapItr = stmtMap.find(std::string("x"));
+      //Assert::AreEqual((*mapItr).first, std::string("x"));
+      //Assert::AreEqual((int)(*mapItr).second.size(), 1);
 
-      varIndex = 1;
-      curLineNo = 2;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
-      varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      stmtMap = assignTable.getAllAssignStmtWithVar();
+      //varIndex = 1;
+      //curLineNo = 2;
+      //assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "x", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
+      //varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
+      //stmtMap = assignTable.getAllAssignStmtWithVar();
 
-      listSize = stmtMap.size();
-      Assert::AreEqual(listSize, 1);
-      mapItr = stmtMap.find(std::string("x"));
-      Assert::AreEqual((*mapItr).first, std::string("x"));
-      Assert::AreEqual((int)(*mapItr).second.size(), 2);
+      //listSize = stmtMap.size();
+      //Assert::AreEqual(listSize, 1);
+      //mapItr = stmtMap.find(std::string("x"));
+      //Assert::AreEqual((*mapItr).first, std::string("x"));
+      //Assert::AreEqual((int)(*mapItr).second.size(), 2);
 
-      varIndex = 2;
-      curLineNo = 3;
-      assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
-      varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      stmtMap = assignTable.getAllAssignStmtWithVar();
+      //varIndex = 2;
+      //curLineNo = 3;
+      //assignNode = builder.buildAssignment(curLineNo, builder.createVariable(curLineNo, "y", DUMMY_VAR_INDEX), builder.createVariable(curLineNo, "c", DUMMY_VAR_INDEX));
+      //varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
+      //stmtMap = assignTable.getAllAssignStmtWithVar();
 
-      listSize = stmtMap.size();
-      Assert::AreEqual(listSize, 2);
-      mapItr = stmtMap.find(std::string("y"));
-      Assert::AreEqual((*mapItr).first, std::string("y"));
-      Assert::AreEqual((int)(*mapItr).second.size(), 1);
+      //listSize = stmtMap.size();
+      //Assert::AreEqual(listSize, 2);
+      //mapItr = stmtMap.find(std::string("y"));
+      //Assert::AreEqual((*mapItr).first, std::string("y"));
+      //Assert::AreEqual((int)(*mapItr).second.size(), 1);
     }
   };
 }

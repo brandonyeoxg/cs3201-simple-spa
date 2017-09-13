@@ -16,6 +16,5 @@ void DesignExtractor::extractRestOfDesignAbstractions() {
   //populate the parent* maps.
   m_pkb->populateParentedByStarMap();
   m_pkb->populateParentStarMap();
-
+  m_pkb->populateAssignTableAbstractions();
 }
-
