@@ -194,5 +194,17 @@ namespace UnitTesting {
       std::string expected = testVarTable.getVarNameFromIndex(1);
       Assert::IsTrue("y" == expected);
     }
+
+    TEST_METHOD(TestIsModifiesAnything) {
+      Logger::WriteMessage("testing getIndexOfVar");
+      VarTable testVarTable;
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
+
+      Assert::IsTrue(testVarTable.isModifiesAnything(2));
+      Assert::IsTrue(testVarTable.isModifiesAnything(3));
+      Assert::IsFalse(testVarTable.isModifiesAnything(4));
+    }
   };
 }

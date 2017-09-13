@@ -218,6 +218,19 @@ std::string VarTable::getVarNameFromIndex(int t_index) {
   
 }
 
+bool VarTable::isModifiesAnything(int t_line_num) {
+  VarRelations varRelations;
+  std::vector<int> lineNums;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    varRelations = it->second;
+    lineNums = varRelations.getModifies();
+    if (std::find(lineNums.begin(), lineNums.end(), t_line_num) != lineNums.end()) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
 
 
