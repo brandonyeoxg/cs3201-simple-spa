@@ -167,5 +167,27 @@ namespace UnitTesting {
 
       Assert::IsTrue(expected == testParentTable->getParentStarMap());
     }
+
+    TEST_METHOD(TestGetChildrenOfAnything) {
+      ParentTable *testParentTable = new ParentTable();
+      testParentTable->insertParent(1, 2);
+      testParentTable->insertParent(1, 3);
+      testParentTable->insertParent(2, 4);
+      static const int arr[] = { 2, 3, 4 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      std::vector<int> expected = testParentTable->getChildrenOfAnything();
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestGetParentOfAnything) {
+      ParentTable *testParentTable = new ParentTable();
+      testParentTable->insertParent(1, 2);
+      testParentTable->insertParent(1, 3);
+      testParentTable->insertParent(2, 4);
+      static const int arr[] = { 1, 2 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      std::vector<int> expected = testParentTable->getParentOfAnything();
+      Assert::IsTrue(expected == actual);
+    }
   };
 }

@@ -15,26 +15,26 @@ VarRelations::VarRelations() {
   std::vector<int> m_modifies;
 }
 
-void VarRelations::setVarName(std::string varName) {
-  m_varName = varName;
+void VarRelations::setVarName(std::string t_varName) {
+  m_varName = t_varName;
 }
 
-bool VarRelations::insertUses(int line_num) {
+bool VarRelations::insertUses(int t_line_num) {
   //if line_num already exists in uses vector, return false
-  if (std::find(m_uses.begin(), m_uses.end(), line_num) != m_uses.end()) {
+  if (std::find(m_uses.begin(), m_uses.end(), t_line_num) != m_uses.end()) {
     return false;
   } else {
-    m_uses.push_back(line_num);
+    m_uses.push_back(t_line_num);
     return true;
   }
 }
 
-bool VarRelations::insertModifies(int line_num) {
+bool VarRelations::insertModifies(int t_line_num) {
   //if line_num already exists in uses vector, return false
-  if (std::find(m_modifies.begin(), m_modifies.end(), line_num) != m_modifies.end()) {
+  if (std::find(m_modifies.begin(), m_modifies.end(), t_line_num) != m_modifies.end()) {
     return false;
   } else {
-    m_modifies.push_back(line_num);
+    m_modifies.push_back(t_line_num);
     return true;
   }
 }
