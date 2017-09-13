@@ -111,6 +111,8 @@ public:
   std::vector<std::string> getAllVariables();
 
   ///////////////////////////////////////////////////////
+  //  AssignTable
+  ///////////////////////////////////////////////////////
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
   std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
   std::list<STMT_NUM> getAllAssignStmtList();
