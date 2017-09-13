@@ -417,6 +417,16 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtAndVarByPattern(std:
   return output;
 }
 
+std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
+  std::list<STMT_NUM> list = std::list<STMT_NUM>();
+  for (auto& iterator : m_assignTable->getAssignData()) {
+    if (ASTUtilities::matchExact(iterator.m_assignNode->getRightChild(), t_pattern)) {
+      list.push_back(iterator.m_assignStmt);
+    }
+  }
+  return list;
+}
+
 
 //TBD
 PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {

@@ -141,6 +141,8 @@ public:
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   // Jazlyn's stuff for patterns
+  std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
