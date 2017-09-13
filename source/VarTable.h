@@ -39,6 +39,7 @@ public:
   bool isUsesAnything(int t_line_num);  //modifies(2, _)
   std::vector<int> getStmtModifiesAnything(); //uses(s, _)
   std::vector<int> getStmtUsesAnything(); //modifies(s, _)
+  std::vector<std::string> getAllVariables();
 
 private:
   std::unordered_map<int, VarRelations> m_varTable;

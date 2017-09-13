@@ -206,5 +206,51 @@ namespace UnitTesting {
       Assert::IsTrue(testVarTable.isModifiesAnything(3));
       Assert::IsFalse(testVarTable.isModifiesAnything(4));
     }
+
+    TEST_METHOD(TestGetStmtModifiesAnything) {
+      Logger::WriteMessage("testing getStmtModifiesAnything");
+      VarTable testVarTable;
+      int ans = testVarTable.insertModifiesForStmt("x", 1);
+      ans = testVarTable.insertModifiesForStmt("y", 2);
+      ans = testVarTable.insertModifiesForStmt("y", 3);
+      ans = testVarTable.insertModifiesForStmt("x", 3);
+
+      std::vector<int> expected = testVarTable.getStmtModifiesAnything();
+      static const int arr[] = { 1, 2, 3 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestGetStmtUsesAnything) {
+      Logger::WriteMessage("testing getStmtUsesAnything");
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("x", 3);
+      ans = testVarTable.insertUsesForStmt("y", 3);
+      ans = testVarTable.insertUsesForStmt("z", 3);
+      std::vector<int> expected = testVarTable.getStmtUsesAnything();
+      static const int arr[] = { 1, 2, 3 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestGetAllVariables) {
+      Logger::WriteMessage("testing getAllVariables");
+      VarTable testVarTable;
+      int ans = testVarTable.insertUsesForStmt("x", 1);
+      ans = testVarTable.insertUsesForStmt("y", 2);
+      ans = testVarTable.insertUsesForStmt("x", 3);
+      ans = testVarTable.insertUsesForStmt("y", 3);
+      ans = testVarTable.insertUsesForStmt("z", 3);
+
+      std::vector<std::string> expected = testVarTable.getAllVariables();
+      static const std::string arr[] = { "x", "y", "z" };
+      std::vector<std::string> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
+      Assert::IsTrue(expected == actual);
+    }
   };
 }

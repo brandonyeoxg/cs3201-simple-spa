@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 #include <stdexcept>
 
 #include "VarTable.h"
@@ -244,6 +245,44 @@ bool VarTable::isUsesAnything(int t_line_num) {
   return false;
 }
 
+std::vector<int> VarTable::getStmtModifiesAnything() {
+  VarRelations var;
+  std::set<int> resultSet;
+  std::vector<int> modifies;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    modifies = var.getModifies();
+    for (int i = 0; i < modifies.size(); i++) {
+      resultSet.insert(modifies[i]);
+    }
+  }
+  std::vector<int> result;
+  result.assign(resultSet.begin(), resultSet.end());
 
+  return result;
+}
 
+std::vector<int> VarTable::getStmtUsesAnything() {
+  VarRelations var;
+  std::set<int> resultSet;
+  std::vector<int> uses;
+  for (auto it = m_varTable.begin(); it != m_varTable.end(); ++it) {
+    var = it->second;
+    uses = var.getUses();
+    for (int i = 0; i < uses.size(); i++) {
+      resultSet.insert(uses[i]);
+    }
+  }
+  std::vector<int> result;
+  result.assign(resultSet.begin(), resultSet.end());
+
+  return result;
+}
+
+std::vector<std::string> VarTable::getAllVariables() {
+  std::vector<std::string> result;
+  result.assign(m_allVariables.begin(), m_allVariables.end());
+
+  return result;
+}
 
