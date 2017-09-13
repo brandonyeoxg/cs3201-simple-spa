@@ -14,9 +14,6 @@
 #include "AssignTable.h"
 #include "Grammar.h"
 
-const int VARIABLE_S1 = -1;
-const int VARIABLE_S2 = -2;
-
 
 class TNode;
 
@@ -25,34 +22,39 @@ class TNode;
 class PKB {
 public:
   PKB();
-  //getter methods
+  ///////////////////////////////////////////////////////
+  //  Getter and Setter methods 
+  ///////////////////////////////////////////////////////
   FollowTable* getFollowTable();
   ParentTable* getParentTable();
   VarTable* getVarTable();
-  //setter methods
   void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
 
-  //to be removed
-  std::unordered_map<int, std::vector<int>> returnFollowTable(int s1, int s2);
-  std::unordered_map<int, std::vector<int>> returnParentTable(int s1, int s2);
-  std::unordered_map<std::string, std::vector<int>> returnVarTable(std::string var);
-
-
-  //FollowTable Methods
-  bool insertFollows(int s1, int s2);
-  bool isFollows(int s1, int s2);
-  bool isFollowsStar(int s1, int s2);
-  int getFollows(int s1);
-  int getFollowedBy(int s2);
-  std::vector<int> getFollowsStar(int s1);
-  std::vector<int> getFollowedByStar(int s2);
+  ///////////////////////////////////////////////////////
+  //  FollowTable methods 
+  ///////////////////////////////////////////////////////
+  bool insertFollows(int t_s1, int t_s2);
+  bool isFollows(int t_s1, int t_s2);
+  bool isFollowsStar(int t_s1, int t_s2);
+  int getFollows(int t_s1);
+  int getFollowedBy(int t_s2);
+  std::vector<int> getFollowsStar(int t_s1);
+  std::vector<int> getFollowedByStar(int t_s2);
   std::unordered_map<int, int> getAllFollows();
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+  std::vector<int> getFollowedByAnything();
+  std::vector<int> getFollowsAnything();
+  bool hasFollowRelationship();
+  bool isFollowsAnything(int t_s2);
+  bool isFollowedByAnything(int t_s1);
+
   
   PROC_INDEX_NO insertProcToAST(ProcedureNode* t_node);
   ProcedureNode* getRootAST(PROC_INDEX_NO t_index);
   
-  //ParentTable Methods
+  ///////////////////////////////////////////////////////
+  //  ParentTable methods 
+  ///////////////////////////////////////////////////////
   bool insertParent(int s1, int s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
@@ -64,19 +66,33 @@ public:
   std::vector<int> getChildrenStarOf(int s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
   std::unordered_map<int, std::vector<int>> getAllParentsStar();
-  
+  std::vector<int> getChildrenOfAnything();
+  std::vector<int> getParentOfAnything();
+  std::vector<int> getChildrenStarOfAnything();
+  std::vector<int> getParentStarOfAnything();
+  bool hasParentRelationship();
+  bool hasParentStarRelationship();
+  bool isChildrenOfAnything(int t_s2);
+  bool isParentOfAnything(int t_s1);
+  bool isChildrenOfStarAnything(int t_s2);
+  bool isParentOfStarAnything(int t_s1);
 
-  //statementTypeTable and typeOfStatementTable Methods
+
+  
+  //////////////////////////////////////////////////////////
+  //  statementTypeTable and typeOfStatementTable Methods
+  //////////////////////////////////////////////////////////
+  
   std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
   bool insertTypeOfStatementTable(int line_num, Grammar::GType t_type);
   std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
   bool insertStatementTypeTable(Grammar::GType t_type, int line_num);
 
-  //VarTable Methods
+  ///////////////////////////////////////////////////////
+  //  VarTable methods 
+  ///////////////////////////////////////////////////////
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
-  int insertUsesForStmt(int index, std::string varName, int lineNum);
   int insertModifiesForStmt(std::string t_varName, int t_lineNum);
-  int insertModifiesForStmt(int index, std::string varName, int lineNum);
   bool isModifies(int lineNum, std::string varName);
   bool isUses(int lineNum, std::string varName);
   std::vector<std::string> getModifies(int lineNum);
@@ -86,8 +102,16 @@ public:
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
   int getIndexOfVar(std::string varName);
+  std::string getVarNameFromIndex(int t_index);
+  bool isModifiesAnything(int t_line_num);
+  bool isUsesAnything(int t_line_num);
+  std::vector<int> getStmtModifiesAnything();
+  std::vector<int> getStmtUsesAnything();
+  std::vector<std::string> getAllVariables();
 
-  //AssignTable Methods
+  ///////////////////////////////////////////////////////
+  //  AssignTable methods 
+  ///////////////////////////////////////////////////////
   VAR_INDEX_NO insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node);
   std::list<STMT_NO> getAllStmtListByVar(VAR_INDEX_NO& t_index);
   std::list<STMT_NO> getAllStmtList();

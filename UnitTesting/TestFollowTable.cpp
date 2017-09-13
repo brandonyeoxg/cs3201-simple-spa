@@ -179,5 +179,60 @@ namespace UnitTesting {
       };
       Assert::IsTrue(expected == testFollowTable->getAllFollows());
     }
+
+    TEST_METHOD(TestGetFollowedByAnything) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
+      Logger::WriteMessage("Running follow table test getFollowedByAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->setFollowTable(test);
+      //test getFollowedByStar method (correct behaviour)
+      std::vector<int> expected = testFollowTable->getFollowedByAnything();
+      static const int arr[] = { 1, 2, 3 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestGetFollowsAnything) {
+      Logger::WriteMessage("Running follow table test getFollowsAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+      static const int arr[] = { 2, 3, 4 };
+      std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
+
+      std::vector<int> expected = testFollowTable->getFollowsAnything();
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestIsFollowsAnything) {
+      Logger::WriteMessage("Running follow table test isFollowsAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+
+      Assert::IsFalse(testFollowTable->isFollowsAnything(1));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(2));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(3));
+      Assert::IsTrue(testFollowTable->isFollowsAnything(4));
+    }
+
+    TEST_METHOD(TestIsFollowedByAnything) {
+      Logger::WriteMessage("Running follow table test isFollowedByAnything");
+      FollowTable *testFollowTable = new FollowTable();
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
+
+      Assert::IsTrue(testFollowTable->isFollowedByAnything(2));
+      Assert::IsTrue(testFollowTable->isFollowedByAnything(3));
+      Assert::IsFalse(testFollowTable->isFollowedByAnything(4));
+
+    }
   };
 }

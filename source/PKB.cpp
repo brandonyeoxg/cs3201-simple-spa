@@ -22,7 +22,9 @@ PKB::PKB() {
   std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
 
-/* Getter methods*/
+///////////////////////////////////////////////////////
+//  Getter and Setter methods 
+///////////////////////////////////////////////////////
 FollowTable* PKB:: getFollowTable() {
   return m_followTable;
 }
@@ -38,9 +40,12 @@ VarTable* PKB::getVarTable() {
 void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
   m_followTable->setFollowTable(table);
 }
-/***********FollowTable Methods****************/
-bool PKB::insertFollows(int s1, int s2) {
-  return m_followTable->insertFollows(s1, s2);
+
+///////////////////////////////////////////////////////
+//  FollowTable methods 
+///////////////////////////////////////////////////////
+bool PKB::insertFollows(int t_s1, int t_s2) {
+  return m_followTable->insertFollows(t_s1, t_s2);
 }
 
 void PKB::populateParentStarMap() {
@@ -56,28 +61,28 @@ void PKB::populateParentedByStarMap() {
   }
 }
 
-bool PKB::isFollows(int s1, int s2) {
-  return m_followTable->isFollows(s1, s2);
+bool PKB::isFollows(int t_s1, int t_s2) {
+  return m_followTable->isFollows(t_s1, t_s2);
 }
 
-bool PKB::isFollowsStar(int s1, int s2) {
-  return m_followTable->isFollowsStar(s1, s2);
+bool PKB::isFollowsStar(int t_s1, int t_s2) {
+  return m_followTable->isFollowsStar(t_s1, t_s2);
 }
 
-int PKB::getFollows(int s1) {
-  return m_followTable->getFollows(s1);
+int PKB::getFollows(int t_s1) {
+  return m_followTable->getFollows(t_s1);
 }
 
-int PKB::getFollowedBy(int s2) {
-  return m_followTable->getFollowedBy(s2);
+int PKB::getFollowedBy(int t_s2) {
+  return m_followTable->getFollowedBy(t_s2);
 }
 
-std::vector<int> PKB::getFollowsStar(int s1) {
-  return m_followTable->getFollowedByStar(s1);
+std::vector<int> PKB::getFollowsStar(int t_s1) {
+  return m_followTable->getFollowsStar(t_s1);
 }
 
-std::vector<int> PKB::getFollowedByStar(int s2) {
-  return m_followTable->getFollowedByStar(s2);
+std::vector<int> PKB::getFollowedByStar(int t_s2) {
+  return m_followTable->getFollowedByStar(t_s2);
 }
 
 std::unordered_map<int, int> PKB::getAllFollows() {
@@ -87,7 +92,29 @@ std::unordered_map<int, int> PKB::getAllFollows() {
 std::unordered_map<int, std::vector<int>> PKB::getAllFollowsStar() {
   return m_followTable->getAllFollowsStar();
 }
-/***********ParentTable Methods****************/
+
+std::vector<int> PKB::getFollowedByAnything() {
+  return m_followTable->getFollowedByAnything();
+}
+
+std::vector<int> PKB::getFollowsAnything() {
+  return m_followTable->getFollowsAnything();
+}
+
+bool PKB::hasFollowRelationship() {
+  return m_followTable->hasFollowRelationship();
+}
+
+bool PKB::isFollowsAnything(int t_s2) {
+  return m_followTable->isFollowsAnything(t_s2);
+}
+
+bool PKB::isFollowedByAnything(int t_s1) {
+  return m_followTable->isFollowedByAnything(t_s1);
+}
+///////////////////////////////////////////////////////
+//  ParentTable methods 
+///////////////////////////////////////////////////////
 bool PKB::insertParent(int s1, int s2) {
   return m_parentTable->insertParent(s1, s2);
 }
@@ -124,7 +151,49 @@ std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
   return m_parentTable->getParentStarMap();
 }
 
-//statementTypeTable and typeOfStatementTable Methods
+std::vector<int> PKB::getChildrenOfAnything() {
+  return m_parentTable->getChildrenOfAnything();
+}
+
+std::vector<int> PKB::getParentOfAnything() {
+  return m_parentTable->getParentOfAnything();
+}
+
+std::vector<int> PKB::getChildrenStarOfAnything() {
+  return m_parentTable->getChildrenStarOfAnything();
+}
+
+std::vector<int> PKB::getParentStarOfAnything() {
+  return m_parentTable->getParentStarOfAnything();
+}
+
+bool PKB::hasParentRelationship() {
+  return m_parentTable->hasParentRelationship();
+}
+
+bool PKB::hasParentStarRelationship() {
+  return m_parentTable->hasParentStarRelationship();
+}
+
+bool PKB::isChildrenOfAnything(int t_s2) {
+  return m_parentTable->isChildrenOfAnything(t_s2);
+}
+
+bool PKB::isParentOfAnything(int t_s1) {
+  return m_parentTable->isParentOfAnything(t_s1);
+}
+
+bool PKB::isChildrenOfStarAnything(int t_s2) {
+  return m_parentTable->isChildrenOfStarAnything(t_s2);
+}
+
+bool PKB::isParentOfStarAnything(int t_s1) {
+  return m_parentTable->isParentOfStarAnything(t_s1);
+}
+
+//////////////////////////////////////////////////////////
+//  statementTypeTable and typeOfStatementTable Methods
+//////////////////////////////////////////////////////////
 std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
@@ -162,21 +231,15 @@ bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
   }
 }
 
-/***********FollowTable Methods****************/
-int PKB::insertUsesForStmt(int index, std::string varName, int lineNum) {
-  return m_varTable->insertUsesForStmt(index, varName, lineNum);
-}
-
+///////////////////////////////////////////////////////
+//  VarTable methods 
+///////////////////////////////////////////////////////
 int PKB::insertUsesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
 
 int PKB::insertModifiesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
-}
-
-int PKB::insertModifiesForStmt(int index, std::string varName, int lineNum) {
-  return m_varTable->insertModifiesForStmt(index, varName, lineNum);
 }
 
 bool PKB::isModifies(int lineNum, std::string varName) {
@@ -215,7 +278,33 @@ int PKB::getIndexOfVar(std::string varName) {
   return m_varTable->getIndexOfVar(varName);
 }
 
-/***********AssignNode Methods****************/
+std::string PKB::getVarNameFromIndex(int t_index) {
+  return m_varTable->getVarNameFromIndex(t_index);
+}
+
+bool PKB::isModifiesAnything(int t_line_num) {
+  return m_varTable->isModifiesAnything(t_line_num);
+}
+
+bool PKB::isUsesAnything(int t_line_num) {
+  return m_varTable->isUsesAnything(t_line_num);
+}
+
+std::vector<int> PKB::getStmtModifiesAnything() {
+  return m_varTable->getStmtModifiesAnything();
+}
+
+std::vector<int> PKB::getStmtUsesAnything() {
+  return m_varTable->getStmtUsesAnything();
+}
+
+std::vector<std::string> PKB::getAllVariables() {
+  return m_varTable->getAllVariables();
+}
+
+///////////////////////////////////////////////////////
+//  AssignTable methods 
+///////////////////////////////////////////////////////
 VAR_INDEX_NO PKB::insertAssignRelation(const VAR_INDEX_NO& t_index, AssignNode* t_node) {
   return m_assignTable->insertAssignRelation(t_index, t_node);
 }
@@ -232,34 +321,6 @@ std::unordered_map<std::string, std::list<STMT_NO>> PKB::getAllAssignStmtWithVar
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
-/**
-* STUB. To be removed.
-*/
-std::unordered_map<int, std::vector<int>> PKB:: returnFollowTable(int s1, int s2) {
-  std::unordered_map<int, std::vector<int>> finalResult;
-  return finalResult;
-}
-
-/**
-* Method that returns an unordered_map for parent relationship.
-* @param s1 an integer argument (-1 denotes it being the querying variable).
-* @param s2 an integer argument (-2 denotes it being the querying variable).
-*/
-std::unordered_map<int, std::vector<int>> PKB::returnParentTable(int s1, int s2) {
-  std::unordered_map<int, std::vector<int>> finalResult;
-  return finalResult;
-}
-
-
-/**
-* Method that returns an unordered_map for variable query.
-* @param s1 an integer argument (-1 denotes it being the querying variable).
-* @param s2 an integer argument (-2 denotes it being the querying variable).
-*/
-std::unordered_map<std::string, std::vector<int>> PKB::returnVarTable(std::string var) {
-  std::unordered_map<std::string, std::vector<int>> result;
-  return result;
-}
 
 //TBD
 PROC_INDEX_NO PKB::insertProcToAST(ProcedureNode* t_node) {
