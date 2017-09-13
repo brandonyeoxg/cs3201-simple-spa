@@ -230,7 +230,11 @@ std::list<STMT_NUM> PKB::getAllAssignStmtList() {
   return m_assignTable->getAllStmtList();
 }
 
-std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllAssignStmtWithVar() {
+std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllVarNameWithAssignStmt() {
+  return m_assignTable->getAllVarInWithAssignStmtNum();
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
@@ -285,7 +289,10 @@ std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
 /***********Pattern****************/
 std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
   VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
-  auto aItr = m_assignTable->getAssignDataByVar(index);
+  std::list<AssignData> aItr = m_assignTable->getAssignDataByVar(index);
+  if (aItr.empty()) {
+    return std::list<STMT_NUM>();
+  }
   std::list<STMT_NUM> output;
   for (auto& assignData : aItr) {
     TNode* opNode = assignData.m_assignNode->getRightChild();

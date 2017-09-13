@@ -92,7 +92,8 @@ public:
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
   std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
   std::list<STMT_NUM> getAllAssignStmtList();
-  std::unordered_map<std::string, std::list<STMT_NUM>> getAllAssignStmtWithVar();
+  std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt();
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
   void populateAssignTableAbstractions();
 
   //ProcTable Methods
