@@ -20,14 +20,16 @@ class AssignTable {
 public:
   VAR_INDEX insertAssignRelation(const VAR_INDEX &t_index, AssignNode* t_node);
   std::list<STMT_NUM> getAllStmtListByVar(VAR_INDEX t_index);
-  std::list<AssignData>& getAssignDataByVar(VAR_INDEX t_index);
+  std::list<AssignData> getAssignDataByVar(VAR_INDEX t_index);
   std::list<STMT_NUM> getAllStmtList();
-  std::unordered_map<std::string, std::list<STMT_NUM>> getAllAssignStmtWithVar();
-
+  std::unordered_map<VAR_NAME, std::list<STMT_NUM>> getAllVarInWithAssignStmtNum();
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVar();
   std::list<AssignData>  getAssignData();
 
   void populateAssignToVarMap(VarTable* t_varTable);
 private:
   std::unordered_map<VAR_INDEX, std::list<AssignData>> m_data;
+  std::unordered_map<VAR_NAME, std::list<STMT_NUM>> m_assignVarWithAssignStmtNum;
   std::list<AssignData> m_assignMapToVar;
+  std::unordered_map<STMT_NUM, VAR_NAME> m_assignMapWithVar;
 };
