@@ -38,8 +38,6 @@ namespace UnitTesting {
       Assert::IsTrue(expected == 2);
     }
 
-
-
     TEST_METHOD(TestPKBTypeOfStatementTable) {
       std::unordered_map<int, Grammar::GType> testTypeOfStatementTable = {
         {1, Grammar::GType::ASGN},
@@ -76,7 +74,78 @@ namespace UnitTesting {
       Assert::IsFalse(actual);
 
     }
-    //TODO: combine the two stmt tables for insertion, test for duplicate line number entries.
-  };
 
+    TEST_METHOD(TestPKBGetAssignStmtByVarPattern) 
+    {
+      PKB *pkb = new PKB();
+      ASTBuilder builder;
+      STMT_NUM stmtNum = 1;
+      //1) x = y
+      VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
+      pkb->insertModifiesForStmt("x", stmtNum);
+      VariableNode *varRightNode = builder.createVariable(stmtNum, "y", 1);
+      pkb->insertUsesForStmt("y", stmtNum);
+      AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, varRightNode);
+      pkb->insertAssignRelation(0, aNode);
+      pkb->populateAssignTableAbstractions();
+
+      auto actual = pkb->getAssignStmtByVarPattern("x", "y", true);
+      std::list<STMT_NUM> expected = { 1 };
+      Assert::IsTrue(actual == expected);
+      //TODO once jazlyn is done
+      //actual = pkb->getAssignStmtByVarPattern("x", "y", false);
+      //Assert::IsTrue(actual == expected);
+      
+      //2) x = y + 5
+      varLeftNode = builder.createVariable(2, "x", 0);
+      varRightNode = builder.createVariable(2, "y", 1);
+      ConstantNode* constRightNode = builder.createConstant(2, 5);
+      TNode* expNode = builder.buildAddition(2, varRightNode, constRightNode);
+      aNode = builder.buildAssignment(2, varLeftNode, expNode);
+      pkb->insertAssignRelation(0, aNode);
+      pkb->populateAssignTableAbstractions();
+
+      actual = pkb->getAssignStmtByVarPattern("x", "y", true);
+      expected = { 1 };
+      Assert::IsTrue(actual == expected);
+
+      // TODO once jazlyn is done
+      //actual = pkb->getAssignStmtByVarPattern("x", "y", false);
+      //expected = { 1, 2};
+      expected = {};
+      actual = pkb->getAssignStmtByVarPattern("y", "y", true);
+      Assert::IsTrue(actual == expected);
+    }
+    //TODO: combine the two stmt tables for insertion, test for duplicate line number entries.
+    TEST_METHOD(getAllAssignStmtAndVar)
+    {
+      PKB *pkb = new PKB();
+      ASTBuilder builder;
+      STMT_NUM stmtNum = 1;
+
+      //1) x = y + z
+      VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
+      pkb->insertModifiesForStmt("x", stmtNum);
+      VariableNode *parseFirstVar = builder.createVariable(stmtNum, "y", 1);
+      VariableNode *parseSecondVar = builder.createVariable(stmtNum, "z", 2);
+      pkb->insertUsesForStmt("y", stmtNum);
+      pkb->insertUsesForStmt("z", stmtNum);
+      TNode* expNode = builder.buildAddition(1, parseFirstVar, parseSecondVar);
+      AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, expNode);
+      pkb->insertAssignRelation(0, aNode);
+
+      //2) x = y + 5
+      varLeftNode = builder.createVariable(2, "x", 0);
+      parseFirstVar = builder.createVariable(2, "y", 1);
+      ConstantNode* constRightNode = builder.createConstant(2, 5);
+      expNode = builder.buildAddition(2, parseFirstVar, constRightNode);
+      aNode = builder.buildAssignment(2, varLeftNode, expNode);
+      pkb->insertAssignRelation(0, aNode);
+      pkb->populateAssignTableAbstractions();
+
+      auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
+      unordered_map<STMT_NUM, VAR_NAME> expectedMap = { {1, "x"}, {2, "x"} };
+      Assert::IsTrue(actualMap == expectedMap);
+    }
+  };
 }
