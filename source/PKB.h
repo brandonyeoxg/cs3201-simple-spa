@@ -13,6 +13,7 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "Grammar.h"
+#include "ConstantTable.h"
 
 
 class TNode;
@@ -117,12 +118,19 @@ public:
   std::list<STMT_NO> getAllStmtList();
   std::unordered_map<std::string, std::list<STMT_NO>> getAllAssignStmtWithVar();
 
+  ///////////////////////////////////////////////////////
+  //  ParentTable methods 
+  ///////////////////////////////////////////////////////
+  int insertConstant(std::string t_constant);
+  std::list<std::string> getAllConstants();
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
   VarTable* m_varTable;
   ProcTable* m_procTable;
   AssignTable* m_assignTable;
+  ConstantTable* m_constantTable;
   std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
   std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
 

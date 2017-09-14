@@ -90,12 +90,15 @@
     </ClCompile>
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\source\nodes\MultiplyNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
     <ClCompile Include="..\source\nodes\DivideNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ConstantTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,12 +212,15 @@
     </ClInclude>
     <ClInclude Include="..\source\Relation.h">
       <Filter>PQL\Query Types</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\source\nodes\MultiplyNode.h">
       <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\nodes\DivideNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ConstantTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
