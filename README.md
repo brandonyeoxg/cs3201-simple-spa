@@ -1,6 +1,10 @@
-# SIMPLE-SPA
+# SIMPLE Static Program Analyzer
 
-Coding Standard: [Here](https://gist.github.com/lefticus/10191322)
+Static Program Analyzer for source code written in language SIMPLE which analyzes a given program and answers queries on it.
+
+## Coding Standard 
+(Short Version) [C++ Coding Standards by lefticus](https://gist.github.com/lefticus/10191322)  
+(Long Version) [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
 ## Documentation
 
