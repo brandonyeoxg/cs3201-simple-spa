@@ -13,7 +13,9 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "Grammar.h"
+#include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+
 
 
 class TNode;
@@ -137,10 +139,17 @@ public:
   bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
+  ///////////////////////////////////////////////////////
+  //  ParentTable methods 
+  ///////////////////////////////////////////////////////
+  int insertConstant(std::string t_constant);
+  std::list<std::string> getAllConstants();
+
   // Pattern methods
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   // Jazlyn's stuff for patterns
+
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
 
 private:
@@ -149,6 +158,7 @@ private:
   VarTable* m_varTable;
   ProcTable* m_procTable;
   AssignTable* m_assignTable;
+  ConstantTable* m_constantTable;
   std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
   std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
 

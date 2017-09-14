@@ -14,6 +14,7 @@
     <ClCompile Include="TestProcTable.cpp" />
     <ClCompile Include="TestAssignTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />
+    <ClCompile Include="TestConstantTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
