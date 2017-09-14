@@ -34,6 +34,7 @@ void TestWrapper::parse(std::string filename) {
     m_parser->parse(filename);
   } catch (SyntaxErrorException see) {
     std::cout << see.what() << "\n";
+    exit(-1);
   }
   DesignExtractor* designExtractor = new DesignExtractor(m_pkb);
   designExtractor->extractRestOfDesignAbstractions();
