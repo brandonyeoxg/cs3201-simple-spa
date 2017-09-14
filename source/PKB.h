@@ -152,16 +152,16 @@ public:
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   
   /** Pattern a(_, "x + y + h").
-  *   For exact pattern match on right hand side, and any variable on left hand side
-  *   @param t_pattern pattern to be matched (having whitespaces will not affect result)
+  *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
   *   @return list of statement numbers with match
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
   
   /** Pattern a(_, _"x + y + h"_).
-  *   For subtree pattern match on right hand side, and any variable on left hand side
-  *   @param t_pattern pattern to be matched (having whitespaces will not affect result)
+  *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
   *   @return list of statement numbers with match
   *   @author jazlyn
   */
