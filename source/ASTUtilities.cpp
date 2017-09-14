@@ -89,9 +89,9 @@ std::vector<std::string> ASTUtilities::addStrIfNotDuplicate(
 // Recursive method to generate strings of subtrees from given tree
 std::vector<std::string> ASTUtilities::generateStringList(TwoChildrenNode *t_node,
   std::vector<std::string> t_listOfStr) {
-  if (isNodeAnOperator(t_node)) {
-    t_listOfStr = addStrIfNotDuplicate(t_listOfStr, convertTreeToString(t_node));
-  } else {
+  t_listOfStr = addStrIfNotDuplicate(t_listOfStr, convertTreeToString(t_node));
+
+  if (!isNodeAnOperator(t_node)) {
     return t_listOfStr;
   }
 
