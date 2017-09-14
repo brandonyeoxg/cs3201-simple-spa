@@ -54,6 +54,7 @@
     <ClInclude Include="..\source\ASTUtilities.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\PKB_API.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
