@@ -182,8 +182,8 @@ public:
     TNode * node = getTreeWithPlusMinus();
 
     std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
-    Assert::IsTrue(generatedStrings.at(0) == "x+y-z+y");
-    Assert::IsTrue(generatedStrings.at(1) == "x+y-z");
+    Assert::IsTrue(generatedStrings.at(0) == "penguin+water-ice+water");
+    Assert::IsTrue(generatedStrings.at(1) == "penguin+water-ice");
 
     //for (int i = 0; i < generatedStrings.size(); i++) {
     //  Logger::WriteMessage(generatedStrings.at(i).c_str());
@@ -212,36 +212,36 @@ public:
   }
 
   TEST_METHOD(TestMatchByExactPatternWithPlusMinus) {
-    Logger::WriteMessage("Test match pattern exactly: x + y - z + y");
-    // x + y - z + y
+    Logger::WriteMessage("Test match pattern exactly: penguin + water - ice + water");
+    //penguin + water - ice + water
     TNode * node = getTreeWithPlusMinus();
 
-    Assert::IsTrue(ASTUtilities::matchExact(node, "x +    y   - z + y"));
+    Assert::IsTrue(ASTUtilities::matchExact(node, "penguin +    water   - ice + water"));
 
-    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y + z"));
-    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
-    Assert::IsFalse(ASTUtilities::matchExact(node, "x+y"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin + water + ice"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin+water"));
   }
 
   TEST_METHOD(TestMatchBySubtreeWithPlusMinus) {
-    Logger::WriteMessage("Test match pattern by subtree: x + y - z + y");
+    Logger::WriteMessage("Test match pattern by subtree: penguin + water - ice + water");
 
-    // x + y - z + y
+    // penguin + water - ice + water
     TNode * node = getTreeWithPlusMinus();
 
-    Assert::IsFalse(ASTUtilities::matchSubtree(node, "x + y + z"));
-    Assert::IsFalse(ASTUtilities::matchSubtree(node, "y - z"));
-    Assert::IsFalse(ASTUtilities::matchSubtree(node, "z+y"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "penguin + water + ice"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "water - ice"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "ice+water"));
 
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x   +   y"));
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  y  "));
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y - z"));
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y - z + y"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin   +   water"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  water  "));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin + water - ice"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin + water - ice + water"));
   }
 
   TEST_METHOD(TestMatchByExactPatternWithPlusMinusMultiply) {
     Logger::WriteMessage("Test match pattern exactly: x + chicken * a - a");
-    // x + y * a - a
+    // x + chicken * a - a
     TNode * node = getTreeWithPlusMinusMultiply();
 
     Assert::IsTrue(ASTUtilities::matchExact(node, "   x + chicken   * a -   a"));
@@ -253,7 +253,7 @@ public:
 
   TEST_METHOD(TestMatchBySubtreeWithPlusMinusMultiply) {
     Logger::WriteMessage("Test match pattern by subtree: x + chicken * a - a");
-    // x + y * a - a
+    // x + chicken * a - a
     TNode * node = getTreeWithPlusMinusMultiply();
 
     Assert::IsTrue(ASTUtilities::matchSubtree(node, "   x + chicken   * a -   a"));
@@ -324,32 +324,28 @@ private:
     }
   }
 
-  // Generates tree: x + y - z + y
+  // Generates tree: penguin + water - ice + water
   TNode *getTreeWithPlusMinus() {
     int lineNum = 30;
-    std::string varNameX = "x", varNameY = "y", varNameZ = "z";
+    std::string varNamePenguin = "penguin", varNameWater = "water", varNameIce = "ice";
 
-    // x + y
-    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
+    TNode *varNodeX = new VariableNode(lineNum, varNamePenguin, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameWater, DUMMY_VAR_INDEX);
 
     PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
 
-    // x + y - z
-    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameZ, DUMMY_VAR_INDEX));
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameIce, DUMMY_VAR_INDEX));
 
-    // x + y - z + y
-    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX));
+    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameWater, DUMMY_VAR_INDEX));
 
     return plusNode;
   }
 
-  // Generates tree: x + y * a - a
+  // Generates tree: x + chicken * a - a
   TNode *getTreeWithPlusMinusMultiply() {
     int lineNum = 25;
     std::string varNameX = "x", varNameChicken = "chicken", varNameA = "a";
 
-    // y * a
     MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameChicken, DUMMY_VAR_INDEX),
       new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
 
