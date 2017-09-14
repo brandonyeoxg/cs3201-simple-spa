@@ -100,6 +100,9 @@
     <ClCompile Include="..\source\ConstantTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProcTableData.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -222,6 +225,10 @@
     <ClInclude Include="..\source\ConstantTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ProcTableData.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\GlobalTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">

@@ -216,9 +216,7 @@ std::string VarTable::getVarNameFromIndex(int t_index) {
     VarRelations varRelation = m_varTable.find(t_index)->second;
     return varRelation.getVarName();
   }
-  
 }
-
 bool VarTable::isModifiesAnything(int t_line_num) {
   VarRelations varRelations;
   std::vector<int> lineNums;
@@ -285,4 +283,3 @@ std::vector<std::string> VarTable::getAllVariables() {
 
   return result;
 }
-

@@ -11,10 +11,12 @@ namespace UnitTesting
   TEST_CLASS(TestPattern)
   {
   public:
+    TEST_METHOD_INITIALIZE(initliasePKB) {
+
+    }
 
     TEST_METHOD(TestPatternObject)
     {
-      Pattern pattern;
     }
   };
 }

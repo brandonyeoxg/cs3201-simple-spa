@@ -37,6 +37,7 @@
     <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\ProcTable.cpp" />
+    <ClCompile Include="..\source\ProcTableData.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
+    <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
@@ -74,6 +76,7 @@
     <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\ProcTable.h" />
+    <ClInclude Include="..\source\ProcTableData.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />

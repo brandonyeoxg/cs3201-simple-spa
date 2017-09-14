@@ -7,6 +7,7 @@
 #include "PKB.h"
 #include "ASTBuilder.h"
 #include "SyntaxErrorException.h"
+#include "GlobalTypeDef.h"
 
 /**
 * Represents a parser. Parses the SIMPLE program and builds an ast.
@@ -43,7 +44,7 @@ private:
   ASTBuilder m_builder;
   std::string m_nextToken;
   std::stack<std::string> m_bracesStack;
-  std::list<STMT_NO> m_nestedStmtLineNo;
+  std::list<STMT_NUM> m_nestedStmtLineNo;
   std::vector<std::string> curTokens;
   std::ifstream m_readStream;
   int m_curLineNum;
