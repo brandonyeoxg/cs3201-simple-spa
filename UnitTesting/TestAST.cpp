@@ -314,6 +314,16 @@ private:
     Assert::IsTrue(t_tNode1 == t_tNode2);
   }
 
+  /*  Given a node, generates subtree strings using ASTUtilities and logs to console
+  */
+  void logGeneratedStrings(TNode * node) {
+    std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
+
+    for (int i = 0; i < generatedStrings.size(); i++) {
+      Logger::WriteMessage(generatedStrings.at(i).c_str());
+    }
+  }
+
   // Generates tree: x + y - z + y
   TNode *getTreeWithPlusMinus() {
     int lineNum = 30;
