@@ -1,18 +1,18 @@
 #include "QueryProcessor.h"
 
-std::list<std::string> QueryProcessor::runQueryProcessor(std::string testInput) {
+std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput) {
   QueryPreProcessor qpp;
 
-  std::cout << "initial test input: " << testInput << std::endl;
+  std::cout << "initial test input: " << t_stringInput << std::endl;
   std::string declaration, query;
   std::string result;
   std::list<std::string> resultList;
   std::vector<std::string> evaluatedResults;
 
 
-  declaration = qpp.splitStringDeclaration(testInput);
+  declaration = qpp.splitStringDeclaration(t_stringInput);
   qpp.tokenizeDeclaration(declaration);
-  query = qpp.splitStringQuery(testInput);
+  query = qpp.splitStringQuery(t_stringInput);
   qpp.tokenizeQuery(query);
 
   std::queue<Grammar> selectQueue = qpp.getSelect();
