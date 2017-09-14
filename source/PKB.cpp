@@ -19,6 +19,7 @@ PKB::PKB() {
   m_varTable = new VarTable();
   m_procTable = new ProcTable();
   m_assignTable = new AssignTable();
+  m_constantTable = new ConstantTable();
   std::unordered_map<int, std::string> m_statementTypeTable;
   std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
 }
@@ -328,8 +329,20 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
+
 void PKB::populateAssignTableAbstractions() {
   m_assignTable->populateAssignToVarMap(m_varTable);
+}
+
+///////////////////////////////////////////////////////
+//  ParentTable methods 
+///////////////////////////////////////////////////////
+int PKB::insertConstant(std::string t_constant) {
+  return m_constantTable->insertConstant(t_constant);
+}
+
+std::list<std::string> PKB::getAllConstants() {
+  return m_constantTable->getAllConstants();
 }
 
 ///////////////////////////////////////////////////////
