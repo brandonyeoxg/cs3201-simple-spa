@@ -11,27 +11,14 @@
 
 #include "FollowTable.h"
 
-/**
-* A setter method for followTable.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
 void FollowTable::setFollowTable(std::unordered_map<int, std::vector<int>> &t_table) {
   m_followTable = t_table;
 }
 
-/**
-* A getter method for followTable.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
 std::unordered_map<int, std::vector<int>> FollowTable::getFollowTable() {
   return m_followTable;
 }
 
-/**
-* Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
-* @param s1 an integer argument.
-* @param s2 an integer argument.
-*/
 bool FollowTable::insertFollows(int t_s1, int t_s2) {
   if (t_s1 == 0) {
     return false;
@@ -65,12 +52,6 @@ bool FollowTable::insertFollows(int t_s1, int t_s2) {
   return true;
 }
 
-/**
-* Method that checks if follows(s1, s2) holds.
-* @param s1 an integer argument.
-* @param s2 an integer argument.
-* @return true if the relationship holds, false if otherwise.
-*/
 bool FollowTable::isFollows(int t_s1, int t_s2) {
   //if s1 doesn't exist in followtable, returns false.
   //else, check if s2 is the first element in vector of s1.
@@ -88,12 +69,6 @@ bool FollowTable::isFollows(int t_s1, int t_s2) {
   }
 }
 
-/**
-* Method that checks if follows*(s1, s2) holds.
-* @param s1 an integer argument.
-* @param s2 an integer argument.
-* @return true if the relationship holds, false if otherwise.
-*/
 bool FollowTable::isFollowsStar(int t_s1, int t_s2) {
   //in this case, since s1 is known,
   //we just retrieve the vector mapped to s1 and check if s2 exists.
@@ -111,13 +86,6 @@ bool FollowTable::isFollowsStar(int t_s1, int t_s2) {
   }
 }
 
-/**
-* Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
-* Returns the first element in the vector mapped to key s1.
-* @param s1 an integer argument.
-* @param s2 an integer argument.
-* @return the line number that line s1 follows.
-*/
 int FollowTable::getFollows(int t_s1) {
   //in this case, since s1 is known,
   //we just retrieve the vector mapped to s1 return the .
@@ -130,13 +98,6 @@ int FollowTable::getFollows(int t_s1) {
   }
 }
 
-/**
-* Method that returns the line number that follows(s, s2) holds, where s is a variable and s1 is a known line number.
-* Check every vector in the map until s2 appears, then return the statement number that is positioned right before s2.
-* @param s1 an integer argument.
-* @param s2 an integer argument.
-* @return the line number that line s1 follows.
-*/
 int FollowTable::getFollowedBy(int t_s2) {
   for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
     std::vector<int> vect = it->second;
@@ -154,12 +115,6 @@ int FollowTable::getFollowedBy(int t_s2) {
   throw std::invalid_argument("s2 does not exist in FollowTable");
 }
 
-/**
-* Method that returns the list of line numbers that follows(s1, s) holds, where s is a variable and s1 is a known line number.
-* Returns all the line numbers in the vector mapped to key s1.
-* @param s1 an integer argument.
-* @return the line number that line s1 follows.
-*/
 std::vector<int> FollowTable::getFollowsStar(int t_s1) {
   std::vector<int> lineNums;
   if (m_followTable.find(t_s1) != m_followTable.end()) {
@@ -168,12 +123,6 @@ std::vector<int> FollowTable::getFollowsStar(int t_s1) {
   return lineNums;
 }
 
-/**
-* Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
-* Returns the vector of keys that the vector mapped to the key contains s2.
-* @param s1 an integer argument.
-* @return the vector of line numbers that are followedBy* s2.
-*/
 std::vector<int> FollowTable::getFollowedByStar(int t_s2) {
   std::vector<int> result;
   for (auto it = m_followTable.begin(); it != m_followTable.end(); it++) {
@@ -187,10 +136,6 @@ std::vector<int> FollowTable::getFollowedByStar(int t_s2) {
   return result;
 }
 
-/**
-* Method that returns the entire map of line numbers that follows(s1, s2) holds, where s1 and s2 are both variables.
-* @return the entire map that keep tracks of the follow relationship.
-*/
 std::unordered_map<int, int> FollowTable::getAllFollows() {
   std::unordered_map<int, int> allFollows;
   for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
@@ -202,18 +147,10 @@ std::unordered_map<int, int> FollowTable::getAllFollows() {
   return allFollows;
 }
 
-/**
-* Method that returns the entire map of line numbers that follows*(s1, s2) holds, where s1 and s2 are both variables.
-* @return the entire map that keep tracks of the follow relationship.
-*/
 std::unordered_map<int, std::vector<int>> FollowTable::getAllFollowsStar() {
   return m_followTable;
 }
 
-/**
-* Method that returns the list of line numbers that follows(s1, _) and follows*(s1, _) holds, where s1 is a variable.
-* @return the vector of keys within the followTable.
-*/
 std::vector<int> FollowTable::getFollowedByAnything() {
   std::vector<int> keys;
   for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
@@ -223,10 +160,6 @@ std::vector<int> FollowTable::getFollowedByAnything() {
   return keys;
 }
 
-/**
-* Method that returns the list of line numbers that follows(_, s2) holds, where s2 is a variable.
-* @return the vector of unique values within the followTable.
-*/
 std::vector<int> FollowTable::getFollowsAnything() {
   std::vector<int> values;
   //copy the m_allFollows set to values vector.
@@ -234,10 +167,6 @@ std::vector<int> FollowTable::getFollowsAnything() {
   return values;
 }
 
-/**
-* Method that checks if follows(_, _) or follows*(_, _) holds, where s2 is a variable.
-* @return true if the size of the followTable is more than zero, return false if otherwise.
-*/
 bool FollowTable::hasFollowRelationship() {
   if (m_followTable.size() > 0) {
     return true;
@@ -246,18 +175,10 @@ bool FollowTable::hasFollowRelationship() {
   }
 }
 
-/**
-* Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
-* @return true if s2 exists in the allFollows map, return false if otherwise.
-*/
 bool FollowTable::isFollowsAnything(int t_s2) {
   return (m_allFollows.find(t_s2) != m_allFollows.end());
 }
 
-/**
-* Method that checks if follows(s1, _) and follows*(s1, _) holds, where s1 is a statement number.
-* @return true if s1 exists as a key in followTable, return false if otherwise.
-*/
 bool FollowTable::isFollowedByAnything(int t_s1) {
   for (auto it = m_followTable.begin(); it != m_followTable.end(); ++it) {
     if (t_s1 == it->first) {
