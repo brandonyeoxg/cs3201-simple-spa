@@ -44,6 +44,7 @@
       break;
     case 10:
       m_type = GType::STMT_NO;
+      break;
     case 11:
       m_type = GType::STR;
       break;
