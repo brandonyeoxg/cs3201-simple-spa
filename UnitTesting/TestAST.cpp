@@ -191,6 +191,26 @@ public:
 
   }
 
+  TEST_METHOD(TestMatchByExactPatternWithNoOperator) {
+    Logger::WriteMessage("Test match pattern exactly: variableName");
+
+    TNode * node = new VariableNode(5, "variableName", 0);
+    Assert::IsTrue(ASTUtilities::matchExact(node, "  variableName  "));
+
+    node = new ConstantNode(5, 100);
+    Assert::IsTrue(ASTUtilities::matchExact(node, "  100   "));
+  }
+
+  TEST_METHOD(TestMatchBySubtreePatternWithNoOperator) {
+    Logger::WriteMessage("Test match pattern by subtree: variableName");
+
+    TNode * node = new VariableNode(5, "variableName", 0);
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  variableName  "));
+
+    node = new ConstantNode(5, 100);
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  100   "));
+  }
+
   TEST_METHOD(TestMatchByExactPatternWithPlusMinus) {
     Logger::WriteMessage("Test match pattern exactly: x + y - z + y");
     // x + y - z + y
