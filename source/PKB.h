@@ -145,12 +145,27 @@ public:
   int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();
 
-  // Pattern methods
+  ///////////////////////////////////////////////////////
+  //  Pattern Matching
+  ///////////////////////////////////////////////////////
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-  // Jazlyn's stuff for patterns
-
+  
+  /** Pattern a(_, "x + y + h").
+  *   For exact pattern match on right hand side, and any variable on left hand side
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result)
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
+  
+  /** Pattern a(_, _"x + y + h"_).
+  *   For subtree pattern match on right hand side, and any variable on left hand side
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result)
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
 private:
   FollowTable* m_followTable;
