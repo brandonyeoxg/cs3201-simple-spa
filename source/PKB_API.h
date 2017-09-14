@@ -454,4 +454,23 @@ public:
   * @return a vector of statement numbers.
   */
   virtual std::vector<std::string> getAllVariables() = 0;
+
+
+  ///////////////////////////////////////////////////////
+  //  ConstantTable methods 
+  ///////////////////////////////////////////////////////
+
+  /**
+  * Method that inserts the constant into ConstantTable.
+  * @param t_constant a string argument.
+  * @return the index of t_constant in ConstantTable.
+  */
+  virtual int insertConstant(std::string t_constant) = 0;
+
+  /**
+  * Method that returns the list of all constants that are stored within ConstantTable.
+  * @return a list of constants (strings).
+  */
+  virtual std::list<std::string> getAllConstants() = 0;
+
 };
