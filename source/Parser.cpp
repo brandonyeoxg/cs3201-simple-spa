@@ -83,7 +83,11 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 }
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
-  VariableNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME), DUMMY_INDEX);
+  std::string varName = getMatchToken(tokenType::VAR_NAME);
+  if (isConstant(varName) || !isValidName(varName)) {
+    throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
+  }
+  VariableNode *left = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
   VAR_INDEX varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
   for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
     m_pkb->insertModifiesForStmt(left->getVarName(), (*containerItr));
@@ -102,8 +106,13 @@ int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
 
 TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   std::stack<TNode *> exprStack;
-  std::string varName = getMatchToken(tokenType::VAR_NAME);
-  VariableNode* varNode = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
+  std::string name = getMatchToken(tokenType::VAR_NAME);
+  if (isConstant(name)) {
+    ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));
+  } else if (!isValidName(name)) {
+    throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
+  }
+  VariableNode* varNode = m_builder.createVariable(m_curLineNum, name, DUMMY_INDEX);
   m_pkb->insertUsesForStmt(varNode->getVarName(), m_curLineNum);
   for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
     m_pkb->insertUsesForStmt(varNode->getVarName(), *containerItr);
@@ -111,11 +120,11 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
   exprStack.push(varNode);
   while (m_nextToken == "+") {
     if (exprStack.empty() != true && isMatchToken("+")) {
-      varName = getMatchToken(tokenType::VAR_NAME);
-      TNode* right = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
-      m_pkb->insertUsesForStmt(varName, m_curLineNum);
+      name = getMatchToken(tokenType::VAR_NAME);
+      TNode* right = m_builder.createVariable(m_curLineNum, name, DUMMY_INDEX);
+      m_pkb->insertUsesForStmt(name, m_curLineNum);
       for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
-        m_pkb->insertUsesForStmt(varName, *containerItr);
+        m_pkb->insertUsesForStmt(name, *containerItr);
       }
       TNode* left = exprStack.top();
       exprStack.pop();
@@ -155,8 +164,6 @@ int Parser::parseWhileStmt(TNode* t_node) throw(SyntaxErrorException) {
     m_pkb->insertUsesForStmt(varNode->getVarName(), (*containerItr));
   }
   parseStmtLst(stmtLstNode);
-  //Update the while stmt with all the available uses and modifies
-  //m_pkb->getall
   m_builder.linkParentToChild(t_node, whileNode);
   return 1;
 }
@@ -275,4 +282,25 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
     token = "";
   }
   return tokens;
+}
+
+bool Parser::isValidName(std::string& t_token) throw(SyntaxErrorException) {
+  if (isdigit(t_token[0]) || !isalpha(t_token[0])) {
+    return false;
+  }
+  for (auto &cToken : t_token) {
+    if (!isalpha(cToken) || !isdigit(cToken)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Parser::isConstant(std::string& t_token) throw(SyntaxErrorException) {
+  for (auto& cToken : t_token) {
+    if (!isdigit(cToken)) {
+      return false;
+    }
+  }
+  return true;
 }
