@@ -240,30 +240,30 @@ public:
   }
 
   TEST_METHOD(TestMatchByExactPatternWithPlusMinusMultiply) {
-    Logger::WriteMessage("Test match pattern exactly: x + y * a - a");
+    Logger::WriteMessage("Test match pattern exactly: x + chicken * a - a");
     // x + y * a - a
     TNode * node = getTreeWithPlusMinusMultiply();
 
-    Assert::IsTrue(ASTUtilities::matchExact(node, "   x + y   * a -   a"));
+    Assert::IsTrue(ASTUtilities::matchExact(node, "   x + chicken   * a -   a"));
 
-    Assert::IsFalse(ASTUtilities::matchExact(node, "y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "chicken * a"));
     Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
-    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + chicken * a"));
   }
 
   TEST_METHOD(TestMatchBySubtreeWithPlusMinusMultiply) {
-    Logger::WriteMessage("Test match pattern by subtree: x + y * a - a");
+    Logger::WriteMessage("Test match pattern by subtree: x + chicken * a - a");
     // x + y * a - a
     TNode * node = getTreeWithPlusMinusMultiply();
 
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "   x + y   * a -   a"));
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "y * a"));
-    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "   x + chicken   * a -   a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "chicken * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + chicken * a"));
     Assert::IsTrue(ASTUtilities::matchSubtree(node, "   a   "));
 
     Assert::IsFalse(ASTUtilities::matchSubtree(node, "   a  - a "));
-    Assert::IsFalse(ASTUtilities::matchSubtree(node, "  x + y"));
-    Assert::IsFalse(ASTUtilities::matchSubtree(node, "   y  - a "));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "  x + chicken"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "   chicken  - a "));
   }
 
   TEST_METHOD(TestMatchByExactPatternWithAllOperators) {
@@ -347,10 +347,10 @@ private:
   // Generates tree: x + y * a - a
   TNode *getTreeWithPlusMinusMultiply() {
     int lineNum = 25;
-    std::string varNameX = "x", varNameY = "y", varNameA = "a";
+    std::string varNameX = "x", varNameChicken = "chicken", varNameA = "a";
 
     // y * a
-    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX),
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameChicken, DUMMY_VAR_INDEX),
       new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
 
     PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX),
