@@ -97,6 +97,9 @@
     <ClCompile Include="..\source\nodes\DivideNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ConstantTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\ProcTableData.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\source\nodes\DivideNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ConstantTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProcTableData.h">
       <Filter>PKB\Relationship Table</Filter>
