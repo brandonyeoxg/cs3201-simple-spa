@@ -7,6 +7,8 @@
 #include <list>
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
 
 #include "Grammar.h"
 #include "Relation.h"
@@ -62,10 +64,12 @@ public:
   void printSelectResultQueue();
   void printRelationResultQueue();
   void printPatternResultQueue();
+  vector<string> formatVectorIntToVectorString(vector<int> t_vectorInt);
 
 private:
   PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
+  Grammar::GType m_selectedType; /**< A string. The type of the synonym that the query selects. */
   std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
@@ -87,10 +91,44 @@ private:
   /**
   * A private function to get the results of every clause in the query from the PKB.
   * Loop through the queues and call the API from PKB to get the results of each and every clause in the queues.
-  * @return true if all of the clauses and common synonym have non-empty results
-  * otherwise false if there are one clause or common synonym which returns an empty result.
+  * @return true if all of the clauses have non-empty results.
+  * otherwise false if there are one clause which returns an empty result.
   */
   bool getResultFromPkb();
+
+  /**
+  * A private function to get the results of the select clause in the query from the PKB.
+  * Call the API from PKB to get the results the select clause in the argument.
+  * @param t_select A grammar object that stores the synonym to be selected.
+  * @return true if the select clause has non-empty results.
+  * otherwise false if the select clause returns an empty result.
+  */
+  bool getSelectResultFromPkb(Grammar t_select);
+
+  /**
+  * A private function to get the results of the relation clause in the query from the PKB.
+  * Call the API from PKB to get the results of each and every relation clause in the queues.
+  * @param t_relation A relation object that stores the relation clause.
+  * @return true if the relation clause has non-empty results.
+  * otherwise false if the relation clause returns an empty result.
+  */
+  bool getRelationResultFromPkb(Relation t_relation);
+
+  /**
+  * A private function to get the results of the pattern clause in the query from the PKB.
+  * Call the API from PKB to get the results of each and every pattern clause in the queues.
+  * @param t_pattern A pattern object that stores the pattern clause.
+  * @return true if the pattern clause has non-empty results.
+  * otherwise false if the pattern clause returns an empty result.
+  */
+  bool getPatternResultFromPkb(Pattern t_pattern);
+
+  /**
+  * A private function to store the select results.
+  * It takes in the select result to be store into the queue.
+  * @param t_result A string vector which holds the result returned from PKB.
+  */
+  void storeSelectResultFromPkb(vector<string> t_result);
 
   /**
   * A private function to store the results which have common synonyms returned from PKB.
@@ -106,6 +144,13 @@ private:
   * @return A list of strings as the query result.
   */
   std::vector<std::string> evaluateFinalResult();
+
+  /**
+  * A private function to evaluate the final result of the query.
+  * By comparing all the results with the common synonyms, get the final result of the query.
+  * @return A vector of strings as the common results between two results.
+  */
+  vector<string> getCommonResults(vector<string> v1, vector<string> v2);
 };
 
 #endif QUERYEVALUATOR_H
