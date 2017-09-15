@@ -5,7 +5,7 @@
 #include "Grammar.h"
 #include <string>
 /**
-*  A class representing the "Pattern" clause of a query.
+*  A class representing the "Such That" clause of a query.
 * @author Ryan Tan
 * @date 26/08/2017
 */
