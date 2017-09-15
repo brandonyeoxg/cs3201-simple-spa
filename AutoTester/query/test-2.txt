@@ -1,37 +1,37 @@
 1 - Trivial Test Case: Select s
 stmt s;
 Select s
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 5000
 2 - Assign Test Case: Select a
 assign a;
 Select a
-
+1, 2, 3, 5, 6, 7, 9, 10, 12, 13, 14, 15, 16
 5000
 3 - While Test Case: Select w
 while w;
 Select w
-
+4, 8, 11
 5000
 4 - Procedure Test Case: Select p
 Procedure p;
 Select p
-
+second
 5000
 5 - Trivial Test Case: Select s if Follows (1,2) is true
 stmt s;
 Select s such that Follows (1,2);
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 5000
-6 - Trivial Negative Test Case: Select s1 if Follows (2,3) is true; Expected none result - preceding statement higher nesting level
+6 - Trivial Negative Test Case: Select s1 if Follows (2,3) is true;
 stmt s1;
 Select s1 such that Follows (2,3);
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
 5000
-7 - Trivial Negative Test Case: Select s if Follows (4,5) is true; Expected none result - preceding statement lower nesting level
+7 - Trivial Negative Test Case: Select s if Follows (4,5) is true; Expected none result - preceding statement higher nesting level
 stmt s2;
 Select s2 such that Follows (4,5);
-
+none
 5000
 8 - Assign Test Case: Select a if Follows (1,2) is true
 assign a;

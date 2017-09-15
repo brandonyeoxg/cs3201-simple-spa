@@ -36,7 +36,7 @@ public:
 
   /**
   * A constructor.
-  * Constructs a new Grammar object with a GType corresponding to the specified initial capacity and a string with the specified t_name.
+  * Constructs a new Grammar object with a GType corresponding to the specified integer and a string with the specified t_name.
   * @param t_type is an integer argument which corresponds to a specific GType.
   * @param t_name is a string argument that is the Query's name for the Grammar.
   */
