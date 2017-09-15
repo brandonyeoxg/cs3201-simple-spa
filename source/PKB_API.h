@@ -19,9 +19,8 @@
 /** API for PKB
 */
 
-class ASTBuilderAPI {
+class PKB_API {
 public:
-
 
 
   ///////////////////////////////////////////////////////
