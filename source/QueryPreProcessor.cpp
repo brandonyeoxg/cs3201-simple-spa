@@ -426,7 +426,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               break;
             }
           }
-        } else if ((sTName1 == "_") != std::string::npos) {
+        } else if ((sTName1 == "_")) {
           counterQ = 0;
           Grammar g1(m_string, sTName1);
           for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
