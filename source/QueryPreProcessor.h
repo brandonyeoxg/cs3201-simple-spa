@@ -1,6 +1,6 @@
 /**
-* Query preprocessing class. This class creates Grammar Objects and Design Abstraction Objects
-* from the user input.
+* Query preprocessing class. This class creates Grammar Objects, Relation Objects and Pattern Objects
+* to be passed to the QueryEvaluator from the user input.
 */
 
 #pragma once
@@ -21,19 +21,91 @@
 class QueryPreProcessor
 {
 public:
+  /**
+  * Default QueryPreProcessor constructor.
+  */
   QueryPreProcessor();
+
+  /**
+  * Default QueryPreProcessor deconstructor.
+  */
   ~QueryPreProcessor();
-  bool tokenizeDeclaration(std::string);
-  bool tokenizeQuery(std::string);
+
+  /**
+  * Method takes in the declaration parsed string and generates the Grammar objects
+  * from the declaration which is stored into a Grammar vector for further use.
+  * @param t_declarationInput is the input declaration string.
+  * @return true if there is no errors. else returns false.
+  */
+  bool tokenizeDeclaration(std::string t_declarationInput);
+
+  /**
+  * Method takes in the query parsed string and generates the Grammar objects for 
+  * Select Queue, Relation Queue and the Pattern Objects for the Pattern Queue.
+  * Also generates a synonym unordered map for QueryEvaluator to use.
+  * @param t_queryInput is the input query string.
+  * @return true if there is no errors. else returns false.
+  */
+  bool tokenizeQuery(std::string t_queryInput);
+
+  /**
+  * Method takes in a string and removes all characters specified in charsToRemove.
+  * @param str is the input string.
+  * @param charsToRemove are the characters to be removed from the string.
+  */
   void removeCharsFromString(std::string & str, char * charsToRemove);
-  std::string splitStringDeclaration(std::string);
-  std::string splitStringQuery(std::string);
-  void QueryPreProcessor::printVector(std::vector<std::string>);
+
+  /**
+  * Method takes in a string containing both the declaration and query and returns declaration.
+  * @param str is the input string.
+  * @return declaration portion of the query input.
+  */
+  std::string splitStringDeclaration(std::string t_Input);
+
+  /**
+  * Method takes in a string containing both the declaration and query and returns query.
+  * @param str is the input string.
+  * @return declaration portion of the query input.
+  */
+  std::string splitStringQuery(std::string t_Input);
+
+  /**
+  * Method takes in a vector containing strings and prints out the strings.
+  * @param t_vector is the input vector containing strings.
+  */
+  void QueryPreProcessor::printVector(std::vector<std::string> t_vector);
+
+//--------------------------------Getter Methods------------------------------------------
+  /**
+  * A getter method for the Select Queue variables.
+  * @return a Grammar object Queue containing all variables within the Select clause.
+  */
   std::queue<Grammar> QueryPreProcessor::getSelect(void);
+
+  /**
+  * A getter method for the Such That Queue variables.
+  * @return a Relation object Queue containing all variables within the Such That clause.
+  */
   std::queue<Relation> QueryPreProcessor::getSuchThat(void);
+
+  /**
+  * A getter method for the Pattern Queue variables.
+  * @return a Pattern object Queue containing all variables within the Pattern clause.
+  */
   std::queue<Pattern> QueryPreProcessor::getPattern(void);
+
+  /**
+  * A getter method for the Grammar vector variables.
+  * @return a Grammar object Vector containing all variables declared within the declaration.
+  */
   std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
+
+  /**
+  * A getter method for the Synonym Unordered Map variables.
+  * @return an unordered map containing 2 values(string synonym, int number of times it appears) declared within query statement.
+  */
   std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
+
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
@@ -42,6 +114,18 @@ private:
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;
   StringUtil m_stringUtil;
+  const int m_procedure = 0;
+  const int m_statementList = 1;
+  const int m_statement = 2;
+  const int m_assign = 3;
+  const int m_while = 4;
+  const int m_if = 5;
+  const int m_expression = 6;
+  const int m_variable = 7;
+  const int m_constant = 8;
+  const int m_progline = 9;
+  const int m_statementNumber = 10;
+  const int m_string = 11;
 };
 
 #endif QUERYPREPROCESSOR_H

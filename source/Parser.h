@@ -166,4 +166,7 @@ private:
   * @param t_line the line to be tokenised
   */
   std::vector<std::string> tokeniseLine(const std::string& t_line);
+
+  bool isValidName(std::string& t_token) throw(SyntaxErrorException);
+  bool isConstant(std::string& t_token) throw(SyntaxErrorException);
 };

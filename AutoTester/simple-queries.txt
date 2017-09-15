@@ -413,3 +413,88 @@ stmt s; variable v;
 Select v such that Modifies(s,v)
 x, I, a, z, c
 5000
+84 - Select with Pattern and 1 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s pattern a("a", "b")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+85 - Select with Pattern and 1 synonym with no common (Exact) - False
+stmt s; assign a; variable v;
+Select s pattern a("x", "c")
+none
+5000
+86 - Select with Pattern and 1 synonym with no common (Subtree) - True
+stmt s; assign a; variable v;
+Select s pattern a("x", _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+87 - Select with Pattern and 1 synonym with no common (Subtree) - False
+stmt s; assign a; variable v;
+Select s pattern a("x", _"c"_)
+none
+5000
+88 - Select with Pattern and 1 synonym with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a pattern a("x", "y")
+3, 10
+5000
+89 - Select with Pattern and 1 synonym with 1 common (Exact) - False
+stmt s; assign a; variable v;
+Select a pattern a("x", "c")
+none
+5000
+90 - Select with Pattern and 1 synonym with 1 common (Subtree) - True
+stmt s; assign a; variable v;
+Select a pattern a("x", _"y"_)
+1, 3, 10
+5000
+91 - Select with Pattern and 1 synonym with 1 common (Subtree) - False
+stmt s; assign a; variable v;
+Select a pattern a("x", _"c"_)
+none
+5000
+92 - Select with Pattern and 2 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s pattern a(v, "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+93 - Select with Pattern and 2 synonym with no common (Exact) - False
+stmt s; assign a; variable v;
+Select s pattern a(v, "c")
+none
+5000
+94 - Select with Pattern and 2 synonym with no common (Subtree) - True
+stmt s; assign a; variable v;
+Select s pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+95 - Select with Pattern and 2 synonym with no common (Subtree) - False
+stmt s; assign a; variable v;
+Select s pattern a(v, _"c"_)
+none
+5000
+96 - Select with Pattern and 2 synonym with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a pattern a(v, "y")
+3, 7, 10
+5000
+97 - Select with Pattern and 2 synonym with 1 common (Exact) - False
+stmt s; assign a; variable v;
+Select a pattern a(v, "c")
+none
+5000
+98 - Select with Pattern and 2 synonym with 1 common (Subtree) - True
+stmt s; assign a; variable v;
+Select v pattern a(v, _"y"_)
+1, 3, 7, 10
+5000
+99 - Select with Pattern and 2 synonym with 1 common (Subtree) - False
+stmt s; assign a; variable v;
+Select v pattern a(v, _"c"_)
+none
+5000
+100 - Select with Follows + Pattern and 1 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s such that Follows(2,7) pattern a("x", "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
