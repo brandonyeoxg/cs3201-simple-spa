@@ -15,12 +15,14 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+#include "PKB_API.h"
 
 
 
 class TNode;
 
-class PKB {
+class PKB: public PKB_API {
+  
 public:
   PKB();
   ///////////////////////////////////////////////////////
