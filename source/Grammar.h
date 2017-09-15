@@ -59,6 +59,18 @@ public:
 private:
   GType m_type; /**< type of this Grammar object */
   std::string m_name; /**< name of this Grammar object */
+  static int PROC;
+  static int STLST;
+  static int STMT;
+  static int ASGN;
+  static int WHILE;
+  static int IF;
+  static int EXPR;
+  static int VAR;
+  static int CONST;
+  static int PROGLN;
+  static int STMTNUM ;
+  static int STR;
 };
 
 #endif
