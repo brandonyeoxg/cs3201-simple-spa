@@ -64,7 +64,7 @@ int Parser::parseStmtLst(StmtListNode *t_node) throw (SyntaxErrorException) {
 
 int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
   if (isMatchToken("")) {
-    throw SyntaxOpenBraceException(m_curLineNum);
+    isMatchToken("");
   }
   // Var name
   if (m_nextToken != "while" && m_nextToken != "if") {
