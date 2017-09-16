@@ -1,6 +1,7 @@
 #pragma once
 #ifndef QUERYPROCESSOR_H
 #define QUERYPROCESSOR_H
+#include "PKB.h"
 #include "QueryPreProcessor.h"
 #include "QueryEvaluator.h"
 #include "QueryResultProjector.h"
@@ -32,6 +33,7 @@ public:
 
 private:
   PKB *m_pkb;
+  bool isTokenized;
 };
 
 #endif QUERYPROCESSOR_H

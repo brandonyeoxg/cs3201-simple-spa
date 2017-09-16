@@ -220,9 +220,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         m_selectQueue.push(g1);       
         //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
         //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-      } else {
-        //std::cout << "skip" << std::endl;
-      }
+      } 
     }
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
@@ -235,6 +233,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   }
   //if design abstraction object exists, create Relation object with parameters type, g1 g2
   else {
+    //Trim whitespaces for such that statement.
+    suchThatStatement = m_stringUtil.trimString(suchThatStatement);
     std::string delimiterDesignAbstraction = "such that";
     std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
                                                                                                                                                   //IMPT: to be worked on in the future for more complex queries
@@ -289,9 +289,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //storing designabstractionqueue synonyms
    
     //case: both synonyms are the same. e.g Follows(s, s)
-    if (sTInt1 == sTInt2 && sTInt1 != 0 || sTName1 == sTName2) {
+    if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != "_")) {
       //return empty list
       std::cout << "return an empty list of strings" << std::endl;
+      return false;
     }
     else {
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
@@ -427,6 +428,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             }
           }
         } else if ((sTName1 == "_")) {
+          if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
+            return false;
+          }
           counterQ = 0;
           Grammar g1(m_string, sTName1);
           for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
@@ -458,6 +462,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               m_suchThatQueue.push(DAO);
               break;
             } else if (sTName2 == "_") {
+              
               Grammar g2(m_string, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -574,8 +579,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       grammarPatternRight = Grammar(m_string, patternRightName);
     } else if (patternRightName == "_") {
       //invalid
-      isTokenized = false;
-      return isTokenized;
+      grammarPatternRight = Grammar(m_string, patternRightName);
     }
 
     //todo: else condition for outputting invalid input
