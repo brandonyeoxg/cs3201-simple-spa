@@ -15,14 +15,14 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+#include "PKB_API.h"
 
 
 
 class TNode;
 
-//class VarTable;  // no need to #include "VarTable.h" as all I need is pointer
-
-class PKB {
+class PKB: public PKB_API {
+  
 public:
   PKB();
   ///////////////////////////////////////////////////////
@@ -36,19 +36,105 @@ public:
   ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
+  * Returns false if current s1, s2 pair already exists in the map.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return The status of the insertion.
+  */
   bool insertFollows(int t_s1, int t_s2);
+
+  /**
+  * Method that checks if follows(s1, s2) holds.
+  * Checks if s2 exists as the first element in vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isFollows(int t_s1, int t_s2);
+
+  /**
+  * Method that checks if follows*(s1, s2) holds.
+  * Checks if s2 exists within the vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isFollowsStar(int t_s1, int t_s2);
+
+  /**
+  * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
+  * Returns the first element in the vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @return the line number that line s1 follows.
+  */
   int getFollows(int t_s1);
+
+  /**
+  * Method that returns the line number that follows(s, s2) holds, where s is a variable and s2 is a known line number.
+  * @param s2 an integer argument.
+  * @return the line number that is followed by line s2.
+  */
   int getFollowedBy(int t_s2);
+
+  /**
+  * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
+  * Returns the first element in the vector mapped to key s1.
+  * @param s1 an integer argument.
+  * @return the vector of line numbers that line s1 follows*.
+  */
   std::vector<int> getFollowsStar(int t_s1);
+
+  /**
+  * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
+  * Returns the vector of keys that the vector mapped to the key contains s2.
+  * @param s1 an integer argument.
+  * @return the vector of line numbers that are followedBy* s2.
+  */
   std::vector<int> getFollowedByStar(int t_s2);
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the follow* relationship.
+  * @return the entire map that keep tracks of the follow relationship.
+  */
   std::unordered_map<int, int> getAllFollows();
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the follow* relationship.
+  * @return the entire map that keep tracks of the follow relationship.
+  */
   std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+
+  /**
+  * Method that returns the list of line numbers that is followed by another statement.
+  * @return the vector of keys within the followTable.
+  */
   std::vector<int> getFollowedByAnything();
+
+  /**
+  * Method that returns the list of line numbers that follows a statement.
+  * @return the vector of keys within the followTable.
+  */
   std::vector<int> getFollowsAnything();
+
+  /**
+  * Method that checks if follows(_, _) or follows*(_, _) holds.
+  * @return true if the size of the followTable is more than zero, return false if otherwise.
+  */
   bool hasFollowRelationship();
+
+  /**
+  * Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
+  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  */
   bool isFollowsAnything(int t_s2);
+
+  /**
+  * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
+  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  */
   bool isFollowedByAnything(int t_s1);
 
   
@@ -58,15 +144,15 @@ public:
   ///////////////////////////////////////////////////////
   //  ParentTable methods 
   ///////////////////////////////////////////////////////
-  bool insertParent(int s1, int s2);
+  bool insertParent(int t_s1, int t_s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
-  bool isParent(int s1, int s2);
-  bool isParentStar(int s1, int s2);
-  int getParentOf(int s2);
-  std::vector<int> getChildrenOf(int s1);
-  std::vector<int> getParentStarOf(int s2);
-  std::vector<int> getChildrenStarOf(int s1);
+  bool isParent(int t_s1, int t_s2);
+  bool isParentStar(int t_s1, int t_s2);
+  int getParentOf(int t_s2);
+  std::vector<int> getChildrenOf(int t_s1);
+  std::vector<int> getParentStarOf(int t_s2);
+  std::vector<int> getChildrenStarOf(int t_s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
   std::unordered_map<int, std::vector<int>> getAllParentsStar();
   std::vector<int> getChildrenOfAnything();
@@ -87,27 +173,27 @@ public:
   //////////////////////////////////////////////////////////
   
   std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(int line_num, Grammar::GType t_type);
+  bool insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type);
   std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
-  bool insertStatementTypeTable(Grammar::GType t_type, int line_num);
+  bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum);
 
   ///////////////////////////////////////////////////////
   //  VarTable methods 
   ///////////////////////////////////////////////////////
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
   int insertModifiesForStmt(std::string t_varName, int t_lineNum);
-  bool isModifies(int lineNum, std::string varName);
-  bool isUses(int lineNum, std::string varName);
-  std::vector<std::string> getModifies(int lineNum);
-  std::vector<std::string> getUses(int line_num);
-  std::vector<int> getStmtModifies(std::string varName);
-  std::vector<int> getStmtUses(std::string varName);
+  bool isModifies(int t_lineNum, std::string t_varName);
+  bool isUses(int t_lineNum, std::string t_varName);
+  std::vector<std::string> getModifies(int t_lineNum);
+  std::vector<std::string> getUses(int t_lineNum);
+  std::vector<int> getStmtModifies(std::string t_varName);
+  std::vector<int> getStmtUses(std::string t_varName);
   std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
   std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
-  int getIndexOfVar(std::string varName);
+  int getIndexOfVar(std::string t_varName);
   std::string getVarNameFromIndex(int t_index);
-  bool isModifiesAnything(int t_line_num);
-  bool isUsesAnything(int t_line_num);
+  bool isModifiesAnything(int t_lineNum);
+  bool isUsesAnything(int t_lineNum);
   std::vector<int> getStmtModifiesAnything();
   std::vector<int> getStmtUsesAnything();
   std::vector<std::string> getAllVariables();
@@ -142,7 +228,7 @@ public:
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
-  //  ParentTable methods 
+  //  ConstantTable methods 
   ///////////////////////////////////////////////////////
   int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();

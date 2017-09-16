@@ -51,23 +51,17 @@ bool ParentTable::isParent(int t_s1, int t_s2) {
 }
 
 bool ParentTable::isParentStar(int t_s1, int t_s2) {
-  int counter = 0;
-  int intermediate;
-  //if s2 does not exist, return false.
-  if (m_parentMap.find(t_s2) == m_parentMap.end()) {
+  auto pItr = m_parentStarMap.find(t_s1);
+  if (pItr == m_parentStarMap.end()) {
+    //not found in parent*Map
     return false;
-  } else {  //if s2 exists, check its mapped value. if it's s1, return true. 
-    intermediate = m_parentMap[t_s2];
-    while (counter <= m_parentMap.size()) {
-      //if the mapped value is not s1, check that number's mapped value.
-      if (intermediate == t_s1) {
-        return true;
-      } else {
-        intermediate = m_parentMap[intermediate];
-        counter++;
-      }
+  } else {
+    std::vector<int> childrenStar = pItr->second;
+    if (std::find(childrenStar.begin(), childrenStar.end(), t_s2) != childrenStar.end()) {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 }
 

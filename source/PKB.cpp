@@ -117,32 +117,32 @@ bool PKB::isFollowedByAnything(int t_s1) {
 ///////////////////////////////////////////////////////
 //  ParentTable methods 
 ///////////////////////////////////////////////////////
-bool PKB::insertParent(int s1, int s2) {
-  return m_parentTable->insertParent(s1, s2);
+bool PKB::insertParent(int t_s1, int t_s2) {
+  return m_parentTable->insertParent(t_s1, t_s2);
 }
 
-bool PKB::isParent(int s1, int s2) {
-  return m_parentTable->isParent(s1, s2);
+bool PKB::isParent(int t_s1, int t_s2) {
+  return m_parentTable->isParent(t_s1, t_s2);
 }
 
-bool PKB::isParentStar(int s1, int s2) {
-  return m_parentTable->isParentStar(s1, s2);
+bool PKB::isParentStar(int t_s1, int t_s2) {
+  return m_parentTable->isParentStar(t_s1, t_s2);
 }
 
-int PKB::getParentOf(int s2) {
-  return m_parentTable->getParentOf(s2);
+int PKB::getParentOf(int t_s2) {
+  return m_parentTable->getParentOf(t_s2);
 }
 
-std::vector<int> PKB::getChildrenOf(int s1) {
-  return m_parentTable->getChildrenOf(s1);
+std::vector<int> PKB::getChildrenOf(int t_s1) {
+  return m_parentTable->getChildrenOf(t_s1);
 }
 
-std::vector<int> PKB::getParentStarOf(int s2) {
-  return m_parentTable->getParentStarOf(s2);
+std::vector<int> PKB::getParentStarOf(int t_s2) {
+  return m_parentTable->getParentStarOf(t_s2);
 }
 
-std::vector<int> PKB::getChildrenStarOf(int s1) {
-  return m_parentTable->getChildrenStarOf(s1);
+std::vector<int> PKB::getChildrenStarOf(int t_s1) {
+  return m_parentTable->getChildrenStarOf(t_s1);
 }
 
 std::unordered_map<int, std::vector<int>> PKB::getAllParents() {
@@ -200,12 +200,12 @@ std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
 
-bool PKB::insertTypeOfStatementTable(int line_num, Grammar::GType t_type) {
-  //if line_num already exists as key in table, return false.
-  if (m_typeOfStatementTable.find(line_num) != m_typeOfStatementTable.end()) {
+bool PKB::insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type) {
+  //if lineNum already exists as key in table, return false.
+  if (m_typeOfStatementTable.find(t_lineNum) != m_typeOfStatementTable.end()) {
     return false;
   } else {
-    m_typeOfStatementTable.emplace(line_num, t_type);
+    m_typeOfStatementTable.emplace(t_lineNum, t_type);
     return true;
   }
 }
@@ -213,21 +213,21 @@ std::unordered_map<Grammar::GType, std::vector<int>> PKB::getStatementTypeTable(
   return m_statementTypeTable;
 }
 
-bool PKB::insertStatementTypeTable(Grammar::GType t_type, int line_num) {
+bool PKB::insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) {
   //if type does not exist as key
   if (m_statementTypeTable.find(t_type) == m_statementTypeTable.end()) {
     std::vector<int> lineNums;
-    lineNums.push_back(line_num);
+    lineNums.push_back(t_lineNum);
     m_statementTypeTable.emplace(t_type, lineNums);
     return true;
   } else {  //type already exists
     std::vector<int> lineNums = m_statementTypeTable[t_type];
-    if (std::find(lineNums.begin(), lineNums.end(), line_num) != lineNums.end()) {
+    if (std::find(lineNums.begin(), lineNums.end(), t_lineNum) != lineNums.end()) {
       //return false if duplicate already exists in table.
       return false;
     }
     //else just push to the vector.
-    lineNums.push_back(line_num);
+    lineNums.push_back(t_lineNum);
     m_statementTypeTable[t_type] = lineNums;
     return true;
   }
@@ -244,28 +244,28 @@ int PKB::insertModifiesForStmt(std::string t_varName, int t_lineNum) {
   return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
 }
 
-bool PKB::isModifies(int lineNum, std::string varName) {
-  return m_varTable->isModifies(lineNum, varName);
+bool PKB::isModifies(int t_lineNum, std::string t_varName) {
+  return m_varTable->isModifies(t_lineNum, t_varName);
 }
 
-bool PKB::isUses(int lineNum, std::string varName) {
-  return m_varTable->isUses(lineNum, varName);
+bool PKB::isUses(int t_lineNum, std::string t_varName) {
+  return m_varTable->isUses(t_lineNum, t_varName);
 }
 
-std::vector<std::string> PKB::getModifies(int lineNum) {
-  return m_varTable->getModifies(lineNum);
+std::vector<std::string> PKB::getModifies(int t_lineNum) {
+  return m_varTable->getModifies(t_lineNum);
 }
 
-std::vector<std::string> PKB::getUses(int lineNum) {
-  return m_varTable->getUses(lineNum);
+std::vector<std::string> PKB::getUses(int t_lineNum) {
+  return m_varTable->getUses(t_lineNum);
 }
 
-std::vector<int> PKB::getStmtModifies(std::string varName) {
-  return m_varTable->getStmtModifies(varName);
+std::vector<int> PKB::getStmtModifies(std::string t_varName) {
+  return m_varTable->getStmtModifies(t_varName);
 }
 
-std::vector<int> PKB::getStmtUses(std::string varName) {
-  return m_varTable->getStmtUses(varName);
+std::vector<int> PKB::getStmtUses(std::string t_varName) {
+  return m_varTable->getStmtUses(t_varName);
 }
 
 std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtModifies() {
@@ -276,20 +276,20 @@ std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtUses() {
   return m_varTable->getAllStmtUses();
 }
 
-int PKB::getIndexOfVar(std::string varName) {
-  return m_varTable->getIndexOfVar(varName);
+int PKB::getIndexOfVar(std::string t_varName) {
+  return m_varTable->getIndexOfVar(t_varName);
 }
 
 std::string PKB::getVarNameFromIndex(int t_index) {
   return m_varTable->getVarNameFromIndex(t_index);
 }
 
-bool PKB::isModifiesAnything(int t_line_num) {
-  return m_varTable->isModifiesAnything(t_line_num);
+bool PKB::isModifiesAnything(int t_lineNum) {
+  return m_varTable->isModifiesAnything(t_lineNum);
 }
 
-bool PKB::isUsesAnything(int t_line_num) {
-  return m_varTable->isUsesAnything(t_line_num);
+bool PKB::isUsesAnything(int t_lineNum) {
+  return m_varTable->isUsesAnything(t_lineNum);
 }
 
 std::vector<int> PKB::getStmtModifiesAnything() {

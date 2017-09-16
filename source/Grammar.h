@@ -36,7 +36,7 @@ public:
 
   /**
   * A constructor.
-  * Constructs a new Grammar object with a GType corresponding to the specified initial capacity and a string with the specified t_name.
+  * Constructs a new Grammar object with a GType corresponding to the specified integer and a string with the specified t_name.
   * @param t_type is an integer argument which corresponds to a specific GType.
   * @param t_name is a string argument that is the Query's name for the Grammar.
   */
@@ -59,6 +59,18 @@ public:
 private:
   GType m_type; /**< type of this Grammar object */
   std::string m_name; /**< name of this Grammar object */
+  static int PROC;
+  static int STLST;
+  static int STMT;
+  static int ASGN;
+  static int WHILE;
+  static int IF;
+  static int EXPR;
+  static int VAR;
+  static int CONST;
+  static int PROGLN;
+  static int STMTNUM ;
+  static int STR;
 };
 
 #endif

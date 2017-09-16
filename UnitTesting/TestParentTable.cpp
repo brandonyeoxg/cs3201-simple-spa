@@ -43,6 +43,9 @@ namespace UnitTesting {
     TEST_METHOD(TestIsParentStar) {
       ParentTable *testParentTable = new ParentTable();
       testParentTable->setParentMap(testParentMap);
+      testParentTable->setChildMap(testChildMap);
+      //testParentTable->populateParentedByStarMap();
+      testParentTable->populateParentStarMap();
       //test isParentStar method (correct behaviour as isParent).
       Assert::IsTrue(testParentTable->isParentStar(1, 2));
       //test isParentStar method (correct behaviour).

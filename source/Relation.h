@@ -5,7 +5,7 @@
 #include "Grammar.h"
 #include <string>
 /**
-*  A class representing the "Pattern" clause of a query.
+*  A class representing the "Such That" clause of a query.
 * @author Ryan Tan
 * @date 26/08/2017
 */
@@ -31,25 +31,29 @@ public:
 
   /**
   * A constructor.
-  * Constructs a new Design Abstraction object with a DAType corresponding to the specified initial capacity and a string with the specified t_name.
+  * Constructs a new Relation object with a RType corresponding to the specified string and two Grammar objects between which there is a Relation.
+  * @param t_type is a string representing the Design Abstraction of the query to be converted to an RType.
+  * @param t_g1 is the first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
+  * @param t_g2 is the second Grammar object of the Dersign Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
   */
   Relation(std::string t_type, Grammar t_g1, Grammar t_g2);
 
   /**
-  * A Getter that returns the type of this Grammar object
-  * Returns the type of this Grammar object. The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  * A Getter that returns the type of this Relation object.
+  * The returned RType is an enum type that identifies the Relation as one of the Design Abstractions.
+  * @return The RType of this query.
   */
   RType getType();
 
   /**
   * A Getter that returns the first Grammar object of the Dersign Abstraction.
-  * Returns the first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
+  * @return The first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
   */
   Grammar getG1();
 
   /**
   * A Getter that returns the second Grammar object of the Dersign Abstraction
-  * Returns the second Grammar object of the Dersign Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
+  * @return The second Grammar object of the Dersign Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
   */
   Grammar getG2();
 
