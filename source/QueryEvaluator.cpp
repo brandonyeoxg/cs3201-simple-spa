@@ -123,15 +123,15 @@ vector<string> QueryEvaluator::formatVectorIntToVectorString(vector<int> t_vecto
   return vectorStr;
 }
 
-vector<string> QueryEvaluator::getCommonResults(vector<string> t_v1, vector<string> t_v2) {
-  vector<string> v;
+vector<string> QueryEvaluator::getCommonResults(vector<string> t_resultVector1, vector<string> t_resultVector2) {
+  vector<string> commonResultVector;
 
-  sort(t_v1.begin(), t_v1.end());
-  sort(t_v2.begin(), t_v2.end());
+  sort(t_resultVector1.begin(), t_resultVector1.end());
+  sort(t_resultVector2.begin(), t_resultVector2.end());
 
-  set_intersection(t_v1.begin(), t_v1.end(), t_v2.begin(), t_v2.end(), back_inserter(v));
+  set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
 
-  return v;
+  return commonResultVector;
 }
 
 bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
@@ -297,7 +297,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
           return false;
         }
 
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -328,7 +328,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
           return false;
         }
         
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG2().getType() == Grammar::GType::STMT || t_relation.getG2().getType() == Grammar::GType::PROG_LINE) {
@@ -451,7 +451,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -481,7 +481,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG2().getType() == Grammar::GType::STMT || t_relation.getG2().getType() == Grammar::GType::PROG_LINE) {
@@ -604,7 +604,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -634,7 +634,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG2().getType() == Grammar::GType::STMT || t_relation.getG2().getType() == Grammar::GType::PROG_LINE) {
@@ -756,7 +756,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -787,7 +787,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
           return false;
         }
 
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG2().getType() == Grammar::GType::STMT || t_relation.getG2().getType() == Grammar::GType::PROG_LINE) {
@@ -880,7 +880,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -973,7 +973,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
         if (stmtIntVector.empty()) {
           return false;
         }
-        std::vector<std::string> stmtStrVector; //formatVectorIntToVectorString(stmtIntVector);
+        std::vector<std::string> stmtStrVector;
 
         for (auto& x : stmtIntVector) {
           if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
@@ -1039,8 +1039,6 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
 
 bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   std::unordered_map<std::string, std::vector<std::string>> result;
-
-  // Todo: Get results for pattern clauses by calling the API from PKB
   if (t_pattern.getStmt().getType() == Grammar::GType::ASGN) {
     if (t_pattern.getLeft().getName() != "_" && t_pattern.getRight().getName() != "_") {
       if (t_pattern.getLeft().getType() == Grammar::GType::VAR) {
@@ -1240,7 +1238,6 @@ void QueryEvaluator::storeSelectResultFromPkb(vector<string> t_result) {
 * @param t_type an enum queryType argument
 */
 void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type) {
-  //This part also needs to be re-implement after discussing with group...
   printDivider();
   std::cout << "Storing the result from PKB to different queues...\n";
 
@@ -1496,15 +1493,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
                 if (!commonResults.empty()) {
                   finalResult = m_selectResults.front();
                 }
-
-                /*for (auto& x : relationResults) {
-                  for (auto& y : patternResults) {
-                    commonResults = getCommonResults(x.second, y.second);
-                    if (!commonResults.empty()) {
-                      finalResult = m_selectResults.front();
-                    }
-                  }
-                }*/
               }
             }
           }
@@ -1533,15 +1521,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
             if (!commonResults.empty()) {
               finalResult = m_selectResults.front();
             } 
-
-            /*for (auto& x : relationResults) {
-              for (auto& y : patternResults) {
-                commonResults = getCommonResults(x.second, y.second);
-                if (!commonResults.empty()) {
-                  finalResult = m_selectResults.front();
-                }
-              }
-            }*/
           } else {
             if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
               if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
@@ -1626,15 +1605,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
             if (!commonResults.empty()) {
               finalResult = m_selectResults.front();
             }
-
-            /*for (auto& x : relationResults) {
-              for (auto& y : patternResults) {
-                commonResults = getCommonResults(x.second, y.second);
-                if (!commonResults.empty()) {
-                  finalResult = m_selectResults.front();
-                }
-              }
-            }*/
           } else if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
             if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
               unordered_map<string, vector<string>> relationResults = m_relationResults.front();
@@ -1660,15 +1630,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
               if (!commonResults.empty()) {
                 finalResult = m_selectResults.front();
               }
-
-              /*for (auto& x : relationResults) {
-                for (auto& y : patternResults) {
-                  commonResults = getCommonResults(x.second, y.second);
-                  if (!commonResults.empty()) {
-                    finalResult = m_selectResults.front();
-                  }
-                }
-              }*/
             }
           }
         }
@@ -1839,80 +1800,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
             }
           }
         }
-
-        //if ((m_relations.front().getG1().getType() == Grammar::GType::STMT_NO || m_relations.front().getG1().getType() == Grammar::GType::STR) && m_relations.front().getG2().getType() != Grammar::GType::STMT_NO && m_relations.front().getG2().getType() != Grammar::GType::STR) {
-        //  if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-        //    unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //    unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //    for (auto& x : relationResults) {
-        //      for (auto& y : patternResults) {
-        //        commonResults = getCommonResults(x.second, y.second);
-        //      }
-        //    }
-        //  } else {
-        //    if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
-        //      if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-        //        unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //        unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //        for (auto& x : relationResults) {
-        //          for (auto& y : patternResults) {
-        //            commonResults = getCommonResults(x.second, y.second);
-        //          }
-        //        }
-        //      }
-        //    }
-        //  }
-        //} else if (m_relations.front().getG1().getType() != Grammar::GType::STMT_NO && m_relations.front().getG1().getType() != Grammar::GType::STR && (m_relations.front().getG2().getType() == Grammar::GType::STMT_NO || m_relations.front().getG2().getType() == Grammar::GType::STR)) {
-        //  if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-        //    unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //    unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //    for (auto& x : relationResults) {
-        //      for (auto& y : patternResults) {
-        //        commonResults = getCommonResults(x.second, y.second);
-        //      }
-        //    }
-        //  }/* else {
-        //    if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
-        //      if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
-        //        unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //        unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //        for (auto& x : relationResults) {
-        //          for (auto& y : patternResults) {
-        //            commonResults = getCommonResults(x.second, y.second);
-        //          }
-        //        }
-        //      }
-        //    }
-        //  }*/
-        //} else if (m_relations.front().getG1().getType() != Grammar::GType::STMT_NO && m_relations.front().getG1().getType() != Grammar::GType::STR && m_relations.front().getG2().getType() != Grammar::GType::STMT_NO && m_relations.front().getG2().getType() != Grammar::GType::STR) {
-        //  if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-        //    unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //    unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //    for (auto& x : relationResults) {
-        //      for (auto& y : patternResults) {
-        //        commonResults = getCommonResults(x.second, y.second);
-        //      }
-        //    }
-        //  } else if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-        //    unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //    unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //    for (auto& x : relationResults) {
-        //      for (auto& y : patternResults) {
-        //        commonResults = getCommonResults(x.second, y.second);
-        //      }
-        //    }
-        //  } else if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
-        //    if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-        //      unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-        //      unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-        //      for (auto& x : relationResults) {
-        //        for (auto& y : patternResults) {
-        //          commonResults = getCommonResults(x.second, y.second);
-        //        }
-        //      }
-        //    }
-        //  }
-        //}
 
         if (!commonResults.empty()) {
           if (m_selectedSynonym == m_relations.front().getG1().getName() && m_relations.front().getG1().getType() == m_selectedType) {
@@ -2145,64 +2032,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
             }
           }
         }
-
-        /*if ((m_relations.front().getG1().getType() == Grammar::GType::STMT_NO || m_relations.front().getG1().getType() == Grammar::GType::STR)&& m_relations.front().getG2().getType() != Grammar::GType::STMT_NO && m_relations.front().getG2().getType() != Grammar::GType::STR) {
-          if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-            unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-            for (auto& x : relationResults) {
-              for (auto& y : patternResults) {
-                vector<string> commonResults = getCommonResults(x.second, y.second);
-                if (!commonResults.empty()) {
-                  finalResult = commonResults;
-                }
-              }
-            }
-          } else {
-            if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
-              if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-                unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-                unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-                for (auto& x : relationResults) {
-                  for (auto& y : patternResults) {
-                    vector<string> commonResults = getCommonResults(x.second, y.second);
-                    if (!commonResults.empty()) {
-                      finalResult = commonResults;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != Grammar::GType::STMT_NO && m_relations.front().getG1().getType() != Grammar::GType::STR && (m_relations.front().getG2().getType() == Grammar::GType::STMT_NO || m_relations.front().getG2().getType() == Grammar::GType::STR)) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-            unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-            for (auto& x : relationResults) {
-              for (auto& y : patternResults) {
-                vector<string> commonResults = getCommonResults(x.second, y.second);
-                if (!commonResults.empty()) {
-                  finalResult = commonResults;
-                }
-              }
-            }
-          } else {
-            if (m_patterns.front().getLeft().getType() == Grammar::GType::VAR) {
-              if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
-                unordered_map<string, vector<string>> relationResults = m_relationResults.front();
-                unordered_map<string, vector<string>> patternResults = m_patternResults.front();
-                for (auto& x : relationResults) {
-                  for (auto& y : patternResults) {
-                    vector<string> commonResults = getCommonResults(x.second, y.second);
-                    if (!commonResults.empty()) {
-                      finalResult = commonResults;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }*/
       }
     }
 
