@@ -17,7 +17,7 @@ VAR_INDEX AssignTable::insertAssignRelation(const VAR_INDEX& t_index, AssignNode
   return t_index;
 }
 
-std::list<STMT_NUM> AssignTable::getAllStmtListByVar(VAR_INDEX t_index) {
+std::list<STMT_NUM> AssignTable::getAllAssignStmtListByVar(VAR_INDEX t_index) {
   std::list<STMT_NUM> output;
   std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.find(t_index);
   if (itr == m_data.end()) {
@@ -42,7 +42,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> AssignTable::getAllAssignStmtWithVar() {
   return m_assignMapWithVar;
 }
 
-std::list<STMT_NUM> AssignTable::getAllStmtList() {
+std::list<STMT_NUM> AssignTable::getAllAssignStmtList() {
   std::list<STMT_NUM> output;
   std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.begin();
   for (; itr != m_data.end(); itr++) {
