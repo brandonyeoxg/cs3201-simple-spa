@@ -126,7 +126,7 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
   std::string name = getMatchToken(tokenType::VAR_NAME);
   TNode* right;
   if (isConstant(name)) {
-    m_pkb->insertConstant(name, m_curLineNum);
+    right = m_pkb->insertConstant(name, m_curLineNum);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
