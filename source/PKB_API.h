@@ -31,10 +31,8 @@ public:
 
 
   ///////////////////////////////////////////////////////
-  //  FollowTable methods 
+  //  FollowTable
   ///////////////////////////////////////////////////////
-
-
 
   /**
   * Method that inserts to FollowTable the line number (s2) to the unordered map of vectors containing line number s1 as key.
@@ -137,12 +135,9 @@ public:
   virtual bool isFollowedByAnything(int t_s1) = 0;
 
 
-
   ///////////////////////////////////////////////////////
-  //  ParentTable methods 
+  //  ParentTable
   ///////////////////////////////////////////////////////
-
-
 
   /**
   * Method that inserts to ParentTable the line number (t_s2) to the unordered map of vectors containing line number t_s1 as key.
@@ -294,9 +289,8 @@ public:
   virtual bool isParentOfStarAnything(int t_s1) = 0;
 
 
-
   //////////////////////////////////////////////////////////
-  //  statementTypeTable and typeOfStatementTable Methods
+  //  StatementTypeTable and TypeOfStatementTable
   //////////////////////////////////////////////////////////
 
   /**
@@ -330,9 +324,8 @@ public:
   virtual bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) = 0;
 
 
-
   ///////////////////////////////////////////////////////
-  //  VarTable methods 
+  //  VarTable 
   ///////////////////////////////////////////////////////
 
   /**
@@ -463,7 +456,7 @@ public:
 
 
   ///////////////////////////////////////////////////////
-  //  ConstantTable methods 
+  //  ConstantTable
   ///////////////////////////////////////////////////////
 
   /**
