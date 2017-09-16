@@ -44,8 +44,30 @@ void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
 }
 
 ///////////////////////////////////////////////////////
+//  PKB building methods
+///////////////////////////////////////////////////////
+StmtListNode* PKB::insertProcedure(std::string& t_procName) {
+  ProcedureNode *procNode = m_builder.createProcedure(t_procName);
+  // pkb build procedure unlink
+  insertProcToAST(procNode);
+  StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
+  m_builder.linkParentToChild(procNode, stmtLst);
+  return stmtLst;
+}
+
+///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
+
+bool PKB::insertFollowsRelation(TNode* t_node, int t_curLineNum) {
+  if (t_node->getChildren()->size() == 0) {
+    m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);
+    return false;
+  }
+  int prevStmtNum = t_node->getChildren()->back()->getLineNum();
+  return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
+}
+
 bool PKB::insertFollows(int t_s1, int t_s2) {
   return m_followTable->insertFollows(t_s1, t_s2);
 }

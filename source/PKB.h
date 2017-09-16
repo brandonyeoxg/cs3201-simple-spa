@@ -34,8 +34,15 @@ public:
   void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
 
   ///////////////////////////////////////////////////////
+  //  PKB building methods
+  ///////////////////////////////////////////////////////
+  StmtListNode* insertProcedure(std::string& t_procName);
+
+  ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
+
+  bool insertFollowsRelation(TNode* t_node, int t_curLineNum);
 
   /**
   * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
@@ -267,4 +274,6 @@ private:
 
   AST m_programNode;
   ASTBuilder m_builder;
+
+  static const int PROC_LINE_NUM = 0;
 };

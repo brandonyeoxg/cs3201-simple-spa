@@ -31,14 +31,12 @@ int Parser::parseForProcedure() throw (SyntaxErrorException) {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    ProcedureNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
-    m_pkb->insertProcToAST(procNode);
-    TNode *stmtLst = m_builder.createStmtList(m_curLineNum);
-    m_builder.linkParentToChild(procNode, stmtLst);
+    std::string procName = getMatchToken(tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    return parseStmtLst((StmtListNode*)stmtLst);
+    StmtListNode* stmtLst = m_pkb->insertProcedure(procName);
+    return parseStmtLst(stmtLst);
   }
   return -1;
 }
@@ -46,40 +44,35 @@ int Parser::parseForProcedure() throw (SyntaxErrorException) {
 int Parser::parseStmtLst(StmtListNode *t_node) throw (SyntaxErrorException) {
   // Parse the rest of the code in the
   m_curLineNum += 1;
-  if (t_node->getChildren()->size() == 0) {
-    m_pkb->insertFollows(TNode::NO_LINE_NUM, m_curLineNum);
-  } else {
-    m_pkb->insertFollows(t_node->getChildren()->back()->getLineNum(), m_curLineNum);
-  }
+  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
   parseStmt(t_node);
   if (isMatchToken("}")) {
     // Remove from back
-    if (!m_nestedStmtLineNo.empty()) {
-      m_nestedStmtLineNo.pop_back();
-    }
-    return 1;
+    return handleEndOfStmtLst();
   }
   return parseStmtLst(t_node);
 }
 
 int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
-  if (isMatchToken("")) {
-    isMatchToken("");
+  if (isMatchToken(EMPTY_LINE)) {
+    isMatchToken(EMPTY_LINE);
   }
   // Var name
-  if (m_nextToken != "while" && m_nextToken != "if") {
-    parseAssignStmt(t_node);
-    m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
-    if (!isMatchToken(";")) {
-      throw SyntaxNoEndOfStatmentException(m_curLineNum);
-    }
+  if (isNonContainerStmt()) {
+    parseNonContainerStmt(t_node);
   }
   else {
-    // Parse container stmts
-    m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
     parseContainerStmt(t_node);
   }
   return 1;
+}
+
+int Parser::parseNonContainerStmt(TNode* t_node) throw(SyntaxErrorException) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  parseAssignStmt(t_node);
+  if (!isMatchToken(";")) {
+    throw SyntaxNoEndOfStatmentException(m_curLineNum);
+  }
 }
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
@@ -154,6 +147,7 @@ TNode* Parser::parseExpr() throw (SyntaxErrorException) {
 }
 
 int Parser::parseContainerStmt(TNode* t_node) throw(SyntaxErrorException) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
   m_nestedStmtLineNo.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt((WhileNode*)t_node);
@@ -319,4 +313,16 @@ bool Parser::isConstant(std::string& t_token) throw(SyntaxErrorException) {
     }
   }
   return true;
+}
+
+bool Parser::isNonContainerStmt() {
+  return m_nextToken != "while" && m_nextToken != "if";
+}
+
+int Parser::handleEndOfStmtLst() {
+  // Remove from back
+  if (!m_nestedStmtLineNo.empty()) {
+    m_nestedStmtLineNo.pop_back();
+  }
+  return 1;
 }

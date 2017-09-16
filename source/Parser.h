@@ -49,7 +49,7 @@ private:
   std::ifstream m_readStream;
   int m_curLineNum;
   bool m_isParsingProcedureContent;
-
+  const std::string EMPTY_LINE = "";
   enum tokenType {
     PROC_NAME,
     VAR_NAME,
@@ -95,6 +95,8 @@ private:
   * @return the completed expr's root node
   */
   TNode* parseExpr() throw(SyntaxErrorException);
+
+  int parseNonContainerStmt(TNode* t_node) throw(SyntaxErrorException);
 
   /*
    * Parses the container statement.
@@ -167,6 +169,27 @@ private:
   */
   std::vector<std::string> tokeniseLine(const std::string& t_line);
 
+  /*
+  * Returns true if the token is a valid name.
+  * A valid name refers to LETTER(LETTER|DIGIT)+.
+  */
   bool isValidName(std::string& t_token) throw(SyntaxErrorException);
+
+  /*
+  * Returns true if the token is a constant.
+  * A constant just consists of purely digits.
+  */
   bool isConstant(std::string& t_token) throw(SyntaxErrorException);
+
+  /*
+  * Returns true if the the statement is a non container statement.
+  * Checks with m_nextToken if it is an non container statement string.
+  */
+  bool isNonContainerStmt();
+
+  /*
+  *
+  *
+  */
+  int handleEndOfStmtLst();
 };

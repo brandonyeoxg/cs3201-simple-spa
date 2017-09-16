@@ -19,5 +19,4 @@ procedure main {
              
   while i {
     x=y;
-    I = can +                          do + it;}
-}
+    I = can +                          do + it;}}
