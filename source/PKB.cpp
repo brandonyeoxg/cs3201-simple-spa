@@ -44,8 +44,71 @@ void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
 }
 
 ///////////////////////////////////////////////////////
+//  PKB building methods
+///////////////////////////////////////////////////////
+StmtListNode* PKB::insertProcedure(std::string& t_procName) {
+  ProcedureNode *procNode = m_builder.createProcedure(t_procName);
+  // pkb build procedure unlink
+  insertProcToAST(procNode);
+  StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
+  m_builder.linkParentToChild(procNode, stmtLst);
+  return stmtLst;
+}
+
+VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
+  VAR_INDEX varIndx = insertModifiesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, varIndx);
+  for (auto containerItr = t_nestedStmLines.begin(); containerItr != t_nestedStmLines.end(); containerItr++) {
+    insertModifiesForStmt(varNode->getVarName(), (*containerItr));
+  }
+  return varNode;
+}
+
+VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+  VAR_INDEX index = insertUsesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
+  for (auto containerItr = t_nestedStmtLines.begin(); containerItr != t_nestedStmtLines.end(); containerItr++) {
+    insertUsesForStmt(t_varName, *containerItr);
+  }
+  return varNode;
+}
+
+void PKB::insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
+  AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
+  insertStatementTypeTable(Grammar::GType::ASGN, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::ASGN);
+  insertAssignRelation(t_varNode->getVarIndex(), stmt);
+  m_builder.linkParentToChild(t_parentNode, stmt);
+}
+
+StmtListNode* PKB::insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) {
+  StmtListNode* stmtLstNode = m_builder.createStmtList(t_curLineNum);
+  WhileNode *whileNode = m_builder.buildWhile(t_curLineNum, t_varNode, stmtLstNode);
+  insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
+  m_builder.linkParentToChild(t_parentNode, whileNode);
+  return stmtLstNode;
+}
+
+ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
+  ConstantNode* constNode = m_builder.createConstant(t_curLineNum, atoi(t_constVal.c_str()));
+  insertConstant(t_constVal);
+  return constNode;
+}
+
+///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
+
+bool PKB::insertFollowsRelation(TNode* t_node, int t_curLineNum) {
+  if (t_node->getChildren()->size() == 0) {
+    m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);
+    return false;
+  }
+  int prevStmtNum = t_node->getChildren()->back()->getLineNum();
+  return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
+}
+
 bool PKB::insertFollows(int t_s1, int t_s2) {
   return m_followTable->insertFollows(t_s1, t_s2);
 }

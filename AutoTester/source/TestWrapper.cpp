@@ -36,8 +36,7 @@ void TestWrapper::parse(std::string filename) {
     std::cout << see.what() << "\n";
     exit(-1);
   }
-  DesignExtractor* designExtractor = new DesignExtractor(m_pkb);
-  designExtractor->extractRestOfDesignAbstractions();
+  m_designExtractor->extractRestOfDesignAbstractions();
 }
 
 // method to evaluating a query
