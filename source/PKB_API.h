@@ -16,7 +16,14 @@
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
 
-/** API for PKB
+/** API provided by PKB for PQL's usage
+*
+*   Currently supports:
+*   Follow, Follow*
+*   Parent, Parent*
+*   Statement Types
+*   Constants
+*   Pattern Matching
 */
 
 class PKB_API {
