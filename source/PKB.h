@@ -340,7 +340,24 @@ public:
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
+
+  /** 
+  * Pattern a("x", "y") or Pattern a("x", _"y"_).
+  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
+  * @param t_varName variable name to be matched.
+  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*. 
+  * @return list of statement numbers with match
+  */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
+
+  /** 
+  * Pattern a(v,"y") or Pattern a(v, _"y"_).
+  * Gets a statement number mapping to a variable.
+  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
+  * @return list of statement numbers with match
+  */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   
   /** Pattern a(_, "x + y + h").
