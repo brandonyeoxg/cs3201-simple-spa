@@ -36,6 +36,7 @@ public:
   * @param t_selects A queue to store all the synonyms being selected in the query.
   * @param t_relations A queue to store all the such that clauses in the query.
   * @param t_patterns A queue to store all the pattern clauses in the query.
+  * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
   QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
     : m_pkb(t_pkb),
@@ -53,10 +54,18 @@ public:
   /**
   * A public function to evaluate queries.
   * Get the results of all the clauses in the query from PKB, then compare and get the result of the query.
-  * @return the result of the query in a list of strings.
+  * @return the result of the query in a vector of strings.
   */
   std::vector<std::string> evaluateQuery();
 
+  /**
+  * A public function to format integer vector to string vector.
+  * Given a vector of integers, it will format it into a vector of strings.
+  * @return the contents of a vector of integers in a vector of strings.
+  */
+  vector<string> formatVectorIntToVectorString(vector<int> t_vectorInt);
+
+  // For Debugging Purposes
   void printDivider();
   void printSelectQueue();
   void printRelationQueue();
@@ -64,7 +73,6 @@ public:
   void printSelectResultQueue();
   void printRelationResultQueue();
   void printPatternResultQueue();
-  vector<string> formatVectorIntToVectorString(vector<int> t_vectorInt);
 
 private:
   PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
@@ -141,16 +149,18 @@ private:
   /**
   * A private function to evaluate the final result of the query.
   * By comparing all the results with the common synonyms, get the final result of the query.
-  * @return A list of strings as the query result.
+  * @return A vector of strings as the query result.
   */
   std::vector<std::string> evaluateFinalResult();
 
   /**
-  * A private function to evaluate the final result of the query.
-  * By comparing all the results with the common synonyms, get the final result of the query.
-  * @return A vector of strings as the common results between two results.
+  * A private function to get the common results between two result vectors.
+  * Given two vectors of string, it will compare and return the common results.
+  * @param t_resultVector1 A string vector which holds a set of results.
+  * @param t_resultVector2 A string vector which holds another set of results.
+  * @return A vector of strings as the common results between two result vectors.
   */
-  vector<string> getCommonResults(vector<string> v1, vector<string> v2);
+  vector<string> getCommonResults(vector<string> t_resultVector1, vector<string> t_resultVector2);
 };
 
 #endif QUERYEVALUATOR_H
