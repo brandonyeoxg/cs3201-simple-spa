@@ -36,11 +36,66 @@ public:
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Inserts a procedure into the PKB. AST is built from this procedure node.
+  * @param t_procName name of the procedure.
+  * @return a reference to the StmtListNode created from inserting the procedure.
+  */
   StmtListNode* insertProcedure(std::string& t_procName);
+
+  /**
+  * Inserts a follows relation in the PKB.
+  * @param t_node reference to the StmtLst that this statement belongs to.
+  * @param t_curLineNum the current line number.
+  * @return true if the table is successfully added.
+  */
   bool insertFollowsRelation(TNode* t_node, int t_curLineNum);
-  VariableNode* insertModifiedVariable(std::string t_varName, int m_curLineNum,
-    std::list<STMT_NUM> t_nestedStmLines);
+
+  /**
+  * Inserts a variable that has been modified.
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  VariableNode* insertModifiedVariable(std::string t_varName, int t_curLineNum,
+    std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
+  * Inserts a variable that has been used.
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+  
+  /**
+  * Inserts an assignment statement into the PKB
+  * @param t_parentNode reference to the parent node that the assignment statement belongs to.
+  * @param t_varNode reference to the variable node that is at this assignment statement.
+  * @param t_exprNode reference to the expr node of the assignment statement.
+  * @param t_curLineNum the current line that this assignment is at.
+  */
   void insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
+  
+  /**
+  * Inserts a while statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_varaibleNode reference to the variable node that this while loop contains.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  StmtListNode* insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum);
+  
+  /**
+  * Inserts a constant into the PKB.
+  * @param t_constVal the constant to be added in string form.
+  * @param t_curLineNum the current line of the constant.
+  * @return a reference to the constant node.
+  */
+  ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
   ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
@@ -145,8 +200,18 @@ public:
   */
   bool isFollowedByAnything(int t_s1);
 
-  
+  /*
+  * Inserts the procedure into the AST.
+  * @param t_node reference to the procedure node to be added into the AST
+  * @return the procedure index in the procedure table.
+  */
   PROC_INDEX insertProcToAST(ProcedureNode* t_node);
+
+  /*
+  * Returns the procedure node from the procedure table.
+  * @param t_index the index of the procedure in the procedure index.
+  * @return the reference of the procedure node.
+  */
   ProcedureNode* getRootAST(PROC_INDEX t_index);
   
   ///////////////////////////////////////////////////////
