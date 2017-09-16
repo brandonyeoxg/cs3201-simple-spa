@@ -272,14 +272,47 @@ public:
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
+
+  /*
+  * Inserts an assign statement into the table.
+  * @param t_index the index of the variable.
+  * @param t_node reference to an assign node in the AST.
+  * @return the index to the assign table.
+  */
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
+  
+  /*
+  * Returns all assignment statements number that modifies the variable name.
+  * @param t_varName the name of the variable.
+  */
   std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
+
+  /*
+  * Returns all assignment statements.
+  */
   std::list<STMT_NUM> getAllAssignStmtList();
+
+  /*
+  * Returns all assignment statements in a representation.
+  * The representation is a variable mapped to all statement number under that variable.
+  */
   std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt();
+
+  /*
+  * Returns all assignment statements in a representation.
+  * The repsentation is a statement number mapped to the variable in that statement number.
+  */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
+ 
+  /*
+  * Populates the rest of the representation in the assignment table.
+  * This method is to be called in the design extractor.
+  */
   void populateAssignTableAbstractions();
 
-  //ProcTable Methods
+  ///////////////////////////////////////////////////////
+  //  ProcTable
+  ///////////////////////////////////////////////////////
   bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   bool insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   void convertProcSetToList();

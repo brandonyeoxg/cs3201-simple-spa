@@ -377,11 +377,11 @@ VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node
 
 std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
-  return m_assignTable->getAllStmtListByVar(varIdx);
+  return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtList() {
-  return m_assignTable->getAllStmtList();
+  return m_assignTable->getAllAssignStmtList();
 }
 
 std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllVarNameWithAssignStmt() {
