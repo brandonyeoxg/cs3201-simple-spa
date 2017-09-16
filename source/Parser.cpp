@@ -84,6 +84,12 @@ int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
 
 int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   std::string varName = getMatchToken(tokenType::VAR_NAME);
+  if (varName == "") {
+    throw SyntaxOpenBraceException(m_curLineNum - 1);
+  }
+  if (!isValidName(varName)) {
+    throw SyntaxUnknownCommandException("Error occurred unable to parse command", m_curLineNum);
+  }
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
@@ -235,7 +241,6 @@ std::string Parser::getCurrentLineToken() {
 }
 
 std::string Parser::getToken() throw(SyntaxErrorException) {
-  /*assert(!curTokens.empty());*/
   if (curTokens.empty()) {
     throw SyntaxEmptyLineException();
   }
@@ -293,6 +298,9 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
 }
 
 bool Parser::isValidName(std::string& t_token) throw(SyntaxErrorException) {
+  if (t_token.size() == 0) {
+    return false;
+  }
   if (isdigit(t_token[0]) && !isalpha(t_token[0])) {
     return false;
   }
