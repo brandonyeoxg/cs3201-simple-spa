@@ -16,7 +16,14 @@
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
 
-/** API for PKB
+/** API provided by PKB for PQL's usage
+*
+*   Currently supports:
+*   Follow, Follow*
+*   Parent, Parent*
+*   Statement Types
+*   Constants
+*   Pattern Matching
 */
 
 class PKB_API {
@@ -24,10 +31,8 @@ public:
 
 
   ///////////////////////////////////////////////////////
-  //  FollowTable methods 
+  //  FollowTable
   ///////////////////////////////////////////////////////
-
-
 
   /**
   * Method that inserts to FollowTable the line number (s2) to the unordered map of vectors containing line number s1 as key.
@@ -130,12 +135,9 @@ public:
   virtual bool isFollowedByAnything(int t_s1) = 0;
 
 
-
   ///////////////////////////////////////////////////////
-  //  ParentTable methods 
+  //  ParentTable
   ///////////////////////////////////////////////////////
-
-
 
   /**
   * Method that inserts to ParentTable the line number (t_s2) to the unordered map of vectors containing line number t_s1 as key.
@@ -287,9 +289,8 @@ public:
   virtual bool isParentOfStarAnything(int t_s1) = 0;
 
 
-
   //////////////////////////////////////////////////////////
-  //  statementTypeTable and typeOfStatementTable Methods
+  //  StatementTypeTable and TypeOfStatementTable
   //////////////////////////////////////////////////////////
 
   /**
@@ -323,9 +324,8 @@ public:
   virtual bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) = 0;
 
 
-
   ///////////////////////////////////////////////////////
-  //  VarTable methods 
+  //  VarTable 
   ///////////////////////////////////////////////////////
 
   /**
@@ -456,7 +456,7 @@ public:
 
 
   ///////////////////////////////////////////////////////
-  //  ConstantTable methods 
+  //  ConstantTable
   ///////////////////////////////////////////////////////
 
   /**
@@ -471,5 +471,45 @@ public:
   * @return a list of constants (strings).
   */
   virtual std::list<std::string> getAllConstants() = 0;
+
+
+  ///////////////////////////////////////////////////////
+  //  Pattern Matching
+  ///////////////////////////////////////////////////////
+
+  /** 
+  * Pattern a("x", "y") or Pattern a("x", _"y"_).
+  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
+  * @param t_varName variable name to be matched.
+  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*. 
+  * @return list of statement numbers with match
+  */
+  virtual std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) = 0; /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
+
+  /** 
+  * Pattern a(v,"y") or Pattern a(v, _"y"_).
+  * Gets a statement number mapping to a variable.
+  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
+  * @return list of statement numbers with match
+  */
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact) = 0; /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+  
+  /** Pattern a(_, "x + y + h").
+  *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern) = 0;
+  
+  /** Pattern a(_, _"x + y + h"_).
+  *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
 
 };
