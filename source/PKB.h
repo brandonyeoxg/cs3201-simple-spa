@@ -239,8 +239,6 @@ public:
   bool isChildrenOfStarAnything(int t_s2);
   bool isParentOfStarAnything(int t_s1);
 
-
-  
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
