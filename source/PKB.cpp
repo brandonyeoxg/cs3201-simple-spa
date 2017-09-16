@@ -55,6 +55,23 @@ StmtListNode* PKB::insertProcedure(std::string& t_procName) {
   return stmtLst;
 }
 
+VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
+  VAR_INDEX varIndx = insertModifiesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, varIndx);
+  for (auto containerItr = t_nestedStmLines.begin(); containerItr != t_nestedStmLines.end(); containerItr++) {
+    insertModifiesForStmt(varNode->getVarName(), (*containerItr));
+  }
+  return varNode;
+}
+
+void PKB::insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
+  AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
+  insertStatementTypeTable(Grammar::GType::ASGN, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::ASGN);
+  insertAssignRelation(t_varNode->getVarIndex(), stmt);
+  m_builder.linkParentToChild(t_parentNode, stmt);
+}
+
 ///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////

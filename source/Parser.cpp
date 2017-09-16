@@ -86,20 +86,17 @@ int Parser::parseAssignStmt(TNode* t_node) throw(SyntaxErrorException) {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  VariableNode *left = m_builder.createVariable(m_curLineNum, varName, DUMMY_INDEX);
-  VAR_INDEX varIndx = m_pkb->insertModifiesForStmt(left->getVarName(), m_curLineNum); // Wire in the uses case
-  for (auto containerItr = m_nestedStmtLineNo.begin(); containerItr != m_nestedStmtLineNo.end(); containerItr++) {
-    m_pkb->insertModifiesForStmt(left->getVarName(), (*containerItr));
-  }
+  VariableNode* left = m_pkb->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNo);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
   TNode* exprNode = parseExpr();
-  AssignNode* stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
-  m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, m_curLineNum);
-  m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::ASGN);
-  m_pkb->insertAssignRelation(varIndx, stmt);
-  m_builder.linkParentToChild(t_node, stmt);
+  //AssignNode* stmt = m_builder.buildAssignment(m_curLineNum, left, exprNode);
+  //m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, m_curLineNum);
+  //m_pkb->insertTypeOfStatementTable(m_curLineNum, Grammar::GType::ASGN);
+  //m_pkb->insertAssignRelation(left->getVarIndex(), stmt);
+  //m_builder.linkParentToChild(t_node, stmt);
+  m_pkb->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
   return 1;
 }
 
