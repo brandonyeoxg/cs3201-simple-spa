@@ -12,5 +12,5 @@ To run AutoTester:
 7) In the cmd window, enter "AutoTester.exe <prog-file> <query-file> <output-file>", 
    replacing the text in <> with the corresponding file paths if the files are not in the Release folder.
    The <output-file> has to be a xml file and it will be in the Release folder if no path is specified.
-   For example, "AutoTester.exe ../bonus/pattern_matching_for_expressions_with_plus_source.txt ../bonus/pattern_matching_for_expressions_with_plus_testcases.txt out.xml".
+   For example, "AutoTester.exe ../../bonus/pattern_matching_for_expressions_with_plus_source.txt ../../bonus/pattern_matching_for_expressions_with_plus_testcases.txt out.xml".
 8) Upon completion, use Mozilla Firefox to open the <output-file> to view the results of AutoTester.
