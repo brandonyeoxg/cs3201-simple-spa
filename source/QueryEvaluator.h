@@ -65,15 +65,6 @@ public:
   */
   vector<string> formatVectorIntToVectorString(vector<int> t_vectorInt);
 
-  // For Debugging Purposes
-  void printDivider();
-  void printSelectQueue();
-  void printRelationQueue();
-  void printPatternQueue();
-  void printSelectResultQueue();
-  void printRelationResultQueue();
-  void printPatternResultQueue();
-
 private:
   PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */

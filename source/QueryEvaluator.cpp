@@ -2,114 +2,29 @@
 
 #include "QueryEvaluator.h"
 
-void QueryEvaluator::printDivider() {
-  std::cout << "\n*************************************\n";
-}
-
-void QueryEvaluator::printSelectQueue() {
-  std::cout << "\nSelect Queue\n";
-  for (int i = 0; i < m_selects.size(); ++i) {
-    std::cout << i + 1 << ": " << m_selects.front().getName() << "\n";
-    m_selects.push(m_selects.front());
-    m_selects.pop();
-  }
-}
-
-void QueryEvaluator::printRelationQueue() {
-  std::cout << "\nRelation Queue\n";
-  for (int i = 0; i < m_relations.size(); ++i) {
-    std::cout << i + 1 << ": " << m_relations.front().getType() << " ";
-    std::cout << m_relations.front().getG1().getName() << " ";
-    std::cout << m_relations.front().getG2().getName() << "\n";
-    m_relations.push(m_relations.front());
-    m_relations.pop();
-  }
-}
-
-void QueryEvaluator::printPatternQueue() {
-  std::cout << "\nPattern Queue\n";
-  for (int i = 0; i < m_patterns.size(); ++i) {
-    std::cout << i + 1 << ": " << m_patterns.front().getStmt().getName() << " ";
-    std::cout << m_patterns.front().getLeft().getName() << " ";
-    std::cout << m_patterns.front().getRight().getName() << " ";
-    std::cout << m_patterns.front().isSubtree() << "\n";
-    m_patterns.push(m_patterns.front());
-    m_patterns.pop();
-  }
-}
-
-void QueryEvaluator::printSelectResultQueue() {
-  std::cout << "\nSelect Result Queue";
-  for (int i = 0; i < m_selectResults.size(); ++i) {
-    std::cout << "\n" << i + 1 << ". " << m_selectedSynonym << ": ";
-    for (std::vector<std::string>::iterator getStmts = m_selectResults.front().begin(); getStmts != m_selectResults.front().end(); ++getStmts) {
-      std::cout << *getStmts << ", ";
-    }
-
-    m_selectResults.push(m_selectResults.front());
-    m_selectResults.pop();
-  }
-}
-
-void QueryEvaluator::printRelationResultQueue() {
-  std::cout << "\nRelation Result Queue";
-  for (int i = 0; i < m_relationResults.size(); ++i) {
-    std::cout << "\nQueue " << i + 1 << ". ";
-    int j = 1;
-    for (auto& x: m_relationResults.front()) {
-      std::cout << "\n" << j << ". " << x.first << ": ";
-      for (std::vector<std::string>::iterator getStmts = x.second.begin(); getStmts != x.second.end(); ++getStmts) {
-        std::cout << *getStmts << ", ";
-      }
-      j++;
-    }
-
-    m_relationResults.push(m_relationResults.front());
-    m_relationResults.pop();
-  }
-}
-
-void QueryEvaluator::printPatternResultQueue() {
-  std::cout << "\nPattern Result Queue\n";
-  for (int i = 0; i < m_patternResults.size(); ++i) {
-    std::cout << "\nQueue " << i + 1 << ". ";
-    int j = 1;
-    for (auto& x : m_patternResults.front()) {
-      std::cout << "\n" << j << ". " << x.first << ": ";
-      for (std::vector<std::string>::iterator getStmts = x.second.begin(); getStmts != x.second.end(); ++getStmts) {
-        std::cout << *getStmts << ", ";
-      }
-      j++;
-    }
-
-    m_patterns.push(m_patterns.front());
-    m_patterns.pop();
-  }
-}
-
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
 std::vector<std::string> QueryEvaluator::evaluateQuery() {
-  printDivider();
+  //printDivider();
   std::cout << "Evaluating Query...\n";
 
   // Debug: Check the queues
-  printSelectQueue();
+  /*printSelectQueue();
   printRelationQueue();
-  printPatternQueue();
+  printPatternQueue();*/
 
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
   } else if (!hasResult) {
     std::vector<std::string> result;
-    printDivider();
+    /*printDivider();
     std::cout << "No Query Result: \n";
     for (std::vector<std::string>::iterator getStmts = result.begin(); getStmts != result.end(); ++getStmts) {
       std::cout << *getStmts << ", ";
     }
-    printDivider();
+    printDivider();*/
     return result;
   }
 }
@@ -1156,7 +1071,7 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 * @return true if there are results otherwise false
 */
 bool QueryEvaluator::getResultFromPkb() {
-  printDivider();
+  //printDivider();
   std::cout << "Getting results from PKB...\n";
   int selectSize = m_selects.size();
   int relationSize = m_relations.size();
@@ -1178,7 +1093,7 @@ bool QueryEvaluator::getResultFromPkb() {
     }
 
     // Print Select Results Queue.
-    printSelectResultQueue();
+    //printSelectResultQueue();
 
     // Move the item to the back of the queue.
     m_selects.pop();
@@ -1197,7 +1112,7 @@ bool QueryEvaluator::getResultFromPkb() {
       return false;
     }
 
-    printRelationResultQueue();
+    //printRelationResultQueue();
     m_relations.pop();
   }
 
@@ -1214,7 +1129,7 @@ bool QueryEvaluator::getResultFromPkb() {
       return false;
     }
 
-    printPatternResultQueue();
+    //printPatternResultQueue();
     m_patterns.pop();
   }
 
@@ -1226,10 +1141,10 @@ bool QueryEvaluator::getResultFromPkb() {
 * @param t_result a vector<string> argument
 */
 void QueryEvaluator::storeSelectResultFromPkb(vector<string> t_result) {
-  printDivider();
+  //printDivider();
   std::cout << "Storing the select result from PKB to the select result queue...\n";
   m_selectResults.push(t_result);
-  printDivider();
+  //printDivider();
 }
 
 /**
@@ -1238,7 +1153,7 @@ void QueryEvaluator::storeSelectResultFromPkb(vector<string> t_result) {
 * @param t_type an enum queryType argument
 */
 void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type) {
-  printDivider();
+  //printDivider();
   std::cout << "Storing the result from PKB to different queues...\n";
 
   if (t_type == queryType::RELATION) {
@@ -1248,7 +1163,7 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vec
   } else {
     std::cout << "Result Type: " << t_type << "\n";
   }
-  printDivider();
+  //printDivider();
 }
 
 /**
@@ -1256,7 +1171,7 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vec
 * @return The query results
 */
 std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
-  printDivider();
+  //printDivider();
   std::cout << "Evaluating the final result...\n";
   std::vector<std::string> finalResult;
   unordered_map<int, Grammar::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
@@ -2046,6 +1961,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     std::cout << *getStmts << ", ";
   }
 
-  printDivider();
+  //printDivider();
   return finalResult;
 }
