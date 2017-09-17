@@ -228,7 +228,7 @@ assign a1;
 Select a1 pattern a1 ("x", "v")
 none
 5000
-47 - Assign Test Case: Select a2 if a2 contains a pattern such that LHS is x and RHS contains the subtree y
+47 - Assign Test Case: Select a2 if a2 contains a pattern such that LHS is y and RHS contains the subtree y
 assign a2;
 Select a2 pattern a2 ("y", _"y"_)
 4, 5, 13
