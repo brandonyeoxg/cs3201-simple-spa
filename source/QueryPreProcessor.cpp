@@ -237,13 +237,20 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
     Grammar g1 = m_grammarVector.at(counterM);
     std::string grammarName = g1.getName();
+    
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
         m_selectQueue.push(g1);       
         //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
         //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-      } 
-    }
+    } 
+  }
+
+  //Checks if the select statement synonym is not declared
+  if (m_selectQueue.size() == 0) {
+    return false;
+  }
+
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
   m_synonymMap.insert({ selectGrammar.getName(), 1});
@@ -346,6 +353,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR
                 || designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
                 || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR ) {
+                return false;
+              }
+
+              //Checks if Parent contains assignment statements for the first parameter
+              if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::ASGN) {
                 return false;
               }
 
