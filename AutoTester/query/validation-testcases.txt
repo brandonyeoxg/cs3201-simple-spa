@@ -1,0 +1,40 @@
+1 - Syntax Error: Undeclared synonym
+stmt s; assign a; variable v;
+Select a1 such that Follows(2,7) pattern a(v, "y")
+none
+5000
+2 - Syntax Error: No type for the synonym
+stmt s; s1; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y")
+none
+5000
+3 - Syntax Error: More than one such that clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) such that Follows(1,2) pattern a(v, "y")
+none
+5000
+4 - Syntax Error: More than one pattern clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, _) pattern a(v, "y")
+none
+5000
+5 - Syntax Error: More than one such that clause using and
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) and Follows(1,2) pattern a(v, "y")
+none
+5000
+6 - Syntax Error: More than one pattern clause using and
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y") and a(v, _)
+none
+5000
+7 - Syntax Error: Invalid naming for synonym
+stmt 1s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y")
+none
+5000
+8 - Syntax Error: Cannot have semicolon at the end of query
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y");
+none
+5000
