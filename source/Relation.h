@@ -60,6 +60,12 @@ private:
   RType m_type; /**< Represents the type of this Design Abstraction object */
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */
   Grammar m_g2; /**< Second Grammar object useed by the Design Abstraction */
+  static std::string FLS;
+  static std::string FLS_;
+  static std::string PRT;
+  static std::string PRT_;
+  static std::string USE;
+  static std::string MDF;
 
 };
 
