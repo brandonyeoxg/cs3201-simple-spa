@@ -26,13 +26,10 @@ class PKB: public PKB_API {
   
 public:
   PKB();
-  ///////////////////////////////////////////////////////
-  //  Getter and Setter methods 
-  ///////////////////////////////////////////////////////
-  FollowTable* getFollowTable();
-  ParentTable* getParentTable();
-  VarTable* getVarTable();
-  void setFollowTable(std::unordered_map<int, std::vector<int>> &table);
+  
+  
+  
+  
 
   ///////////////////////////////////////////////////////
   //  PKB building methods
@@ -100,7 +97,7 @@ public:
   ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
-
+  FollowTable* getFollowTable();
   /**
   * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
   * Returns false if current s1, s2 pair already exists in the map.
@@ -218,6 +215,7 @@ public:
   ///////////////////////////////////////////////////////
   //  ParentTable methods 
   ///////////////////////////////////////////////////////
+  ParentTable* getParentTable();
   bool insertParent(int t_s1, int t_s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
@@ -252,6 +250,7 @@ public:
   ///////////////////////////////////////////////////////
   //  VarTable methods 
   ///////////////////////////////////////////////////////
+  VarTable* getVarTable();
   int insertUsesForStmt(std::string t_varName, int t_lineNum);
   int insertModifiesForStmt(std::string t_varName, int t_lineNum);
   bool isModifies(int t_lineNum, std::string t_varName);

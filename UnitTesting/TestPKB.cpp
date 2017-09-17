@@ -33,7 +33,7 @@ namespace UnitTesting {
       };
       Logger::WriteMessage("Running follow table test getFollows");
       PKB *pkb = new PKB();
-      pkb->setFollowTable(test);
+      pkb->getFollowTable()->setFollowTable(test);
       //test getFollows method (correct behaviour)
       int expected = pkb->getFollows(1);
       Assert::IsTrue(expected == 2);

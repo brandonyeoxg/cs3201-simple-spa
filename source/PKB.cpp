@@ -38,10 +38,6 @@ VarTable* PKB::getVarTable() {
   return m_varTable;
 }
 
-void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
-  m_followTable->setFollowTable(table);
-}
-
 ///////////////////////////////////////////////////////
 //  PKB building methods
 ///////////////////////////////////////////////////////
