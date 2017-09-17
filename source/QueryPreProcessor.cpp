@@ -329,6 +329,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       return false;
     }
 
+    //Checks if Uses/Modifies contains strings as the first parameter and return false if true
+    if (designAbstractionEntity == "Uses" && sTName1.find('"') != std::string::npos
+      || designAbstractionEntity == "Modifies" && sTName1.find('"') != std::string::npos) {
+      return false;
+    }
+
     int sTInt1 = 0;
     int sTInt2 = 0;
 
@@ -680,6 +686,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         }
       }
+
+      if (m_suchThatQueue.size() == 0) {
+        return false;
+      }
       //DesignAbstraction class to be discussed: only caters for single DAO
       //test whether designabstractionobject is created properly
       /*Relation object = m_suchThatQueue.front();
@@ -735,18 +745,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     Grammar grammarPatternRight;
     bool isSubTree = false;
     int counterR = 0;
+    std::vector<std::string> counterVect;
     for (auto r = m_grammarVector.begin(); r != m_grammarVector.end(); r++, counterR++) {
       Grammar tempPatternGrammar = m_grammarVector.at(counterR);
       std::string tempPatternGrammarString = tempPatternGrammar.getName();
       if (patternSynonym == tempPatternGrammarString) {
         patternOfGrammar = tempPatternGrammar;
+        counterVect.push_back(tempPatternGrammarString);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ patternSynonym, 1 });
         } else {
           m_synonymMap[patternSynonym]++;
         }
-      }
+      } 
+    }
+    if (counterVect.size() == 0) {
+      return false;
     }
     std::string patternLeftName = patternVector.front();
     if (patternLeftName.find('"') != std::string::npos) {
@@ -760,12 +775,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     } else {
       int counterT = 0;
       removeCharsFromString(patternLeftName, "\\\" ");
+      std::vector<std::string> counterVector;
       for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
         Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
         std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
         if (patternLeftName == tempPatternGrammarStringTemp) {
           grammarPatternLeft = tempPatternGrammarTemp;
           tempSynonymVector.push_back(grammarPatternLeft.getName());
+          counterVector.push_back(grammarPatternLeft.getName());
           //created all entries to be pushed into vector. to work on parsing thru to add into map
           std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
           if (got == m_synonymMap.end()) {
@@ -775,6 +792,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         }
       }
+      if (counterVector.size() == 0) {
+        return false;
+      }   
     }
     //to check whether left side can have variables or not. 11/9/2017 5pm
     std::string patternRightName = patternVector.back();
@@ -789,6 +809,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     } else if (patternRightName == "_") {
       //invalid
       grammarPatternRight = Grammar(m_string, patternRightName);
+    } else {
+      return false;
     }
 
     //todo: else condition for outputting invalid input
