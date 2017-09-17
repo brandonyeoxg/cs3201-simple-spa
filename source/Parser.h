@@ -145,7 +145,7 @@ private:
   * Matches the token from the file with the expected token type.
   *
   * @param t_token the expected token type.
-  * @return true if the token type matches.
+  * @return the string of that token from the type.
   */
   std::string getMatchToken(const tokenType& t_token);
 

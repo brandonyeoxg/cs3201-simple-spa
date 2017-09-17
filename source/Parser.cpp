@@ -43,8 +43,6 @@ int Parser::parseForProcedure() {
 
 int Parser::parseStmtLst(StmtListNode *t_node) {
   // Parse the rest of the code in the
-  m_curLineNum += 1;
-  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
   parseStmt(t_node);
   if (isMatchToken("}")) {
     // Remove from back
@@ -58,8 +56,10 @@ int Parser::parseStmtLst(StmtListNode *t_node) {
 
 int Parser::parseStmt(TNode *t_node) {
   if (isMatchToken(EMPTY_LINE)) {
-    isMatchToken(EMPTY_LINE);
+    return 1;
   }
+  m_curLineNum += 1;
+  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
   // Var name
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_node);
