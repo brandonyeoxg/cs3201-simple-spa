@@ -12,6 +12,7 @@
 #include "ProcTable.h"
 #include "VarTable.h"
 #include "AssignTable.h"
+#include "StatementTable.h"
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
