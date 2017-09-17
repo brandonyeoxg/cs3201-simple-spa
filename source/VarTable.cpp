@@ -205,7 +205,7 @@ int VarTable::getIndexOfVar(std::string t_varName) {
   }
   //if not found, throw invalid_argument exception.
   if (isFound == false) {
-    throw std::invalid_argument("variable name does not exist in varTable");
+    return INVALID_INDEX;
   }
 }
 
