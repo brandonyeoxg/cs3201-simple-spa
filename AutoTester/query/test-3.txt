@@ -151,7 +151,7 @@ none
 31 - Parent Test Case: With one common synonym
 stmt s;
 Select s such that Parent (s,4)
-3
+2
 5000
 32 - Trivial Test Case: Select s5 if Parent* (2,4) is true
 stmt s5;
