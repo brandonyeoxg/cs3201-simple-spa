@@ -63,7 +63,7 @@ public:
   * Given a vector of integers, it will format it into a vector of strings.
   * @return the contents of a vector of integers in a vector of strings.
   */
-  vector<string> formatVectorIntToVectorString(vector<int> t_vectorInt);
+  std::vector<std::string> formatVectorIntToVectorString(std::vector<int> t_vectorInt);
 
 private:
   PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
@@ -127,7 +127,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(vector<string> t_result);
+  void storeSelectResultFromPkb(std::vector<std::string> t_result);
 
   /**
   * A private function to store the results which have common synonyms returned from PKB.
@@ -151,7 +151,7 @@ private:
   * @param t_resultVector2 A string vector which holds another set of results.
   * @return A vector of strings as the common results between two result vectors.
   */
-  vector<string> getCommonResults(vector<string> t_resultVector1, vector<string> t_resultVector2);
+  std::vector<std::string> getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2);
 };
 
 #endif QUERYEVALUATOR_H
