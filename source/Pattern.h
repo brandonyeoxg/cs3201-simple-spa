@@ -10,10 +10,9 @@
 #ifndef PATTERN_H
 #define PATTERN_H
 
-/**
-*  A class representing the "Pattern" clause of a query.
-* @author Verbena Ong
-* @date 09/09/2017
+/**A class representing the "Pattern" clause of a query.
+*  @author Verbena Ong
+*  @date 09/09/2017
 */
 class Pattern {
 public:

@@ -4,10 +4,9 @@
 
 #include "Grammar.h"
 #include <string>
-/**
-*  A class representing the "Such That" clause of a query.
-* @author Ryan Tan
-* @date 26/08/2017
+/**A class representing the "Such That" clause of a query.
+*  @author Ryan Tan
+*  @date 26/08/2017
 */
 class Relation
 {
