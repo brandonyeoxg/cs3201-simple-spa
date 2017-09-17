@@ -7,8 +7,7 @@
 */
 std::vector<std::string> QueryEvaluator::evaluateQuery() {
   //printDivider();
-  std::cout << "\n****************************\n";
-  std::cout << "Evaluating Query...\n";
+  //std::cout << "Evaluating Query...\n";
 
   // Debug: Check the queues
   /*printSelectQueue();
