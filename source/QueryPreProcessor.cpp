@@ -363,6 +363,36 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
         if (sTName1 == grammarName) {
           Grammar g1 = tempGrammar;
+
+          //Checks if Parent contains variables in their parameters and return false if true
+          if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //Checks if Parent contains assignment statements for the first parameter
+          if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::ASGN
+            || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::ASGN) {
+            return false;
+          }
+
+          //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+          if (designAbstractionEntity == "Follows" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Follows*" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //Checks if Uses/Modifies contains variables as the first parameter or statements in their 2nd parameter and return false if true
+          if (designAbstractionEntity == "Uses" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Modifies" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //check is any design abstraction synonyms contains constant c
+          if (g1.getType() == Grammar::GType::CONST) {
+            return false;
+          }
+
           tempSynonymVector.push_back(g1.getName());
           std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName1);
           if (got == m_synonymMap.end()) {
@@ -378,36 +408,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Grammar g2 = tempGrammar2;
 
               //Checks if Parent contains variables in their parameters and return false if true
-              if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
                 || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR ) {
                 return false;
               }
 
-              //Checks if Parent contains assignment statements for the first parameter
-              if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::ASGN
-                || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::ASGN) {
-                return false;
-              }
-
               //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Follows*" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
                 || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
                 return false;
               }
 
-              //Checks if Uses/Modifies contains variables as the first parameter or statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
                 || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
                 || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
-                || designAbstractionEntity == "Modifies" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
                 || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
                 || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
-                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE) {
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
                 return false;
               }
 
@@ -455,6 +475,38 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -496,6 +548,35 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -537,6 +618,35 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
