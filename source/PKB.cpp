@@ -350,6 +350,9 @@ VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node
 
 std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  if (varIdx == INVALID_INDEX) {
+    return std::list<STMT_NUM>();
+  }
   return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
 
@@ -432,6 +435,9 @@ std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
 ///////////////////////////////////////////////////////
 std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
   VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
+  if (index == INVALID_INDEX) {
+    return std::list<STMT_NUM>();
+  }
   std::list<AssignData> aItr = m_assignTable->getAssignDataByVar(index);
   if (aItr.empty()) {
     return std::list<STMT_NUM>();
