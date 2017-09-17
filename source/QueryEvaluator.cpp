@@ -1956,10 +1956,10 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     m_patternResults.pop();
   }
 
-  std::cout << "Query Result: \n";
+  /*std::cout << "Query Result: \n";
   for (std::vector<std::string>::iterator getStmts = finalResult.begin(); getStmts != finalResult.end(); ++getStmts) {
     std::cout << *getStmts << ", ";
-  }
+  }*/
 
   //printDivider();
   return finalResult;
