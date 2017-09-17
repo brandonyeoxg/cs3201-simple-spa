@@ -7,6 +7,7 @@
 #include "QueryResultProjector.h"
 #include <iostream>
 #include <string>
+#include <locale>
 
 class QueryProcessor {
 public:

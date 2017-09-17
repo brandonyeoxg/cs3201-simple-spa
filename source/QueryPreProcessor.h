@@ -75,6 +75,13 @@ public:
   */
   void QueryPreProcessor::printVector(std::vector<std::string> t_vector);
 
+  /**
+  * Method takes in a query string and checks if there are more than one instance of another string.
+  * @param t_query is the input query string. toFind is the string that is to be found.
+  * @return true if only one of the instance is found. else false
+  */
+  bool QueryPreProcessor::isContainsOne(std::string toFind, std::string t_query);
+
 //--------------------------------Getter Methods------------------------------------------
   /**
   * A getter method for the Select Queue variables.
