@@ -31,20 +31,16 @@ std::vector<Grammar> QueryPreProcessor::getGrammarVector(void) {
 
 std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
   std::string delimiter = "Select";
-  std::string declaration = t_Input.substr(0, t_Input.find(delimiter));  //.find(delimiter) finds starting position of the delimiter, hence need to + 1
-  std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
-  
+  std::string declaration = t_Input.substr(0, t_Input.find(delimiter));
+
   declaration = m_stringUtil.trimString(declaration);
-  //std::cout << "this is splitString debugging declaration: " << declaration << std::endl;
   return declaration;
 }
 
 std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
   std::string delimiter = "Select";
-  std::string declaration = t_Input.substr(0, t_Input.find(delimiter));  //.find(delimiter) finds starting position of the delimiter, hence need to + 1
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
 
-  //std::cout << "this is splitString debugging query: " << query << std::endl;
   query = m_stringUtil.trimString(query);
   return query;
 }
@@ -94,64 +90,72 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
 
   for (std::size_t j = 0; j != declarationVector.size(); ++j) {
     tempString = declarationVector.at(j);
+    tempString = m_stringUtil.trimString(tempString);
     //std::cout << tempString << " testing" << std::endl;
     std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
     std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
 
     entity = m_stringUtil.trimString(entity);
     variables = m_stringUtil.trimString(variables);
-    
-    //std::cout << "This is entity: " << entity << std::endl;
-    //std::cout << "This is variables: " << variables << std::endl;
 
-    prev_pos = 0;
-    std::vector<std::string> variableVector;
-    while ((pos = variables.find_first_of(", ", prev_pos)) != std::string::npos) {
-      if (pos > prev_pos) {
-        variableVector.push_back(variables.substr(prev_pos, pos - prev_pos));
+    //Check if string is properly named: s, s1, s#..
+    char c;
+    c = variables.back();
+    if (isalnum(c) || c == '#') {
+      //std::cout << "This is entity: " << entity << std::endl;
+      //std::cout << "This is variables: " << variables << std::endl;
+
+      prev_pos = 0;
+      std::vector<std::string> variableVector;
+      while ((pos = variables.find_first_of(", ", prev_pos)) != std::string::npos) {
+        if (pos > prev_pos) {
+          variableVector.push_back(variables.substr(prev_pos, pos - prev_pos));
+        }
+        prev_pos = pos + 1;
       }
-      prev_pos = pos + 1;
-    }
-    if (prev_pos < variables.length()) {
-      variableVector.push_back(variables.substr(prev_pos, std::string::npos));
-    }
-
-    //std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
-
-    int counterL=0;
-    for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
-      if (entity == "procedure") {
-        Grammar g(m_procedure, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "stmtLst") {
-        Grammar g(m_statementList, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "stmt") {
-        Grammar g(m_statement, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "assign") {
-        Grammar g(m_assign, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "while") {
-        Grammar g(m_while, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "if") {
-        Grammar g(m_if, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "variable") {
-        Grammar g(m_variable, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "constant") {
-        Grammar g(m_constant, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else if (entity == "prog_line") {
-        Grammar g(m_progline, variableVector.at(counterL));
-        m_grammarVector.push_back(g);
-      } else {
-        //do nothing
+      if (prev_pos < variables.length()) {
+        variableVector.push_back(variables.substr(prev_pos, std::string::npos));
       }
+
+      //std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
+
+      int counterL = 0;
+      for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
+        if (entity == "procedure") {
+          Grammar g(m_procedure, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "stmtLst") {
+          Grammar g(m_statementList, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "stmt") {
+          Grammar g(m_statement, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "assign") {
+          Grammar g(m_assign, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "while") {
+          Grammar g(m_while, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "if") {
+          Grammar g(m_if, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "variable") {
+          Grammar g(m_variable, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "constant") {
+          Grammar g(m_constant, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else if (entity == "prog_line") {
+          Grammar g(m_progline, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
+        } else {
+          //do nothing
+        }
+      }
+    } else {
+      return false;
     }
-  }
+  } 
   isTokenized = true;
   return isTokenized;
 }
@@ -170,18 +174,36 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   int mapValue = 1;
   int mapDefaultValue = 1;
 
+  //Check whether semicolon is at the end of the query
+  if (t_queryInput.back() == ';') {
+    return false;
+  }
+
+  if (isContainsOne("such", t_queryInput) == false) {
+    return false;
+  }
+
+  if (isContainsOne("that", t_queryInput) == false) {
+    return false;
+  }
+
+  if (isContainsOne("pattern", t_queryInput) == false) {
+    return false;
+  }
+
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
     if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
       selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
       tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
       suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterPattern));
       patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
+
     } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)) {
       selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
       tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
       patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterSuchThat));
       suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-      //std::cout << "abc2" << std::endl;
+
     } else {
       //std::cout << "" << std::endl;
     }
@@ -298,6 +320,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
         Grammar tempGrammar = m_grammarVector.at(counterK);
         std::string grammarName = tempGrammar.getName();
+        
         counterQ = 0;
         if (m_suchThatQueue.size() == 1) {
           break;
@@ -317,6 +340,40 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR ) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains variables as the first parameter or statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -636,4 +693,18 @@ void QueryPreProcessor::printVector(std::vector<std::string> t_vector) {
   for (auto i = t_vector.begin(); i != t_vector.end(); ++i) {
     std::cout <<"vector printing function: "<< *i << std::endl;
   }
+}
+
+bool QueryPreProcessor::isContainsOne(std::string toFind, std::string t_query) {
+  int tempCounter = 0;
+  bool isContains = true;
+  //Check whether there exists more than one such that clause(check "such" > 2)
+  for (size_t position = t_query.find(toFind, 0); position != std::string::npos; position =
+    t_query.find(toFind, position + 1)) {
+    tempCounter++;
+    if (tempCounter > 1) {
+      return false;
+    }
+  }
+  return isContains;
 }

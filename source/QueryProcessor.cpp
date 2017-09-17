@@ -3,7 +3,7 @@
 std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput) {
   QueryPreProcessor qpp;
 
-  std::cout << "initial test input: " << t_stringInput << std::endl;
+  //std::cout << "initial test input: " << t_stringInput << std::endl;
   std::string declaration, query;
   std::string result;
   std::list<std::string> resultList;
@@ -12,24 +12,25 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInp
 
   declaration = qpp.splitStringDeclaration(t_stringInput);
   isTokenized = qpp.tokenizeDeclaration(declaration);
-
-  query = qpp.splitStringQuery(t_stringInput);
-  isTokenized = qpp.tokenizeQuery(query);
- 
-  std::queue<Grammar> selectQueue = qpp.getSelect();
-  std::queue<Relation> suchThatQueue = qpp.getSuchThat();
-  std::queue<Pattern> patternQueue = qpp.getPattern();
-  std::unordered_map<std::string, int> unorderedMap = qpp.getSynonym();
-
+  
   if (isTokenized == true) {
+    query = qpp.splitStringQuery(t_stringInput);
+    isTokenized = qpp.tokenizeQuery(query);
+    
+    std::queue<Grammar> selectQueue = qpp.getSelect();
+    std::queue<Relation> suchThatQueue = qpp.getSuchThat();
+    std::queue<Pattern> patternQueue = qpp.getPattern();
+    std::unordered_map<std::string, int> unorderedMap = qpp.getSynonym();
 
-    //Grammar testGrammar = selectQueue.front();
-    //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
-    QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
-    evaluatedResults = qe->evaluateQuery();
+    if (isTokenized == true) {
+      //Grammar testGrammar = selectQueue.front();
+      //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
+      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
+      evaluatedResults = qe->evaluateQuery();
 
-    QueryResultProjector qrp;
-    resultList = qrp.formatResult(evaluatedResults);
+      QueryResultProjector qrp;
+      resultList = qrp.formatResult(evaluatedResults);
+    }
   }
 
   return resultList;
