@@ -20,8 +20,7 @@ PKB::PKB() {
   m_procTable = new ProcTable();
   m_assignTable = new AssignTable();
   m_constantTable = new ConstantTable();
-  std::unordered_map<int, std::string> m_statementTypeTable;
-  std::unordered_map<std::string, std::vector<int>> m_typeOfStatementTable;
+  m_statementTable = new StatementTable();
 }
 
 ///////////////////////////////////////////////////////
@@ -37,10 +36,6 @@ ParentTable* PKB:: getParentTable() {
 
 VarTable* PKB::getVarTable() {
   return m_varTable;
-}
-
-void PKB::setFollowTable(std::unordered_map<int, std::vector<int>> &table) {
-  m_followTable->setFollowTable(table);
 }
 
 ///////////////////////////////////////////////////////
@@ -260,40 +255,18 @@ bool PKB::isParentOfStarAnything(int t_s1) {
 //  statementTypeTable and typeOfStatementTable Methods
 //////////////////////////////////////////////////////////
 std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
-  return m_typeOfStatementTable;
+  return m_statementTable->getTypeOfStatementTable();
 }
 
 bool PKB::insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type) {
-  //if lineNum already exists as key in table, return false.
-  if (m_typeOfStatementTable.find(t_lineNum) != m_typeOfStatementTable.end()) {
-    return false;
-  } else {
-    m_typeOfStatementTable.emplace(t_lineNum, t_type);
-    return true;
-  }
+  return m_statementTable->insertTypeOfStatementTable(t_lineNum, t_type);
 }
 std::unordered_map<Grammar::GType, std::vector<int>> PKB::getStatementTypeTable() {
-  return m_statementTypeTable;
+  return m_statementTable->getStatementTypeTable();
 }
 
 bool PKB::insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) {
-  //if type does not exist as key
-  if (m_statementTypeTable.find(t_type) == m_statementTypeTable.end()) {
-    std::vector<int> lineNums;
-    lineNums.push_back(t_lineNum);
-    m_statementTypeTable.emplace(t_type, lineNums);
-    return true;
-  } else {  //type already exists
-    std::vector<int> lineNums = m_statementTypeTable[t_type];
-    if (std::find(lineNums.begin(), lineNums.end(), t_lineNum) != lineNums.end()) {
-      //return false if duplicate already exists in table.
-      return false;
-    }
-    //else just push to the vector.
-    lineNums.push_back(t_lineNum);
-    m_statementTypeTable[t_type] = lineNums;
-    return true;
-  }
+  return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
 ///////////////////////////////////////////////////////
