@@ -97,11 +97,18 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
 
     entity = m_stringUtil.trimString(entity);
     variables = m_stringUtil.trimString(variables);
+    //Checks whether there is no entity for the synonym e.g stmt s; s1; variable v;
+    if (entity == variables) {
+      return false;
+    }
 
     //Check if string is properly named: s, s1, s#..
-    char c;
-    c = variables.back();
-    if (isalnum(c) || c == '#') {
+    char cBack;
+    char cFront;
+    cFront = variables.front();
+    cBack = variables.back();
+    if (isalpha(cFront) && isalnum(cBack)
+      || isalpha(cFront) && cBack == '#') {
       //std::cout << "This is entity: " << entity << std::endl;
       //std::cout << "This is variables: " << variables << std::endl;
 
@@ -188,6 +195,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   }
 
   if (isContainsOne("pattern", t_queryInput) == false) {
+    return false;
+  }
+
+  if (t_queryInput.find("and") != std::string::npos) {
     return false;
   }
 
@@ -299,6 +310,24 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
     //std::cout << sTName1 << " This is sTName1 " << std::endl;
     //std::cout << sTName2 << " This is sTName2 " << std::endl;
+
+    //Check if design abstraction parameter one contains "" and has design entity as below
+    if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+
+      return false;
+    }
+
+    //Check if design abstraction parameter two contains "" and has design entity as below
+    if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+
+      return false;
+    }
 
     int sTInt1 = 0;
     int sTInt2 = 0;
@@ -455,7 +484,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            }
+            } 
           }
         } else if (sTName1.find('"') != std::string::npos) {
           //sTName1.erase(std::remove(sTName1.begin(), sTName1.end(), '\"'), sTName1.end());
