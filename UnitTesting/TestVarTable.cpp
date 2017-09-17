@@ -173,15 +173,16 @@ namespace UnitTesting {
       int expected = testVarTable.getIndexOfVar("y");
       Assert::IsTrue(expected == 1);
 
+      // PC this is not needed since we dont want to throw exception.
       //test getIndexOfVar (non-existent varName).
-      bool exceptionThrown = false;
-      try {
-        expected = testVarTable.getIndexOfVar("z");
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in getIndexOfVar");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
+      //bool exceptionThrown = false;
+      //try {
+      //  expected = testVarTable.getIndexOfVar("z");
+      //} catch (std::invalid_argument) {
+      //  Logger::WriteMessage("Exception thrown in getIndexOfVar");
+      //  exceptionThrown = true;
+      //}
+      //Assert::IsTrue(exceptionThrown);
     }
 
     TEST_METHOD(TestGetVarNameFromIndex) {
