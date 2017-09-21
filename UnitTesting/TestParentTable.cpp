@@ -82,15 +82,9 @@ namespace UnitTesting {
       static const int arr[] = { 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(testParentTable->getChildrenOf(1) == actual);
-      //test getChildrenOf method (catch exception for non-existent s1).
-      bool exceptionThrown = false;
-      try {
-        std::vector<int> expected = testParentTable->getChildrenOf(5);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in getParentOf");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
+      //test getChildrenOf method (expect empty vector for non-existent s1).
+      std::vector<int> emptyVector = testParentTable->getChildrenOf(0);
+      Assert::IsTrue(emptyVector.size() == 0);
     }
 
     TEST_METHOD(TestGetParentStarOf) {
@@ -110,16 +104,10 @@ namespace UnitTesting {
       std::vector<int> expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
       std::vector<int> actual = testParentTable->getParentStarOf(4);
       Assert::IsTrue( expected == actual);
-      //test getParentStarOf method (catch exception for non-existent s2).
+      //test getParentStarOf method (expect empty vector for non-existent s2).
+      std::vector<int> emptyVector = testParentTable->getParentStarOf(0);
       
-      bool exceptionThrown = false;
-      try {
-        std::vector<int> expected = testParentTable->getParentStarOf(5);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in getParentStarOf");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);  
+      Assert::IsTrue(emptyVector.size() == 0);  
     }
     
     TEST_METHOD(TestGetChildrenStarOf) {
@@ -141,15 +129,9 @@ namespace UnitTesting {
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       std::vector<int> expected = testParentTable->getChildrenStarOf(2);
       Assert::IsTrue(expected == actual);
-      //test getChildrenStarOf method (catch exception for non-existent s1).
-      bool exceptionThrown = false;
-      try {
-        std::vector<int> expected = testParentTable->getChildrenStarOf(5);
-      } catch (std::invalid_argument) {
-        Logger::WriteMessage("Exception thrown in getChildrenStarOf");
-        exceptionThrown = true;
-      }
-      Assert::IsTrue(exceptionThrown);
+      //test getChildrenStarOf method (expect empty vector for non-existent s1).
+      std::vector<int> emptyVector = testParentTable->getChildrenStarOf(0);
+      Assert::IsTrue(emptyVector.size() == 0);
 
     }
 
