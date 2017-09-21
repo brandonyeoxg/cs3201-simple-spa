@@ -75,26 +75,29 @@ int ParentTable::getParentOf(int t_s2) {
 }
 
 std::vector<int> ParentTable::getChildrenOf(int t_s1) {
+  std::vector<int> emptyVector;
   if (m_childMap.find(t_s1) == m_childMap.end()) {
     //if s1 is not present in childMap, throw exception
-    throw std::invalid_argument("key s1 does not exist in ParentTable");
+    return emptyVector;
   } else {
     return m_childMap[t_s1];
   }
 }
 
 std::vector<int> ParentTable::getParentStarOf(int t_s2) {
+  std::vector<int> emptyVector;
   if (m_parentedByStarMap.find(t_s2) == m_parentedByStarMap.end()) {
-    throw std::invalid_argument("key s2 does not exist in ParentTable");
+    return emptyVector;
   }
   auto iterator = m_parentedByStarMap.find(t_s2);
   return iterator->second;
 }
 
 std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
-  //if does not exist in childMap, throw invalid_argument exception.
+  std::vector<int> emptyVector;
+  //if does not exist in childMap, return empty vector.
   if (m_childMap.find(t_s1) == m_childMap.end()) {
-    throw std::invalid_argument("key s1 does not exist in ParentTable");
+    return emptyVector;
   }
 
   //new implementation: use m_parentStarTable to query for s1.
