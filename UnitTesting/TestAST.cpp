@@ -1,14 +1,21 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "ASTBuilder.h"
+#include "ASTUtilities.h"
+
+/** Unit testing for AST related classes
+*   Include AST, ASTBuilderAPI, ASTBuilder, ASTUtilities, and node classes
+*   @author jazlyn
+*/
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestAST) {
 public:
+  const int DUMMY_VAR_INDEX = 0;  //  For creating new variables
 
-  /*  Test ConstantNode constructor and methods
+  /**  Test ConstantNode constructor and methods
   */
   TEST_METHOD(TestConstantNode) {
     Logger::WriteMessage("Running Constant Node test");
@@ -25,23 +32,24 @@ public:
     Assert::IsTrue(constNode->getValue() == value);
   }
 
-  /*  Test VariableNode constructor and methods
+  /**  Test VariableNode constructor and methods
   */
   TEST_METHOD(TestVariableNode) {
     Logger::WriteMessage("Running Variable Node test");
 
     int lineNum = 5;
     std::string varName = "penguin";
-    TNode *tNode = new VariableNode(lineNum, varName);
+    TNode *tNode = new VariableNode(lineNum, varName, DUMMY_VAR_INDEX);
     assertIsEqualType(tNode, TNode::Type::Variable);
     assertIsEqualLineNum(tNode, lineNum);
     assertIsEqualNode(tNode->getParent(), nullptr);
 
     VariableNode *varNode = (VariableNode *) tNode;
     Assert::IsTrue(varNode->getVarName() == varName);
+    Assert::IsTrue(varNode->getVarIndex() == DUMMY_VAR_INDEX);
   }
 
-  /*  Test AssignNode constructor and methods
+  /**  Test AssignNode constructor and methods
   */
   TEST_METHOD(TestAssignNode) {
     Logger::WriteMessage("Running Assign Node test");
@@ -49,8 +57,8 @@ public:
     // x = y;
     int lineNum = 5;
     std::string varNameX = "x", varNameY = "y";
-    TNode *varNodeX = new VariableNode(lineNum, varNameX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
 
     AssignNode *assignNode = new AssignNode(lineNum, varNodeX, varNodeY);
     assertIsEqualNode(assignNode->getLeftChild(), varNodeX);
@@ -60,7 +68,7 @@ public:
     assertIsEqualLineNum(assignNode, lineNum);
   }
 
-  /*  Test PlusNode constructor and methods
+  /**  Test PlusNode constructor and methods
   */
   TEST_METHOD(TestPlusNode) {
     Logger::WriteMessage("Running Plus Node test");
@@ -68,8 +76,8 @@ public:
     // x + y;
     int lineNum = 30;
     std::string varNameX = "x", varNameY = "y";
-    TNode *varNodeX = new VariableNode(lineNum, varNameX);
-    TNode *varNodeY = new VariableNode(lineNum, varNameY);
+    TNode *varNodeX = new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX);
 
     PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
     assertIsEqualLineNum(plusNode, lineNum);
@@ -78,7 +86,7 @@ public:
     assertIsEqualNode(varNodeX->getParent(), plusNode);
   }
 
-  /*  Test WhileNode constructor and methods
+  /**  Test WhileNode constructor and methods
   */
   TEST_METHOD(TestWhileNode) {
     Logger::WriteMessage("Running While Node test");
@@ -86,9 +94,9 @@ public:
     // while i { empty stmtList }
     int lineNum = 5;
     std::string varName = "i";
-    TNode *varNode = new VariableNode(lineNum, varName);
+    TNode *varNode = new VariableNode(lineNum, varName, DUMMY_VAR_INDEX);
 
-    TNode *slNode = new StmtListNode();
+    TNode *slNode = new StmtListNode(TNode::NO_LINE_NUM);
 
     WhileNode *whileNode = new WhileNode(lineNum, varNode, slNode);
     assertIsEqualNode(whileNode->getLeftChild(), varNode);
@@ -96,7 +104,7 @@ public:
     assertIsEqualNode(whileNode->getLeftChild()->getParent(), whileNode);
   }
 
-  /*  Test ASTBuilder
+  /**  Test ASTBuilderAPI and ASTBuilder basic
   */
   TEST_METHOD(TestASTBuilderAPI) {
     Logger::WriteMessage("Running ASTBuilderAPI test");
@@ -106,7 +114,7 @@ public:
     assertIsEqualType(ast->getRoot(), TNode::Type::Program);  // Check root initialized properly
     assertIsEqualLineNum(ast->getRoot(), TNode::NO_LINE_NUM);
 
-    TNode *slNode = builder->createStmtList();
+    TNode *slNode = builder->createStmtList(TNode::NO_LINE_NUM);
     // Check parent and child linked properly
     builder->linkParentToChild(ast->getRoot(), slNode);
     assertIsEqualNode(ast->getRoot()->getChildren()->at(0), slNode);
@@ -115,7 +123,7 @@ public:
     // Build assignment statement: x = 5;
     int lineNum1 = 1;
     std::string varName = "x";
-    TNode *varNode = builder->createVariable(lineNum1, varName);
+    TNode *varNode = builder->createVariable(lineNum1, varName, DUMMY_VAR_INDEX);
 
     int value = 5;
     TNode *constNode = builder->createConstant(lineNum1, value);
@@ -133,6 +141,8 @@ public:
     assertIsEqualNode(assignNodeCopy->getRightChild(), constNode);
   }
 
+  /**  Test ASTBuilderAPI with assign expression with plus operator 
+  */
   TEST_METHOD(TestASTBuilderAPI_AssignAndPlus) {
     Logger::WriteMessage("Running ASTBuilderAPI test: x = a + b + 5;");
 
@@ -142,11 +152,12 @@ public:
     int constValue = 5, lineNum = 100;
 
     // build x = a + b + 5 assignment subtree
-    AssignNode *node = builder->buildAssignment(lineNum, builder->createVariable(lineNum, varNameX),
+    AssignNode *node = builder->buildAssignment(lineNum, 
+      builder->createVariable(lineNum, varNameX, DUMMY_VAR_INDEX),
       builder->buildAddition(lineNum,
         builder->buildAddition(lineNum, 
-          builder->createVariable(lineNum, varNameA),
-          builder->createVariable(lineNum, varNameB)),
+          builder->createVariable(lineNum, varNameA, DUMMY_VAR_INDEX),
+          builder->createVariable(lineNum, varNameB, DUMMY_VAR_INDEX)),
         builder->createConstant(lineNum, constValue)
       )
     );
@@ -161,6 +172,126 @@ public:
     Assert::IsTrue(constNode->getValue() == constValue);
 
     assertIsEqualType(((TwoChildrenNode *)node->getRightChild())->getLeftChild(), TNode::Type::Plus);
+  }
+
+  /** Test generate strings method generates the required strings from each subtree
+  */
+  TEST_METHOD(TestGenerateStrings) {
+    Logger::WriteMessage("Test Generate Strings method");
+    
+    TNode * node = getTreeWithPlusMinus();
+
+    std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
+    Assert::IsTrue(generatedStrings.at(0) == "penguin+water-ice+water");
+    Assert::IsTrue(generatedStrings.at(1) == "penguin+water-ice");
+
+    //for (int i = 0; i < generatedStrings.size(); i++) {
+    //  Logger::WriteMessage(generatedStrings.at(i).c_str());
+    //}
+
+  }
+
+  TEST_METHOD(TestMatchByExactPatternWithNoOperator) {
+    Logger::WriteMessage("Test match pattern exactly: variableName");
+
+    TNode * node = new VariableNode(5, "variableName", 0);
+    Assert::IsTrue(ASTUtilities::matchExact(node, "  variableName  "));
+
+    node = new ConstantNode(5, 100);
+    Assert::IsTrue(ASTUtilities::matchExact(node, "  100   "));
+  }
+
+  TEST_METHOD(TestMatchBySubtreePatternWithNoOperator) {
+    Logger::WriteMessage("Test match pattern by subtree: variableName");
+
+    TNode * node = new VariableNode(5, "variableName", 0);
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  variableName  "));
+
+    node = new ConstantNode(5, 100);
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  100   "));
+  }
+
+  TEST_METHOD(TestMatchByExactPatternWithPlusMinus) {
+    Logger::WriteMessage("Test match pattern exactly: penguin + water - ice + water");
+    //penguin + water - ice + water
+    TNode * node = getTreeWithPlusMinus();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "penguin +    water   - ice + water"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin + water + ice"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "penguin+water"));
+  }
+
+  TEST_METHOD(TestMatchBySubtreeWithPlusMinus) {
+    Logger::WriteMessage("Test match pattern by subtree: penguin + water - ice + water");
+
+    // penguin + water - ice + water
+    TNode * node = getTreeWithPlusMinus();
+
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "penguin + water + ice"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "water - ice"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "ice+water"));
+
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin   +   water"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "  water  "));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin + water - ice"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "penguin + water - ice + water"));
+  }
+
+  TEST_METHOD(TestMatchByExactPatternWithPlusMinusMultiply) {
+    Logger::WriteMessage("Test match pattern exactly: x + chicken * a - a");
+    // x + chicken * a - a
+    TNode * node = getTreeWithPlusMinusMultiply();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "   x + chicken   * a -   a"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "chicken * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + chicken * a"));
+  }
+
+  TEST_METHOD(TestMatchBySubtreeWithPlusMinusMultiply) {
+    Logger::WriteMessage("Test match pattern by subtree: x + chicken * a - a");
+    // x + chicken * a - a
+    TNode * node = getTreeWithPlusMinusMultiply();
+
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "   x + chicken   * a -   a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "chicken * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + chicken * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "   a   "));
+
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "   a  - a "));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "  x + chicken"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "   chicken  - a "));
+  }
+
+  TEST_METHOD(TestMatchByExactPatternWithAllOperators) {
+    Logger::WriteMessage("Test match pattern exactly: x + y * a - a / b");
+    // x + y * a - a / b
+    TNode * node = getTreeWithAllOperators();
+
+    Assert::IsTrue(ASTUtilities::matchExact(node, "x + y * a - a / b"));
+
+    Assert::IsFalse(ASTUtilities::matchExact(node, "y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x    "));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y * a"));
+    Assert::IsFalse(ASTUtilities::matchExact(node, "x + y * a - a"));
+  }
+
+  TEST_METHOD(TestMatchBySubtreeWithAllOperators) {
+    Logger::WriteMessage("Test match pattern by subtree: x + y * a - a / b");
+    // x + y * a - a / b
+    TNode * node = getTreeWithAllOperators();
+
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y * a - a / b"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "y * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "x + y * a"));
+    Assert::IsTrue(ASTUtilities::matchSubtree(node, "a / b"));
+
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "x + y * a - a "));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "  x + y"));
+    Assert::IsFalse(ASTUtilities::matchSubtree(node, "y * a - a"));
   }
 
 private:
@@ -181,6 +312,69 @@ private:
   */
   void assertIsEqualNode(TNode * t_tNode1, TNode * t_tNode2) {
     Assert::IsTrue(t_tNode1 == t_tNode2);
+  }
+
+  /*  Given a node, generates subtree strings using ASTUtilities and logs to console
+  */
+  void logGeneratedStrings(TNode * node) {
+    std::vector<std::string> generatedStrings = ASTUtilities::generateSubtreeStrings(node);
+
+    for (int i = 0; i < generatedStrings.size(); i++) {
+      Logger::WriteMessage(generatedStrings.at(i).c_str());
+    }
+  }
+
+  // Generates tree: penguin + water - ice + water
+  TNode *getTreeWithPlusMinus() {
+    int lineNum = 30;
+    std::string varNamePenguin = "penguin", varNameWater = "water", varNameIce = "ice";
+
+    TNode *varNodeX = new VariableNode(lineNum, varNamePenguin, DUMMY_VAR_INDEX);
+    TNode *varNodeY = new VariableNode(lineNum, varNameWater, DUMMY_VAR_INDEX);
+
+    PlusNode *plusNode = new PlusNode(lineNum, varNodeX, varNodeY);
+
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameIce, DUMMY_VAR_INDEX));
+
+    plusNode = new PlusNode(lineNum, minusNode, new VariableNode(lineNum, varNameWater, DUMMY_VAR_INDEX));
+
+    return plusNode;
+  }
+
+  // Generates tree: x + chicken * a - a
+  TNode *getTreeWithPlusMinusMultiply() {
+    int lineNum = 25;
+    std::string varNameX = "x", varNameChicken = "chicken", varNameA = "a";
+
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameChicken, DUMMY_VAR_INDEX),
+      new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
+
+    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX),
+      multiplyNode);
+
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
+
+    return minusNode;
+  }
+
+  // Generates tree: x + y * a - a / b
+  TNode *getTreeWithAllOperators() {
+    int lineNum = 25;
+    std::string varNameX = "x", varNameY = "y", varNameA = "a", varNameB = "b";
+
+    // y * a
+    MultiplyNode *multiplyNode = new MultiplyNode(lineNum, new VariableNode(lineNum, varNameY, DUMMY_VAR_INDEX),
+      new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX));
+
+    // x + y * a
+    PlusNode *plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varNameX, DUMMY_VAR_INDEX),
+      multiplyNode);
+
+    // x + y * a - a / b
+    MinusNode *minusNode = new MinusNode(lineNum, plusNode, 
+      new DivideNode(lineNum, new VariableNode(lineNum, varNameA, DUMMY_VAR_INDEX), new VariableNode(lineNum, varNameB, DUMMY_VAR_INDEX)));
+
+    return minusNode;
   }
 
   };

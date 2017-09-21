@@ -1,0 +1,4 @@
+procedure first {
+  while i {
+    x=y;}
+}

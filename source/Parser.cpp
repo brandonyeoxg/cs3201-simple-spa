@@ -15,7 +15,7 @@
 #include "SyntaxUnknownCommandException.h"
 #include "SyntaxEmptyLineException.h"
 
-int Parser::parse (const std::string &t_filename) throw(SyntaxErrorException) {
+int Parser::parse (const std::string &t_filename) throw() {
   m_readStream = std::ifstream (t_filename);
   if (!m_readStream.is_open()) {
     return -1;
@@ -27,85 +27,122 @@ int Parser::parse (const std::string &t_filename) throw(SyntaxErrorException) {
   return 0;
 }
 
-int Parser::parseForProcedure() throw (SyntaxErrorException) {
+int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    TNode *procNode = m_builder.createProcedure(getMatchToken(tokenType::PROC_NAME));
-    m_pkb->setProcToAST(m_curProcNum, procNode);
-    TNode *stmtLst = m_builder.createStmtList();
-    m_builder.linkParentToChild(procNode, stmtLst);
+    std::string procName = getMatchToken(tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
+    StmtListNode* stmtLst = m_pkb->insertProcedure(procName);
     return parseStmtLst(stmtLst);
   }
   return -1;
 }
 
-int Parser::parseStmtLst(TNode *t_node) throw (SyntaxErrorException) {
+int Parser::parseStmtLst(StmtListNode *t_node) {
   // Parse the rest of the code in the
   parseStmt(t_node);
   if (isMatchToken("}")) {
+    // Remove from back
+    if (!m_nestedStmtLineNum.empty()) {
+      m_nestedStmtLineNum.pop_back();
+    }
     return 1;
   }
   return parseStmtLst(t_node);
 }
 
-int Parser::parseStmt(TNode *t_node) throw (SyntaxErrorException) {
-  if (isMatchToken("")) {
-    throw SyntaxOpenBraceException(m_curLineNum);
+int Parser::parseStmt(TNode *t_node) {
+  if (isMatchToken(EMPTY_LINE)) {
+    return 1;
   }
   m_curLineNum += 1;
+  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
   // Var name
-  if (m_nextToken != "while" && m_nextToken != "if") {
-    parseAssignStmt(t_node);
-    if (!isMatchToken(";")) {
-      throw SyntaxNoEndOfStatmentException(m_curLineNum);
-    }
+  if (isNonContainerStmt()) {
+    parseNonContainerStmt(t_node);
   }
   else {
-    // Parse container stmts
     parseContainerStmt(t_node);
   }
   return 1;
 }
 
-int Parser::parseAssignStmt(TNode *t_node) throw(SyntaxErrorException) {
-  TNode *left = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+int Parser::parseNonContainerStmt(TNode* t_node) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  parseAssignStmt(t_node);
+  if (!isMatchToken(";")) {
+    throw SyntaxNoEndOfStatmentException(m_curLineNum);
+  }
+  return 0;
+}
+
+int Parser::parseAssignStmt(TNode* t_node) {
+  std::string varName = getMatchToken(tokenType::VAR_NAME);
+  if (varName == "") {
+    throw SyntaxOpenBraceException(m_curLineNum - 1);
+  }
+  if (!isValidName(varName)) {
+    throw SyntaxUnknownCommandException("Error occurred unable to parse command", m_curLineNum);
+  }
+  if (isConstant(varName) && !isValidName(varName)) {
+    throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
+  }
+  VariableNode* left = m_pkb->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  TNode *right = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::EXPR));
-  TNode *stmt = m_builder.buildAssignment(m_curLineNum, left, right);
-  m_builder.linkParentToChild(t_node, stmt);
-
+  TNode* exprNode = parseExpr();
+  m_pkb->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
   return 1;
 }
 
-int Parser::parseExpr(TNode* t_node) throw (SyntaxErrorException) {
+TNode* Parser::parseExpr() {
   std::stack<TNode *> exprStack;
-  while (isMatchToken("+") || isMatchToken(tokenType::VAR_NAME)) {
-    if (((VariableNode*)exprStack.top())->getVarName() == "+") {
-      // Create plus Node
-      // PlusNode right = TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
-      // Pop plus node
-      // pop the prev var node
-      // push back
-      continue;
-    }
-    TNode* varNode = m_builder.createVariable(m_curLineNum, m_nextToken);
+  std::string name = getMatchToken(tokenType::VAR_NAME);
+  if (isConstant(name)) {
+    ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));    
+    m_pkb->insertConstant(name, m_curLineNum);
+    exprStack.push(constNode);
+  } else if (!isValidName(name)) {
+    throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
+  } else {
+    VariableNode* varNode = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
-
+  while (m_nextToken == "+") {
+    if (exprStack.empty() == true || !isMatchToken("+")) {
+      break;
+    }
+    parseEachOperand(exprStack);
+  }
   TNode *childNode = exprStack.top();
-  m_builder.linkParentToChild(t_node, childNode);
-  return 1;
+  return childNode;
 }
 
-int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
+void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
+  std::string name = getMatchToken(tokenType::VAR_NAME);
+  TNode* right;
+  if (isConstant(name)) {
+    right = m_pkb->insertConstant(name, m_curLineNum);
+  } else if (!isValidName(name)) {
+    throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
+  } else {
+    right = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+  }
+  TNode* left = t_exprStack.top();
+  t_exprStack.pop();
+  PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
+  t_exprStack.push(plusNode);
+}
+
+int Parser::parseContainerStmt(TNode* t_node) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
-    parseWhileStmt(t_node);
+    parseWhileStmt((WhileNode*)t_node);
   } else if (isMatchToken("if")) {
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
@@ -113,19 +150,17 @@ int Parser::parseContainerStmt(TNode *t_node) throw(SyntaxErrorException) {
   return 1;
 }
 
-int Parser::parseWhileStmt(TNode *t_node) throw(SyntaxErrorException) {
-  TNode *varNode = m_builder.createVariable(m_curLineNum, getMatchToken(tokenType::VAR_NAME));
+int Parser::parseWhileStmt(TNode* t_node) {
+  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  TNode *stmtLstNode = m_builder.createStmtList();
+  StmtListNode* stmtLstNode = m_pkb->insertWhileStmt(t_node, varNode, m_curLineNum);
   parseStmtLst(stmtLstNode);
-  TNode *whileNode = m_builder.buildWhile(m_curLineNum, varNode, stmtLstNode);
-  m_builder.linkParentToChild(t_node, whileNode);
   return 1;
 }
 
-bool Parser::isMatchToken(const std::string &t_token) throw(SyntaxErrorException) {
+bool Parser::isMatchToken(const std::string &t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -133,9 +168,10 @@ bool Parser::isMatchToken(const std::string &t_token) throw(SyntaxErrorException
   return false;
 }
 
-bool Parser::isMatchToken(tokenType t_type) throw (SyntaxErrorException) {
+bool Parser::isMatchToken(tokenType t_type) {
   switch (t_type) {
     case tokenType::PROC_NAME:
+    case tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
@@ -148,14 +184,12 @@ bool Parser::isMatchToken(tokenType t_type) throw (SyntaxErrorException) {
   return false;
 }
 
-std::string Parser::getMatchToken(const tokenType &t_token) throw(SyntaxErrorException) {
+std::string Parser::getMatchToken(const tokenType &t_token) {
   std::string output = m_nextToken;
   switch (t_token) {
     case tokenType::PROC_NAME:
     case tokenType::VAR_NAME:
     case tokenType::CONSTANT:
-      m_nextToken = getCurrentLineToken();
-      break;
     case tokenType::EXPR :
       m_nextToken = getCurrentLineToken();
       break;
@@ -167,28 +201,27 @@ std::string Parser::getMatchToken(const tokenType &t_token) throw(SyntaxErrorExc
 }
 
 std::string Parser::getCurrentLineToken() {
-  if (curTokens.empty()) {
-    std::string extractedLine;
-    if (getline(m_readStream, extractedLine)) {
-      try {
-        curTokens = tokeniseLine(extractedLine);
-        return getToken();
-      } catch (SyntaxEmptyLineException sele) {
-        return "";
-      }
-    }
-    return "";
+  if (!m_curTokens.empty()) {
+    return getToken();
   }
-  return getToken();
+  std::string extractedLine;
+  if (getline(m_readStream, extractedLine)) {
+    try {
+      m_curTokens = tokeniseLine(extractedLine);
+      return getToken();
+    } catch (SyntaxEmptyLineException sele) {
+      return EMPTY_LINE;
+    }
+  }
+  return EMPTY_LINE;  
 }
 
-std::string Parser::getToken() throw(SyntaxErrorException) {
-  /*assert(!curTokens.empty());*/
-  if (curTokens.empty()) {
+std::string Parser::getToken() {
+  if (m_curTokens.empty()) {
     throw SyntaxEmptyLineException();
   }
-  std::string token = curTokens.front();
-  curTokens.erase(curTokens.begin());
+  std::string token = m_curTokens.front();
+  m_curTokens.erase(m_curTokens.begin());
   return token;
 }
 
@@ -213,23 +246,53 @@ bool Parser::isKeyDelimiter(const std::string &t_token) {
 std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   std::string formatString = StringUtil::reduceString(t_line);
   std::vector<std::string> tokens;
-  std::string token = "";
-  for (std::string::iterator itr = formatString.begin(); itr != formatString.end(); itr++) {
+  std::string token = EMPTY_LINE;
+  for (auto itr = formatString.begin(); itr != formatString.end(); itr++) {
     const std::string curStrChar = std::string(1, (*itr));
-    if (isKeyDelimiter(curStrChar) && token != "") {
+    if (isKeyDelimiter(curStrChar) && token != EMPTY_LINE) { // Tokenise the words
       tokens.push_back(token);
-      token = "";
-      if (curStrChar != " ") {
-        tokens.push_back(curStrChar);
-      }
+      token = EMPTY_LINE;
+    }
+    if (isOperator(curStrChar)) { // Tokenise operator
+      tokens.push_back(curStrChar);
+      token = EMPTY_LINE;
       continue;
     }
-    token += (*itr);
+    if (curStrChar != " ") {
+      token += (*itr);
+    }
   }
   if (token.length() > 0) {
     tokens.push_back(token);
-    token = "";
+    token = EMPTY_LINE;
   }
   return tokens;
 }
 
+bool Parser::isValidName(std::string& t_token) {
+  if (t_token.size() == 0) {
+    return false;
+  }
+  if (isdigit(t_token[0]) && !isalpha(t_token[0])) {
+    return false;
+  }
+  for (auto &cToken : t_token) {
+    if (!isalpha(cToken) && !isdigit(cToken)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Parser::isConstant(std::string& t_token) {
+  for (auto& cToken : t_token) {
+    if (!isdigit(cToken)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Parser::isNonContainerStmt() {
+  return m_nextToken != "while" && m_nextToken != "if";
+}

@@ -11,15 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
-    <ClCompile Include="..\source\DesignAbstraction.cpp" />
+    <ClCompile Include="..\source\ASTUtilities.cpp" />
+    <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\FollowTable.cpp" />
     <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\nodes\AssignNode.cpp" />
     <ClCompile Include="..\source\nodes\ConstantNode.cpp" />
+    <ClCompile Include="..\source\nodes\DivideNode.cpp" />
     <ClCompile Include="..\source\nodes\MinusNode.cpp" />
+    <ClCompile Include="..\source\nodes\MultiplyNode.cpp" />
     <ClCompile Include="..\source\nodes\PlusNode.cpp" />
     <ClCompile Include="..\source\nodes\ProcedureNode.cpp" />
     <ClCompile Include="..\source\nodes\ProgramNode.cpp" />
@@ -31,24 +36,35 @@
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\ProcTable.cpp" />
+    <ClCompile Include="..\source\ProcTableData.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\QueryResultProjector.cpp" />
+    <ClCompile Include="..\source\StatementTable.cpp" />
     <ClCompile Include="..\source\StringUtil.cpp" />
+    <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
-    <ClInclude Include="..\source\DesignAbstraction.h" />
+    <ClInclude Include="..\source\ASTUtilities.h" />
+    <ClInclude Include="..\source\ConstantTable.h" />
+    <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\PKB_API.h" />
+    <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
     <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\nodes\AssignNode.h" />
     <ClInclude Include="..\source\nodes\ConstantNode.h" />
+    <ClInclude Include="..\source\nodes\DivideNode.h" />
     <ClInclude Include="..\source\nodes\MinusNode.h" />
+    <ClInclude Include="..\source\nodes\MultiplyNode.h" />
     <ClInclude Include="..\source\nodes\PlusNode.h" />
     <ClInclude Include="..\source\nodes\ProcedureNode.h" />
     <ClInclude Include="..\source\nodes\ProgramNode.h" />
@@ -61,16 +77,20 @@
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\ProcTable.h" />
+    <ClInclude Include="..\source\ProcTableData.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QueryResultProjector.h" />
+    <ClInclude Include="..\source\StatementTable.h" />
     <ClInclude Include="..\source\StringUtil.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
     <ClInclude Include="..\source\SyntaxErrorException.h" />
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
+    <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

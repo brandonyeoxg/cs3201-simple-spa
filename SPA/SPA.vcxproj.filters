@@ -40,9 +40,6 @@
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>PKB\Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\DesignAbstraction.cpp">
-      <Filter>PQL\Query Types</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Grammar.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
@@ -78,6 +75,36 @@
     </ClCompile>
     <ClCompile Include="..\source\nodes\MinusNode.cpp">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ASTUtilities.cpp">
+      <Filter>PKB\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProcTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AssignTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\VarRelations.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Relation.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\MultiplyNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\nodes\DivideNode.cpp">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ConstantTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProcTableData.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\StatementTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,9 +151,6 @@
       <Filter>PKB\Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Pattern.h">
-      <Filter>PQL\Query Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\DesignAbstraction.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Grammar.h">
@@ -179,6 +203,40 @@
     </ClInclude>
     <ClInclude Include="..\source\nodes\MinusNode.h">
       <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ASTUtilities.h">
+      <Filter>PKB\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProcTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AssignTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\VarRelations.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Relation.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\MultiplyNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\nodes\DivideNode.h">
+      <Filter>PKB\AST\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ConstantTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProcTableData.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\PKB_API.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\StatementTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
