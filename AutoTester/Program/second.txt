@@ -1,0 +1,20 @@
+procedure second {
+  a=b+c;
+  c=d+e;
+  d=e+a;
+  while oj{
+    b=c+d;
+    a=a+e;
+    oj=oj+5;
+  }
+  while pbj{
+    tesla=heineken;
+  }
+  LAN=No+WiFi;
+  while pikachu{
+    use=payday;
+    it=super+effective;
+    a=d+e;
+    d=e+a;}
+  c=d+e;
+}

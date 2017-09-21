@@ -3,15 +3,18 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include <vector>
-
+#include <unordered_map>
+#include <stack>
 #include "PKB.h"
 #include "DesignExtractor.h"
 
-ParentsTable* obtainParentsStar(TNode *t_astRoot) {
-  return nullptr;
+DesignExtractor::DesignExtractor(PKB* t_pkb) {
+  m_pkb = t_pkb;
 }
 
-FollowsTable* obtainFollowsStar(TNode *t_astRoot) {
-  return nullptr;
+void DesignExtractor::extractRestOfDesignAbstractions() {
+  //populate the parent* maps.
+  m_pkb->populateParentedByStarMap();
+  m_pkb->populateParentStarMap();
+  m_pkb->populateAssignTableAbstractions();
 }

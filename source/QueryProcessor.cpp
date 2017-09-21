@@ -1,25 +1,37 @@
 #include "QueryProcessor.h"
 
-std::string QueryProcessor::runQueryProcessor(void) {
+std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput) {
   QueryPreProcessor qpp;
-  QueryEvaluator *qe = new QueryEvaluator(m_pkb);
-  QueryResultProjector qrp;
 
-  std::string testInput = "assign a; Select a such that Parent*(s,v)";
+  //std::cout << "initial test input: " << t_stringInput << std::endl;
   std::string declaration, query;
   std::string result;
-  std::list<std::string> resultlist;
+  std::list<std::string> resultList;
+  std::vector<std::string> evaluatedResults;
+  bool isTokenized;
 
-  declaration = qpp.splitStringDeclaration(testInput);
-  qpp.tokenizeDeclaration(declaration);
-  query = qpp.splitStringQuery(testInput);
-  qpp.tokenizeQuery(query);
+  declaration = qpp.splitStringDeclaration(t_stringInput);
+  isTokenized = qpp.tokenizeDeclaration(declaration);
+  
+  if (isTokenized == true) {
+    query = qpp.splitStringQuery(t_stringInput);
+    isTokenized = qpp.tokenizeQuery(query);
+    
+    std::queue<Grammar> selectQueue = qpp.getSelect();
+    std::queue<Relation> suchThatQueue = qpp.getSuchThat();
+    std::queue<Pattern> patternQueue = qpp.getPattern();
+    std::unordered_map<std::string, int> unorderedMap = qpp.getSynonym();
 
-  qe->evaluateQuery();
+    if (isTokenized == true) {
+      //Grammar testGrammar = selectQueue.front();
+      //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
+      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
+      evaluatedResults = qe->evaluateQuery();
 
-  qrp.formatResult();
-  result = qrp.printResult(resultlist);
+      QueryResultProjector qrp;
+      resultList = qrp.formatResult(evaluatedResults);
+    }
+  }
 
-  return result;
-
+  return resultList;
 }

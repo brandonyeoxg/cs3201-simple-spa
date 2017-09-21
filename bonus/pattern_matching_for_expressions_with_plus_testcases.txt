@@ -1,0 +1,40 @@
+1 - Select with Pattern with just one plus (Exact) - True
+assign a;
+Select a pattern a("x", "y+z")
+3
+5000
+2 - Select with Pattern with just one plus (Exact) - False
+assign a;
+Select a pattern a("z", "y+z")
+none
+5000
+3 - Select with Pattern with just one plus (Subtree) - True
+assign a;
+Select a pattern a("x", _"y+z"_)
+1, 3
+5000
+4 - Select with Pattern with just one plus (Subtree) - False
+assign a;
+Select a pattern a("z", _"y+z"_)
+none
+5000
+5 - Select with Pattern with multiple plus (Exact) - True
+assign a;
+Select a pattern a("I", "can+do+it")
+11
+5000
+6 - Select with Pattern with multiple plus (Exact) - False
+assign a;
+Select a pattern a("I", "cannot+do+it")
+none
+5000
+7 - Select with Pattern with multiple plus (Subtree) - True
+assign a;
+Select a pattern a("I", _"0+ am + awesome"_)
+4
+5000
+8 - Select with Pattern with multiple plus (Subtree) - False
+assign a;
+Select a pattern a("I", _"am + awesome +32"_)
+none
+5000
