@@ -20,12 +20,19 @@ public:
     ASGN, /**< An enum value representing an Assign Statement. */
     WHILE, /**< An enum value representing a While Statement. */
     IF, /**< An enum value representing an If Else Statement. */
-    EXPR, /**< An enum value representing an Expression (or operator, "+","-","*"). */
+    CALL, /**< An enum value representing an Expression (or operator, "+","-","*"). */
     VAR, /**< An enum value representing a Variable. */
     CONST, /**< An enum value representing an Integer Constant. */
     PROG_LINE, /**< An enum value representing a Program Line. */
     STMT_NO, /**< An enum value representing a Statement Number. */
     STR /**< An enum value representing a String. */
+  };
+
+  enum class AType {
+    PROC_NAME,
+    VAR_NAME,
+    STMT_NO,
+    VALUE
   };
 
   /**
@@ -49,22 +56,38 @@ public:
   GType getType();
 
   /**
+  * A Getter that returns the attribute of this Grammar object.
+  * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  * @return The attribute of this Grammar object.
+  */
+  AType getAttr();
+
+  /**
   * A Getter that returns the name of this Grammar object.
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object.
   */
   std::string getName();
 
+  /**
+  * A Getter that returns the value of this Grammar object.
+  * The returned string is the value of the variable as specified by the query.
+  * @return The value of this Grammar object.
+  */
+  std::string getValue();
+
 private:
   GType m_type; /**< type of this Grammar object */
+  AType m_attr; /**< attribute of this Grammar object */
   std::string m_name; /**< name of this Grammar object */
+  std::string m_value; /**< value of this Grammar object */
   static int PROC;
   static int STLST;
   static int STMT;
   static int ASGN;
   static int WHILE;
   static int IF;
-  static int EXPR;
+  static int CALL;
   static int VAR;
   static int CONST;
   static int PROGLN;
