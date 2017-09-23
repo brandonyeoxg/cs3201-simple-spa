@@ -20,7 +20,7 @@ public:
     ASGN, /**< An enum value representing an Assign Statement. */
     WHILE, /**< An enum value representing a While Statement. */
     IF, /**< An enum value representing an If Else Statement. */
-    EXPR, /**< An enum value representing an Expression (or operator, "+","-","*"). */
+    CALL, /**< An enum value representing an Expression (or operator, "+","-","*"). */
     VAR, /**< An enum value representing a Variable. */
     CONST, /**< An enum value representing an Integer Constant. */
     PROG_LINE, /**< An enum value representing a Program Line. */
@@ -64,7 +64,7 @@ private:
   static int ASGN;
   static int WHILE;
   static int IF;
-  static int EXPR;
+  static int CALL;
   static int VAR;
   static int CONST;
   static int PROGLN;

@@ -10,7 +10,7 @@
   int Grammar::ASGN = 3;
   int Grammar::WHILE = 4;
   int Grammar::IF = 5;
-  int Grammar::EXPR = 6;
+  int Grammar::CALL = 6;
   int Grammar::VAR = 7;
   int Grammar::CONST = 8;
   int Grammar::PROGLN = 9;
@@ -36,8 +36,8 @@
       m_type = GType::WHILE;
     } else if (t_type == IF) {
       m_type = GType::IF;
-    } else if (t_type == EXPR) {
-      m_type = GType::EXPR;
+    } else if (t_type == CALL) {
+      m_type = GType::CALL;
     } else if (t_type == VAR) {
       m_type = GType::VAR;
     } else if (t_type == CONST) {
