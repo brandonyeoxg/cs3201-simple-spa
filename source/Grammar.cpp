@@ -60,9 +60,22 @@
   Grammar::GType Grammar::getType() { return m_type; }
 
   /**
+  * A Getter that returns the type of this Grammar object
+  * The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  * @return The type of this Grammar object
+  */
+  Grammar::AType Grammar::getAttr() { return m_attr; }
+
+  /**
   * A Getter that returns the name of this Grammar object
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object
   */
   std::string Grammar::getName() { return m_name; }
 
+  /**
+  * A Getter that returns the value of this Grammar object
+  * The returned string is the value of the variable as specified by the query.
+  * @return The value of this Grammar object
+  */
+  std::string Grammar::getValue() { return m_value; }
