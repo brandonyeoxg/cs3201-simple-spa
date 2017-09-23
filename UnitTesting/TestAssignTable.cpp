@@ -106,7 +106,7 @@ namespace UnitTesting {
       varTable.insertModifiesForStmt("x", 1);
       assignTable.populateAssignToVarMap(&varTable);
       auto actual = assignTable.getAllAssignStmtWithVar();
-      unordered_map<STMT_NUM, VAR_NAME> expected;
+      std::unordered_map<STMT_NUM, VAR_NAME> expected;
       expected.emplace((STMT_NUM)1, VAR_NAME("x"));
       Assert::IsTrue(actual == expected);
       //std::unordered_map<std::string, std::list<STMT_NUM>> stmtMap = assignTable.getAllAssignStmtWithVar();

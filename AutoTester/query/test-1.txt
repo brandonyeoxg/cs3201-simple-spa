@@ -48,7 +48,7 @@ while w1;
 Select w1 such that Follows* (1,5)
 none
 5000
-11 - Trivial Negative Test Case: Select w2 if Follows* (1,5) is true; Expected none result
+11 - Trivial Negative Test Case: Select w2 if Follows* (1,3) is true; Expected none result
 while w2;
 Select w2 such that Follows* (1,3)
 none
@@ -58,7 +58,7 @@ stmt s3;
 Select s3 such that Parent (2,3)
 none
 5000
-13 - Trivial Negative Test Case: Select s4 if Parent (2,3) is true; Expected none result
+13 - Trivial Negative Test Case: Select s4 if Parent (1,3) is true; Expected none result
 stmt s4;
 Select s4 such that Parent (1,3)
 none
@@ -68,7 +68,7 @@ stmt s5;
 Select s5 such that Parent* (2,4)
 none
 5000
-15 - Trivial Negative Test Case: Select s6 if Parent* (2,4) is true; Expected none result
+15 - Trivial Negative Test Case: Select s6 if Parent* (1,4) is true; Expected none result
 stmt s6;
 Select s6 such that Parent* (1,4)
 none
@@ -100,7 +100,7 @@ Select s pattern a ("x", "y")
 5000
 21 - Trivial Test Case: Select s1 if LHS is x and RHS contains the subtree y
 stmt s1; assign a;
-Select s1 pattern a ("x", "_y_")
+Select s1 pattern a ("x", _"y_")
 none
 5000
 22 - Trivial Negative Test Case: Select s2 if x=v; Expected none result
@@ -223,52 +223,52 @@ variable v; assign a;
 Select v such that Follows (1,2) pattern a ("x","v")
 none
 5000
-46 - Extra Follows* Test Case
+46 - Follows* Test Case
 stmt s;
 Select s such that Follows* (s,6)
 none
 5000
-47 - Extra Parent Test Case
+47 - Parent Test Case
 stmt s;
 Select s such that Parent (3,4)
 none
 5000
-48 - Extra Parent* Test Case
+48 - Parent* Test Case
 stmt s;
 Select s such that Parent* (6,9)
 none
 5000
-49 - Extra Uses Test Case
+49 - Uses Test Case
 stmt s;
 Select s such that Uses (4,"v")
 none
 5000
-50 - Extra Modifies Test Case
+50 - Modifies Test Case
 stmt s;
 Select s such that Modifies (1,"z")
 none
 5000
-51 - Extra Follows* and pattern
+51 - Follows* and pattern
 stmt s; assign a;
 Select s such that Follows* (3,6) pattern a ("x","y")
 none
 5000
-52 - Extra Parent and pattern
+52 - Parent and pattern
 stmt s; assign a;
 Select s such that Parent (2,3) pattern a ("x","v")
 none
 5000
-53 - Extra Parent* and pattern
+53 - Parent* and pattern
 stmt s; assign a;
 Select s such that Parent* (2,5) pattern a ("x",_"y"_)
 none
 5000
-54 - Extra Uses and pattern
+54 - Uses and pattern
 stmt s; assign a;
 Select s such that Uses (3,"x") pattern a ("x","v")
 none
 5000
-55 - Extra Modifies and pattern
+55 - Modifies and pattern
 stmt s; assign a;
 Select s such that Modifies (2,"z") pattern a ("x","v")
 none

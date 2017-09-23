@@ -1,0 +1,200 @@
+1 - Syntax Error: Undeclared synonym in the select clause
+stmt s; assign a; variable v;
+Select a1 such that Follows(2,7) pattern a(v, "y")
+none
+5000
+2 - Syntax Error: Undeclared synonym in the such that clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,a1) pattern a(v, "y")
+none
+5000
+3 - Syntax Error: Undeclared synonym in the pattern clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a1(v, "y")
+none
+5000
+4 - Syntax Error: No type for the synonym
+stmt s; s1; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y")
+none
+5000
+5 - Syntax Error: More than one such that clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) such that Follows(1,2) pattern a(v, "y")
+none
+5000
+6 - Syntax Error: More than one pattern clause
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, _) pattern a(v, "y")
+none
+5000
+7 - Syntax Error: More than one such that clause using and
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) and Follows(1,2) pattern a(v, "y")
+none
+5000
+8 - Syntax Error: More than one pattern clause using and
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y") and a(v, _)
+none
+5000
+9 - Syntax Error: Invalid naming for synonym
+stmt 1s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y")
+none
+5000
+10 - Syntax Error: Cannot have semicolon at the end of query
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y");
+none
+5000
+11 - Semantic Error: Follows cannot have same statements as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows(s,s) pattern a(v, "y")
+none
+5000
+12 - Semantic Error: Follows cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Follows(2,c) pattern a(v, "y")
+none
+5000
+13 - Semantic Error: Follows cannot have variables as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows(2,v) pattern a(v, "y")
+none
+5000
+14 - Semantic Error: Follows cannot have strings as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows(1,"x") pattern a(v, "y")
+none
+5000
+15 - Semantic Error: Follows* cannot have same statements as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows*(s,s) pattern a(v, "y")
+none
+5000
+16 - Semantic Error: Follows* cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Follows(c,7) pattern a(v, "y")
+none
+5000
+17 - Semantic Error: Follows* cannot have variables as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows(v,7) pattern a(v, "y")
+none
+5000
+18 - Semantic Error: Follows* cannot have strings as their parameters
+stmt s; assign a; variable v;
+Select a such that Follows*("x",2) pattern a(v, "y")
+none
+5000
+19 - Semantic Error: Parent cannot have same statements as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent(s,s) pattern a(v, "y")
+none
+5000
+20 - Semantic Error: Parent cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Parent(2,c) pattern a(v, "y")
+none
+5000
+21 - Semantic Error: Parent cannot have variables as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent(2,v) pattern a(v, "y")
+none
+5000
+22 - Semantic Error: Parent cannot have assignment statements as their first parameter
+stmt s; assign a; variable v;
+Select a such that Parent(a,7) pattern a(v, "y")
+none
+5000
+23 - Semantic Error: Parent cannot have strings as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent(2,"x") pattern a(v, "y")
+none
+5000
+24 - Semantic Error: Parent* cannot have same statements as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent*(s,s) pattern a(v, "y")
+none
+5000
+25 - Semantic Error: Parent* cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Parent*(c,7) pattern a(v, "y")
+none
+5000
+26 - Semantic Error: Parent* cannot have variables as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent*(v,7) pattern a(v, "y")
+none
+5000
+27 - Semantic Error: Parent* cannot have assignment statements as their first parameter
+stmt s; assign a; variable v;
+Select a such that Parent*(a,7) pattern a(v, "y")
+none
+5000
+28 - Semantic Error: Parent* cannot have strings as their parameters
+stmt s; assign a; variable v;
+Select a such that Parent*("x",3) pattern a(v, "y")
+none
+5000
+29 - Semantic Error: Uses cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Uses(c,"x") pattern a(v, "y")
+none
+5000
+30 - Semantic Error: Uses cannot have variables as their first parameter
+stmt s; assign a; variable v;
+Select a such that Uses(v,"x") pattern a(v, "y")
+none
+5000
+31 - Semantic Error: Uses cannot have strings as their first parameter
+stmt s; assign a; variable v;
+Select a such that Uses("x",v) pattern a(v, "y")
+none
+5000
+32 - Semantic Error: Uses cannot have underscore as their first parameter
+stmt s; assign a; variable v;
+Select a such that Uses(_,"x") pattern a(v, "y")
+none
+5000
+33 - Semantic Error: Uses cannot have statements as their second parameter
+stmt s; assign a; variable v;
+Select a such that Uses(2,s) pattern a(v, "y")
+none
+5000
+34 - Semantic Error: Uses cannot have program lines as their second parameter
+stmt s; assign a; variable v; prog_line n;
+Select a such that Uses(2,n) pattern a(v, "y")
+none
+5000
+35 - Semantic Error: Modifies cannot have constants as their parameters
+stmt s; assign a; variable v; constant c;
+Select a such that Modifies(c,"x") pattern a(v, "y")
+none
+5000
+36 - Semantic Error: Modifies cannot have variables as their first parameter
+stmt s; assign a; variable v;
+Select a such that Modifies(v,"x") pattern a(v, "y")
+none
+5000
+37 - Semantic Error: Modifies cannot have strings as their first parameter
+stmt s; assign a; variable v;
+Select a such that Modifies("x",v) pattern a(v, "y")
+none
+5000
+38 - Semantic Error: Modifies cannot have underscore as their first parameter
+stmt s; assign a; variable v;
+Select a such that Modifies(_,"x") pattern a(v, "y")
+none
+5000
+39 - Semantic Error: Modifies cannot have statements as their second parameter
+stmt s; assign a; variable v;
+Select a such that Modifies(2,s) pattern a(v, "y")
+none
+5000
+40 - Semantic Error: Modifies cannot have program lines as their second parameter
+stmt s; assign a; variable v; prog_line n;
+Select a such that Modifies(2,n) pattern a(v, "y")
+none
+5000

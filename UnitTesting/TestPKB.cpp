@@ -145,7 +145,7 @@ namespace UnitTesting {
       pkb->populateAssignTableAbstractions();
 
       auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
-      unordered_map<STMT_NUM, VAR_NAME> expectedMap = { {1, "x"}, {2, "x"} };
+      std::unordered_map<STMT_NUM, VAR_NAME> expectedMap = { {1, "x"}, {2, "x"} };
       Assert::IsTrue(actualMap == expectedMap);
     }
 

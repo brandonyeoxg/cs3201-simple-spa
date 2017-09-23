@@ -97,11 +97,18 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
 
     entity = m_stringUtil.trimString(entity);
     variables = m_stringUtil.trimString(variables);
+    //Checks whether there is no entity for the synonym e.g stmt s; s1; variable v;
+    if (entity == variables) {
+      return false;
+    }
 
     //Check if string is properly named: s, s1, s#..
-    char c;
-    c = variables.back();
-    if (isalnum(c) || c == '#') {
+    char cBack;
+    char cFront;
+    cFront = variables.front();
+    cBack = variables.back();
+    if (isalpha(cFront) && isalnum(cBack)
+      || isalpha(cFront) && cBack == '#') {
       //std::cout << "This is entity: " << entity << std::endl;
       //std::cout << "This is variables: " << variables << std::endl;
 
@@ -191,6 +198,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     return false;
   }
 
+  if (t_queryInput.find("and") != std::string::npos) {
+    return false;
+  }
+
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos) {
     if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
       selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
@@ -237,13 +248,20 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
     Grammar g1 = m_grammarVector.at(counterM);
     std::string grammarName = g1.getName();
+    
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
         m_selectQueue.push(g1);       
         //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
         //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-      } 
-    }
+    } 
+  }
+
+  //Checks if the select statement synonym is not declared
+  if (m_selectQueue.size() == 0) {
+    return false;
+  }
+
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
   m_synonymMap.insert({ selectGrammar.getName(), 1});
@@ -293,6 +311,30 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //std::cout << sTName1 << " This is sTName1 " << std::endl;
     //std::cout << sTName2 << " This is sTName2 " << std::endl;
 
+    //Check if design abstraction parameter one contains "" and has design entity as below
+    if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+
+      return false;
+    }
+
+    //Check if design abstraction parameter two contains "" and has design entity as below
+    if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+
+      return false;
+    }
+
+    //Checks if Uses/Modifies contains strings as the first parameter and return false if true
+    if (designAbstractionEntity == "Uses" && sTName1.find('"') != std::string::npos
+      || designAbstractionEntity == "Modifies" && sTName1.find('"') != std::string::npos) {
+      return false;
+    }
+
     int sTInt1 = 0;
     int sTInt2 = 0;
 
@@ -327,6 +369,36 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
         if (sTName1 == grammarName) {
           Grammar g1 = tempGrammar;
+
+          //Checks if Parent contains variables in their parameters and return false if true
+          if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //Checks if Parent contains assignment statements for the first parameter
+          if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::ASGN
+            || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::ASGN) {
+            return false;
+          }
+
+          //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+          if (designAbstractionEntity == "Follows" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Follows*" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //Checks if Uses/Modifies contains variables as the first parameter or statements in their 2nd parameter and return false if true
+          if (designAbstractionEntity == "Uses" && g1.getType() == Grammar::GType::VAR
+            || designAbstractionEntity == "Modifies" && g1.getType() == Grammar::GType::VAR) {
+            return false;
+          }
+
+          //check is any design abstraction synonyms contains constant c
+          if (g1.getType() == Grammar::GType::CONST) {
+            return false;
+          }
+
           tempSynonymVector.push_back(g1.getName());
           std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName1);
           if (got == m_synonymMap.end()) {
@@ -342,30 +414,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Grammar g2 = tempGrammar2;
 
               //Checks if Parent contains variables in their parameters and return false if true
-              if (designAbstractionEntity == "Parent" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Parent*" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR 
                 || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR ) {
                 return false;
               }
 
               //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Follows*" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
                 || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
                 return false;
               }
 
-              //Checks if Uses/Modifies contains variables as the first parameter or statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g1.getType() == Grammar::GType::VAR
-                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
                 || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
                 || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
-                || designAbstractionEntity == "Modifies" && g1.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
                 || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
                 || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
-                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE) {
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
                 return false;
               }
 
@@ -413,6 +481,38 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -442,7 +542,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            }
+            } 
           }
         } else if (sTName1.find('"') != std::string::npos) {
           //sTName1.erase(std::remove(sTName1.begin(), sTName1.end(), '\"'), sTName1.end());
@@ -454,6 +554,35 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -495,6 +624,35 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               Grammar g2 = tempGrammar2;
+              //Checks if Parent contains variables in their parameters and return false if true
+              if (designAbstractionEntity == "Parent" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Parent*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+              if (designAbstractionEntity == "Follows" && g2.getType() == Grammar::GType::VAR
+                || designAbstractionEntity == "Follows*" && g2.getType() == Grammar::GType::VAR) {
+                return false;
+              }
+
+              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+              if (designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Uses" && g2.getType() == Grammar::GType::PROG_LINE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::STMT
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::ASGN
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::WHILE
+                || designAbstractionEntity == "Modifies" && g2.getType() == Grammar::GType::PROG_LINE) {
+                return false;
+              }
+
+              //check is any design abstraction synonyms contains constant c
+              if (g1.getType() == Grammar::GType::CONST || g2.getType() == Grammar::GType::CONST) {
+                return false;
+              }
+
               //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -527,6 +685,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             }
           }
         }
+      }
+
+      if (m_suchThatQueue.size() == 0) {
+        return false;
       }
       //DesignAbstraction class to be discussed: only caters for single DAO
       //test whether designabstractionobject is created properly
@@ -583,18 +745,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     Grammar grammarPatternRight;
     bool isSubTree = false;
     int counterR = 0;
+    std::vector<std::string> counterVect;
     for (auto r = m_grammarVector.begin(); r != m_grammarVector.end(); r++, counterR++) {
       Grammar tempPatternGrammar = m_grammarVector.at(counterR);
       std::string tempPatternGrammarString = tempPatternGrammar.getName();
       if (patternSynonym == tempPatternGrammarString) {
         patternOfGrammar = tempPatternGrammar;
+        counterVect.push_back(tempPatternGrammarString);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ patternSynonym, 1 });
         } else {
           m_synonymMap[patternSynonym]++;
         }
-      }
+      } 
+    }
+    if (counterVect.size() == 0) {
+      return false;
     }
     std::string patternLeftName = patternVector.front();
     if (patternLeftName.find('"') != std::string::npos) {
@@ -608,12 +775,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     } else {
       int counterT = 0;
       removeCharsFromString(patternLeftName, "\\\" ");
+      std::vector<std::string> counterVector;
       for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
         Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
         std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
         if (patternLeftName == tempPatternGrammarStringTemp) {
           grammarPatternLeft = tempPatternGrammarTemp;
           tempSynonymVector.push_back(grammarPatternLeft.getName());
+          counterVector.push_back(grammarPatternLeft.getName());
           //created all entries to be pushed into vector. to work on parsing thru to add into map
           std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
           if (got == m_synonymMap.end()) {
@@ -623,6 +792,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         }
       }
+      if (counterVector.size() == 0) {
+        return false;
+      }   
     }
     //to check whether left side can have variables or not. 11/9/2017 5pm
     std::string patternRightName = patternVector.back();
@@ -637,6 +809,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     } else if (patternRightName == "_") {
       //invalid
       grammarPatternRight = Grammar(m_string, patternRightName);
+    } else {
+      return false;
     }
 
     //todo: else condition for outputting invalid input
