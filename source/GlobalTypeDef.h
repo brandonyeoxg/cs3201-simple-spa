@@ -9,7 +9,7 @@ typedef int CONSTANT;
 
 const int INVALID_INDEX = -1;
 
-/*Called in parser.h*/
+/*Called in parser.h, by brandon*/
 namespace tokentype {
   enum tokenType {
     PROC_NAME,
