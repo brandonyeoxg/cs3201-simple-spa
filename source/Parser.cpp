@@ -31,7 +31,7 @@ int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokenType::PROC_NAME);
+    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
@@ -60,7 +60,6 @@ int Parser::parseStmt(TNode *t_node) {
   }
   m_curLineNum += 1;
   m_pkb->insertFollowsRelation(t_node, m_curLineNum);
-  // Var name
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_node);
   }
@@ -80,7 +79,7 @@ int Parser::parseNonContainerStmt(TNode* t_node) {
 }
 
 int Parser::parseAssignStmt(TNode* t_node) {
-  std::string varName = getMatchToken(tokenType::VAR_NAME);
+  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -101,7 +100,7 @@ int Parser::parseAssignStmt(TNode* t_node) {
 
 TNode* Parser::parseExpr() {
   std::stack<TNode *> exprStack;
-  std::string name = getMatchToken(tokenType::VAR_NAME);
+  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (isConstant(name)) {
     ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));    
     m_pkb->insertConstant(name, m_curLineNum);
@@ -123,7 +122,7 @@ TNode* Parser::parseExpr() {
 }
 
 void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
-  std::string name = getMatchToken(tokenType::VAR_NAME);
+  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   TNode* right;
   if (isConstant(name)) {
     right = m_pkb->insertConstant(name, m_curLineNum);
@@ -151,7 +150,7 @@ int Parser::parseContainerStmt(TNode* t_node) {
 }
 
 int Parser::parseWhileStmt(TNode* t_node) {
-  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokentype::tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
@@ -168,10 +167,10 @@ bool Parser::isMatchToken(const std::string &t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(tokenType t_type) {
+bool Parser::isMatchToken(tokentype::tokenType t_type) {
   switch (t_type) {
-    case tokenType::PROC_NAME:
-    case tokenType::VAR_NAME:
+    case tokentype::tokenType::PROC_NAME:
+    case tokentype::tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
@@ -184,13 +183,13 @@ bool Parser::isMatchToken(tokenType t_type) {
   return false;
 }
 
-std::string Parser::getMatchToken(const tokenType &t_token) {
+std::string Parser::getMatchToken(const tokentype::tokenType &t_token) {
   std::string output = m_nextToken;
   switch (t_token) {
-    case tokenType::PROC_NAME:
-    case tokenType::VAR_NAME:
-    case tokenType::CONSTANT:
-    case tokenType::EXPR :
+    case tokentype::tokenType::PROC_NAME:
+    case tokentype::tokenType::VAR_NAME:
+    case tokentype::tokenType::CONSTANT:
+    case tokentype::tokenType::EXPR :
       m_nextToken = getCurrentLineToken();
       break;
     default:
