@@ -18,12 +18,13 @@
 #include "GlobalTypeDef.h"
 #include "PKB_API.h"
 #include "PkbWriteOnly.h"
+#include "PkbReadOnly.h"
 
 
 
 class TNode;
 
-class PKB: public PkbWriteOnly {
+class PKB: public PkbWriteOnly, public PkbReadOnly {
   
 public:
   PKB();
