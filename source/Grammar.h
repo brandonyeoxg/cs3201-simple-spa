@@ -28,6 +28,13 @@ public:
     STR /**< An enum value representing a String. */
   };
 
+  enum class AType {
+    PROC_NAME,
+    VAR_NAME,
+    STMT_NO,
+    VALUE
+  };
+
   /**
   * Default Constructor
   */
@@ -49,15 +56,31 @@ public:
   GType getType();
 
   /**
+  * A Getter that returns the attribute of this Grammar object.
+  * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  * @return The attribute of this Grammar object.
+  */
+  AType getAttr();
+
+  /**
   * A Getter that returns the name of this Grammar object.
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object.
   */
   std::string getName();
 
+  /**
+  * A Getter that returns the value of this Grammar object.
+  * The returned string is the value of the variable as specified by the query.
+  * @return The value of this Grammar object.
+  */
+  std::string getValue();
+
 private:
   GType m_type; /**< type of this Grammar object */
+  AType m_attr; /**< attribute of this Grammar object */
   std::string m_name; /**< name of this Grammar object */
+  std::string m_value; /**< value of this Grammar object */
   static int PROC;
   static int STLST;
   static int STMT;

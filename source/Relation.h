@@ -20,7 +20,13 @@ public:
     PARENT, /**< An enum value representing the Parent relation. */
     PARENT_, /**< An enum value representing the Parent* relation. */
     USES, /**< An enum value representing the Uses relation. */
-    MODIFIES /**< An enum value representing the Modifies relation. */
+    MODIFIES, /**< An enum value representing the Modifies relation. */
+    CALLS,
+    CALLS_,
+    NEXT,
+    NEXT_,
+    AFFECTS,
+    AFFECTS_
   };
 
   /**

@@ -1,0 +1,15 @@
+1 - comment
+stmt s;
+Select s pattern a("x", "y");
+1, 2, 3, 4
+5000
+2 - comment
+assign a;
+Select a pattern a("c", _"v"_);
+1, 2, 3, 4
+5000
+3 - comment
+while w;
+Select w pattern a("z", "x+y");
+4
+5000
