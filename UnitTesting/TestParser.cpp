@@ -4,6 +4,7 @@
 #include <functional>
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "PKB.h"
 #include "Parser.h"
 #include "SyntaxErrorException.h"
 

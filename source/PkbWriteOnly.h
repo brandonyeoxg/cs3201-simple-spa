@@ -1,3 +1,4 @@
+#pragma once
 #include <list>
 
 #include "GlobalTypeDef.h"
@@ -6,9 +7,22 @@
 #include "nodes\AssignNode.h"
 #include "nodes\ConstantNode.h"
 #include "nodes\PlusNode.h"
+#include "nodes\WhileNode.h"
 
+/**
+* Represents an interface for WriteOnly methods in the PKB.
+* The methods listed in this API is used by the Parser.
+*
+* @author Brandon
+* @date 24/9/2017
+*
+*/
 class PkbWriteOnly {
 public:
+
+  ///////////////////////////////////////////////////////
+  //  PKB building methods
+  ///////////////////////////////////////////////////////
   /**
   * Inserts a procedure into the PKB. AST is built from this procedure node.
   * @param t_procName name of the procedure.
@@ -77,4 +91,18 @@ public:
   * @return a reference to the plus node subtree.
   */
   virtual PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  FollowTable methods 
+  ///////////////////////////////////////////////////////
+  /**
+  * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
+  * Returns false if current s1, s2 pair already exists in the map.
+  * @param s1 an integer argument.
+  * @param s2 an integer argument.
+  * @return The status of the insertion.
+  */
+  virtual bool insertFollows(int t_s1, int t_s2) = 0;
+
+  virtual bool insertParent(int t_s1, int t_s2) = 0;
 };

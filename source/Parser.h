@@ -4,8 +4,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "PKB.h"
-#include "ASTBuilder.h"
+#include "PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
 
@@ -23,8 +22,8 @@ public:
   * Constructs parser using pkb.
   * Also initialises other fields  
   */
-  Parser(PKB *t_pkb) 
-    : m_pkb(t_pkb), 
+  Parser(PkbWriteOnly *t_pkbWriteOnly)
+    : m_pkbWriteOnly(t_pkbWriteOnly), 
       m_curLineNum(0),
       m_nextToken(""),
       m_isParsingProcedureContent(false) {};
@@ -40,9 +39,8 @@ public:
   int parse(const std::string &t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
 
 private:
-  PKB *m_pkb;
+  PkbWriteOnly* m_pkbWriteOnly;
   std::string m_nextToken;
-  std::stack<std::string> m_bracesStack;
   std::list<STMT_NUM> m_nestedStmtLineNum;
   std::vector<std::string> m_curTokens;
   std::ifstream m_readStream;

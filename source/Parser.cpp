@@ -35,7 +35,7 @@ int Parser::parseForProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    StmtListNode* stmtLst = m_pkb->insertProcedure(procName);
+    StmtListNode* stmtLst = m_pkbWriteOnly->insertProcedure(procName);
     return parseStmtLst(stmtLst);
   }
   return -1;
@@ -59,7 +59,7 @@ int Parser::parseStmt(TNode *t_node) {
     return 1;
   }
   m_curLineNum += 1;
-  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
+  m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_node);
   }
@@ -70,7 +70,7 @@ int Parser::parseStmt(TNode *t_node) {
 }
 
 int Parser::parseNonContainerStmt(TNode* t_node) {
-  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   parseAssignStmt(t_node);
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
@@ -89,12 +89,12 @@ int Parser::parseAssignStmt(TNode* t_node) {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  VariableNode* left = m_pkb->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
   TNode* exprNode = parseExpr();
-  m_pkb->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
+  m_pkbWriteOnly->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
   return 1;
 }
 
@@ -102,13 +102,13 @@ TNode* Parser::parseExpr() {
   std::stack<TNode *> exprStack;
   std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (isConstant(name)) {
-    ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));    
-    m_pkb->insertConstant(name, m_curLineNum);
+    ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
+    m_pkbWriteOnly->insertConstant(name, m_curLineNum);
     exprStack.push(constNode);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    VariableNode* varNode = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+    VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
   while (m_nextToken == "+") {
@@ -125,20 +125,20 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
   std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   TNode* right;
   if (isConstant(name)) {
-    right = m_pkb->insertConstant(name, m_curLineNum);
+    right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    right = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+    right = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
   }
   TNode* left = t_exprStack.top();
   t_exprStack.pop();
-  PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
+  PlusNode* plusNode = m_pkbWriteOnly->insertPlusOp(left, right, m_curLineNum);
   t_exprStack.push(plusNode);
 }
 
 int Parser::parseContainerStmt(TNode* t_node) {
-  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt((WhileNode*)t_node);
@@ -150,11 +150,11 @@ int Parser::parseContainerStmt(TNode* t_node) {
 }
 
 int Parser::parseWhileStmt(TNode* t_node) {
-  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokentype::tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(getMatchToken(tokentype::tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  StmtListNode* stmtLstNode = m_pkb->insertWhileStmt(t_node, varNode, m_curLineNum);
+  StmtListNode* stmtLstNode = m_pkbWriteOnly->insertWhileStmt(t_node, varNode, m_curLineNum);
   parseStmtLst(stmtLstNode);
   return 1;
 }

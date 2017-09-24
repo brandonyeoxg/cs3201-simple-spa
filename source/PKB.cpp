@@ -91,6 +91,10 @@ ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
   return constNode;
 }
 
+PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
+  return m_builder.buildAddition(t_curLineNum, left, right);
+}
+
 ///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
