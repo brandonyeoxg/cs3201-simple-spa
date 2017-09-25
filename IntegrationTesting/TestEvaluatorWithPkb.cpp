@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "QueryEvaluator.h"
 #include "PkbWriteOnly.h"
 #include "PKB.h"
+#include "QueryEvaluator.h"
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
@@ -11,7 +11,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace IntegrationTesting
 {
-  TEST_CLASS(TestPqlWithPkb)
+  TEST_CLASS(TestEvaluatorWithPkb)
   {
   private:
     PKB* m_pkb;
@@ -21,7 +21,7 @@ namespace IntegrationTesting
     std::queue<Relation> m_relations;
     std::queue<Pattern> m_patterns;
   public:
-    TEST_METHOD_INITIALIZE(InitialisePkbAndPql)
+    TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator)
     {
       //Initialise PKB
       m_pkb = new PKB();
@@ -50,7 +50,7 @@ namespace IntegrationTesting
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_synonymsUsedInQuery);
     }
 
-    TEST_METHOD(TestPQLAndPKBFollows)
+    TEST_METHOD(TestEvaluatorAndPkbForStmt)
     {
       std::vector<std::string> expectedResult = { "1", "2", "3", "4" };
       std::vector<std::string> actualResult = m_qe->evaluateQuery();

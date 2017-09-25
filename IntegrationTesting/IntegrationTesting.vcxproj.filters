@@ -38,7 +38,7 @@
     <ClCompile Include="TestFrontEndWithPkb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestPqlWithPkb.cpp">
+    <ClCompile Include="TestEvaluatorWithPkb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
