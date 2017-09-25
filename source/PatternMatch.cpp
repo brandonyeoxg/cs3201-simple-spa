@@ -1,11 +1,13 @@
 #include "PatternMatch.h"
 
+PatternMatch * PatternMatch::patternMatch = nullptr;
+
 PatternMatch PatternMatch::getInstance() {
-  if (&patternMatch == 0) {
-    patternMatch = PatternMatch();
+  if (!patternMatch) {
+    patternMatch = new PatternMatch();
   }
 
-  return patternMatch;
+  return *patternMatch;
 }
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
@@ -18,7 +20,7 @@ void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_
   assignStmts.insert({ t_stmtNum, stmtStr });
 }
 
-std::vector<std::string> PatternMatch::getSubtreeStrings(std::vector<std::string> t_tokens) {
+std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens) {
   return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
 }
 
@@ -26,8 +28,6 @@ PatternMatch::PatternMatch() {
   assignStmts = std::unordered_map<STMT_NUM, string>();
   assignStmtsSubtrees = std::unordered_map<STMT_NUM, std::vector<string>>();
 }
-
-PatternMatch::~PatternMatch() {}
 
 //TODO needs a wrapper function, add the original string as well
 std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::string> t_tokens, 

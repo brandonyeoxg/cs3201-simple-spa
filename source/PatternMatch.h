@@ -13,13 +13,13 @@ public:
 
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
-  std::vector<std::string> getSubtreeStrings(std::vector<std::string> t_tokens);
+  std::vector<std::string> getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens);
 
 private:
-  PatternMatch();
-  ~PatternMatch();
+  static PatternMatch* patternMatch;
 
-  static PatternMatch patternMatch;
+  PatternMatch();
+
   std::unordered_map<STMT_NUM, string> assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */ 
   std::unordered_map<STMT_NUM, std::vector<string>> assignStmtsSubtrees;  /**< Vector of all subtree strings mapped to statement number */
   
