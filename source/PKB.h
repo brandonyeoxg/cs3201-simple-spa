@@ -17,20 +17,17 @@
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
 #include "PKB_API.h"
+#include "PkbWriteOnly.h"
 
 
 
 class TNode;
 
-class PKB: public PKB_API {
+class PKB: public PkbWriteOnly {
   
 public:
   PKB();
-  
-  
-  
-  
-
+ 
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
@@ -94,6 +91,15 @@ public:
   * @return a reference to the constant node.
   */
   ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
+
+  /**
+  * Returns a plus operator.
+  * @param t_left the node to the left.
+  * @param t_right the node to the right.
+  * @param t_curLineNum the current line number.
+  * @return a reference to the plus node subtree.
+  */
+  PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum);
   ///////////////////////////////////////////////////////
   //  FollowTable methods 
   ///////////////////////////////////////////////////////

@@ -4,8 +4,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "PKB.h"
-#include "ASTBuilder.h"
+#include "PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
 
@@ -23,8 +22,8 @@ public:
   * Constructs parser using pkb.
   * Also initialises other fields  
   */
-  Parser(PKB *t_pkb) 
-    : m_pkb(t_pkb), 
+  Parser(PkbWriteOnly *t_pkbWriteOnly)
+    : m_pkbWriteOnly(t_pkbWriteOnly), 
       m_curLineNum(0),
       m_nextToken(""),
       m_isParsingProcedureContent(false) {};
@@ -40,22 +39,14 @@ public:
   int parse(const std::string &t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
 
 private:
-  PKB *m_pkb;
-  ASTBuilder m_builder;
+  PkbWriteOnly* m_pkbWriteOnly;
   std::string m_nextToken;
-  std::stack<std::string> m_bracesStack;
   std::list<STMT_NUM> m_nestedStmtLineNum;
   std::vector<std::string> m_curTokens;
   std::ifstream m_readStream;
   int m_curLineNum;
   bool m_isParsingProcedureContent;
   const std::string EMPTY_LINE = "";
-  enum tokenType {
-    PROC_NAME,
-    VAR_NAME,
-    CONSTANT,
-    EXPR,
-  };
 
   /*
   * Parses the procedure block.
@@ -139,7 +130,7 @@ private:
   * @param t_token the expected tokenType.
   * @return true if the token matches.
   */
-  bool isMatchToken(tokenType t_type);
+  bool isMatchToken(tokentype::tokenType t_type);
 
   /*
   * Matches the token from the file with the expected token type.
@@ -147,7 +138,7 @@ private:
   * @param t_token the expected token type.
   * @return the string of that token from the type.
   */
-  std::string getMatchToken(const tokenType& t_token);
+  std::string getMatchToken(const tokentype::tokenType& t_token);
 
   /*
   * Returns true if the token is an operator.
