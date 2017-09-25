@@ -32,10 +32,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestFrontEnd.cpp">
+    <ClCompile Include="ParserDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParserDriver.cpp">
+    <ClCompile Include="TestFrontEndWithPkb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
