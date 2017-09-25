@@ -42,6 +42,7 @@ namespace IntegrationTesting
       std::list<std::string> actual = procTable->getAllProcNameInProgram();
 
       Assert::AreEqual(actual.size(), size_t(1));
+      Assert::AreEqual(*actual.begin(), std::string("main"));
     }
 
 	};
