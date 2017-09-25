@@ -38,7 +38,7 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
 
   int indexOfOperator = INVALID_INDEX;
   int lastPlusOrMinus = INVALID_INDEX;
-  int lastMultiplyOrDivide = INVALID_INDEX;
+  int lastMultiply = INVALID_INDEX;
 
   for (int i = t_startIndex; i < t_endIndex; i++) {
     if (t_tokens.at(i) == OPERATOR_PLUS || t_tokens.at(i) == OPERATOR_MINUS) {
@@ -46,16 +46,16 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
       break;
     }
 
-    if (t_tokens.at(i) == OPERATOR_MULTIPLY || t_tokens.at(i) == OPERATOR_DIVIDE) {
-      lastMultiplyOrDivide = i;
+    if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
+      lastMultiply = i;
       break;
     }
   }
 
   if (lastPlusOrMinus != INVALID_INDEX) {
     indexOfOperator = lastPlusOrMinus;
-  } else if (lastMultiplyOrDivide != INVALID_INDEX) {
-    indexOfOperator = lastMultiplyOrDivide;
+  } else if (lastMultiply != INVALID_INDEX) {
+    indexOfOperator = lastMultiply;
   } else {  // no more operators
     return t_subtreeStrings;
   }

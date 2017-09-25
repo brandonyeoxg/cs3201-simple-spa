@@ -13,7 +13,6 @@ typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 const int INVALID_INDEX = -1;
 
 const string OPERATOR_MULTIPLY = "*";
-const string OPERATOR_DIVIDE = "/";
 const string OPERATOR_MINUS = "-";
 const string OPERATOR_PLUS = "+";
 
