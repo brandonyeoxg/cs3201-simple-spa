@@ -9,6 +9,9 @@ public:
 
   int openFileStream(std::string);
   int parseProcedure();
+  int parseStmt(TNode*);
 
+private:
+  const std::string EMPTY_LINE = "";
 };
 

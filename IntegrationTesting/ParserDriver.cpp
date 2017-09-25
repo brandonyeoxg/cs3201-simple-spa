@@ -31,3 +31,12 @@ int ParserDriver::parseProcedure() {
   }
   return -1;
 }
+
+int ParserDriver::parseStmt(TNode *t_node) {
+  if (isMatchToken(EMPTY_LINE)) {
+    return 1;
+  }
+  m_curLineNum += 1;
+  m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
+  return 1;
+}
