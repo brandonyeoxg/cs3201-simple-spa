@@ -58,13 +58,12 @@ bool FollowTable::insertFollows(int t_s1, int t_s2) {
     //if it doesn't, simply emplace s1 as key.
     std::vector<int> lineNums;
     lineNums.push_back(t_s1);
-    m_followedByMap.emplace(t_s2, lineNums);
-  } else {
     auto iterator = m_followedByMap.find(t_s1);
-    std::vector<int> lineNumsFollowedByS1 = iterator->second;
-    std::vector<int> lineNums;
-    lineNums.push_back(t_s1);
-    lineNums.insert(lineNums.end(), lineNumsFollowedByS1.begin(), lineNumsFollowedByS1.end());
+    if (iterator != m_followedByMap.end()) {
+      std::vector<int> lineNumsFollowedByS1 = iterator->second;
+      lineNums.insert(lineNums.end(), lineNumsFollowedByS1.begin(), lineNumsFollowedByS1.end());
+    }
+    m_followedByMap.emplace(t_s2, lineNums);
   }
   return true;
 }
@@ -135,7 +134,8 @@ std::vector<int> FollowTable::getFollowsStar(int t_s1) {
 }
 
 std::vector<int> FollowTable::getFollowedByStar(int t_s2) {
-  std::vector<int> result;
+  std::vector<int> result;  //if no results found, return empty vector.
+  /*
   for (auto it = m_followMap.begin(); it != m_followMap.end(); it++) {
     std::vector<int> vect = it->second;
     if (std::find(vect.begin(), vect.end(), t_s2) != vect.end()) {
@@ -143,7 +143,12 @@ std::vector<int> FollowTable::getFollowedByStar(int t_s2) {
       result.push_back(lineNum);
     }
   }
-  std::sort(result.begin(), result.end());  //sort according to ascending order.
+  std::sort(result.begin(), result.end());  //sort according to ascending order. */
+  auto iterator = m_followedByMap.find(t_s2);
+  if (iterator != m_followedByMap.end()) {
+    result = iterator->second;
+  }
+  std::sort(result.begin(), result.end());
   return result;
 }
 

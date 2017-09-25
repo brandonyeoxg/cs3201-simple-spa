@@ -140,14 +140,11 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetFollowedByStar) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test getFollowedByStar");
       FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
+      testFollowTable->insertFollows(1, 2);
+      testFollowTable->insertFollows(2, 3);
+      testFollowTable->insertFollows(3, 4);
       //test getFollowedByStar method (correct behaviour)
       std::vector<int> expected = testFollowTable->getFollowedByStar(4);
       static const int arr[] = { 1, 2, 3 };
