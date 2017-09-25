@@ -116,20 +116,14 @@ int FollowTable::getFollows(int t_s1) {
 }
 
 int FollowTable::getFollowedBy(int t_s2) {
-  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
-    std::vector<int> vect = it->second;
-    for (int i = 0; i < vect.size(); i++) {
-      if (vect[i] == t_s2) { //if s2 present in vector
-        if (i == 0) { //if s2 is the only element, it means s2 is followed by line number (the key).
-          return it->first;
-        } else {
-          return vect[i - 1];
-        }
-      }
-    }
+  auto iterator = m_followedByMap.find(t_s2);
+  if (iterator == m_followedByMap.end()) {
+    throw std::invalid_argument("s2 does not exist in FollowTable");
+  } else {
+    std::vector<int> lineNumsFollowedBy = iterator->second;
+    return lineNumsFollowedBy[0];
   }
-  //if nothing is returned after the for loop terminates, throw invalid_argument exception (i.e. s2 does not exist in followMap).
-  throw std::invalid_argument("s2 does not exist in FollowTable");
+
 }
 
 std::vector<int> FollowTable::getFollowsStar(int t_s1) {
