@@ -13,6 +13,8 @@ public:
 
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
+  std::vector<std::string> getSubtreeStrings(std::vector<std::string> t_tokens);
+
 private:
   PatternMatch();
   ~PatternMatch();

@@ -10,12 +10,16 @@ PatternMatch PatternMatch::getInstance() {
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
   std::string stmtStr = "";
-  for (int i = 0; i < t_stmtTokens.size(); i++) {
+  for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
     t_stmtTokens.at(i) = removeWhitespaces(t_stmtTokens.at(i));
     stmtStr += t_stmtTokens.at(i);
   }
 
   assignStmts.insert({ t_stmtNum, stmtStr });
+}
+
+std::vector<std::string> PatternMatch::getSubtreeStrings(std::vector<std::string> t_tokens) {
+  return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
 }
 
 PatternMatch::PatternMatch() {
