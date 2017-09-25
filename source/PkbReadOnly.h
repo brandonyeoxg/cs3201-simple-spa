@@ -382,6 +382,39 @@ public:
   virtual std::vector<std::string> getAllVariables() = 0;
 
   ///////////////////////////////////////////////////////
+  //  AssignTable
+  ///////////////////////////////////////////////////////
+
+  /*
+  * Returns all assignment statements number that modifies the variable name.
+  * @param t_varName the name of the variable.
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName) = 0;
+
+  /*
+  * Returns all assignment statements.
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtList() = 0;
+
+  /*
+  * Returns all assignment statements in a representation.
+  * The representation is a variable mapped to all statement number under that variable.
+  */
+  virtual std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt() = 0;
+
+  /*
+  * Returns all assignment statements in a representation.
+  * The repsentation is a statement number mapped to the variable in that statement number.
+  */
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName() = 0;
+
+  /*
+  * Populates the rest of the representation in the assignment table.
+  * This method is to be called in the design extractor.
+  */
+  virtual void populateAssignTableAbstractions() = 0;
+
+  ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
 
