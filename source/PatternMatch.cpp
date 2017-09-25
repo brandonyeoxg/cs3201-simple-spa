@@ -40,7 +40,8 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
   int lastPlusOrMinus = INVALID_INDEX;
   int lastMultiply = INVALID_INDEX;
 
-  for (int i = t_startIndex; i < t_endIndex; i++) {
+  // start search from back of vector
+  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
     if (t_tokens.at(i) == OPERATOR_PLUS || t_tokens.at(i) == OPERATOR_MINUS) {
       lastPlusOrMinus = i;
       break;
