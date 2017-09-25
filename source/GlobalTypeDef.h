@@ -31,3 +31,6 @@ namespace tokentype {
     EXPR,
   };
 };
+
+/*Called in ProcTable.h, by brandon*/
+const PROC_INDEX INVALID_PROC_NO = -1;

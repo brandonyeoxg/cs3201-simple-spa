@@ -391,6 +391,10 @@ std::list<std::string> PKB::getAllConstants() {
 ///////////////////////////////////////////////////////
 //  ProcTable methods
 ///////////////////////////////////////////////////////
+ProcTable* PKB::getProcTable() {
+  return m_procTable;
+}
+
 bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
   return m_procTable->insertModifies(t_procIdx, t_varIdx);
 }

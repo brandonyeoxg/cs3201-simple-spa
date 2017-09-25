@@ -37,14 +37,42 @@ public:
   * @return -1 if the file cannot be read or syntax error.
   */
   int parse(const std::string &t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
-
-private:
+protected:
   PkbWriteOnly* m_pkbWriteOnly;
+  int m_curLineNum;
   std::string m_nextToken;
+  std::ifstream m_readStream;
+  /*
+  * Matches the token from the file with the expected token.
+  *
+  * @param t_token the expected token.
+  * @return true if the token matches.
+  */
+  bool isMatchToken(const std::string& t_token);
+
+  /*
+  * Matches the tokenType from the file with the expected tokenType.
+  *
+  * @param t_token the expected tokenType.
+  * @return true if the token matches.
+  */
+  bool isMatchToken(tokentype::tokenType t_type);
+
+  /*
+  * Matches the token from the file with the expected token type.
+  *
+  * @param t_token the expected token type.
+  * @return the string of that token from the type.
+  */
+  std::string getMatchToken(const tokentype::tokenType& t_token);
+
+  /*
+  * Returns the first token in a line
+  */
+  std::string getCurrentLineToken();
+private:
   std::list<STMT_NUM> m_nestedStmtLineNum;
   std::vector<std::string> m_curTokens;
-  std::ifstream m_readStream;
-  int m_curLineNum;
   bool m_isParsingProcedureContent;
   const std::string EMPTY_LINE = "";
 
@@ -117,30 +145,6 @@ private:
   int parseWhileStmt(TNode* t_node);
 
   /*
-  * Matches the token from the file with the expected token.
-  * 
-  * @param t_token the expected token.
-  * @return true if the token matches.
-  */
-  bool isMatchToken(const std::string& t_token);
-
-  /*
-  * Matches the tokenType from the file with the expected tokenType.
-  *
-  * @param t_token the expected tokenType.
-  * @return true if the token matches.
-  */
-  bool isMatchToken(tokentype::tokenType t_type);
-
-  /*
-  * Matches the token from the file with the expected token type.
-  *
-  * @param t_token the expected token type.
-  * @return the string of that token from the type.
-  */
-  std::string getMatchToken(const tokentype::tokenType& t_token);
-
-  /*
   * Returns true if the token is an operator.
   * 
   * @param t_token the token to be checked.
@@ -160,11 +164,6 @@ private:
   * @param t_token the token to be checked.
   */
   bool isKeyDelimiter(const std::string& t_token);
-
-  /*
-  * Returns the first token in a line 
-  */
-  std::string getCurrentLineToken();
 
   /*
   * Returns the the next token in the line
