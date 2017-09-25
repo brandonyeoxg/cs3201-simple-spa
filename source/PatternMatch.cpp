@@ -63,7 +63,7 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
   t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, indexOfOperator));
   t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, indexOfOperator + 1, t_endIndex));
 
-  t_subtreeStrings = generateSubtreeStrings(t_tokens, t_subtreeStrings, t_startIndex, indexOfOperator - 1);
+  t_subtreeStrings = generateSubtreeStrings(t_tokens, t_subtreeStrings, t_startIndex, indexOfOperator);
   t_subtreeStrings = generateSubtreeStrings(t_tokens, t_subtreeStrings, indexOfOperator + 1, t_endIndex);
 
   return t_subtreeStrings;
