@@ -31,8 +31,6 @@ const int m_progline = 9;
 const int m_statementNumber = 10;
 const int m_string = 11;
 
-const int INVALID_INDEX = -1;
-
 /*Called in Parser.h, by brandon*/
 namespace tokentype {
   enum tokenType {
