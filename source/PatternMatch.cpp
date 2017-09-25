@@ -45,13 +45,16 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
 
   // start search from back of vector
   for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
-    if (t_tokens.at(i) == OPERATOR_PLUS || t_tokens.at(i) == OPERATOR_MINUS) {
+    if (lastPlusOrMinus == INVALID_INDEX && 
+      (t_tokens.at(i) == OPERATOR_PLUS || t_tokens.at(i) == OPERATOR_MINUS)) {
       lastPlusOrMinus = i;
-      break;
     }
 
-    if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
+    if (lastMultiply == INVALID_INDEX && t_tokens.at(i) == OPERATOR_MULTIPLY) {
       lastMultiply = i;
+    }
+
+    if (lastPlusOrMinus != INVALID_INDEX && lastMultiply != INVALID_INDEX) {
       break;
     }
   }
