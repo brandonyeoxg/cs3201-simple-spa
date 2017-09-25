@@ -26,7 +26,7 @@ const int m_string = 11;
 
 const int INVALID_INDEX = -1;
 
-/*Called in parser.h, by brandon*/
+/*Called in Parser.h, by brandon*/
 namespace tokentype {
   enum tokenType {
     PROC_NAME,
