@@ -58,7 +58,7 @@ bool FollowTable::insertFollows(int t_s1, int t_s2) {
     //if it doesn't, simply emplace s1 as key.
     std::vector<int> lineNums;
     lineNums.push_back(t_s1);
-    m_followMap.emplace(t_s2, lineNums);
+    m_followedByMap.emplace(t_s2, lineNums);
   } else {
     auto iterator = m_followedByMap.find(t_s1);
     std::vector<int> lineNumsFollowedByS1 = iterator->second;
