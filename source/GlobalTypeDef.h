@@ -1,11 +1,14 @@
 #pragma once
 using namespace std;
+#include <vector>
 
 typedef int VAR_INDEX;
 typedef int PROC_INDEX;
 typedef int STMT_NUM;
 typedef std::string VAR_NAME;
 typedef int CONSTANT;
+typedef std::vector<int> LIST_OF_STMT_NUMS;
+typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 
 const int m_procedure = 0;
 const int m_statementList = 1;
@@ -30,6 +33,7 @@ namespace tokentype {
     CONSTANT,
     EXPR,
   };
+
 };
 
 /*Called in ProcTable.h, by brandon*/
