@@ -108,7 +108,7 @@ bool PKB::insertFollowsRelation(TNode* t_node, int t_curLineNum) {
   return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
 }
 
-bool PKB::insertFollows(int t_s1, int t_s2) {
+bool PKB::insertFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->insertFollows(t_s1, t_s2);
 }
 
@@ -125,43 +125,43 @@ void PKB::populateParentedByStarMap() {
   }
 }
 
-bool PKB::isFollows(int t_s1, int t_s2) {
+bool PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollows(t_s1, t_s2);
 }
 
-bool PKB::isFollowsStar(int t_s1, int t_s2) {
+bool PKB::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollowsStar(t_s1, t_s2);
 }
 
-int PKB::getFollows(int t_s1) {
+STMT_NUM PKB::getFollows(STMT_NUM t_s1) {
   return m_followTable->getFollows(t_s1);
 }
 
-int PKB::getFollowedBy(int t_s2) {
+STMT_NUM PKB::getFollowedBy(STMT_NUM t_s2) {
   return m_followTable->getFollowedBy(t_s2);
 }
 
-std::vector<int> PKB::getFollowsStar(int t_s1) {
+LIST_OF_STMT_NUMS PKB::getFollowsStar(STMT_NUM t_s1) {
   return m_followTable->getFollowsStar(t_s1);
 }
 
-std::vector<int> PKB::getFollowedByStar(int t_s2) {
+LIST_OF_STMT_NUMS PKB::getFollowedByStar(STMT_NUM t_s2) {
   return m_followTable->getFollowedByStar(t_s2);
 }
 
-std::unordered_map<int, int> PKB::getAllFollows() {
+std::unordered_map<STMT_NUM, STMT_NUM> PKB::getAllFollows() {
   return m_followTable->getAllFollows();
 }
 
-std::unordered_map<int, std::vector<int>> PKB::getAllFollowsStar() {
+std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> PKB::getAllFollowsStar() {
   return m_followTable->getAllFollowsStar();
 }
 
-std::vector<int> PKB::getFollowedByAnything() {
+LIST_OF_STMT_NUMS PKB::getFollowedByAnything() {
   return m_followTable->getFollowedByAnything();
 }
 
-std::vector<int> PKB::getFollowsAnything() {
+LIST_OF_STMT_NUMS PKB::getFollowsAnything() {
   return m_followTable->getFollowsAnything();
 }
 
@@ -169,65 +169,65 @@ bool PKB::hasFollowRelationship() {
   return m_followTable->hasFollowRelationship();
 }
 
-bool PKB::isFollowsAnything(int t_s2) {
+bool PKB::isFollowsAnything(STMT_NUM t_s2) {
   return m_followTable->isFollowsAnything(t_s2);
 }
 
-bool PKB::isFollowedByAnything(int t_s1) {
+bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
   return m_followTable->isFollowedByAnything(t_s1);
 }
 ///////////////////////////////////////////////////////
 //  ParentTable methods 
 ///////////////////////////////////////////////////////
-bool PKB::insertParent(int t_s1, int t_s2) {
+bool PKB::insertParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->insertParent(t_s1, t_s2);
 }
 
-bool PKB::isParent(int t_s1, int t_s2) {
+bool PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
 }
 
-bool PKB::isParentStar(int t_s1, int t_s2) {
+bool PKB::isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParentStar(t_s1, t_s2);
 }
 
-int PKB::getParentOf(int t_s2) {
+STMT_NUM PKB::getParentOf(STMT_NUM t_s2) {
   return m_parentTable->getParentOf(t_s2);
 }
 
-std::vector<int> PKB::getChildrenOf(int t_s1) {
+std::vector<int> PKB::getChildrenOf(STMT_NUM t_s1) {
   return m_parentTable->getChildrenOf(t_s1);
 }
 
-std::vector<int> PKB::getParentStarOf(int t_s2) {
+std::vector<int> PKB::getParentStarOf(STMT_NUM t_s2) {
   return m_parentTable->getParentStarOf(t_s2);
 }
 
-std::vector<int> PKB::getChildrenStarOf(int t_s1) {
+std::vector<int> PKB::getChildrenStarOf(STMT_NUM t_s1) {
   return m_parentTable->getChildrenStarOf(t_s1);
 }
 
-std::unordered_map<int, std::vector<int>> PKB::getAllParents() {
+std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> PKB::getAllParents() {
   return m_parentTable->getAllParents();
 }
 
-std::unordered_map<int, std::vector<int>> PKB::getAllParentsStar() {
+std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> PKB::getAllParentsStar() {
   return m_parentTable->getParentStarMap();
 }
 
-std::vector<int> PKB::getChildrenOfAnything() {
+LIST_OF_STMT_NUMS PKB::getChildrenOfAnything() {
   return m_parentTable->getChildrenOfAnything();
 }
 
-std::vector<int> PKB::getParentOfAnything() {
+LIST_OF_STMT_NUMS PKB::getParentOfAnything() {
   return m_parentTable->getParentOfAnything();
 }
 
-std::vector<int> PKB::getChildrenStarOfAnything() {
+LIST_OF_STMT_NUMS PKB::getChildrenStarOfAnything() {
   return m_parentTable->getChildrenStarOfAnything();
 }
 
-std::vector<int> PKB::getParentStarOfAnything() {
+LIST_OF_STMT_NUMS PKB::getParentStarOfAnything() {
   return m_parentTable->getParentStarOfAnything();
 }
 
@@ -239,80 +239,80 @@ bool PKB::hasParentStarRelationship() {
   return m_parentTable->hasParentStarRelationship();
 }
 
-bool PKB::isChildrenOfAnything(int t_s2) {
+bool PKB::isChildrenOfAnything(STMT_NUM t_s2) {
   return m_parentTable->isChildrenOfAnything(t_s2);
 }
 
-bool PKB::isParentOfAnything(int t_s1) {
+bool PKB::isParentOfAnything(STMT_NUM t_s1) {
   return m_parentTable->isParentOfAnything(t_s1);
 }
 
-bool PKB::isChildrenOfStarAnything(int t_s2) {
+bool PKB::isChildrenOfStarAnything(STMT_NUM t_s2) {
   return m_parentTable->isChildrenOfStarAnything(t_s2);
 }
 
-bool PKB::isParentOfStarAnything(int t_s1) {
+bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
   return m_parentTable->isParentOfStarAnything(t_s1);
 }
 
 //////////////////////////////////////////////////////////
 //  statementTypeTable and typeOfStatementTable Methods
 //////////////////////////////////////////////////////////
-std::unordered_map<int, Grammar::GType> PKB::getTypeOfStatementTable() {
+std::unordered_map<STMT_NUM, Grammar::GType> PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
 
-bool PKB::insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type) {
+bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type) {
   return m_statementTable->insertTypeOfStatementTable(t_lineNum, t_type);
 }
-std::unordered_map<Grammar::GType, std::vector<int>> PKB::getStatementTypeTable() {
+std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
   return m_statementTable->getStatementTypeTable();
 }
 
-bool PKB::insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) {
+bool PKB::insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum) {
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
 ///////////////////////////////////////////////////////
 //  VarTable methods 
 ///////////////////////////////////////////////////////
-int PKB::insertUsesForStmt(std::string t_varName, int t_lineNum) {
+STMT_NUM PKB::insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
 
-int PKB::insertModifiesForStmt(std::string t_varName, int t_lineNum) {
+STMT_NUM PKB::insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum) {
   return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
 }
 
-bool PKB::isModifies(int t_lineNum, std::string t_varName) {
+bool PKB::isModifies(STMT_NUM t_lineNum, std::string t_varName) {
   return m_varTable->isModifies(t_lineNum, t_varName);
 }
 
-bool PKB::isUses(int t_lineNum, std::string t_varName) {
+bool PKB::isUses(STMT_NUM t_lineNum, std::string t_varName) {
   return m_varTable->isUses(t_lineNum, t_varName);
 }
 
-std::vector<std::string> PKB::getModifies(int t_lineNum) {
+std::vector<std::string> PKB::getModifies(STMT_NUM t_lineNum) {
   return m_varTable->getModifies(t_lineNum);
 }
 
-std::vector<std::string> PKB::getUses(int t_lineNum) {
+std::vector<std::string> PKB::getUses(STMT_NUM t_lineNum) {
   return m_varTable->getUses(t_lineNum);
 }
 
-std::vector<int> PKB::getStmtModifies(std::string t_varName) {
+LIST_OF_STMT_NUMS PKB::getStmtModifies(std::string t_varName) {
   return m_varTable->getStmtModifies(t_varName);
 }
 
-std::vector<int> PKB::getStmtUses(std::string t_varName) {
+LIST_OF_STMT_NUMS PKB::getStmtUses(std::string t_varName) {
   return m_varTable->getStmtUses(t_varName);
 }
 
-std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtModifies() {
+std::unordered_map<std::string, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
   return m_varTable->getAllStmtModifies();
 }
 
-std::unordered_map<std::string, std::vector<int>> PKB::getAllStmtUses() {
+std::unordered_map<std::string, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
   return m_varTable->getAllStmtUses();
 }
 
@@ -320,27 +320,27 @@ int PKB::getIndexOfVar(std::string t_varName) {
   return m_varTable->getIndexOfVar(t_varName);
 }
 
-std::string PKB::getVarNameFromIndex(int t_index) {
+std::string PKB::getVarNameFromIndex(STMT_NUM t_index) {
   return m_varTable->getVarNameFromIndex(t_index);
 }
 
-bool PKB::isModifiesAnything(int t_lineNum) {
+bool PKB::isModifiesAnything(STMT_NUM t_lineNum) {
   return m_varTable->isModifiesAnything(t_lineNum);
 }
 
-bool PKB::isUsesAnything(int t_lineNum) {
+bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
   return m_varTable->isUsesAnything(t_lineNum);
 }
 
-std::vector<int> PKB::getStmtModifiesAnything() {
+LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
   return m_varTable->getStmtModifiesAnything();
 }
 
-std::vector<int> PKB::getStmtUsesAnything() {
+LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
   return m_varTable->getStmtUsesAnything();
 }
 
-std::vector<std::string> PKB::getAllVariables() {
+LIST_OF_VAR_NAMES PKB::getAllVariables() {
   return m_varTable->getAllVariables();
 }
 

@@ -241,6 +241,9 @@
     <ClInclude Include="..\source\PkbWriteOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\PkbReadOnly.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
