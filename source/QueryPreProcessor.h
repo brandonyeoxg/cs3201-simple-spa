@@ -113,6 +113,13 @@ public:
   */
   std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
 
+  /**
+  * A tokenizing method which removes the characters specified in the string character 
+  * in the targeted string targetString and then pushes them into the vector
+  * @return a string vector containing the string tokens
+  */
+  std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
+
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
@@ -127,7 +134,7 @@ private:
   const int m_assign = 3;
   const int m_while = 4;
   const int m_if = 5;
-  const int m_expression = 6;
+  const int m_call = 6;
   const int m_variable = 7;
   const int m_constant = 8;
   const int m_progline = 9;

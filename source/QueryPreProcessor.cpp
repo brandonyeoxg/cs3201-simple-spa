@@ -67,8 +67,6 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     while ((pos = starterString.find(";", prev_pos)) != std::string::npos) {
       if (prev_pos == 0) {
         declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
-        //printVector(declarationVector);
-        //std::cout << "above is the declaration initial object" << std::endl;
         prev_pos = pos + 1;
       }
       if (pos > prev_pos) {
@@ -288,22 +286,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
 
     //std::cout << designAbstractionEntity << std::endl;
-
-    int pos1;
-    int prev_pos_new = 0;
     std::vector<std::string> designAbstractionVectorNew;
-    while ((pos1 = designAbstractionObject.find_first_of("() ,;\\", prev_pos_new)) != std::string::npos) {
-      if (pos1 > prev_pos_new) {
-        designAbstractionVectorNew.push_back(designAbstractionObject.substr(prev_pos_new, pos1 - prev_pos_new));
-      }
-      prev_pos_new = pos1 + 1;
-    }
-    if (prev_pos_new < designAbstractionObject.length()) {
-      designAbstractionVectorNew.push_back(designAbstractionObject.substr(prev_pos_new, std::string::npos));
-    }
+
+    designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
 
     //test method to print vector string values
-    //printVector(designAbstractionVectorNew);
 
     std::string sTName1 = designAbstractionVectorNew.front();
     std::string sTName2 = designAbstractionVectorNew.back();
@@ -677,7 +664,6 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               m_suchThatQueue.push(DAO);
               break;
             } else if (sTName2 == "_") {
-              
               Grammar g2(m_string, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -728,17 +714,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
     std::vector<std::string> patternVector;
     
-    int pos2;
-    int prev_pos_2 = 0;
-    while ((pos2 = patternParameters.find_first_of("(),;", prev_pos_2)) != std::string::npos) {
-      if (pos2 > prev_pos_2) {
-        patternVector.push_back(patternParameters.substr(prev_pos_2, pos2 - prev_pos_2));
-      }
-      prev_pos_2 = pos2 + 1;
-    }
-    if (prev_pos_2 < patternParameters.length()) {
-      patternVector.push_back(patternParameters.substr(prev_pos_2, std::string::npos));
-    }
+    patternVector = stringVectorTokenizer("(),;", patternParameters, patternVector);
+
     int counterP = 0;
     Grammar patternOfGrammar;
     Grammar grammarPatternLeft;
@@ -881,4 +858,20 @@ bool QueryPreProcessor::isContainsOne(std::string toFind, std::string t_query) {
     }
   }
   return isContains;
+}
+
+std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector) {
+  int pos1;
+  int prev_pos_new = 0;
+
+  while ((pos1 = targetString.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
+    if (pos1 > prev_pos_new) {
+      vector.push_back(targetString.substr(prev_pos_new, pos1 - prev_pos_new));
+    }
+    prev_pos_new = pos1 + 1;
+  }
+  if (prev_pos_new < targetString.length()) {
+    vector.push_back(targetString.substr(prev_pos_new, std::string::npos));
+  }
+  return vector;
 }
