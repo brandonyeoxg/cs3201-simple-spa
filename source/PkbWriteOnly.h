@@ -105,4 +105,10 @@ public:
   virtual bool insertFollows(int t_s1, int t_s2) = 0;
 
   virtual bool insertParent(int t_s1, int t_s2) = 0;
+
+  virtual void populateParentStarMap() = 0;
+  
+  virtual void populateParentedByStarMap() = 0;
+
+  virtual void populateAssignTableAbstractions() = 0;
 };
