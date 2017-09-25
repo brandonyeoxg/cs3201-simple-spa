@@ -10,6 +10,7 @@ typedef int CONSTANT;
 typedef std::vector<int> LIST_OF_STMT_NUMS;
 typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 
+/*Called in QueryPreProcessor.h, by aaron*/
 const int m_procedure = 0;
 const int m_statementList = 1;
 const int m_statement = 2;
