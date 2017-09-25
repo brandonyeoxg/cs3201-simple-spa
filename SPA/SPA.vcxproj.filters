@@ -243,6 +243,12 @@
     </ClInclude>
     <ClInclude Include="..\source\PatternMatch.h">
       <Filter>PKB\PatternMatch</Filter>
+	</ClInclude>
+    <ClInclude Include="..\source\PkbWriteOnly.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PkbReadOnly.h">
+      <Filter>PKB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

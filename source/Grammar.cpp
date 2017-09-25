@@ -10,7 +10,7 @@
   int Grammar::ASGN = 3;
   int Grammar::WHILE = 4;
   int Grammar::IF = 5;
-  int Grammar::EXPR = 6;
+  int Grammar::CALL = 6;
   int Grammar::VAR = 7;
   int Grammar::CONST = 8;
   int Grammar::PROGLN = 9;
@@ -36,8 +36,8 @@
       m_type = GType::WHILE;
     } else if (t_type == IF) {
       m_type = GType::IF;
-    } else if (t_type == EXPR) {
-      m_type = GType::EXPR;
+    } else if (t_type == CALL) {
+      m_type = GType::CALL;
     } else if (t_type == VAR) {
       m_type = GType::VAR;
     } else if (t_type == CONST) {
@@ -60,9 +60,22 @@
   Grammar::GType Grammar::getType() { return m_type; }
 
   /**
+  * A Getter that returns the type of this Grammar object
+  * The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  * @return The type of this Grammar object
+  */
+  Grammar::AType Grammar::getAttr() { return m_attr; }
+
+  /**
   * A Getter that returns the name of this Grammar object
   * The returned string is the name of the variable as specified by the query.
   * @return The name of this Grammar object
   */
   std::string Grammar::getName() { return m_name; }
 
+  /**
+  * A Getter that returns the value of this Grammar object
+  * The returned string is the value of the variable as specified by the query.
+  * @return The value of this Grammar object
+  */
+  std::string Grammar::getValue() { return m_value; }

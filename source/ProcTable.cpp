@@ -13,6 +13,7 @@ PROC_INDEX ProcTable::insertProcByProcNode(ProcedureNode* t_node) {
   ProcTableData procTableData(t_node);
   PROC_INDEX idxNum = m_data.size();
   m_data.push_back(procTableData);
+  m_procNames.push_back(t_node->getName());
   return idxNum;
 }
 
@@ -54,10 +55,13 @@ std::string ProcTable::getProcNameWithIdx(PROC_INDEX& t_procIdx) {
   return procItr->getProcNode()->getName();
 }
 
+std::list<string> ProcTable::getAllProcNameInProgram() {
+  return m_procNames;
+}
+
 bool ProcTable::insertModifies(PROC_INDEX& t_procIdxNo, std::string& t_varIdx) {
   auto procItr = m_data.begin() + t_procIdxNo;
   if (procItr == m_data.end()) {
-    // GG proc does not exist
     return false;
   }
   procItr->insertModifiesVariable(t_varIdx);

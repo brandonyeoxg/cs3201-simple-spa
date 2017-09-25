@@ -7,8 +7,6 @@
 #include "ProcTableData.h"
 #include "GlobalTypeDef.h"
 
-const PROC_INDEX INVALID_PROC_NO = -1;
-
 /**
  * Represents a procedure table.
  * Stores the procedures in an indexed table.
@@ -50,6 +48,8 @@ public:
 
   std::string getProcNameWithIdx(PROC_INDEX& t_procIdx);
 
+  std::list<string> getAllProcNameInProgram();
+
   bool insertModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   bool isModifies(std::string& t_procIdx, std::string& t_varName); /*< Modifies("First", "x") */
   std::list<std::string>& getVarFromProcModifies(PROC_INDEX& t_procIdx); /*< Modifies("First", x) */
@@ -69,6 +69,7 @@ public:
   void convertProcTableSetToList();
 private:
   std::vector<ProcTableData> m_data;
+  std::list<std::string> m_procNames;
 
   std::unordered_map<std::string, std::list<std::string>> m_varToProcLookUpForModifies;
   std::unordered_map<std::string, std::list<std::string>> m_varToProcLookUpForUses;

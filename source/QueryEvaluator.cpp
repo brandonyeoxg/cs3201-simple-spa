@@ -1152,7 +1152,7 @@ void QueryEvaluator::storeSelectResultFromPkb(std::vector<std::string> t_result)
 * @param t_result an unordered_map<string, vector<string>> argument
 * @param t_type an enum queryType argument
 */
-void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type) {
+void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type) {
   //printDivider();
   //std::cout << "Storing the result from PKB to different queues...\n";
 

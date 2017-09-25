@@ -31,11 +31,11 @@ int Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokenType::PROC_NAME);
+    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    StmtListNode* stmtLst = m_pkb->insertProcedure(procName);
+    StmtListNode* stmtLst = m_pkbWriteOnly->insertProcedure(procName);
     return parseStmtLst(stmtLst);
   }
   return -1;
@@ -59,8 +59,8 @@ int Parser::parseStmt(TNode *t_node) {
     return 1;
   }
   m_curLineNum += 1;
-  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
-  // Var name
+  m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
+  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_node);
   }
@@ -71,7 +71,6 @@ int Parser::parseStmt(TNode *t_node) {
 }
 
 int Parser::parseNonContainerStmt(TNode* t_node) {
-  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
   parseAssignStmt(t_node);
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
@@ -80,7 +79,7 @@ int Parser::parseNonContainerStmt(TNode* t_node) {
 }
 
 int Parser::parseAssignStmt(TNode* t_node) {
-  std::string varName = getMatchToken(tokenType::VAR_NAME);
+  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -90,26 +89,26 @@ int Parser::parseAssignStmt(TNode* t_node) {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  VariableNode* left = m_pkb->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
   TNode* exprNode = parseExpr();
-  m_pkb->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
+  m_pkbWriteOnly->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
   return 1;
 }
 
 TNode* Parser::parseExpr() {
   std::stack<TNode *> exprStack;
-  std::string name = getMatchToken(tokenType::VAR_NAME);
+  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (isConstant(name)) {
-    ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));    
-    m_pkb->insertConstant(name, m_curLineNum);
+    ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
+    m_pkbWriteOnly->insertConstant(name, m_curLineNum);
     exprStack.push(constNode);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    VariableNode* varNode = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+    VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
   while (m_nextToken == "+") {
@@ -123,23 +122,22 @@ TNode* Parser::parseExpr() {
 }
 
 void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
-  std::string name = getMatchToken(tokenType::VAR_NAME);
+  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
   TNode* right;
   if (isConstant(name)) {
-    right = m_pkb->insertConstant(name, m_curLineNum);
+    right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    right = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+    right = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
   }
   TNode* left = t_exprStack.top();
   t_exprStack.pop();
-  PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
+  PlusNode* plusNode = m_pkbWriteOnly->insertPlusOp(left, right, m_curLineNum);
   t_exprStack.push(plusNode);
 }
 
 int Parser::parseContainerStmt(TNode* t_node) {
-  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt((WhileNode*)t_node);
@@ -151,11 +149,11 @@ int Parser::parseContainerStmt(TNode* t_node) {
 }
 
 int Parser::parseWhileStmt(TNode* t_node) {
-  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(getMatchToken(tokentype::tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  StmtListNode* stmtLstNode = m_pkb->insertWhileStmt(t_node, varNode, m_curLineNum);
+  StmtListNode* stmtLstNode = m_pkbWriteOnly->insertWhileStmt(t_node, varNode, m_curLineNum);
   parseStmtLst(stmtLstNode);
   return 1;
 }
@@ -168,10 +166,10 @@ bool Parser::isMatchToken(const std::string &t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(tokenType t_type) {
+bool Parser::isMatchToken(tokentype::tokenType t_type) {
   switch (t_type) {
-    case tokenType::PROC_NAME:
-    case tokenType::VAR_NAME:
+    case tokentype::tokenType::PROC_NAME:
+    case tokentype::tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
@@ -184,13 +182,13 @@ bool Parser::isMatchToken(tokenType t_type) {
   return false;
 }
 
-std::string Parser::getMatchToken(const tokenType &t_token) {
+std::string Parser::getMatchToken(const tokentype::tokenType &t_token) {
   std::string output = m_nextToken;
   switch (t_token) {
-    case tokenType::PROC_NAME:
-    case tokenType::VAR_NAME:
-    case tokenType::CONSTANT:
-    case tokenType::EXPR :
+    case tokentype::tokenType::PROC_NAME:
+    case tokentype::tokenType::VAR_NAME:
+    case tokentype::tokenType::CONSTANT:
+    case tokentype::tokenType::EXPR :
       m_nextToken = getCurrentLineToken();
       break;
     default:
