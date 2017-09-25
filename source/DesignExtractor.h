@@ -1,6 +1,6 @@
 #pragma once
 #include "ParentTable.h"
-#include "PKB.h"
+#include "PkbWriteOnly.h"
 /**
  * Represents an extractor which extract complicated abstractions from AST.
  *
@@ -9,10 +9,9 @@
  */
 class DesignExtractor {
 public:
-  DesignExtractor(PKB* t_pkb);
+  DesignExtractor(PkbWriteOnly* t_pkb);
   void extractRestOfDesignAbstractions();
-  void extractProcTableAbstraction();
 
 private:
-  PKB* m_pkb;
+  PkbWriteOnly* m_pkb;
 };

@@ -60,6 +60,7 @@ int Parser::parseStmt(TNode *t_node) {
   }
   m_curLineNum += 1;
   m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
+  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_node);
   }
@@ -70,7 +71,6 @@ int Parser::parseStmt(TNode *t_node) {
 }
 
 int Parser::parseNonContainerStmt(TNode* t_node) {
-  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   parseAssignStmt(t_node);
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
@@ -138,7 +138,6 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
 }
 
 int Parser::parseContainerStmt(TNode* t_node) {
-  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt((WhileNode*)t_node);

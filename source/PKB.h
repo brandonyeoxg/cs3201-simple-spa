@@ -320,6 +320,7 @@ public:
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
+  ProcTable* getProcTable();
   bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   bool insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   void convertProcSetToList();

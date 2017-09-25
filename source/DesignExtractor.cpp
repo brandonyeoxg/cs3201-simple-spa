@@ -5,10 +5,9 @@
 #include <string>
 #include <unordered_map>
 #include <stack>
-#include "PKB.h"
 #include "DesignExtractor.h"
 
-DesignExtractor::DesignExtractor(PKB* t_pkb) {
+DesignExtractor::DesignExtractor(PkbWriteOnly* t_pkb) {
   m_pkb = t_pkb;
 }
 

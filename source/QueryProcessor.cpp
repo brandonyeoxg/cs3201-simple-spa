@@ -3,7 +3,6 @@
 std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput) {
   QueryPreProcessor qpp;
 
-  //std::cout << "initial test input: " << t_stringInput << std::endl;
   std::string declaration, query;
   std::string result;
   std::list<std::string> resultList;
