@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <iterator>
 
+#include "GlobalTypeDef.h"
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
@@ -78,16 +79,6 @@ private:
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
 
   /**
-  * Represents a queryType.
-  * An enum type representing the queryType.
-  */
-  enum queryType {
-    SELECT, /**< enum value SELECT. */
-    RELATION, /**< enum value RELATION. */
-    PATTERN /**< enum value PATTERN. */
-  };
-
-  /**
   * A private function to get the results of every clause in the query from the PKB.
   * Loop through the queues and call the API from PKB to get the results of each and every clause in the queues.
   * @return true if all of the clauses have non-empty results.
@@ -135,7 +126,7 @@ private:
   * @param t_result An unordered map which holds the result returned from PKB.
   * @param t_type A enum value to indicate the type of query that the result belongs to.
   */
-  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type);
+  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type);
 
   /**
   * A private function to evaluate the final result of the query.
