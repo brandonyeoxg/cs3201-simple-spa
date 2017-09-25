@@ -39,3 +39,17 @@ namespace tokentype {
 
 /*Called in ProcTable.h, by brandon*/
 const PROC_INDEX INVALID_PROC_NO = -1;
+
+namespace queryType {
+  /**
+  * Represents a clauseType.
+  * An enum type representing the clauseType.
+  * Called in QueryEvaluator.h, by verbena.
+  */
+  enum clauseType {
+    SELECT, /**< enum value SELECT. */
+    RELATION, /**< enum value RELATION. */
+    PATTERN, /**< enum value PATTERN. */
+    WITH /**< enum value WITH. */
+  };
+}
