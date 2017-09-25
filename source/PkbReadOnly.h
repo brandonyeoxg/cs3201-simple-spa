@@ -25,7 +25,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isFollows(int t_s1, int t_s2) = 0;
+  virtual bool isFollows(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if follows*(s1, s2) holds.
@@ -34,7 +34,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isFollowsStar(int t_s1, int t_s2) = 0;
+  virtual bool isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -42,14 +42,14 @@ public:
   * @param s1 an integer argument.
   * @return the line number that line s1 follows.
   */
-  virtual int getFollows(int t_s1) = 0;
+  virtual STMT_NUM getFollows(STMT_NUM t_s1) = 0;
 
   /**
   * Method that returns the line number that follows(s, s2) holds, where s is a variable and s2 is a known line number.
   * @param s2 an integer argument.
   * @return the line number that is followed by line s2.
   */
-  virtual int getFollowedBy(int t_s2) = 0;
+  virtual STMT_NUM getFollowedBy(STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -57,7 +57,7 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that line s1 follows*.
   */
-  virtual std::vector<int> getFollowsStar(int t_s1) = 0;
+  virtual LIST_OF_STMT_NUMS getFollowsStar(STMT_NUM t_s1) = 0;
 
   /**
   * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
@@ -65,31 +65,31 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that are followedBy* s2.
   */
-  virtual std::vector<int> getFollowedByStar(int t_s2) = 0;
+  virtual LIST_OF_STMT_NUMS getFollowedByStar(STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<int, int> getAllFollows() = 0;
+  virtual std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows() = 0;
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<int, std::vector<int>> getAllFollowsStar() = 0;
+  virtual std::unordered_map<STMT_NUM, std::vector<int>> getAllFollowsStar() = 0;
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
   * @return the vector of keys within the followTable.
   */
-  virtual std::vector<int> getFollowedByAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getFollowedByAnything() = 0;
 
   /**
   * Method that returns the list of line numbers that follows a statement.
   * @return the vector of keys within the followTable.
   */
-  virtual std::vector<int> getFollowsAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getFollowsAnything() = 0;
 
   /**
   * Method that checks if follows(_, _) or follows*(_, _) holds.
@@ -101,13 +101,13 @@ public:
   * Method that checks if follows(_, t_s2) and follows*(_, t_s2) holds, where t_s2 is a statement number.
   * @return true if t_s2 exists in the allFollows map, return false if otherwise.
   */
-  virtual bool isFollowsAnything(int t_s2) = 0;
+  virtual bool isFollowsAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  virtual bool isFollowedByAnything(int t_s1) = 0;
+  virtual bool isFollowedByAnything(STMT_NUM t_s1) = 0;
 
   ///////////////////////////////////////////////////////
   //  ParentTable
@@ -130,7 +130,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isParent(int t_s1, int t_s2) = 0;
+  virtual bool isParent(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent*(t_s1, t_s2) holds.
@@ -138,7 +138,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isParentStar(int t_s1, int t_s2) = 0;
+  virtual bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the line numuber that is the parent of t_s2.
@@ -146,7 +146,7 @@ public:
   * @param t_s2 an integer argument.
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual int getParentOf(int t_s2) = 0;
+  virtual STMT_NUM getParentOf(STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the vector of line numubers that are the children of t_s1.
@@ -154,7 +154,7 @@ public:
   * @param t_s1 an integer argument.
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getChildrenOf(int t_s1) = 0;
+  virtual LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1) = 0;
 
   /**
   * Method that returns the vector of line numubers that are the parent* of t_s2.
@@ -162,7 +162,7 @@ public:
   * @param t_s2 an integer argument.
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getParentStarOf(int t_s2) = 0;
+  virtual LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the vector of line numubers that are the children* of t_s1.
@@ -170,47 +170,47 @@ public:
   * @param t_s1 an integer argument.
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getChildrenStarOf(int t_s1) = 0;
+  virtual LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1) = 0;
 
   /**
   * Method that returns the entire of parent relationship.
   * @return an unordered_map i.e. parentMap.
   */
-  virtual std::unordered_map<int, std::vector<int>> getAllParents() = 0;
+  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents() = 0;
 
   /**
   * Method that returns the entire of parent* relationship.
   * @return an unordered_map i.e. parentStarMap.
   */
-  virtual std::unordered_map<int, std::vector<int>> getAllParentsStar() = 0;
+  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar() = 0;
 
   /**
   * Method that returns the vector of line numubers that are the children of any line.
   * For example: stmt s2; parent(_, s2).
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getChildrenOfAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getChildrenOfAnything() = 0;
 
   /**
   * Method that returns the vector of line numubers that are the parent of any line.
   * For example: stmt s1; parent(s1, _).
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getParentOfAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getParentOfAnything() = 0;
 
   /**
   * Method that returns the vector of line numubers that are the parent of any line.
   * For example: stmt s2; parent*(_, s2).
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getChildrenStarOfAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getChildrenStarOfAnything() = 0;
 
   /**
   * Method that returns the vector of line numubers that are the parent of any line.
   * For example: stmt s1; parent*(s1, _).
   * @return a vector of line numbers that satisfy the condition.
   */
-  virtual std::vector<int> getParentStarOfAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getParentStarOfAnything() = 0;
 
   /**
   * Method that checks if parent(_, _) holds.
@@ -229,28 +229,28 @@ public:
   * @param t_s2 an integer argument.
   * @return true if there exists a parent relationship with t_s2 being the child, false if otherwise.
   */
-  virtual bool isChildrenOfAnything(int t_s2) = 0;
+  virtual bool isChildrenOfAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent relationship with t_s1 being the parent, false if otherwise.
   */
-  virtual bool isParentOfAnything(int t_s1) = 0;
+  virtual bool isParentOfAnything(STMT_NUM t_s1) = 0;
 
   /**
   * Method that checks if parent*(_, t_s2) holds.
   * @param t_s2 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s2 being the child, false if otherwise.
   */
-  virtual bool isChildrenOfStarAnything(int t_s2) = 0;
+  virtual bool isChildrenOfStarAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent*(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s1 being the parent, false if otherwise.
   */
-  virtual bool isParentOfStarAnything(int t_s1) = 0;
+  virtual bool isParentOfStarAnything(STMT_NUM t_s1) = 0;
 
   //////////////////////////////////////////////////////////
   //  StatementTypeTable and TypeOfStatementTable
@@ -260,13 +260,13 @@ public:
   * Method that retrieves the TypeOfStatementTable.
   * @return the unordered_map of the statement's line number mapped to the type of the statement.
   */
-  virtual std::unordered_map<int, Grammar::GType> getTypeOfStatementTable() = 0;
+  virtual std::unordered_map<STMT_NUM, Grammar::GType> getTypeOfStatementTable() = 0;
 
   /**
   * Method that retrieves the StatementTypeTable.
   * @return the unordered_map of type of the statement mapped to its line number.
   */
-  virtual std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable() = 0;
+  virtual std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
 
   ///////////////////////////////////////////////////////
   //  VarTable 
@@ -277,7 +277,7 @@ public:
   * @param s2 t_varName a string argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isModifies(int t_lineNum, std::string t_varName) = 0;
+  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
 
   /**
   * Method that checks if uses(t_s1, t_varname) holds.
@@ -285,7 +285,7 @@ public:
   * @param s2 t_varName a string argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isUses(int t_lineNum, std::string t_varName) = 0;
+  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
 
   /**
   * Method that returns the vector of variables that are modified in line number t_lineNum.
@@ -293,7 +293,7 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual std::vector<std::string> getModifies(int t_lineNum) = 0;
+  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of variables that are used in line number t_lineNum.
@@ -301,7 +301,7 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual std::vector<std::string> getUses(int t_lineNum) = 0;
+  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of statement numbers that modifies variable t_varName.
@@ -309,7 +309,7 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of statement numbers that satisfy the condition.
   */
-  virtual std::vector<int> getStmtModifies(std::string t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName) = 0;
 
   /**
   * Method that returns the vector of statement numbers that uses variable t_varName.
@@ -317,69 +317,69 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of statement numbers that satisfy the condition.
   */
-  virtual std::vector<int> getStmtUses(std::string t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getStmtUses(std::string t_varName) = 0;
 
   /**
   * Method that returns the entire map of modifies relationship.
   * For example: stmt s, variable v; modifies(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual std::unordered_map<std::string, std::vector<int>> getAllStmtModifies() = 0;
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
 
   /**
   * Method that returns the entire map of uses relationship.
   * For example: stmt s, variable v; uses(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual std::unordered_map<std::string, std::vector<int>> getAllStmtUses() = 0;
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
 
   /**
   * Method that returns the index of the variable t_varName in VarTable.
   * @param t_varName a string argument.
   * @return the index of variable.
   */
-  virtual int getIndexOfVar(std::string t_varName) = 0;
+  virtual STMT_NUM getIndexOfVar(std::string t_varName) = 0;
 
   /**
   * Method that returns the name of the variable in VarTable given its index.
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual std::string getVarNameFromIndex(int t_index) = 0;
+  virtual std::string getVarNameFromIndex(STMT_NUM t_index) = 0;
 
   /**
   * Method that checks if modifies(t_lineNum, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
   */
-  virtual bool isModifiesAnything(int t_lineNum) = 0;
+  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that checks if uses(t_lineNum, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
   */
-  virtual bool isUsesAnything(int t_lineNum) = 0;
+  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of line numbers that involves modification of variables.
   * For example: stmt s; modifies(s, _).
   * @return a vector of statement numbers that satisfy the condition.
   */
-  virtual std::vector<int> getStmtModifiesAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
 
   /**
   * Method that returns the vector of line numbers that involves use of variables.
   * For example: stmt s; uses(s, _).
   * @return a vector of statement numbers that satisfy the condition.
   */
-  virtual std::vector<int> getStmtUsesAnything() = 0;
+  virtual LIST_OF_STMT_NUMS getStmtUsesAnything() = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
   * @return a vector of statement numbers.
   */
-  virtual std::vector<std::string> getAllVariables() = 0;
+  virtual LIST_OF_VAR_NAMES getAllVariables() = 0;
 
   ///////////////////////////////////////////////////////
   //  AssignTable
