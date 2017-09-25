@@ -135,15 +135,6 @@ std::vector<int> FollowTable::getFollowsStar(int t_s1) {
 
 std::vector<int> FollowTable::getFollowedByStar(int t_s2) {
   std::vector<int> result;  //if no results found, return empty vector.
-  /*
-  for (auto it = m_followMap.begin(); it != m_followMap.end(); it++) {
-    std::vector<int> vect = it->second;
-    if (std::find(vect.begin(), vect.end(), t_s2) != vect.end()) {
-      int lineNum = it->first;
-      result.push_back(lineNum);
-    }
-  }
-  std::sort(result.begin(), result.end());  //sort according to ascending order. */
   auto iterator = m_followedByMap.find(t_s2);
   if (iterator != m_followedByMap.end()) {
     result = iterator->second;
@@ -196,12 +187,11 @@ bool FollowTable::isFollowsAnything(int t_s2) {
 }
 
 bool FollowTable::isFollowedByAnything(int t_s1) {
-  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
-    if (t_s1 == it->first) {
-      return true;
-    }
+  if (m_followMap.find(t_s1) != m_followMap.end()) {
+    return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 /**
