@@ -29,10 +29,10 @@ PatternMatch::PatternMatch() {
   assignStmtsSubtrees = std::unordered_map<STMT_NUM, std::vector<string>>();
 }
 
-//TODO needs a wrapper function, add the original string as well
+// recursive function to generate subtree strings
 std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::string> t_tokens, 
   std::vector<std::string> t_subtreeStrings, int t_startIndex, int t_endIndex) {
-  if (t_startIndex == t_endIndex) {
+  if (t_startIndex >= t_endIndex) {
     return t_subtreeStrings;
   }
 
@@ -60,7 +60,7 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
     return t_subtreeStrings;
   }
 
-  t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, indexOfOperator - 1));
+  t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, indexOfOperator));
   t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, indexOfOperator + 1, t_endIndex));
 
   t_subtreeStrings = generateSubtreeStrings(t_tokens, t_subtreeStrings, t_startIndex, indexOfOperator - 1);
