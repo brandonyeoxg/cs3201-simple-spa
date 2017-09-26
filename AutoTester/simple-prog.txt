@@ -11,3 +11,7 @@ procedure main {
     x=y;
     I = can+ do + it;}
 }
+
+procedure notmain {
+  x = y;
+}
