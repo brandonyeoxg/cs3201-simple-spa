@@ -1,6 +1,7 @@
 #pragma once
-using namespace std;
+
 #include <vector>
+#include <unordered_map>
 
 typedef int VAR_INDEX;
 typedef int PROC_INDEX;
@@ -9,6 +10,8 @@ typedef std::string VAR_NAME;
 typedef int CONSTANT;
 typedef std::vector<int> LIST_OF_STMT_NUMS;
 typedef std::vector<std::string> LIST_OF_VAR_NAMES;
+typedef std::vector<std::string> LIST_OF_RESULTS;
+typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 
 /*Called in QueryPreProcessor.h, by aaron*/
 const int m_procedure = 0;

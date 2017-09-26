@@ -55,7 +55,7 @@ std::string ProcTable::getProcNameWithIdx(PROC_INDEX& t_procIdx) {
   return procItr->getProcNode()->getName();
 }
 
-std::list<string> ProcTable::getAllProcNameInProgram() {
+std::list<std::string> ProcTable::getAllProcNameInProgram() {
   return m_procNames;
 }
 
