@@ -36,7 +36,15 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  virtual bool insertFollowsRelation(TNode* t_node, int t_curLineNum) = 0;
+  virtual bool insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) = 0;
+
+  /**
+  * Inserts a follows relation in the PKB.
+  * @param t_node reference to the StmtLst that this statement belongs to.
+  * @param t_curLineNum the current line number.
+  * @return true if the table is successfully added.
+  */
+  virtual bool insertParentRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) = 0;
 
   /**
   * Inserts a variable that has been modified.
@@ -64,7 +72,7 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  virtual void insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) = 0;
+  virtual void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) = 0;
 
   /**
   * Inserts a while statement into the PKB.
@@ -73,7 +81,16 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  virtual StmtListNode* insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) = 0;
+  virtual STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum) = 0;
+
+  /**
+  * Inserts a if statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_varaibleNode reference to the variable node that this while loop contains.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  virtual StmtListNode* insertIfStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) = 0;
 
   /**
   * Inserts a constant into the PKB.

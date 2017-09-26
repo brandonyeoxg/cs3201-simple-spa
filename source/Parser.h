@@ -89,7 +89,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  void parseStmtLst(StmtListNode* t_node);
+  void parseStmtLst(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the statement.
@@ -97,7 +97,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseStmt(TNode* t_node);
+  void parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the assignment statement.
@@ -105,7 +105,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseAssignStmt(TNode* t_node);
+  void parseAssignStmt();
 
   /*
   * Parses the expr stmt.
@@ -127,14 +127,14 @@ private:
   *
   * @param t_node the reference to the stmtLst node
   */
-  void parseNonContainerStmt(TNode* t_node);
+  void parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
    * Parses a container statement.
    *
    * @param t_node the reference to the stmtLst node
    */
-  void parseContainerStmt(TNode* t_node);
+  void parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the while statement.
@@ -142,7 +142,15 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseWhileStmt(TNode* t_node);
+  void parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the if/else statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseIfStmt();
 
   /*
   * Returns true if the token is an operator.

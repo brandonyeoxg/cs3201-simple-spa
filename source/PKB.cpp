@@ -68,21 +68,22 @@ VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, s
   return varNode;
 }
 
-void PKB::insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
+void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
   AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
   insertStatementTypeTable(Grammar::GType::ASGN, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, Grammar::GType::ASGN);
   insertAssignRelation(t_varNode->getVarIndex(), stmt);
-  m_builder.linkParentToChild(t_parentNode, stmt);
 }
 
-StmtListNode* PKB::insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) {
-  StmtListNode* stmtLstNode = m_builder.createStmtList(t_curLineNum);
-  WhileNode *whileNode = m_builder.buildWhile(t_curLineNum, t_varNode, stmtLstNode);
+STMT_NUM PKB::insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
-  m_builder.linkParentToChild(t_parentNode, whileNode);
-  return stmtLstNode;
+  insertUsesVariable(varName, t_curLineNum, m_nestedStmtLineNum);
+  return t_curLineNum;
+}
+
+StmtListNode* PKB::insertIfStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) {
+  return NULL;
 }
 
 ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
@@ -95,18 +96,27 @@ PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
   return m_builder.buildAddition(t_curLineNum, left, right);
 }
 
+bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
+  if (t_stmtInStmtList.empty()) {
+    /*m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);*/
+    return false;
+  }
+  int prevStmtNum = t_stmtInStmtList.back();
+  return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
+}
+
+bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum) {
+  if (t_nestedStmtInStmtList.empty()) {
+    return false;
+  }
+  int prevStmtNum = t_nestedStmtInStmtList.back();
+  return m_parentTable->insertParent(prevStmtNum, t_curLineNum);
+}
 ///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
 
-bool PKB::insertFollowsRelation(TNode* t_node, int t_curLineNum) {
-  if (t_node->getChildren()->size() == 0) {
-    m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);
-    return false;
-  }
-  int prevStmtNum = t_node->getChildren()->back()->getLineNum();
-  return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
-}
+
 
 bool PKB::insertFollows(int t_s1, int t_s2) {
   return m_followTable->insertFollows(t_s1, t_s2);

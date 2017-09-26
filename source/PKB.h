@@ -45,7 +45,15 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertFollowsRelation(TNode* t_node, int t_curLineNum);
+  bool insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum);
+
+  /**
+  * Inserts a parent relation in the PKB.
+  * @param t_node reference to the StmtLst that this statement belongs to.
+  * @param t_curLineNum the current line number.
+  * @return true if the table is successfully added.
+  */
+  bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
 
   /**
   * Inserts a variable that has been modified.
@@ -73,7 +81,7 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  void insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
+  void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
   
   /**
   * Inserts a while statement into the PKB.
@@ -82,8 +90,17 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  StmtListNode* insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum);
+  STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum);
   
+  /**
+  * Inserts a if statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_varaibleNode reference to the variable node that this while loop contains.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  StmtListNode* insertIfStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum);
+
   /**
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
