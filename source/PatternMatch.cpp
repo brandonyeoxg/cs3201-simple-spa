@@ -10,6 +10,10 @@ PatternMatch PatternMatch::getInstance() {
   return *patternMatch;
 }
 
+void PatternMatch::resetInstance() {
+  patternMatch = nullptr;
+}
+
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
   std::string stmtStr = "";
   for (int i = 0; i < (int)t_stmtTokens.size(); i++) {

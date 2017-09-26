@@ -68,11 +68,53 @@ public:
     Assert::IsTrue(subtrees == expected);
   }
 
+  TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern01) {
+    std::list<STMT_NUM> stmtNums, expected;
+
+    PatternMatch::getInstance().addAssignStmt(1, { "x", "+", "y" });
+    PatternMatch::getInstance().addAssignStmt(2, { "x" });
+    PatternMatch::getInstance().addAssignStmt(3, { "x", "+", "y" });
+    stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("x+y");
+    expected = { 1, 3 };
+    Assert::IsTrue(stmtNums == expected);
+
+    PatternMatch::getInstance().addAssignStmt(40, { "xMan", "-", "sugar" });
+    PatternMatch::getInstance().addAssignStmt(50, { "xMan", "+", "sugar" });
+    stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("xMan-sugar");
+    expected = { 40 };
+    Assert::IsTrue(stmtNums == expected);
+
+    stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("xMan");
+    Assert::IsTrue((int)stmtNums.size() == 0);
+
+    PatternMatch::resetInstance();
+  }
+
+  TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern02) {
+    // test with trailing whitespaces, longer variable names
+
+    std::list<STMT_NUM> stmtNums, expected;
+
+    PatternMatch::getInstance().addAssignStmt(1, { "  chicken  ", "+", "peanut", "-", "duck" });
+    PatternMatch::getInstance().addAssignStmt(2, { "chicken", "  +   ", "peanut   ", "-", "duck" });
+    stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("chicken+peanut-duck");
+    expected = { 1, 2 };
+    Assert::IsTrue(stmtNums == expected);
+
+    PatternMatch::resetInstance();
+  }
+
 private:
 
   void printVectorOfStrings(std::vector<std::string> t_vector) {
     for (int i = 0; i < (int)t_vector.size(); i++) {
       Logger::WriteMessage(t_vector.at(i).c_str());
+    }
+  }
+
+  void printListOfIntegers(std::list<int> list) {
+    for (auto iterator = list.begin(); iterator != list.end(); iterator++) {
+      Logger::WriteMessage(to_string((int)*iterator).c_str());
     }
   }
 

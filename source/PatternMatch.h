@@ -10,6 +10,7 @@
 class PatternMatch {
 public:
   static PatternMatch getInstance();
+  static void resetInstance();  // for testing purposes, resets internal instance to nullptr
 
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
