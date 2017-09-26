@@ -48,7 +48,7 @@ public:
 
   std::string getProcNameWithIdx(PROC_INDEX& t_procIdx);
 
-  std::list<string> getAllProcNameInProgram();
+  std::list<std::string> getAllProcNameInProgram();
 
   bool insertModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   bool isModifies(std::string& t_procIdx, std::string& t_varName); /*< Modifies("First", "x") */
