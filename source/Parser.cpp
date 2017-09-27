@@ -102,7 +102,8 @@ void Parser::parseAssignStmt() {
 }
 
 void Parser::parseCallStmt() {
-
+  std::string procName = getMatchToken(tokentype::PROC_NAME);
+  m_pkbWriteOnly->insertCallStmt(m_curLineNum);
 }
 
 TNode* Parser::parseExpr() {
