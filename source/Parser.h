@@ -108,6 +108,11 @@ private:
   void parseAssignStmt();
 
   /*
+  * Parses the call statement.
+  */
+  void parseCallStmt();
+
+  /*
   * Parses the expr stmt.
   *
   * @param t_expr the string representation of the expression
@@ -159,8 +164,8 @@ private:
   * @return -1 if there is syntax error.
   */
   void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
-  
-    /*
+
+  /*
   * Returns true if the token is an operator.
   * 
   * @param t_token the token to be checked.

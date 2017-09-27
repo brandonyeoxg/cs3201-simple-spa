@@ -72,7 +72,11 @@ void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
 }
 
 void Parser::parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
-  parseAssignStmt();
+  if (isMatchToken("call")) {
+    parseCallStmt();
+  } else {
+    parseAssignStmt();
+  }
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
   }
@@ -95,6 +99,10 @@ void Parser::parseAssignStmt() {
   }
   TNode* exprNode = parseExpr();
   m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
+}
+
+void Parser::parseCallStmt() {
+
 }
 
 TNode* Parser::parseExpr() {
