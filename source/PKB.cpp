@@ -75,15 +75,18 @@ void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_cur
   insertAssignRelation(t_varNode->getVarIndex(), stmt);
 }
 
-STMT_NUM PKB::insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum) {
+STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
-  insertUsesVariable(varName, t_curLineNum, m_nestedStmtLineNum);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
-StmtListNode* PKB::insertIfStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) {
-  return NULL;
+STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+  insertStatementTypeTable(Grammar::GType::IF, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::IF);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  return t_curLineNum;
 }
 
 ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {

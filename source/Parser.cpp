@@ -141,6 +141,8 @@ void Parser::parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   if (isMatchToken("while")) {
     parseWhileStmt(t_stmtInStmtLst);
   } else if (isMatchToken("if")) {
+    parseIfStmt(t_stmtInStmtLst);
+    parseElseStmt(t_stmtInStmtLst);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
@@ -156,16 +158,29 @@ void Parser::parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   parseStmtLst(whileStmtLst);
 }
 
-//void Parser::parseIfStmt(TNode* t_node) {
-//  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
-//  if (!isMatchToken("then")) {
-//    throw SyntaxUnknownCommandException("If statements require then", m_curLineNum);
-//  }
-//  if (!isMatchToken("{")) {
-//    throw SyntaxOpenBraceException(m_curLineNum);
-//  }
-//  //parseStmtLst();
-//}
+void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  if (!isMatchToken("then")) {
+    throw SyntaxUnknownCommandException("If statements require then keyword", m_curLineNum);
+  }
+  if (!isMatchToken("{")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
+  m_pkbWriteOnly->insertIfStmt(varName, m_nestedStmtLineNum, m_curLineNum);
+  std::list<STMT_NUM> ifStmtLst;
+  parseStmtLst(ifStmtLst);
+}
+
+void Parser::parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  if (!isMatchToken("else")) {
+    throw SyntaxUnknownCommandException("If statements require else keyword", m_curLineNum);
+  }
+  if (!isMatchToken("{")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
+  std::list<STMT_NUM> elseStmtLst;
+  parseStmtLst(elseStmtLst);
+}
 
 bool Parser::isMatchToken(const std::string &t_token) {
   if (m_nextToken == t_token) {

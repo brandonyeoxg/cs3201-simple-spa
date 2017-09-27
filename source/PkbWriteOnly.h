@@ -90,7 +90,7 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  virtual StmtListNode* insertIfStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) = 0;
+  virtual STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum) = 0;
 
   /**
   * Inserts a constant into the PKB.

@@ -145,14 +145,22 @@ private:
   void parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
-  * Parses the if/else statement.
+  * Parses the if statement.
   *
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt();
+  void parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
+  * Parses the else statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  
+    /*
   * Returns true if the token is an operator.
   * 
   * @param t_token the token to be checked.
