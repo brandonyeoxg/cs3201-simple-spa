@@ -75,6 +75,11 @@ void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_cur
   insertAssignRelation(t_varNode->getVarIndex(), stmt);
 }
 
+void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
+  insertStatementTypeTable(Grammar::GType::CALL, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::CALL);
+}
+
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
@@ -101,7 +106,6 @@ PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
 
 bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
   if (t_stmtInStmtList.empty()) {
-    /*m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);*/
     return false;
   }
   int prevStmtNum = t_stmtInStmtList.back();
@@ -118,13 +122,6 @@ bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t
 ///////////////////////////////////////////////////////
 //  FollowTable methods 
 ///////////////////////////////////////////////////////
-
-
-
-bool PKB::insertFollows(int t_s1, int t_s2) {
-  return m_followTable->insertFollows(t_s1, t_s2);
-}
-
 void PKB::populateParentStarMap() {
     m_parentTable->populateParentStarMap();
 }
@@ -192,10 +189,6 @@ bool PKB::isFollowedByAnything(int t_s1) {
 ///////////////////////////////////////////////////////
 //  ParentTable methods 
 ///////////////////////////////////////////////////////
-bool PKB::insertParent(int t_s1, int t_s2) {
-  return m_parentTable->insertParent(t_s1, t_s2);
-}
-
 bool PKB::isParent(int t_s1, int t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
 }

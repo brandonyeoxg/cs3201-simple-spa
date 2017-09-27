@@ -84,6 +84,11 @@ public:
   void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
   
   /**
+  * Inserts a call statement into the PKB
+  */
+  void insertCallStmt(STMT_NUM t_lineNum);
+
+  /**
   * Inserts a while statement into the PKB.
   * @param t_parentNode reference to the parent node that this while loop belongs to.
   * @param t_varaibleNode reference to the variable node that this while loop contains.
@@ -121,14 +126,6 @@ public:
   //  FollowTable methods 
   ///////////////////////////////////////////////////////
   FollowTable* getFollowTable();
-  /**
-  * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
-  * Returns false if current s1, s2 pair already exists in the map.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
-  * @return The status of the insertion.
-  */
-  bool insertFollows(int t_s1, int t_s2);
 
   /**
   * Method that checks if follows(s1, s2) holds.
@@ -239,7 +236,6 @@ public:
   //  ParentTable methods 
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
-  bool insertParent(int t_s1, int t_s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
   bool isParent(int t_s1, int t_s2);
