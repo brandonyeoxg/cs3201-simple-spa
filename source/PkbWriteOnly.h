@@ -44,7 +44,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  virtual bool insertParentRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) = 0;
+  virtual bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) = 0;
 
   /**
   * Inserts a variable that has been modified.
