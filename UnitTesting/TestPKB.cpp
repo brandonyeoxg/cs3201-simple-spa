@@ -19,9 +19,19 @@ namespace UnitTesting {
         { 3,{ 4 } }
       };
       PKB *pkb = new PKB();
-      pkb->insertFollows(1, 2);
-      pkb->insertFollows(2, 3);
-      pkb->insertFollows(3, 4);
+      std::list<STMT_NUM> stmtInLst;
+      pkb->insertFollowsRelation(stmtInLst, 1);
+      stmtInLst.push_back(1);
+
+      pkb->insertFollowsRelation(stmtInLst, 2);
+      stmtInLst.push_back(2);
+
+      pkb->insertFollowsRelation(stmtInLst, 3);
+      stmtInLst.push_back(3);
+
+      pkb->insertFollowsRelation(stmtInLst, 4);
+      stmtInLst.push_back(4);
+
       Assert::IsTrue(pkb->getFollowTable()->getFollowTable() == test);
     }
 
