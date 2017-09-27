@@ -10,10 +10,11 @@
 #include <algorithm>
 #include <iterator>
 
+#include "GlobalTypeDef.h"
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
-#include "PKB.h"
+#include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
 
 #ifndef QUERYEVALUATOR_H
@@ -38,7 +39,7 @@ public:
   * @param t_patterns A queue to store all the pattern clauses in the query.
   * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
-  QueryEvaluator(PKB *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
+  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
@@ -66,7 +67,7 @@ public:
   std::vector<std::string> formatVectorIntToVectorString(std::vector<int> t_vectorInt);
 
 private:
-  PKB *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
+  PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
   Grammar::GType m_selectedType; /**< A string. The type of the synonym that the query selects. */
   std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
@@ -76,16 +77,6 @@ private:
   std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
-
-  /**
-  * Represents a queryType.
-  * An enum type representing the queryType.
-  */
-  enum queryType {
-    SELECT, /**< enum value SELECT. */
-    RELATION, /**< enum value RELATION. */
-    PATTERN /**< enum value PATTERN. */
-  };
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -135,7 +126,7 @@ private:
   * @param t_result An unordered map which holds the result returned from PKB.
   * @param t_type A enum value to indicate the type of query that the result belongs to.
   */
-  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType t_type);
+  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type);
 
   /**
   * A private function to evaluate the final result of the query.

@@ -18,16 +18,17 @@
 #include "GlobalTypeDef.h"
 #include "PKB_API.h"
 #include "PkbWriteOnly.h"
+#include "PkbReadOnly.h"
 
 
 
 class TNode;
 
-class PKB: public PkbWriteOnly {
-  
+class PKB: public PkbWriteOnly, public PkbReadOnly {
+
 public:
   PKB();
- 
+
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
@@ -73,7 +74,7 @@ public:
   * @return a reference of the variable node.
   */
   VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
-  
+
   /**
   * Inserts an assignment statement into the PKB
   * @param t_parentNode reference to the parent node that the assignment statement belongs to.
@@ -82,7 +83,7 @@ public:
   * @param t_curLineNum the current line that this assignment is at.
   */
   void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
-  
+
   /**
   * Inserts a call statement into the PKB
   */
@@ -96,7 +97,7 @@ public:
   * @return a reference of the while node.
   */
   STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum);
-  
+
   /**
   * Inserts a if statement into the PKB.
   * @param t_parentNode reference to the parent node that this while loop belongs to.
@@ -123,7 +124,7 @@ public:
   */
   PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum);
   ///////////////////////////////////////////////////////
-  //  FollowTable methods 
+  //  FollowTable methods
   ///////////////////////////////////////////////////////
   FollowTable* getFollowTable();
 
@@ -134,7 +135,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollows(int t_s1, int t_s2);
+  bool isFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows*(s1, s2) holds.
@@ -143,7 +144,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollowsStar(int t_s1, int t_s2);
+  bool isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -151,14 +152,14 @@ public:
   * @param s1 an integer argument.
   * @return the line number that line s1 follows.
   */
-  int getFollows(int t_s1);
+  STMT_NUM getFollows(STMT_NUM t_s1);
 
   /**
   * Method that returns the line number that follows(s, s2) holds, where s is a variable and s2 is a known line number.
   * @param s2 an integer argument.
   * @return the line number that is followed by line s2.
   */
-  int getFollowedBy(int t_s2);
+  STMT_NUM getFollowedBy(STMT_NUM t_s2);
 
   /**
   * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -166,7 +167,7 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that line s1 follows*.
   */
-  std::vector<int> getFollowsStar(int t_s1);
+  LIST_OF_STMT_NUMS getFollowsStar(STMT_NUM t_s1);
 
   /**
   * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
@@ -174,31 +175,31 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that are followedBy* s2.
   */
-  std::vector<int> getFollowedByStar(int t_s2);
+  LIST_OF_STMT_NUMS getFollowedByStar(STMT_NUM t_s2);
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<int, int> getAllFollows();
+  std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows();
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllFollowsStar();
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
   * @return the vector of keys within the followTable.
   */
-  std::vector<int> getFollowedByAnything();
+  LIST_OF_STMT_NUMS getFollowedByAnything();
 
   /**
   * Method that returns the list of line numbers that follows a statement.
   * @return the vector of keys within the followTable.
   */
-  std::vector<int> getFollowsAnything();
+  LIST_OF_STMT_NUMS getFollowsAnything();
 
   /**
   * Method that checks if follows(_, _) or follows*(_, _) holds.
@@ -210,13 +211,13 @@ public:
   * Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowsAnything(int t_s2);
+  bool isFollowsAnything(STMT_NUM t_s2);
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowedByAnything(int t_s1);
+  bool isFollowedByAnything(STMT_NUM t_s1);
 
   /*
   * Inserts the procedure into the AST.
@@ -231,62 +232,62 @@ public:
   * @return the reference of the procedure node.
   */
   ProcedureNode* getRootAST(PROC_INDEX t_index);
-  
+
   ///////////////////////////////////////////////////////
-  //  ParentTable methods 
+  //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
   void populateParentStarMap();
   void populateParentedByStarMap();
-  bool isParent(int t_s1, int t_s2);
-  bool isParentStar(int t_s1, int t_s2);
-  int getParentOf(int t_s2);
-  std::vector<int> getChildrenOf(int t_s1);
-  std::vector<int> getParentStarOf(int t_s2);
-  std::vector<int> getChildrenStarOf(int t_s1);
-  std::unordered_map<int, std::vector<int>> getAllParents();
-  std::unordered_map<int, std::vector<int>> getAllParentsStar();
-  std::vector<int> getChildrenOfAnything();
-  std::vector<int> getParentOfAnything();
-  std::vector<int> getChildrenStarOfAnything();
-  std::vector<int> getParentStarOfAnything();
+  bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
+  bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
+  STMT_NUM getParentOf(STMT_NUM t_s2);
+  LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1);
+  LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2);
+  LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1);
+  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents();
+  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar();
+  LIST_OF_STMT_NUMS getChildrenOfAnything();
+  LIST_OF_STMT_NUMS getParentOfAnything();
+  LIST_OF_STMT_NUMS getChildrenStarOfAnything();
+  LIST_OF_STMT_NUMS getParentStarOfAnything();
   bool hasParentRelationship();
   bool hasParentStarRelationship();
-  bool isChildrenOfAnything(int t_s2);
-  bool isParentOfAnything(int t_s1);
-  bool isChildrenOfStarAnything(int t_s2);
-  bool isParentOfStarAnything(int t_s1);
+  bool isChildrenOfAnything(STMT_NUM t_s2);
+  bool isParentOfAnything(STMT_NUM t_s1);
+  bool isChildrenOfStarAnything(STMT_NUM t_s2);
+  bool isParentOfStarAnything(STMT_NUM t_s1);
 
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
-  
-  std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type);
-  std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
-  bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum);
+
+  std::unordered_map<STMT_NUM, Grammar::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type);
+  std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
+  bool insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////
-  //  VarTable methods 
+  //  VarTable methods
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
-  int insertUsesForStmt(std::string t_varName, int t_lineNum);
-  int insertModifiesForStmt(std::string t_varName, int t_lineNum);
-  bool isModifies(int t_lineNum, std::string t_varName);
-  bool isUses(int t_lineNum, std::string t_varName);
-  std::vector<std::string> getModifies(int t_lineNum);
-  std::vector<std::string> getUses(int t_lineNum);
-  std::vector<int> getStmtModifies(std::string t_varName);
-  std::vector<int> getStmtUses(std::string t_varName);
-  std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
-  std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
-  int getIndexOfVar(std::string t_varName);
-  std::string getVarNameFromIndex(int t_index);
-  bool isModifiesAnything(int t_lineNum);
-  bool isUsesAnything(int t_lineNum);
-  std::vector<int> getStmtModifiesAnything();
-  std::vector<int> getStmtUsesAnything();
-  std::vector<std::string> getAllVariables();
+  STMT_NUM insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum);
+  STMT_NUM insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum);
+  bool isModifies(STMT_NUM t_lineNum, std::string t_varName);
+  bool isUses(STMT_NUM t_lineNum, std::string t_varName);
+  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName);
+  LIST_OF_STMT_NUMS getStmtUses(std::string t_varName);
+  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies();
+  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses();
+  STMT_NUM getIndexOfVar(std::string t_varName);
+  std::string getVarNameFromIndex(STMT_NUM t_index);
+  bool isModifiesAnything(STMT_NUM t_lineNum);
+  bool isUsesAnything(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtModifiesAnything();
+  LIST_OF_STMT_NUMS getStmtUsesAnything();
+  LIST_OF_VAR_NAMES getAllVariables();
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -299,7 +300,7 @@ public:
   * @return the index to the assign table.
   */
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
-  
+
   /*
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
@@ -322,7 +323,7 @@ public:
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
- 
+
   /*
   * Populates the rest of the representation in the assignment table.
   * This method is to be called in the design extractor.
@@ -352,7 +353,7 @@ public:
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
-  //  ConstantTable methods 
+  //  ConstantTable methods
   ///////////////////////////////////////////////////////
   int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();
@@ -361,17 +362,17 @@ public:
   //  Pattern Matching
   ///////////////////////////////////////////////////////
 
-  /** 
+  /**
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
   * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
   * @param t_varName variable name to be matched.
   * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*. 
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
   * @return list of statement numbers with match
   */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
-  /** 
+  /**
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
   * Gets a statement number mapping to a variable.
   * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
@@ -379,7 +380,7 @@ public:
   * @return list of statement numbers with match
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-  
+
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
@@ -387,7 +388,7 @@ public:
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
-  
+
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
