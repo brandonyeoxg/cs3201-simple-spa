@@ -63,6 +63,20 @@ bool CallsTable::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   }
 }
 
+bool CallsTable::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return true;
+}
+
+LIST_OF_PROC_NAMES CallsTable::getCalls(PROC_NAME t_proc2) {
+  LIST_OF_PROC_NAMES procNames;
+  if (m_callsMap.find(t_proc2) != m_callsMap.end()) {
+    procNames = m_callsMap[t_proc2];
+    return procNames;
+  } else {
+    return procNames;
+  }
+}
+
 /**
 * A constructor.
 * Instantiates unordered maps (hashmap) of procedure names to vector of procedure names associated.
