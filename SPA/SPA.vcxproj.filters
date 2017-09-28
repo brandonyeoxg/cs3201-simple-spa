@@ -244,6 +244,15 @@
     <ClInclude Include="..\source\PkbReadOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\Evaluator.h">
+      <Filter>PQL\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Relationships.h">
+      <Filter>PQL\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Patterns.h">
+      <Filter>PQL\Evaluator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -272,6 +281,9 @@
     </Filter>
     <Filter Include="FrontEnd\Exception">
       <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL\Evaluator">
+      <UniqueIdentifier>{6a50b633-5f84-4a0d-8d7a-edc8806dbd34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

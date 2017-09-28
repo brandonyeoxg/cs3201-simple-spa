@@ -54,7 +54,9 @@
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
+    <ClInclude Include="..\source\Evaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\Patterns.h" />
     <ClInclude Include="..\source\PkbReadOnly.h" />
     <ClInclude Include="..\source\PkbWriteOnly.h" />
     <ClInclude Include="..\source\PKB_API.h" />
@@ -85,6 +87,7 @@
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\QueryResultProjector.h" />
+    <ClInclude Include="..\source\Relationships.h" />
     <ClInclude Include="..\source\StatementTable.h" />
     <ClInclude Include="..\source\StringUtil.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
