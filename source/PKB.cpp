@@ -500,6 +500,10 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
   return list;
 }
 
+void PKB::insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
+  PatternMatch::getInstance().addAssignStmt(t_stmtNum, t_stmtTokens);
+}
+
 
 //TBD
 PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {

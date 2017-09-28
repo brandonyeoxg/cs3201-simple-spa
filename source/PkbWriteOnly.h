@@ -111,4 +111,16 @@ public:
   virtual void populateParentedByStarMap() = 0;
 
   virtual void populateAssignTableAbstractions() = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Pattern Matching
+  ///////////////////////////////////////////////////////
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
+  */
+  virtual void insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) = 0;
 };

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+
 #include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -16,6 +17,8 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+#include "PatternMatch.h"
+
 #include "PKB_API.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
@@ -383,6 +386,14 @@ public:
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
+  */
+  void insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
 private:
   FollowTable* m_followTable;
