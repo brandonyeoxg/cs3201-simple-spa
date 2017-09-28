@@ -260,13 +260,13 @@ public:
   * Method that retrieves the TypeOfStatementTable.
   * @return the unordered_map of the statement's line number mapped to the type of the statement.
   */
-  virtual std::unordered_map<STMT_NUM, Grammar::GType> getTypeOfStatementTable() = 0;
+  virtual std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable() = 0;
 
   /**
   * Method that retrieves the StatementTypeTable.
   * @return the unordered_map of type of the statement mapped to its line number.
   */
-  virtual std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
+  virtual std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
 
   ///////////////////////////////////////////////////////
   //  VarTable 

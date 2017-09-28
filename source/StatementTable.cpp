@@ -13,15 +13,15 @@
 * Instantiates 2 unordered_maps that maps statement number to the type of statement, and vice versa.
 */
 StatementTable::StatementTable() {
-  std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
-  std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
+  std::unordered_map<int, queryType::GType> m_typeOfStatementTable;
+  std::unordered_map<queryType::GType, std::vector<int>> m_statementTypeTable;
 }
 
-std::unordered_map<int, Grammar::GType> StatementTable::getTypeOfStatementTable() {
+std::unordered_map<int, queryType::GType> StatementTable::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
 
-bool StatementTable::insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type) {
+bool StatementTable::insertTypeOfStatementTable(int t_lineNum, queryType::GType t_type) {
   //if lineNum already exists as key in table, return false.
   if (m_typeOfStatementTable.find(t_lineNum) != m_typeOfStatementTable.end()) {
     return false;
@@ -31,11 +31,11 @@ bool StatementTable::insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_
   }
 }
 
-std::unordered_map<Grammar::GType, std::vector<int>> StatementTable::getStatementTypeTable() {
+std::unordered_map<queryType::GType, std::vector<int>> StatementTable::getStatementTypeTable() {
   return m_statementTypeTable;
 }
 
-bool StatementTable::insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) {
+bool StatementTable::insertStatementTypeTable(queryType::GType t_type, int t_lineNum) {
   //if type does not exist as key
   if (m_statementTypeTable.find(t_type) == m_statementTypeTable.end()) {
     std::vector<int> lineNums;
