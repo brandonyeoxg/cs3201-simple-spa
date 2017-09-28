@@ -70,6 +70,53 @@ protected:
   * Returns the first token in a line
   */
   std::string getCurrentLineToken();
+
+  /*
+  * Returns true if the token is an operator.
+  *
+  * @param t_token the token to be checked.
+  */
+  bool isOperator(const std::string& t_token);
+
+  /*
+  * Returns true if the token is a brace.
+  *
+  * @param t_token the token to be checked.
+  */
+  bool isBrace(const std::string& t_token);
+
+  /*
+  * Returns true if the token is any key delimiter like a space or a brace or operator.
+  *
+  * @param t_token the token to be checked.
+  */
+  bool isKeyDelimiter(const std::string& t_token);
+
+  /*
+  * Tokenises the line into tokens
+  *
+  * @param t_line the line to be tokenised
+  */
+  std::vector<std::string> tokeniseLine(const std::string& t_line);
+
+  /*
+  * Returns true if the token is a valid name.
+  * A valid name refers to LETTER(LETTER|DIGIT)+.
+  */
+  bool isValidName(const std::string& t_token);
+
+  /*
+  * Returns true if the token is a constant.
+  * A constant just consists of purely digits.
+  */
+  bool isConstant(const std::string& t_token);
+
+  /*
+  * Returns true if the the statement is a non container statement.
+  * Checks with m_nextToken if it is an non container statement string.
+  */
+  bool isNonContainerStmt(std::string t_token);
+
 private:
   std::list<STMT_NUM> m_nestedStmtLineNum;
   std::vector<std::string> m_curTokens;
@@ -173,53 +220,7 @@ private:
   void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
-  * Returns true if the token is an operator.
-  * 
-  * @param t_token the token to be checked.
-  */
-  bool isOperator(const std::string& t_token);
-
-  /*
-  * Returns true if the token is a brace.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isBrace(const std::string& t_token);
-
-  /*
-  * Returns true if the token is any key delimiter like a space or a brace or operator.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isKeyDelimiter(const std::string& t_token);
-
-  /*
   * Returns the the next token in the line
   */
   std::string getToken();
-
-  /*
-  * Tokenises the line into tokens 
-  * 
-  * @param t_line the line to be tokenised
-  */
-  std::vector<std::string> tokeniseLine(const std::string& t_line);
-
-  /*
-  * Returns true if the token is a valid name.
-  * A valid name refers to LETTER(LETTER|DIGIT)+.
-  */
-  bool isValidName(std::string& t_token);
-
-  /*
-  * Returns true if the token is a constant.
-  * A constant just consists of purely digits.
-  */
-  bool isConstant(std::string& t_token);
-
-  /*
-  * Returns true if the the statement is a non container statement.
-  * Checks with m_nextToken if it is an non container statement string.
-  */
-  bool isNonContainerStmt();
 };

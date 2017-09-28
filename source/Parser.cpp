@@ -63,7 +63,7 @@ void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
   t_stmtInStmtLst.push_back(m_curLineNum);
-  if (isNonContainerStmt()) {
+  if (isNonContainerStmt(m_nextToken)) {
     parseNonContainerStmt(t_stmtInStmtLst);
   } else {
     parseContainerStmt(t_stmtInStmtLst);
@@ -327,7 +327,7 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   return tokens;
 }
 
-bool Parser::isValidName(std::string& t_token) {
+bool Parser::isValidName(const std::string& t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -342,7 +342,7 @@ bool Parser::isValidName(std::string& t_token) {
   return true;
 }
 
-bool Parser::isConstant(std::string& t_token) {
+bool Parser::isConstant(const std::string& t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -351,6 +351,6 @@ bool Parser::isConstant(std::string& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt() {
-  return m_nextToken != "while" && m_nextToken != "if";
+bool Parser::isNonContainerStmt(std::string t_token) {
+  return t_token != "while" && t_token != "if";
 }
