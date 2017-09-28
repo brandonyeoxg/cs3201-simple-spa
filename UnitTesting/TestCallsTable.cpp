@@ -9,20 +9,28 @@ namespace UnitTesting {
   TEST_CLASS(TestCallsTable) {
   private:
     CallsTable* m_callsTable;
-    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMapResult;
-    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMapResult;
+    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMap;
+    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
+    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
+    
   public:
     TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator) {
       m_callsTable = new CallsTable();
-      m_testCallsMapResult = {
+      m_testCallsMap = {
         { "ATLANTA",{ "BOSTON", "CLEVELAND" } },  
         { "CLEVELAND",{ "BOSTON"} },
         { "DENVER",{ "CLEVELAND" } }
       };
 
-      m_testCalledByMapResult = {
+      m_testCalledByMap = {
         { "BOSTON",{ "ATLANTA", "CLEVELAND" } },
         { "CLEVELAND",{ "DENVER", "ATLANTA" } }
+      };
+
+      m_testCallsStarMap = {
+        { "ATLANTA",{ "BOSTON", "CLEVELAND" } },
+        { "CLEVELAND",{ "BOSTON" } },
+        { "DENVER",{ "CLEVELAND", "BOSTON" } }
       };
       m_callsTable->insertCalls("ATLANTA", "BOSTON");
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
@@ -30,8 +38,8 @@ namespace UnitTesting {
       m_callsTable->insertCalls("ATLANTA", "CLEVELAND");
     }
     TEST_METHOD(TestInsertCalls) {
-      Assert::IsTrue(m_callsTable->getCallsMap() == m_testCallsMapResult);
-      Assert::IsTrue(m_callsTable->getCalledByMap() == m_testCalledByMapResult);
+      Assert::IsTrue(m_callsTable->getCallsMap() == m_testCallsMap);
+      Assert::IsTrue(m_callsTable->getCalledByMap() == m_testCalledByMap);
     }
     TEST_METHOD(TestIsCalls) {
       bool expected = m_callsTable->isCalls("ATLANTA", "BOSTON");
@@ -111,6 +119,11 @@ namespace UnitTesting {
     TEST_METHOD(TestIsCalledByAnything) {
       Assert::IsFalse(m_callsTable->isCalledByAnything("ATLANTA"));
       Assert::IsTrue(m_callsTable->isCalledByAnything("BOSTON"));
+    }
+
+    TEST_METHOD(TestPopulateCallsStarTable) {
+      m_callsTable->populateCallsStarMap();
+      Assert::IsTrue(m_callsTable->getCallsStarMap() == m_testCallsStarMap);
     }
   };
 }
