@@ -32,7 +32,6 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
 
   }
   
-
   //insertion to calledByMap
   //firstly, check if s2 exists as key in calledByMap.
   if (m_calledByMap.find(t_proc2) == m_calledByMap.end()) {
@@ -50,6 +49,19 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return true;
 }
 
+bool CallsTable::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  //if proc1 doesn't exist in callsMap, returns false.
+  if (m_callsMap.find(t_proc1) == m_callsMap.end()) {
+    return false;
+  } else {
+    LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
+    if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 
 /**
 * A constructor.

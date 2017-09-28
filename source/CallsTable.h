@@ -30,6 +30,9 @@ public:
   bool isCallsAnything();
   bool isCalledByAnything();  
 
+  void populateParentStarMap();
+  void populateParentedByStarMap(std::unordered_map<PROC_NAME, PROC_NAME>::iterator t_mapItr);
+
   CallsTable();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByMap();
