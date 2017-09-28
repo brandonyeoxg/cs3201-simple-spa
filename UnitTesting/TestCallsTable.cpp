@@ -83,6 +83,19 @@ namespace UnitTesting {
       std::unordered_map<PROC_NAME, PROC_NAME> actual = m_callsTable->getAllCalls();
       Assert::IsTrue(expected == actual);
     }
-    
+
+    TEST_METHOD(TestGetCallsAnything) {
+      static const std::string arr[] = { "ATLANTA", "CLEVELAND", "DENVER" };
+      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_NAMES actual = m_callsTable->getCallsAnything();
+      Assert::IsTrue(expected == actual);
+    }
+
+    TEST_METHOD(TestGetCalledByAnything) {
+      static const std::string arr[] = { "BOSTON", "CLEVELAND" };
+      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_NAMES actual = m_callsTable->getCalledByAnything();
+      Assert::IsTrue(expected == actual);
+    }
   };
 }

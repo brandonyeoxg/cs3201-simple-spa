@@ -42,4 +42,5 @@ private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
   std::set<PROC_NAME> m_allCalls;
+  std::set<PROC_NAME> m_allCalledBy;
 };
