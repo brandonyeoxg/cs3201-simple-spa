@@ -16,7 +16,6 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
-#include "PKB_API.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 
