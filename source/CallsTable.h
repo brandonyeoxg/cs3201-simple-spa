@@ -18,17 +18,19 @@ public:
   bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
-  PROC_NAME getCalls(PROC_NAME t_proc1);
-  PROC_NAME gettCalledBy(PROC_NAME t_proc2);
-  LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc1);
-  LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES gettCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar();
-  LIST_OF_PROC_NAMES getCallsAnything();
-  LIST_OF_PROC_NAMES getCalledByAnything();
-  bool hasCallsRelationship();
-  bool isCallsAnything();
-  bool isCalledByAnything();  
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2) 
+  LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+  LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+  LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+  bool hasCallsRelationship();  //calls(_, _)
+  bool isCallsAnything(PROC_NAME t_proc2);
+  bool isCalledByAnything(PROC_NAME t_proc1);
 
   void populateParentStarMap();
   void populateParentedByStarMap(std::unordered_map<PROC_NAME, PROC_NAME>::iterator t_mapItr);
