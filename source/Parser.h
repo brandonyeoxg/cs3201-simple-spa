@@ -128,6 +128,13 @@ private:
   void parseEachOperand(std::stack<TNode *>& t_exprStack);
 
   /*
+  * Tokenise the expr to the right .
+  *
+  * @param t_expr the string representation of the expression
+  */
+  std::vector<std::string> tokeniseExpr();
+
+  /*
   * Parses a non container statemment.
   *
   * @param t_node the reference to the stmtLst node

@@ -97,8 +97,14 @@ void Parser::parseAssignStmt() {
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  TNode* exprNode = parseExpr();
-  m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
+  //TNode* exprNode = parseExpr();
+  //m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
+ 
+  std::vector<std::string> tokenisedExpr = tokeniseExpr();
+  for (std::string strTok : tokenisedExpr) {
+    printf("%s", strTok);
+  }
+  printf("\n");
 }
 
 void Parser::parseCallStmt() {
@@ -143,6 +149,22 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
   t_exprStack.pop();
   PlusNode* plusNode = m_pkbWriteOnly->insertPlusOp(left, right, m_curLineNum);
   t_exprStack.push(plusNode);
+}
+
+std::vector<std::string> Parser::tokeniseExpr() {
+  std::vector<std::string> output;
+  std::string term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  if (!isConstant(term) && !isValidName(term)) {
+    throw SyntaxUnknownCommandException("Assignment terms must be an operator or a constant or a variable", m_curLineNum);
+  }
+  output.push_back(term);
+  while (isOperator(m_nextToken)) {
+    std::string opr = getMatchToken(tokentype::tokenType::EXPR);
+    output.push_back(opr);
+    term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    output.push_back(term);
+  }
+  return output;
 }
 
 void Parser::parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
@@ -204,6 +226,12 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
     case tokentype::tokenType::PROC_NAME:
     case tokentype::tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
+        m_nextToken = getCurrentLineToken();
+        return true;
+      }
+      break;
+    case tokentype::tokenType::EXPR:
+      if (isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
