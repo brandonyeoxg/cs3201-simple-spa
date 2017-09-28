@@ -14,18 +14,6 @@ typedef std::vector<std::string> LIST_OF_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 
 /*Called in QueryPreProcessor.h, by aaron*/
-const int m_procedure = 0;
-const int m_statementList = 1;
-const int m_statement = 2;
-const int m_assign = 3;
-const int m_while = 4;
-const int m_if = 5;
-const int m_call = 6;
-const int m_variable = 7;
-const int m_constant = 8;
-const int m_progline = 9;
-const int m_statementNumber = 10;
-const int m_string = 11;
 
 const int INVALID_INDEX = -1;
 
@@ -50,10 +38,10 @@ namespace queryType {
   * Called in QueryEvaluator.h, by verbena.
   */
   enum clauseType {
-    SELECT, /**< enum value SELECT. */
-    RELATION, /**< enum value RELATION. */
-    PATTERN, /**< enum value PATTERN. */
-    WITH /**< enum value WITH. */
+    SELECT, /**< An enum value SELECT. */
+    RELATION, /**< An enum value RELATION. */
+    PATTERN, /**< An enum value PATTERN. */
+    WITH /**< An enum value WITH. */
   };
 
   /** Represents the type of Grammar.
@@ -61,18 +49,18 @@ namespace queryType {
   *  Called in Grammar.h, by Ryan.
   */
   enum GType {
-    PROC, /**< An enum value representing a Procedure. */
-    ST_LST, /**< An enum value representing a Statement List. */
-    STMT, /**< An enum value representing a Statement. */
-    ASGN, /**< An enum value representing an Assign Statement. */
-    WHILE, /**< An enum value representing a While Statement. */
-    IF, /**< An enum value representing an If Else Statement. */
-    CALL, /**< An enum value representing an Expression (or operator, "+","-","*"). */
-    VAR, /**< An enum value representing a Variable. */
-    CONST, /**< An enum value representing an Integer Constant. */
-    PROG_LINE, /**< An enum value representing a Program Line. */
-    STMT_NO, /**< An enum value representing a Statement Number. */
-    STR /**< An enum value representing a String. */
+    PROC = 0, /**< An enum value representing a Procedure. */
+    ST_LST = 1, /**< An enum value representing a Statement List. */
+    STMT = 2, /**< An enum value representing a Statement. */
+    ASGN = 3, /**< An enum value representing an Assign Statement. */
+    WHILE = 4, /**< An enum value representing a While Statement. */
+    IF = 5, /**< An enum value representing an If Else Statement. */
+    CALL = 6, /**< An enum value representing an Expression (or operator, "+","-","*"). */
+    VAR = 7, /**< An enum value representing a Variable. */
+    CONST = 8, /**< An enum value representing an Integer Constant. */
+    PROG_LINE = 9, /**< An enum value representing a Program Line. */
+    STMT_NO = 10, /**< An enum value representing a Statement Number. */
+    STR = 11 /**< An enum value representing a String. */
   };
 
   /** Represents the type of Attribute.
