@@ -77,6 +77,16 @@ LIST_OF_PROC_NAMES CallsTable::getCalls(PROC_NAME t_proc2) {
   }
 }
 
+LIST_OF_PROC_NAMES CallsTable::getCalledBy(PROC_NAME t_proc1) {
+  LIST_OF_PROC_NAMES procNames;
+  if (m_calledByMap.find(t_proc1) != m_calledByMap.end()) {
+    procNames = m_calledByMap[t_proc1];
+    return procNames;
+  } else {
+    return procNames;
+  }
+}
+
 /**
 * A constructor.
 * Instantiates unordered maps (hashmap) of procedure names to vector of procedure names associated.

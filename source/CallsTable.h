@@ -19,7 +19,7 @@ public:
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
-  LIST_OF_PROC_NAMES gettCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();

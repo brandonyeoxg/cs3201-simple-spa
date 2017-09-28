@@ -59,5 +59,16 @@ namespace UnitTesting {
       actual = m_callsTable->getCalls("BOSTON");
       Assert::IsTrue(emptyVector == actual);
     }
+
+    TEST_METHOD(TestGetCalledBy) {
+      static const std::string arr[] = { "ATLANTA", "CLEVELAND" };
+      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_NAMES actual = m_callsTable->getCalledBy("BOSTON");
+      Assert::IsTrue(expected == actual);
+
+      LIST_OF_PROC_NAMES emptyVector;
+      actual = m_callsTable->getCalledBy("DENVER");
+      Assert::IsTrue(emptyVector == actual);
+    }
   };
 }
