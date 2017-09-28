@@ -17,6 +17,7 @@
 #include "Pattern.h"
 #include "PKB.h"
 #include "StringUtil.h"
+#include "GlobalTypeDef.h"
 
 class QueryPreProcessor
 {

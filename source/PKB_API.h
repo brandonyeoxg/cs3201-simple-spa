@@ -297,7 +297,7 @@ public:
   * Method that retrieves the TypeOfStatementTable.
   * @return the unordered_map of the statement's line number mapped to the type of the statement.
   */
-  virtual std::unordered_map<int, Grammar::GType> getTypeOfStatementTable() = 0;
+  virtual std::unordered_map<int, queryType::GType> getTypeOfStatementTable() = 0;
 
   /**
   * Method that inserts to TypeOfStatementTable with the line number as key and type of statement as value.
@@ -306,13 +306,13 @@ public:
   * @param s2 a Grammer GType argument.
   * @return The status of the insertion.
   */
-  virtual bool insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type) = 0;
+  virtual bool insertTypeOfStatementTable(int t_lineNum, queryType::GType t_type) = 0;
 
   /**
   * Method that retrieves the StatementTypeTable.
   * @return the unordered_map of type of the statement mapped to its line number.
   */
-  virtual std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable() = 0;
+  virtual std::unordered_map<queryType::GType, std::vector<int>>  getStatementTypeTable() = 0;
 
   /**
   * Method that inserts to StatementTypeTable with the type of statement as key and line number as value.
@@ -321,7 +321,7 @@ public:
   * @param s2 an integer argument.
   * @return The status of the insertion.
   */
-  virtual bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum) = 0;
+  virtual bool insertStatementTypeTable(queryType::GType t_type, int t_lineNum) = 0;
 
 
   ///////////////////////////////////////////////////////

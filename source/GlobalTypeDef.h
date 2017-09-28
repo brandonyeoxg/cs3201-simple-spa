@@ -50,9 +50,58 @@ namespace queryType {
   * Called in QueryEvaluator.h, by verbena.
   */
   enum clauseType {
-    SELECT, /**< enum value SELECT. */
-    RELATION, /**< enum value RELATION. */
-    PATTERN, /**< enum value PATTERN. */
-    WITH /**< enum value WITH. */
+    SELECT, /**< An enum value SELECT. */
+    RELATION, /**< An enum value RELATION. */
+    PATTERN, /**< An enum value PATTERN. */
+    WITH /**< An enum value WITH. */
+  };
+
+  /** Represents the type of Grammar.
+  *  An enum type representing the type of the component of the SIMPLE Grammar.
+  *  Called in Grammar.h, by Ryan.
+  */
+  enum GType {
+    PROC = 0, /**< An enum value representing a Procedure. */
+    ST_LST = 1, /**< An enum value representing a Statement List. */
+    STMT = 2, /**< An enum value representing a Statement. */
+    ASGN = 3, /**< An enum value representing an Assign Statement. */
+    WHILE = 4, /**< An enum value representing a While Statement. */
+    IF = 5, /**< An enum value representing an If Else Statement. */
+    CALL = 6, /**< An enum value representing an Expression (or operator, "+","-","*"). */
+    VAR = 7, /**< An enum value representing a Variable. */
+    CONST = 8, /**< An enum value representing an Integer Constant. */
+    PROG_LINE = 9, /**< An enum value representing a Program Line. */
+    STMT_NO = 10, /**< An enum value representing a Statement Number. */
+    STR = 11 /**< An enum value representing a String. */
+  };
+
+  /** Represents the type of Attribute.
+  *  An enum type representing the type of the attribute of the Grammar.
+  *  Called in Grammar.h, by Ryan.
+  */
+  enum AType {
+    PROC_NAME, /**< An enum value representing a procName attribute. */
+    VAR_NAME, /**< An enum value representing a varName attribute. */
+    STMT_NUM, /**< An enum value representing a stmt# or prog_line# attribute. */
+    VALUE /**< An enum value representing a value attribute. */
+  };
+
+  /** Represents the type of Relation.
+  *  An enum type representing the Relation in the query.
+  *  Called in Relation.h, by Ryan.
+  */
+  enum RType {
+    FOLLOWS, /**< An enum value representing the Follows relation. */
+    FOLLOWS_, /**< An enum value representing the Follows* relation. */
+    PARENT, /**< An enum value representing the Parent relation. */
+    PARENT_, /**< An enum value representing the Parent* relation. */
+    USES, /**< An enum value representing the Uses relation. */
+    MODIFIES, /**< An enum value representing the Modifies relation. */
+    CALLS, /**< An enum value representing the Calls relation. */
+    CALLS_, /**< An enum value representing the Calls* relation. */
+    NEXT, /**< An enum value representing the Next relation. */
+    NEXT_, /**< An enum value representing the Next* relation. */
+    AFFECTS, /**< An enum value representing the Affects relation. */
+    AFFECTS_ /**< An enum value representing the Affects* relation. */
   };
 }

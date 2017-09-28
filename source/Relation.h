@@ -4,6 +4,8 @@
 
 #include "Grammar.h"
 #include <string>
+#include "GlobalTypeDef.h"
+
 /**A class representing the "Such That" clause of a query.
 *  @author Ryan Tan
 *  @date 26/08/2017
@@ -11,24 +13,6 @@
 class Relation
 {
 public:
-  /** Represents the type of Relation.
-  *  An enum type representing the Relation in the query.
-  */
-  enum RType {
-    FOLLOWS, /**< An enum value representing the Follows relation. */
-    FOLLOWS_, /**< An enum value representing the Follows* relation. */
-    PARENT, /**< An enum value representing the Parent relation. */
-    PARENT_, /**< An enum value representing the Parent* relation. */
-    USES, /**< An enum value representing the Uses relation. */
-    MODIFIES, /**< An enum value representing the Modifies relation. */
-    CALLS,
-    CALLS_,
-    NEXT,
-    NEXT_,
-    AFFECTS,
-    AFFECTS_
-  };
-
   /**
   * Default constructor.
   */
@@ -48,7 +32,7 @@ public:
   * The returned RType is an enum type that identifies the Relation as one of the Design Abstractions.
   * @return The RType of this query.
   */
-  RType getType();
+  queryType::RType getType();
 
   /**
   * A Getter that returns the first Grammar object of the Dersign Abstraction.
@@ -63,7 +47,7 @@ public:
   Grammar getG2();
 
 private:
-  RType m_type; /**< Represents the type of this Design Abstraction object */
+  queryType::RType m_type; /**< Represents the type of this Design Abstraction object */
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */
   Grammar m_g2; /**< Second Grammar object useed by the Design Abstraction */
   static std::string FLS;
