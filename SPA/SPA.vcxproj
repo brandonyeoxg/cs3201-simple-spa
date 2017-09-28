@@ -16,6 +16,7 @@
     <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\ASTUtilities.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\FollowsEvaluator.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\FollowTable.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="..\source\ASTUtilities.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
     <ClInclude Include="..\source\Evaluator.h" />
+    <ClInclude Include="..\source\FollowsRelationship.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\Patterns.h" />
     <ClInclude Include="..\source\PkbReadOnly.h" />

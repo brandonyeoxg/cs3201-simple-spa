@@ -106,6 +106,9 @@
     <ClCompile Include="..\source\StatementTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\FollowsEvaluator.cpp">
+      <Filter>PQL\Evaluator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -247,11 +250,14 @@
     <ClInclude Include="..\source\Evaluator.h">
       <Filter>PQL\Evaluator</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\FollowsRelationship.h">
+      <Filter>PQL\Relationships</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\Relationships.h">
-      <Filter>PQL\Evaluator</Filter>
+      <Filter>PQL\Relationships</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Patterns.h">
-      <Filter>PQL\Evaluator</Filter>
+      <Filter>PQL\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +290,12 @@
     </Filter>
     <Filter Include="PQL\Evaluator">
       <UniqueIdentifier>{6a50b633-5f84-4a0d-8d7a-edc8806dbd34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL\Relationships">
+      <UniqueIdentifier>{12e2077e-997e-4aa8-9b81-780b5f1438df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL\Patterns">
+      <UniqueIdentifier>{85f76b21-f182-4dce-8558-09fc90554d0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
