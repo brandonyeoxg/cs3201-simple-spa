@@ -24,21 +24,14 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
     LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
     if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
       return false;
+    } else {
+      //append t_proc 2 to the vector.
+      procNames.push_back(t_proc2);
+      m_callsMap[t_proc1] = procNames;
     }
+
   }
-  //else, retrieve the existing vector, append, and put back to callsMap.
-  //also for every existing vector, check if s1 exists. If it does, append s2.
-  for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
-    LIST_OF_PROC_NAMES vect = it->second;
-    for (int i = 0; i < vect.size(); i++) {
-      if (vect[i] == t_proc1) { //if s1 present in vector
-        vect.push_back(t_proc2);
-        //update callsMap
-        m_callsMap[it->first] = vect;
-        m_allCalls.insert(t_proc2);
-      }
-    }
-  }
+  
 
   //insertion to calledByMap
   //firstly, check if s2 exists as key in calledByMap.
@@ -46,12 +39,13 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
     //if it doesn't, simply emplace s1 as key.
     LIST_OF_PROC_NAMES procNames;
     procNames.push_back(t_proc1);
-    auto iterator = m_calledByMap.find(t_proc1);
-    if (iterator != m_calledByMap.end()) {
-      LIST_OF_PROC_NAMES procNamesCalledByProc1 = iterator->second;
-      procNames.insert(procNames.end(), procNamesCalledByProc1.begin(), procNamesCalledByProc1.end());
-    }
     m_calledByMap.emplace(t_proc2, procNames);
+  } else {
+    LIST_OF_PROC_NAMES procNames;
+    auto iterator = m_calledByMap.find(t_proc2);
+    procNames = iterator->second;
+    procNames.push_back(t_proc1);
+    m_calledByMap[t_proc2] = procNames;
   }
   return true;
 }
@@ -65,4 +59,12 @@ CallsTable::CallsTable() {
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
   std::set<PROC_NAME> m_allCalls;
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCallsMap() {
+  return m_callsMap;
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCalledByMap() {
+  return m_calledByMap;
 }

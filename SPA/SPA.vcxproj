@@ -15,6 +15,7 @@
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\ASTUtilities.cpp" />
+    <ClCompile Include="..\source\CallsTable.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
+    <ClInclude Include="..\source\CallsTable.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\PkbReadOnly.h" />

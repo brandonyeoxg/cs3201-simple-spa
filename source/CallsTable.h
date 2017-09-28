@@ -31,6 +31,8 @@ public:
   bool isCalledByAnything();  
 
   CallsTable();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
