@@ -33,7 +33,7 @@ public:
   bool isCalledByAnything(PROC_NAME t_proc2);
 
   void populateCallsStarMap();
-  void populateCallededByStarMap(std::unordered_map<PROC_NAME, PROC_NAME>::iterator t_mapItr);
+  void populateCalledByStarMap();
 
   CallsTable();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();

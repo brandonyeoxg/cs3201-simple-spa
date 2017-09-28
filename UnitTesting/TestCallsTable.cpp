@@ -12,7 +12,8 @@ namespace UnitTesting {
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
-    
+    std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
+
   public:
     TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator) {
       m_callsTable = new CallsTable();
@@ -31,6 +32,11 @@ namespace UnitTesting {
         { "ATLANTA",{ "BOSTON", "CLEVELAND" } },
         { "CLEVELAND",{ "BOSTON" } },
         { "DENVER",{ "CLEVELAND", "BOSTON" } }
+      };
+
+      m_testCalledByStarMap = {
+        { "BOSTON",{ "ATLANTA", "CLEVELAND", "DENVER" } },
+        { "CLEVELAND",{ "DENVER", "ATLANTA" } }
       };
       m_callsTable->insertCalls("ATLANTA", "BOSTON");
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
@@ -124,6 +130,11 @@ namespace UnitTesting {
     TEST_METHOD(TestPopulateCallsStarTable) {
       m_callsTable->populateCallsStarMap();
       Assert::IsTrue(m_callsTable->getCallsStarMap() == m_testCallsStarMap);
+    }
+
+    TEST_METHOD(TestPopulateCalledByStarTable) {
+      m_callsTable->populateCalledByStarMap();
+      Assert::IsTrue(m_callsTable->getCalledByStarMap() == m_testCalledByStarMap);
     }
   };
 }
