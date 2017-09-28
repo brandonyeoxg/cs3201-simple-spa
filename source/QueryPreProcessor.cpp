@@ -370,6 +370,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             return false;
           }
 
+          //Checks if Calls contains the correct parameters: Procedure condition
+          if (designAbstractionEntity == "Calls" && g1.getType() != queryType::GType::PROC
+            || designAbstractionEntity == "Calls*" && g1.getType() != queryType::GType::PROC) {
+            return false;
+          }
+
           //check is any design abstraction synonyms contains constant c
           if (g1.getType() == queryType::GType::CONST) {
             return false;
@@ -388,6 +394,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Calls contains the correct parameters: procedure condition
+              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                return false;
+              }
 
               //Checks if Parent contains variables in their parameters and return false if true
               if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
@@ -429,6 +441,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               }
               break;
             } else if (sTInt2 > 0) {
+
+              //Checks if Calls contains the correct parameters: no numbers
+              if (designAbstractionEntity == "Calls"
+                || designAbstractionEntity == "Calls*") {
+                return false;
+              }
+
               g2 = Grammar (queryType::GType::STMT_NO, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -448,6 +467,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         } else if (sTInt1 > 0) {
           counterQ = 0;
+
+          //Checks if Calls contains the correct parameters: no numbers
+          if (designAbstractionEntity == "Calls"
+            || designAbstractionEntity == "Calls*") {
+            return false;
+          }
+
           g1 = Grammar (queryType::GType::STMT_NO, sTName1);
           for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
             Grammar tempGrammar2 = m_grammarVector.at(counterQ);
@@ -523,6 +549,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Calls contains the correct parameters: procedure condition
+              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                return false;
+              }
+
+              //Checks if Parent/Parent* contains variables in their parameters and return false if tue
               if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
                 || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
                 return false;
@@ -561,6 +595,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               }
               break;
             } else if (sTInt2 > 0) {
+
+              //Checks if Calls contains the correct parameters: no numbers
+              if (designAbstractionEntity == "Calls"
+                || designAbstractionEntity == "Calls*") {
+                return false;
+              }
+
               g2 = Grammar (queryType::GType::STMT_NO, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -589,6 +630,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Calls contains the correct parameters: procedure condition
+              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                return false;
+              }
+
               //Checks if Parent contains variables in their parameters and return false if true
               if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
                 || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
@@ -628,6 +676,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               }
               break;
             } else if (sTInt2 > 0) {
+
+              //Checks if Calls contains the correct parameters: no numbers
+              if (designAbstractionEntity == "Calls"
+                || designAbstractionEntity == "Calls*") {
+                return false;
+              }
+
               g2 = Grammar(queryType::GType::STMT_NO, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
