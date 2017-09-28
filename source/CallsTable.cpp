@@ -131,6 +131,14 @@ LIST_OF_PROC_NAMES CallsTable::getCalledByAnything() {
   return procNames;
 }
 
+bool CallsTable::hasCallsRelationship() {
+  if (m_callsMap.size() > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 
 /**

@@ -97,5 +97,10 @@ namespace UnitTesting {
       LIST_OF_PROC_NAMES actual = m_callsTable->getCalledByAnything();
       Assert::IsTrue(expected == actual);
     }
+
+    TEST_METHOD(TestHasCallsRelationship) {
+      bool actual = m_callsTable->hasCallsRelationship();
+      Assert::IsTrue(actual);
+    }
   };
 }
