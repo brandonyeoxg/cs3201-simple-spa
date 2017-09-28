@@ -1,5 +1,15 @@
 #include "QueryPreProcessor.h"
 
+std::string QueryPreProcessor::PROCEDURE = "procedure";
+std::string QueryPreProcessor::STMTLST = "stmtLst";
+std::string QueryPreProcessor::STMT = "stmt";
+std::string QueryPreProcessor::ASSIGN = "assign";
+std::string QueryPreProcessor::WHILE = "while";
+std::string QueryPreProcessor::IF = "if";
+std::string QueryPreProcessor::VARIABLE = "variable";
+std::string QueryPreProcessor::CONSTANT = "constant";
+std::string QueryPreProcessor::PROG_LINE = "prog_line";
+
 QueryPreProcessor::QueryPreProcessor()
 {
 }
@@ -126,31 +136,31 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
 
       int counterL = 0;
       for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
-        if (entity == "procedure") {
+        if (entity == PROCEDURE) {
           Grammar g(m_procedure, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "stmtLst") {
+        } else if (entity == STMTLST) {
           Grammar g(m_statementList, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "stmt") {
+        } else if (entity == STMT) {
           Grammar g(m_statement, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "assign") {
+        } else if (entity == ASSIGN) {
           Grammar g(m_assign, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "while") {
+        } else if (entity == WHILE) {
           Grammar g(m_while, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "if") {
+        } else if (entity == IF) {
           Grammar g(m_if, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "variable") {
+        } else if (entity == VARIABLE) {
           Grammar g(m_variable, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "constant") {
+        } else if (entity == CONSTANT) {
           Grammar g(m_constant, variableVector.at(counterL));
           m_grammarVector.push_back(g);
-        } else if (entity == "prog_line") {
+        } else if (entity == PROG_LINE) {
           Grammar g(m_progline, variableVector.at(counterL));
           m_grammarVector.push_back(g);
         } else {
