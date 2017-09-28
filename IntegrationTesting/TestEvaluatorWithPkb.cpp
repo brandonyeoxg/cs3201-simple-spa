@@ -25,14 +25,14 @@ namespace IntegrationTesting
     {
       //Initialise PKB
       m_pkb = new PKB();
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 1);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 2);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 3);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 4);
-      m_pkb->insertTypeOfStatementTable(1, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(2, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(3, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(4, Grammar::GType::ASGN);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 1);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 2);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 3);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 4);
+      m_pkb->insertTypeOfStatementTable(1, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(2, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(3, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(4, queryType::GType::ASGN);
 
       std::list<STMT_NUM> stmtInLst;
       m_pkb->insertFollowsRelation(stmtInLst, 1);

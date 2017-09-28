@@ -1,6 +1,5 @@
 #include "Grammar.h"
 #include <stdio.h>
-#include <string>
 
   Grammar::Grammar() {}
 
@@ -25,29 +24,29 @@
    */
   Grammar::Grammar(int t_type, std::string t_name) {
     if (t_type == PROC) {
-      m_type = GType::PROC;
+      m_type = queryType::GType::PROC;
     } else if (t_type == STLST) {
-      m_type = GType::ST_LST;
+      m_type = queryType::GType::ST_LST;
     } else if (t_type == STMT) {
-      m_type = GType::STMT;
+      m_type = queryType::GType::STMT;
     } else if (t_type == ASGN) {
-      m_type = GType::ASGN;
+      m_type = queryType::GType::ASGN;
     } else if (t_type == WHILE) {
-      m_type = GType::WHILE;
+      m_type = queryType::GType::WHILE;
     } else if (t_type == IF) {
-      m_type = GType::IF;
+      m_type = queryType::GType::IF;
     } else if (t_type == CALL) {
-      m_type = GType::CALL;
+      m_type = queryType::GType::CALL;
     } else if (t_type == VAR) {
-      m_type = GType::VAR;
+      m_type = queryType::GType::VAR;
     } else if (t_type == CONST) {
-      m_type = GType::CONST;
+      m_type = queryType::GType::CONST;
     } else if (t_type == PROGLN) {
-      m_type = GType::PROG_LINE;
+      m_type = queryType::GType::PROG_LINE;
     } else if (t_type == STMTNUM) {
-      m_type = GType::STMT_NO;
+      m_type = queryType::GType::STMT_NO;
     } else if (t_type == STR) {
-      m_type = GType::STR;
+      m_type = queryType::GType::STR;
     }
     m_name = t_name;
   }
@@ -57,14 +56,14 @@
    * The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
    * @return The type of this Grammar object
    */
-  Grammar::GType Grammar::getType() { return m_type; }
+  queryType::GType Grammar::getType() { return m_type; }
 
   /**
   * A Getter that returns the type of this Grammar object
   * The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
   * @return The type of this Grammar object
   */
-  Grammar::AType Grammar::getAttr() { return m_attr; }
+  queryType::AType Grammar::getAttr() { return m_attr; }
 
   /**
   * A Getter that returns the name of this Grammar object
