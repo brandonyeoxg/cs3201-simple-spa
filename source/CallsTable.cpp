@@ -139,6 +139,13 @@ bool CallsTable::hasCallsRelationship() {
   }
 }
 
+bool CallsTable::isCallsAnything(PROC_NAME t_proc1) {
+  return (m_allCalls.find(t_proc1) != m_allCalls.end());
+}
+
+bool CallsTable::isCalledByAnything(PROC_NAME t_proc2) {
+  return (m_allCalledBy.find(t_proc2) != m_allCalledBy.end());
+}
 
 
 /**

@@ -102,5 +102,15 @@ namespace UnitTesting {
       bool actual = m_callsTable->hasCallsRelationship();
       Assert::IsTrue(actual);
     }
+
+    TEST_METHOD(TestIsCallsAnything) {
+      Assert::IsTrue(m_callsTable->isCallsAnything("ATLANTA"));
+      Assert::IsFalse(m_callsTable->isCallsAnything("BOSTON"));
+    }
+
+    TEST_METHOD(TestIsCalledByAnything) {
+      Assert::IsFalse(m_callsTable->isCalledByAnything("ATLANTA"));
+      Assert::IsTrue(m_callsTable->isCalledByAnything("BOSTON"));
+    }
   };
 }

@@ -29,11 +29,11 @@ public:
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
   LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
   bool hasCallsRelationship();  //calls(_, _)
-  bool isCallsAnything(PROC_NAME t_proc2);
-  bool isCalledByAnything(PROC_NAME t_proc1);
+  bool isCallsAnything(PROC_NAME t_proc1);
+  bool isCalledByAnything(PROC_NAME t_proc2);
 
-  void populateParentStarMap();
-  void populateParentedByStarMap(std::unordered_map<PROC_NAME, PROC_NAME>::iterator t_mapItr);
+  void populateCallsStarMap();
+  void populateCallededByStarMap(std::unordered_map<PROC_NAME, PROC_NAME>::iterator t_mapItr);
 
   CallsTable();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();
