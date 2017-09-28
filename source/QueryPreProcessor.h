@@ -140,6 +140,15 @@ private:
   const int m_progline = 9;
   const int m_statementNumber = 10;
   const int m_string = 11;
+  static std::string PROCEDURE;
+  static std::string STMTLST;
+  static std::string STMT;
+  static std::string ASSIGN;
+  static std::string WHILE;
+  static std::string IF;
+  static std::string VARIABLE;
+  static std::string CONSTANT;
+  static std::string PROG_LINE;
 };
 
 #endif QUERYPREPROCESSOR_H
