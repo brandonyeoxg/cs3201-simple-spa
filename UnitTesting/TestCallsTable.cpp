@@ -70,5 +70,19 @@ namespace UnitTesting {
       actual = m_callsTable->getCalledBy("DENVER");
       Assert::IsTrue(emptyVector == actual);
     }
+
+    TEST_METHOD(TestAllCalls) {
+      std::unordered_map<PROC_NAME, PROC_NAME> expected;
+      expected = {
+        { "ATLANTA", "BOSTON" },
+        { "CLEVELAND", "BOSTON" },
+        { "ATLANTA", "CLEVELAND" },
+        { "DENVER", "CLEVELAND"}
+      };
+
+      std::unordered_map<PROC_NAME, PROC_NAME> actual = m_callsTable->getAllCalls();
+      Assert::IsTrue(expected == actual);
+    }
+    
   };
 }

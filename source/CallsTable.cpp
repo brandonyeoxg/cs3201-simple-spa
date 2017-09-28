@@ -87,6 +87,16 @@ LIST_OF_PROC_NAMES CallsTable::getCalledBy(PROC_NAME t_proc1) {
   }
 }
 
+std::unordered_map<PROC_NAME, PROC_NAME> CallsTable::getAllCalls() {
+  std::unordered_map<PROC_NAME, PROC_NAME> allCalls;
+  for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
+    LIST_OF_PROC_NAMES procNames = it->second;
+    for (int i = 0; i < procNames.size(); i++) {
+      allCalls.emplace(it->first, procNames[i]);
+    }
+  }
+  return allCalls;
+}
 /**
 * A constructor.
 * Instantiates unordered maps (hashmap) of procedure names to vector of procedure names associated.
