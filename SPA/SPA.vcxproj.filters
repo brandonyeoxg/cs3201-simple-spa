@@ -232,9 +232,6 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\PKB_API.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
