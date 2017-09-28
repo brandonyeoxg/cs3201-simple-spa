@@ -38,9 +38,13 @@ public:
   CallsTable();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsStarMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByStarMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
   std::set<PROC_NAME> m_allCalls;
   std::set<PROC_NAME> m_allCalledBy;
 };
