@@ -118,19 +118,19 @@ private:
   * @param t_expr the string representation of the expression
   * @return the completed expr's root node
   */
-  TNode* parseExpr();
+  TNode* parseExpr(std::vector<std::string> t_tokens);
 
   /*
   * Parses the each operands to populate the respective tables in the PKB.
   *
   * @param t_expr the string representation of the expression
   */
-  void parseEachOperand(std::stack<TNode *>& t_exprStack);
+  void parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std::string>& t_tokens);
 
   /*
-  * Tokenise the expr to the right .
+  * Tokenise the expr to the right. 
+  * Tokenised into a vector, without spaces, each element belongs to a single term or operator.
   *
-  * @param t_expr the string representation of the expression
   */
   std::vector<std::string> tokeniseExpr();
 

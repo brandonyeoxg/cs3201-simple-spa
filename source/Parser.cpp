@@ -65,8 +65,7 @@ void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   t_stmtInStmtLst.push_back(m_curLineNum);
   if (isNonContainerStmt()) {
     parseNonContainerStmt(t_stmtInStmtLst);
-  }
-  else {
+  } else {
     parseContainerStmt(t_stmtInStmtLst);
   }
 }
@@ -96,15 +95,10 @@ void Parser::parseAssignStmt() {
   VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
-  }
-  //TNode* exprNode = parseExpr();
-  //m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
- 
+  } 
   std::vector<std::string> tokenisedExpr = tokeniseExpr();
-  for (std::string strTok : tokenisedExpr) {
-    printf("%s", strTok);
-  }
-  printf("\n");
+  TNode* exprNode = parseExpr(tokenisedExpr);
+  m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
 }
 
 void Parser::parseCallStmt() {
@@ -112,9 +106,10 @@ void Parser::parseCallStmt() {
   m_pkbWriteOnly->insertCallStmt(m_curLineNum);
 }
 
-TNode* Parser::parseExpr() {
+TNode* Parser::parseExpr(std::vector<std::string> t_tokens) {
   std::stack<TNode *> exprStack;
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   if (isConstant(name)) {
     ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
     m_pkbWriteOnly->insertConstant(name, m_curLineNum);
@@ -125,18 +120,22 @@ TNode* Parser::parseExpr() {
     VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
-  while (m_nextToken == "+") {
-    if (exprStack.empty() == true || !isMatchToken("+")) {
+  while (!t_tokens.empty()) {
+    if (exprStack.empty() == true || !isOperator(t_tokens[0])) {
       break;
     }
-    parseEachOperand(exprStack);
+    if (isOperator(t_tokens[0])) {
+      t_tokens.erase(t_tokens.begin());
+    }
+    parseEachOperand(exprStack, t_tokens);
   }
   TNode *childNode = exprStack.top();
   return childNode;
 }
 
-void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std::string>& t_tokens) {
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   TNode* right;
   if (isConstant(name)) {
     right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
