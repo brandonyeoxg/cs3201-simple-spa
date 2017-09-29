@@ -159,40 +159,5 @@ namespace UnitTesting {
       Assert::IsTrue(actualMap == expectedMap);
     }
 
-    // Test get by subtree pattern is correct
-    TEST_METHOD(testGetAllAssignStmtBySubtreePattern) {
-      PKB pkb = *(new PKB());
-      int dummyIndex = 0;
-      int lineNum1 = 500;
-      pkb.insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), new ConstantNode(lineNum1, 5)));
-      pkb.populateAssignTableAbstractions();
-      std::list<STMT_NUM> list = pkb.getAllAssignStmtBySubtreePattern(" x + y  ");
-      Assert::IsTrue(list.size() == 0);
-
-      // add expression: node = x_man + chickens
-      std::string varName1 = "x_man", varName2 = "chickens";
-      TNode * plusNode = new PlusNode(lineNum1, new VariableNode(lineNum1, varName1, dummyIndex), new VariableNode(lineNum1, varName2, dummyIndex));
-      pkb.insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), plusNode));
-      
-      // add expression: node = chickens
-      int lineNum2 = 300;
-      pkb.insertAssignRelation(lineNum2, new AssignNode(lineNum2, new VariableNode(lineNum2, "node", dummyIndex), new VariableNode(lineNum2, varName2, dummyIndex)));
-      
-      pkb.populateAssignTableAbstractions();
-
-      // match exact expression
-      list = pkb.getAllAssignStmtBySubtreePattern(" x_man + chickens  ");
-      Assert::IsTrue((int)list.size() == 1);
-      std::list<STMT_NUM> expectedList = std::list<STMT_NUM>();
-      expectedList.push_back(lineNum1);
-      Assert::IsTrue(list == expectedList);
-
-      list = pkb.getAllAssignStmtBySubtreePattern("  chickens  ");
-      Assert::IsTrue((int)list.size() == 2);
-      expectedList = std::list<STMT_NUM>();
-      expectedList.push_back(lineNum2);
-      expectedList.push_back(lineNum1);
-      Assert::IsTrue(list == expectedList);
-    }
   };
 }

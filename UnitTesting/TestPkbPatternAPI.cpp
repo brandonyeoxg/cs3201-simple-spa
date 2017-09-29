@@ -12,12 +12,11 @@ public:
 
   TEST_METHOD(insertAndExtractStmts_byExactPattern) {
     PkbWriteOnly * pkbWrite = new PKB();
-    pkbWrite->insertAssignStmt(1, { "x", "+", "y" });
-
     PkbReadOnly * pkbRead = new PKB();
     std::list<STMT_NUM> result, expected;
 
     // simple expression
+    pkbWrite->insertAssignStmt(1, { "x", "+", "y" });
     expected = { 1 };
     result = pkbRead->getAllAssignStmtByExactPattern("x+y");
     Assert::IsTrue(result == expected);
@@ -39,6 +38,21 @@ public:
     // should not match subtree
     expected = {};
     result = pkbRead->getAllAssignStmtByExactPattern("   xMan  ");
+    Assert::IsTrue(result == expected);
+
+    PatternMatch::resetInstance();
+  }
+
+  TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
+    PkbWriteOnly * pkbWrite = new PKB();
+    PkbReadOnly * pkbRead = new PKB();
+    std::list<STMT_NUM> result, expected;
+
+    pkbWrite->insertAssignStmt(1, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmt(3, { "x", "*", "y", "*", "b" });
+    expected = { 1, 2, 3 };
+    result = pkbRead->getAllAssignStmtBySubtreePattern(" x *  y   ");
     Assert::IsTrue(result == expected);
 
     PatternMatch::resetInstance();
