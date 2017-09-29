@@ -16,9 +16,17 @@
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
     <ClCompile Include="TestPatternMatch.cpp" />
+    <ClCompile Include="TestPkbPatternAPI.cpp">
+      <Filter>PkbTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PkbTests">
+      <UniqueIdentifier>{843cb709-0d29-42be-979d-75d307506e5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

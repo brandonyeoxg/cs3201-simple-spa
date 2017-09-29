@@ -177,6 +177,7 @@
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPatternMatch.cpp" />
     <ClCompile Include="TestPKB.cpp" />
+    <ClCompile Include="TestPkbPatternAPI.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
