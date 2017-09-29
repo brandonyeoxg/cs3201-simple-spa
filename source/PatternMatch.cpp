@@ -3,7 +3,7 @@
 PatternMatch * PatternMatch::patternMatch = nullptr;
 
 PatternMatch PatternMatch::getInstance() {
-  if (!patternMatch) {
+  if (patternMatch == nullptr) {
     patternMatch = new PatternMatch();
   }
 
@@ -15,6 +15,9 @@ void PatternMatch::resetInstance() {
 }
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
+
+  assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
+
   std::string stmtStr = "";
   for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
     t_stmtTokens.at(i) = removeWhitespaces(t_stmtTokens.at(i));
