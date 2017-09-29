@@ -519,3 +519,73 @@ PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
 ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
   return m_procTable->getProcNodeWithIdx(t_index);
 }
+
+///////////////////////////////////////////////////////
+//  CallsTable methods
+///////////////////////////////////////////////////////
+bool PKB::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->insertCalls(t_proc1, t_proc2);
+}
+
+bool PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->isCalls(t_proc1, t_proc2);
+}
+
+bool PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->isCallsStar(t_proc1, t_proc2);
+}
+LIST_OF_PROC_NAMES PKB::getCalls(PROC_NAME t_proc2) {
+  return m_callsTable->getCalls(t_proc2);
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledBy(PROC_NAME t_proc1) {
+  return m_callsTable->getCalledBy(t_proc1);
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsStar(PROC_NAME t_proc2) {
+  return m_callsTable->getCallsStar(t_proc2);
+}
+LIST_OF_PROC_NAMES PKB::getCalledByStar(PROC_NAME t_proc1) {
+  return m_callsTable->getCalledByStar(t_proc1);
+}
+
+std::unordered_map<PROC_NAME, PROC_NAME> PKB::getAllCalls() {
+  return m_callsTable->getAllCalls();
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {
+  return m_callsTable->getAllCallsStar();
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsAnything() {
+  return m_callsTable->getCallsAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsStarAnything() {
+  return m_callsTable->getCallsStarAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledByAnything() {
+  return m_callsTable->getCalledByAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledByStarAnything() {
+  return m_callsTable->getCalledByStarAnything();
+}
+
+bool PKB::hasCallsRelationship() {
+  return m_callsTable->hasCallsRelationship();
+}
+
+bool PKB::isCallsAnything(PROC_NAME t_proc1) {
+  return m_callsTable->isCallsAnything(t_proc1);
+}
+
+bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
+  return m_callsTable->isCalledByAnything(t_proc2);
+}
+
+void PKB::populateCallsTable() {
+  m_callsTable->populateCallsStarMap();
+  m_callsTable->populateCalledByStarMap();
+}
