@@ -135,11 +135,11 @@ std::unordered_map<PROC_NAME, PROC_NAME> CallsTable::getAllCalls() {
   return allCalls;
 }
 
-/*
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getAllCallsStar() {
 
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getAllCallsStar() {
+  return m_callsStarMap;
 }
-*/
+
 
 LIST_OF_PROC_NAMES CallsTable::getCallsAnything() {
   LIST_OF_PROC_NAMES procNames;
@@ -148,7 +148,20 @@ LIST_OF_PROC_NAMES CallsTable::getCallsAnything() {
   return procNames;
 }
 
+LIST_OF_PROC_NAMES CallsTable::getCallsStarAnything() {
+  LIST_OF_PROC_NAMES procNames;
+  procNames.assign(m_allCalls.begin(), m_allCalls.end());
+  return procNames;
+}
+
 LIST_OF_PROC_NAMES CallsTable::getCalledByAnything() {
+  LIST_OF_PROC_NAMES procNames;
+  //copy the m_allFollows set to values vector.
+  procNames.assign(m_allCalledBy.begin(), m_allCalledBy.end());
+  return procNames;
+}
+
+LIST_OF_PROC_NAMES CallsTable::getCalledByStarAnything() {
   LIST_OF_PROC_NAMES procNames;
   //copy the m_allFollows set to values vector.
   procNames.assign(m_allCalledBy.begin(), m_allCalledBy.end());
