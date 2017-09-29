@@ -493,13 +493,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
-  for (auto& iterator : m_assignTable->getAssignData()) {
-    if (ASTUtilities::matchSubtree(iterator.m_assignNode->getRightChild(), t_pattern)) {
-      list.push_back(iterator.m_assignStmt);
-    }
-  }
-  return list;
+  return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
 }
 
 void PKB::insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
