@@ -64,11 +64,22 @@ bool CallsTable::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   }
 }
 
-/*
+
 bool CallsTable::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
-  
+  if (m_callsStarMap.find(t_proc1) == m_callsStarMap.end()) {
+    //if proc1 is not present in callsStarMap
+    return false;
+  } else {
+    LIST_OF_PROC_NAMES procNames = m_callsStarMap[t_proc1];
+    if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+      //can be found in the vector
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
-*/
+
 
 LIST_OF_PROC_NAMES CallsTable::getCalls(PROC_NAME t_proc2) {
   LIST_OF_PROC_NAMES procNames;

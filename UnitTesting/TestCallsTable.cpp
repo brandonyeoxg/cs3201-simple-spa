@@ -136,5 +136,13 @@ namespace UnitTesting {
       m_callsTable->populateCalledByStarMap();
       Assert::IsTrue(m_callsTable->getCalledByStarMap() == m_testCalledByStarMap);
     }
+
+    TEST_METHOD(TestIsCallsStar) {
+      m_callsTable->populateCallsStarMap();
+      bool expected = m_callsTable->isCallsStar("ATLANTA", "CLEVELAND");
+      Assert::IsTrue(expected);
+      expected = m_callsTable->isCallsStar("ATLANTA", "DENVER");
+      Assert::IsFalse(expected);
+    }
   };
 }
