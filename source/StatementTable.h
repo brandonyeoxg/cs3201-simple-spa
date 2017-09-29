@@ -11,13 +11,13 @@
 class StatementTable {
 public:
   StatementTable();
-  std::unordered_map<int, Grammar::GType> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(int t_lineNum, Grammar::GType t_type);
-  std::unordered_map<Grammar::GType, std::vector<int>>  getStatementTypeTable();
-  bool insertStatementTypeTable(Grammar::GType t_type, int t_lineNum);
+  std::unordered_map<int, queryType::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(int t_lineNum, queryType::GType t_type);
+  std::unordered_map<queryType::GType, std::vector<int>>  getStatementTypeTable();
+  bool insertStatementTypeTable(queryType::GType t_type, int t_lineNum);
 
 private:
-  std::unordered_map<int, Grammar::GType> m_typeOfStatementTable;
-  std::unordered_map<Grammar::GType, std::vector<int>> m_statementTypeTable;
+  std::unordered_map<int, queryType::GType> m_typeOfStatementTable;
+  std::unordered_map<queryType::GType, std::vector<int>> m_statementTypeTable;
 
 };

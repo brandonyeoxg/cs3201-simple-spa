@@ -28,10 +28,10 @@
 class TNode;
 
 class PKB: public PkbWriteOnly, public PkbReadOnly {
-  
+
 public:
   PKB();
- 
+
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
@@ -49,7 +49,15 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertFollowsRelation(TNode* t_node, int t_curLineNum);
+  bool insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum);
+
+  /**
+  * Inserts a parent relation in the PKB.
+  * @param t_node reference to the StmtLst that this statement belongs to.
+  * @param t_curLineNum the current line number.
+  * @return true if the table is successfully added.
+  */
+  bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
 
   /**
   * Inserts a variable that has been modified.
@@ -69,7 +77,7 @@ public:
   * @return a reference of the variable node.
   */
   VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
-  
+
   /**
   * Inserts an assignment statement into the PKB
   * @param t_parentNode reference to the parent node that the assignment statement belongs to.
@@ -77,8 +85,13 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  void insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
-  
+  void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
+
+  /**
+  * Inserts a call statement into the PKB
+  */
+  void insertCallStmt(STMT_NUM t_lineNum);
+
   /**
   * Inserts a while statement into the PKB.
   * @param t_parentNode reference to the parent node that this while loop belongs to.
@@ -86,8 +99,17 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  StmtListNode* insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum);
-  
+  STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum);
+
+  /**
+  * Inserts a if statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_varaibleNode reference to the variable node that this while loop contains.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum);
+
   /**
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
@@ -105,17 +127,9 @@ public:
   */
   PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum);
   ///////////////////////////////////////////////////////
-  //  FollowTable methods 
+  //  FollowTable methods
   ///////////////////////////////////////////////////////
   FollowTable* getFollowTable();
-  /**
-  * Method that inserts the line number (s2) to the unordered map of vectors containing line number s1 as key.
-  * Returns false if current s1, s2 pair already exists in the map.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
-  * @return The status of the insertion.
-  */
-  bool insertFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows(s1, s2) holds.
@@ -221,12 +235,11 @@ public:
   * @return the reference of the procedure node.
   */
   ProcedureNode* getRootAST(PROC_INDEX t_index);
-  
+
   ///////////////////////////////////////////////////////
-  //  ParentTable methods 
+  //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
-  bool insertParent(STMT_NUM t_s1, STMT_NUM t_s2);
   void populateParentStarMap();
   void populateParentedByStarMap();
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
@@ -251,14 +264,14 @@ public:
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
-  
-  std::unordered_map<STMT_NUM, Grammar::GType> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type);
-  std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
-  bool insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum);
+
+  std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
+  std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
+  bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////
-  //  VarTable methods 
+  //  VarTable methods
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
   STMT_NUM insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum);
@@ -290,7 +303,7 @@ public:
   * @return the index to the assign table.
   */
   VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
-  
+
   /*
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
@@ -313,7 +326,7 @@ public:
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
- 
+
   /*
   * Populates the rest of the representation in the assignment table.
   * This method is to be called in the design extractor.
@@ -343,7 +356,7 @@ public:
   std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
-  //  ConstantTable methods 
+  //  ConstantTable methods
   ///////////////////////////////////////////////////////
   int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();
@@ -352,17 +365,17 @@ public:
   //  Pattern Matching
   ///////////////////////////////////////////////////////
 
-  /** 
+  /**
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
   * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
   * @param t_varName variable name to be matched.
   * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*. 
+  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
   * @return list of statement numbers with match
   */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
-  /** 
+  /**
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
   * Gets a statement number mapping to a variable.
   * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
@@ -370,7 +383,7 @@ public:
   * @return list of statement numbers with match
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-  
+
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
@@ -378,7 +391,7 @@ public:
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
-  
+
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"

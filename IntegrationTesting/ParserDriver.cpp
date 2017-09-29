@@ -32,11 +32,11 @@ int ParserDriver::parseProcedure() {
   return -1;
 }
 
-int ParserDriver::parseStmt(TNode *t_node) {
+int ParserDriver::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   if (isMatchToken(EMPTY_LINE)) {
     return 1;
   }
   m_curLineNum += 1;
-  m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
+  m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   return 1;
 }

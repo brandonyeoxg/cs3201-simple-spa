@@ -24,7 +24,7 @@ PKB::PKB() {
 }
 
 ///////////////////////////////////////////////////////
-//  Getter and Setter methods 
+//  Getter and Setter methods
 ///////////////////////////////////////////////////////
 FollowTable* PKB:: getFollowTable() {
   return m_followTable;
@@ -68,21 +68,30 @@ VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, s
   return varNode;
 }
 
-void PKB::insertAssignStmt(TNode* t_parentNode, VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
+void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
   AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
-  insertStatementTypeTable(Grammar::GType::ASGN, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::ASGN);
+  insertStatementTypeTable(queryType::GType::ASGN, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::ASGN);
   insertAssignRelation(t_varNode->getVarIndex(), stmt);
-  m_builder.linkParentToChild(t_parentNode, stmt);
 }
 
-StmtListNode* PKB::insertWhileStmt(TNode* t_parentNode, VariableNode* t_varNode, int t_curLineNum) {
-  StmtListNode* stmtLstNode = m_builder.createStmtList(t_curLineNum);
-  WhileNode *whileNode = m_builder.buildWhile(t_curLineNum, t_varNode, stmtLstNode);
-  insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
-  m_builder.linkParentToChild(t_parentNode, whileNode);
-  return stmtLstNode;
+void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
+  insertStatementTypeTable(queryType::GType::CALL, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
+}
+
+STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+  insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  return t_curLineNum;
+}
+
+STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  return t_curLineNum;
 }
 
 ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
@@ -95,23 +104,24 @@ PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
   return m_builder.buildAddition(t_curLineNum, left, right);
 }
 
-///////////////////////////////////////////////////////
-//  FollowTable methods 
-///////////////////////////////////////////////////////
-
-bool PKB::insertFollowsRelation(TNode* t_node, int t_curLineNum) {
-  if (t_node->getChildren()->size() == 0) {
-    m_followTable->insertFollows(TNode::NO_LINE_NUM, t_curLineNum);
+bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
+  if (t_stmtInStmtList.empty()) {
     return false;
   }
-  int prevStmtNum = t_node->getChildren()->back()->getLineNum();
+  int prevStmtNum = t_stmtInStmtList.back();
   return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
 }
 
-bool PKB::insertFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
-  return m_followTable->insertFollows(t_s1, t_s2);
+bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum) {
+  if (t_nestedStmtInStmtList.empty()) {
+    return false;
+  }
+  int prevStmtNum = t_nestedStmtInStmtList.back();
+  return m_parentTable->insertParent(prevStmtNum, t_curLineNum);
 }
-
+///////////////////////////////////////////////////////
+//  FollowTable methods
+///////////////////////////////////////////////////////
 void PKB::populateParentStarMap() {
     m_parentTable->populateParentStarMap();
 }
@@ -177,11 +187,8 @@ bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
   return m_followTable->isFollowedByAnything(t_s1);
 }
 ///////////////////////////////////////////////////////
-//  ParentTable methods 
+//  ParentTable methods
 ///////////////////////////////////////////////////////
-bool PKB::insertParent(STMT_NUM t_s1, STMT_NUM t_s2) {
-  return m_parentTable->insertParent(t_s1, t_s2);
-}
 
 bool PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
@@ -258,23 +265,23 @@ bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
 //////////////////////////////////////////////////////////
 //  statementTypeTable and typeOfStatementTable Methods
 //////////////////////////////////////////////////////////
-std::unordered_map<STMT_NUM, Grammar::GType> PKB::getTypeOfStatementTable() {
+std::unordered_map<STMT_NUM, queryType::GType> PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
 
-bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type) {
+bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
   return m_statementTable->insertTypeOfStatementTable(t_lineNum, t_type);
 }
-std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
+std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
   return m_statementTable->getStatementTypeTable();
 }
 
-bool PKB::insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum) {
+bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) {
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
 ///////////////////////////////////////////////////////
-//  VarTable methods 
+//  VarTable methods
 ///////////////////////////////////////////////////////
 STMT_NUM PKB::insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
@@ -345,7 +352,7 @@ LIST_OF_VAR_NAMES PKB::getAllVariables() {
 }
 
 ///////////////////////////////////////////////////////
-//  AssignTable methods 
+//  AssignTable methods
 ///////////////////////////////////////////////////////
 
 VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node) {
@@ -378,7 +385,7 @@ void PKB::populateAssignTableAbstractions() {
 }
 
 ///////////////////////////////////////////////////////
-//  ParentTable methods 
+//  ParentTable methods
 ///////////////////////////////////////////////////////
 int PKB::insertConstant(std::string t_constant) {
   return m_constantTable->insertConstant(t_constant);

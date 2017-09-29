@@ -81,7 +81,7 @@ private:
   * 
   * @return -1 if there is syntax error.
   */
-  int parseForProcedure();
+  void parseForProcedure();
   
   /*
   * Parses the statement list block.
@@ -89,7 +89,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  int parseStmtLst(StmtListNode* t_node);
+  void parseStmtLst(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the statement.
@@ -97,7 +97,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseStmt(TNode* t_node);
+  void parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the assignment statement.
@@ -105,7 +105,12 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseAssignStmt(TNode* t_node);
+  void parseAssignStmt();
+
+  /*
+  * Parses the call statement.
+  */
+  void parseCallStmt();
 
   /*
   * Parses the expr stmt.
@@ -127,14 +132,14 @@ private:
   *
   * @param t_node the reference to the stmtLst node
   */
-  int parseNonContainerStmt(TNode* t_node);
+  void parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
    * Parses a container statement.
    *
    * @param t_node the reference to the stmtLst node
    */
-  int parseContainerStmt(TNode* t_node);
+  void parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Parses the while statement.
@@ -142,7 +147,23 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  int parseWhileStmt(TNode* t_node);
+  void parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the if statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the else statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
 
   /*
   * Returns true if the token is an operator.

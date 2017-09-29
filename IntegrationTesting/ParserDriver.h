@@ -9,7 +9,7 @@ public:
 
   int openFileStream(std::string);
   int parseProcedure();
-  int parseStmt(TNode*);
+  int parseStmt(std::list<STMT_NUM>&);
 
 private:
   const std::string EMPTY_LINE = "";
