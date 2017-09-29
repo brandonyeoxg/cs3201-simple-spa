@@ -15,9 +15,9 @@ typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS
 
 const int INVALID_INDEX = -1;
 
-const string OPERATOR_MULTIPLY = "*";
-const string OPERATOR_MINUS = "-";
-const string OPERATOR_PLUS = "+";
+const std::string OPERATOR_MULTIPLY = "*";
+const std::string OPERATOR_MINUS = "-";
+const std::string OPERATOR_PLUS = "+";
 
 /*Called in QueryPreProcessor.h, by aaron*/
 

@@ -14,6 +14,10 @@ void PatternMatch::resetInstance() {
   patternMatch = nullptr;
 }
 
+std::unordered_map<STMT_NUM, std::string> PatternMatch::getAssignStmts() {
+  return *assignStmts;
+}
+
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
 
   assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
@@ -46,8 +50,8 @@ std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vect
 }
 
 PatternMatch::PatternMatch() {
-  assignStmts = new std::unordered_map<STMT_NUM, string>();
-  assignStmtsSubtrees = new std::unordered_map<STMT_NUM, std::vector<string>>();
+  assignStmts = new std::unordered_map<STMT_NUM, std::string>();
+  assignStmtsSubtrees = new std::unordered_map<STMT_NUM, std::vector<std::string>>();
 }
 
 // recursive function to generate subtree strings

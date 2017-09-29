@@ -47,7 +47,7 @@ public:
 private:
   void printListOfIntegers(std::list<int> list) {
     for (auto iterator = list.begin(); iterator != list.end(); iterator++) {
-      Logger::WriteMessage(to_string((int)*iterator).c_str());
+      Logger::WriteMessage(std::to_string((int)*iterator).c_str());
     }
   }
 
