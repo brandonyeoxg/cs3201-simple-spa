@@ -441,6 +441,7 @@ std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
+
 std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
   VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
   if (index == INVALID_INDEX) {
@@ -481,13 +482,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtAndVarByPattern(std:
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
-  for (auto& iterator : m_assignTable->getAssignData()) {
-    if (ASTUtilities::matchExact(iterator.m_assignNode->getRightChild(), t_pattern)) {
-      list.push_back(iterator.m_assignStmt);
-    }
-  }
-  return list;
+  return PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
