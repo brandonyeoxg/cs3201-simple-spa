@@ -101,15 +101,28 @@ LIST_OF_PROC_NAMES CallsTable::getCalledBy(PROC_NAME t_proc1) {
   }
 }
 
-/*
-LIST_OF_PROC_NAMES CallsTable::getCallsStar(PROC_NAME t_proc2) {
 
+LIST_OF_PROC_NAMES CallsTable::getCallsStar(PROC_NAME t_proc2) {
+  LIST_OF_PROC_NAMES procNames;
+  if (m_callsStarMap.find(t_proc2) != m_callsStarMap.end()) {
+    procNames = m_callsStarMap[t_proc2];
+    return procNames;
+  } else {
+    return procNames;
+  }
 }
+
 
 LIST_OF_PROC_NAMES CallsTable::getCalledByStar(PROC_NAME t_proc1) {
-
+  LIST_OF_PROC_NAMES procNames;
+  if (m_calledByStarMap.find(t_proc1) != m_calledByStarMap.end()) {
+    procNames = m_calledByStarMap[t_proc1];
+    return procNames;
+  } else {
+    return procNames;
+  }
 }
-*/
+
 
 std::unordered_map<PROC_NAME, PROC_NAME> CallsTable::getAllCalls() {
   std::unordered_map<PROC_NAME, PROC_NAME> allCalls;

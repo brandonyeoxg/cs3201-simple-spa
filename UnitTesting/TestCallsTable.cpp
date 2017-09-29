@@ -42,6 +42,8 @@ namespace UnitTesting {
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
       m_callsTable->insertCalls("DENVER", "CLEVELAND");
       m_callsTable->insertCalls("ATLANTA", "CLEVELAND");
+      m_callsTable->populateCallsStarMap();
+      m_callsTable->populateCalledByStarMap();
     }
     TEST_METHOD(TestInsertCalls) {
       Assert::IsTrue(m_callsTable->getCallsMap() == m_testCallsMap);
@@ -138,11 +140,20 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestIsCallsStar) {
-      m_callsTable->populateCallsStarMap();
-      bool expected = m_callsTable->isCallsStar("ATLANTA", "CLEVELAND");
-      Assert::IsTrue(expected);
-      expected = m_callsTable->isCallsStar("ATLANTA", "DENVER");
-      Assert::IsFalse(expected);
+      bool actual = m_callsTable->isCallsStar("ATLANTA", "CLEVELAND");
+      Assert::IsTrue(actual);
+      actual = m_callsTable->isCallsStar("ATLANTA", "DENVER");
+      Assert::IsFalse(actual);
+    }
+
+    TEST_METHOD(TestGetCallsStar) {
+      LIST_OF_PROC_NAMES actual = m_callsTable->getCallsStar("DENVER");
+      static const std::string arr[] = {  "CLEVELAND", "BOSTON" };
+      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(expected == actual);
+      actual = m_callsTable->getCallsStar("BOSTON");
+      LIST_OF_PROC_NAMES emptyVector;
+      Assert::IsTrue(emptyVector == actual);
     }
   };
 }
