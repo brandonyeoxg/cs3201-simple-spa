@@ -14,10 +14,6 @@ void PatternMatch::resetInstance() {
   patternMatch = nullptr;
 }
 
-std::unordered_map<STMT_NUM, std::string> PatternMatch::getAssignStmts() {
-  return *assignStmts;
-}
-
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
 
   assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);

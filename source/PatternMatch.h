@@ -27,8 +27,6 @@ public:
   */
   static void resetInstance();
 
-  std::unordered_map<STMT_NUM, std::string> getAssignStmts();
-
   /** Adds an assignment statement's right hand side expression to PatternMatch's data structures.
   *   PatternMatch will generate strings of all possible pattern matches and store them by the statement number.
   *   NOTE: will assume expression is syntactically correct.
