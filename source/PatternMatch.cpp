@@ -45,6 +45,23 @@ std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pa
   return stmtNums;
 }
 
+std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_pattern) {
+  t_pattern = removeWhitespaces(t_pattern);
+  std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
+
+  for (auto mapItr = assignStmtsSubtrees->begin(); mapItr != assignStmtsSubtrees->end(); mapItr++) {
+    std::vector<std::string> subtrees = mapItr->second;
+    for (auto subtreesItr : subtrees) {
+      if (subtreesItr == t_pattern) {
+        stmtNums.push_back(mapItr->first);
+        break;  // break current loop, since this statement number is already added
+      }
+    }
+  }
+
+  return stmtNums;
+}
+
 std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens) {
   return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
 }

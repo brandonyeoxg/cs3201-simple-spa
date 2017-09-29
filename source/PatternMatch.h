@@ -44,6 +44,12 @@ public:
   */
   std::list<STMT_NUM> getAllStmtNumWithExactPattern(std::string t_pattern);
 
+  /** Gets all statement numbers with exact pattern match with assignment expression.
+  *   @param t_pattern pattern string to be matched (extra whitespaces will be ignored)
+  *   @return list of statement numbers
+  */
+  std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::string t_pattern);
+
   /** Not to be used in outside of this class. Exposed only for testing purposes.
   *   This method calls the recursive method to generate strings of all subtrees within a given expression.
   *   @param t_tokens tokens of an assignment statement's right hand side
