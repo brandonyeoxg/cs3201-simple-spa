@@ -38,13 +38,13 @@ public:
   */
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
-  /** Gets all statement numbers with exact pattern match with assignment expression.
+  /** Gets all statement numbers with exact pattern match to assignment expression.
   *   @param t_pattern pattern string to be matched (extra whitespaces will be ignored)
   *   @return list of statement numbers
   */
   std::list<STMT_NUM> getAllStmtNumWithExactPattern(std::string t_pattern);
 
-  /** Gets all statement numbers with exact pattern match with assignment expression.
+  /** Gets all statement numbers with subtree pattern match to assignment expression.
   *   @param t_pattern pattern string to be matched (extra whitespaces will be ignored)
   *   @return list of statement numbers
   */
