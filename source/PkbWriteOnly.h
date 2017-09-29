@@ -123,7 +123,7 @@ public:
 
   virtual void populateAssignTableAbstractions() = 0;
 
-  virtual void populateCallsTable() = 0;
+  virtual void populateCallsStarMaps() = 0;
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
