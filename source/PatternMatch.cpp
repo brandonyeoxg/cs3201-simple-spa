@@ -1,6 +1,6 @@
 #include "PatternMatch.h"
 
-PatternMatch * PatternMatch::patternMatch = nullptr;
+PatternMatch * PatternMatch::patternMatch = nullptr;  // initialize as nullptr
 
 PatternMatch PatternMatch::getInstance() {
   if (patternMatch == nullptr) {
@@ -109,7 +109,7 @@ std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string
   return str;
 }
 
-// Add string to list of strings only if it is not duplicate string
+/** Add string to list of strings only if it is not duplicate string */
 std::vector<std::string> PatternMatch::addStrIfNotDuplicate(std::vector<std::string> t_listOfStr, std::string t_str) {
 
   for (int i = 0; i < (int)t_listOfStr.size(); i++) {

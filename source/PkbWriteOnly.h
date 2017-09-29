@@ -128,6 +128,7 @@ public:
   ///////////////////////////////////////////////////////
 
   /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   Meaning, for assignment "x = x + y", only pass in "x + y" in t_stmtTokens.
   *   NOTE: will assume expression is syntactically correct.
   *   @param t_stmtNum statement number
   *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
