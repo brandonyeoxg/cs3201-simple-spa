@@ -4,38 +4,38 @@
 
 bool ParentStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == "_") {
-    if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
-      //std::cout << "Followed By Anything!\n";
+    if (t_pkb->isParentOfAnything(std::stoi(t_g1.getName()))) {
+      //std::cout << "Is Parent of Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow By Anything!\n";
+      //std::cout << "Is not Parent of Anything!\n";
       return false;
     }
   } else if (t_g1.getName() == "_") {
-    if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows Anything!\n";
+    if (t_pkb->isChildrenOfAnything(std::stoi(t_g2.getName()))) {
+      //std::cout << "Is Children of Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow Anything!\n";
+      //std::cout << "Is not Children of Anything!\n";
       return false;
     }
   } else {
-    if (t_pkb->isFollows(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows: True\n";
+    if (t_pkb->isParentStar(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
+      //std::cout << "Parent*: True\n";
       return true;
     } else {
-      //std::cout << "Follows: False\n";
+      //std::cout << "Parent*: False\n";
       return false;
     }
   }
 }
 
 bool ParentStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasFollowRelationship()) {
-    //std::cout << "Has Follows Relationship!\n";
+  if (t_pkb->hasParentStarRelationship()) {
+    //std::cout << "Has Parent* Relationship!\n";
     return true;
   } else {
-    //std::cout << "No Follows Relationship\n";
+    //std::cout << "No Parent* Relationship\n";
     return false;
   }
 }
@@ -44,28 +44,20 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gra
   std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == Grammar::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
-      //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
-      return result;
-    }
-
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g2);
-    result[t_g2.getName()] = stmtVector;
-  } else if (t_g1.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
+    std::vector<int> stmtIntVector = t_pkb->getChildrenStarOf(std::stoi(t_g1.getName()));
     if (stmtIntVector.empty()) {
       return result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = filterStmts(typeOfStmts, x, t_g2);
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    result[t_g2.getName()] = stmtStrVector;
+  } else if (t_g1.getName() == "_") {
+    std::vector<int> stmtIntVector = t_pkb->getChildrenStarOfAnything();
+    if (stmtIntVector.empty()) {
+      return result;
     }
 
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
     result[t_g2.getName()] = stmtStrVector;
   }
 
@@ -76,28 +68,20 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gram
   std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == Grammar::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
-      //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
-      return result;
-    }
-
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g1);
-    result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
+    std::vector<int> stmtIntVector = t_pkb->getParentStarOf(std::stoi(t_g2.getName()));
     if (stmtIntVector.empty()) {
       return result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = filterStmts(typeOfStmts, x, t_g1);
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    result[t_g1.getName()] = stmtStrVector;
+  } else if (t_g2.getName() == "_") {
+    std::vector<int> stmtIntVector = t_pkb->getParentStarOfAnything();
+    if (stmtIntVector.empty()) {
+      return result;
     }
 
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
     result[t_g1.getName()] = stmtStrVector;
   }
 
@@ -107,14 +91,20 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gram
 SET_OF_RESULTS ParentStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
-  if (allFollows.empty()) {
+  std::unordered_map<int, std::vector<int>> allParentsStar = t_pkb->getAllParentsStar();
+  if (allParentsStar.empty()) {
     return result;
   }
 
-  for (auto& x : allFollows) {
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g2);
-    result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+  for (auto& x : allParentsStar) {
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, x.second, t_g2);
+    if (!stmtStrVector.empty()) {
+      std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
+      if (!stmtVector.empty()) {
+        result[std::to_string(x.first)] = stmtVector;
+      }
+    }
+
   }
 
   return result;
