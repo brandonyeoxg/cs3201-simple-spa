@@ -104,6 +104,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   Grammar g1 = t_relation.getG1();
   Grammar g2 = t_relation.getG2();
 
+  // Get the respective evaluators to get the results of the relation clauses
   if (g1.getType() == Grammar::GType::STR && g1.getName() == "_" && g2.getType() == Grammar::GType::STR && g2.getName() == "_") {
     return eval->hasRelationship(m_pkb, g1, g2); //Only underscores
   } else if ((g1.getType() == Grammar::GType::STMT_NO || g1.getType() == Grammar::GType::STR) && (g2.getType() == Grammar::GType::STMT_NO || g2.getType() == Grammar::GType::STR)) {
@@ -115,104 +116,6 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   } else if (g1.getType() != Grammar::GType::STMT_NO && g1.getType() != Grammar::GType::STR && g2.getType() != Grammar::GType::STMT_NO && g2.getType() != Grammar::GType::STR) {
     result = eval->evaluateBothSynonyms(m_pkb, g1, g2); //Two synonyms
   } 
-
-  // Call the PKB API to get the results of the relation clauses
-  if (t_relation.getType() == Relation::RType::MODIFIES) {
-    if (t_relation.getG1().getType() == Grammar::GType::STMT_NO && t_relation.getG2().getName() != "_" && t_relation.getG2().getType() == Grammar::GType::STR) {
-      if (m_pkb->isModifies(std::stoi(t_relation.getG1().getName()), t_relation.getG2().getName())) {
-        //std::cout << "Modifies: True\n";
-        return true;
-      } else if (!m_pkb->isModifies(std::stoi(t_relation.getG1().getName()), t_relation.getG2().getName())) {
-        //std::cout << "Modifies: False\n";
-        return false;
-      } else {
-        //std::cout << "Exception in QueryEvaluator.cpp for Modifies(s, v)\n";
-        return false;
-      }
-    } else if (t_relation.getG1().getType() == Grammar::GType::STMT_NO && t_relation.getG2().getType() == Grammar::GType::VAR) {
-      //std::cout << "Modifies (STMT_NO, VAR) WORKS!\n";
-      std::vector<std::string> varModifiedByStmt = m_pkb->getModifies((std::stoi(t_relation.getG1().getName())));
-      if (varModifiedByStmt.empty()) {
-        return false;
-      }
-
-      result[t_relation.getG2().getName()] = varModifiedByStmt;
-    } else if ((t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) && t_relation.getG2().getName() != "_" && t_relation.getG2().getType() == Grammar::GType::STR) {
-      //std::cout << "Modifies (STMT, STR) WORKS!\n";
-      std::vector<int> stmtIntVector = m_pkb->getStmtModifies(t_relation.getG2().getName());
-      if (stmtIntVector.empty()) {
-        return false;
-      }
-
-      std::vector<std::string> stmtStrVector;
-      
-      for (auto& x : stmtIntVector) {
-        if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
-          if (typeOfStmts[x] == Grammar::GType::STMT || typeOfStmts[x] == Grammar::GType::ASGN || typeOfStmts[x] == Grammar::GType::WHILE || typeOfStmts[x] == Grammar::GType::PROG_LINE) {
-            stmtStrVector.push_back(std::to_string(x));
-          }
-        } else if (t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE) {
-          if (typeOfStmts[x] == t_relation.getG1().getType()) {
-            stmtStrVector.push_back(std::to_string(x));
-          }
-        }
-      }
-
-      result[t_relation.getG1().getName()] = stmtStrVector;
-    } else if ((t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) && t_relation.getG2().getType() == Grammar::GType::VAR) {
-      //std::cout << "Modifies (STMT, VAR) WORKS!\n";
-      std::unordered_map<std::string, std::vector<int>> stmtsUsedVar = m_pkb->getAllStmtModifies();
-      for (auto& x : stmtsUsedVar) {
-        std::vector<std::string> stmtStrVector;
-        if (!x.second.empty()) {
-          for (auto& y : x.second) {
-            if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
-              if (typeOfStmts[y] == Grammar::GType::STMT || typeOfStmts[y] == Grammar::GType::ASGN || typeOfStmts[y] == Grammar::GType::WHILE || typeOfStmts[y] == Grammar::GType::PROG_LINE) {
-                stmtStrVector.push_back(std::to_string(y));
-              }
-            } else if (t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE) {
-              if (typeOfStmts[y] == t_relation.getG1().getType()) {
-                stmtStrVector.push_back(std::to_string(y));
-              }
-            }
-          }
-          result[x.first] = stmtStrVector;
-        }
-      }
-    } else if (t_relation.getG2().getName() == "_") {
-      if (t_relation.getG1().getType() == Grammar::GType::STMT_NO) {
-        if (m_pkb->isModifiesAnything(std::stoi(t_relation.getG1().getName()))) {
-          //std::cout << "Is Modifies Anything!\n";
-          return true;
-        } else {
-          //std::cout << "Does not Modifies Anything!\n";
-          return false;
-        }
-      } else if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
-        std::vector<int> stmtIntVector = m_pkb->getStmtModifiesAnything();
-        if (stmtIntVector.empty()) {
-          return false;
-        }
-        std::vector<std::string> stmtStrVector;
-
-        for (auto& x : stmtIntVector) {
-          if (t_relation.getG1().getType() == Grammar::GType::STMT || t_relation.getG1().getType() == Grammar::GType::PROG_LINE) {
-            if (typeOfStmts[x] == Grammar::GType::STMT || typeOfStmts[x] == Grammar::GType::ASGN || typeOfStmts[x] == Grammar::GType::WHILE || typeOfStmts[x] == Grammar::GType::PROG_LINE) {
-              stmtStrVector.push_back(std::to_string(x));
-            }
-          } else if (t_relation.getG1().getType() == Grammar::GType::ASGN || t_relation.getG1().getType() == Grammar::GType::WHILE) {
-            if (typeOfStmts[x] == t_relation.getG1().getType()) {
-              stmtStrVector.push_back(std::to_string(x));
-            }
-          }
-        }
-
-        result[t_relation.getG1().getName()] = stmtStrVector;
-      }
-    }
-  } else {
-    //std::cout << "Relation Type: " + t_relation.getType() << "\n";
-  }
 
   if (result.empty()) {
     return false;
