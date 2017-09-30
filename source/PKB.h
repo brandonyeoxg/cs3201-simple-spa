@@ -367,22 +367,23 @@ public:
 
   /**
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
-  * @param t_varName variable name to be matched.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  * OLD METHOD
   */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
   /**
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * Gets a statement number mapping to a variable.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  * OLD METHOD
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
+  */
+  void insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -400,13 +401,13 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
-  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
-  *   NOTE: will assume expression is syntactically correct.
-  *   @param t_stmtNum statement number
-  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
-  *   @author jazlyn
+  /** Pattern a("x", "y + x").
   */
-  void insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
+  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern);
+
+  /** Pattern a("x", _"y + x"_).
+  */
+  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
 
 private:
   FollowTable* m_followTable;
