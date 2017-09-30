@@ -11,14 +11,16 @@
 
 class FollowsEvaluator: public Evaluator {
 public:
-  FollowsEvaluator(PkbReadOnly *t_pkb) 
-    : m_pkb(t_pkb) {};
+  FollowsEvaluator() {};
 
   ~FollowsEvaluator() {};
 
-  SET_OF_RESULTS evaluate(Relation t_relation);
+  bool isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
+  bool hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
+  SET_OF_RESULTS evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
+  SET_OF_RESULTS evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
+  SET_OF_RESULTS evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
 
 private:
-  PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
-  std::unordered_map<std::string, std::vector<std::string>> results;
+  std::unordered_map<std::string, std::vector<std::string>> result;
 };
