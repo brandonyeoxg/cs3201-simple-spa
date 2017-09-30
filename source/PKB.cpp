@@ -508,6 +508,11 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return{};
+  }
+
   std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
 
   std::list<STMT_NUM> list = {};
@@ -523,6 +528,11 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return {};
+  }
+
   std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
 
   std::list<STMT_NUM> list = {};
