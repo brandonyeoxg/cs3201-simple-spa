@@ -442,7 +442,7 @@ public:
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern) = 0;
@@ -450,7 +450,7 @@ public:
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
@@ -459,7 +459,7 @@ public:
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
   *   @param t_varName name of the variable modified in assignment statement
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) = 0;
@@ -468,7 +468,7 @@ public:
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
   *   @param t_varName name of the variable modified in assignment statement
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) = 0;
