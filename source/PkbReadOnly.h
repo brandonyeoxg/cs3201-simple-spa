@@ -454,4 +454,22 @@ public:
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
+
+  /** Pattern a("x", "y + x").
+  *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) = 0;
+
+  /** Pattern a("x", _"y + x"_).
+  *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) = 0;
 };

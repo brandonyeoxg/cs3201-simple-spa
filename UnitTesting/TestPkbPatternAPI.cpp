@@ -58,6 +58,28 @@ public:
     PatternMatch::resetInstance();
   }
 
+  //TODO will need testing after PKB singleton pattern done, and AST and nodes decoupled from PKB
+  TEST_METHOD(insertAndExtractStmts_byVarAndExactPattern) {
+    //PKB * pkb = new PKB();
+    //PkbWriteOnly * pkbWrite = pkb;
+    //PkbReadOnly * pkbRead = pkb;
+    //std::list<STMT_NUM> result, expected;
+
+    //pkbWrite->insertAssignStmt(1, { "x", "+", "y" });
+    //pkbWrite->insertModifiedVariable("x", 1, {});
+    //pkbWrite->populateAssignTableAbstractions();
+
+    //result = pkbRead->getAllAssignStmtByVarAndExactPattern("x", "x+y");
+
+    //printListOfIntegers(result);
+
+    //expected = { 1 };
+
+    //Assert::IsTrue(result == expected);
+
+    //PatternMatch::resetInstance();
+  }
+
 private:
   void printListOfIntegers(std::list<int> list) {
     for (auto iterator = list.begin(); iterator != list.end(); iterator++) {
