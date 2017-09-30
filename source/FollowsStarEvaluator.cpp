@@ -84,13 +84,11 @@ SET_OF_RESULTS FollowsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
     if (stmtIntVector.empty()) {
       return result;
     }
-
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = filterStmts(typeOfStmts, x, t_g1);
+    
+    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    if (!stmtStrVector.empty()) {
+      result[t_g1.getName()] = stmtStrVector;
     }
-
-    result[t_g1.getName()] = stmtStrVector;
   }
 
   return result;
