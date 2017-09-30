@@ -63,10 +63,9 @@ void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
   t_stmtInStmtLst.push_back(m_curLineNum);
-  if (isNonContainerStmt()) {
+  if (isNonContainerStmt(m_nextToken)) {
     parseNonContainerStmt(t_stmtInStmtLst);
-  }
-  else {
+  } else {
     parseContainerStmt(t_stmtInStmtLst);
   }
 }
@@ -96,8 +95,9 @@ void Parser::parseAssignStmt() {
   VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
-  }
-  TNode* exprNode = parseExpr();
+  } 
+  std::vector<std::string> tokenisedExpr = tokeniseExpr();
+  TNode* exprNode = parseExpr(tokenisedExpr);
   m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
 }
 
@@ -106,9 +106,10 @@ void Parser::parseCallStmt() {
   m_pkbWriteOnly->insertCallStmt(m_curLineNum);
 }
 
-TNode* Parser::parseExpr() {
+TNode* Parser::parseExpr(std::vector<std::string> t_tokens) {
   std::stack<TNode *> exprStack;
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   if (isConstant(name)) {
     ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
     m_pkbWriteOnly->insertConstant(name, m_curLineNum);
@@ -119,18 +120,22 @@ TNode* Parser::parseExpr() {
     VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
-  while (m_nextToken == "+") {
-    if (exprStack.empty() == true || !isMatchToken("+")) {
+  while (!t_tokens.empty()) {
+    if (exprStack.empty() == true || !isOperator(t_tokens[0])) {
       break;
     }
-    parseEachOperand(exprStack);
+    if (isOperator(t_tokens[0])) {
+      t_tokens.erase(t_tokens.begin());
+    }
+    parseEachOperand(exprStack, t_tokens);
   }
   TNode *childNode = exprStack.top();
   return childNode;
 }
 
-void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std::string>& t_tokens) {
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   TNode* right;
   if (isConstant(name)) {
     right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
@@ -143,6 +148,22 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
   t_exprStack.pop();
   PlusNode* plusNode = m_pkbWriteOnly->insertPlusOp(left, right, m_curLineNum);
   t_exprStack.push(plusNode);
+}
+
+std::vector<std::string> Parser::tokeniseExpr() {
+  std::vector<std::string> output;
+  std::string term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  if (!isConstant(term) && !isValidName(term)) {
+    throw SyntaxUnknownCommandException("Assignment terms must be an operator or a constant or a variable", m_curLineNum);
+  }
+  output.push_back(term);
+  while (isOperator(m_nextToken)) {
+    std::string opr = getMatchToken(tokentype::tokenType::EXPR);
+    output.push_back(opr);
+    term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    output.push_back(term);
+  }
+  return output;
 }
 
 void Parser::parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
@@ -204,6 +225,12 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
     case tokentype::tokenType::PROC_NAME:
     case tokentype::tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
+        m_nextToken = getCurrentLineToken();
+        return true;
+      }
+      break;
+    case tokentype::tokenType::EXPR:
+      if (isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
@@ -300,7 +327,7 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   return tokens;
 }
 
-bool Parser::isValidName(std::string& t_token) {
+bool Parser::isValidName(const std::string& t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -315,7 +342,7 @@ bool Parser::isValidName(std::string& t_token) {
   return true;
 }
 
-bool Parser::isConstant(std::string& t_token) {
+bool Parser::isConstant(const std::string& t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -324,6 +351,6 @@ bool Parser::isConstant(std::string& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt() {
-  return m_nextToken != "while" && m_nextToken != "if";
+bool Parser::isNonContainerStmt(std::string t_token) {
+  return t_token != "while" && t_token != "if";
 }
