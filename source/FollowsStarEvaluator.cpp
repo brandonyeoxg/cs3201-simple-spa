@@ -21,10 +21,10 @@ bool FollowsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Gram
     }
   } else {
     if (t_pkb->isFollowsStar(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows: True\n";
+      //std::cout << "Follows*: True\n";
       return true;
     } else {
-      //std::cout << "Follows: False\n";
+      //std::cout << "Follows*: False\n";
       return false;
     }
   }
