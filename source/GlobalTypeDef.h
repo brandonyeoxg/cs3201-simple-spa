@@ -7,6 +7,7 @@ typedef int VAR_INDEX;
 typedef int PROC_INDEX;
 typedef int STMT_NUM;
 typedef std::string VAR_NAME;
+typedef std::string PROC_NAME;
 typedef int CONSTANT;
 typedef std::vector<int> LIST_OF_STMT_NUMS;
 typedef std::vector<std::string> LIST_OF_VAR_NAMES;

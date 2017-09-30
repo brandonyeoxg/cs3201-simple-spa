@@ -51,13 +51,13 @@ VarTable* PKB::getVarTable() {
 ///////////////////////////////////////////////////////
 //  PKB building methods
 ///////////////////////////////////////////////////////
-StmtListNode* PKB::insertProcedure(std::string& t_procName) {
-  ProcedureNode *procNode = m_builder.createProcedure(t_procName);
-  // pkb build procedure unlink
-  insertProcToAST(procNode);
-  StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
-  m_builder.linkParentToChild(procNode, stmtLst);
-  return stmtLst;
+void PKB::insertProcedure(std::string& t_procName) {
+  //ProcedureNode *procNode = m_builder.createProcedure(t_procName);
+  //// pkb build procedure unlink
+  //insertProcToAST(procNode);
+  //StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
+  //m_builder.linkParentToChild(procNode, stmtLst);
+  //return stmtLst;
 }
 
 VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
@@ -412,48 +412,48 @@ ProcTable* PKB::getProcTable() {
   return m_procTable;
 }
 
-bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-  return m_procTable->insertModifies(t_procIdx, t_varIdx);
-}
-bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-  return m_procTable->insertUses(t_procIdx, t_varIdx);
-}
-
-void PKB::convertProcSetToList() {
-  m_procTable->convertProcTableSetToList();
-}
-
-bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
-  return m_procTable->isModifies(t_procName, t_varName);
-}
-
-std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
-  return m_procTable->getVarFromProcModifies(t_procIdx);
-}
-
-std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
-  return m_procTable->getProcNameThatModifiesVar(t_varName);
-}
-
-std::unordered_map<std::string, std::list<std::string>>& PKB::getProcAndVarModifies() {
-  return m_procTable->getProcAndVarModifies();
-}
-
-bool PKB::isModifiesInProc(std::string& t_procName) {
-  return m_procTable->isModifiesInProc(t_procName);
-}
-
-std::list<std::string>& PKB::getProcThatModifies() {
-  return m_procTable->getProcNameThatModifies();
-}
-
-bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
-  return m_procTable->isUses(t_procName, t_varName);
-}
-
-std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
-  return m_procTable->getVarFromProcUses(t_procIdx);
-}
+//bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
+//  return m_procTable->insertModifies(t_procIdx, t_varIdx);
+//}
+//bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
+//  return m_procTable->insertUses(t_procIdx, t_varIdx);
+//}
+//
+//void PKB::convertProcSetToList() {
+//  m_procTable->convertProcTableSetToList();
+//}
+//
+//bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
+//  return m_procTable->isModifies(t_procName, t_varName);
+//}
+//
+//std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
+//  return m_procTable->getVarFromProcModifies(t_procIdx);
+//}
+//
+//std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
+//  return m_procTable->getProcNameThatModifiesVar(t_varName);
+//}
+//
+//std::unordered_map<std::string, std::list<std::string>>& PKB::getProcAndVarModifies() {
+//  return m_procTable->getProcAndVarModifies();
+//}
+//
+//bool PKB::isModifiesInProc(std::string& t_procName) {
+//  return m_procTable->isModifiesInProc(t_procName);
+//}
+//
+//std::list<std::string>& PKB::getProcThatModifies() {
+//  return m_procTable->getProcNameThatModifies();
+//}
+//
+//bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
+//  return m_procTable->isUses(t_procName, t_varName);
+//}
+//
+//std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
+//  return m_procTable->getVarFromProcUses(t_procIdx);
+//}
 
 ///////////////////////////////////////////////////////
 //  Pattern methods
@@ -518,14 +518,14 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 }
 
 
-//TBD
-PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
-  TNode* rootNode = m_programNode.getRoot();
-  m_builder.linkParentToChild(rootNode, t_node);
-  return m_procTable->insertProcByProcNode(t_node);
-}
+////TBD
+//PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
+//  TNode* rootNode = m_programNode.getRoot();
+//  m_builder.linkParentToChild(rootNode, t_node);
+//  return m_procTable->insertProcByProcNode(t_node);
+//}
 
-//TBD
-ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
-  return m_procTable->getProcNodeWithIdx(t_index);
-}
+////TBD
+//ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
+//  return m_procTable->getProcNodeWithIdx(t_index);
+//}

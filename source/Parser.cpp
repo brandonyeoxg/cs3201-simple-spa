@@ -191,7 +191,7 @@ void Parser::parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
 void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("then")) {
-    throw SyntaxUnknownCommandException("If statements require then keyword", m_curLineNum);
+    throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
   }
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -203,7 +203,7 @@ void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
 
 void Parser::parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   if (!isMatchToken("else")) {
-    throw SyntaxUnknownCommandException("If statements require else keyword", m_curLineNum);
+    throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
