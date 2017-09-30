@@ -2,42 +2,42 @@
 
 #include "Relationship.h"
 
-Evaluator* Relationship::createEvaluator(Relation::RType t_type) {
+Evaluator* Relationship::createEvaluator(queryType::RType t_type) {
   switch (t_type) {
-  case Relation::RType::FOLLOWS:
+  case queryType::RType::FOLLOWS:
     return new FollowsEvaluator();
     break;
-  case Relation::RType::FOLLOWS_:
+  case queryType::RType::FOLLOWS_:
     return new FollowsStarEvaluator();
     break;
-  case Relation::RType::PARENT:
+  case queryType::RType::PARENT:
     return new ParentEvaluator();
     break;
-  case Relation::RType::PARENT_:
+  case queryType::RType::PARENT_:
     return new ParentStarEvaluator();
     break;
-  case Relation::RType::USES:
+  case queryType::RType::USES:
     return new UsesEvaluator();
     break;
-  case Relation::RType::MODIFIES:
+  case queryType::RType::MODIFIES:
     return new ModifiesEvaluator();
     break;
-  case Relation::RType::CALLS:
+  case queryType::RType::CALLS:
     return new CallsEvaluator();
     break;
-  case Relation::RType::CALLS_:
+  case queryType::RType::CALLS_:
     return new CallsStarEvaluator();
     break;
-  case Relation::RType::NEXT:
+  case queryType::RType::NEXT:
     return new NextEvaluator();
     break;
-  case Relation::RType::NEXT_:
+  case queryType::RType::NEXT_:
     return new NextStarEvaluator();
     break;
-  case Relation::RType::AFFECTS:
+  case queryType::RType::AFFECTS:
     return new AffectsEvaluator();
     break;
-  case Relation::RType::AFFECTS_:
+  case queryType::RType::AFFECTS_:
     return new AffectsStarEvaluator();
     break;
   default:

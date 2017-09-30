@@ -22,7 +22,7 @@ public:
 
   ~Relationship() {};
 
-  static Evaluator* createEvaluator(Relation::RType t_type);
+  static Evaluator* createEvaluator(queryType::RType t_type);
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */

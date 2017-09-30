@@ -41,9 +41,9 @@ bool FollowsStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Gra
 }
 
 SET_OF_RESULTS FollowsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getType() == Grammar::GType::STMT_NO) {
+  if (t_g1.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getFollowsStar(std::stoi(t_g1.getName()));
     if (stmtIntVector.empty()) {
       return result;
@@ -69,9 +69,9 @@ SET_OF_RESULTS FollowsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gr
 }
 
 SET_OF_RESULTS FollowsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getType() == Grammar::GType::STMT_NO) {
+  if (t_g2.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getFollowedByStar(std::stoi(t_g2.getName()));
     if (stmtIntVector.empty()) {
       return result;
@@ -95,7 +95,7 @@ SET_OF_RESULTS FollowsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
 }
 
 SET_OF_RESULTS FollowsStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   std::unordered_map<int, std::vector<int>> allFollowsStar = t_pkb->getAllFollowsStar();
   if (allFollowsStar.empty()) {

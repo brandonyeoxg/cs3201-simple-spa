@@ -23,11 +23,12 @@ int Parser::parse (const std::string &t_filename) throw() {
   m_nextToken = getCurrentLineToken();
   while (!m_readStream.eof()) {
     parseForProcedure();
+    m_nextToken = getCurrentLineToken();
   }
   return 0;
 }
 
-int Parser::parseForProcedure() {
+void Parser::parseForProcedure() {
   // Construct the AST based on the parsed line
   // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
@@ -35,50 +36,52 @@ int Parser::parseForProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    StmtListNode* stmtLst = m_pkbWriteOnly->insertProcedure(procName);
-    return parseStmtLst(stmtLst);
+    m_pkbWriteOnly->insertProcedure(procName);
+    std::list<STMT_NUM> stmtLst;
+    parseStmtLst(stmtLst);
   }
-  return -1;
 }
 
-int Parser::parseStmtLst(StmtListNode *t_node) {
+void Parser::parseStmtLst(std::list<STMT_NUM>& t_stmtInStmtLst) {
   // Parse the rest of the code in the
-  parseStmt(t_node);
+  parseStmt(t_stmtInStmtLst);
   if (isMatchToken("}")) {
     // Remove from back
     if (!m_nestedStmtLineNum.empty()) {
       m_nestedStmtLineNum.pop_back();
     }
-    return 1;
+    return;
   }
-  return parseStmtLst(t_node);
+  parseStmtLst(t_stmtInStmtLst);
 }
 
-int Parser::parseStmt(TNode *t_node) {
+void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   if (isMatchToken(EMPTY_LINE)) {
-    return 1;
+    return;
   }
   m_curLineNum += 1;
-  m_pkbWriteOnly->insertFollowsRelation(t_node, m_curLineNum);
-  m_pkbWriteOnly->insertParent(t_node->getLineNum(), m_curLineNum);
-  if (isNonContainerStmt()) {
-    parseNonContainerStmt(t_node);
+  m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
+  m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
+  t_stmtInStmtLst.push_back(m_curLineNum);
+  if (isNonContainerStmt(m_nextToken)) {
+    parseNonContainerStmt(t_stmtInStmtLst);
+  } else {
+    parseContainerStmt(t_stmtInStmtLst);
   }
-  else {
-    parseContainerStmt(t_node);
-  }
-  return 1;
 }
 
-int Parser::parseNonContainerStmt(TNode* t_node) {
-  parseAssignStmt(t_node);
+void Parser::parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  if (isMatchToken("call")) {
+    parseCallStmt();
+  } else {
+    parseAssignStmt();
+  }
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
   }
-  return 0;
 }
 
-int Parser::parseAssignStmt(TNode* t_node) {
+void Parser::parseAssignStmt() {
   std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
@@ -92,15 +95,21 @@ int Parser::parseAssignStmt(TNode* t_node) {
   VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
-  }
-  TNode* exprNode = parseExpr();
-  m_pkbWriteOnly->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
-  return 1;
+  } 
+  std::vector<std::string> tokenisedExpr = tokeniseExpr();
+  TNode* exprNode = parseExpr(tokenisedExpr);
+  m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
 }
 
-TNode* Parser::parseExpr() {
+void Parser::parseCallStmt() {
+  std::string procName = getMatchToken(tokentype::PROC_NAME);
+  m_pkbWriteOnly->insertCallStmt(m_curLineNum);
+}
+
+TNode* Parser::parseExpr(std::vector<std::string> t_tokens) {
   std::stack<TNode *> exprStack;
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   if (isConstant(name)) {
     ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
     m_pkbWriteOnly->insertConstant(name, m_curLineNum);
@@ -111,18 +120,22 @@ TNode* Parser::parseExpr() {
     VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
     exprStack.push(varNode);
   }
-  while (m_nextToken == "+") {
-    if (exprStack.empty() == true || !isMatchToken("+")) {
+  while (!t_tokens.empty()) {
+    if (exprStack.empty() == true || !isOperator(t_tokens[0])) {
       break;
     }
-    parseEachOperand(exprStack);
+    if (isOperator(t_tokens[0])) {
+      t_tokens.erase(t_tokens.begin());
+    }
+    parseEachOperand(exprStack, t_tokens);
   }
   TNode *childNode = exprStack.top();
   return childNode;
 }
 
-void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
-  std::string name = getMatchToken(tokentype::tokenType::VAR_NAME);
+void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std::string>& t_tokens) {
+  std::string name = t_tokens[0];
+  t_tokens.erase(t_tokens.begin());
   TNode* right;
   if (isConstant(name)) {
     right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
@@ -137,25 +150,66 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
   t_exprStack.push(plusNode);
 }
 
-int Parser::parseContainerStmt(TNode* t_node) {
+std::vector<std::string> Parser::tokeniseExpr() {
+  std::vector<std::string> output;
+  std::string term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  if (!isConstant(term) && !isValidName(term)) {
+    throw SyntaxUnknownCommandException("Assignment terms must be an operator or a constant or a variable", m_curLineNum);
+  }
+  output.push_back(term);
+  while (isOperator(m_nextToken)) {
+    std::string opr = getMatchToken(tokentype::tokenType::EXPR);
+    output.push_back(opr);
+    term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    output.push_back(term);
+  }
+  return output;
+}
+
+void Parser::parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
-    parseWhileStmt((WhileNode*)t_node);
+    parseWhileStmt(t_stmtInStmtLst);
   } else if (isMatchToken("if")) {
+    parseIfStmt(t_stmtInStmtLst);
+    parseElseStmt(t_stmtInStmtLst);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
-  return 1;
 }
 
-int Parser::parseWhileStmt(TNode* t_node) {
-  VariableNode* varNode = m_pkbWriteOnly->insertUsesVariable(getMatchToken(tokentype::tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
+void Parser::parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  StmtListNode* stmtLstNode = m_pkbWriteOnly->insertWhileStmt(t_node, varNode, m_curLineNum);
-  parseStmtLst(stmtLstNode);
-  return 1;
+  m_pkbWriteOnly->insertWhileStmt(varName, m_nestedStmtLineNum, m_curLineNum);
+  std::list<STMT_NUM> whileStmtLst;
+  parseStmtLst(whileStmtLst);
+}
+
+void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  if (!isMatchToken("then")) {
+    throw SyntaxUnknownCommandException("If statements require then keyword", m_curLineNum);
+  }
+  if (!isMatchToken("{")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
+  m_pkbWriteOnly->insertIfStmt(varName, m_nestedStmtLineNum, m_curLineNum);
+  std::list<STMT_NUM> ifStmtLst;
+  parseStmtLst(ifStmtLst);
+}
+
+void Parser::parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+  if (!isMatchToken("else")) {
+    throw SyntaxUnknownCommandException("If statements require else keyword", m_curLineNum);
+  }
+  if (!isMatchToken("{")) {
+    throw SyntaxOpenBraceException(m_curLineNum);
+  }
+  std::list<STMT_NUM> elseStmtLst;
+  parseStmtLst(elseStmtLst);
 }
 
 bool Parser::isMatchToken(const std::string &t_token) {
@@ -171,6 +225,12 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
     case tokentype::tokenType::PROC_NAME:
     case tokentype::tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
+        m_nextToken = getCurrentLineToken();
+        return true;
+      }
+      break;
+    case tokentype::tokenType::EXPR:
+      if (isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
@@ -267,7 +327,7 @@ std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   return tokens;
 }
 
-bool Parser::isValidName(std::string& t_token) {
+bool Parser::isValidName(const std::string& t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -282,7 +342,7 @@ bool Parser::isValidName(std::string& t_token) {
   return true;
 }
 
-bool Parser::isConstant(std::string& t_token) {
+bool Parser::isConstant(const std::string& t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -291,6 +351,6 @@ bool Parser::isConstant(std::string& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt() {
-  return m_nextToken != "while" && m_nextToken != "if";
+bool Parser::isNonContainerStmt(std::string t_token) {
+  return t_token != "while" && t_token != "if";
 }

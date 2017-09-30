@@ -25,17 +25,27 @@ namespace IntegrationTesting
     {
       //Initialise PKB
       m_pkb = new PKB();
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 1);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 2);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 3);
-      m_pkb->insertStatementTypeTable(Grammar::GType::ASGN, 4);
-      m_pkb->insertTypeOfStatementTable(1, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(2, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(3, Grammar::GType::ASGN);
-      m_pkb->insertTypeOfStatementTable(4, Grammar::GType::ASGN);
-      m_pkb->insertFollows(1, 2);
-      m_pkb->insertFollows(2, 3);
-      m_pkb->insertFollows(3, 4);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 1);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 2);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 3);
+      m_pkb->insertStatementTypeTable(queryType::GType::ASGN, 4);
+      m_pkb->insertTypeOfStatementTable(1, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(2, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(3, queryType::GType::ASGN);
+      m_pkb->insertTypeOfStatementTable(4, queryType::GType::ASGN);
+
+      std::list<STMT_NUM> stmtInLst;
+      m_pkb->insertFollowsRelation(stmtInLst, 1);
+      stmtInLst.push_back(1);
+
+      m_pkb->insertFollowsRelation(stmtInLst, 2);
+      stmtInLst.push_back(2);
+
+      m_pkb->insertFollowsRelation(stmtInLst, 3);
+      stmtInLst.push_back(3);
+
+      m_pkb->insertFollowsRelation(stmtInLst, 4);
+      stmtInLst.push_back(4);
       
       //Initialise PQL
       Grammar* g1 = new Grammar(2, "s");

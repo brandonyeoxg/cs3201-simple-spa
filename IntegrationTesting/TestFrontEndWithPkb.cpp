@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ParserDriver.h"
+#include "test-drivers/ParserDriver.h"
 #include "PkbWriteOnly.h"
 #include "PKB.h"
 
@@ -51,8 +51,9 @@ namespace IntegrationTesting
       m_tmpFile << "procedure main {x=y;}\n";
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
-      StmtListNode* stmtListNode = m_builder.createStmtList(0);
-      m_parser->parseStmt(stmtListNode);
+      //StmtListNode* stmtListNode = m_builder.createStmtList(0);
+      std::list<STMT_NUM> stmtList;
+      m_parser->parseStmt(stmtList);
 
       // Follow table should be empty
       FollowTable* followTable = m_pkb->getFollowTable();
@@ -70,10 +71,9 @@ namespace IntegrationTesting
       m_tmpFile << "x=y;\ny=x;\n";
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
-      m_parser->parseStmt(stmtListNode);
-      m_builder.linkParentToChild(stmtListNode,
-        m_builder.buildAssignment(1, m_builder.createVariable(1, "x", 0), m_builder.createVariable(1, "y",0)));
-      m_parser->parseStmt(stmtListNode);
+      m_parser->parseStmt(stmtList);
+      stmtList.push_back(1);
+      m_parser->parseStmt(stmtList);
 
       // Follow table should be populated with 1 follows relation
       actual = followTable->getFollowsAnything();

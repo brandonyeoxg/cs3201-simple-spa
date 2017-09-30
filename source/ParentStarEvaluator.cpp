@@ -41,9 +41,9 @@ bool ParentStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Gram
 }
 
 SET_OF_RESULTS ParentStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getType() == Grammar::GType::STMT_NO) {
+  if (t_g1.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getChildrenStarOf(std::stoi(t_g1.getName()));
     if (stmtIntVector.empty()) {
       return result;
@@ -65,9 +65,9 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gra
 }
 
 SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getType() == Grammar::GType::STMT_NO) {
+  if (t_g2.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getParentStarOf(std::stoi(t_g2.getName()));
     if (stmtIntVector.empty()) {
       return result;
@@ -89,7 +89,7 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gram
 }
 
 SET_OF_RESULTS ParentStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   std::unordered_map<int, std::vector<int>> allParentsStar = t_pkb->getAllParentsStar();
   if (allParentsStar.empty()) {

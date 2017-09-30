@@ -17,6 +17,7 @@
 #include "Pattern.h"
 #include "PKB.h"
 #include "StringUtil.h"
+#include "GlobalTypeDef.h"
 
 class QueryPreProcessor
 {
@@ -128,18 +129,15 @@ private:
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;
   StringUtil m_stringUtil;
-  const int m_procedure = 0;
-  const int m_statementList = 1;
-  const int m_statement = 2;
-  const int m_assign = 3;
-  const int m_while = 4;
-  const int m_if = 5;
-  const int m_call = 6;
-  const int m_variable = 7;
-  const int m_constant = 8;
-  const int m_progline = 9;
-  const int m_statementNumber = 10;
-  const int m_string = 11;
+  static std::string PROCEDURE;
+  static std::string STMTLST;
+  static std::string STMT;
+  static std::string ASSIGN;
+  static std::string WHILE;
+  static std::string IF;
+  static std::string VARIABLE;
+  static std::string CONSTANT;
+  static std::string PROG_LINE;
 };
 
 #endif QUERYPREPROCESSOR_H

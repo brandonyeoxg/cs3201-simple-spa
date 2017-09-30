@@ -27,16 +27,16 @@ bool UsesEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_
 }
 
 SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getType() == Grammar::GType::STMT_NO) {
+  if (t_g1.getType() == queryType::GType::STMT_NO) {
     std::vector<std::string> varUsedByStmt = t_pkb->getUses(std::stoi(t_g1.getName()));
     if (varUsedByStmt.empty()) {
       return result;
     }
 
     result[t_g2.getName()] = varUsedByStmt;
-  } else if (t_g1.getType() == Grammar::GType::STR) {
+  } else if (t_g1.getType() == queryType::GType::STR) {
     
   }
 
@@ -44,7 +44,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
 }
 
 SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getName() != "_") {
     std::vector<int> stmtIntVector = t_pkb->getStmtUses(t_g2.getName());
@@ -72,7 +72,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
 }
 
 SET_OF_RESULTS UsesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
+  std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   std::unordered_map<std::string, std::vector<int>> stmtsAndVar = t_pkb->getAllStmtUses();
   if (stmtsAndVar.empty()) {

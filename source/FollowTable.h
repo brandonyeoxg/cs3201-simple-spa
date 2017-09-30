@@ -140,6 +140,7 @@ public:
   FollowTable();
 
 private:
-  std::unordered_map<int, std::vector<int>> m_followTable;
+  std::unordered_map<int, std::vector<int>> m_followMap;
+  std::unordered_map<int, std::vector<int>> m_followedByMap;
   std::set<int> m_allFollows;
 };

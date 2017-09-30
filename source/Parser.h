@@ -70,83 +70,10 @@ protected:
   * Returns the first token in a line
   */
   std::string getCurrentLineToken();
-private:
-  std::list<STMT_NUM> m_nestedStmtLineNum;
-  std::vector<std::string> m_curTokens;
-  bool m_isParsingProcedureContent;
-  const std::string EMPTY_LINE = "";
-
-  /*
-  * Parses the procedure block.
-  * 
-  * @return -1 if there is syntax error.
-  */
-  int parseForProcedure();
-  
-  /*
-  * Parses the statement list block.
-  * 
-  * @param t_node the reference to the procedure node
-  * @return -1 if there is syntax error.
-  */
-  int parseStmtLst(StmtListNode* t_node);
-
-  /*
-  * Parses the statement.
-  *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
-  */
-  int parseStmt(TNode* t_node);
-
-  /*
-  * Parses the assignment statement.
-  *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
-  */
-  int parseAssignStmt(TNode* t_node);
-
-  /*
-  * Parses the expr stmt.
-  *
-  * @param t_expr the string representation of the expression
-  * @return the completed expr's root node
-  */
-  TNode* parseExpr();
-
-  /*
-  * Parses the each operands to populate the respective tables in the PKB.
-  *
-  * @param t_expr the string representation of the expression
-  */
-  void parseEachOperand(std::stack<TNode *>& t_exprStack);
-
-  /*
-  * Parses a non container statemment.
-  *
-  * @param t_node the reference to the stmtLst node
-  */
-  int parseNonContainerStmt(TNode* t_node);
-
-  /*
-   * Parses a container statement.
-   *
-   * @param t_node the reference to the stmtLst node
-   */
-  int parseContainerStmt(TNode* t_node);
-
-  /*
-  * Parses the while statement.
-  *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
-  */
-  int parseWhileStmt(TNode* t_node);
 
   /*
   * Returns true if the token is an operator.
-  * 
+  *
   * @param t_token the token to be checked.
   */
   bool isOperator(const std::string& t_token);
@@ -166,13 +93,8 @@ private:
   bool isKeyDelimiter(const std::string& t_token);
 
   /*
-  * Returns the the next token in the line
-  */
-  std::string getToken();
-
-  /*
-  * Tokenises the line into tokens 
-  * 
+  * Tokenises the line into tokens
+  *
   * @param t_line the line to be tokenised
   */
   std::vector<std::string> tokeniseLine(const std::string& t_line);
@@ -181,17 +103,124 @@ private:
   * Returns true if the token is a valid name.
   * A valid name refers to LETTER(LETTER|DIGIT)+.
   */
-  bool isValidName(std::string& t_token);
+  bool isValidName(const std::string& t_token);
 
   /*
   * Returns true if the token is a constant.
   * A constant just consists of purely digits.
   */
-  bool isConstant(std::string& t_token);
+  bool isConstant(const std::string& t_token);
 
   /*
   * Returns true if the the statement is a non container statement.
   * Checks with m_nextToken if it is an non container statement string.
   */
-  bool isNonContainerStmt();
+  bool isNonContainerStmt(std::string t_token);
+
+private:
+  std::list<STMT_NUM> m_nestedStmtLineNum;
+  std::vector<std::string> m_curTokens;
+  bool m_isParsingProcedureContent;
+  const std::string EMPTY_LINE = "";
+
+  /*
+  * Parses the procedure block.
+  * 
+  * @return -1 if there is syntax error.
+  */
+  void parseForProcedure();
+  
+  /*
+  * Parses the statement list block.
+  * 
+  * @param t_node the reference to the procedure node
+  * @return -1 if there is syntax error.
+  */
+  void parseStmtLst(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the assignment statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseAssignStmt();
+
+  /*
+  * Parses the call statement.
+  */
+  void parseCallStmt();
+
+  /*
+  * Parses the expr stmt.
+  *
+  * @param t_expr the string representation of the expression
+  * @return the completed expr's root node
+  */
+  TNode* parseExpr(std::vector<std::string> t_tokens);
+
+  /*
+  * Parses the each operands to populate the respective tables in the PKB.
+  *
+  * @param t_expr the string representation of the expression
+  */
+  void parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std::string>& t_tokens);
+
+  /*
+  * Tokenise the expr to the right. 
+  * Tokenised into a vector, without spaces, each element belongs to a single term or operator.
+  *
+  */
+  std::vector<std::string> tokeniseExpr();
+
+  /*
+  * Parses a non container statemment.
+  *
+  * @param t_node the reference to the stmtLst node
+  */
+  void parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+   * Parses a container statement.
+   *
+   * @param t_node the reference to the stmtLst node
+   */
+  void parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the while statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the if statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Parses the else statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+
+  /*
+  * Returns the the next token in the line
+  */
+  std::string getToken();
 };
