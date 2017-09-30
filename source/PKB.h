@@ -419,6 +419,9 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
 
+  // TODO need testing after insert assignment statement implemented
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;

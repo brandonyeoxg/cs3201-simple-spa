@@ -455,7 +455,7 @@ public:
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
 
-  virtual std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName) = 0;
+  virtual std::list<STMT_NUM> getAllAssignStmtByVar(std::string t_varName) = 0;
 
   /** Pattern a("x", "y + x").
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.

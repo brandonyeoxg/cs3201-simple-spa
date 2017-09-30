@@ -554,6 +554,20 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
   return list;
 }
 
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
+  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+
+  for (auto stmtNum : stmtsWithMatch) {
+    assert(getModifies(stmtNum).size() == 1);
+    std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
 void PKB::insertAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
   PatternMatch::getInstance().addAssignStmt(t_stmtNum, t_stmtTokens);
 }
