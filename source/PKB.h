@@ -261,10 +261,10 @@ public:
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
 
-  std::unordered_map<STMT_NUM, Grammar::GType> getTypeOfStatementTable();
-  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type);
-  std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
-  bool insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum);
+  std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
+  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
+  std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
+  bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////
   //  VarTable methods

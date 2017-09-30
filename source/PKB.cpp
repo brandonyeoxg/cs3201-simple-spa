@@ -80,26 +80,26 @@ VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, s
 
 void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
   AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
-  insertStatementTypeTable(Grammar::GType::ASGN, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::ASGN);
+  insertStatementTypeTable(queryType::GType::ASGN, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::ASGN);
   insertAssignRelation(t_varNode->getVarIndex(), stmt);
 }
 
 void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
-  insertStatementTypeTable(Grammar::GType::CALL, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::CALL);
+  insertStatementTypeTable(queryType::GType::CALL, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
 }
 
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
-  insertStatementTypeTable(Grammar::GType::WHILE, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::WHILE);
+  insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
   insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
-  insertStatementTypeTable(Grammar::GType::IF, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, Grammar::GType::IF);
+  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
   insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
@@ -275,18 +275,18 @@ bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
 //////////////////////////////////////////////////////////
 //  statementTypeTable and typeOfStatementTable Methods
 //////////////////////////////////////////////////////////
-std::unordered_map<STMT_NUM, Grammar::GType> PKB::getTypeOfStatementTable() {
+std::unordered_map<STMT_NUM, queryType::GType> PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
 
-bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, Grammar::GType t_type) {
+bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
   return m_statementTable->insertTypeOfStatementTable(t_lineNum, t_type);
 }
-std::unordered_map<Grammar::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
+std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
   return m_statementTable->getStatementTypeTable();
 }
 
-bool PKB::insertStatementTypeTable(Grammar::GType t_type, STMT_NUM t_lineNum) {
+bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) {
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
