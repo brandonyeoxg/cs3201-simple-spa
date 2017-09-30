@@ -46,7 +46,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
 SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, Grammar::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getType() == Grammar::GType::STR) {
+  if (t_g2.getName() != "_") {
     std::vector<int> stmtIntVector = t_pkb->getStmtUses(t_g2.getName());
     if (stmtIntVector.empty()) {
       return result;
