@@ -399,6 +399,8 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
+  std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+
   /** Pattern a("x", "y + x").
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
   *   @param t_varName name of the variable modified in assignment statement

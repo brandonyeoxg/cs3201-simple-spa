@@ -506,16 +506,25 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
   return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
+std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
 
   if (varIndex == INVALID_INDEX) {
-    return{};
+    return {};
+  }
+
+  return m_assignTable->getAllAssignStmtListByVar(varIndex);
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
+  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return list;
   }
 
   std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
-
-  std::list<STMT_NUM> list = {};
 
   for (auto iterator : stmtNums) {
     if (PatternMatch::getInstance().isExactPatternInStmt(iterator, t_pattern)) {
@@ -527,15 +536,14 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
 
   if (varIndex == INVALID_INDEX) {
-    return {};
+    return list;
   }
 
   std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
-
-  std::list<STMT_NUM> list = {};
 
   for (auto iterator : stmtNums) {
     if (PatternMatch::getInstance().isSubtreePatternInStmt(iterator, t_pattern)) {
