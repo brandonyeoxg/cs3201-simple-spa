@@ -108,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="..\source\PatternMatch.cpp">
       <Filter>PKB\PatternMatch</Filter>
+	</ClCompile>
+    <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
+      <Filter>test-drivers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +238,6 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\PKB_API.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
@@ -249,6 +249,9 @@
     </ClInclude>
     <ClInclude Include="..\source\PkbReadOnly.h">
       <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\test-drivers\ParserDriver.h">
+      <Filter>test-drivers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +284,9 @@
     </Filter>
     <Filter Include="PKB\PatternMatch">
       <UniqueIdentifier>{11e46c09-bc71-4139-8997-177b1d4a1c34}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="test-drivers">
+      <UniqueIdentifier>{4078f7f2-9786-4d7a-9d57-209f63a077c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

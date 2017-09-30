@@ -19,11 +19,8 @@
 #include "GlobalTypeDef.h"
 #include "PatternMatch.h"
 
-#include "PKB_API.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
-
-
 
 class TNode;
 
@@ -31,6 +28,7 @@ class PKB: public PkbWriteOnly, public PkbReadOnly {
 
 public:
   PKB();
+  ~PKB();
 
   ///////////////////////////////////////////////////////
   //  PKB building methods

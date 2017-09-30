@@ -45,6 +45,7 @@
     <ClCompile Include="..\source\QueryResultProjector.cpp" />
     <ClCompile Include="..\source\StatementTable.cpp" />
     <ClCompile Include="..\source\StringUtil.cpp" />
+    <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
     <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
   </ItemGroup>
@@ -59,7 +60,6 @@
     <ClInclude Include="..\source\PatternMatch.h" />
     <ClInclude Include="..\source\PkbReadOnly.h" />
     <ClInclude Include="..\source\PkbWriteOnly.h" />
-    <ClInclude Include="..\source\PKB_API.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
@@ -94,6 +94,7 @@
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
+    <ClInclude Include="..\source\test-drivers\ParserDriver.h" />
     <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>

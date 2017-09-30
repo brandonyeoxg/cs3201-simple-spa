@@ -23,6 +23,16 @@ PKB::PKB() {
   m_statementTable = new StatementTable();
 }
 
+PKB::~PKB() {
+  delete m_followTable;
+  delete m_parentTable;
+  delete m_varTable;
+  delete m_procTable;
+  delete m_assignTable;
+  delete m_constantTable;
+  delete m_statementTable;
+}
+
 ///////////////////////////////////////////////////////
 //  Getter and Setter methods
 ///////////////////////////////////////////////////////
