@@ -4,5 +4,5 @@
 
 class Patterns {
 public:
-  virtual Evaluator createEvaluator();
+  virtual Evaluator createEvaluator() = 0;
 };
