@@ -58,6 +58,24 @@ std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_
   return stmtNums;
 }
 
+bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
+  assert(assignStmts->count(t_stmtNum) == 1); // should exist
+  t_pattern = removeWhitespaces(t_pattern);
+  return assignStmts->at(t_stmtNum) == t_pattern;
+}
+
+bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
+  t_pattern = removeWhitespaces(t_pattern);
+
+  for (auto iterator : assignStmtsSubtrees->at(t_stmtNum)) {
+    if (iterator == t_pattern) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens) {
   return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
 }

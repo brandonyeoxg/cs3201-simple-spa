@@ -48,6 +48,13 @@ public:
   */
   std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::string t_pattern);
 
+  /** Given statement number, checks if given pattern string matches the statement expression exactly.
+      assumes statement number refers to valid assignment statement
+  */
+  bool isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
+
+  bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
+
   /** Not to be used in outside of this class. Exposed only for testing purposes.
   *   This method calls the recursive method to generate strings of all subtrees within a given expression.
   *   @param t_tokens tokens of an assignment statement's right hand side
