@@ -99,9 +99,10 @@ void Parser::parseAssignStmt() {
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
-  std::vector<std::string> tokenisedExpr = tokeniseExpr();
+  LIST_OF_TOKENS tokenisedExpr = tokeniseExpr();
   TNode* exprNode = parseExpr(tokenisedExpr);
   m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
+  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, tokenisedExpr);
 }
 
 void Parser::parseCallStmt() {
