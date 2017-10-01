@@ -46,7 +46,7 @@ public:
   */
   virtual bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) = 0;
 
-  /**
+  /** Deprecated, after pattern matcher in this is to be removed.
   * Inserts a variable that has been modified.
   * @param t_varName name of the variable being modified.
   * @param t_curLineNum the current line of the variable.
@@ -56,7 +56,7 @@ public:
   virtual VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines) = 0;
 
-  /**
+  /** Deprecated, after pattern matcher in this is to be removed.
   * Inserts a variable that has been used.
   * @param t_varName name of the variable that is used.
   * @param t_curLineNum the current line of the variable.
@@ -64,6 +64,24 @@ public:
   * @return a reference of the variable node.
   */
   virtual VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
+
+  /**
+  * Inserts a variable that has been modified.
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  */
+  virtual void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+    std::list<STMT_NUM> t_nestedStmtLines) = 0;
+
+  /**
+  * Inserts a variable that has been used.
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  */
+  virtual void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
+
 
   /**
   * Inserts a variable that has been modified to ModifiesP
@@ -115,13 +133,21 @@ public:
   */
   virtual STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum) = 0;
 
-  /**
+  /** Deprecated to be removed once patter matcher is done
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
   * @param t_curLineNum the current line of the constant.
   * @return a reference to the constant node.
   */
   virtual ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum) = 0;
+
+  /**
+  * Inserts a constant into the PKB.
+  * @param t_constVal the constant to be added in string form.
+  * @param t_curLineNum the current line of the constant.
+  * @return a reference to the constant node.
+  */
+  virtual void insertConstant(CONSTANT_TERM t_constVal) = 0;
 
   /**
   * Returns a plus operator.

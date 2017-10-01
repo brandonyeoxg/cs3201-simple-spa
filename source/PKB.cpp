@@ -60,21 +60,30 @@ PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
 }
 
 VariableNode* PKB::insertModifiesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
-  VAR_INDEX varIndx = insertModifiesForStmt(t_varName, t_curLineNum);
-  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, varIndx);
-  for (auto containerItr = t_nestedStmLines.begin(); containerItr != t_nestedStmLines.end(); containerItr++) {
-    insertModifiesForStmt(varNode->getVarName(), (*containerItr));
-  }
+  VAR_INDEX index = m_varTable->insertModifiesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
   return varNode;
 }
 
-VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
-  VAR_INDEX index = insertUsesForStmt(t_varName, t_curLineNum);
-  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
-  for (auto containerItr = t_nestedStmtLines.begin(); containerItr != t_nestedStmtLines.end(); containerItr++) {
-    insertUsesForStmt(t_varName, *containerItr);
+void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+  std::list<STMT_NUM> t_nestedStmtLines) {
+  insertModifiesForStmt(t_varName, t_curLineNum);
+  for (auto& containerItr : t_nestedStmtLines) {
+    insertModifiesForStmt(t_varName, containerItr);
   }
+}
+
+VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+  VAR_INDEX index = m_varTable->insertUsesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
   return varNode;
+}
+
+void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+  insertUsesForStmt(t_varName, t_curLineNum);
+  for (auto& containerItr : t_nestedStmtLines) {
+    insertUsesForStmt(t_varName, containerItr);
+  }
 }
 
 void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
@@ -104,21 +113,24 @@ void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
-  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
-  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
   ConstantNode* constNode = m_builder.createConstant(t_curLineNum, atoi(t_constVal.c_str()));
-  insertConstant(t_constVal);
   return constNode;
+}
+
+void PKB::insertConstant(CONSTANT_TERM t_constant) {
+  m_constantTable->insertConstant(t_constant);
 }
 
 PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
@@ -408,9 +420,6 @@ void PKB::populateAssignTableAbstractions() {
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
-int PKB::insertConstant(std::string t_constant) {
-  return m_constantTable->insertConstant(t_constant);
-}
 
 std::list<std::string> PKB::getAllConstants() {
   return m_constantTable->getAllConstants();

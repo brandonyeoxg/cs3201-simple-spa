@@ -75,6 +75,25 @@ public:
   VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
+  * Inserts a variable that has been modified.
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+    std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
+  * Inserts a variable that has been used.
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
   * Inserts a variable that has been modified to ModifiesP
   * @param t_varName name of the variable being modified.
   * @param t_curLineNum the current line of the variable.
@@ -131,6 +150,14 @@ public:
   * @return a reference to the constant node.
   */
   ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
+
+  /**
+  * Inserts a constant into the PKB.
+  * @param t_constVal the constant to be added in string form.
+  * @param t_curLineNum the current line of the constant.
+  * @return a reference to the constant node.
+  */
+  void insertConstant(std::string t_constVal);
 
   /**
   * Returns a plus operator.
@@ -341,7 +368,6 @@ public:
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
-  int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();
 
   ///////////////////////////////////////////////////////
