@@ -22,5 +22,5 @@ public:
   SET_OF_RESULTS evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
 
 private:
-  std::unordered_map<std::string, std::vector<std::string>> result;
+  std::unordered_map<std::string, std::vector<std::string>> m_result;
 };

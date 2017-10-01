@@ -50,15 +50,15 @@ SET_OF_RESULTS CallsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar 
       //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
     } catch (const std::invalid_argument& ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g2);
-    result[t_g2.getName()] = stmtVector;
+    m_result[t_g2.getName()] = stmtVector;
   } else if (t_g1.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector;
@@ -66,10 +66,10 @@ SET_OF_RESULTS CallsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar 
       stmtStrVector = filterStmts(typeOfStmts, x, t_g2);
     }
 
-    result[t_g2.getName()] = stmtStrVector;
+    m_result[t_g2.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS CallsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -82,15 +82,15 @@ SET_OF_RESULTS CallsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t
       //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
     } catch (const std::invalid_argument& ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g1);
-    result[t_g1.getName()] = stmtVector;
+    m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector;
@@ -98,10 +98,10 @@ SET_OF_RESULTS CallsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t
       stmtStrVector = filterStmts(typeOfStmts, x, t_g1);
     }
 
-    result[t_g1.getName()] = stmtStrVector;
+    m_result[t_g1.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS CallsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -109,13 +109,13 @@ SET_OF_RESULTS CallsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar 
 
   std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
   if (allFollows.empty()) {
-    return result;
+    return m_result;
   }
 
   for (auto& x : allFollows) {
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g2);
-    result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+    m_result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
   }
 
-  return result;
+  return m_result;
 }
