@@ -42,14 +42,6 @@ public:
   * Reurns all procedure name in the program
   */
   std::vector<PROC_NAME>& getAllProcName();
-
-  //bool insertUses(PROC_INDEX& t_procIdx, std::string& t_varIdx); 
-  //bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
-  //std::list<std::string>& getVarFromProcUses(PROC_INDEX& t_procIdx); /*< Uses("First", x) */
-  //std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
-  //std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
-  //bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
-  //std::list<std::string>& getProcNameThatUses(); /*< Uses(p, _) */
 private:
   std::vector<PROC_NAME> m_procIdxToName;
   std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;
