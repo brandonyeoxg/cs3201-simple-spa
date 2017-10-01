@@ -15,38 +15,33 @@
 class ProcTable {
 public:
   /**
-   * Inserts a procedure into the table.
-   * 
-   * @param t_name should not be null
-   * @return the index position of the procedure in the table.
-   */
+  * Inserts a procedure into the table.
+  *
+  * @param t_name should not be null
+  * @return the index position of the procedure in the table.
+  */
   PROC_INDEX insertProc(PROC_NAME t_name);
 
   /**
   * Gets the procedure name using the procedure id
   *
-  * @param t_node should not be null
-  * @return the index position of the node
+  * @param t_idx should not be a negtive number
+  * @return the procedure name
   */
-  std::string getProcNameFromIdx(PROC_INDEX t_idx);
+  PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
 
   /**
-  * Gets the procedure name using the procedure id
+  * Gets the procedure id using the procedure name
   *
-  * @param t_node should not be null
+  * @param t_name should not be null
   * @return the index position of the node
   */
   PROC_INDEX getProcIdxFromName(PROC_NAME t_name);
 
+  /**
+  * Reurns all procedure name in the program
+  */
   std::vector<PROC_NAME>& getAllProcName();
-
-  //bool insertModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
-  //bool isModifies(std::string& t_procIdx, std::string& t_varName); /*< Modifies("First", "x") */
-  //std::list<std::string>& getVarFromProcModifies(PROC_INDEX& t_procIdx); /*< Modifies("First", x) */
-  //std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
-  //std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies("First", _) */
-  //bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
-  //std::list<std::string>& getProcNameThatModifies(); /*< Modifies(p, _) */
 
   //bool insertUses(PROC_INDEX& t_procIdx, std::string& t_varIdx); 
   //bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
