@@ -26,7 +26,8 @@ public:
     : m_pkbWriteOnly(t_pkbWriteOnly), 
       m_curLineNum(0),
       m_nextToken(""),
-      m_isParsingProcedureContent(false) {};
+      m_isParsingProcedureContent(false),
+      m_curProcIdx(-1){};
 
   ~Parser() {};
   
@@ -122,6 +123,7 @@ private:
   std::vector<std::string> m_curTokens;
   bool m_isParsingProcedureContent;
   const std::string EMPTY_LINE = "";
+  PROC_INDEX m_curProcIdx;
 
   /*
   * Parses the procedure block.

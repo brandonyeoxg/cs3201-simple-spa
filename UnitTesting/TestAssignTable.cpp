@@ -24,37 +24,24 @@ namespace UnitTesting {
 
     TEST_METHOD(getAllStmtList) {
       AssignTable assignTable;
-      ASTBuilder builder;
-      STMT_NUM curStmtNo = 1;
-      VAR_INDEX varIndex = 1;
-      VariableNode* varNode = builder.createVariable(curStmtNo, "x", DUMMY_VAR_INDEX);
-      VariableNode* rhsVarNode = builder.createVariable(curStmtNo, "y", DUMMY_VAR_INDEX);
-      AssignNode* assignNode = builder.buildAssignment(curStmtNo, varNode, rhsVarNode);
-
-      varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      std::list<STMT_NUM> stmts = assignTable.getAllAssignStmtList();
+      assignTable.insertAssignStmt(1);
+      LIST_OF_STMT_NUMS stmts = assignTable.getAllAssignStmtList();
       
       int listSize = stmts.size();
       Assert::AreEqual(listSize, 1);
       Assert::AreEqual(stmts.front(), (STMT_NUM)1);
-    
-      varIndex = 1;
-      curStmtNo = 2;
-      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo,"x", DUMMY_VAR_INDEX), builder.createVariable(curStmtNo,"z", DUMMY_VAR_INDEX));
-      varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
+
+      assignTable.insertAssignStmt(2);
       stmts = assignTable.getAllAssignStmtList();
       listSize = stmts.size();
       Assert::AreEqual(listSize, 2);
       Assert::AreEqual(stmts.front() + 1, (STMT_NUM)2);
 
-      varIndex = 2;
-      curStmtNo = 3;
-      assignNode = builder.buildAssignment(curStmtNo, builder.createVariable(curStmtNo, "z", DUMMY_VAR_INDEX), builder.createVariable(curStmtNo, "c", DUMMY_VAR_INDEX));
-      varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
+      assignTable.insertAssignStmt(3);
       stmts = assignTable.getAllAssignStmtList();
       listSize = stmts.size();
       Assert::AreEqual(listSize, 3);
-      Assert::AreEqual(stmts.front() + 2, (STMT_NUM)curStmtNo);
+      Assert::AreEqual(stmts.front() + 2, (STMT_NUM)3);
     }
 
     TEST_METHOD(getAllStmtListByVar)
