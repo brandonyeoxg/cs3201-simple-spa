@@ -162,85 +162,35 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
 
 bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   std::unordered_map<std::string, std::vector<std::string>> result;
-  if (t_pattern.getStmt().getType() == queryType::GType::ASGN) {
-    if (t_pattern.getLeft().getName() != "_" && t_pattern.getRight().getName() != "_") {
-      if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
-        std::unordered_map<int, std::string> assignStmtsWithVar = m_pkb->getAllAssignStmtAndVarByPattern(t_pattern.getRight().getName(), !t_pattern.isSubtree());
-        if (assignStmtsWithVar.empty()) {
-          return false;
-        }
+  PatternEvaluator *eval = Patterns::createEvaluator(t_pattern.getStmt().getType());
+  Grammar stmt = t_pattern.getStmt();
+  Grammar g1 = t_pattern.getLeft();
+  Grammar g2 = t_pattern.getRight();
+  bool isExact = !t_pattern.isSubtree();
 
-        for (auto& x : assignStmtsWithVar) {
-          std::vector<std::string> varVector;
-          varVector.push_back(x.second);
-          result[std::to_string(x.first)] = varVector;
-        }
-      } else {
-        std::list<int> assignStmts = m_pkb->getAssignStmtByVarPattern(t_pattern.getLeft().getName(), t_pattern.getRight().getName(), !t_pattern.isSubtree());
-        if (assignStmts.empty()) {
-          return false;
-        }
+  // Get the respective evaluators to get the results of the relation clauses
+  if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
+    result = eval->getAllStmtsWithAnyPattern(m_pkb, stmt, g1, g2); //Only underscores
+  } else if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && isExact) {
+    result = eval->getAllStmtsWithExactPattern(m_pkb, stmt, g1, g2); //underscore + STR
+  } else if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && !isExact) {
+    result = eval->getAllStmtsWithSubPattern(m_pkb, stmt, g1, g2); //underscore + _STR_
+  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
+    result = eval->getAllStmtsWithVarAndAnyPattern(m_pkb, stmt, g1, g2); //STR + underscore
+  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
+    result = eval->getAllStmtsAndVarWithAnyPattern(m_pkb, stmt, g1, g2); //VAR + underscore
+  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && isExact) {
+    result = eval->getAllStmtsWithVarAndExactPattern(m_pkb, stmt, g1, g2); //STR + STR
+  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && !isExact) {
+    result = eval->getAllStmtsWithVarAndSubPattern(m_pkb, stmt, g1, g2); //STR + _STR_
+  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && isExact) {
+    result = eval->getAllStmtsAndVarWithExactPattern(m_pkb, stmt, g1, g2); //VAR + STR
+  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && !isExact) {
+    result = eval->getAllStmtsAndVarWithSubPattern(m_pkb, stmt, g1, g2); //VAR + _STR_
+  }
 
-        std::vector<std::string> stmtVector;
-        for (auto& x : assignStmts) {
-          stmtVector.push_back(std::to_string(x));  
-        }
-        result["a"] = stmtVector;
-      }
-    } else if (t_pattern.getLeft().getName() == "_" && t_pattern.getRight().getName() == "_") {
-      std::list<int> allAssignStmts = m_pkb->getAllAssignStmtList();
-      if (allAssignStmts.empty()) {
-        return false;
-      }
-
-      std::vector<std::string> stmtVector;
-      for (auto& x : allAssignStmts) {
-        stmtVector.push_back(std::to_string(x));
-      }
-      result["a"] = stmtVector;
-    } else if (t_pattern.getRight().getName() == "_") {
-      if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
-        std::unordered_map<int, std::string> assignStmtsWithVar = m_pkb->getAllAssignStmtWithVarName();
-        if (assignStmtsWithVar.empty()) {
-          return false;
-        }
-
-        for (auto& x : assignStmtsWithVar) {
-          std::vector<std::string> varVector;
-          varVector.push_back(x.second);
-          result[std::to_string(x.first)] = varVector;
-        }      
-      } else {
-        std::list<int> assignStmts = m_pkb->getAllAssignStmtListByVar(t_pattern.getLeft().getName());
-        if (assignStmts.empty()) {
-          return false;
-        }
-
-        std::vector<std::string> stmtVector;
-        for (auto& x : assignStmts) {
-          stmtVector.push_back(std::to_string(x));
-        }
-        result["a"] = stmtVector;
-      }
-    } else if (t_pattern.getLeft().getName() == "_") {
-      std::list<int> assignStmts;
-      if (!t_pattern.isSubtree()) {
-        assignStmts = m_pkb->getAllAssignStmtByExactPattern(t_pattern.getRight().getName());
-      } else {
-        assignStmts = m_pkb->getAllAssignStmtBySubtreePattern(t_pattern.getRight().getName());
-      }
-      
-      if (assignStmts.empty()) {
-        return false;
-      }
-
-      std::vector<std::string> stmtVector;
-      for (auto& x : assignStmts) {
-        //std::cout << "X: x\n";
-        stmtVector.push_back(std::to_string(x));
-      }
-      result["a"] = stmtVector;
-    }
+  if (result.empty()) {
+    return false;
   }
 
   // Store the result
