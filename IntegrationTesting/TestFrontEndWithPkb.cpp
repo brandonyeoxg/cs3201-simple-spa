@@ -33,17 +33,17 @@ namespace IntegrationTesting
 
 		TEST_METHOD(TestParserAndPKBProcedure)
 		{
-      // Test for the procedure recorded properly
-      m_tmpFile << "procedure main {\n";
-      m_tmpFile.close();
-      m_parser->openFileStream(m_tmpFileName);
-      m_parser->parseProcedure();
+      //// Test for the procedure recorded properly
+      //m_tmpFile << "procedure main {\n";
+      //m_tmpFile.close();
+      //m_parser->openFileStream(m_tmpFileName);
+      //m_parser->parseProcedure();
 
-      ProcTable* procTable = m_pkb->getProcTable();
-      std::list<std::string> actual = procTable->getAllProcNameInProgram();
+      //ProcTable* procTable = m_pkb->getProcTable();
+      //std::list<std::string> actual = procTable->getAllProcNameInProgram();
 
-      Assert::AreEqual(actual.size(), size_t(1));
-      Assert::AreEqual(*actual.begin(), std::string("main"));
+      //Assert::AreEqual(actual.size(), size_t(1));
+      //Assert::AreEqual(*actual.begin(), std::string("main"));
     }
 
     TEST_METHOD(TestParserAndPKBStmt) // This only tests follows relation

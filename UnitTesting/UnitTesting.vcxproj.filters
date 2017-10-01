@@ -15,6 +15,9 @@
     <ClCompile Include="TestDesignExtractor.cpp" />
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
+    <ClCompile Include="TestModifiesP.cpp" />
+    <ClCompile Include="TestUsesP.cpp" />
+    <ClCompile Include="TestCallsTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

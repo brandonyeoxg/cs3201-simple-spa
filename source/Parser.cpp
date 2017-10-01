@@ -36,7 +36,7 @@ void Parser::parseForProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    m_pkbWriteOnly->insertProcedure(procName);
+    m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     std::list<STMT_NUM> stmtLst;
     parseStmtLst(stmtLst);
   }
@@ -92,13 +92,17 @@ void Parser::parseAssignStmt() {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
+  // To be removed once pattern matcher is done
+  VariableNode* left = m_pkbWriteOnly->insertModifiesVariable(varName, m_curLineNum, m_nestedStmtLineNum);
+  m_pkbWriteOnly->insertModifiesProc(m_curProcIdx, varName);
+  m_pkbWriteOnly->insertModifiesVariableNew(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
-  std::vector<std::string> tokenisedExpr = tokeniseExpr();
+  LIST_OF_TOKENS tokenisedExpr = tokeniseExpr();
   TNode* exprNode = parseExpr(tokenisedExpr);
   m_pkbWriteOnly->insertAssignStmt(left, exprNode, m_curLineNum);
+  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, tokenisedExpr);
 }
 
 void Parser::parseCallStmt() {
@@ -111,6 +115,7 @@ TNode* Parser::parseExpr(std::vector<std::string> t_tokens) {
   std::string name = t_tokens[0];
   t_tokens.erase(t_tokens.begin());
   if (isConstant(name)) {
+    // To be removed once pattern matcher is done
     ConstantNode* constNode = m_pkbWriteOnly->insertConstant(name, m_curLineNum);    
     m_pkbWriteOnly->insertConstant(name, m_curLineNum);
     exprStack.push(constNode);
@@ -138,6 +143,7 @@ void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack, std::vector<std:
   t_tokens.erase(t_tokens.begin());
   TNode* right;
   if (isConstant(name)) {
+    // To be removed once pattern matcher is done
     right = m_pkbWriteOnly->insertConstant(name, m_curLineNum);
   } else if (!isValidName(name)) {
     throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
@@ -157,10 +163,22 @@ std::vector<std::string> Parser::tokeniseExpr() {
     throw SyntaxUnknownCommandException("Assignment terms must be an operator or a constant or a variable", m_curLineNum);
   }
   output.push_back(term);
+  if (isConstant(term)) {
+    m_pkbWriteOnly->insertConstant(term);
+  } else if (isValidName(term)) {
+    m_pkbWriteOnly->insertUsesVariableNew(term, m_curLineNum, m_nestedStmtLineNum);
+    m_pkbWriteOnly->insertUsesProc(m_curProcIdx, term);
+  }
   while (isOperator(m_nextToken)) {
     std::string opr = getMatchToken(tokentype::tokenType::EXPR);
     output.push_back(opr);
     term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    if (isConstant(term)) {
+      m_pkbWriteOnly->insertConstant(term);
+    } else if (isValidName(term)) {
+      m_pkbWriteOnly->insertUsesVariableNew(term, m_curLineNum, m_nestedStmtLineNum);
+      m_pkbWriteOnly->insertUsesProc(m_curProcIdx, term);
+    }
     output.push_back(term);
   }
   return output;
@@ -191,7 +209,7 @@ void Parser::parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
 void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("then")) {
-    throw SyntaxUnknownCommandException("If statements require then keyword", m_curLineNum);
+    throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
   }
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -203,7 +221,7 @@ void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
 
 void Parser::parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   if (!isMatchToken("else")) {
-    throw SyntaxUnknownCommandException("If statements require else keyword", m_curLineNum);
+    throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);

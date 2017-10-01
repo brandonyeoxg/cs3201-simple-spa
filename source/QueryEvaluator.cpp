@@ -168,7 +168,7 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   Grammar g2 = t_pattern.getRight();
   bool isExact = !t_pattern.isSubtree();
 
-  // Get the respective evaluators to get the results of the relation clauses
+  // Get the respective evaluators to get the results of the pattern clauses
   if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
     result = eval->getAllStmtsWithAnyPattern(m_pkb, stmt, g1, g2); //Only underscores
   } else if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && isExact) {

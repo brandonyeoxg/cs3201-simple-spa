@@ -25,7 +25,7 @@ int ParserDriver::parseProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    StmtListNode* stmtLst = m_pkbWriteOnly->insertProcedure(procName);
+    m_pkbWriteOnly->insertProcedure(procName);
     return 1;
   }
   return -1;

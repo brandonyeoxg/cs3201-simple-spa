@@ -17,6 +17,14 @@ VAR_INDEX AssignTable::insertAssignRelation(const VAR_INDEX& t_index, AssignNode
   return t_index;
 }
 
+void AssignTable::insertAssignStmt(STMT_NUM t_stmtNum) {
+  m_assignStmts.push_back(t_stmtNum);
+}
+
+LIST_OF_STMT_NUMS& AssignTable::getAllAssignStmt() {
+  return m_assignStmts;
+}
+
 std::list<STMT_NUM> AssignTable::getAllAssignStmtListByVar(VAR_INDEX t_index) {
   std::list<STMT_NUM> output;
   std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.find(t_index);
@@ -42,16 +50,8 @@ std::unordered_map<STMT_NUM, VAR_NAME> AssignTable::getAllAssignStmtWithVar() {
   return m_assignMapWithVar;
 }
 
-std::list<STMT_NUM> AssignTable::getAllAssignStmtList() {
-  std::list<STMT_NUM> output;
-  std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.begin();
-  for (; itr != m_data.end(); itr++) {
-    std::list<AssignData>::iterator listItr = (*itr).second.begin();
-    for (; listItr != (*itr).second.end(); listItr++) {
-      output.push_back((*listItr).m_assignStmt);
-    }
-  }
-  return output;
+LIST_OF_STMT_NUMS AssignTable::getAllAssignStmtList() {
+  return m_assignStmts;
 }
 
 std::unordered_map<std::string, std::list<STMT_NUM>> AssignTable::getAllVarInWithAssignStmtNum() {

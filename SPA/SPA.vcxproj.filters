@@ -100,10 +100,10 @@
     <ClCompile Include="..\source\ConstantTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProcTableData.cpp">
+    <ClCompile Include="..\source\StatementTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\StatementTable.cpp">
+    <ClCompile Include="..\source\CallsTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\FollowsEvaluator.cpp">
@@ -162,6 +162,12 @@
     </ClCompile>
     <ClCompile Include="..\source\IfPatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+	</ClCompile>
+    <ClCompile Include="..\source\ModifiesP.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesP.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,9 +291,6 @@
     <ClInclude Include="..\source\ConstantTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProcTableData.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -297,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="..\source\PkbReadOnly.h">
       <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CallsTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Evaluator.h">
       <Filter>PQL\Relationships\Evaluator</Filter>
@@ -357,6 +363,12 @@
     </ClInclude>
     <ClInclude Include="..\source\IfPatternEvaluator.h">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+	</ClInclude>
+    <ClInclude Include="..\source\ModifiesP.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesP.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

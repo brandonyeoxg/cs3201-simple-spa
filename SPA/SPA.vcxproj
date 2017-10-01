@@ -18,9 +18,11 @@
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\ASTUtilities.cpp" />
+    <ClCompile Include="..\source\CallsTable.cpp" />
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\ModifiesP.cpp" />
     <ClCompile Include="..\source\Evaluator.cpp" />
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
     <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
@@ -52,7 +54,6 @@
     <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\ProcTable.cpp" />
-    <ClCompile Include="..\source\ProcTableData.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
@@ -62,6 +63,7 @@
     <ClCompile Include="..\source\StringUtil.cpp" />
     <ClCompile Include="..\source\UsesEvaluator.cpp" />
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
+    <ClCompile Include="..\source\UsesP.cpp" />
     <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\WhilePatternEvaluator.cpp" />
@@ -75,6 +77,7 @@
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
+    <ClInclude Include="..\source\CallsTable.h" />
     <ClInclude Include="..\source\CallsEvaluator.h" />
     <ClInclude Include="..\source\CallsStarEvaluator.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
@@ -83,6 +86,7 @@
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\IfPatternEvaluator.h" />
+    <ClInclude Include="..\source\ModifiesP.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\NextEvaluator.h" />
     <ClInclude Include="..\source\NextStarEvaluator.h" />
@@ -114,7 +118,6 @@
     <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\ProcTable.h" />
-    <ClInclude Include="..\source\ProcTableData.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
     <ClInclude Include="..\source\UsesEvaluator.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h" />
+    <ClInclude Include="..\source\UsesP.h" />
     <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\WhilePatternEvaluator.h" />

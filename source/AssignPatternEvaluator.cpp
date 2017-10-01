@@ -78,7 +78,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> allAssignStmts = t_pkb->getAllAssignStmtList();
+  std::vector<int> allAssignStmts = t_pkb->getAllAssignStmtList();
   if (allAssignStmts.empty()) {
     return m_result;
   }
