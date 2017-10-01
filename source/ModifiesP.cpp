@@ -1,6 +1,6 @@
 #include "ModifiesP.h"
 
-void ModifiesP::insertModifiesP(PROC_INDEX t_procIdx, PROC_NAME t_procName, VAR_INDEX t_varIdx, VAR_NAME t_varName) {
+void ModifiesP::insertModifiesP(PROC_INDEX t_procIdx, const PROC_NAME& t_procName, VAR_INDEX t_varIdx, const VAR_NAME& t_varName) {
   insertModifiesWithProcAsKey(t_procIdx, t_varName);
   insertModifiesWithProcAsKeyWithVarHash(t_procIdx, t_varIdx);
   insertModifiesWithVarAsKey(t_varIdx, t_procName);
@@ -8,7 +8,7 @@ void ModifiesP::insertModifiesP(PROC_INDEX t_procIdx, PROC_NAME t_procName, VAR_
   insertModifiesProcAndVarName(t_procName, t_varName);
 }
 
-void ModifiesP::insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, VAR_NAME t_varName) {
+void ModifiesP::insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   auto mItr = m_procToVarNames.find(t_procIdx);
   if (mItr == m_procToVarNames.end()) {
     std::vector<VAR_NAME> tempV = { t_varName };
@@ -29,7 +29,7 @@ void ModifiesP::insertModifiesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR
   vItr->second.insert(t_varIdx);
 }
 
-void ModifiesP::insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, PROC_NAME t_procName) {
+void ModifiesP::insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName) {
   auto vItr = m_varToProcNames.find(t_varIdx);
   if (vItr == m_varToProcNames.end()) {
     std::vector<PROC_NAME> tempV = { t_procName };
@@ -39,7 +39,7 @@ void ModifiesP::insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, PROC_NAME t_procN
   vItr->second.push_back(t_procName);
 }
 
-void ModifiesP::insertModifiesProcName(PROC_NAME& t_name) {
+void ModifiesP::insertModifiesProcName(const PROC_NAME& t_name) {
   for (auto& mItr : m_procNames) {
     if (mItr == t_name) {
       return;
@@ -48,7 +48,7 @@ void ModifiesP::insertModifiesProcName(PROC_NAME& t_name) {
   m_procNames.push_back(t_name);
 }
 
-void ModifiesP::insertModifiesProcAndVarName(PROC_NAME t_procName, VAR_NAME t_varName) {
+void ModifiesP::insertModifiesProcAndVarName(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   m_allProcNamesToVarNames.emplace(t_procName, t_varName);
 }
 
