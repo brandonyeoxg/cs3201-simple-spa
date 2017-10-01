@@ -25,6 +25,7 @@
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
     <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
+    <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\NextEvaluator.cpp" />
     <ClCompile Include="..\source\NextStarEvaluator.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
@@ -60,6 +61,7 @@
     <ClCompile Include="..\source\StringUtil.cpp" />
     <ClCompile Include="..\source\UsesEvaluator.cpp" />
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
+    <ClCompile Include="..\source\UsesTable.cpp" />
     <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
   </ItemGroup>
@@ -80,6 +82,7 @@
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
+    <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\NextEvaluator.h" />
     <ClInclude Include="..\source\NextStarEvaluator.h" />
     <ClInclude Include="..\source\ParentEvaluator.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
     <ClInclude Include="..\source\UsesEvaluator.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h" />
+    <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>
