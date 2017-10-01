@@ -1,10 +1,8 @@
 #pragma once
 #include <vector>
-#include <list>
 #include <unordered_set>
 #include <unordered_map>
 #include "nodes\ProcedureNode.h"
-#include "ProcTableData.h"
 #include "GlobalTypeDef.h"
 
 /**
@@ -40,23 +38,7 @@ public:
   */
   PROC_INDEX getProcIdxFromName(PROC_NAME t_name);
 
-  ///**
-  // * Gets procedure index number by using the procedure name.
-  // *
-  // * @author Brandon
-  // * @date 11/9/2017
-  // *
-  // * @param [in] procName Name of the proc.
-  // *
-  // * @return The proc index number with name.
-  // */
-  //PROC_INDEX getProcIdxNumWithName(std::string& procName);
-
-  //ProcedureNode* getProcNodeWithIdx(PROC_INDEX& t_procIdx);
-
-  //std::string getProcNameWithIdx(PROC_INDEX& t_procIdx);
-
-  //std::list<std::string> getAllProcNameInProgram();
+  std::vector<PROC_NAME>& getAllProcName();
 
   //bool insertModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
   //bool isModifies(std::string& t_procIdx, std::string& t_varName); /*< Modifies("First", "x") */
@@ -73,8 +55,6 @@ public:
   //std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
   //bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
   //std::list<std::string>& getProcNameThatUses(); /*< Uses(p, _) */
-
-  //void convertProcTableSetToList();
 private:
   std::vector<PROC_NAME> m_procIdxToName;
   std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;
