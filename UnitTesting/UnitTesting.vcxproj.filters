@@ -16,6 +16,7 @@
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
+    <ClCompile Include="TestUsesTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
