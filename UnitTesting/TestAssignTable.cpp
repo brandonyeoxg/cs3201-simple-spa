@@ -32,7 +32,7 @@ namespace UnitTesting {
       AssignNode* assignNode = builder.buildAssignment(curStmtNo, varNode, rhsVarNode);
 
       varIndex = assignTable.insertAssignRelation(varIndex, assignNode);
-      std::list<STMT_NUM> stmts = assignTable.getAllAssignStmtList();
+      LIST_OF_STMT_NUMS stmts = assignTable.getAllAssignStmtList();
       
       int listSize = stmts.size();
       Assert::AreEqual(listSize, 1);

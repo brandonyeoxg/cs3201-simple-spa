@@ -97,7 +97,7 @@ namespace UnitTesting {
       VariableNode *varRightNode = builder.createVariable(stmtNum, "y", 1);
       pkb->insertUsesForStmt("y", stmtNum);
       AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, varRightNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       auto actual = pkb->getAssignStmtByVarPattern("x", "y", true);
@@ -113,7 +113,7 @@ namespace UnitTesting {
       ConstantNode* constRightNode = builder.createConstant(2, 5);
       TNode* expNode = builder.buildAddition(2, varRightNode, constRightNode);
       aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       actual = pkb->getAssignStmtByVarPattern("x", "y", true);
@@ -143,7 +143,7 @@ namespace UnitTesting {
       pkb->insertUsesForStmt("z", stmtNum);
       TNode* expNode = builder.buildAddition(1, parseFirstVar, parseSecondVar);
       AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
 
       //2) x = y + 5
       varLeftNode = builder.createVariable(2, "x", 0);
@@ -151,7 +151,7 @@ namespace UnitTesting {
       ConstantNode* constRightNode = builder.createConstant(2, 5);
       expNode = builder.buildAddition(2, parseFirstVar, constRightNode);
       aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
@@ -164,7 +164,7 @@ namespace UnitTesting {
       PKB pkb = *(new PKB());
       int dummyIndex = 0;
       int lineNum = 500;
-      pkb.insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), new ConstantNode(lineNum, 5)));
+      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), new ConstantNode(lineNum, 5)));
       pkb.populateAssignTableAbstractions();
       std::list<STMT_NUM> list = pkb.getAllAssignStmtByExactPattern(" x + y  ");
       Assert::IsTrue(list.size() == 0);
@@ -182,7 +182,7 @@ namespace UnitTesting {
       // add expression: node = x_man + chickens
       std::string varName1 = "x_man", varName2 = "chickens";
       TNode * plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varName1, dummyIndex), new VariableNode(lineNum, varName2, dummyIndex));
-      pkb.insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), plusNode));
+      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), plusNode));
       pkb.populateAssignTableAbstractions();
       list = pkb.getAllAssignStmtByExactPattern(" x_man + chickens  ");
       Assert::IsTrue((int)list.size() == 1);
@@ -201,7 +201,7 @@ namespace UnitTesting {
       PKB pkb = *(new PKB());
       int dummyIndex = 0;
       int lineNum1 = 500;
-      pkb.insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), new ConstantNode(lineNum1, 5)));
+      pkb.getAssignTable()->insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), new ConstantNode(lineNum1, 5)));
       pkb.populateAssignTableAbstractions();
       std::list<STMT_NUM> list = pkb.getAllAssignStmtBySubtreePattern(" x + y  ");
       Assert::IsTrue(list.size() == 0);
@@ -209,11 +209,11 @@ namespace UnitTesting {
       // add expression: node = x_man + chickens
       std::string varName1 = "x_man", varName2 = "chickens";
       TNode * plusNode = new PlusNode(lineNum1, new VariableNode(lineNum1, varName1, dummyIndex), new VariableNode(lineNum1, varName2, dummyIndex));
-      pkb.insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), plusNode));
+      pkb.getAssignTable()->insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), plusNode));
       
       // add expression: node = chickens
       int lineNum2 = 300;
-      pkb.insertAssignRelation(lineNum2, new AssignNode(lineNum2, new VariableNode(lineNum2, "node", dummyIndex), new VariableNode(lineNum2, varName2, dummyIndex)));
+      pkb.getAssignTable()->insertAssignRelation(lineNum2, new AssignNode(lineNum2, new VariableNode(lineNum2, "node", dummyIndex), new VariableNode(lineNum2, varName2, dummyIndex)));
       
       pkb.populateAssignTableAbstractions();
 
