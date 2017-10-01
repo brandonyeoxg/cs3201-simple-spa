@@ -36,7 +36,7 @@ void Parser::parseForProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    m_pkbWriteOnly->insertProcedure(procName);
+    m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     std::list<STMT_NUM> stmtLst;
     parseStmtLst(stmtLst);
   }
@@ -92,7 +92,7 @@ void Parser::parseAssignStmt() {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  VariableNode* left = m_pkbWriteOnly->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
+  VariableNode* left = m_pkbWriteOnly->insertModifiesVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
