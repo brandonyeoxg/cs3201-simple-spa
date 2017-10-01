@@ -480,4 +480,24 @@ public:
   virtual bool hasCallsRelationship() = 0;  //calls(_, _)
   virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
   virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  ModifiesP methods
+  ///////////////////////////////////////////////////////
+  virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
+
+  ///////////////////////////////////////////////////////
+  //  UsesP methods
+  ///////////////////////////////////////////////////////
+  virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Modifies(p, _) */
 };

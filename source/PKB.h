@@ -430,6 +430,26 @@ public:
   bool isCalledByAnything(PROC_NAME t_proc2);
   void populateCallsStarMaps();
 
+  ///////////////////////////////////////////////////////
+  //  ModifiesP methods
+  ///////////////////////////////////////////////////////
+  bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
+  bool isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
+  LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
+  LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName); /*< Modifies(p, "x") */
+  MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar(); /*< Modifies(p, x) */
+  LIST_OF_PROC_NAMES& getModifiesPAllProcNames(); /*< Modifies(p, _) */
+
+  ///////////////////////////////////////////////////////
+  //  UsesP methods
+  ///////////////////////////////////////////////////////
+  bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
+  bool isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
+  LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
+  LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName); /*< Modifies(p, "x") */
+  MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar(); /*< Modifies(p, x) */
+  LIST_OF_PROC_NAMES& getUsesPAllProcNames(); /*< Modifies(p, _) */
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;

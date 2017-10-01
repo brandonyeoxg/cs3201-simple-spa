@@ -436,49 +436,6 @@ ProcTable* PKB::getProcTable() {
   return m_procTable;
 }
 
-//bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-//  return m_procTable->insertModifies(t_procIdx, t_varIdx);
-//}
-//bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-//  return m_procTable->insertUses(t_procIdx, t_varIdx);
-//}
-//
-//void PKB::convertProcSetToList() {
-//  m_procTable->convertProcTableSetToList();
-//}
-//
-//bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
-//  return m_procTable->isModifies(t_procName, t_varName);
-//}
-//
-//std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
-//  return m_procTable->getVarFromProcModifies(t_procIdx);
-//}
-//
-//std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
-//  return m_procTable->getProcNameThatModifiesVar(t_varName);
-//}
-//
-//std::unordered_map<std::string, std::list<std::string>>& PKB::getProcAndVarModifies() {
-//  return m_procTable->getProcAndVarModifies();
-//}
-//
-//bool PKB::isModifiesInProc(std::string& t_procName) {
-//  return m_procTable->isModifiesInProc(t_procName);
-//}
-//
-//std::list<std::string>& PKB::getProcThatModifies() {
-//  return m_procTable->getProcNameThatModifies();
-//}
-//
-//bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
-//  return m_procTable->isUses(t_procName, t_varName);
-//}
-//
-//std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
-//  return m_procTable->getVarFromProcUses(t_procIdx);
-//}
-
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
@@ -540,14 +497,6 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
   }
   return list;
 }
-
-
-////TBD
-//PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
-//  TNode* rootNode = m_programNode.getRoot();
-//  m_builder.linkParentToChild(rootNode, t_node);
-//  return m_procTable->insertProcByProcNode(t_node);
-//}
 
 ///////////////////////////////////////////////////////
 //  CallsTable methods
@@ -617,4 +566,66 @@ bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
 void PKB::populateCallsStarMaps() {
   m_callsTable->populateCallsStarMap();
   m_callsTable->populateCalledByStarMap();
+}
+
+///////////////////////////////////////////////////////
+//  ModifiesP methods
+///////////////////////////////////////////////////////
+bool PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  return m_modifiesP->isModifiesP(procIdx, varIdx);
+}
+
+bool PKB::isModifiesInProc(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_modifiesP->isModifiesInProc(procIdx);
+}
+
+LIST_OF_VAR_NAMES PKB::getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_modifiesP->getVarNamesWithProcIdx(procIdx);
+}
+
+LIST_OF_PROC_NAMES PKB::getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  return m_modifiesP->getProcNamesWithVarIdx(varIdx);
+}
+
+MAP_OF_PROC_TO_VAR& PKB::getModifiesPAllProcToVar() {
+  return m_modifiesP->getAllProcToVar();
+}
+LIST_OF_PROC_NAMES& PKB::getModifiesPAllProcNames() {
+  return m_modifiesP->getAllProcNames();
+} 
+
+///////////////////////////////////////////////////////
+//  UsesP methods
+///////////////////////////////////////////////////////
+bool PKB::isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  return m_usesP->isUsesP(procIdx, varIdx);
+}
+
+bool PKB::isUsesInProc(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_usesP->isUsesInProc(procIdx);
+}
+
+LIST_OF_VAR_NAMES PKB::getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_usesP->getVarNamesWithProcIdx(procIdx);
+}
+
+LIST_OF_PROC_NAMES PKB::getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  return m_usesP->getProcNamesWithVarIdx(varIdx);
+}
+
+MAP_OF_PROC_TO_VAR& PKB::getUsesPAllProcToVar() {
+  return m_usesP->getAllProcToVar();
+}
+LIST_OF_PROC_NAMES& PKB::getUsesPAllProcNames() {
+  return m_usesP->getAllProcNames();
 }
