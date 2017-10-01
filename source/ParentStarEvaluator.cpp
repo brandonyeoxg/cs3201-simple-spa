@@ -46,22 +46,22 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gra
   if (t_g1.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getChildrenStarOf(std::stoi(t_g1.getName()));
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    result[t_g2.getName()] = stmtStrVector;
+    m_result[t_g2.getName()] = stmtStrVector;
   } else if (t_g1.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getChildrenStarOfAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    result[t_g2.getName()] = stmtStrVector;
+    m_result[t_g2.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -70,22 +70,22 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gram
   if (t_g2.getType() == queryType::GType::STMT_NO) {
     std::vector<int> stmtIntVector = t_pkb->getParentStarOf(std::stoi(t_g2.getName()));
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
-    result[t_g1.getName()] = stmtStrVector;
+    m_result[t_g1.getName()] = stmtStrVector;
   } else if (t_g2.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getParentStarOfAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
-    result[t_g1.getName()] = stmtStrVector;
+    m_result[t_g1.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS ParentStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -93,7 +93,7 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gra
 
   std::unordered_map<int, std::vector<int>> allParentsStar = t_pkb->getAllParentsStar();
   if (allParentsStar.empty()) {
-    return result;
+    return m_result;
   }
 
   for (auto& x : allParentsStar) {
@@ -101,11 +101,11 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gra
     if (!stmtStrVector.empty()) {
       std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
       if (!stmtVector.empty()) {
-        result[std::to_string(x.first)] = stmtVector;
+        m_result[std::to_string(x.first)] = stmtVector;
       }
     }
 
   }
 
-  return result;
+  return m_result;
 }

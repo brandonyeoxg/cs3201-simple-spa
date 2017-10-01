@@ -32,15 +32,15 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramm
   if (t_g1.getType() == queryType::GType::STMT_NO) {
     std::vector<std::string> varModifiedByStmt = t_pkb->getModifies(std::stoi(t_g1.getName()));
     if (varModifiedByStmt.empty()) {
-      return result;
+      return m_result;
     }
 
-    result[t_g2.getName()] = varModifiedByStmt;
+    m_result[t_g2.getName()] = varModifiedByStmt;
   } else if (t_g1.getType() == queryType::GType::STR) {
 
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS ModifiesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -49,26 +49,26 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gramma
   if (t_g2.getName() != "_") {
     std::vector<int> stmtIntVector = t_pkb->getStmtModifies(t_g2.getName());
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
     if (!stmtStrVector.empty()) {
-      result[t_g1.getName()] = stmtStrVector;
+      m_result[t_g1.getName()] = stmtStrVector;
     }
   } else if (t_g2.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getStmtModifiesAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
     if (!stmtStrVector.empty()) {
-      result[t_g1.getName()] = stmtStrVector;
+      m_result[t_g1.getName()] = stmtStrVector;
     }
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS ModifiesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -76,17 +76,17 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramm
 
   std::unordered_map<std::string, std::vector<int>> stmtsAndVar = t_pkb->getAllStmtModifies();
   if (stmtsAndVar.empty()) {
-    return result;
+    return m_result;
   }
 
   for (auto& x : stmtsAndVar) {
     if (!x.second.empty()) {
       std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g1);
       if (!stmtVector.empty()) {
-        result[x.first] = stmtVector;
+        m_result[x.first] = stmtVector;
       }
     }
   }
 
-  return result;
+  return m_result;
 }
