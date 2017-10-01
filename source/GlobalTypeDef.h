@@ -11,6 +11,7 @@ typedef int STMT_NUM;
 typedef std::string VAR_NAME;
 typedef std::string PROC_NAME;
 typedef int CONSTANT;
+typedef std::string CONSTANT_TERM;
 
 /*Data Structs*/
 typedef std::vector<int> LIST_OF_STMT_NUMS;
