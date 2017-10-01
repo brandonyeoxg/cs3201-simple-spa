@@ -115,11 +115,18 @@ public:
   virtual PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum) = 0;
 
   ///////////////////////////////////////////////////////
-  //  FollowTable methods 
+  //  Design Extractor methods 
   ///////////////////////////////////////////////////////
   virtual void populateParentStarMap() = 0;
   
   virtual void populateParentedByStarMap() = 0;
 
   virtual void populateAssignTableAbstractions() = 0;
+
+  virtual void populateCallsStarMaps() = 0;
+  ///////////////////////////////////////////////////////
+  //  CallsTable methods
+  ///////////////////////////////////////////////////////
+  virtual bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  
 };

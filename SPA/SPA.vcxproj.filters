@@ -106,6 +106,9 @@
     <ClCompile Include="..\source\StatementTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\CallsTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\FollowsEvaluator.cpp">
       <Filter>PQL\Evaluator</Filter>
     </ClCompile>
@@ -285,6 +288,9 @@
     </ClInclude>
     <ClInclude Include="..\source\PkbReadOnly.h">
       <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CallsTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Evaluator.h">
       <Filter>PQL\Evaluator</Filter>

@@ -17,6 +17,7 @@
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\ASTUtilities.cpp" />
+    <ClCompile Include="..\source\CallsTable.cpp" />
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="..\source\ASTBuilder.h" />
     <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\ASTUtilities.h" />
+    <ClInclude Include="..\source\CallsTable.h" />
     <ClInclude Include="..\source\CallsEvaluator.h" />
     <ClInclude Include="..\source\CallsStarEvaluator.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
