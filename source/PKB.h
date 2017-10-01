@@ -37,7 +37,7 @@ public:
   * @param t_procName name of the procedure.
   * @return a reference to the StmtListNode created from inserting the procedure.
   */
-  PROC_INDEX insertProcedure(std::string& t_procName);
+  PROC_INDEX insertProcedure(const PROC_NAME& t_procName);
 
   /**
   * Inserts a follows relation in the PKB.
@@ -62,7 +62,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  VariableNode* insertModifiedVariable(std::string t_varName, int t_curLineNum,
+  VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
@@ -73,6 +73,24 @@ public:
   * @return a reference of the variable node.
   */
   VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
+  * Inserts a variable that has been modified to ModifiesP
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
+
+  /**
+  * Inserts a variable that has been used to UsesP
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
 
   /**
   * Inserts an assignment statement into the PKB
@@ -218,20 +236,6 @@ public:
   */
   bool isFollowedByAnything(STMT_NUM t_s1);
 
-  /*
-  * Inserts the procedure into the AST.
-  * @param t_node reference to the procedure node to be added into the AST
-  * @return the procedure index in the procedure table.
-  */
-  PROC_INDEX insertProcToAST(ProcedureNode* t_node);
-
-  /*
-  * Returns the procedure node from the procedure table.
-  * @param t_index the index of the procedure in the procedure index.
-  * @return the reference of the procedure node.
-  */
-  ProcedureNode* getRootAST(PROC_INDEX t_index);
-
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////
@@ -333,23 +337,6 @@ public:
   //  ProcTable
   ///////////////////////////////////////////////////////
   ProcTable* getProcTable();
-  bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
-  bool insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx);
-  void convertProcSetToList();
-
-  bool isModifies(std::string& t_procName, std::string t_varName); /*< Modifies("First", "x")*/
-  std::list<std::string>& getVarOfProcModifies(PROC_INDEX& t_procIdx); /*< Modifies("First", x) */
-  std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies(p, v) */
-  bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
-  std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
-
-  bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
-  std::list<std::string>& getVarOfProcUses(PROC_INDEX& t_procIdx); /*< Uses("First", x) */
-  std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
-  bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
-  std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
   //  ConstantTable methods

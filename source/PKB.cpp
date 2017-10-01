@@ -55,11 +55,11 @@ VarTable* PKB::getVarTable() {
 ///////////////////////////////////////////////////////
 //  PKB building methods
 ///////////////////////////////////////////////////////
-PROC_INDEX PKB::insertProcedure(std::string& t_procName) {
+PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
   return m_procTable->insertProc(t_procName);
 }
 
-VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
+VariableNode* PKB::insertModifiesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
   VAR_INDEX varIndx = insertModifiesForStmt(t_varName, t_curLineNum);
   VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, varIndx);
   for (auto containerItr = t_nestedStmLines.begin(); containerItr != t_nestedStmLines.end(); containerItr++) {
@@ -75,6 +75,18 @@ VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, s
     insertUsesForStmt(t_varName, *containerItr);
   }
   return varNode;
+}
+
+void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  m_modifiesP->insertModifiesP(t_procIdx, pName, vIdx, t_varName);
+}
+
+void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
 void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {

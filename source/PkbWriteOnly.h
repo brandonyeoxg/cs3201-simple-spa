@@ -28,7 +28,7 @@ public:
   * @param t_procName name of the procedure.
   * @return a reference to the StmtListNode created from inserting the procedure.
   */
-  virtual PROC_INDEX insertProcedure(std::string& t_procName) = 0;
+  virtual PROC_INDEX insertProcedure(const PROC_NAME& t_procName) = 0;
 
   /**
   * Inserts a follows relation in the PKB.
@@ -53,7 +53,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  virtual VariableNode* insertModifiedVariable(std::string t_varName, int t_curLineNum,
+  virtual VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines) = 0;
 
   /**
@@ -64,6 +64,24 @@ public:
   * @return a reference of the variable node.
   */
   virtual VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
+
+  /**
+  * Inserts a variable that has been modified to ModifiesP
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  virtual void insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) = 0;
+
+  /**
+  * Inserts a variable that has been used to UsesP
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  virtual void insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) = 0;
 
   /**
   * Inserts an assignment statement into the PKB
