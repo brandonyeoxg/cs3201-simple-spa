@@ -174,6 +174,7 @@
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />
     <ClCompile Include="TestFollowTable.cpp" />
+    <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestParentTable.cpp" />
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPKB.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
+    <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestVarTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

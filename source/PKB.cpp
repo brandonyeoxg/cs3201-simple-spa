@@ -21,6 +21,8 @@ PKB::PKB() {
   m_assignTable = new AssignTable();
   m_constantTable = new ConstantTable();
   m_statementTable = new StatementTable();
+  m_modifiesP = new ModifiesP();
+  m_usesP = new UsesP();
 }
 
 PKB::~PKB() {
@@ -31,6 +33,8 @@ PKB::~PKB() {
   delete m_assignTable;
   delete m_constantTable;
   delete m_statementTable;
+  delete m_modifiesP;
+  delete m_usesP;
 }
 
 ///////////////////////////////////////////////////////
@@ -51,38 +55,58 @@ VarTable* PKB::getVarTable() {
 ///////////////////////////////////////////////////////
 //  PKB building methods
 ///////////////////////////////////////////////////////
-StmtListNode* PKB::insertProcedure(std::string& t_procName) {
-  ProcedureNode *procNode = m_builder.createProcedure(t_procName);
-  // pkb build procedure unlink
-  insertProcToAST(procNode);
-  StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
-  m_builder.linkParentToChild(procNode, stmtLst);
-  return stmtLst;
+PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
+  return m_procTable->insertProc(t_procName);
 }
 
-VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
-  VAR_INDEX varIndx = insertModifiesForStmt(t_varName, t_curLineNum);
-  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, varIndx);
-  for (auto containerItr = t_nestedStmLines.begin(); containerItr != t_nestedStmLines.end(); containerItr++) {
-    insertModifiesForStmt(varNode->getVarName(), (*containerItr));
-  }
+VariableNode* PKB::insertModifiesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
+  VAR_INDEX index = m_varTable->insertModifiesForStmt(t_varName, t_curLineNum);
+  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
   return varNode;
+}
+
+void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+  std::list<STMT_NUM> t_nestedStmtLines) {
+  insertModifiesForStmt(t_varName, t_curLineNum);
+  for (auto& containerItr : t_nestedStmtLines) {
+    insertModifiesForStmt(t_varName, containerItr);
+  }
 }
 
 VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
-  VAR_INDEX index = insertUsesForStmt(t_varName, t_curLineNum);
+  VAR_INDEX index = m_varTable->insertUsesForStmt(t_varName, t_curLineNum);
   VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
-  for (auto containerItr = t_nestedStmtLines.begin(); containerItr != t_nestedStmtLines.end(); containerItr++) {
-    insertUsesForStmt(t_varName, *containerItr);
-  }
   return varNode;
+}
+
+void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+  insertUsesForStmt(t_varName, t_curLineNum);
+  for (auto& containerItr : t_nestedStmtLines) {
+    insertUsesForStmt(t_varName, containerItr);
+  }
+}
+
+void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  m_modifiesP->insertModifiesP(t_procIdx, pName, vIdx, t_varName);
+}
+
+void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
 void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
   AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
-  insertStatementTypeTable(queryType::GType::ASGN, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::ASGN);
-  insertAssignRelation(t_varNode->getVarIndex(), stmt);
+  m_assignTable->insertAssignRelation(t_varNode->getVarIndex(), stmt);
+}
+
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) {
+  insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
+  insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
+  m_assignTable->insertAssignStmt(t_lineNum);
 }
 
 void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
@@ -93,21 +117,24 @@ void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
-  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
-  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
   ConstantNode* constNode = m_builder.createConstant(t_curLineNum, atoi(t_constVal.c_str()));
-  insertConstant(t_constVal);
   return constNode;
+}
+
+void PKB::insertConstant(CONSTANT_TERM t_constant) {
+  m_constantTable->insertConstant(t_constant);
 }
 
 PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
@@ -364,9 +391,8 @@ LIST_OF_VAR_NAMES PKB::getAllVariables() {
 ///////////////////////////////////////////////////////
 //  AssignTable methods
 ///////////////////////////////////////////////////////
-
-VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node) {
-  return m_assignTable->insertAssignRelation(t_index, t_node);
+AssignTable* PKB::getAssignTable() {
+  return m_assignTable;
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
@@ -377,7 +403,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtList() {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtList() {
   return m_assignTable->getAllAssignStmtList();
 }
 
@@ -397,9 +423,7 @@ void PKB::populateAssignTableAbstractions() {
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
-int PKB::insertConstant(VAR_NAME t_constant) {
-  return m_constantTable->insertConstant(t_constant);
-}
+
 
 std::list<VAR_NAME> PKB::getAllConstants() {
   return m_constantTable->getAllConstants();
@@ -412,48 +436,48 @@ ProcTable* PKB::getProcTable() {
   return m_procTable;
 }
 
-bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-  return m_procTable->insertModifies(t_procIdx, t_varIdx);
-}
-bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
-  return m_procTable->insertUses(t_procIdx, t_varIdx);
-}
-
-void PKB::convertProcSetToList() {
-  m_procTable->convertProcTableSetToList();
-}
-
-bool PKB::isModifies(PROC_NAME& t_procName, VAR_NAME t_varName) {
-  return m_procTable->isModifies(t_procName, t_varName);
-}
-
-std::list<VAR_NAME>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
-  return m_procTable->getVarFromProcModifies(t_procIdx);
-}
-
-std::list<PROC_NAME>& PKB::getProcNameThatModifiesVar(VAR_NAME& t_varName) {
-  return m_procTable->getProcNameThatModifiesVar(t_varName);
-}
-
-std::unordered_map<PROC_NAME, std::list<VAR_NAME>>& PKB::getProcAndVarModifies() {
-  return m_procTable->getProcAndVarModifies();
-}
-
-bool PKB::isModifiesInProc(PROC_NAME& t_procName) {
-  return m_procTable->isModifiesInProc(t_procName);
-}
-
-std::list<PROC_NAME>& PKB::getProcThatModifies() {
-  return m_procTable->getProcNameThatModifies();
-}
-
-bool PKB::isUses(PROC_NAME& t_procName, VAR_NAME& t_varName) {
-  return m_procTable->isUses(t_procName, t_varName);
-}
-
-std::list<VAR_NAME>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
-  return m_procTable->getVarFromProcUses(t_procIdx);
-}
+//bool PKB::insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
+//  return m_procTable->insertModifies(t_procIdx, t_varIdx);
+//}
+//bool PKB::insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx) {
+//  return m_procTable->insertUses(t_procIdx, t_varIdx);
+//}
+//
+//void PKB::convertProcSetToList() {
+//  m_procTable->convertProcTableSetToList();
+//}
+//
+//bool PKB::isModifies(std::string& t_procName, std::string t_varName) {
+//  return m_procTable->isModifies(t_procName, t_varName);
+//}
+//
+//std::list<std::string>& PKB::getVarOfProcModifies(PROC_INDEX& t_procIdx) {
+//  return m_procTable->getVarFromProcModifies(t_procIdx);
+//}
+//
+//std::list<std::string>& PKB::getProcNameThatModifiesVar(std::string& t_varName) {
+//  return m_procTable->getProcNameThatModifiesVar(t_varName);
+//}
+//
+//std::unordered_map<std::string, std::list<std::string>>& PKB::getProcAndVarModifies() {
+//  return m_procTable->getProcAndVarModifies();
+//}
+//
+//bool PKB::isModifiesInProc(std::string& t_procName) {
+//  return m_procTable->isModifiesInProc(t_procName);
+//}
+//
+//std::list<std::string>& PKB::getProcThatModifies() {
+//  return m_procTable->getProcNameThatModifies();
+//}
+//
+//bool PKB::isUses(std::string& t_procName, std::string& t_varName) {
+//  return m_procTable->isUses(t_procName, t_varName);
+//}
+//
+//std::list<std::string>& PKB::getVarOfProcUses(PROC_INDEX& t_procIdx) {
+//  return m_procTable->getVarFromProcUses(t_procIdx);
+//}
 
 ///////////////////////////////////////////////////////
 //  Pattern methods
@@ -518,17 +542,12 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 }
 
 
-//TBD
-PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
-  TNode* rootNode = m_programNode.getRoot();
-  m_builder.linkParentToChild(rootNode, t_node);
-  return m_procTable->insertProcByProcNode(t_node);
-}
-
-//TBD
-ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
-  return m_procTable->getProcNodeWithIdx(t_index);
-}
+////TBD
+//PROC_INDEX PKB::insertProcToAST(ProcedureNode* t_node) {
+//  TNode* rootNode = m_programNode.getRoot();
+//  m_builder.linkParentToChild(rootNode, t_node);
+//  return m_procTable->insertProcByProcNode(t_node);
+//}
 
 ///////////////////////////////////////////////////////
 //  CallsTable methods

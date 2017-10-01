@@ -18,9 +18,9 @@
 #include "GlobalTypeDef.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
+#include "ModifiesP.h"
+#include "UsesP.h"
 #include "CallsTable.h"
-
-
 
 class TNode;
 
@@ -38,7 +38,7 @@ public:
   * @param t_procName name of the procedure.
   * @return a reference to the StmtListNode created from inserting the procedure.
   */
-  StmtListNode* insertProcedure(std::string& t_procName);
+  PROC_INDEX insertProcedure(const PROC_NAME& t_procName);
 
   /**
   * Inserts a follows relation in the PKB.
@@ -63,7 +63,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  VariableNode* insertModifiedVariable(std::string t_varName, int t_curLineNum,
+  VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
@@ -76,6 +76,43 @@ public:
   VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
+  * Inserts a variable that has been modified.
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+    std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
+  * Inserts a variable that has been used.
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+
+  /**
+  * Inserts a variable that has been modified to ModifiesP
+  * @param t_varName name of the variable being modified.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
+
+  /**
+  * Inserts a variable that has been used to UsesP
+  * @param t_varName name of the variable that is used.
+  * @param t_curLineNum the current line of the variable.
+  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
+  * @return a reference of the variable node.
+  */
+  void insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
+
+  /**
   * Inserts an assignment statement into the PKB
   * @param t_parentNode reference to the parent node that the assignment statement belongs to.
   * @param t_varNode reference to the variable node that is at this assignment statement.
@@ -83,6 +120,13 @@ public:
   * @param t_curLineNum the current line that this assignment is at.
   */
   void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
+
+  /**
+  * Inserts an assignment statement into the PKB
+  * @param t_lineNum the line number that the assignment statement is at.
+  * @param t_tokens tokenised expression for the right side of the "=" operator
+  */
+  void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens);
 
   /**
   * Inserts a call statement into the PKB
@@ -114,6 +158,14 @@ public:
   * @return a reference to the constant node.
   */
   ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
+
+  /**
+  * Inserts a constant into the PKB.
+  * @param t_constVal the constant to be added in string form.
+  * @param t_curLineNum the current line of the constant.
+  * @return a reference to the constant node.
+  */
+  void insertConstant(CONSTANT_TERM t_constVal);
 
   /**
   * Returns a plus operator.
@@ -219,20 +271,6 @@ public:
   */
   bool isFollowedByAnything(STMT_NUM t_s1);
 
-  /*
-  * Inserts the procedure into the AST.
-  * @param t_node reference to the procedure node to be added into the AST
-  * @return the procedure index in the procedure table.
-  */
-  PROC_INDEX insertProcToAST(ProcedureNode* t_node);
-
-  /*
-  * Returns the procedure node from the procedure table.
-  * @param t_index the index of the procedure in the procedure index.
-  * @return the reference of the procedure node.
-  */
-  ProcedureNode* getRootAST(PROC_INDEX t_index);
-
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////
@@ -292,15 +330,7 @@ public:
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
-
-  /*
-  * Inserts an assign statement into the table.
-  * @param t_index the index of the variable.
-  * @param t_node reference to an assign node in the AST.
-  * @return the index to the assign table.
-  */
-  VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
-
+  AssignTable* getAssignTable();
   /*
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
@@ -310,7 +340,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  std::list<STMT_NUM> getAllAssignStmtList();
+  LIST_OF_STMT_NUMS getAllAssignStmtList();
 
   /*
   * Returns all assignment statements in a representation.
@@ -334,28 +364,10 @@ public:
   //  ProcTable
   ///////////////////////////////////////////////////////
   ProcTable* getProcTable();
-  bool insertProcModifies(PROC_INDEX& t_procIdx, std::string& t_varIdx);
-  bool insertProcUses(PROC_INDEX& t_procIdx, std::string& t_varIdx);
-  void convertProcSetToList();
-
-  bool isModifies(std::string& t_procName, std::string t_varName); /*< Modifies("First", "x")*/
-  std::list<std::string>& getVarOfProcModifies(PROC_INDEX& t_procIdx); /*< Modifies("First", x) */
-  std::list<std::string>& getProcNameThatModifiesVar(std::string& t_varName); /*< Modifies(p, "x") */
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarModifies(); /*< Modifies(p, v) */
-  bool isModifiesInProc(std::string& t_procName); /*< Modifies("First", _) */
-  std::list<std::string>& getProcThatModifies(); /*< Modifies(p, _) */
-
-  bool isUses(std::string& t_procName, std::string& t_varName); /*< Uses("First", "x") */
-  std::list<std::string>& getVarOfProcUses(PROC_INDEX& t_procIdx); /*< Uses("First", x) */
-  std::list<std::string>& getProcNameThatUsesVar(std::string& t_varName); /*< Uses(p, "x") */
-  std::unordered_map<std::string, std::list<std::string>>& getProcAndVarUses(); /*< Uses(p, v) */
-  bool isUsesInProc(std::string& t_procName); /*< Uses("First", _) */
-  std::list<std::string>& getProcThatUses(); /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
-  int insertConstant(std::string t_constant);
   std::list<std::string> getAllConstants();
 
   ///////////////////////////////////////////////////////
@@ -408,7 +420,7 @@ public:
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2) 
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
   LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
   LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
@@ -426,10 +438,9 @@ private:
   AssignTable* m_assignTable;
   ConstantTable* m_constantTable;
   StatementTable* m_statementTable;
+  ModifiesP* m_modifiesP;
+  UsesP* m_usesP;
   CallsTable* m_callsTable;
 
-  AST m_programNode;
   ASTBuilder m_builder;
-
-  static const int PROC_LINE_NUM = 0;
 };

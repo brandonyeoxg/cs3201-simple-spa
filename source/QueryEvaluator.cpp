@@ -188,7 +188,7 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
         result["a"] = stmtVector;
       }
     } else if (t_pattern.getLeft().getName() == "_" && t_pattern.getRight().getName() == "_") {
-      std::list<int> allAssignStmts = m_pkb->getAllAssignStmtList();
+      LIST_OF_STMT_NUMS allAssignStmts = m_pkb->getAllAssignStmtList();
       if (allAssignStmts.empty()) {
         return false;
       }
