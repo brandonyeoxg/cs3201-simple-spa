@@ -16,6 +16,8 @@
 #include "Pattern.h"
 #include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
+#include "Relationship.h"
+#include "Evaluator.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -69,7 +71,7 @@ public:
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
-  Grammar::GType m_selectedType; /**< A string. The type of the synonym that the query selects. */
+  queryType::GType m_selectedType; /**< A string. The type of the synonym that the query selects. */
   std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
