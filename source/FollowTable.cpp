@@ -196,7 +196,7 @@ bool FollowTable::isFollowedByAnything(int t_s1) {
 
 /**
 * A constructor.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
+* Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
 */
 FollowTable::FollowTable() {
   std::unordered_map<int, std::vector<int>> m_followMap;

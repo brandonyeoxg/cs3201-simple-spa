@@ -20,6 +20,7 @@
 #include "PkbReadOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
+#include "CallsTable.h"
 
 class TNode;
 
@@ -408,6 +409,27 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
+  ///////////////////////////////////////////////////////
+  //  CallsTable methods
+  ///////////////////////////////////////////////////////
+  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
+  std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
+  LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+  LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+  LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+  bool hasCallsRelationship();  //calls(_, _)
+  bool isCallsAnything(PROC_NAME t_proc1);
+  bool isCalledByAnything(PROC_NAME t_proc2);
+  void populateCallsStarMaps();
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -418,6 +440,7 @@ private:
   StatementTable* m_statementTable;
   ModifiesP* m_modifiesP;
   UsesP* m_usesP;
+  CallsTable* m_callsTable;
 
   ASTBuilder m_builder;
 };

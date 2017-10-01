@@ -165,7 +165,7 @@ void PKB::populateParentStarMap() {
 
 void PKB::populateParentedByStarMap() {
   auto parentMap = m_parentTable->getParentMap();
-  std::unordered_map<int, std::list<std::list<int>>> parentStarMap;
+  std::unordered_map<STMT_NUM, std::list<LIST_OF_STMT_NUMS>> parentStarMap;
 
   for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
     m_parentTable->populateParentedByStarMap(mapItr);
@@ -320,47 +320,47 @@ bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) 
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////
-STMT_NUM PKB::insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum) {
+STMT_NUM PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
   return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
 }
 
-STMT_NUM PKB::insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum) {
+STMT_NUM PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
   return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
 }
 
-bool PKB::isModifies(STMT_NUM t_lineNum, std::string t_varName) {
+bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_varTable->isModifies(t_lineNum, t_varName);
 }
 
-bool PKB::isUses(STMT_NUM t_lineNum, std::string t_varName) {
+bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_varTable->isUses(t_lineNum, t_varName);
 }
 
-std::vector<std::string> PKB::getModifies(STMT_NUM t_lineNum) {
+LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
   return m_varTable->getModifies(t_lineNum);
 }
 
-std::vector<std::string> PKB::getUses(STMT_NUM t_lineNum) {
+LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
   return m_varTable->getUses(t_lineNum);
 }
 
-LIST_OF_STMT_NUMS PKB::getStmtModifies(std::string t_varName) {
+LIST_OF_STMT_NUMS PKB::getStmtModifies(VAR_NAME t_varName) {
   return m_varTable->getStmtModifies(t_varName);
 }
 
-LIST_OF_STMT_NUMS PKB::getStmtUses(std::string t_varName) {
+LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
   return m_varTable->getStmtUses(t_varName);
 }
 
-std::unordered_map<std::string, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
   return m_varTable->getAllStmtModifies();
 }
 
-std::unordered_map<std::string, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
   return m_varTable->getAllStmtUses();
 }
 
-int PKB::getIndexOfVar(std::string t_varName) {
+int PKB::getIndexOfVar(VAR_NAME t_varName) {
   return m_varTable->getIndexOfVar(t_varName);
 }
 
@@ -407,7 +407,7 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtList() {
   return m_assignTable->getAllAssignStmtList();
 }
 
-std::unordered_map<std::string, std::list<STMT_NUM>> PKB::getAllVarNameWithAssignStmt() {
+std::unordered_map<VAR_NAME, std::list<STMT_NUM>> PKB::getAllVarNameWithAssignStmt() {
   return m_assignTable->getAllVarInWithAssignStmtNum();
 }
 
@@ -424,7 +424,8 @@ void PKB::populateAssignTableAbstractions() {
 //  ParentTable methods
 ///////////////////////////////////////////////////////
 
-std::list<std::string> PKB::getAllConstants() {
+
+std::list<VAR_NAME> PKB::getAllConstants() {
   return m_constantTable->getAllConstants();
 }
 
@@ -481,7 +482,7 @@ ProcTable* PKB::getProcTable() {
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
-std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
+std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(VAR_NAME t_varName, std::string pattern, bool t_isExact) {
   VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
   if (index == INVALID_INDEX) {
     return std::list<STMT_NUM>();
@@ -548,7 +549,72 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 //  return m_procTable->insertProcByProcNode(t_node);
 //}
 
-////TBD
-//ProcedureNode* PKB::getRootAST(PROC_INDEX t_index) {
-//  return m_procTable->getProcNodeWithIdx(t_index);
-//}
+///////////////////////////////////////////////////////
+//  CallsTable methods
+///////////////////////////////////////////////////////
+bool PKB::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->insertCalls(t_proc1, t_proc2);
+}
+
+bool PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->isCalls(t_proc1, t_proc2);
+}
+
+bool PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+  return m_callsTable->isCallsStar(t_proc1, t_proc2);
+}
+LIST_OF_PROC_NAMES PKB::getCalls(PROC_NAME t_proc2) {
+  return m_callsTable->getCalls(t_proc2);
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledBy(PROC_NAME t_proc1) {
+  return m_callsTable->getCalledBy(t_proc1);
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsStar(PROC_NAME t_proc2) {
+  return m_callsTable->getCallsStar(t_proc2);
+}
+LIST_OF_PROC_NAMES PKB::getCalledByStar(PROC_NAME t_proc1) {
+  return m_callsTable->getCalledByStar(t_proc1);
+}
+
+std::unordered_map<PROC_NAME, PROC_NAME> PKB::getAllCalls() {
+  return m_callsTable->getAllCalls();
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {
+  return m_callsTable->getAllCallsStar();
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsAnything() {
+  return m_callsTable->getCallsAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCallsStarAnything() {
+  return m_callsTable->getCallsStarAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledByAnything() {
+  return m_callsTable->getCalledByAnything();
+}
+
+LIST_OF_PROC_NAMES PKB::getCalledByStarAnything() {
+  return m_callsTable->getCalledByStarAnything();
+}
+
+bool PKB::hasCallsRelationship() {
+  return m_callsTable->hasCallsRelationship();
+}
+
+bool PKB::isCallsAnything(PROC_NAME t_proc1) {
+  return m_callsTable->isCallsAnything(t_proc1);
+}
+
+bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
+  return m_callsTable->isCalledByAnything(t_proc2);
+}
+
+void PKB::populateCallsStarMaps() {
+  m_callsTable->populateCallsStarMap();
+  m_callsTable->populateCalledByStarMap();
+}

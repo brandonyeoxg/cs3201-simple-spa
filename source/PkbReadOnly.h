@@ -461,4 +461,23 @@ public:
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  CallsTable methods
+  ///////////////////////////////////////////////////////
+  virtual bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
+  virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
+  virtual std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls() = 0;
+  virtual std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar() = 0; //calls*(proc1, proc2) 
+  virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
+  virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
+  virtual LIST_OF_PROC_NAMES getCalledByAnything() = 0; //calls(_, proc2)
+  virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
+  virtual bool hasCallsRelationship() = 0;  //calls(_, _)
+  virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
+  virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
 };
