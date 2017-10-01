@@ -394,7 +394,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtList() = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtList() = 0;
 
   /*
   * Returns all assignment statements in a representation.

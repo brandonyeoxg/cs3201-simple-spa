@@ -100,9 +100,13 @@ void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
 
 void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
   AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
-  insertStatementTypeTable(queryType::GType::ASGN, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::ASGN);
-  insertAssignRelation(t_varNode->getVarIndex(), stmt);
+  m_assignTable->insertAssignRelation(t_varNode->getVarIndex(), stmt);
+}
+
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) {
+  insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
+  insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
+  m_assignTable->insertAssignStmt(t_lineNum);
 }
 
 void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
@@ -387,9 +391,8 @@ LIST_OF_VAR_NAMES PKB::getAllVariables() {
 ///////////////////////////////////////////////////////
 //  AssignTable methods
 ///////////////////////////////////////////////////////
-
-VAR_INDEX PKB::insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node) {
-  return m_assignTable->insertAssignRelation(t_index, t_node);
+AssignTable* PKB::getAssignTable() {
+  return m_assignTable;
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
@@ -400,7 +403,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtList() {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtList() {
   return m_assignTable->getAllAssignStmtList();
 }
 

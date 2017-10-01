@@ -110,6 +110,8 @@ public:
   */
   virtual void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) = 0;
 
+  virtual void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) = 0;
+
   /**
   * Inserts a call statement into the PKB
   */

@@ -121,6 +121,13 @@ public:
   void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
 
   /**
+  * Inserts an assignment statement into the PKB
+  * @param t_lineNum the line number that the assignment statement is at.
+  * @param t_tokens tokenised expression for the right side of the "=" operator
+  */
+  void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens);
+
+  /**
   * Inserts a call statement into the PKB
   */
   void insertCallStmt(STMT_NUM t_lineNum);
@@ -157,7 +164,7 @@ public:
   * @param t_curLineNum the current line of the constant.
   * @return a reference to the constant node.
   */
-  void insertConstant(std::string t_constVal);
+  void insertConstant(CONSTANT_TERM t_constVal);
 
   /**
   * Returns a plus operator.
@@ -322,15 +329,7 @@ public:
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
-
-  /*
-  * Inserts an assign statement into the table.
-  * @param t_index the index of the variable.
-  * @param t_node reference to an assign node in the AST.
-  * @return the index to the assign table.
-  */
-  VAR_INDEX insertAssignRelation(const VAR_INDEX& t_index, AssignNode* t_node);
-
+  AssignTable* getAssignTable();
   /*
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
@@ -340,7 +339,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  std::list<STMT_NUM> getAllAssignStmtList();
+  LIST_OF_STMT_NUMS getAllAssignStmtList();
 
   /*
   * Returns all assignment statements in a representation.
@@ -420,8 +419,5 @@ private:
   ModifiesP* m_modifiesP;
   UsesP* m_usesP;
 
-  AST m_programNode;
   ASTBuilder m_builder;
-
-  static const int PROC_LINE_NUM = 0;
 };
