@@ -173,6 +173,7 @@
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />
     <ClCompile Include="TestFollowTable.cpp" />
+    <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestParentTable.cpp" />
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPKB.cpp" />

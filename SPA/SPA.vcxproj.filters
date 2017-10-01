@@ -100,14 +100,14 @@
     <ClCompile Include="..\source\ConstantTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProcTableData.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\StatementTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ModifiesP.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,9 +231,6 @@
     <ClInclude Include="..\source\ConstantTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProcTableData.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -246,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesP.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
