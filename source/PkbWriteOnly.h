@@ -28,7 +28,7 @@ public:
   * @param t_procName name of the procedure.
   * @return a reference to the StmtListNode created from inserting the procedure.
   */
-  virtual void insertProcedure(std::string& t_procName) = 0;
+  virtual PROC_INDEX insertProcedure(std::string& t_procName) = 0;
 
   /**
   * Inserts a follows relation in the PKB.

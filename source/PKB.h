@@ -18,8 +18,8 @@
 #include "GlobalTypeDef.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
-
-
+#include "ModifiesP.h"
+#include "UsesP.h"
 
 class TNode;
 
@@ -37,7 +37,7 @@ public:
   * @param t_procName name of the procedure.
   * @return a reference to the StmtListNode created from inserting the procedure.
   */
-  void insertProcedure(std::string& t_procName);
+  PROC_INDEX insertProcedure(std::string& t_procName);
 
   /**
   * Inserts a follows relation in the PKB.
@@ -404,6 +404,8 @@ private:
   AssignTable* m_assignTable;
   ConstantTable* m_constantTable;
   StatementTable* m_statementTable;
+  ModifiesP* m_modifiesP;
+  UsesP* m_usesP;
 
   AST m_programNode;
   ASTBuilder m_builder;

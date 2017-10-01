@@ -21,6 +21,8 @@ PKB::PKB() {
   m_assignTable = new AssignTable();
   m_constantTable = new ConstantTable();
   m_statementTable = new StatementTable();
+  m_modifiesP = new ModifiesP();
+  m_usesP = new UsesP();
 }
 
 PKB::~PKB() {
@@ -31,6 +33,8 @@ PKB::~PKB() {
   delete m_assignTable;
   delete m_constantTable;
   delete m_statementTable;
+  delete m_modifiesP;
+  delete m_usesP;
 }
 
 ///////////////////////////////////////////////////////
@@ -51,13 +55,8 @@ VarTable* PKB::getVarTable() {
 ///////////////////////////////////////////////////////
 //  PKB building methods
 ///////////////////////////////////////////////////////
-void PKB::insertProcedure(std::string& t_procName) {
-  //ProcedureNode *procNode = m_builder.createProcedure(t_procName);
-  //// pkb build procedure unlink
-  //insertProcToAST(procNode);
-  //StmtListNode *stmtLst = m_builder.createStmtList(PROC_LINE_NUM);
-  //m_builder.linkParentToChild(procNode, stmtLst);
-  //return stmtLst;
+PROC_INDEX PKB::insertProcedure(std::string& t_procName) {
+  return m_procTable->insertProc(t_procName);
 }
 
 VariableNode* PKB::insertModifiedVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
