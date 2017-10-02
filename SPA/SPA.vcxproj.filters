@@ -189,6 +189,7 @@
     </ClCompile>
     <ClCompile Include="..\source\DesignExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\PatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClCompile>
