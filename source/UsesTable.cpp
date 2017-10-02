@@ -56,7 +56,21 @@ void UsesTable::insertToUsesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   }
 }
 
-bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+bool UsesTable::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+  //search usesStmtMap (reason: int vs string comparison
+  auto itr = m_usesStmtMap.find(t_lineNum);
+  if (itr == m_usesStmtMap.end()) {
+    return false;
+  } else {
+    //check if varName appears in vector
+    LIST_OF_VAR_NAMES vector = itr->second;
+    if (std::find(vector.begin(), vector.end(), t_varName) != vector.end()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
 LIST_OF_VAR_NAMES getUses(STMT_NUM t_line_num);
 LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();

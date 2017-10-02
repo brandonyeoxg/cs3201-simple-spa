@@ -28,13 +28,22 @@ namespace UnitTesting {
       m_usesTable->insertUsesForStmt("y", 2);
       m_usesTable->insertUsesForStmt("y", 3); 
     }
-    TEST_METHOD(TestInsertUsesTable) {
+    TEST_METHOD(TestUsesTable_InsertUses) {
       Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
       Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
       //insert duplicate, expects no change made to the data.
       m_usesTable->insertUsesForStmt("y", 3);
       Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
       Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
+    }
+    TEST_METHOD(TestUsesTable_IsUses) {
+      //true relationships
+      Assert::IsTrue(m_usesTable->isUses(1, "x"));
+      Assert::IsTrue(m_usesTable->isUses(2, "y"));
+      //non-existent key/value pair
+      Assert::IsFalse(m_usesTable->isUses(3, "x"));
+      //non-existent statement number
+      Assert::IsFalse(m_usesTable->isUses(4, "x"));
     }
   };
 }
