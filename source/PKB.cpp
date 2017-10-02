@@ -159,19 +159,6 @@ bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t
 ///////////////////////////////////////////////////////
 //  FollowTable methods
 ///////////////////////////////////////////////////////
-void PKB::populateParentStarMap() {
-    m_parentTable->populateParentStarMap();
-}
-
-void PKB::populateParentedByStarMap() {
-  auto parentMap = m_parentTable->getParentMap();
-  std::unordered_map<STMT_NUM, std::list<LIST_OF_STMT_NUMS>> parentStarMap;
-
-  for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
-    m_parentTable->populateParentedByStarMap(mapItr);
-  }
-}
-
 bool PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollows(t_s1, t_s2);
 }

@@ -276,8 +276,6 @@ public:
   //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
-  void populateParentStarMap();
-  void populateParentedByStarMap();
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
   bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
   STMT_NUM getParentOf(STMT_NUM t_s2);
