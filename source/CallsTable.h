@@ -36,10 +36,10 @@ public:
   void populateCalledByStarMap();
 
   CallsTable();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsMap();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByMap();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCallsStarMap();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getCalledByStarMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCallsMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCalledByMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCallsStarMap();
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCalledByStarMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
