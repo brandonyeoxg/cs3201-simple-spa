@@ -399,7 +399,17 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", _""_).
+  *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
+  *   @param t_varName name of variable on left hand side
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
   std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+
+  // TODO need testing after insert assignment statement implemented
 
   /** Pattern a("x", "y + x").
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
@@ -409,6 +419,8 @@ public:
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
 
   /** Pattern a("x", _"y + x"_).
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -421,6 +433,9 @@ public:
 
   // TODO need testing after insert assignment statement implemented
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
 
 private:
   FollowTable* m_followTable;

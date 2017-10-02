@@ -65,7 +65,7 @@ public:
 private:
   static PatternMatch* patternMatch;  /**< Static instance of this class. */
 
-  PatternMatch();
+  PatternMatch(); /**< Private constructor. */
 
   std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
   std::unordered_map<STMT_NUM, std::vector<std::string>> * assignStmtsSubtrees;  /**< Vector of all subtree strings mapped to statement number */
