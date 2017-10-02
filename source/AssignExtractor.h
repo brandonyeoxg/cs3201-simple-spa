@@ -7,5 +7,8 @@ public:
   ~AssignExtractor() {};
 
   void extractDesign();
+
+private:
+  void populateAssignToVarMap();
 };
 
