@@ -18,13 +18,14 @@
 #include "GlobalTypeDef.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
+#include "PkbTablesOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
 
 class TNode;
 
-class PKB: public PkbWriteOnly, public PkbReadOnly {
+class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
