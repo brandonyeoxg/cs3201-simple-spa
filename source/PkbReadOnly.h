@@ -113,18 +113,6 @@ public:
   //  ParentTable
   ///////////////////////////////////////////////////////
   /**
-  * Method that populates the ParentStarMap.
-  * To be called by Design Extractor after the initial parsing.
-  */
-  virtual void populateParentStarMap() = 0;
-
-  /**
-  * Method that populates the ParentedByStarMap.
-  * To be called by Design Extractor after the initial parsing.
-  */
-  virtual void populateParentedByStarMap() = 0;
-
-  /**
   * Method that checks if parent(t_s1, t_s2) holds.
   * @param s1 an integer argument.
   * @param s2 an integer argument.

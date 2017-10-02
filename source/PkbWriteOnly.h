@@ -163,10 +163,6 @@ public:
   ///////////////////////////////////////////////////////
   //  Design Extractor methods 
   ///////////////////////////////////////////////////////
-  virtual void populateParentStarMap() = 0;
-  
-  virtual void populateParentedByStarMap() = 0;
-
   virtual void populateAssignTableAbstractions() = 0;
 
   virtual void populateCallsStarMaps() = 0;
