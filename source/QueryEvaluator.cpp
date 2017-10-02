@@ -50,7 +50,7 @@ std::vector<std::string> QueryEvaluator::getCommonResults(std::vector<std::strin
 }
 
 bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
-  if (t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
+  if (t_select.getType() != queryType::GType::PROC && t_select.getType() != queryType::GType::ST_LST && t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
     // Call the PKB API getStatementTypeTable().
     std::unordered_map<queryType::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
 
@@ -64,10 +64,16 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     if (t_select.getType() == queryType::GType::STMT || t_select.getType() == queryType::GType::PROG_LINE) {
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::ASGN].begin(), allStmts[queryType::GType::ASGN].end());
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::WHILE].begin(), allStmts[queryType::GType::WHILE].end());
+      allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::IF].begin(), allStmts[queryType::GType::IF].end());
+      allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::CALL].begin(), allStmts[queryType::GType::CALL].end());
     } else if (t_select.getType() == queryType::GType::ASGN) {
       allSelectedStmtsInInt = allStmts[queryType::GType::ASGN];
     } else if (t_select.getType() == queryType::GType::WHILE) {
       allSelectedStmtsInInt = allStmts[queryType::GType::WHILE];
+    } else if (t_select.getType() == queryType::GType::IF) {
+      allSelectedStmtsInInt = allStmts[queryType::GType::IF];
+    } else if (t_select.getType() == queryType::GType::CALL) {
+      allSelectedStmtsInInt = allStmts[queryType::GType::CALL];
     }
 
     // Change from vector<int> to vector<string>.
@@ -92,6 +98,18 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
       return false;
     }
     storeSelectResultFromPkb(allConstants);
+  } else if (t_select.getType() == queryType::GType::PROC) {
+    std::vector<std::string> allProcedures;// = m_pkb->getAllProcedures();
+    if (allProcedures.empty()) {
+      return false;
+    }
+    storeSelectResultFromPkb(allProcedures);
+  } else if (t_select.getType() == queryType::GType::ST_LST) {
+    std::vector<std::string> allStmtLst;// = m_pkb->getAllStmtLst();
+    if (allStmtLst.empty()) {
+      return false;
+    }
+    storeSelectResultFromPkb(allStmtLst);
   }
 
   return true;

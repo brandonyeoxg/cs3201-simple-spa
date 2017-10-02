@@ -8,11 +8,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndExactPattern(PkbRead
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -23,11 +19,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOn
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -38,11 +30,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOn
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -53,11 +41,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithExactPattern(PkbReadOnly *
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -68,11 +52,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -83,11 +63,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : allAssignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatVectorIntToVectorStr(allAssignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -98,12 +74,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbRead
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }
 
@@ -113,12 +84,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOn
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }
 
@@ -128,11 +94,6 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOn
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }
