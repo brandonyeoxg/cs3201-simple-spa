@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
+    <ClCompile Include="..\source\AssignExtractor.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\ASTBuilder.cpp" />
@@ -21,6 +22,7 @@
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\ExtractorFactory.cpp" />
     <ClCompile Include="..\source\ModifiesP.cpp" />
     <ClCompile Include="..\source\Evaluator.cpp" />
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
@@ -29,6 +31,7 @@
     <ClCompile Include="..\source\NextEvaluator.cpp" />
     <ClCompile Include="..\source\NextStarEvaluator.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
+    <ClCompile Include="..\source\ParentExtractor.cpp" />
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -67,6 +70,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
+    <ClInclude Include="..\source\AssignExtractor.h" />
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\ASTBuilder.h" />
@@ -77,6 +81,8 @@
     <ClInclude Include="..\source\CallsStarEvaluator.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
     <ClInclude Include="..\source\Evaluator.h" />
+    <ClInclude Include="..\source\Extractor.h" />
+    <ClInclude Include="..\source\ExtractorFactory.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
@@ -85,9 +91,11 @@
     <ClInclude Include="..\source\NextEvaluator.h" />
     <ClInclude Include="..\source\NextStarEvaluator.h" />
     <ClInclude Include="..\source\ParentEvaluator.h" />
+    <ClInclude Include="..\source\ParentExtractor.h" />
     <ClInclude Include="..\source\ParentStarEvaluator.h" />
     <ClInclude Include="..\source\Patterns.h" />
     <ClInclude Include="..\source\PkbReadOnly.h" />
+    <ClInclude Include="..\source\PkbTablesOnly.h" />
     <ClInclude Include="..\source\PkbWriteOnly.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
