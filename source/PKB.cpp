@@ -616,12 +616,6 @@ bool PKB::isCallsAnything(PROC_NAME t_proc1) {
 bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
   return m_callsTable->isCalledByAnything(t_proc2);
 }
-
-void PKB::populateCallsStarMaps() {
-  m_callsTable->populateCallsStarMap();
-  m_callsTable->populateCalledByStarMap();
-}
-
 ///////////////////////////////////////////////////////
 //  ModifiesP methods
 ///////////////////////////////////////////////////////

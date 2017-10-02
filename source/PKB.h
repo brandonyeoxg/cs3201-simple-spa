@@ -478,7 +478,6 @@ public:
   bool hasCallsRelationship();  //calls(_, _)
   bool isCallsAnything(PROC_NAME t_proc1);
   bool isCalledByAnything(PROC_NAME t_proc2);
-  void populateCallsStarMaps();
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods

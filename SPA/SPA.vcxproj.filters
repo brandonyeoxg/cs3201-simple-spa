@@ -467,6 +467,7 @@
     </Filter>
     <Filter Include="FrontEnd\DesignExtractor\Extractors">
       <UniqueIdentifier>{c8a97698-fee2-4f8b-98d2-360f0b299b71}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PQL\Relationships\Evaluator">
       <UniqueIdentifier>{6a50b633-5f84-4a0d-8d7a-edc8806dbd34}</UniqueIdentifier>
     </Filter>
