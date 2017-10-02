@@ -45,5 +45,12 @@ namespace UnitTesting {
       //non-existent statement number
       Assert::IsFalse(m_usesTable->isUses(4, "x"));
     }
+    TEST_METHOD(TestUsesTable_GetUses) {
+      static const std::string arr[] = { "x", "y" };
+      LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(m_usesTable->getUses(2) == expected);
+      LIST_OF_VAR_NAMES emptyVector;
+      Assert::IsTrue(m_usesTable->getUses(4) == emptyVector);
+    }
   };
 }

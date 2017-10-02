@@ -15,10 +15,10 @@ public:
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
   void insertToUsesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName);
   bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
-  LIST_OF_VAR_NAMES getUses(STMT_NUM t_line_num);
+  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
-  bool isUsesAnything(STMT_NUM t_line_num);  //uses(2, _)
+  bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
 
   UsesTable();
