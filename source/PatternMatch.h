@@ -49,10 +49,19 @@ public:
   std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::string t_pattern);
 
   /** Given statement number, checks if given pattern string matches the statement expression exactly.
-      assumes statement number refers to valid assignment statement
+  *   Assumes statement number refers to valid assignment statement.
+  *   @param t_stmtNum statement number to check
+  *   @param t_pattern pattern string to check (extra whitespaces will be ignored)
+  *   @return true if pattern matches statement expression, else false
   */
   bool isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
+  /** Given statement number, checks if given pattern string matches the statement expression by subtree.
+  *   Assumes statement number refers to valid assignment statement.
+  *   @param t_stmtNum statement number to check
+  *   @param t_pattern pattern string to check (extra whitespaces will be ignored)
+  *   @return true if pattern matches statement expression, else false
+  */
   bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
   /** Not to be used in outside of this class. Exposed only for testing purposes.
