@@ -23,6 +23,7 @@ PKB::PKB() {
   m_statementTable = new StatementTable();
   m_modifiesP = new ModifiesP();
   m_usesP = new UsesP();
+  m_callsTable = new CallsTable();
 }
 
 PKB::~PKB() {
@@ -109,9 +110,11 @@ void PKB::insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) {
   m_assignTable->insertAssignStmt(t_lineNum);
 }
 
-void PKB::insertCallStmt(STMT_NUM t_curLineNum) {
+void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
   insertStatementTypeTable(queryType::GType::CALL, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
+  PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_callsTable->insertCalls(proc1, t_proc2);
 }
 
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
@@ -486,9 +489,6 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 CallsTable* PKB::getCallsTable() {
   return m_callsTable;
 }
-bool PKB::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
-  return m_callsTable->insertCalls(t_proc1, t_proc2);
-}
 
 bool PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return m_callsTable->isCalls(t_proc1, t_proc2);
@@ -556,6 +556,9 @@ void PKB::populateCallsStarMaps() {
 ///////////////////////////////////////////////////////
 //  ModifiesP methods
 ///////////////////////////////////////////////////////
+ModifiesP* PKB::getModifiesP() {
+  return m_modifiesP;
+}
 bool PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
@@ -587,6 +590,10 @@ LIST_OF_PROC_NAMES& PKB::getModifiesPAllProcNames() {
 ///////////////////////////////////////////////////////
 //  UsesP methods
 ///////////////////////////////////////////////////////
+UsesP* PKB::getUsesP() {
+  return m_usesP;
+}
+
 bool PKB::isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);

@@ -132,7 +132,7 @@ public:
   /**
   * Inserts a call statement into the PKB
   */
-  void insertCallStmt(STMT_NUM t_lineNum);
+  void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum);
 
   /**
   * Inserts a while statement into the PKB.
@@ -405,7 +405,6 @@ public:
   //  CallsTable methods
   ///////////////////////////////////////////////////////
   CallsTable* getCallsTable();
-  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
@@ -426,6 +425,7 @@ public:
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
+  ModifiesP* getModifiesP();
   bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
@@ -436,6 +436,7 @@ public:
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
+  UsesP* getUsesP();
   bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */

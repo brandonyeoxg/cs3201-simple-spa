@@ -115,7 +115,7 @@ public:
   /**
   * Inserts a call statement into the PKB
   */
-  virtual void insertCallStmt(STMT_NUM t_lineNum) = 0;
+  virtual void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum) = 0;
 
   /**
   * Inserts a while statement into the PKB.
@@ -167,6 +167,4 @@ public:
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
-  virtual bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
-  
 };
