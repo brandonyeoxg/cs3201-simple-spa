@@ -40,21 +40,22 @@ namespace UnitTesting {
       Assert::IsFalse(testParentTable->isParent(5, 2));
     }
 
-    TEST_METHOD(TestIsParentStar) {
-      ParentTable *testParentTable = new ParentTable();
-      testParentTable->setParentMap(testParentMap);
-      testParentTable->setChildMap(testChildMap);
-      //testParentTable->populateParentedByStarMap();
-      //testParentTable->populateParentStarMap();
-      ////test isParentStar method (correct behaviour as isParent).
-      //Assert::IsTrue(testParentTable->isParentStar(1, 2));
-      ////test isParentStar method (correct behaviour).
-      //Assert::IsTrue(testParentTable->isParentStar(1, 4));
-      ////test isParentStar method (non-existent parentStar relationship).
-      //Assert::IsFalse(testParentTable->isParentStar(2, 3));
-      ////test isParentStar method (non-existent s1 and s2, check to avoid infinite loop).
-      //Assert::IsFalse(testParentTable->isParentStar(5, 10));
-    }
+    //TEST_METHOD(TestIsParentStar) {
+    //  ParentTable *testParentTable = new ParentTable();
+    //  testParentTable->setParentMap(testParentMap);
+    //  testParentTable->setChildMap(testChildMap);
+    //  testParentTable->populateParentedByStarMap();
+    //  testParentTable->populateParentStarMap();
+
+    //  //test isParentStar method (correct behaviour as isParent).
+    //  Assert::IsTrue(testParentTable->isParentStar(1, 2));
+    //  //test isParentStar method (correct behaviour).
+    //  Assert::IsTrue(testParentTable->isParentStar(1, 4));
+    //  //test isParentStar method (non-existent parentStar relationship).
+    //  Assert::IsFalse(testParentTable->isParentStar(2, 3));
+    //  //test isParentStar method (non-existent s1 and s2, check to avoid infinite loop).
+    //  Assert::IsFalse(testParentTable->isParentStar(5, 10));
+    //}
 
     TEST_METHOD(TestGetParentOf) {
       ParentTable *testParentTable = new ParentTable();
@@ -87,7 +88,7 @@ namespace UnitTesting {
       Assert::IsTrue(emptyVector.size() == 0);
     }
 
-    TEST_METHOD(TestGetParentStarOf) {
+    //TEST_METHOD(TestGetParentStarOf) {
       //std::unordered_map<int, int> testParentMap = {
       //  { 2, 1 },
       //  { 3, 1 },
@@ -108,9 +109,9 @@ namespace UnitTesting {
       //std::vector<int> emptyVector = testParentTable->getParentStarOf(0);
       //
       //Assert::IsTrue(emptyVector.size() == 0);  
-    }
+    //}
     
-    TEST_METHOD(TestGetChildrenStarOf) {
+    //TEST_METHOD(TestGetChildrenStarOf) {
       //ParentTable *testParentTable = new ParentTable();
       //std::unordered_map<int, int> testGetChildrenStarParentMap = {
       //  { 3, 2 },
@@ -133,9 +134,9 @@ namespace UnitTesting {
       //std::vector<int> emptyVector = testParentTable->getChildrenStarOf(0);
       //Assert::IsTrue(emptyVector.size() == 0);
 
-    }
+    //}
 
-    TEST_METHOD(TestPopulateParentStarMap) {
+    //TEST_METHOD(TestPopulateParentStarMap) {
       //ParentTable *testParentTable = new ParentTable();
       //std::unordered_map<int, std::vector<int>> testChildMap = {
       //  { 1,{ 2, 3, 4 } },
@@ -151,7 +152,7 @@ namespace UnitTesting {
       //};
 
       //Assert::IsTrue(expected == testParentTable->getParentStarMap());
-    }
+    //}
 
     TEST_METHOD(TestGetChildrenOfAnything) {
       ParentTable *testParentTable = new ParentTable();

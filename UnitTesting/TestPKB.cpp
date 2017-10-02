@@ -4,7 +4,7 @@
 #include "ParentTable.h"
 #include "VarTable.h"
 #include "PKB.h"
-#include "Grammar.h"
+#include "DesignExtractor.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -88,112 +88,115 @@ namespace UnitTesting {
 
     TEST_METHOD(TestPKBGetAssignStmtByVarPattern) 
     {
-      //PKB *pkb = new PKB();
-      //ASTBuilder builder;
-      //STMT_NUM stmtNum = 1;
-      ////1) x = y
-      //VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
-      //pkb->insertModifiesForStmt("x", stmtNum);
-      //VariableNode *varRightNode = builder.createVariable(stmtNum, "y", 1);
-      //pkb->insertUsesForStmt("y", stmtNum);
-      //AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, varRightNode);
-      //pkb->getAssignTable()->insertAssignRelation(0, aNode);
-      //pkb->populateAssignTableAbstractions();
+      PKB *pkb = new PKB();
+      ASTBuilder builder;
+      STMT_NUM stmtNum = 1;
+      //1) x = y
+      VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
+      pkb->insertModifiesForStmt("x", stmtNum);
+      VariableNode *varRightNode = builder.createVariable(stmtNum, "y", 1);
+      pkb->insertUsesForStmt("y", stmtNum);
+      AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, varRightNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
+      DesignExtractor de(pkb);
+      de.extractRestOfDesignAbstractions();
 
-      //auto actual = pkb->getAssignStmtByVarPattern("x", "y", true);
-      //std::list<STMT_NUM> expected = { 1 };
+      auto actual = pkb->getAssignStmtByVarPattern("x", "y", true);
+      std::list<STMT_NUM> expected = { 1 };
+      Assert::IsTrue(actual == expected);
+      //TODO once jazlyn is done
+      //actual = pkb->getAssignStmtByVarPattern("x", "y", false);
       //Assert::IsTrue(actual == expected);
-      ////TODO once jazlyn is done
-      ////actual = pkb->getAssignStmtByVarPattern("x", "y", false);
-      ////Assert::IsTrue(actual == expected);
-      //
-      ////2) x = y + 5
-      //varLeftNode = builder.createVariable(2, "x", 0);
-      //varRightNode = builder.createVariable(2, "y", 1);
-      //ConstantNode* constRightNode = builder.createConstant(2, 5);
-      //TNode* expNode = builder.buildAddition(2, varRightNode, constRightNode);
-      //aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      //pkb->getAssignTable()->insertAssignRelation(0, aNode);
-      //pkb->populateAssignTableAbstractions();
+      
+      //2) x = y + 5
+      varLeftNode = builder.createVariable(2, "x", 0);
+      varRightNode = builder.createVariable(2, "y", 1);
+      ConstantNode* constRightNode = builder.createConstant(2, 5);
+      TNode* expNode = builder.buildAddition(2, varRightNode, constRightNode);
+      aNode = builder.buildAssignment(2, varLeftNode, expNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
+      de.extractRestOfDesignAbstractions();
 
-      //actual = pkb->getAssignStmtByVarPattern("x", "y", true);
-      //expected = { 1 };
-      //Assert::IsTrue(actual == expected);
+      actual = pkb->getAssignStmtByVarPattern("x", "y", true);
+      expected = { 1 };
+      Assert::IsTrue(actual == expected);
 
-      //// TODO once jazlyn is done
-      ////actual = pkb->getAssignStmtByVarPattern("x", "y", false);
-      ////expected = { 1, 2};
-      //expected = {};
-      //actual = pkb->getAssignStmtByVarPattern("y", "y", true);
-      //Assert::IsTrue(actual == expected);
+      // TODO once jazlyn is done
+      //actual = pkb->getAssignStmtByVarPattern("x", "y", false);
+      //expected = { 1, 2};
+      expected = {};
+      actual = pkb->getAssignStmtByVarPattern("y", "y", true);
+      Assert::IsTrue(actual == expected);
     }
     //TODO: combine the two stmt tables for insertion, test for duplicate line number entries.
     TEST_METHOD(getAllAssignStmtAndVar)
     {
-      //PKB *pkb = new PKB();
-      //ASTBuilder builder;
-      //STMT_NUM stmtNum = 1;
+      PKB *pkb = new PKB();
+      ASTBuilder builder;
+      STMT_NUM stmtNum = 1;
 
-      ////1) x = y + z
-      //VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
-      //pkb->insertModifiesForStmt("x", stmtNum);
-      //VariableNode *parseFirstVar = builder.createVariable(stmtNum, "y", 1);
-      //VariableNode *parseSecondVar = builder.createVariable(stmtNum, "z", 2);
-      //pkb->insertUsesForStmt("y", stmtNum);
-      //pkb->insertUsesForStmt("z", stmtNum);
-      //TNode* expNode = builder.buildAddition(1, parseFirstVar, parseSecondVar);
-      //AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, expNode);
-      //pkb->getAssignTable()->insertAssignRelation(0, aNode);
+      //1) x = y + z
+      VariableNode *varLeftNode = builder.createVariable(stmtNum, "x", 0);
+      pkb->insertModifiesForStmt("x", stmtNum);
+      VariableNode *parseFirstVar = builder.createVariable(stmtNum, "y", 1);
+      VariableNode *parseSecondVar = builder.createVariable(stmtNum, "z", 2);
+      pkb->insertUsesForStmt("y", stmtNum);
+      pkb->insertUsesForStmt("z", stmtNum);
+      TNode* expNode = builder.buildAddition(1, parseFirstVar, parseSecondVar);
+      AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, expNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
 
-      ////2) x = y + 5
-      //varLeftNode = builder.createVariable(2, "x", 0);
-      //parseFirstVar = builder.createVariable(2, "y", 1);
-      //ConstantNode* constRightNode = builder.createConstant(2, 5);
-      //expNode = builder.buildAddition(2, parseFirstVar, constRightNode);
-      //aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      //pkb->getAssignTable()->insertAssignRelation(0, aNode);
-      //pkb->populateAssignTableAbstractions();
+      //2) x = y + 5
+      varLeftNode = builder.createVariable(2, "x", 0);
+      parseFirstVar = builder.createVariable(2, "y", 1);
+      ConstantNode* constRightNode = builder.createConstant(2, 5);
+      expNode = builder.buildAddition(2, parseFirstVar, constRightNode);
+      aNode = builder.buildAssignment(2, varLeftNode, expNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
+      DesignExtractor de(pkb);
+      de.extractRestOfDesignAbstractions();
 
-      //auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
-      //std::unordered_map<STMT_NUM, VAR_NAME> expectedMap = { {1, "x"}, {2, "x"} };
-      //Assert::IsTrue(actualMap == expectedMap);
+      auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
+      std::unordered_map<STMT_NUM, VAR_NAME> expectedMap = { {1, "x"}, {2, "x"} };
+      Assert::IsTrue(actualMap == expectedMap);
     }
 
     // Test get by exact pattern is correct
     TEST_METHOD(testGetAllAssignStmtByExactPattern) {
-      //PKB pkb = *(new PKB());
-      //int dummyIndex = 0;
-      //int lineNum = 500;
-      //pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), new ConstantNode(lineNum, 5)));
-      //pkb.populateAssignTableAbstractions();
-      //std::list<STMT_NUM> list = pkb.getAllAssignStmtByExactPattern(" x + y  ");
-      //Assert::IsTrue(list.size() == 0);
+      PKB pkb = *(new PKB());
+      int dummyIndex = 0;
+      int lineNum = 500;
+      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), new ConstantNode(lineNum, 5)));
+      DesignExtractor de(&pkb);
+      de.extractRestOfDesignAbstractions();
+      std::list<STMT_NUM> list = pkb.getAllAssignStmtByExactPattern(" x + y  ");
+      Assert::IsTrue(list.size() == 0);
 
-      //// test constant match
-      //list = pkb.getAllAssignStmtByExactPattern(" 5  ");
-      //Assert::IsTrue((int)list.size() == 1);
+      // test constant match
+      list = pkb.getAllAssignStmtByExactPattern(" 5  ");
+      Assert::IsTrue((int)list.size() == 1);
 
-      //std::list<STMT_NUM> expectedList = std::list<STMT_NUM>();
-      //expectedList.push_back(lineNum);
-      //Assert::IsTrue(list == expectedList);
+      std::list<STMT_NUM> expectedList = std::list<STMT_NUM>();
+      expectedList.push_back(lineNum);
+      Assert::IsTrue(list == expectedList);
 
-      //lineNum = 5000; // change line number
+      lineNum = 5000; // change line number
 
-      //// add expression: node = x_man + chickens
-      //std::string varName1 = "x_man", varName2 = "chickens";
-      //TNode * plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varName1, dummyIndex), new VariableNode(lineNum, varName2, dummyIndex));
-      //pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), plusNode));
-      //pkb.populateAssignTableAbstractions();
-      //list = pkb.getAllAssignStmtByExactPattern(" x_man + chickens  ");
-      //Assert::IsTrue((int)list.size() == 1);
+      // add expression: node = x_man + chickens
+      std::string varName1 = "x_man", varName2 = "chickens";
+      TNode * plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varName1, dummyIndex), new VariableNode(lineNum, varName2, dummyIndex));
+      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), plusNode));
+      de.extractRestOfDesignAbstractions();
+      list = pkb.getAllAssignStmtByExactPattern(" x_man + chickens  ");
+      Assert::IsTrue((int)list.size() == 1);
 
-      //expectedList = std::list<STMT_NUM>();
-      //expectedList.push_back(lineNum);
-      //Assert::IsTrue(list == expectedList);
+      expectedList = std::list<STMT_NUM>();
+      expectedList.push_back(lineNum);
+      Assert::IsTrue(list == expectedList);
 
-      //// should not match part of expression
-      //list = pkb.getAllAssignStmtByExactPattern(" x_man ");
-      //Assert::IsTrue((int)list.size() == 0);
+      // should not match part of expression
+      list = pkb.getAllAssignStmtByExactPattern(" x_man ");
+      Assert::IsTrue((int)list.size() == 0);
     }
 
     // Test get by subtree pattern is correct
