@@ -69,6 +69,7 @@ private:
   static int PROGLN;
   static int STMTNUM ;
   static int STR;
+  static int BOOLEAN;
 };
 
 #endif

@@ -9,6 +9,7 @@ std::string QueryPreProcessor::IF = "if";
 std::string QueryPreProcessor::VARIABLE = "variable";
 std::string QueryPreProcessor::CONSTANT = "constant";
 std::string QueryPreProcessor::PROG_LINE = "prog_line";
+std::string QueryPreProcessor::BOOLEAN = "BOOLEAN";
 
 QueryPreProcessor::QueryPreProcessor()
 {
@@ -163,6 +164,9 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
         } else if (entity == PROG_LINE) {
           Grammar g(queryType::GType::PROG_LINE, variableVector.at(counterL));
           m_grammarVector.push_back(g);
+        } else if (entity == BOOLEAN) {
+          Grammar g(queryType::GType::BOOLEAN, variableVector.at(counterL));
+          m_grammarVector.push_back(g);
         } else {
           //do nothing
         }
@@ -240,10 +244,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     
     //std::cout << grammarName << " this is the grammarName" << std::endl;
     if (grammarName == synonym) {
-        m_selectQueue.push(g1);       
-        //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
-        //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-    } 
+      m_selectQueue.push(g1);       
+      //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
+      //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
+    } else if (synonym == BOOLEAN) {
+      m_selectQueue.push(g1);
+    }
   }
 
   //Checks if the select statement synonym is not declared
@@ -376,6 +382,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             return false;
           }
 
+          //Checks if Next contains the correct parameters
+          if (designAbstractionEntity == "Next" && g1.getType() != queryType::GType::STMT
+            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::ASGN
+            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::WHILE
+            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::IF
+            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::CALL
+            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::PROG_LINE) {
+            return false;
+          }
+
+          //Checks if Next* contains the correct parameters
+          if (designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::STMT
+            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::ASGN
+            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::WHILE
+            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::IF
+            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::CALL
+            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::PROG_LINE) {
+            return false;
+          }
+
           //check is any design abstraction synonyms contains constant c
           if (g1.getType() == queryType::GType::CONST) {
             return false;
@@ -398,6 +424,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               //Checks if Calls contains the correct parameters: procedure condition
               if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
                 || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                return false;
+              }
+
+              //Checks if Next contains the correct parameters
+              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
+
+              //Checks if Next* contains the correct parameters
+              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
                 return false;
               }
 
@@ -452,7 +498,15 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
+
             } else if (sTName2.find('"') != std::string::npos) {
+
+              //Checks if Next/Next* contains the correct parameters: no string
+              if (designAbstractionEntity == "Next"
+                || designAbstractionEntity == "Next*") {
+                return false;
+              }
+
               removeCharsFromString(sTName2, "\\\"");
               g2 = Grammar (queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
@@ -480,6 +534,28 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Next contains the correct parameters
+              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
+
+              //Checks if Next* contains the correct parameters
+              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
+
+              //Checks if Parent and Parent* contains the correct parameters
               if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
                 || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
                 return false;
@@ -528,6 +604,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               m_suchThatQueue.push(DAO);
               break;
             } else if (sTName2.find('"') != std::string::npos) {
+
+              //Checks if Next/Next* contains the correct parameters: no string
+              if (designAbstractionEntity == "Next"
+                || designAbstractionEntity == "Next*") {
+                return false;
+              }
+
               removeCharsFromString(sTName2, "\\\"");
               g2 = Grammar(queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
@@ -541,6 +624,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             } 
           }
         } else if (sTName1.find('"') != std::string::npos) {
+
+          //Checks if Next/Next* contains the correct parameters: no string
+          if (designAbstractionEntity == "Next"
+            || designAbstractionEntity == "Next*") {
+            return false;
+          }
+
           removeCharsFromString(sTName1, "\\\"");
           counterQ = 0;
           g1 = Grammar (queryType::GType::STR, sTName1);
@@ -549,6 +639,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Next contains the correct parameters
+              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
+
+              //Checks if Next* contains the correct parameters
+              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
 
               //Checks if Calls contains the correct parameters: procedure condition
               if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
@@ -607,6 +717,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               m_suchThatQueue.push(DAO);
               break;
             } else if (sTName2.find('"') != std::string::npos) {
+
+              //Checks if Next/Next* contains the correct parameters: no string
+              if (designAbstractionEntity == "Next"
+                || designAbstractionEntity == "Next*") {
+                return false;
+              }
+
               removeCharsFromString(sTName2, "\\\"");
               g2 = Grammar (queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
@@ -630,6 +747,26 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             std::string grammarName2 = tempGrammar2.getName();
             if (sTName2 == grammarName2) {
               g2 = tempGrammar2;
+
+              //Checks if Next contains the correct parameters
+              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
+
+              //Checks if Next* contains the correct parameters
+              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
+                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+                return false;
+              }
 
               //Checks if Calls contains the correct parameters: procedure condition
               if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
@@ -688,6 +825,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               m_suchThatQueue.push(DAO);
               break;
             } else if (sTName2.find('"') != std::string::npos) {
+
+              //Checks if Next/Next* contains the correct parameters: no string
+              if (designAbstractionEntity == "Next"
+                || designAbstractionEntity == "Next*") {
+                return false;
+              }
+
               removeCharsFromString(sTName2, "\\\"");
               g2 = Grammar(queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
