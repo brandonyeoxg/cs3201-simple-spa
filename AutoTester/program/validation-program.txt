@@ -1,0 +1,13 @@
+procedure main {
+  x=y+z+2+x+23;
+  while i {
+    x=y;
+    I = 0+ am + awesome + 32;
+	while j {
+	  a=b;}}
+  z=y;
+  c=v;
+  while i {
+    x=y;
+    I = can+ do + it;}
+}

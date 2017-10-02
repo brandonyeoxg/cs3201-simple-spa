@@ -124,9 +124,11 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
 
   // Get the respective evaluators to get the results of the relation clauses
   if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
-    return eval->hasRelationship(m_pkb, g1, g2); //Only underscores
+    bool result = eval->hasRelationship(m_pkb, g1, g2); //Only underscores
+    return result;
   } else if ((g1.getType() == queryType::GType::STMT_NO || g1.getType() == queryType::GType::STR) && (g2.getType() == queryType::GType::STMT_NO || g2.getType() == queryType::GType::STR)) {
-    return eval->isRelationTrue(m_pkb, g1, g2); //No synonyms
+    bool result = eval->isRelationTrue(m_pkb, g1, g2); //No synonyms
+    return result;
   } else if ((g1.getType() == queryType::GType::STMT_NO || g1.getType() == queryType::GType::STR) && g2.getType() != queryType::GType::STMT_NO && g2.getType() != queryType::GType::STR) {
     result = eval->evaluateRightSynonym(m_pkb, g1, g2); //One right synonym
   } else if (g1.getType() != queryType::GType::STMT_NO && g1.getType() != queryType::GType::STR && (g2.getType() == queryType::GType::STMT_NO || g2.getType() == queryType::GType::STR)) {
@@ -134,6 +136,8 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   } else if (g1.getType() != queryType::GType::STMT_NO && g1.getType() != queryType::GType::STR && g2.getType() != queryType::GType::STMT_NO && g2.getType() != queryType::GType::STR) {
     result = eval->evaluateBothSynonyms(m_pkb, g1, g2); //Two synonyms
   } 
+
+  delete eval;
 
   if (result.empty()) {
     return false;
@@ -206,6 +210,8 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && !isExact) {
     result = eval->getAllStmtsAndVarWithSubPattern(m_pkb, stmt, g1, g2); //VAR + _STR_
   }
+
+  delete eval;
 
   if (result.empty()) {
     return false;
