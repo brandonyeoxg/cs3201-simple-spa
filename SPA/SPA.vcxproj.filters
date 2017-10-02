@@ -157,13 +157,22 @@
     <ClCompile Include="..\source\ExtractorFactory.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor</Filter>
+    <ClCompile Include="..\source\AssignExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CallsExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ModifiesPExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ParentExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor</Filter>
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AssignExtractor.cpp">
+    <ClCompile Include="..\source\UsesPExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -355,19 +364,28 @@
     <ClInclude Include="..\source\ExtractorFactory.h">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Extractor.h">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\DesignExtractor.h">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentExtractor.h">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PkbTablesOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\AssignExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CallsExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Extractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesPExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesPExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\DesignExtractor.h">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -413,6 +431,9 @@
     </Filter>
     <Filter Include="FrontEnd\DesignExtractor">
       <UniqueIdentifier>{ba2ff195-3787-4414-890c-6a20a0bbc308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd\DesignExtractor\Extractors">
+      <UniqueIdentifier>{c8a97698-fee2-4f8b-98d2-360f0b299b71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
