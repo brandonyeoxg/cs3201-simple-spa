@@ -2,6 +2,7 @@
 #include "ParentTable.h"
 #include "AssignTable.h"
 #include "VarTable.h"
+#include "CallsTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor
@@ -14,4 +15,5 @@ public:
   virtual ParentTable* getParentTable() = 0;
   virtual AssignTable* getAssignTable() = 0;
   virtual VarTable* getVarTable() = 0;
+  virtual CallsTable* getCallsTable() = 0;
 };

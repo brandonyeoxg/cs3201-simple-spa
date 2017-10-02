@@ -395,13 +395,6 @@ public:
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName() = 0;
-
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  virtual void populateAssignTableAbstractions() = 0;
-
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
