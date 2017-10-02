@@ -19,4 +19,12 @@ void DesignExtractor::extractRestOfDesignAbstractions() {
   extractor = ExtractorFactory::makeExtractor(designExtractor::designType::CALLS, m_pkb);
   extractor->extractDesign();
   delete extractor;
+
+  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::MODIFIESP, m_pkb);
+  extractor->extractDesign();
+  delete extractor;
+
+  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::USESP, m_pkb);
+  extractor->extractDesign();
+  delete extractor;
 }
