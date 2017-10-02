@@ -83,7 +83,16 @@ LIST_OF_VAR_NAMES UsesTable::getUses(STMT_NUM t_lineNum) {
   }
 
 }
-LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
+  LIST_OF_STMT_NUMS vector;
+  auto itr = m_usesVarMap.find(t_varName);
+  if (itr == m_usesVarMap.end()) {
+    return vector;
+  } else {
+    vector = itr->second;
+    return vector;
+  }
+}
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
 bool isUsesAnything(STMT_NUM t_line_num);  //uses(2, _)
 LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
