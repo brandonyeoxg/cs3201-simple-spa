@@ -54,7 +54,7 @@ namespace UnitTesting {
         {1, queryType::GType::ASGN},
         {2, queryType::GType::WHILE },
         {3, queryType::GType::IF }
-      };     
+      };
       PKB *pkb = new PKB();
       pkb->insertTypeOfStatementTable(1, queryType::GType::ASGN);
       pkb->insertTypeOfStatementTable(2, queryType::GType::WHILE);
@@ -80,13 +80,13 @@ namespace UnitTesting {
       pkb->insertStatementTypeTable(queryType::GType::WHILE, 5);
       pkb->insertStatementTypeTable(queryType::GType::IF, 6);
       Assert::IsTrue(testStatementTypeTable == pkb->getStatementTypeTable());
-      //test for duplicate entry. 
+      //test for duplicate entry.
       bool actual = pkb->insertStatementTypeTable(queryType::GType::IF, 6);
       Assert::IsFalse(actual);
 
     }
 
-    TEST_METHOD(TestPKBGetAssignStmtByVarPattern) 
+    TEST_METHOD(TestPKBGetAssignStmtByVarPattern)
     {
       PKB *pkb = new PKB();
       ASTBuilder builder;
@@ -107,7 +107,7 @@ namespace UnitTesting {
       //TODO once jazlyn is done
       //actual = pkb->getAssignStmtByVarPattern("x", "y", false);
       //Assert::IsTrue(actual == expected);
-      
+
       //2) x = y + 5
       varLeftNode = builder.createVariable(2, "x", 0);
       varRightNode = builder.createVariable(2, "y", 1);
@@ -161,78 +161,5 @@ namespace UnitTesting {
       Assert::IsTrue(actualMap == expectedMap);
     }
 
-    // Test get by exact pattern is correct
-    TEST_METHOD(testGetAllAssignStmtByExactPattern) {
-      PKB pkb = *(new PKB());
-      int dummyIndex = 0;
-      int lineNum = 500;
-      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), new ConstantNode(lineNum, 5)));
-      DesignExtractor de(&pkb);
-      de.extractRestOfDesignAbstractions();
-      std::list<STMT_NUM> list = pkb.getAllAssignStmtByExactPattern(" x + y  ");
-      Assert::IsTrue(list.size() == 0);
-
-      // test constant match
-      list = pkb.getAllAssignStmtByExactPattern(" 5  ");
-      Assert::IsTrue((int)list.size() == 1);
-
-      std::list<STMT_NUM> expectedList = std::list<STMT_NUM>();
-      expectedList.push_back(lineNum);
-      Assert::IsTrue(list == expectedList);
-
-      lineNum = 5000; // change line number
-
-      // add expression: node = x_man + chickens
-      std::string varName1 = "x_man", varName2 = "chickens";
-      TNode * plusNode = new PlusNode(lineNum, new VariableNode(lineNum, varName1, dummyIndex), new VariableNode(lineNum, varName2, dummyIndex));
-      pkb.getAssignTable()->insertAssignRelation(lineNum, new AssignNode(lineNum, new VariableNode(lineNum, "node", dummyIndex), plusNode));
-      de.extractRestOfDesignAbstractions();
-      list = pkb.getAllAssignStmtByExactPattern(" x_man + chickens  ");
-      Assert::IsTrue((int)list.size() == 1);
-
-      expectedList = std::list<STMT_NUM>();
-      expectedList.push_back(lineNum);
-      Assert::IsTrue(list == expectedList);
-
-      // should not match part of expression
-      list = pkb.getAllAssignStmtByExactPattern(" x_man ");
-      Assert::IsTrue((int)list.size() == 0);
-    }
-
-    // Test get by subtree pattern is correct
-    TEST_METHOD(testGetAllAssignStmtBySubtreePattern) {
-      //PKB pkb = *(new PKB());
-      //int dummyIndex = 0;
-      //int lineNum1 = 500;
-      //pkb.getAssignTable()->insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), new ConstantNode(lineNum1, 5)));
-      //pkb.populateAssignTableAbstractions();
-      //std::list<STMT_NUM> list = pkb.getAllAssignStmtBySubtreePattern(" x + y  ");
-      //Assert::IsTrue(list.size() == 0);
-
-      //// add expression: node = x_man + chickens
-      //std::string varName1 = "x_man", varName2 = "chickens";
-      //TNode * plusNode = new PlusNode(lineNum1, new VariableNode(lineNum1, varName1, dummyIndex), new VariableNode(lineNum1, varName2, dummyIndex));
-      //pkb.getAssignTable()->insertAssignRelation(lineNum1, new AssignNode(lineNum1, new VariableNode(lineNum1, "node", dummyIndex), plusNode));
-      //
-      //// add expression: node = chickens
-      //int lineNum2 = 300;
-      //pkb.getAssignTable()->insertAssignRelation(lineNum2, new AssignNode(lineNum2, new VariableNode(lineNum2, "node", dummyIndex), new VariableNode(lineNum2, varName2, dummyIndex)));
-      //
-      //pkb.populateAssignTableAbstractions();
-
-      //// match exact expression
-      //list = pkb.getAllAssignStmtBySubtreePattern(" x_man + chickens  ");
-      //Assert::IsTrue((int)list.size() == 1);
-      //std::list<STMT_NUM> expectedList = std::list<STMT_NUM>();
-      //expectedList.push_back(lineNum1);
-      //Assert::IsTrue(list == expectedList);
-
-      //list = pkb.getAllAssignStmtBySubtreePattern("  chickens  ");
-      //Assert::IsTrue((int)list.size() == 2);
-      //expectedList = std::list<STMT_NUM>();
-      //expectedList.push_back(lineNum2);
-      //expectedList.push_back(lineNum1);
-      //Assert::IsTrue(list == expectedList);
-    }
   };
 }

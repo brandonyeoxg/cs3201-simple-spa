@@ -1,0 +1,11 @@
+procedure P {
+  call R;
+}
+
+procedure Q{
+  x=x+y;
+}
+
+procedure R{
+  call Q;
+}

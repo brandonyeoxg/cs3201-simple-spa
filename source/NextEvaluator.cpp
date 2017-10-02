@@ -5,26 +5,26 @@
 bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == "_") {
     if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
-      //std::cout << "Followed By Anything!\n";
+      //std::cout << "Next By Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow By Anything!\n";
+      //std::cout << "Is not Next By Anything!\n";
       return false;
     }
   } else if (t_g1.getName() == "_") {
     if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows Anything!\n";
+      //std::cout << "Next To Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow Anything!\n";
+      //std::cout << "Is not Next To Anything!\n";
       return false;
     }
   } else {
     if (t_pkb->isFollows(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows: True\n";
+      //std::cout << "Next: True\n";
       return true;
     } else {
-      //std::cout << "Follows: False\n";
+      //std::cout << "Next: False\n";
       return false;
     }
   }
@@ -32,10 +32,10 @@ bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g
 
 bool NextEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_pkb->hasFollowRelationship()) {
-    //std::cout << "Has Follows Relationship!\n";
+    //std::cout << "Has Next Relationship!\n";
     return true;
   } else {
-    //std::cout << "No Follows Relationship\n";
+    //std::cout << "No Next Relationship\n";
     return false;
   }
 }
@@ -47,18 +47,18 @@ SET_OF_RESULTS NextEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
     int stmtNo;
     try {
       stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
-      //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
+      //std::cout << "getNext - STMT NO: " << stmtNo << "\n";
     } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
-      return result;
+      //std::cout << "Invalid Argument Exception - No Results for getNext(s1)\n";
+      return m_result;
     }
 
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g2);
-    result[t_g2.getName()] = stmtVector;
+    m_result[t_g2.getName()] = stmtVector;
   } else if (t_g1.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector;
@@ -66,10 +66,10 @@ SET_OF_RESULTS NextEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
       stmtStrVector = filterStmts(typeOfStmts, x, t_g2);
     }
 
-    result[t_g2.getName()] = stmtStrVector;
+    m_result[t_g2.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS NextEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -79,18 +79,18 @@ SET_OF_RESULTS NextEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
     int stmtNo;
     try {
       stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
-      //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
+      //std::cout << "getNextBy - STMT NO: " << stmtNo << "\n";
     } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
-      return result;
+      //std::cout << "Invalid Argument Exception - No Results for getNextBy(s2)\n";
+      return m_result;
     }
 
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g1);
-    result[t_g1.getName()] = stmtVector;
+    m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
     if (stmtIntVector.empty()) {
-      return result;
+      return m_result;
     }
 
     std::vector<std::string> stmtStrVector;
@@ -98,10 +98,10 @@ SET_OF_RESULTS NextEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
       stmtStrVector = filterStmts(typeOfStmts, x, t_g1);
     }
 
-    result[t_g1.getName()] = stmtStrVector;
+    m_result[t_g1.getName()] = stmtStrVector;
   }
 
-  return result;
+  return m_result;
 }
 
 SET_OF_RESULTS NextEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
@@ -109,13 +109,13 @@ SET_OF_RESULTS NextEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t
 
   std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
   if (allFollows.empty()) {
-    return result;
+    return m_result;
   }
 
   for (auto& x : allFollows) {
     std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g2);
-    result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+    m_result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
   }
 
-  return result;
+  return m_result;
 }

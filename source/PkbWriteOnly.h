@@ -161,10 +161,22 @@ public:
   virtual PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum) = 0;
 
   ///////////////////////////////////////////////////////
-  //  Design Extractor methods 
+  //  Design Extractor methods
+  ///////////////////////////////////////////////////////  ///////////////////////////////////////////////////////
+  //  Pattern Matching
   ///////////////////////////////////////////////////////
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   Meaning, for assignment "x = x + y", only pass in "x + y" in t_stmtTokens.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
+  */
+  virtual void insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) = 0;
   virtual void populateCallsStarMaps() = 0;
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
+
 };
