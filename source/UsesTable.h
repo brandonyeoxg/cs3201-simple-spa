@@ -20,6 +20,7 @@ public:
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
   bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+  LIST_OF_VAR_NAMES getAllUsesVarNames();
 
   UsesTable();
   std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> getUsesStmtMap();
@@ -28,4 +29,6 @@ public:
 private:
   std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_usesStmtMap;
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_usesVarMap;
+  SET_OF_VAR_NAMES m_allVariablesUsed;
+  SET_OF_STMT_NUMS m_allStmtNumsUsed;
 };

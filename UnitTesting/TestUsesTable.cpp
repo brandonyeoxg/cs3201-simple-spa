@@ -59,5 +59,19 @@ namespace UnitTesting {
       LIST_OF_STMT_NUMS emptyVector;
       Assert::IsTrue(m_usesTable->getStmtUses("z") == emptyVector);
     }
+    TEST_METHOD(TestUsesTable_IsUsesAnything) {
+      Assert::IsTrue(m_usesTable->isUsesAnything(1));
+      Assert::IsFalse(m_usesTable->isUsesAnything(4));
+    }
+    TEST_METHOD(TestUsesTable_GetStmtUsesAnything) {
+      static const int arr[] = { 1, 2, 3 };
+      LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(m_usesTable->getStmtUsesAnything() == expected);
+    }
+    TEST_METHOD(TestUsesTable_GetAllUsesVarNames) {
+      static const std::string arr[] = { "x", "y" };
+      LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      Assert::IsTrue(m_usesTable->getAllUsesVarNames() == expected);
+    }
   };
 }

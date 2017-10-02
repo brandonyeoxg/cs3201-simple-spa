@@ -22,6 +22,9 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
       vector.push_back(t_lineNum);
       m_usesVarMap[t_varName] = vector;
       insertToUsesStmtMap(t_lineNum, t_varName);
+      //insert into sets
+      m_allVariablesUsed.insert(t_varName);
+      m_allStmtNumsUsed.insert(t_lineNum);
       inserted = true;
     }
   }
@@ -31,9 +34,13 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
     newVector.push_back(t_lineNum);
     m_usesVarMap.emplace(t_varName, newVector);
     insertToUsesStmtMap(t_lineNum, t_varName);
+    //insert into sets
+    m_allVariablesUsed.insert(t_varName);
+    m_allStmtNumsUsed.insert(t_lineNum);
   }
 }
 
+//insertion method to the 2-way map.
 void UsesTable::insertToUsesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   bool inserted = false;
   //check if lineNum exists as key
@@ -83,6 +90,7 @@ LIST_OF_VAR_NAMES UsesTable::getUses(STMT_NUM t_lineNum) {
   }
 
 }
+
 LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
   LIST_OF_STMT_NUMS vector;
   auto itr = m_usesVarMap.find(t_varName);
@@ -93,13 +101,37 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
     return vector;
   }
 }
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
-bool isUsesAnything(STMT_NUM t_line_num);  //uses(2, _)
-LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> UsesTable::getAllStmtUses() {
+  return m_usesVarMap;
+}
 
+bool UsesTable::isUsesAnything(STMT_NUM t_lineNum) {
+  auto itr = m_usesStmtMap.find(t_lineNum);
+  if (itr == m_usesStmtMap.end()) {
+    return false;
+  } else {
+    return true;
+  }
+
+}
+LIST_OF_STMT_NUMS UsesTable::getStmtUsesAnything() {
+  LIST_OF_STMT_NUMS results;
+  results.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
+  return results;
+}
+
+LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() {
+  LIST_OF_VAR_NAMES results;
+  results.assign(m_allVariablesUsed.begin(), m_allVariablesUsed.end());
+  return results;
+}
+
+//Constructor.
 UsesTable::UsesTable() {
   std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_usesStmtMap;
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_usesVarMap;
+  SET_OF_VAR_NAMES m_allVariablesUsed;
+  SET_OF_STMT_NUMS m_allStmtNumsUsed;
 }
 
 std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> UsesTable::getUsesStmtMap() {
