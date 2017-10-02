@@ -32,6 +32,7 @@
     <ClCompile Include="..\source\NextStarEvaluator.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />
+    <ClCompile Include="..\source\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\Patterns.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />

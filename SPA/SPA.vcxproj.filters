@@ -162,12 +162,15 @@
     </ClCompile>
     <ClCompile Include="..\source\IfPatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\source\ModifiesP.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\UsesP.cpp">
       <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PatternEvaluator.cpp">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -363,7 +366,7 @@
     </ClInclude>
     <ClInclude Include="..\source\IfPatternEvaluator.h">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\source\ModifiesP.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
