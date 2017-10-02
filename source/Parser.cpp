@@ -107,7 +107,7 @@ void Parser::parseAssignStmt() {
 
 void Parser::parseCallStmt() {
   std::string procName = getMatchToken(tokentype::PROC_NAME);
-  m_pkbWriteOnly->insertCallStmt(m_curLineNum);
+  m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
 }
 
 TNode* Parser::parseExpr(std::vector<std::string> t_tokens) {
@@ -202,6 +202,7 @@ void Parser::parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
   m_pkbWriteOnly->insertWhileStmt(varName, m_nestedStmtLineNum, m_curLineNum);
+  m_pkbWriteOnly->insertUsesProc(m_curProcIdx, varName);
   std::list<STMT_NUM> whileStmtLst;
   parseStmtLst(whileStmtLst);
 }
@@ -215,6 +216,7 @@ void Parser::parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
   m_pkbWriteOnly->insertIfStmt(varName, m_nestedStmtLineNum, m_curLineNum);
+  m_pkbWriteOnly->insertUsesProc(m_curProcIdx, varName);
   std::list<STMT_NUM> ifStmtLst;
   parseStmtLst(ifStmtLst);
 }
