@@ -402,11 +402,6 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
   return m_assignTable->getAllAssignStmtWithVar();
 }
 
-
-void PKB::populateAssignTableAbstractions() {
-  m_assignTable->populateAssignToVarMap(m_varTable);
-}
-
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
@@ -488,6 +483,9 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 ///////////////////////////////////////////////////////
 //  CallsTable methods
 ///////////////////////////////////////////////////////
+CallsTable* PKB::getCallsTable() {
+  return m_callsTable;
+}
 bool PKB::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return m_callsTable->insertCalls(t_proc1, t_proc2);
 }

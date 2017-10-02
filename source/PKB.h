@@ -352,13 +352,6 @@ public:
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
-
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  void populateAssignTableAbstractions();
-
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -411,6 +404,7 @@ public:
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
+  CallsTable* getCallsTable();
   bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
