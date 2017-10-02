@@ -15,6 +15,11 @@ void UsesP::insertUsesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varN
     m_procToVarNames.emplace(t_procIdx, tempV);
     return;
   }
+  for (auto& vItr : mItr->second) {
+    if (vItr == t_varName) {
+      return;
+    }
+  }
   mItr->second.push_back(t_varName);
 }
 
@@ -26,6 +31,11 @@ void UsesP::insertUsesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR_INDEX t
     m_procToVarSet.emplace(t_procIdx, tempVSet);
     return;
   }
+  for (auto& iItr : vItr->second) {
+    if (iItr == t_varIdx) {
+      return;
+    }
+  }
   vItr->second.insert(t_varIdx);
 }
 
@@ -35,6 +45,11 @@ void UsesP::insertUsesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procNa
     std::vector<PROC_NAME> tempV = { t_procName };
     m_varToProcNames.emplace(t_varIdx, tempV);
     return;
+  }
+  for (auto& pItr : vItr->second) {
+    if (pItr == t_procName) {
+      return;
+    }
   }
   vItr->second.push_back(t_procName);
 }
@@ -49,6 +64,12 @@ void UsesP::insertUsesProcName(const PROC_NAME& t_name) {
 }
 
 void UsesP::insertUsesProcAndVarName(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
+  auto aItr = m_allProcNamesToVarNames.equal_range(t_procName);
+  for (auto it = aItr.first; it != aItr.second; ++it) {
+    if (it->second == t_varName) {
+      return;
+    }
+  }
   m_allProcNamesToVarNames.emplace(t_procName, t_varName);
 }
 
