@@ -365,13 +365,13 @@ public:
 
   /**
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * OLD METHOD
+  * OLD METHOD, TO BE REMOVED
   */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
   /**
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * OLD METHOD
+  * OLD METHOD, TO BE REMOVED
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
 
