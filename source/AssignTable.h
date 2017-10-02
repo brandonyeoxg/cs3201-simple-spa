@@ -31,6 +31,10 @@ public:
   */
   VAR_INDEX insertAssignRelation(const VAR_INDEX &t_index, AssignNode* t_node);
  
+  void insertAssignStmt(STMT_NUM t_stmtNum);
+
+  LIST_OF_STMT_NUMS& getAllAssignStmt();
+
   /*
   * Returns all assignment statements number that modifies the variable t_index.
   * @param t_index the index of the variable of interest.
@@ -46,7 +50,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  std::list<STMT_NUM> getAllAssignStmtList();
+  LIST_OF_STMT_NUMS getAllAssignStmtList();
   
   /*
   * Returns all assignment statements in a representation.
@@ -75,4 +79,6 @@ private:
   std::unordered_map<VAR_NAME, std::list<STMT_NUM>> m_assignVarWithAssignStmtNum;
   std::list<AssignData> m_assignMapToVar;
   std::unordered_map<STMT_NUM, VAR_NAME> m_assignMapWithVar;
+
+  LIST_OF_STMT_NUMS m_assignStmts;
 };

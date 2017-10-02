@@ -16,6 +16,9 @@
 #include "Pattern.h"
 #include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
+#include "Relationship.h"
+#include "Patterns.h"
+#include "Evaluator.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H

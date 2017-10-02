@@ -19,6 +19,9 @@
     <ClCompile Include="TestPkbPatternAPI.cpp">
       <Filter>PkbTests</Filter>
     </ClCompile>
+    <ClCompile Include="TestModifiesP.cpp" />
+    <ClCompile Include="TestUsesP.cpp" />
+    <ClCompile Include="TestCallsTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

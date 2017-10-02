@@ -16,13 +16,13 @@ public:
     std::list<STMT_NUM> result, expected;
 
     // simple expression
-    pkbWrite->insertAssignStmt(1, { "x", "+", "y" });
+    pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
     expected = { 1 };
     result = pkbRead->getAllAssignStmtByExactPattern("x+y");
     Assert::IsTrue(result == expected);
 
-    pkbWrite->insertAssignStmt(2, { "x", "-", "y" });
-    pkbWrite->insertAssignStmt(3, { "x", "+", "y" });
+    pkbWrite->insertAssignStmtPattern(2, { "x", "-", "y" });
+    pkbWrite->insertAssignStmtPattern(3, { "x", "+", "y" });
 
     // more assignment statements, pattern with extra whitespaces
     expected = { 1 , 3 };
@@ -30,7 +30,7 @@ public:
     Assert::IsTrue(result == expected);
 
     // multi-char strings for variables, extra whitespaces, larger integer for statement number
-    pkbWrite->insertAssignStmt(500, { "xMan", "+", "chicken" });
+    pkbWrite->insertAssignStmtPattern(500, { "xMan", "+", "chicken" });
     expected = { 500 };
     result = pkbRead->getAllAssignStmtByExactPattern("   xMan  +  chicken  ");
     Assert::IsTrue(result == expected);
@@ -48,9 +48,9 @@ public:
     PkbReadOnly * pkbRead = new PKB();
     std::list<STMT_NUM> result, expected;
 
-    pkbWrite->insertAssignStmt(1, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmtPattern(1, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmtPattern(2, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmtPattern(3, { "x", "*", "y", "*", "b" });
     expected = { 1, 2, 3 };
     result = pkbRead->getAllAssignStmtBySubtreePattern(" x *  y   ");
     Assert::IsTrue(result == expected);
@@ -65,7 +65,7 @@ public:
     //PkbReadOnly * pkbRead = pkb;
     //std::list<STMT_NUM> result, expected;
 
-    //pkbWrite->insertAssignStmt(1, { "x", "+", "y" });
+    //pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
     //pkbWrite->insertModifiedVariable("x", 1, {});
     //pkbWrite->populateAssignTableAbstractions();
 

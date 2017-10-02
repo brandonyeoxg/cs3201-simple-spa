@@ -394,7 +394,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtList() = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtList() = 0;
 
   /*
   * Returns all assignment statements in a representation.
@@ -478,4 +478,44 @@ public:
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern) = 0;
 
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  CallsTable methods
+  ///////////////////////////////////////////////////////
+  virtual bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
+  virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
+  virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
+  virtual std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls() = 0;
+  virtual std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar() = 0; //calls*(proc1, proc2) 
+  virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
+  virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
+  virtual LIST_OF_PROC_NAMES getCalledByAnything() = 0; //calls(_, proc2)
+  virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
+  virtual bool hasCallsRelationship() = 0;  //calls(_, _)
+  virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
+  virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  ModifiesP methods
+  ///////////////////////////////////////////////////////
+  virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
+
+  ///////////////////////////////////////////////////////
+  //  UsesP methods
+  ///////////////////////////////////////////////////////
+  virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Modifies(p, _) */
+
 };

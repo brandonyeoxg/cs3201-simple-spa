@@ -97,7 +97,7 @@ namespace UnitTesting {
       VariableNode *varRightNode = builder.createVariable(stmtNum, "y", 1);
       pkb->insertUsesForStmt("y", stmtNum);
       AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, varRightNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       auto actual = pkb->getAssignStmtByVarPattern("x", "y", true);
@@ -113,7 +113,7 @@ namespace UnitTesting {
       ConstantNode* constRightNode = builder.createConstant(2, 5);
       TNode* expNode = builder.buildAddition(2, varRightNode, constRightNode);
       aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       actual = pkb->getAssignStmtByVarPattern("x", "y", true);
@@ -143,7 +143,7 @@ namespace UnitTesting {
       pkb->insertUsesForStmt("z", stmtNum);
       TNode* expNode = builder.buildAddition(1, parseFirstVar, parseSecondVar);
       AssignNode *aNode = builder.buildAssignment(stmtNum, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
 
       //2) x = y + 5
       varLeftNode = builder.createVariable(2, "x", 0);
@@ -151,7 +151,7 @@ namespace UnitTesting {
       ConstantNode* constRightNode = builder.createConstant(2, 5);
       expNode = builder.buildAddition(2, parseFirstVar, constRightNode);
       aNode = builder.buildAssignment(2, varLeftNode, expNode);
-      pkb->insertAssignRelation(0, aNode);
+      pkb->getAssignTable()->insertAssignRelation(0, aNode);
       pkb->populateAssignTableAbstractions();
 
       auto actualMap = pkb->getAllAssignStmtAndVarByPattern("y", false);
