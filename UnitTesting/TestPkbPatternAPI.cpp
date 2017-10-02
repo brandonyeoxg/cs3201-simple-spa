@@ -58,7 +58,7 @@ public:
     PatternMatch::resetInstance();
   }
 
-  //TODO will need testing after PKB singleton pattern done, and AST and nodes decoupled from PKB
+  //TODO will need testing after insertAssignStmt done, with AST and nodes decoupled from PKB
   TEST_METHOD(insertAndExtractStmts_byVarAndExactPattern) {
     //PKB * pkb = new PKB();
     //PkbWriteOnly * pkbWrite = pkb;
