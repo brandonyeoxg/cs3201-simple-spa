@@ -69,11 +69,10 @@ public:
   */
   std::list<AssignData> getAssignData();
 
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  void populateAssignToVarMap(VarTable* t_varTable);
+  std::unordered_map<VAR_INDEX, std::list<AssignData>>& getAssignMap();
+  std::list<AssignData>& getAssignMapToVar();
+  std::unordered_map<STMT_NUM, VAR_NAME>& getAssignMapWithVar();
+  std::unordered_map<VAR_NAME, std::list<STMT_NUM>>& getAssignVarWithStmtNum();
 private:
   std::unordered_map<VAR_INDEX, std::list<AssignData>> m_data;
   std::unordered_map<VAR_NAME, std::list<STMT_NUM>> m_assignVarWithAssignStmtNum;

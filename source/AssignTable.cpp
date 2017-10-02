@@ -62,24 +62,18 @@ std::list<AssignData>  AssignTable::getAssignData() {
   return m_assignMapToVar;
 }
 
-void AssignTable::populateAssignToVarMap(VarTable* t_varTable) {
-  for (auto& mItr : m_data) {;
-    for (auto& aItr : mItr.second) {
-      VAR_NAME varName = ((VariableNode*)aItr.m_assignNode->getLeftChild())->getVarName();
-      m_assignMapToVar.push_back({aItr});
-      m_assignMapWithVar.emplace(aItr.m_assignStmt, varName);
-    }
-  }
+std::unordered_map<VAR_INDEX, std::list<AssignData>>& AssignTable::getAssignMap() {
+  return m_data;
+}
 
-  std::unordered_map<VAR_INDEX, std::list<AssignData>>::iterator itr = m_data.begin();
-  for (; itr != m_data.end(); itr++) {
-    std::list<AssignData> startList = (*itr).second;
-    std::list<AssignData>::iterator listItr = startList.begin();
-    std::list<STMT_NUM> outputStmtNo;
-    std::string varName = ((VariableNode*)((*listItr).m_assignNode->getLeftChild()))->getVarName();
-    for (; listItr != startList.end(); listItr++) {
-      outputStmtNo.push_back((*listItr).m_assignStmt);
-    }
-    m_assignVarWithAssignStmtNum.insert({ varName, outputStmtNo });
-  }
+std::list<AssignData>& AssignTable::getAssignMapToVar() {
+  return m_assignMapToVar;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME>& AssignTable::getAssignMapWithVar() {
+  return m_assignMapWithVar;
+}
+
+std::unordered_map<VAR_NAME, std::list<STMT_NUM>>& AssignTable::getAssignVarWithStmtNum() {
+  return m_assignVarWithAssignStmtNum;
 }
