@@ -4,7 +4,6 @@
 void ParentExtractor::extractDesign() {
   populateParentedByStarMap();
   populateParentStarMap();
-
 }
 
 void ParentExtractor::populateParentedByStarMap() {
@@ -12,7 +11,7 @@ void ParentExtractor::populateParentedByStarMap() {
   auto parentMap = parentTable->getParentMap();
   std::unordered_map<STMT_NUM, std::list<LIST_OF_STMT_NUMS>> parentStarMap;
   for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
-    parentTable->populateParentedByStarMap(mapItr);
+    populateParentedByStarMap(mapItr, parentTable);
   }
 }
 
