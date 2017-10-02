@@ -22,6 +22,7 @@
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\PatternMatch.cpp" />
     <ClCompile Include="..\source\ModifiesP.cpp" />
     <ClCompile Include="..\source\Evaluator.cpp" />
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\PatternMatch.h" />
     <ClInclude Include="..\source\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\ModifiesP.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />

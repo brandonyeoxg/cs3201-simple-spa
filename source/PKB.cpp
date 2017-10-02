@@ -439,7 +439,8 @@ ProcTable* PKB::getProcTable() {
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
-std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(VAR_NAME t_varName, std::string pattern, bool t_isExact) {
+
+std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
   VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
   if (index == INVALID_INDEX) {
     return std::list<STMT_NUM>();
@@ -479,23 +480,91 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtAndVarByPattern(std:
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
-  for (auto& iterator : m_assignTable->getAssignData()) {
-    if (ASTUtilities::matchExact(iterator.m_assignNode->getRightChild(), t_pattern)) {
-      list.push_back(iterator.m_assignStmt);
-    }
-  }
-  return list;
+  return PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
-  for (auto& iterator : m_assignTable->getAssignData()) {
-    if (ASTUtilities::matchSubtree(iterator.m_assignNode->getRightChild(), t_pattern)) {
-      list.push_back(iterator.m_assignStmt);
+  return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
+  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return {};
+  }
+
+  return m_assignTable->getAllAssignStmtListByVar(varIndex);
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
+  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return list;
+  }
+
+  std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+
+  for (auto iterator : stmtNums) {
+    if (PatternMatch::getInstance().isExactPatternInStmt(iterator, t_pattern)) {
+      list.push_back(iterator);
     }
   }
+
   return list;
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
+  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+
+  if (varIndex == INVALID_INDEX) {
+    return list;
+  }
+
+  std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+
+  for (auto iterator : stmtNums) {
+    if (PatternMatch::getInstance().isSubtreePatternInStmt(iterator, t_pattern)) {
+      list.push_back(iterator);
+    }
+  }
+
+  return list;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
+  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+
+  for (auto stmtNum : stmtsWithMatch) {
+    assert(getModifies(stmtNum).size() == 1);
+    std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
+  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+
+  for (auto stmtNum : stmtsWithMatch) {
+    assert(getModifies(stmtNum).size() == 1);
+    std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
+void PKB::insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
+  PatternMatch::getInstance().addAssignStmt(t_stmtNum, t_stmtTokens);
 }
 
 ///////////////////////////////////////////////////////
@@ -571,6 +640,7 @@ void PKB::populateCallsStarMaps() {
 ///////////////////////////////////////////////////////
 //  ModifiesP methods
 ///////////////////////////////////////////////////////
+
 bool PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);

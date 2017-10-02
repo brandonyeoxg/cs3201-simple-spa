@@ -106,6 +106,9 @@
     <ClCompile Include="..\source\CallsTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PatternMatch.cpp">
+      <Filter>PKB\PatternMatch</Filter>
+	</ClCompile>
     <ClCompile Include="..\source\FollowsEvaluator.cpp">
       <Filter>PQL\Relationships\Evaluator</Filter>
     </ClCompile>
@@ -298,6 +301,9 @@
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\PatternMatch.h">
+      <Filter>PKB\PatternMatch</Filter>
+	</ClInclude>
     <ClInclude Include="..\source\PkbWriteOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
@@ -402,6 +408,9 @@
     <Filter Include="FrontEnd\Exception">
       <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PKB\PatternMatch">
+      <UniqueIdentifier>{11e46c09-bc71-4139-8997-177b1d4a1c34}</UniqueIdentifier>
+	</Filter>
     <Filter Include="PQL\Relationships">
       <UniqueIdentifier>{12e2077e-997e-4aa8-9b81-780b5f1438df}</UniqueIdentifier>
     </Filter>

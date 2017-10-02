@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+
 #include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -16,8 +17,11 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+#include "PatternMatch.h"
+
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
+
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
@@ -29,6 +33,7 @@ class PKB: public PkbWriteOnly, public PkbReadOnly {
 public:
   PKB();
   ~PKB();
+
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
@@ -376,27 +381,28 @@ public:
 
   /**
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
-  * @param t_varName variable name to be matched.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  * OLD METHOD, TO BE REMOVED
   */
   std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
   /**
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * Gets a statement number mapping to a variable.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  * OLD METHOD, TO BE REMOVED
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
+  */
+  void insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
@@ -404,10 +410,64 @@ public:
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", _""_).
+  *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
+  *   @param t_varName name of variable on left hand side
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", "y + x").
+  *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", _"y + x"_).
+  *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** variable v; Pattern a(v, "x + y + h").
+  *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** variable v; Pattern a(v, _"x + y + h"_).
+  *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods

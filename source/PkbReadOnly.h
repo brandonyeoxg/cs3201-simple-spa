@@ -429,27 +429,20 @@ public:
   ///////////////////////////////////////////////////////
   /** 
   * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
-  * @param t_varName variable name to be matched.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*. 
-  * @return list of statement numbers with match
+  * OLD METHOD
   */
   virtual std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) = 0; /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
 
   /** 
   * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * Gets a statement number mapping to a variable.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  * OLD METHOD
   */
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact) = 0; /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
   
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern) = 0;
@@ -457,10 +450,34 @@ public:
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
+
+  virtual std::list<STMT_NUM> getAllAssignStmtByVar(std::string t_varName) = 0;
+
+  /** Pattern a("x", "y + x").
+  *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) = 0;
+
+  /** Pattern a("x", _"y + x"_).
+  *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) = 0;
+
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern) = 0;
+
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) = 0;
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods
@@ -500,4 +517,5 @@ public:
   virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
   virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Modifies(p, x) */
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Modifies(p, _) */
+
 };
