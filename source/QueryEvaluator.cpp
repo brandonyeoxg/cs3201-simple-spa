@@ -21,8 +21,8 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     std::vector<std::string> result;
     /*printDivider();
     std::cout << "No Query Result: \n";
-    for (std::vector<std::string>::iterator getStmts = result.begin(); getStmts != result.end(); ++getStmts) {
-      std::cout << *getStmts << ", ";
+    for (auto& x : result) {
+      std::cout << x << ", ";
     }
     printDivider();*/
     return result;
@@ -1148,8 +1148,8 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   }
 
   /*std::cout << "Query Result: \n";
-  for (std::vector<std::string>::iterator getStmts = finalResult.begin(); getStmts != finalResult.end(); ++getStmts) {
-    std::cout << *getStmts << ", ";
+  for (auto& x : finalResult) {
+    std::cout << x << ", ";
   }*/
 
   //printDivider();
