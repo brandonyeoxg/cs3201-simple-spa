@@ -20,29 +20,12 @@
 */
 class VarTable {
 public:
-  std::unordered_map<int, VarRelations> getVarTable();
-
-  VarTable();
-
-  int insertUsesForStmt(std::string t_varName, int t_lineNum);
-  int insertModifiesForStmt(std::string t_varName, int t_lineNum);
-  bool isModifies(int t_lineNum, std::string t_varName);
-  bool isUses(int t_lineNum, std::string t_varName);
-  std::vector<std::string> getModifies(int t_lineNum);
-  std::vector<std::string> getUses(int t_line_num);
-  std::vector<int> getStmtModifies(std::string t_varName);
-  std::vector<int> getStmtUses(std::string t_varName);
-  std::unordered_map<std::string, std::vector<int>> getAllStmtModifies();
-  std::unordered_map<std::string, std::vector<int>> getAllStmtUses();
-  int getIndexOfVar(std::string t_varName);
-  std::string getVarNameFromIndex(int t_index);
-  bool isModifiesAnything(int t_line_num);  //uses(2, _)
-  bool isUsesAnything(int t_line_num);  //modifies(2, _)
-  std::vector<int> getStmtModifiesAnything(); //uses(s, _)
-  std::vector<int> getStmtUsesAnything(); //modifies(s, _)
-  std::vector<std::string> getAllVariables();
+  VAR_INDEX insertVar(VAR_NAME t_name);
+  VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+  VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES& getAllVarNames();
 
 private:
-  std::unordered_map<int, VarRelations> m_varTable;
-  std::set<std::string> m_allVariables;
+  std::vector<VAR_NAME> m_varIdxToName;
+  std::unordered_map<VAR_NAME, VAR_INDEX> m_varNameToIdx;
 };

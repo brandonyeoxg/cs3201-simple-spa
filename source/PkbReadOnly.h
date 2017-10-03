@@ -259,115 +259,26 @@ public:
   ///////////////////////////////////////////////////////
   //  VarTable 
   ///////////////////////////////////////////////////////
-  /**
-  * Method that checks if modifies(t_s1, t_varname) holds.
-  * @param t_lineNum an integer argument.
-  * @param s2 t_varName a string argument.
-  * @return true if the relationship holds, false if otherwise.
-  */
-  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
-
-  /**
-  * Method that checks if uses(t_s1, t_varname) holds.
-  * @param t_lineNum an integer argument.
-  * @param s2 t_varName a string argument.
-  * @return true if the relationship holds, false if otherwise.
-  */
-  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
-
-  /**
-  * Method that returns the vector of variables that are modified in line number t_lineNum.
-  * For example: modifies(2, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of variables that satisfy the condition.
-  */
-  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of variables that are used in line number t_lineNum.
-  * For example: uses(2, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of variables that satisfy the condition.
-  */
-  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of statement numbers that modifies variable t_varName.
-  * For example: stmt s; modifies(s, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName) = 0;
-
-  /**
-  * Method that returns the vector of statement numbers that uses variable t_varName.
-  * For example: stmt s; uses(s, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtUses(std::string t_varName) = 0;
-
-  /**
-  * Method that returns the entire map of modifies relationship.
-  * For example: stmt s, variable v; modifies(s, v).
-  * @return an unordered_map that satisfy the condition.
-  */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
-
-  /**
-  * Method that returns the entire map of uses relationship.
-  * For example: stmt s, variable v; uses(s, v).
-  * @return an unordered_map that satisfy the condition.
-  */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
 
   /**
   * Method that returns the index of the variable t_varName in VarTable.
   * @param t_varName a string argument.
   * @return the index of variable.
   */
-  virtual STMT_NUM getIndexOfVar(std::string t_varName) = 0;
+  virtual STMT_NUM getVarIdxFromName(std::string t_varName) = 0;
 
   /**
   * Method that returns the name of the variable in VarTable given its index.
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual std::string getVarNameFromIndex(STMT_NUM t_index) = 0;
-
-  /**
-  * Method that checks if modifies(t_lineNum, _) holds.
-  * @param t_s1 an integer argument.
-  * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
-  */
-  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that checks if uses(t_lineNum, _) holds.
-  * @param t_s1 an integer argument.
-  * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
-  */
-  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of line numbers that involves modification of variables.
-  * For example: stmt s; modifies(s, _).
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
-
-  /**
-  * Method that returns the vector of line numbers that involves use of variables.
-  * For example: stmt s; uses(s, _).
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtUsesAnything() = 0;
+  virtual std::string getVarNameFromIdx(STMT_NUM t_index) = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
   * @return a vector of statement numbers.
   */
-  virtual LIST_OF_VAR_NAMES getAllVariables() = 0;
+  virtual LIST_OF_VAR_NAMES& getAllVarNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -496,6 +407,102 @@ public:
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
+  //  Uses methods
+  ///////////////////////////////////////////////////////
+  /**
+  * Method that checks if uses(t_s1, t_varname) holds.
+  * @param t_lineNum an integer argument.
+  * @param s2 t_varName a string argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
+  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
+  
+  /**
+  * Method that returns the vector of variables that are used in line number t_lineNum.
+  * For example: uses(2, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of variables that satisfy the condition.
+  */
+  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of statement numbers that uses variable t_varName.
+  * For example: stmt s; uses(s, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtUses(std::string t_varName) = 0;
+
+  /**
+  * Method that returns the entire map of uses relationship.
+  * For example: stmt s, variable v; uses(s, v).
+  * @return an unordered_map that satisfy the condition.
+  */
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
+
+  /**
+  * Method that checks if uses(t_lineNum, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
+  */
+  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of line numbers that involves use of variables.
+  * For example: stmt s; uses(s, _).
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtUsesAnything() = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Modifies methods
+  ///////////////////////////////////////////////////////
+  /**
+  * Method that checks if modifies(t_s1, t_varname) holds.
+  * @param t_lineNum an integer argument.
+  * @param s2 t_varName a string argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
+  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
+
+  /**
+  * Method that returns the vector of variables that are modified in line number t_lineNum.
+  * For example: modifies(2, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of variables that satisfy the condition.
+  */
+  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of statement numbers that modifies variable t_varName.
+  * For example: stmt s; modifies(s, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName) = 0;
+
+  /**
+  * Method that returns the entire map of modifies relationship.
+  * For example: stmt s, variable v; modifies(s, v).
+  * @return an unordered_map that satisfy the condition.
+  */
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
+
+  /**
+  * Method that checks if modifies(t_lineNum, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
+  */
+  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of line numbers that involves modification of variables.
+  * For example: stmt s; modifies(s, _).
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
+
+
   //  StmtListTable
   ///////////////////////////////////////////////////////
   virtual LIST_OF_STMT_NUMS& getStmtList() = 0;

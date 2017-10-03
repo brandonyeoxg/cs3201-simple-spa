@@ -187,7 +187,6 @@
     <ClCompile Include="TestStringUtil.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestUsesTable.cpp" />
-    <ClCompile Include="TestVarTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
