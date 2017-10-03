@@ -133,12 +133,13 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 
     storeSelectResultFromPkb(allProcedures);
   } else if (t_select.getType() == queryType::GType::ST_LST) {
-    std::vector<std::string> allStmtLst;// = m_pkb->getAllStmtLst();
+    std::vector<int> allStmtLst = m_pkb->getStmtList();
     if (allStmtLst.empty()) {
       return false;
     }
 
-    storeSelectResultFromPkb(allStmtLst);
+    std::vector<std::string> allStmtList = formatVectorIntToVectorString(allStmtLst);
+    storeSelectResultFromPkb(allStmtList);
   }
 
   return true;
