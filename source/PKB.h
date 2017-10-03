@@ -19,6 +19,8 @@
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 #include "CallsTable.h"
+#include "ModifiesTable.h"
+#include "UsesTable.h"
 
 
 
@@ -427,6 +429,8 @@ private:
   ConstantTable* m_constantTable;
   StatementTable* m_statementTable;
   CallsTable* m_callsTable;
+  ModifiesTable* m_modifiesTable;
+  UsesTable* m_usesTable;
 
   AST m_programNode;
   ASTBuilder m_builder;
