@@ -68,6 +68,7 @@
     <ClCompile Include="..\source\QueryResultProjector.cpp" />
     <ClCompile Include="..\source\Relationship.cpp" />
     <ClCompile Include="..\source\StatementTable.cpp" />
+    <ClCompile Include="..\source\StmtListTable.cpp" />
     <ClCompile Include="..\source\StringUtil.cpp" />
     <ClCompile Include="..\source\UsesEvaluator.cpp" />
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="..\source\QueryResultProjector.h" />
     <ClInclude Include="..\source\Relationship.h" />
     <ClInclude Include="..\source\StatementTable.h" />
+    <ClInclude Include="..\source\StmtListTable.h" />
     <ClInclude Include="..\source\StringUtil.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
     <ClInclude Include="..\source\SyntaxErrorException.h" />
