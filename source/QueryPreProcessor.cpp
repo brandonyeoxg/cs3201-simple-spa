@@ -844,13 +844,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               break;
             }   
           }
-          if (m_suchThatQueue.size() == 0) {
-            return false;
-          }
         }
       }
       //Relation DAO(designAbstractionEntity, g1, g2);
       //m_suchThatQueue.push(DAO);
+    }
+    if (m_suchThatQueue.size() == 0) {
+      return false;
     }
   }
     
