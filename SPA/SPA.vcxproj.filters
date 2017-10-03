@@ -19,9 +19,6 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>FrontEnd</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\FollowTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
@@ -172,6 +169,27 @@
     <ClCompile Include="..\source\UsesP.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ExtractorFactory.cpp">
+      <Filter>FrontEnd\DesignExtractor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AssignExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CallsExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ModifiesPExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesPExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\PatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClCompile>
@@ -193,9 +211,6 @@
       <Filter>PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Parser.h">
-      <Filter>FrontEnd</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\DesignExtractor.h">
       <Filter>FrontEnd</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ParentTable.h">
@@ -379,6 +394,33 @@
     <ClInclude Include="..\source\UsesP.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ExtractorFactory.h">
+      <Filter>FrontEnd\DesignExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PkbTablesOnly.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AssignExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CallsExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Extractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesPExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesPExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\DesignExtractor.h">
+      <Filter>FrontEnd\DesignExtractor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -419,6 +461,12 @@
     </Filter>
     <Filter Include="test-drivers">
       <UniqueIdentifier>{4078f7f2-9786-4d7a-9d57-209f63a077c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd\DesignExtractor">
+      <UniqueIdentifier>{ba2ff195-3787-4414-890c-6a20a0bbc308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrontEnd\DesignExtractor\Extractors">
+      <UniqueIdentifier>{c8a97698-fee2-4f8b-98d2-360f0b299b71}</UniqueIdentifier>
     </Filter>
     <Filter Include="PQL\Relationships\Evaluator">
       <UniqueIdentifier>{6a50b633-5f84-4a0d-8d7a-edc8806dbd34}</UniqueIdentifier>

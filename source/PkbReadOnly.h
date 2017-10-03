@@ -113,18 +113,6 @@ public:
   //  ParentTable
   ///////////////////////////////////////////////////////
   /**
-  * Method that populates the ParentStarMap.
-  * To be called by Design Extractor after the initial parsing.
-  */
-  virtual void populateParentStarMap() = 0;
-
-  /**
-  * Method that populates the ParentedByStarMap.
-  * To be called by Design Extractor after the initial parsing.
-  */
-  virtual void populateParentedByStarMap() = 0;
-
-  /**
   * Method that checks if parent(t_s1, t_s2) holds.
   * @param s1 an integer argument.
   * @param s2 an integer argument.
@@ -400,20 +388,13 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  virtual std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt() = 0;
+  virtual std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName() = 0;
-
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  virtual void populateAssignTableAbstractions() = 0;
-
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
@@ -427,18 +408,6 @@ public:
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
-  /** 
-  * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * OLD METHOD
-  */
-  virtual std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) = 0; /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
-
-  /** 
-  * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * OLD METHOD
-  */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact) = 0; /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-  
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"

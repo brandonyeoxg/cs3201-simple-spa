@@ -18,17 +18,16 @@
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
 #include "PatternMatch.h"
-
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
-
+#include "PkbTablesOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
 
 class TNode;
 
-class PKB: public PkbWriteOnly, public PkbReadOnly {
+class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
@@ -60,25 +59,6 @@ public:
   * @return true if the table is successfully added.
   */
   bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
-
-  /**
-  * Inserts a variable that has been modified.
-  * @param t_varName name of the variable being modified.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines);
-
-  /**
-  * Inserts a variable that has been used.
-  * @param t_varName name of the variable that is used.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been modified.
@@ -119,24 +99,15 @@ public:
 
   /**
   * Inserts an assignment statement into the PKB
-  * @param t_parentNode reference to the parent node that the assignment statement belongs to.
-  * @param t_varNode reference to the variable node that is at this assignment statement.
-  * @param t_exprNode reference to the expr node of the assignment statement.
-  * @param t_curLineNum the current line that this assignment is at.
-  */
-  void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
-
-  /**
-  * Inserts an assignment statement into the PKB
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName);
 
   /**
   * Inserts a call statement into the PKB
   */
-  void insertCallStmt(STMT_NUM t_lineNum);
+  void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum);
 
   /**
   * Inserts a while statement into the PKB.
@@ -280,8 +251,6 @@ public:
   //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
-  void populateParentStarMap();
-  void populateParentedByStarMap();
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
   bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
   STMT_NUM getParentOf(STMT_NUM t_s2);
@@ -351,20 +320,13 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt();
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt();
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
-
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  void populateAssignTableAbstractions();
-
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -378,19 +340,6 @@ public:
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
-
-  /**
-  * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * OLD METHOD, TO BE REMOVED
-  */
-  std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
-
-  /**
-  * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * OLD METHOD, TO BE REMOVED
-  */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-
   /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
   *   NOTE: will assume expression is syntactically correct.
   *   @param t_stmtNum statement number
@@ -472,7 +421,7 @@ public:
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
-  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  CallsTable* getCallsTable();
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
@@ -488,11 +437,11 @@ public:
   bool hasCallsRelationship();  //calls(_, _)
   bool isCallsAnything(PROC_NAME t_proc1);
   bool isCalledByAnything(PROC_NAME t_proc2);
-  void populateCallsStarMaps();
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
+  ModifiesP* getModifiesP();
   bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
@@ -503,6 +452,7 @@ public:
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
+  UsesP* getUsesP();
   bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
