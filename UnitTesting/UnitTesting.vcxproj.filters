@@ -15,6 +15,10 @@
     <ClCompile Include="TestDesignExtractor.cpp" />
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
+    <ClCompile Include="TestPatternMatch.cpp" />
+    <ClCompile Include="TestPkbPatternAPI.cpp">
+      <Filter>PkbTests</Filter>
+    </ClCompile>
     <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
@@ -22,5 +26,10 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PkbTests">
+      <UniqueIdentifier>{843cb709-0d29-42be-979d-75d307506e5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

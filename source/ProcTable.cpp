@@ -19,6 +19,6 @@ PROC_INDEX ProcTable::getProcIdxFromName(PROC_NAME t_name) {
   return pItr->second;
 }
 
-std::vector<PROC_NAME>& ProcTable::getAllProcName() {
+std::vector<PROC_NAME>& ProcTable::getAllProcsName() {
   return m_procIdxToName;
 }
