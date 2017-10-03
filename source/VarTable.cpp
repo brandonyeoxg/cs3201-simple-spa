@@ -19,7 +19,8 @@ std::unordered_map<int, VarRelations> VarTable::getVarTable() {
  * Instantiates an unordered map (hashmap) of variables to vector of line numbers associated.
  */
 VarTable::VarTable() {
-  int m_index = 1;
+  std::unordered_map<VAR_INDEX, VAR_NAME> m_varIndexMap;
+  std::unordered_map<VAR_NAME, VAR_INDEX> m_varNameMap;
   std::unordered_map<int, VarRelations> m_varTable;
   std::set<std::string> m_allVariables;
 }

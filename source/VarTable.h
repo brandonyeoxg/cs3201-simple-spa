@@ -43,6 +43,8 @@ public:
   std::vector<std::string> getAllVariables();
 
 private:
+  std::unordered_map<VAR_INDEX, VAR_NAME> m_varIndexMap;
+  std::unordered_map<VAR_NAME, VAR_INDEX> m_varNameMap;
   std::unordered_map<int, VarRelations> m_varTable;
   std::set<std::string> m_allVariables;
 };
