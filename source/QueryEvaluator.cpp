@@ -126,7 +126,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 
     storeSelectResultFromPkb(allConstants);
   } else if (t_select.getType() == queryType::GType::PROC) {
-    std::vector<std::string> allProcedures;// = m_pkb->getAllProcedures();
+    std::vector<std::string> allProcedures = m_pkb->getAllProcsName();
     if (allProcedures.empty()) {
       return false;
     }
