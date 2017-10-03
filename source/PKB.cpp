@@ -405,6 +405,10 @@ ProcTable* PKB::getProcTable() {
   return m_procTable;
 }
 
+std::vector<PROC_NAME>& PKB::getAllProcsName() {
+  return m_procTable->getAllProcsName();
+}
+
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
