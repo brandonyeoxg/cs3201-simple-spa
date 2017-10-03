@@ -20,7 +20,7 @@ R, Q
 5000
 5 - Calls Functionality Test
 proc p;
-Select s such that Calls(p,"Q")
+Select p such that Calls(p,"Q")
 R
 5000
 6 - Calls Functionality Test
@@ -165,7 +165,7 @@ R, Q
 5000
 34 - Calls* Functionality Test
 proc p;
-Select s such that Calls*(p,"Q")
+Select p such that Calls*(p,"Q")
 P, R
 5000
 35 - Calls* Functionality Test
