@@ -1,32 +1,32 @@
 1 - Calls Functionality Test
 stmt s; proc p, q;
 Select s such that Calls(p,q)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
 5000
 2 - Calls Functionality Test
 proc p, q;
 Select p such that Calls(p,q)
-
+OMG, PuT1n, Re55uR3kT, S1yTH3RiN, uNd3RwE4R
 5000
 3 - Calls Functionality Test
 stmt s; proc q;
-Select s such that Calls("P",q)
-
+Select s such that Calls("PuT1n",q)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
 5000
 4 - Calls Functionality Test
 proc p;
 Select p such that Calls("_",p)
-
+OMG, PuT1n, Qw0P, Re55uR3kT, S1yTH3RiN, T4uRU5
 5000
 5 - Calls Functionality Test
 proc p;
-Select s such that Calls(p,"Q")
-
+Select p such that Calls(p,"Qw0P")
+Re55uR3kT, uNd3RwE4R
 5000
 6 - Calls Functionality Test
 proc p;
 Select p such that Calls(p,"_")
-
+OMG, PuT1n, Re55uR3kT, S1yTH3RiN, uNd3RwE4R
 5000
 7 - Calls Invalid Test
 proc p; stmtLst sl;
@@ -135,7 +135,7 @@ Invalid
 5000
 28 - Calls Recursion Invalid Test
 proc p;
-Select p such that Calls("P", "P")
+Select p such that Calls("PuT1n", "PuT1n")
 Invalid
 5000
 29 - Calls Recursion Invalid Test
@@ -146,32 +146,32 @@ Invalid
 30 - Calls* Functionality Test
 stmt s; proc p, q;
 Select s such that Calls*(p,q)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
 5000
 31 - Calls* Functionality Test
 proc p, q;
 Select p such that Calls*(p,q)
-
+OMG, PuT1n, Re55uR3kT, S1yTH3RiN, uNd3RwE4R
 5000
 32 - Calls* Functionality Test
 stmt s; proc q;
-Select s such that Calls*("P",q)
-
+Select s such that Calls*("PuT1n",q)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
 5000
 33 - Calls* Functionality Test
 proc p;
 Select p such that Calls*("_",p)
-
+OMG, PuT1n, Qw0P, Re55uR3kT, S1yTH3RiN, T4uRU5
 5000
 34 - Calls* Functionality Test
 proc p;
-Select s such that Calls*(p,"Q")
-
+Select p such that Calls*(p,"Qw0P")
+OMG, PuT1n, Re55uR3kT, uNd3RwE4R
 5000
 35 - Calls* Functionality Test
 proc p;
 Select p such that Calls*(p,"_")
-
+OMG, PuT1n, Re55uR3kT, S1yTH3RiN, uNd3RwE4R
 5000
 36 - Calls* Invalid Test
 proc p; stmtLst sl;
@@ -280,7 +280,7 @@ Invalid
 5000
 57 - Calls* Recursion Invalid Test
 proc p;
-Select p such that Calls*("P", "P")
+Select p such that Calls*("PuT1n", "PuT1n")
 Invalid
 5000
 58 - Calls* Recursion Invalid Test
