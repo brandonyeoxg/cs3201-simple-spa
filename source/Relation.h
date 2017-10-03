@@ -56,6 +56,12 @@ private:
   static std::string PRT_;
   static std::string USE;
   static std::string MDF;
+  static std::string CLS;
+  static std::string CLS_;
+  static std::string NXT;
+  static std::string NXT_;
+  static std::string AFS;
+  static std::string AFS_;
 
 };
 

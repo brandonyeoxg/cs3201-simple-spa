@@ -399,12 +399,12 @@ public:
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
-  virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Uses("First", "x") */
   virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
-  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
-  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
-  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Modifies(p, x) */
-  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Modifies(p, _) */
+  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Uses("First", x) */
+  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Uses(p, "x") */
+  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Uses(p, x) */
+  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
   //  Uses methods
@@ -503,4 +503,7 @@ public:
   virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
 
 
+  //  StmtListTable
+  ///////////////////////////////////////////////////////
+  virtual LIST_OF_STMT_NUMS& getStmtList() = 0;
 };

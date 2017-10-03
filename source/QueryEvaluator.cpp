@@ -21,8 +21,8 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     std::vector<std::string> result;
     /*printDivider();
     std::cout << "No Query Result: \n";
-    for (std::vector<std::string>::iterator getStmts = result.begin(); getStmts != result.end(); ++getStmts) {
-      std::cout << *getStmts << ", ";
+    for (auto& x : result) {
+      std::cout << x << ", ";
     }
     printDivider();*/
     return result;
@@ -31,8 +31,17 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
 
 std::vector<std::string> QueryEvaluator::formatVectorIntToVectorString(std::vector<int> t_vectorInt) {
   std::vector<std::string> vectorStr;
-  for (std::vector<int>::iterator getStmts = t_vectorInt.begin(); getStmts != t_vectorInt.end(); ++getStmts) {
-    vectorStr.push_back(std::to_string(*getStmts));
+  for (auto& x : t_vectorInt) {
+    vectorStr.push_back(std::to_string(x));
+  }
+
+  return vectorStr;
+}
+
+std::vector<std::string> QueryEvaluator::formatListStringToVectorString(std::list<std::string> t_listStr) {
+  std::vector<std::string> vectorStr;
+  for (auto& x : t_listStr) {
+    vectorStr.push_back(x);
   }
 
   return vectorStr;
@@ -47,6 +56,26 @@ std::vector<std::string> QueryEvaluator::getCommonResults(std::vector<std::strin
   set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
 
   return commonResultVector;
+}
+
+bool QueryEvaluator::isAllUnderscores(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
+}
+
+bool QueryEvaluator::hasNoSynonyms(Grammar t_g1, Grammar t_g2) {
+  return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
+}
+
+bool QueryEvaluator::hasOneRightSynonym(Grammar t_g1, Grammar t_g2) {
+  return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
+}
+
+bool QueryEvaluator::hasOneLeftSynonym(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
+}
+
+bool QueryEvaluator::hasTwoSynonyms(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
 }
 
 bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
@@ -86,30 +115,31 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     if (allVariables.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allVariables);
   } else if (t_select.getType() == queryType::GType::CONST) {
     std::list<std::string> constantsList = m_pkb->getAllConstants();
-    std::vector<std::string> allConstants;
-    for (auto& x : constantsList) {
-      allConstants.push_back(x);
-    }
-
+    std::vector<std::string> allConstants = formatListStringToVectorString(constantsList);
     if (allConstants.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allConstants);
   } else if (t_select.getType() == queryType::GType::PROC) {
-    std::vector<std::string> allProcedures;// = m_pkb->getAllProcedures();
+    std::vector<std::string> allProcedures = m_pkb->getAllProcsName();
     if (allProcedures.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allProcedures);
   } else if (t_select.getType() == queryType::GType::ST_LST) {
-    std::vector<std::string> allStmtLst;// = m_pkb->getAllStmtLst();
+    std::vector<int> allStmtLst = m_pkb->getStmtList();
     if (allStmtLst.empty()) {
       return false;
     }
-    storeSelectResultFromPkb(allStmtLst);
+
+    std::vector<std::string> allStmtList = formatVectorIntToVectorString(allStmtLst);
+    storeSelectResultFromPkb(allStmtList);
   }
 
   return true;
@@ -123,18 +153,18 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   Grammar g2 = t_relation.getG2();
 
   // Get the respective evaluators to get the results of the relation clauses
-  if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
-    bool result = eval->hasRelationship(m_pkb, g1, g2); //Only underscores
+  if (isAllUnderscores(g1, g2)) {
+    bool result = eval->hasRelationship(m_pkb, g1, g2);
     return result;
-  } else if ((g1.getType() == queryType::GType::STMT_NO || g1.getType() == queryType::GType::STR) && (g2.getType() == queryType::GType::STMT_NO || g2.getType() == queryType::GType::STR)) {
-    bool result = eval->isRelationTrue(m_pkb, g1, g2); //No synonyms
+  } else if (hasNoSynonyms(g1, g2)) {
+    bool result = eval->isRelationTrue(m_pkb, g1, g2);
     return result;
-  } else if ((g1.getType() == queryType::GType::STMT_NO || g1.getType() == queryType::GType::STR) && g2.getType() != queryType::GType::STMT_NO && g2.getType() != queryType::GType::STR) {
-    result = eval->evaluateRightSynonym(m_pkb, g1, g2); //One right synonym
-  } else if (g1.getType() != queryType::GType::STMT_NO && g1.getType() != queryType::GType::STR && (g2.getType() == queryType::GType::STMT_NO || g2.getType() == queryType::GType::STR)) {
-    result = eval->evaluateLeftSynonym(m_pkb, g1, g2); //One left synonym
-  } else if (g1.getType() != queryType::GType::STMT_NO && g1.getType() != queryType::GType::STR && g2.getType() != queryType::GType::STMT_NO && g2.getType() != queryType::GType::STR) {
-    result = eval->evaluateBothSynonyms(m_pkb, g1, g2); //Two synonyms
+  } else if (hasOneRightSynonym(g1, g2)) {
+    result = eval->evaluateRightSynonym(m_pkb, g1, g2);
+  } else if (hasOneLeftSynonym(g1, g2)) {
+    result = eval->evaluateLeftSynonym(m_pkb, g1, g2);
+  } else if (hasTwoSynonyms(g1, g2)) {
+    result = eval->evaluateBothSynonyms(m_pkb, g1, g2);
   } 
 
   delete eval;
@@ -1139,8 +1169,8 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   }
 
   /*std::cout << "Query Result: \n";
-  for (std::vector<std::string>::iterator getStmts = finalResult.begin(); getStmts != finalResult.end(); ++getStmts) {
-    std::cout << *getStmts << ", ";
+  for (auto& x : finalResult) {
+    std::cout << x << ", ";
   }*/
 
   //printDivider();

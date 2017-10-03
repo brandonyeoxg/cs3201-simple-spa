@@ -26,6 +26,7 @@
 #include "CallsTable.h"
 #include "UsesTable.h"
 #include "ModifiesTable.h"
+#include "StmtListTable.h"
 
 class TNode;
 
@@ -135,24 +136,9 @@ public:
   * @param t_curLineNum the current line of the constant.
   * @return a reference to the constant node.
   */
-  ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
-
-  /**
-  * Inserts a constant into the PKB.
-  * @param t_constVal the constant to be added in string form.
-  * @param t_curLineNum the current line of the constant.
-  * @return a reference to the constant node.
-  */
   void insertConstant(CONSTANT_TERM t_constVal);
 
-  /**
-  * Returns a plus operator.
-  * @param t_left the node to the left.
-  * @param t_right the node to the right.
-  * @param t_curLineNum the current line number.
-  * @return a reference to the plus node subtree.
-  */
-  PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum);
+  void insertStmtList(STMT_NUM t_line);
   ///////////////////////////////////////////////////////
   //  FollowTable methods
   ///////////////////////////////////////////////////////
@@ -475,6 +461,9 @@ public:
   bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 
+  //  StmtListTable
+  ///////////////////////////////////////////////////////
+  LIST_OF_STMT_NUMS& getStmtList();
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -488,6 +477,7 @@ private:
   CallsTable* m_callsTable;
   UsesTable* m_usesTable;
   ModifiesTable* m_modifiesTable;
+  StmtListTable* m_stmtListTable;
 
   ASTBuilder m_builder;
 };

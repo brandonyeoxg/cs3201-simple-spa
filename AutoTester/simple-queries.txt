@@ -1043,3 +1043,8 @@ stmt s1, s2; assign a; variable v; while w;
 Select w such that Parent(w,a) pattern a(v, _"y"_)
 2, 9
 5000
+210 - Select stmtList only
+stmtLst sl;
+Select sl
+1, 3, 6, 10
+5000
