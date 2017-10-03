@@ -468,6 +468,14 @@ public:
   virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
 
   ///////////////////////////////////////////////////////
+  //  ProcTable
+  ///////////////////////////////////////////////////////
+  /**
+  * Returns all procedure name in the program
+  */
+  virtual std::vector<PROC_NAME>& getAllProcsName() = 0;
+
+  ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
   virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
