@@ -43,15 +43,15 @@ bool CallsEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t
 SET_OF_RESULTS CallsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getType() == queryType::GType::STR) {
-    std::vector<std::string> procedures = t_pkb->getCalledBy(t_g1.getName());
+  if (t_g1.getName() == "_") {
+    std::vector<std::string> procedures = t_pkb->getCalledByAnything();
     if (procedures.empty()) {
       return m_result;
     }
 
     m_result[t_g2.getName()] = procedures;
-  } else if (t_g1.getName() == "_") {
-    std::vector<std::string> procedures = t_pkb->getCalledByAnything();
+  } else if (t_g1.getType() == queryType::GType::STR) {
+    std::vector<std::string> procedures = t_pkb->getCalls(t_g1.getName());
     if (procedures.empty()) {
       return m_result;
     }
@@ -65,15 +65,15 @@ SET_OF_RESULTS CallsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar 
 SET_OF_RESULTS CallsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getType() == queryType::GType::STR) {
-    std::vector<std::string> procedures = t_pkb->getCalls(t_g2.getName());
-    if(procedures.empty()) {
+  if (t_g2.getName() == "_") {
+    std::vector<std::string> procedures = t_pkb->getCallsAnything();
+    if (procedures.empty()) {
       return m_result;
     }
 
     m_result[t_g1.getName()] = procedures;
-  } else if (t_g2.getName() == "_") {
-    std::vector<std::string> procedures = t_pkb->getCallsAnything();
+  } else if (t_g2.getType() == queryType::GType::STR) {
+    std::vector<std::string> procedures = t_pkb->getCalledBy(t_g2.getName());
     if (procedures.empty()) {
       return m_result;
     }
