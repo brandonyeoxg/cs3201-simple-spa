@@ -105,7 +105,7 @@
     </ClCompile>
     <ClCompile Include="..\source\PatternMatch.cpp">
       <Filter>PKB\PatternMatch</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\source\FollowsEvaluator.cpp">
       <Filter>PQL\Relationships\Evaluator</Filter>
     </ClCompile>
@@ -192,6 +192,12 @@
     </ClCompile>
     <ClCompile Include="..\source\PatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ModifiesTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +324,7 @@
     </ClInclude>
     <ClInclude Include="..\source\PatternMatch.h">
       <Filter>PKB\PatternMatch</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\source\PkbWriteOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
@@ -421,6 +427,12 @@
     <ClInclude Include="..\source\DesignExtractor.h">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\UsesTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -452,7 +464,7 @@
     </Filter>
     <Filter Include="PKB\PatternMatch">
       <UniqueIdentifier>{11e46c09-bc71-4139-8997-177b1d4a1c34}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="PQL\Relationships">
       <UniqueIdentifier>{12e2077e-997e-4aa8-9b81-780b5f1438df}</UniqueIdentifier>
     </Filter>
