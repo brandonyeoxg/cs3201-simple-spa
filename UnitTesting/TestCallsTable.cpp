@@ -15,7 +15,7 @@ namespace UnitTesting {
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
 
   public:
-    TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator) {
+    TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
       m_callsTable = new CallsTable();
       m_testCallsMap = {
         { "ATLANTA",{ "BOSTON", "CLEVELAND" } },  

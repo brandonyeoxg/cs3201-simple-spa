@@ -25,6 +25,7 @@
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
     <ClCompile Include="..\source\ExtractorFactory.cpp" />
+    <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\PatternMatch.cpp" />
     <ClCompile Include="..\source\ModifiesP.cpp" />
     <ClCompile Include="..\source\Evaluator.cpp" />
@@ -72,6 +73,7 @@
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
     <ClCompile Include="..\source\UsesP.cpp" />
     <ClCompile Include="..\source\UsesPExtractor.cpp" />
+    <ClCompile Include="..\source\UsesTable.cpp" />
     <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\WhilePatternEvaluator.cpp" />
@@ -97,6 +99,7 @@
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\PatternMatch.h" />
     <ClInclude Include="..\source\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\ModifiesP.h" />
@@ -150,6 +153,7 @@
     <ClInclude Include="..\source\test-drivers\ParserDriver.h" />
     <ClInclude Include="..\source\UsesP.h" />
     <ClInclude Include="..\source\UsesPExtractor.h" />
+    <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\WhilePatternEvaluator.h" />

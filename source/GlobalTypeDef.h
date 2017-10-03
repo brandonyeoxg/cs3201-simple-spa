@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <map>
+#include <set>
+
 /*Indexes*/
 typedef int VAR_INDEX;
 typedef int PROC_INDEX;
@@ -19,6 +21,8 @@ typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 typedef std::vector<std::string> LIST_OF_PROC_NAMES;
 typedef std::vector<std::string> LIST_OF_RESULTS;
 typedef std::vector<std::string> LIST_OF_TOKENS;
+typedef std::set<std::string> SET_OF_VAR_NAMES;
+typedef std::set<int> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
