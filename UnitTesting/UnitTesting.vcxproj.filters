@@ -8,7 +8,6 @@
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPKB.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
-    <ClCompile Include="TestVarTable.cpp" />
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
     <ClCompile Include="TestAssignTable.cpp" />
@@ -22,7 +21,7 @@
     <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
-    <ClCompile Include="..\..\..\..\..\uses_modifies\TestUsesTable.cpp" />
+    <ClCompile Include="TestUsesTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

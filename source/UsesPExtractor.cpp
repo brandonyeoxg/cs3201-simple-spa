@@ -17,7 +17,7 @@ void UsesPExtractor::extractDesign() {
     for (auto& pItr : procsCallingThis) {
       PROC_INDEX calledProcIdx = procTable->getProcIdxFromName(pItr);
       for (auto& vItr : varUsesInP) {
-        VAR_INDEX varIdx = varTable->getIndexOfVar(vItr);
+        VAR_INDEX varIdx = varTable->getVarIdxFromName(vItr);
         usesP->insertUsesP(calledProcIdx, pItr, varIdx, vItr);
       }
     }

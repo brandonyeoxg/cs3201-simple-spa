@@ -24,6 +24,8 @@
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
+#include "UsesTable.h"
+#include "ModifiesTable.h"
 
 class TNode;
 
@@ -283,23 +285,10 @@ public:
   //  VarTable methods
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
-  STMT_NUM insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  STMT_NUM insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  bool isModifies(STMT_NUM t_lineNum, std::string t_varName);
-  bool isUses(STMT_NUM t_lineNum, std::string t_varName);
-  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
-  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName);
-  LIST_OF_STMT_NUMS getStmtUses(std::string t_varName);
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies();
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses();
-  STMT_NUM getIndexOfVar(std::string t_varName);
-  std::string getVarNameFromIndex(STMT_NUM t_index);
-  bool isModifiesAnything(STMT_NUM t_lineNum);
-  bool isUsesAnything(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifiesAnything();
-  LIST_OF_STMT_NUMS getStmtUsesAnything();
-  LIST_OF_VAR_NAMES getAllVariables();
+  VAR_INDEX insertVar(VAR_NAME t_name);
+  VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+  VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES& getAllVarNames();
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -464,6 +453,28 @@ public:
   MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar(); /*< Modifies(p, x) */
   LIST_OF_PROC_NAMES& getUsesPAllProcNames(); /*< Modifies(p, _) */
 
+  ///////////////////////////////////////////////////////
+  //  UsesTable methods
+  ///////////////////////////////////////////////////////
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
+  bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
+  LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+
+  ///////////////////////////////////////////////////////
+  //  ModifiesTable methods
+  ///////////////////////////////////////////////////////
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtModifies();
+  bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
+  LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -475,6 +486,8 @@ private:
   ModifiesP* m_modifiesP;
   UsesP* m_usesP;
   CallsTable* m_callsTable;
+  UsesTable* m_usesTable;
+  ModifiesTable* m_modifiesTable;
 
   ASTBuilder m_builder;
 };

@@ -162,7 +162,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\uses_modifies\TestUsesTable.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -186,7 +185,7 @@
     <ClCompile Include="TestQueryProcessor.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
-    <ClCompile Include="TestVarTable.cpp" />
+    <ClCompile Include="TestUsesTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

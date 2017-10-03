@@ -6,72 +6,72 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestUsesTable) {
-  private:
-    UsesTable* m_usesTable;
-    std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_testUsesStmtMap;
-    std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_testUsesVarMap;
-  public:
-    TEST_METHOD_INITIALIZE(InitialiseUsesTable) {
-      m_usesTable = new UsesTable();
-      m_testUsesVarMap = {
-        {"x", {1, 2}},
-        {"y", {2, 3}}
-      };
-      m_testUsesStmtMap = {
-        {1, {"x"}},
-        {2, {"x", "y"}},
-        {3, {"y"}}
-      };
-      
-      m_usesTable->insertUsesForStmt("x", 1);
-      m_usesTable->insertUsesForStmt("x", 2);
-      m_usesTable->insertUsesForStmt("y", 2);
-      m_usesTable->insertUsesForStmt("y", 3); 
-    }
-    TEST_METHOD(TestUsesTable_InsertUses) {
-      Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
-      Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
-      //insert duplicate, expects no change made to the data.
-      m_usesTable->insertUsesForStmt("y", 3);
-      Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
-      Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
-    }
-    TEST_METHOD(TestUsesTable_IsUses) {
-      //true relationships
-      Assert::IsTrue(m_usesTable->isUses(1, "x"));
-      Assert::IsTrue(m_usesTable->isUses(2, "y"));
-      //non-existent key/value pair
-      Assert::IsFalse(m_usesTable->isUses(3, "x"));
-      //non-existent statement number
-      Assert::IsFalse(m_usesTable->isUses(4, "x"));
-    }
-    TEST_METHOD(TestUsesTable_GetUses) {
-      static const std::string arr[] = { "x", "y" };
-      LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(m_usesTable->getUses(2) == expected);
-      LIST_OF_VAR_NAMES emptyVector;
-      Assert::IsTrue(m_usesTable->getUses(4) == emptyVector);
-    }
-    TEST_METHOD(TestUsesTable_GetStmtUses) {
-      static const int arr[] = { 1, 2 };
-      LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(m_usesTable->getStmtUses("x") == expected);
-      LIST_OF_STMT_NUMS emptyVector;
-      Assert::IsTrue(m_usesTable->getStmtUses("z") == emptyVector);
-    }
-    TEST_METHOD(TestUsesTable_IsUsesAnything) {
-      Assert::IsTrue(m_usesTable->isUsesAnything(1));
-      Assert::IsFalse(m_usesTable->isUsesAnything(4));
-    }
-    TEST_METHOD(TestUsesTable_GetStmtUsesAnything) {
-      static const int arr[] = { 1, 2, 3 };
-      LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(m_usesTable->getStmtUsesAnything() == expected);
-    }
-    TEST_METHOD(TestUsesTable_GetAllUsesVarNames) {
-      static const std::string arr[] = { "x", "y" };
-      LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(m_usesTable->getAllUsesVarNames() == expected);
-    }
+private:
+  UsesTable* m_usesTable;
+  std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_testUsesStmtMap;
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_testUsesVarMap;
+public:
+  TEST_METHOD_INITIALIZE(InitialiseUsesTable) {
+    m_usesTable = new UsesTable();
+    m_testUsesVarMap = {
+      { "x",{ 1, 2 } },
+      { "y",{ 2, 3 } }
+    };
+    m_testUsesStmtMap = {
+      { 1,{ "x" } },
+      { 2,{ "x", "y" } },
+      { 3,{ "y" } }
+    };
+
+    m_usesTable->insertUsesForStmt("x", 1);
+    m_usesTable->insertUsesForStmt("x", 2);
+    m_usesTable->insertUsesForStmt("y", 2);
+    m_usesTable->insertUsesForStmt("y", 3);
+  }
+  TEST_METHOD(TestUsesTable_InsertUses) {
+    Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
+    Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
+    //insert duplicate, expects no change made to the data.
+    m_usesTable->insertUsesForStmt("y", 3);
+    Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
+    Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
+  }
+  TEST_METHOD(TestUsesTable_IsUses) {
+    //true relationships
+    Assert::IsTrue(m_usesTable->isUses(1, "x"));
+    Assert::IsTrue(m_usesTable->isUses(2, "y"));
+    //non-existent key/value pair
+    Assert::IsFalse(m_usesTable->isUses(3, "x"));
+    //non-existent statement number
+    Assert::IsFalse(m_usesTable->isUses(4, "x"));
+  }
+  TEST_METHOD(TestUsesTable_GetUses) {
+    static const std::string arr[] = { "x", "y" };
+    LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    Assert::IsTrue(m_usesTable->getUses(2) == expected);
+    LIST_OF_VAR_NAMES emptyVector;
+    Assert::IsTrue(m_usesTable->getUses(4) == emptyVector);
+  }
+  TEST_METHOD(TestUsesTable_GetStmtUses) {
+    static const int arr[] = { 1, 2 };
+    LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    Assert::IsTrue(m_usesTable->getStmtUses("x") == expected);
+    LIST_OF_STMT_NUMS emptyVector;
+    Assert::IsTrue(m_usesTable->getStmtUses("z") == emptyVector);
+  }
+  TEST_METHOD(TestUsesTable_IsUsesAnything) {
+    Assert::IsTrue(m_usesTable->isUsesAnything(1));
+    Assert::IsFalse(m_usesTable->isUsesAnything(4));
+  }
+  TEST_METHOD(TestUsesTable_GetStmtUsesAnything) {
+    static const int arr[] = { 1, 2, 3 };
+    LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    Assert::IsTrue(m_usesTable->getStmtUsesAnything() == expected);
+  }
+  TEST_METHOD(TestUsesTable_GetAllUsesVarNames) {
+    static const std::string arr[] = { "x", "y" };
+    LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    Assert::IsTrue(m_usesTable->getAllUsesVarNames() == expected);
+  }
   };
 }

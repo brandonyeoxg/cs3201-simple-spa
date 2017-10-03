@@ -82,7 +82,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     // Push into the selectResults queue.
     storeSelectResultFromPkb(allSelectedStmts);
   } else if (t_select.getType() == queryType::GType::VAR) {
-    std::vector<std::string> allVariables = m_pkb->getAllVariables();
+    std::vector<std::string> allVariables = m_pkb->getAllVarNames();
     if (allVariables.empty()) {
       return false;
     }
