@@ -199,6 +199,9 @@
     <ClCompile Include="..\source\ModifiesTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\StmtListTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -431,6 +434,9 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ModifiesTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\StmtListTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>

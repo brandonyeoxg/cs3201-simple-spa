@@ -24,6 +24,7 @@ PKB::PKB() {
   m_modifiesP = new ModifiesP();
   m_usesP = new UsesP();
   m_callsTable = new CallsTable();
+  m_stmtListTable = new StmtListTable();
 }
 
 PKB::~PKB() {
@@ -36,6 +37,7 @@ PKB::~PKB() {
   delete m_statementTable;
   delete m_modifiesP;
   delete m_usesP;
+  delete m_stmtListTable;
 }
 
 ///////////////////////////////////////////////////////
@@ -115,17 +117,12 @@ STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedSt
   return t_curLineNum;
 }
 
-ConstantNode* PKB::insertConstant(std::string t_constVal, int t_curLineNum) {
-  ConstantNode* constNode = m_builder.createConstant(t_curLineNum, atoi(t_constVal.c_str()));
-  return constNode;
-}
-
 void PKB::insertConstant(CONSTANT_TERM t_constant) {
   m_constantTable->insertConstant(t_constant);
 }
 
-PlusNode* PKB::insertPlusOp(TNode* left, TNode* right, int t_curLineNum) {
-  return m_builder.buildAddition(t_curLineNum, left, right);
+void PKB::insertStmtList(STMT_NUM t_line) {
+  m_stmtListTable->insertStmtLst(t_line);
 }
 
 bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
@@ -626,4 +623,11 @@ MAP_OF_PROC_TO_VAR& PKB::getUsesPAllProcToVar() {
 }
 LIST_OF_PROC_NAMES& PKB::getUsesPAllProcNames() {
   return m_usesP->getAllProcNames();
+}
+
+///////////////////////////////////////////////////////
+//  StmtList method
+///////////////////////////////////////////////////////
+LIST_OF_STMT_NUMS& PKB::getStmtList() {
+  return m_stmtListTable->getStmtList();
 }

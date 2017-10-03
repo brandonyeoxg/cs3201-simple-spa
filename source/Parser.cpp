@@ -63,6 +63,11 @@ void Parser::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
   t_stmtInStmtLst.push_back(m_curLineNum);
+  
+  if (t_stmtInStmtLst.size() == 1) {
+    m_pkbWriteOnly->insertStmtList(m_curLineNum);
+  }
+
   if (isNonContainerStmt(m_nextToken)) {
     parseNonContainerStmt(t_stmtInStmtLst);
   } else {

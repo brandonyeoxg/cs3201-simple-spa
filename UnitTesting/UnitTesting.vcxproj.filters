@@ -22,7 +22,8 @@
     <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
-    <ClCompile Include="..\..\..\..\..\uses_modifies\TestUsesTable.cpp" />
+    <ClCompile Include="TestUsesTable.cpp" />
+    <ClCompile Include="TestStmtListTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

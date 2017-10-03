@@ -114,14 +114,6 @@ public:
   */
   virtual STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum) = 0;
 
-  /** Deprecated to be removed once patter matcher is done
-  * Inserts a constant into the PKB.
-  * @param t_constVal the constant to be added in string form.
-  * @param t_curLineNum the current line of the constant.
-  * @return a reference to the constant node.
-  */
-  virtual ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum) = 0;
-
   /**
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
@@ -130,14 +122,7 @@ public:
   */
   virtual void insertConstant(CONSTANT_TERM t_constVal) = 0;
 
-  /**
-  * Returns a plus operator.
-  * @param t_left the node to the left.
-  * @param t_right the node to the right.
-  * @param t_curLineNum the current line number.
-  * @return a reference to the plus node subtree.
-  */
-  virtual PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum) = 0;
+  virtual void insertStmtList(STMT_NUM t_line) = 0;
 
   ///////////////////////////////////////////////////////
   //  Pattern Matching

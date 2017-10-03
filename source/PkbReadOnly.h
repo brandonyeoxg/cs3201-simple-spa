@@ -495,4 +495,8 @@ public:
   virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Modifies(p, x) */
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Modifies(p, _) */
 
+  ///////////////////////////////////////////////////////
+  //  StmtListTable
+  ///////////////////////////////////////////////////////
+  virtual LIST_OF_STMT_NUMS& getStmtList() = 0;
 };
