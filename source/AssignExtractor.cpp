@@ -1,9 +1,8 @@
 #include "AssignExtractor.h"
 #include "nodes\VariableNode.h"
 void AssignExtractor::extractDesign() {
-  AssignTable* m_assignTable = m_pkb->getAssignTable();
+ /* AssignTable* m_assignTable = m_pkb->getAssignTable();
   for (auto& mItr : m_assignTable->getAssignMap()) {
-    ;
     for (auto& aItr : mItr.second) {
       VAR_NAME varName = ((VariableNode*)aItr.m_assignNode->getLeftChild())->getVarName();
       m_assignTable->getAssignMapToVar().push_back({ aItr });
@@ -21,5 +20,5 @@ void AssignExtractor::extractDesign() {
       outputStmtNo.push_back((*listItr).m_assignStmt);
     }
     m_assignTable->getAssignVarWithStmtNum().insert({ varName, outputStmtNo });
-  }
+  }*/
 }

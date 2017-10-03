@@ -1,19 +1,7 @@
 #pragma once
 #include <unordered_map>
-#include "nodes\AssignNode.h"
 #include "GlobalTypeDef.h"
 #include "VarTable.h"
-
-/*
-* Represents an entry in the AssignTable.
-* The entry consist of an assignment node and a statement number.
-*/
-struct AssignData {
-  AssignNode* m_assignNode;
-  STMT_NUM m_assignStmt;
-  AssignData(AssignNode* t_node, STMT_NUM t_stmt) : m_assignNode(t_node) , m_assignStmt(t_stmt) {}
-};
-
 /**
  * Represents the assignments statements made in the program in difference representation.
  *
@@ -23,15 +11,7 @@ struct AssignData {
 class AssignTable {
 public:
 
-  /*
-  * Inserts an assign statement into the table.
-  * @param t_index the index of the variable.
-  * @param t_node reference to an assign node in the AST.
-  * @return the index to the assign table.
-  */
-  VAR_INDEX insertAssignRelation(const VAR_INDEX &t_index, AssignNode* t_node);
- 
-  void insertAssignStmt(STMT_NUM t_stmtNum);
+  void insertAssignStmt(STMT_NUM t_stmtNum, VAR_INDEX t_varIdx, VAR_NAME t_varName);
 
   LIST_OF_STMT_NUMS& getAllAssignStmt();
 
@@ -42,12 +22,6 @@ public:
   std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_INDEX t_index);
   
   /*
-  * Returns all assignment statements number and AssignNode in AssignData that modifies the variable t_index.
-  * @param t_index the index of the variable of interest.
-  */
-  std::list<AssignData> getAssignDataByVar(VAR_INDEX t_index);
-  
-  /*
   * Returns all assignment statements.
   */
   LIST_OF_STMT_NUMS getAllAssignStmtList();
@@ -56,7 +30,7 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  std::unordered_map<VAR_NAME, std::list<STMT_NUM>> getAllVarInWithAssignStmtNum();
+  std::unordered_map<VAR_INDEX, std::list<STMT_NUM>>& getAllVarInWithAssignStmtNum();
   
   /*
   * Returns all assignment statements in a representation.
@@ -64,20 +38,11 @@ public:
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVar();
  
-  /*
-  * Returns all assignment statments in AssignData representation.
-  */
-  std::list<AssignData> getAssignData();
-
-  std::unordered_map<VAR_INDEX, std::list<AssignData>>& getAssignMap();
-  std::list<AssignData>& getAssignMapToVar();
   std::unordered_map<STMT_NUM, VAR_NAME>& getAssignMapWithVar();
-  std::unordered_map<VAR_NAME, std::list<STMT_NUM>>& getAssignVarWithStmtNum();
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS>& getAllAssignVarNameWithStmtNum();
 private:
-  std::unordered_map<VAR_INDEX, std::list<AssignData>> m_data;
-  std::unordered_map<VAR_NAME, std::list<STMT_NUM>> m_assignVarWithAssignStmtNum;
-  std::list<AssignData> m_assignMapToVar;
+  std::unordered_map<VAR_INDEX, std::list<STMT_NUM>> m_assignVarWithAssignStmtNum;
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_assignVarNameWithAssignStmtNum;
   std::unordered_map<STMT_NUM, VAR_NAME> m_assignMapWithVar;
-
   LIST_OF_STMT_NUMS m_assignStmts;
 };

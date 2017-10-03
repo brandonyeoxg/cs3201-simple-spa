@@ -69,6 +69,7 @@ public:
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern01) {
+    PatternMatch::resetInstance();
     std::list<STMT_NUM> stmtNums, expected;
 
     PatternMatch::getInstance().addAssignStmt(1, { "x", "+", "y" });
@@ -86,13 +87,11 @@ public:
 
     stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("xMan");
     Assert::IsTrue((int)stmtNums.size() == 0);
-
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern02) {
     // test with trailing whitespaces, longer variable names
-
+    PatternMatch::resetInstance();
     std::list<STMT_NUM> stmtNums, expected;
 
     PatternMatch::getInstance().addAssignStmt(1, { "  chicken  ", "+", "peanut", "-", "duck" });
@@ -100,13 +99,11 @@ public:
     stmtNums = PatternMatch::getInstance().getAllStmtNumWithExactPattern("chicken+peanut-duck");
     expected = { 1, 2 };
     Assert::IsTrue(stmtNums == expected);
-
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_plus) {
     // simple expression with only plus
-
+    PatternMatch::resetInstance();
     std::list<STMT_NUM> stmtNums, expected;
 
     PatternMatch::getInstance().addAssignStmt(1, { "x", "+", "y", "+", "a", "+", "b" });
@@ -127,13 +124,11 @@ public:
     expected = {};
     stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("y + a");
     Assert::IsTrue(stmtNums == expected);
-
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_minusAndMultiply) {
     // singular expression with only minus and multiply
-
+    PatternMatch::resetInstance();
     std::list<STMT_NUM> stmtNums, expected;
 
     // acceptable patterns
@@ -162,13 +157,11 @@ public:
 
     stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("y * b");
     Assert::IsTrue(stmtNums == expected);
-
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_misc) {
     // test with trailing whitespaces, longer variable names
-
+    PatternMatch::resetInstance();
     std::list<STMT_NUM> stmtNums, expected;
 
     PatternMatch::getInstance().addAssignStmt(1, { "chicken", "+", "peanut   ", "  -   ", "duck" });
@@ -181,8 +174,6 @@ public:
     stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("   pokemon   ");
     expected = { 2, 3 };
     Assert::IsTrue(stmtNums == expected);
-
-    PatternMatch::resetInstance();
   }
 
 private:

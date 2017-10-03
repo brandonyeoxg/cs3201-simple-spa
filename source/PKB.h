@@ -67,25 +67,6 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines);
-
-  /**
-  * Inserts a variable that has been used.
-  * @param t_varName name of the variable that is used.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
-
-  /**
-  * Inserts a variable that has been modified.
-  * @param t_varName name of the variable being modified.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
   void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines);
 
@@ -118,19 +99,10 @@ public:
 
   /**
   * Inserts an assignment statement into the PKB
-  * @param t_parentNode reference to the parent node that the assignment statement belongs to.
-  * @param t_varNode reference to the variable node that is at this assignment statement.
-  * @param t_exprNode reference to the expr node of the assignment statement.
-  * @param t_curLineNum the current line that this assignment is at.
-  */
-  void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
-
-  /**
-  * Inserts an assignment statement into the PKB
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName);
 
   /**
   * Inserts a call statement into the PKB
@@ -348,7 +320,7 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt();
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt();
 
   /*
   * Returns all assignment statements in a representation.
@@ -368,19 +340,6 @@ public:
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
-
-  /**
-  * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * OLD METHOD, TO BE REMOVED
-  */
-  std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
-
-  /**
-  * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * OLD METHOD, TO BE REMOVED
-  */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
-
   /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
   *   NOTE: will assume expression is syntactically correct.
   *   @param t_stmtNum statement number

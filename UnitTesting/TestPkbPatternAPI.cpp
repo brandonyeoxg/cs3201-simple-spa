@@ -14,6 +14,7 @@ public:
     PkbWriteOnly * pkbWrite = new PKB();
     PkbReadOnly * pkbRead = new PKB();
     std::list<STMT_NUM> result, expected;
+    PatternMatch::resetInstance();
 
     // simple expression
     pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
@@ -39,14 +40,13 @@ public:
     expected = {};
     result = pkbRead->getAllAssignStmtByExactPattern("   xMan  ");
     Assert::IsTrue(result == expected);
-
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
     PkbWriteOnly * pkbWrite = new PKB();
     PkbReadOnly * pkbRead = new PKB();
     std::list<STMT_NUM> result, expected;
+    PatternMatch::resetInstance();
 
     pkbWrite->insertAssignStmtPattern(1, { "x", "*", "y", "+", "a", "+", "b" });
     pkbWrite->insertAssignStmtPattern(2, { "a", "*", "b", "+", "x", "*", "y" });
@@ -54,16 +54,14 @@ public:
     expected = { 1, 2, 3 };
     result = pkbRead->getAllAssignStmtBySubtreePattern(" x *  y   ");
     Assert::IsTrue(result == expected);
-
-    PatternMatch::resetInstance();
   }
 
   //TODO will need testing after insertAssignStmt done, with AST and nodes decoupled from PKB
   TEST_METHOD(insertAndExtractStmts_byVarAndExactPattern) {
-    //PKB * pkb = new PKB();
-    //PkbWriteOnly * pkbWrite = pkb;
-    //PkbReadOnly * pkbRead = pkb;
-    //std::list<STMT_NUM> result, expected;
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = pkb;
+    PkbReadOnly * pkbRead = pkb;
+    std::list<STMT_NUM> result, expected;
 
     //pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
     //pkbWrite->insertModifiedVariable("x", 1, {});
@@ -77,7 +75,7 @@ public:
 
     //Assert::IsTrue(result == expected);
 
-    //PatternMatch::resetInstance();
+    PatternMatch::resetInstance();
   }
 
 private:

@@ -60,24 +60,12 @@ PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
   return m_procTable->insertProc(t_procName);
 }
 
-VariableNode* PKB::insertModifiesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmLines) {
-  VAR_INDEX index = m_varTable->insertModifiesForStmt(t_varName, t_curLineNum);
-  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
-  return varNode;
-}
-
 void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
   std::list<STMT_NUM> t_nestedStmtLines) {
   insertModifiesForStmt(t_varName, t_curLineNum);
   for (auto& containerItr : t_nestedStmtLines) {
     insertModifiesForStmt(t_varName, containerItr);
   }
-}
-
-VariableNode* PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
-  VAR_INDEX index = m_varTable->insertUsesForStmt(t_varName, t_curLineNum);
-  VariableNode* varNode = m_builder.createVariable(t_curLineNum, t_varName, index);
-  return varNode;
 }
 
 void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
@@ -99,15 +87,11 @@ void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
-void PKB::insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) {
-  AssignNode* stmt = m_builder.buildAssignment(t_curLineNum, t_varNode, t_exprNode);
-  m_assignTable->insertAssignRelation(t_varNode->getVarIndex(), stmt);
-}
-
-void PKB::insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) {
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
   insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
-  m_assignTable->insertAssignStmt(t_lineNum);
+  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
@@ -388,7 +372,7 @@ AssignTable* PKB::getAssignTable() {
 std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
   if (varIdx == INVALID_INDEX) {
-    return std::list<STMT_NUM>();
+    return {};
   }
   return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
@@ -397,8 +381,8 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtList() {
   return m_assignTable->getAllAssignStmtList();
 }
 
-std::unordered_map<VAR_NAME, std::list<STMT_NUM>> PKB::getAllVarNameWithAssignStmt() {
-  return m_assignTable->getAllVarInWithAssignStmtNum();
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllVarNameWithAssignStmt() {
+  return m_assignTable->getAllAssignVarNameWithStmtNum();
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
@@ -424,46 +408,6 @@ ProcTable* PKB::getProcTable() {
 ///////////////////////////////////////////////////////
 //  Pattern methods
 ///////////////////////////////////////////////////////
-
-std::list<STMT_NUM> PKB::getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact) {
-  VAR_INDEX index = m_varTable->getIndexOfVar(t_varName);
-  if (index == INVALID_INDEX) {
-    return std::list<STMT_NUM>();
-  }
-  std::list<AssignData> aItr = m_assignTable->getAssignDataByVar(index);
-  if (aItr.empty()) {
-    return std::list<STMT_NUM>();
-  }
-  std::list<STMT_NUM> output;
-  for (auto& assignData : aItr) {
-    TNode* opNode = assignData.m_assignNode->getRightChild();
-    if (t_isExact && ASTUtilities::matchExact(opNode, pattern)) {
-      output.push_back(opNode->getLineNum());
-      continue;
-    }
-    if (!t_isExact && ASTUtilities::matchSubtree(opNode, pattern)) {
-      output.push_back(opNode->getLineNum());
-    }
-  }
-  return output;
-}
-
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact) {
-  std::unordered_map<STMT_NUM, VAR_NAME> output;
-  for (auto& aItr : m_assignTable->getAssignData()) {
-    TNode* oprNode = aItr.m_assignNode->getRightChild();
-    VAR_NAME varName = ((VariableNode*)aItr.m_assignNode->getLeftChild())->getVarName();
-    if (t_isExact && ASTUtilities::matchExact(oprNode, t_pattern)) {
-      output.emplace(aItr.m_assignStmt, varName);
-      continue;
-    }
-    if (!t_isExact && ASTUtilities::matchSubtree(oprNode, t_pattern)) {
-      output.emplace(aItr.m_assignStmt, varName);
-    }
-  }
-  return output;
-}
-
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
   return PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
 }
@@ -474,30 +418,24 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
-
   if (varIndex == INVALID_INDEX) {
     return {};
   }
-
   return m_assignTable->getAllAssignStmtListByVar(varIndex);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
   std::list<STMT_NUM> list = {};
   VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
-
   if (varIndex == INVALID_INDEX) {
     return list;
   }
-
-  std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
-
+  auto stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
   for (auto iterator : stmtNums) {
     if (PatternMatch::getInstance().isExactPatternInStmt(iterator, t_pattern)) {
       list.push_back(iterator);
     }
   }
-
   return list;
 }
 
