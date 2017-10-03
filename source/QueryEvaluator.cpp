@@ -31,8 +31,17 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
 
 std::vector<std::string> QueryEvaluator::formatVectorIntToVectorString(std::vector<int> t_vectorInt) {
   std::vector<std::string> vectorStr;
-  for (std::vector<int>::iterator getStmts = t_vectorInt.begin(); getStmts != t_vectorInt.end(); ++getStmts) {
-    vectorStr.push_back(std::to_string(*getStmts));
+  for (auto& x : t_vectorInt) {
+    vectorStr.push_back(std::to_string(x));
+  }
+
+  return vectorStr;
+}
+
+std::vector<std::string> QueryEvaluator::formatListStringToVectorString(std::list<std::string> t_listStr) {
+  std::vector<std::string> vectorStr;
+  for (auto& x : t_listStr) {
+    vectorStr.push_back(x);
   }
 
   return vectorStr;
@@ -86,29 +95,29 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     if (allVariables.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allVariables);
   } else if (t_select.getType() == queryType::GType::CONST) {
     std::list<std::string> constantsList = m_pkb->getAllConstants();
-    std::vector<std::string> allConstants;
-    for (auto& x : constantsList) {
-      allConstants.push_back(x);
-    }
-
+    std::vector<std::string> allConstants = formatListStringToVectorString(constantsList);
     if (allConstants.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allConstants);
   } else if (t_select.getType() == queryType::GType::PROC) {
     std::vector<std::string> allProcedures;// = m_pkb->getAllProcedures();
     if (allProcedures.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allProcedures);
   } else if (t_select.getType() == queryType::GType::ST_LST) {
     std::vector<std::string> allStmtLst;// = m_pkb->getAllStmtLst();
     if (allStmtLst.empty()) {
       return false;
     }
+
     storeSelectResultFromPkb(allStmtLst);
   }
 
