@@ -6,6 +6,9 @@
 #include "CallsTable.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
+#include "StatementTable.h"
+#include "ModifiesTable.h"
+#include "UsesTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor

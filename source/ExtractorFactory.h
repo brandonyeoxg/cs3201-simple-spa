@@ -7,7 +7,9 @@ namespace designExtractor {
     ASSIGN,
     CALLS,
     MODIFIESP,
-    USESP
+    USESP,
+    MODIFIES,
+    USES
   };
 }
 
