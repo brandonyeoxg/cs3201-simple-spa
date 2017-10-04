@@ -13,7 +13,7 @@ void UsesExtractor::populateUsesByCallStatements() {
   ProcTable* procTable = m_pkb->getProcTable();
   
   //get all call statements
-  LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL);
+  LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL); //unit test covered
 
   //for every call statement
   for (int i = 0; i < allCallStmts.size(); i++) {
