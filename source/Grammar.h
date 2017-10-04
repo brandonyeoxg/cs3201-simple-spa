@@ -138,7 +138,7 @@ public:
   * @param t_grammar The grammar object to be checked.
   * @return true if the grammar object is of GType STMT_NO else return false.
   */
-  bool isStmtNum(Grammar t_grammar);
+  bool isStmtNo(Grammar t_grammar);
 
   /**
   * A public function to check the GType of the grammar object.
@@ -155,6 +155,38 @@ public:
   * @return true if the grammar object is of GType BOOLEAN else return false.
   */
   bool isBoolean(Grammar t_grammar);
+
+  /**
+  * A public function to check the AType of the grammar object.
+  * It checks whether the given grammar object is of AType PROC_NAME.
+  * @param t_grammar The grammar object to be checked.
+  * @return true if the grammar object is of AType PROC_NAME else return false.
+  */
+  bool isProcName(Grammar t_grammar);
+
+  /**
+  * A public function to check the AType of the grammar object.
+  * It checks whether the given grammar object is of AType VAR_NAME.
+  * @param t_grammar The grammar object to be checked.
+  * @return true if the grammar object is of AType VAR_NAME else return false.
+  */
+  bool isVarName(Grammar t_grammar);
+
+  /**
+  * A public function to check the AType of the grammar object.
+  * It checks whether the given grammar object is of AType STMT_NUM.
+  * @param t_grammar The grammar object to be checked.
+  * @return true if the grammar object is of AType STMT_NUM else return false.
+  */
+  bool isStmtNum(Grammar t_grammar);
+
+  /**
+  * A public function to check the AType of the grammar object.
+  * It checks whether the given grammar object is of AType VALUE.
+  * @param t_grammar The grammar object to be checked.
+  * @return true if the grammar object is of AType VALUE else return false.
+  */
+  bool isValue(Grammar t_grammar);
 
 private:
   queryType::GType m_type; /**< type of this Grammar object */
