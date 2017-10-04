@@ -23,6 +23,7 @@
     <ClCompile Include="TestCallsTable.cpp" />
     <ClCompile Include="TestUsesTable.cpp" />
     <ClCompile Include="TestStmtListTable.cpp" />
+    <ClCompile Include="TestStatementTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

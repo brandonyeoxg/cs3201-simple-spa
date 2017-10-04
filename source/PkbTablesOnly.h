@@ -6,6 +6,9 @@
 #include "CallsTable.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
+#include "StatementTable.h"
+#include "ModifiesTable.h"
+#include "UsesTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor
@@ -22,4 +25,7 @@ public:
   virtual CallsTable* getCallsTable() = 0;
   virtual ModifiesP* getModifiesP() = 0;
   virtual UsesP* getUsesP() = 0;
+  virtual StatementTable* getStatementTable() = 0;
+  virtual ModifiesTable* getModifiesTable() = 0;
+  virtual UsesTable* getUsesTable() = 0;
 };

@@ -202,6 +202,12 @@
     <ClCompile Include="..\source\StmtListTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ModifiesExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -438,6 +444,12 @@
     </ClInclude>
     <ClInclude Include="..\source\StmtListTable.h">
       <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
