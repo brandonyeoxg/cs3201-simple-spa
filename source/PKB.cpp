@@ -92,6 +92,7 @@ void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_cur
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
   PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
   m_callsTable->insertCalls(proc1, t_proc2);
+  m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
