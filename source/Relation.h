@@ -48,99 +48,87 @@ public:
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType FOLLOWS.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType FOLLOWS.
   * @return true if the relation object is of RType FOLLOWS else return false.
   */
-  bool isFollows(Relation t_relation);
+  bool isFollows();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType FOLLOWS_.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType FOLLOWS_.
   * @return true if the relation object is of RType FOLLOWS_ else return false.
   */
-  bool isFollowsStar(Relation t_relation);
+  bool isFollowsStar();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType PARENT.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType PARENT.
   * @return true if the relation object is of RType PARENT else return false.
   */
-  bool isParent(Relation t_relation);
+  bool isParent();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType PARENT_.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType PARENT_.
   * @return true if the relation object is of RType PARENT_ else return false.
   */
-  bool isParentStar(Relation t_relation);
+  bool isParentStar();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType USES.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType USES.
   * @return true if the relation object is of RType USES else return false.
   */
-  bool isUses(Relation t_relation);
+  bool isUses();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType MODIFIES.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType MODIFIES.
   * @return true if the relation object is of RType MODIFIES else return false.
   */
-  bool isModifies(Relation t_relation);
+  bool isModifies();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType CALLS.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType CALLS.
   * @return true if the relation object is of RType CALLS else return false.
   */
-  bool isCalls(Relation t_relation);
+  bool isCalls();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType CALLS_.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType CALLS_.
   * @return true if the relation object is of RType CALLS_ else return false.
   */
-  bool isCallsStar(Relation t_relation);
+  bool isCallsStar();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType NEXT.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType NEXT.
   * @return true if the relation object is of RType NEXT else return false.
   */
-  bool isNext(Relation t_relation);
+  bool isNext();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType NEXT_.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType NEXT_.
   * @return true if the relation object is of RType NEXT_ else return false.
   */
-  bool isNextStar(Relation t_relation);
+  bool isNextStar();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType AFFECTS.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType AFFECTS.
   * @return true if the relation object is of RType AFFECTS else return false.
   */
-  bool isAffects(Relation t_relation);
+  bool isAffects();
 
   /**
   * A public function to check the RType of the relation object.
-  * It checks whether the given relation object is of RType AFFECTS_.
-  * @param t_relation The relation object to be checked.
+  * It checks whether the relation object is of RType AFFECTS_.
   * @return true if the relation object is of RType AFFECTS_ else return false.
   */
-  bool isAffectsStar(Relation t_relation);
+  bool isAffectsStar();
 
 private:
   queryType::RType m_type; /**< Represents the type of this Design Abstraction object */

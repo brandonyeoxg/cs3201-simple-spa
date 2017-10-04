@@ -50,50 +50,50 @@ Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   m_g2 = t_g2;
 }
 
-bool Relation::isFollows(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::FOLLOWS;
+bool Relation::isFollows() {
+  return this->getType() == queryType::RType::FOLLOWS;
 }
 
-bool Relation::isFollowsStar(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::FOLLOWS_;
+bool Relation::isFollowsStar() {
+  return this->getType() == queryType::RType::FOLLOWS_;
 }
 
-bool Relation::isParent(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::PARENT;
+bool Relation::isParent() {
+  return this->getType() == queryType::RType::PARENT;
 }
 
-bool Relation::isParentStar(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::PARENT_;
+bool Relation::isParentStar() {
+  return this->getType() == queryType::RType::PARENT_;
 }
 
-bool Relation::isUses(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::USES;
+bool Relation::isUses( ) {
+  return this->getType() == queryType::RType::USES;
 }
 
-bool Relation::isModifies(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::MODIFIES;
+bool Relation::isModifies() {
+  return this->getType() == queryType::RType::MODIFIES;
 }
 
-bool Relation::isCalls(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::CALLS;
+bool Relation::isCalls() {
+  return this->getType() == queryType::RType::CALLS;
 }
 
-bool Relation::isCallsStar(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::CALLS_;
+bool Relation::isCallsStar() {
+  return this->getType() == queryType::RType::CALLS_;
 }
 
-bool Relation::isNext(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::NEXT;
+bool Relation::isNext() {
+  return this->getType() == queryType::RType::NEXT;
 }
 
-bool Relation::isNextStar(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::NEXT_;
+bool Relation::isNextStar() {
+  return this->getType() == queryType::RType::NEXT_;
 }
 
-bool Relation::isAffects(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::AFFECTS;
+bool Relation::isAffects() {
+  return this->getType() == queryType::RType::AFFECTS;
 }
 
-bool Relation::isAffectsStar(Relation t_relation) {
-  return t_relation.getType() == queryType::RType::AFFECTS_;
+bool Relation::isAffectsStar() {
+  return this->getType() == queryType::RType::AFFECTS_;
 }
