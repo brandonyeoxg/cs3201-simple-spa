@@ -292,6 +292,10 @@ bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) 
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
+LIST_OF_STMT_NUMS PKB::getListOfStatements(queryType::GType t_type) {
+  return m_statementTable->getListOfStatements(t_type);
+}
+
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////

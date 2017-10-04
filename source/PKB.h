@@ -275,6 +275,7 @@ public:
   VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
   VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
   LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
   //  AssignTable

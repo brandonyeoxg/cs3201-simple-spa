@@ -54,3 +54,13 @@ bool StatementTable::insertStatementTypeTable(queryType::GType t_type, STMT_NUM 
     return true;
   }
 }
+
+LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
+  LIST_OF_STMT_NUMS emptyResult;
+  auto itr = m_statementTypeTable.find(t_type);
+  if (itr != m_statementTypeTable.end()) {
+    return itr->second;
+  } else {
+    return emptyResult;
+  }
+}

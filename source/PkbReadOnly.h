@@ -256,6 +256,8 @@ public:
   */
   virtual std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
 
+  virtual LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type) = 0;
+
   ///////////////////////////////////////////////////////
   //  VarTable 
   ///////////////////////////////////////////////////////
