@@ -78,6 +78,42 @@ bool QueryEvaluator::hasTwoSynonyms(Grammar t_g1, Grammar t_g2) {
   return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
 }
 
+bool QueryEvaluator::isAnythingWithAnyPattern(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
+}
+
+bool QueryEvaluator::isAnythingWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
+}
+
+bool QueryEvaluator::isAnythingWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
+}
+
+bool QueryEvaluator::isVarWithAnyPattern(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
+}
+
+bool QueryEvaluator::isVarWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
+}
+
+bool QueryEvaluator::isVarWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
+}
+
+bool QueryEvaluator::isSynonymWithAnyPattern(Grammar t_g1, Grammar t_g2) {
+  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
+}
+
+bool QueryEvaluator::isSynonymWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
+}
+
+bool QueryEvaluator::isSynonymWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
+  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
+}
+
 bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
   if (t_select.getType() != queryType::GType::PROC && t_select.getType() != queryType::GType::ST_LST && t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
     // Call the PKB API getStatementTypeTable().
@@ -221,24 +257,24 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   bool isExact = !t_pattern.isSubtree();
 
   // Get the respective evaluators to get the results of the pattern clauses
-  if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
-    result = eval->getAllStmtsWithAnyPattern(m_pkb, stmt, g1, g2); //Only underscores
-  } else if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && isExact) {
-    result = eval->getAllStmtsWithExactPattern(m_pkb, stmt, g1, g2); //underscore + STR
-  } else if (g1.getType() == queryType::GType::STR && g1.getName() == "_" && g2.getType() == queryType::GType::STR && !isExact) {
-    result = eval->getAllStmtsWithSubPattern(m_pkb, stmt, g1, g2); //underscore + _STR_
-  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
-    result = eval->getAllStmtsWithVarAndAnyPattern(m_pkb, stmt, g1, g2); //STR + underscore
-  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && g2.getName() == "_") {
-    result = eval->getAllStmtsAndVarWithAnyPattern(m_pkb, stmt, g1, g2); //VAR + underscore
-  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && isExact) {
-    result = eval->getAllStmtsWithVarAndExactPattern(m_pkb, stmt, g1, g2); //STR + STR
-  } else if (g1.getType() == queryType::GType::STR && g2.getType() == queryType::GType::STR && !isExact) {
-    result = eval->getAllStmtsWithVarAndSubPattern(m_pkb, stmt, g1, g2); //STR + _STR_
-  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && isExact) {
-    result = eval->getAllStmtsAndVarWithExactPattern(m_pkb, stmt, g1, g2); //VAR + STR
-  } else if (g1.getType() == queryType::GType::VAR && g2.getType() == queryType::GType::STR && !isExact) {
-    result = eval->getAllStmtsAndVarWithSubPattern(m_pkb, stmt, g1, g2); //VAR + _STR_
+  if (isAnythingWithAnyPattern(g1, g2)) {
+    result = eval->getAllStmtsWithAnyPattern(m_pkb, stmt, g1, g2);
+  } else if (isAnythingWithExactPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsWithExactPattern(m_pkb, stmt, g1, g2);
+  } else if (isAnythingWithSubPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsWithSubPattern(m_pkb, stmt, g1, g2);
+  } else if (isVarWithAnyPattern(g1, g2)) {
+    result = eval->getAllStmtsWithVarAndAnyPattern(m_pkb, stmt, g1, g2);
+  } else if (isSynonymWithAnyPattern(g1, g2)) {
+    result = eval->getAllStmtsAndVarWithAnyPattern(m_pkb, stmt, g1, g2);
+  } else if (isVarWithExactPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsWithVarAndExactPattern(m_pkb, stmt, g1, g2);
+  } else if (isVarWithSubPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsWithVarAndSubPattern(m_pkb, stmt, g1, g2);
+  } else if (isSynonymWithExactPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsAndVarWithExactPattern(m_pkb, stmt, g1, g2);
+  } else if (isSynonymWithSubPattern(g1, g2, isExact)) {
+    result = eval->getAllStmtsAndVarWithSubPattern(m_pkb, stmt, g1, g2);
   }
 
   delete eval;
