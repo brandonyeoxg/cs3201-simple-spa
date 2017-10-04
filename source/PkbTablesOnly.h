@@ -22,4 +22,7 @@ public:
   virtual CallsTable* getCallsTable() = 0;
   virtual ModifiesP* getModifiesP() = 0;
   virtual UsesP* getUsesP() = 0;
+  virtual StatementTable* getStatementTable() = 0;
+  virtual ModifiesTable* getModifiesTable() = 0;
+  virtual UsesTable* getUsesTable() = 0;
 };
