@@ -1,0 +1,290 @@
+1 - Calls Functionality Test
+stmt s; procedure p, q;
+Select s such that Calls(p,q)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+2 - Calls Functionality Test
+procedure p, q;
+Select p such that Calls(p,q)
+O, P, R, S
+5000
+3 - Calls Functionality Test
+stmt s; procedure q;
+Select s such that Calls("P",q)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+4 - Calls Functionality Test
+procedure p;
+Select p such that Calls(_,p)
+P, Q, R, S, T
+5000
+5 - Calls Functionality Test
+procedure p;
+Select p such that Calls(p,"Q")
+R
+5000
+6 - Calls Functionality Test
+procedure p;
+Select p such that Calls(p,_)
+O, P, R, S
+5000
+7 - Calls Invalid Test
+procedure p; stmtLst sl;
+Select p such that Calls(p, sl)
+none
+5000
+8 - Calls Invalid Test
+procedure p; stmt s;
+Select p such that Calls(p, s)
+none
+5000
+9 - Calls Invalid Test
+procedure p; assign a;
+Select p such that Calls(p, a)
+none
+5000
+10 - Calls Invalid Test
+procedure p; call c;
+Select p such that Calls(p, c)
+none
+5000
+11 - Calls Invalid Test
+procedure p; while w;
+Select p such that Calls(p, w)
+none
+5000
+12 - Calls Invalid Test
+procedure p; if ifs;
+Select p such that Calls(p, ifs)
+none
+5000
+13 - Calls Invalid Test
+procedure p; var v;
+Select p such that Calls(p, v)
+none
+5000
+14 - Calls Invalid Test
+procedure p; constant c;
+Select p such that Calls(p, c)
+none
+5000
+15 - Calls Invalid Test
+procedure p; prog_line pl;
+Select p such that Calls(p, pl)
+none
+5000
+16 - Calls Invalid Test
+procedure p;
+Select p such that Calls(p, 2)
+none
+5000
+17 - Calls Invalid Test
+procedure p; stmtLst sl;
+Select p such that Calls(sl, p)
+none
+5000
+18 - Calls Invalid Test
+procedure p; stmt s;
+Select p such that Calls(s, p)
+none
+5000
+19 - Calls Invalid Test
+procedure p; assign a;
+Select p such that Calls(a, p)
+none
+5000
+20 - Calls Invalid Test
+procedure p; call c;
+Select p such that Calls(c, p)
+none
+5000
+21 - Calls Invalid Test
+procedure p; while w;
+Select p such that Calls(w, p)
+none
+5000
+22 - Calls Invalid Test
+procedure p; if ifs;
+Select p such that Calls(ifs, p)
+none
+5000
+23 - Calls Invalid Test
+procedure p; var v;
+Select p such that Calls(v, p)
+none
+5000
+24 - Calls Invalid Test
+procedure p; constant c;
+Select p such that Calls(c, p)
+none
+5000
+25 - Calls Invalid Test
+procedure p; prog_line pl;
+Select p such that Calls(pl, p)
+none
+5000
+26 - Calls Invalid Test
+procedure p;
+Select p such that Calls(1, p)
+none
+5000
+27 - Calls Recursion Invalid Test
+procedure p;
+Select p such that Calls(p, p)
+none
+5000
+28 - Calls Recursion Invalid Test
+procedure p;
+Select p such that Calls("P", "P")
+none
+5000
+29 - Calls Relationship Test
+procedure p;
+Select p such that Calls(_, _)
+O, P, Q, R, S, T
+5000
+30 - Calls* Functionality Test
+stmt s; procedure p, q;
+Select s such that Calls*(p,q)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+31 - Calls* Functionality Test
+procedure p, q;
+Select p such that Calls*(p,q)
+O, P, R, S
+5000
+32 - Calls* Functionality Test
+stmt s; procedure q;
+Select s such that Calls*("P",q)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+33 - Calls* Functionality Test
+procedure p;
+Select p such that Calls*(_,p)
+P, Q, R, S, T
+5000
+34 - Calls* Functionality Test
+procedure p;
+Select p such that Calls*(p,"Q")
+O, P, R
+5000
+35 - Calls* Functionality Test
+procedure p;
+Select p such that Calls*(p,_)
+O, P, R, S
+5000
+36 - Calls* Invalid Test
+procedure p; stmtLst sl;
+Select p such that Calls*(p, sl)
+none
+5000
+37 - Calls* Invalid Test
+procedure p; stmt s;
+Select p such that Calls*(p, s)
+none
+5000
+38 - Calls* Invalid Test
+procedure p; assign a;
+Select p such that Calls*(p, a)
+none
+5000
+39 - Calls* Invalid Test
+procedure p; call c;
+Select p such that Calls*(p, c)
+none
+5000
+40 - Calls* Invalid Test
+procedure p; while w;
+Select p such that Calls*(p, w)
+none
+5000
+41 - Calls* Invalid Test
+procedure p; if ifs;
+Select p such that Calls*(p, ifs)
+none
+5000
+42 - Calls* Invalid Test
+procedure p; var v;
+Select p such that Calls*(p, v)
+none
+5000
+43 - Calls* Invalid Test
+procedure p; constant c;
+Select p such that Calls*(p, c)
+none
+5000
+44 - Calls* Invalid Test
+procedure p; prog_line pl;
+Select p such that Calls*(p, pl)
+none
+5000
+45 - Calls* Invalid Test
+procedure p;
+Select p such that Calls*(p, 2)
+none
+5000
+46 - Calls* Invalid Test
+procedure p; stmtLst sl;
+Select p such that Calls*(sl, p)
+none
+5000
+47 - Calls* Invalid Test
+procedure p; stmt s;
+Select p such that Calls*(s, p)
+none
+5000
+48 - Calls* Invalid Test
+procedure p; assign a;
+Select p such that Calls*(a, p)
+none
+5000
+49 - Calls* Invalid Test
+procedure p; call c;
+Select p such that Calls*(c, p)
+none
+5000
+50 - Calls* Invalid Test
+procedure p; while w;
+Select p such that Calls*(w, p)
+none
+5000
+51 - Calls* Invalid Test
+procedure p; if ifs;
+Select p such that Calls*(ifs, p)
+none
+5000
+52 - Calls* Invalid Test
+procedure p; var v;
+Select p such that Calls*(v, p)
+none
+5000
+53 - Calls* Invalid Test
+procedure p; constant c;
+Select p such that Calls*(c, p)
+none
+5000
+54 - Calls* Invalid Test
+procedure p; prog_line pl;
+Select p such that Calls*(pl, p)
+none
+5000
+55 - Calls* Invalid Test
+procedure p;
+Select p such that Calls*(1, p)
+none
+5000
+56 - Calls* Recursion Invalid Test
+procedure p;
+Select p such that Calls*(p, p)
+none
+5000
+57 - Calls* Recursion Invalid Test
+procedure p;
+Select p such that Calls*("P", "P")
+none
+5000
+58 - Calls* Relationship Test
+procedure p;
+Select p such that Calls*(_, _)
+O, P, Q, R, S, T
+5000

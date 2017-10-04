@@ -15,6 +15,7 @@
   int Grammar::PROGLN = 9;
   int Grammar::STMTNUM = 10;
   int Grammar::STR = 11;
+  int Grammar::BOOLEAN = 12;
 
   /**
    * A constructor.
@@ -47,6 +48,8 @@
       m_type = queryType::GType::STMT_NO;
     } else if (t_type == STR) {
       m_type = queryType::GType::STR;
+    } else if (t_type == BOOLEAN) {
+      m_type = queryType::GType::BOOLEAN;
     }
     m_name = t_name;
   }

@@ -3,31 +3,23 @@
 #include "AssignPatternEvaluator.h"
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> assignStmts = t_pkb->getAssignStmtByVarPattern(t_g1.getName(), t_g2.getName(), true);
+  std::list<int> assignStmts = t_pkb->getAllAssignStmtByVarAndExactPattern(t_g1.getName(), t_g2.getName());
   if (assignStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> assignStmts = t_pkb->getAssignStmtByVarPattern(t_g1.getName(), t_g2.getName(), false);
+  std::list<int> assignStmts = t_pkb->getAllAssignStmtByVarAndSubtreePattern(t_g1.getName(), t_g2.getName());
   if (assignStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -38,11 +30,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOn
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -53,11 +41,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithExactPattern(PkbReadOnly *
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -68,11 +52,7 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : assignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -83,42 +63,28 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_
     return m_result;
   }
 
-  std::vector<std::string> stmtVector;
-  for (auto& x : allAssignStmts) {
-    stmtVector.push_back(std::to_string(x));
-  }
-
+  std::vector<std::string> stmtVector = formatVectorIntToVectorStr(allAssignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtAndVarByPattern(t_g2.getName(), true);
+  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarByExactPattern(t_g2.getName());
   if (assignStmtsWithVar.empty()) {
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtAndVarByPattern(t_g2.getName(), false);
+  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarBySubtreePattern(t_g2.getName());
   if (assignStmtsWithVar.empty()) {
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }
 
@@ -128,11 +94,6 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOn
     return m_result;
   }
 
-  for (auto& x : assignStmtsWithVar) {
-    std::vector<std::string> varVector;
-    varVector.push_back(x.second);
-    m_result[std::to_string(x.first)] = varVector;
-  }
-
+  m_result = formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
   return m_result;
 }

@@ -4,38 +4,38 @@
 
 bool CallsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == "_") {
-    if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
-      //std::cout << "Followed By Anything!\n";
+    if (t_pkb->isCallsAnything(t_g1.getName())) {
+      //std::cout << "Calls Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow By Anything!\n";
+      //std::cout << "Does not Call Anything!\n";
       return false;
     }
   } else if (t_g1.getName() == "_") {
-    if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows Anything!\n";
+    if (t_pkb->isCalledByAnything(t_g2.getName())) {
+      //std::cout << "Called By Anything!\n";
       return true;
     } else {
-      //std::cout << "Does not Follow Anything!\n";
+      //std::cout << "Does not Called By Anything!\n";
       return false;
     }
   } else {
-    if (t_pkb->isFollows(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows: True\n";
+    if (t_pkb->isCallsStar(t_g1.getName(), t_g2.getName())) {
+      //std::cout << "Calls: True\n";
       return true;
     } else {
-      //std::cout << "Follows: False\n";
+      //std::cout << "Calls: False\n";
       return false;
     }
   }
 }
 
 bool CallsStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasFollowRelationship()) {
-    //std::cout << "Has Follows Relationship!\n";
+  if (t_pkb->hasCallsRelationship()) {
+    //std::cout << "Has Calls Relationship!\n";
     return true;
   } else {
-    //std::cout << "No Follows Relationship\n";
+    //std::cout << "No Calls Relationship\n";
     return false;
   }
 }
@@ -43,30 +43,20 @@ bool CallsStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Gramm
 SET_OF_RESULTS CallsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
-      //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
+  if (t_g1.getName() == "_") {
+    std::vector<std::string> procedures = t_pkb->getCalledByStarAnything();
+    if (procedures.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g2);
-    m_result[t_g2.getName()] = stmtVector;
-  } else if (t_g1.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
-    if (stmtIntVector.empty()) {
+    m_result[t_g2.getName()] = procedures;
+  } else if (t_g1.getType() == queryType::GType::STR) {
+    std::vector<std::string> procedures = t_pkb->getCallsStar(t_g1.getName());
+    if (procedures.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = filterStmts(typeOfStmts, x, t_g2);
-    }
-
-    m_result[t_g2.getName()] = stmtStrVector;
+    m_result[t_g2.getName()] = procedures;
   }
 
   return m_result;
@@ -75,30 +65,20 @@ SET_OF_RESULTS CallsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gram
 SET_OF_RESULTS CallsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
-      //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
+  if (t_g2.getName() == "_") {
+    std::vector<std::string> procedures = t_pkb->getCallsStarAnything();
+    if (procedures.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g1);
-    m_result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
-    if (stmtIntVector.empty()) {
+    m_result[t_g1.getName()] = procedures;
+  } else if (t_g2.getType() == queryType::GType::STR) {
+    std::vector<std::string> procedures = t_pkb->getCalledByStar(t_g2.getName());
+    if (procedures.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = filterStmts(typeOfStmts, x, t_g1);
-    }
-
-    m_result[t_g1.getName()] = stmtStrVector;
+    m_result[t_g1.getName()] = procedures;
   }
 
   return m_result;
@@ -107,15 +87,11 @@ SET_OF_RESULTS CallsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gramm
 SET_OF_RESULTS CallsStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
-  if (allFollows.empty()) {
+  std::unordered_map<std::string, std::vector<std::string>> allCallsStar = t_pkb->getAllCallsStar();
+  if (allCallsStar.empty()) {
     return m_result;
   }
 
-  for (auto& x : allFollows) {
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g2);
-    m_result[std::to_string(x.first)] = filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
-  }
-
+  m_result = allCallsStar;
   return m_result;
 }

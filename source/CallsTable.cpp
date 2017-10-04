@@ -256,17 +256,17 @@ void CallsTable::populateCalledByStarMap() {
   std::set<PROC_NAME> m_allCalledBy;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCallsMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCallsMap() {
   return m_callsMap;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCalledByMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByMap() {
   return m_calledByMap;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCallsStarMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCallsStarMap() {
   return m_callsStarMap;
 }
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCalledByStarMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByStarMap() {
   return m_calledByStarMap;
 }

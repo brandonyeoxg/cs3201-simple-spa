@@ -1,0 +1,100 @@
+39 - Select with Parent* and no synonyms - True
+stmt s;
+Select s such that Parent*(2,6)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+40 - Select with Parent* and no synonyms - False
+stmt s;
+Select s such that Parent*(3,5)
+none
+5000
+41 - Select with Parent* and 1 right synonym with no common - True
+stmt s1, s2;
+Select s1 such that Parent*(2,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+42 - Select with Parent* and 1 left synonym with no common - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+43 - Select with Parent* and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(2,s2)
+3, 4, 5, 6
+5000
+44 - Select with Parent* and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,6)
+2, 5
+5000
+45 - Select with Parent* and 2 synonyms with no common - True
+stmt s, s1, s2;
+Select s such that Parent*(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+46 - Select with Parent* and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,s2)
+2, 5, 9
+5000
+47 - Select with Parent* and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,s2)
+3, 4, 5, 6, 10, 11
+5000
+127 - Select with Parent* and 1 left underscore - True
+stmt s;
+Select s such that Parent*(_,6)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+128 - Select with Parent* and 1 left underscore - False
+stmt s;
+Select s such that Parent*(_,9)
+none
+5000
+129 - Select with Parent* and 1 right underscore - True
+stmt s1, s2;
+Select s1 such that Parent*(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+130 - Select with Parent* and 1 right underscore - False
+stmt s1, s2;
+Select s2 such that Parent*(6,_)
+none
+5000
+131 - Select with Parent* and 1 left underscore and 1 right synonym - True
+stmt s1, s2;
+Select s1 such that Parent*(_,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+132 - Select with Parent* and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+133 - Select with Parent* and 1 left underscore and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(_,s2)
+3, 4, 5, 6, 10, 11
+5000
+134 - Select with Parent* and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,_)
+2, 5, 9
+5000
+135 - Select with Parent* and 2 underscores - True
+stmt s1, s2; while w;
+Select w such that Parent*(_,_)
+2, 5, 9
+5000
+199 - Testing while statements with Parent* - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w2 such that Parent*(w1,w2)
+5
+5000
+200 - Testing assign and while statements with Parent* - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Parent*(w1,a)
+2, 5, 9
+5000

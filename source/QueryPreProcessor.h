@@ -138,6 +138,7 @@ private:
   static std::string VARIABLE;
   static std::string CONSTANT;
   static std::string PROG_LINE;
+  static std::string BOOLEAN;
 };
 
 #endif QUERYPREPROCESSOR_H
