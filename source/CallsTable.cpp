@@ -201,7 +201,7 @@ PROC_NAME CallsTable::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
   if (itr != m_callsStmtMap.end()) {
     return itr->second;
   } else {
-    return NULL;
+    throw std::invalid_argument("Statement Number does not exist in CallStmtMap");;
   }
 }
 
@@ -291,4 +291,8 @@ std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCallsStarMap()
 }
 std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByStarMap() {
   return m_calledByStarMap;
+}
+
+std::unordered_map<STMT_NUM, PROC_NAME>& CallsTable::getCallsStmtMap() {
+  return m_callsStmtMap;
 }

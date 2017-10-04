@@ -13,12 +13,12 @@ void UsesExtractor::populateUsesByCallStatements() {
   ProcTable* procTable = m_pkb->getProcTable();
   
   //get all call statements
-  LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL);
+  LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL); //test this
 
   //for every call statement
   for (int i = 0; i <= allCallStmts.size(); i++) {
     //1. Get proc name from call Stmt no.
-    PROC_NAME procName = callsTable->getProcNameFromCallStmtNum(allCallStmts[i]);
+    PROC_NAME procName = callsTable->getProcNameFromCallStmtNum(allCallStmts[i]); //test this
     //2. Get proc index from proc name.
     PROC_INDEX procIdx = procTable->getProcIdxFromName(procName);
     //3. Get list of var names involved for uses in the procedure.

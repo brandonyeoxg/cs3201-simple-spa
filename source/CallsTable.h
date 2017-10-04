@@ -43,6 +43,7 @@ public:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCalledByMap();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCallsStarMap();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCalledByStarMap();
+  std::unordered_map<STMT_NUM, PROC_NAME>& getCallsStmtMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
