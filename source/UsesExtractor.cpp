@@ -25,11 +25,15 @@ void UsesExtractor::populateUsesByCallStatements() {
     LIST_OF_VAR_NAMES listOfUsesVarNames = usesP->getVarNamesWithProcIdx(procIdx);
     LIST_OF_STMT_NUMS allParentStars = parentTable->getParentStarOf(allCallStmts[i]);
 
-    for (int j = 0; j < allParentStars.size(); j++) {
+    //populate the uses for the call stmt itself.
+    for (int j = 0; j < listOfUsesVarNames.size(); j++) {
+      usesTable->insertUsesForStmt(listOfUsesVarNames[j], allCallStmts[i]);
+    }
+    for (int k = 0; k < allParentStars.size(); k++) {
       //for every parent* of the statement
       //set all these varNames for parent*
-      for (int k = 0; k < listOfUsesVarNames.size(); k++) {
-        usesTable->insertUsesForStmt(listOfUsesVarNames[k], allParentStars[j]);
+      for (int l = 0; l < listOfUsesVarNames.size(); l++) {
+        usesTable->insertUsesForStmt(listOfUsesVarNames[l], allParentStars[k]);
       }
     }
   }
