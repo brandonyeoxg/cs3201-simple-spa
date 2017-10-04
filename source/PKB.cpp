@@ -40,21 +40,8 @@ PKB::~PKB() {
   delete m_modifiesP;
   delete m_usesP;
   delete m_stmtListTable;
-}
-
-///////////////////////////////////////////////////////
-//  Getter and Setter methods
-///////////////////////////////////////////////////////
-FollowTable* PKB:: getFollowTable() {
-  return m_followTable;
-}
-
-ParentTable* PKB:: getParentTable() {
-  return m_parentTable;
-}
-
-VarTable* PKB::getVarTable() {
-  return m_varTable;
+  delete m_modifiesTable;
+  delete m_usesTable;
 }
 
 ///////////////////////////////////////////////////////
@@ -105,6 +92,7 @@ void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_cur
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
   PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
   m_callsTable->insertCalls(proc1, t_proc2);
+  m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
@@ -147,6 +135,10 @@ bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t
 ///////////////////////////////////////////////////////
 //  FollowTable methods
 ///////////////////////////////////////////////////////
+FollowTable* PKB::getFollowTable() {
+  return m_followTable;
+}
+
 bool PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollows(t_s1, t_s2);
 }
@@ -201,6 +193,10 @@ bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
+
+ParentTable* PKB::getParentTable() {
+  return m_parentTable;
+}
 
 bool PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
@@ -275,8 +271,13 @@ bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
 }
 
 //////////////////////////////////////////////////////////
-//  statementTypeTable and typeOfStatementTable Methods
+//  StatementTable Methods
 //////////////////////////////////////////////////////////
+
+StatementTable* PKB::getStatementTable() {
+  return m_statementTable;
+}
+
 std::unordered_map<STMT_NUM, queryType::GType> PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
@@ -292,9 +293,17 @@ bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) 
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
+LIST_OF_STMT_NUMS PKB::getListOfStatements(queryType::GType t_type) {
+  return m_statementTable->getListOfStatements(t_type);
+}
+
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////
+
+VarTable* PKB::getVarTable() {
+  return m_varTable;
+}
 VAR_INDEX PKB::insertVar(VAR_NAME t_name) {
   return m_varTable->insertVar(t_name);
 }
@@ -336,7 +345,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
 }
 
 ///////////////////////////////////////////////////////
-//  ParentTable methods
+//  ConstantTable methods
 ///////////////////////////////////////////////////////
 
 
@@ -577,6 +586,9 @@ LIST_OF_PROC_NAMES& PKB::getUsesPAllProcNames() {
 ///////////////////////////////////////////////////////
 //  UsesTable methods
 ///////////////////////////////////////////////////////
+UsesTable* PKB::getUsesTable() {
+  return m_usesTable;
+}
 void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
   return m_usesTable->insertUsesForStmt(t_varName, t_lineNum);
 }
@@ -602,6 +614,9 @@ LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
 ///////////////////////////////////////////////////////
 //  ModifiesTable methods
 ///////////////////////////////////////////////////////
+ModifiesTable* PKB::getModifiesTable() {
+  return m_modifiesTable;
+}
 void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
   return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum);
 }

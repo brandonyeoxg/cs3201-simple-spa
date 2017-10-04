@@ -4,6 +4,8 @@
 #include "CallsExtractor.h"
 #include "ModifiesPExtractor.h"
 #include "UsesPExtractor.h"
+#include "ModifiesExtractor.h"
+#include "UsesExtractor.h"
 
 Extractor* ExtractorFactory::makeExtractor(designExtractor::designType t_type, PkbTablesOnly* t_pkb) {
   switch (t_type) {
@@ -17,6 +19,10 @@ Extractor* ExtractorFactory::makeExtractor(designExtractor::designType t_type, P
     return new ModifiesPExtractor(t_pkb);
   case designExtractor::designType::USESP:
     return new UsesPExtractor(t_pkb);
+  case designExtractor::designType::MODIFIES:
+    return new ModifiesExtractor(t_pkb);
+  case designExtractor::designType::USES:
+    return new UsesExtractor(t_pkb);
   }
   return nullptr;
 }

@@ -46,6 +46,90 @@ public:
   */
   Grammar getG2();
 
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType FOLLOWS.
+  * @return true if the relation object is of RType FOLLOWS else return false.
+  */
+  bool isFollows();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType FOLLOWS_.
+  * @return true if the relation object is of RType FOLLOWS_ else return false.
+  */
+  bool isFollowsStar();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType PARENT.
+  * @return true if the relation object is of RType PARENT else return false.
+  */
+  bool isParent();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType PARENT_.
+  * @return true if the relation object is of RType PARENT_ else return false.
+  */
+  bool isParentStar();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType USES.
+  * @return true if the relation object is of RType USES else return false.
+  */
+  bool isUses();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType MODIFIES.
+  * @return true if the relation object is of RType MODIFIES else return false.
+  */
+  bool isModifies();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType CALLS.
+  * @return true if the relation object is of RType CALLS else return false.
+  */
+  bool isCalls();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType CALLS_.
+  * @return true if the relation object is of RType CALLS_ else return false.
+  */
+  bool isCallsStar();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType NEXT.
+  * @return true if the relation object is of RType NEXT else return false.
+  */
+  bool isNext();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType NEXT_.
+  * @return true if the relation object is of RType NEXT_ else return false.
+  */
+  bool isNextStar();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType AFFECTS.
+  * @return true if the relation object is of RType AFFECTS else return false.
+  */
+  bool isAffects();
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the relation object is of RType AFFECTS_.
+  * @return true if the relation object is of RType AFFECTS_ else return false.
+  */
+  bool isAffectsStar();
+
 private:
   queryType::RType m_type; /**< Represents the type of this Design Abstraction object */
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */

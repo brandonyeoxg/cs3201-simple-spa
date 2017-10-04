@@ -261,7 +261,7 @@ public:
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
-
+  StatementTable* getStatementTable();
   std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
   bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
   std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
@@ -275,6 +275,7 @@ public:
   VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
   VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
   LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -442,6 +443,7 @@ public:
   ///////////////////////////////////////////////////////
   //  UsesTable methods
   ///////////////////////////////////////////////////////
+  UsesTable* getUsesTable();
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
   bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
@@ -453,6 +455,7 @@ public:
   ///////////////////////////////////////////////////////
   //  ModifiesTable methods
   ///////////////////////////////////////////////////////
+  ModifiesTable* getModifiesTable();
   void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
   bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
