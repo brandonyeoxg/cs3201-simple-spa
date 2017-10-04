@@ -46,6 +46,102 @@ public:
   */
   Grammar getG2();
 
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType FOLLOWS.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType FOLLOWS else return false.
+  */
+  bool isFollows(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType FOLLOWS_.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType FOLLOWS_ else return false.
+  */
+  bool isFollowsStar(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType PARENT.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType PARENT else return false.
+  */
+  bool isParent(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType PARENT_.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType PARENT_ else return false.
+  */
+  bool isParentStar(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType USES.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType USES else return false.
+  */
+  bool isUses(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType MODIFIES.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType MODIFIES else return false.
+  */
+  bool isModifies(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType CALLS.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType CALLS else return false.
+  */
+  bool isCalls(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType CALLS_.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType CALLS_ else return false.
+  */
+  bool isCallsStar(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType NEXT.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType NEXT else return false.
+  */
+  bool isNext(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType NEXT_.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType NEXT_ else return false.
+  */
+  bool isNextStar(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType AFFECTS.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType AFFECTS else return false.
+  */
+  bool isAffects(Relation t_relation);
+
+  /**
+  * A public function to check the RType of the relation object.
+  * It checks whether the given relation object is of RType AFFECTS_.
+  * @param t_relation The relation object to be checked.
+  * @return true if the relation object is of RType AFFECTS_ else return false.
+  */
+  bool isAffectsStar(Relation t_relation);
+
 private:
   queryType::RType m_type; /**< Represents the type of this Design Abstraction object */
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */
