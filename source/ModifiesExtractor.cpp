@@ -25,11 +25,15 @@ void ModifiesExtractor::populateModifiesByCallStatements() {
     LIST_OF_VAR_NAMES listOfModifiesVarNames = modifiesP->getVarNamesWithProcIdx(procIdx);
     LIST_OF_STMT_NUMS allParentStars = parentTable->getParentStarOf(allCallStmts[i]);
 
-    for (int j = 0; j < allParentStars.size(); j++) {
+    //populate the modifies for the call stmt itself.
+    for (int j = 0; j < listOfModifiesVarNames.size(); j++) {
+      modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[j], allCallStmts[i]);
+    }
+    for (int k = 0; k < allParentStars.size(); k++) {
       //for every parent* of the statement
       //set all these varNames for parent*
-      for (int k = 0; k < listOfModifiesVarNames.size(); k++) {
-        modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[k], allParentStars[j]);
+      for (int l = 0; l < listOfModifiesVarNames.size(); l++) {
+        modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[l], allParentStars[k]);
       }
     }
   }
