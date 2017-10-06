@@ -7,4 +7,5 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/validation
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-1-prog.txt %~dp0/Tests/new-tests/calls-test-1-queries.txt %~dp0/Output/calls-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-2-prog.txt %~dp0/Tests/new-tests/calls-test-2-queries.txt %~dp0/Output/calls-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-3-prog.txt %~dp0/Tests/new-tests/calls-test-3-queries.txt %~dp0/Output/calls-out3.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/regression-testcases/uses-modifies-prog.txt %~dp0/Tests/new-tests/regression-testcases/uses-modifies-queries.txt %~dp0/Output/uses-modifies-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/regression-testcases/simple-test-1-prog.txt %~dp0/Tests/new-tests/regression-testcases/uses-test-1-queries.txt %~dp0/Output/uses-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/regression-testcases/simple-test-1-prog.txt %~dp0/Tests/new-tests/regression-testcases/modifies-test-1-queries.txt %~dp0/Output/modifies-out1.xml
