@@ -34,11 +34,11 @@ std::vector<std::string> QueryEvaluator::filterKeyResults(std::unordered_map<int
 
   for (auto& x : t_results) {
     if (!x.second.empty()) {
-      if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::ASGN || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::WHILE || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::IF || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::CALL) {
+      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
+        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isIf(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isCall(t_typeOfStmts[std::stoi(x.first)])) {
           stmtVector.push_back(x.first);
         }
-      } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
+      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
         if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType) {
           stmtVector.push_back(x.first);
         }
@@ -56,11 +56,11 @@ std::vector<std::string> QueryEvaluator::filterValueResults(std::unordered_map<i
 
   for (auto& x : t_results) {
     for (auto& stmtNo : x.second) {
-      if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::ASGN || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::WHILE || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::IF || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::CALL) {
+      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
+        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isIf(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isCall(t_typeOfStmts[std::stoi(stmtNo)])) {
           stmtVector.push_back(stmtNo);
         }
-      } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
+      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
         if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType) {
           stmtVector.push_back(stmtNo);
         }
