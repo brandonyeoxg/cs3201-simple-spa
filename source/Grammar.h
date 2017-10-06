@@ -53,123 +53,140 @@ public:
   std::string getValue();
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType PROC.
-  * @return true if the grammar object is of GType PROC else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType PROC.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType PROC else return false.
   */
-  bool isProc();
+  static bool isProc(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType ST_LST.
-  * @return true if the grammar object is of GType ST_LST else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType ST_LST.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType ST_LST else return false.
   */
-  bool isStmtLst();
+  static bool isStmtLst(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType STMT.
-  * @return true if the grammar object is of GType STMT else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STMT.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STMT else return false.
   */
-  bool isStmt();
+  static bool isStmt(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType ASGN.
-  * @return true if the grammar object is of GType ASGN else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType ASGN.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType ASGN else return false.
   */
-  bool isAssign();
+  static bool isAssign(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType WHILE.
-  * @return true if the grammar object is of GType WHILE else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType WHILE.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType WHILE else return false.
   */
-  bool isWhile();
+  static bool isWhile(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType IF.
-  * @return true if the grammar object is of GType IF else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType IF.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType IF else return false.
   */
-  bool isIf();
+  static bool isIf(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType CALL.
-  * @return true if the grammar object is of GType CALL else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType CALL.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType CALL else return false.
   */
-  bool isCall();
+  static bool isCall(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType VAR.
-  * @return true if the grammar object is of GType VAR else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType VAR.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType VAR else return false.
   */
-  bool isVar();
+  static bool isVar(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType CONST.
-  * @return true if the grammar object is of GType CONST else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType CONST.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType CONST else return false.
   */
-  bool isConst();
+  static bool isConst(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType PROG_LINE.
-  * @return true if the grammar object is of GType PROG_LINE else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType PROG_LINE.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType PROG_LINE else return false.
   */
-  bool isProgLine();
+  static bool isProgLine(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType STMT_NO.
-  * @return true if the grammar object is of GType STMT_NO else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STMT_NO.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STMT_NO else return false.
   */
-  bool isStmtNo();
+  static bool isStmtNo(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType STR.
-  * @return true if the grammar object is of GType STR else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STR.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STR else return false.
   */
-  bool isString();
+  static bool isString(queryType::GType t_type);
 
   /**
-  * A public function to check the GType of the grammar object.
-  * It checks whether the grammar object is of GType BOOLEAN.
-  * @return true if the grammar object is of GType BOOLEAN else return false.
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType BOOLEAN.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType BOOLEAN else return false.
   */
-  bool isBoolean();
+  static bool isBoolean(queryType::GType t_type);
 
   /**
-  * A public function to check the AType of the grammar object.
-  * It checks whether the grammar object is of AType PROC_NAME.
-  * @return true if the grammar object is of AType PROC_NAME else return false.
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType PROC_NAME.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType PROC_NAME else return false.
   */
-  bool isProcName();
+  static bool isProcName(queryType::AType t_type);
 
   /**
-  * A public function to check the AType of the grammar object.
-  * It checks whether the grammar object is of AType VAR_NAME.
-  * @return true if the grammar object is of AType VAR_NAME else return false.
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType VAR_NAME.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType VAR_NAME else return false.
   */
-  bool isVarName();
+  static bool isVarName(queryType::AType t_type);
 
   /**
-  * A public function to check the AType of the grammar object.
-  * It checks whether the grammar object is of AType STMT_NUM.
-  * @return true if the grammar object is of AType STMT_NUM else return false.
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType STMT_NUM.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType STMT_NUM else return false.
   */
-  bool isStmtNum();
+  static bool isStmtNum(queryType::AType t_type);
 
   /**
-  * A public function to check the AType of the grammar object.
-  * It checks whether the grammar object is of AType VALUE.
-  * @return true if the grammar object is of AType VALUE else return false.
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType VALUE.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType VALUE else return false.
   */
-  bool isValue();
+  static bool isValue(queryType::AType t_type);
 
 private:
   queryType::GType m_type; /**< type of this Grammar object */

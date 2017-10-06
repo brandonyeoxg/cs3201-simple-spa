@@ -47,88 +47,100 @@ public:
   Grammar getG2();
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType FOLLOWS.
-  * @return true if the relation object is of RType FOLLOWS else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType FOLLOWS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType FOLLOWS else return false.
   */
-  bool isFollows();
+  static bool isFollows(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType FOLLOWS_.
-  * @return true if the relation object is of RType FOLLOWS_ else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType FOLLOWS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType FOLLOWS_ else return false.
   */
-  bool isFollowsStar();
+  static bool isFollowsStar(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType PARENT.
-  * @return true if the relation object is of RType PARENT else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType PARENT.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType PARENT else return false.
   */
-  bool isParent();
+  static bool isParent(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType PARENT_.
-  * @return true if the relation object is of RType PARENT_ else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType PARENT_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType PARENT_ else return false.
   */
-  bool isParentStar();
+  static bool isParentStar(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType USES.
-  * @return true if the relation object is of RType USES else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType USES.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType USES else return false.
   */
-  bool isUses();
+  static bool isUses(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType MODIFIES.
-  * @return true if the relation object is of RType MODIFIES else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType MODIFIES.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType MODIFIES else return false.
   */
-  bool isModifies();
+  static bool isModifies(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType CALLS.
-  * @return true if the relation object is of RType CALLS else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType CALLS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType CALLS else return false.
   */
-  bool isCalls();
+  static bool isCalls(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType CALLS_.
-  * @return true if the relation object is of RType CALLS_ else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType CALLS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType CALLS_ else return false.
   */
-  bool isCallsStar();
+  static bool isCallsStar(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType NEXT.
-  * @return true if the relation object is of RType NEXT else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType NEXT.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType NEXT else return false.
   */
-  bool isNext();
+  static bool isNext(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType NEXT_.
-  * @return true if the relation object is of RType NEXT_ else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType NEXT_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType NEXT_ else return false.
   */
-  bool isNextStar();
+  static bool isNextStar(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType AFFECTS.
-  * @return true if the relation object is of RType AFFECTS else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType AFFECTS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType AFFECTS else return false.
   */
-  bool isAffects();
+  static bool isAffects(queryType::RType t_type);
 
   /**
-  * A public function to check the RType of the relation object.
-  * It checks whether the relation object is of RType AFFECTS_.
-  * @return true if the relation object is of RType AFFECTS_ else return false.
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType AFFECTS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType AFFECTS_ else return false.
   */
-  bool isAffectsStar();
+  static bool isAffectsStar(queryType::RType t_type);
 
 private:
   queryType::RType m_type; /**< Represents the type of this Design Abstraction object */
