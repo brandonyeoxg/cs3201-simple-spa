@@ -83,3 +83,49 @@ prog_line pl1;
 Select pl1 such that Next(_,pl1)
 1, 2, 3, 4, 5, 6, 7, 8, 9
 5000
+14 - Next Invalid Test 1
+stmtLst sl; prog_line pl1;
+Select pl1 such that Next(pl1,sl)
+None
+5000
+15 - Next Invalid Test 2
+var v; prog_line pl1;
+Select pl1 such that Next(pl1,v)
+None
+14 - Next Invalid Test 3
+constant c; prog_line pl1;
+Select pl1 such that Next(pl1,c)
+None
+5000
+15 - Next Invalid Test 4
+prog_line pl1;
+Select pl1 such that Next(pl1,"a")
+None
+16 - Next Invalid Test 5
+procedure p; prog_line pl1;
+Select pl1 such that Next(pl1,p)
+None
+5000
+17 - Next Invalid Test 6
+stmtLst sl; prog_line pl1;
+Select pl1 such that Next(sl,pl1)
+None
+5000
+18 - Next Invalid Test 7
+var v; prog_line pl1;
+Select pl1 such that Next(v,pl1)
+None
+19 - Next Invalid Test 8
+constant c; prog_line pl1;
+Select pl1 such that Next(c,pl1)
+None
+5000
+20 - Next Invalid Test 9
+prog_line pl1;
+Select pl1 such that Next("a",pl1)
+None
+21 - Next Invalid Test 10
+procedure p; prog_line pl1;
+Select pl1 such that Next(p,pl1)
+None
+5000
