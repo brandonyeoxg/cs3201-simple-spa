@@ -1,0 +1,12 @@
+procedure Llama{
+  x=x+t;
+  if i{
+    y=y+3;}
+  else{
+    z=z+4;}
+  while j{
+    a=b+3;
+    b=c*2;
+    c=a-4;}
+  d=a+b*c-d
+}
