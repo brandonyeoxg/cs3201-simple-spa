@@ -1,0 +1,20 @@
+1 - Next Functionality Test
+stmt s; prog_line pl1, pl2;
+Select s such that Next(pl1,pl2)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+2 - Next Functionality Test
+prog_line pl1, pl2;
+Select pl1 such that Next(pl1,pl2)
+1, 2, 3, 4, 5, 6, 7, 8
+5000
+3 - Next Functionality Test
+stmt s; prog_line pl1;
+Select s such that Next(pl1,s)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+4 - Next Functionality Test
+prog_line pl1; assign a;
+Select pl1 such that Next(pl1,a)
+1, 2, 3, 4, 5, 6, 7, 8
+5000
