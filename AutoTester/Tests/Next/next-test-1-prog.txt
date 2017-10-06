@@ -9,4 +9,9 @@ procedure Llama{
     b=c*2;
     c=a-4;}
   d=a+b*c-d
+  call Alpaca;
+}
+
+procedure Alpaca{
+  a=x;
 }
