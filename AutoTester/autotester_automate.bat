@@ -1,6 +1,10 @@
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/simple-prog.txt %~dp0/simple-queries.txt %~dp0out.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/program/first-prog.txt %~dp0/query/test-1-queries.txt %~dp0out1.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/program/second-prog.txt %~dp0/query/test-2-queries.txt %~dp0out2.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/program/third-prog.txt %~dp0/query/test-3-queries.txt %~dp0out3.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/program/fourth-prog.txt %~dp0/query/test-4-queries.txt %~dp0out4.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/program/validation-prog.txt %~dp0/query/validation-queries.txt %~dp0out5.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/simple-prog.txt %~dp0/simple-queries.txt %~dp0/Output/out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/first-prog.txt %~dp0/Tests/old-tests/query/test-1-queries.txt %~dp0/Output/out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/second-prog.txt %~dp0/Tests/old-tests/query/test-2-queries.txt %~dp0/Output/out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/third-prog.txt %~dp0/Tests/old-tests/query/test-3-queries.txt %~dp0/Output/out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/fourth-prog.txt %~dp0/Tests/old-tests/query/test-4-queries.txt %~dp0/Output/out4.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/old-tests/program/validation-prog.txt %~dp0/Tests/old-tests/query/validation-queries.txt %~dp0/Output/validiation-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-1-prog.txt %~dp0/Tests/new-tests/calls-test-1-queries.txt %~dp0/Output/calls-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-2-prog.txt %~dp0/Tests/new-tests/calls-test-2-queries.txt %~dp0/Output/calls-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/calls-test-3-prog.txt %~dp0/Tests/new-tests/calls-test-3-queries.txt %~dp0/Output/calls-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/new-tests/regression-testcases/uses-modifies-prog.txt %~dp0/Tests/new-tests/regression-testcases/uses-modifies-queries.txt %~dp0/Output/uses-modifies-out.xml
