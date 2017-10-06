@@ -8,4 +8,5 @@ procedure Llama{
     a=b+3;
     b=c*2;
     c=a-4;}
+  d=a+b*c-d
 }
