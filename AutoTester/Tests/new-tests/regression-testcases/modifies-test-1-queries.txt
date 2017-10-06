@@ -91,7 +91,7 @@ main, second, fourth
 19 - Select with Modifies and 1 left synonym with 1 common - True
 stmt s; variable v; assign a;
 Select a such that Modifies(a,"life")
-24
+24, 31
 5000
 20 - Select with Modifies and 1 left synonym with 1 common - False
 stmt s; variable v;

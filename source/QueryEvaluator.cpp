@@ -29,6 +29,50 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
   }
 }
 
+std::vector<std::string> QueryEvaluator::filterKeyResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results) {
+  std::vector<std::string> stmtVector;
+
+  for (auto& x : t_results) {
+    if (!x.second.empty()) {
+      if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
+        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::ASGN || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::WHILE || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::IF || t_typeOfStmts[std::stoi(x.first)] == queryType::GType::CALL) {
+          stmtVector.push_back(x.first);
+        }
+      } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
+        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType) {
+          stmtVector.push_back(x.first);
+        }
+      } else {
+        stmtVector.push_back(x.first);
+      }
+    }
+  }
+
+  return stmtVector;
+}
+
+std::vector<std::string> QueryEvaluator::filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map <std::string, std::vector<std::string>> t_results) {
+  std::vector<std::string> stmtVector;
+
+  for (auto& x : t_results) {
+    for (auto& stmtNo : x.second) {
+      if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
+        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::ASGN || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::WHILE || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::IF || t_typeOfStmts[std::stoi(stmtNo)] == queryType::GType::CALL) {
+          stmtVector.push_back(stmtNo);
+        }
+      } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
+        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType) {
+          stmtVector.push_back(stmtNo);
+        }
+      } else {
+        stmtVector.push_back(stmtNo);
+      }
+    }
+  }
+
+  return stmtVector;
+}
+
 std::vector<std::string> QueryEvaluator::formatVectorIntToVectorString(std::vector<int> t_vectorInt) {
   std::vector<std::string> vectorStr;
   for (auto& x : t_vectorInt) {
@@ -434,39 +478,11 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
       //std::cout << "STMT_NO/_ SYNONYM\n";
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      for (auto& x : results) {
-        for (auto& y : x.second) {
-          if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-            if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-              finalResult.push_back(y);
-            }
-          } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-            if (typeOfStmts[stoi(y)] == m_selectedType) {
-              finalResult.push_back(y);
-            }
-          } else {
-            finalResult.push_back(y);
-          }
-        }
-      }
+      finalResult = filterValueResults(typeOfStmts, results);
     } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && (m_relations.front().getG2().getType() == queryType::GType::STMT_NO || m_relations.front().getG2().getType() == queryType::GType::STR)) {
       //std::cout << "SYNONYM STMT_NO/STR\n";
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      for (auto& x : results) {
-        for (auto& y : x.second) {
-          if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-            if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-              finalResult.push_back(y);
-            }
-          } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-            if (typeOfStmts[stoi(y)] == m_selectedType) {
-              finalResult.push_back(y);
-            }
-          } else {
-            finalResult.push_back(y);
-          }
-        }
-      }
+      finalResult = filterValueResults(typeOfStmts, results);
     } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
       //std::cout << "SYNONYM SYNONYM\n";
       std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
@@ -474,72 +490,16 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       if (m_relations.front().getG1().getName() == m_selectedSynonym) {
         //std::cout << "Selected Synonym 1: " << m_relations.front().getG1().getName() << "\n";
         if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          for (auto& x : results) {
-            for (auto& y : x.second) {
-              if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-                if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-                  finalResult.push_back(y);
-                }
-              } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-                if (typeOfStmts[stoi(y)] == m_selectedType) {
-                  finalResult.push_back(y);
-                }
-              } else {
-                finalResult.push_back(y);
-              }
-            }
-          }
+          finalResult = filterValueResults(typeOfStmts, results);
         } else {
-          for (auto& x : results) {
-            if (!x.second.empty()) {
-              if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-                if (typeOfStmts[stoi(x.first)] == m_selectedType || typeOfStmts[stoi(x.first)] == queryType::GType::ASGN || typeOfStmts[stoi(x.first)] == queryType::GType::WHILE || typeOfStmts[stoi(x.first)] == queryType::GType::IF || typeOfStmts[stoi(x.first)] == queryType::GType::CALL) {
-                  finalResult.push_back(x.first);
-                }
-              } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-                if (typeOfStmts[stoi(x.first)] == m_selectedType) {
-                  finalResult.push_back(x.first);
-                }
-              } else {
-                finalResult.push_back(x.first);
-              }
-            }
-          }
+          finalResult = filterKeyResults(typeOfStmts, results);
         }   
       } else if (m_relations.front().getG2().getName() == m_selectedSynonym) {
         //std::cout << "Selected Synonym 2: " << m_relations.front().getG2().getName() << "\n";
         if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          for (auto& x : results) {
-            if (!x.second.empty()) {
-              if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-                if (typeOfStmts[stoi(x.first)] == m_selectedType || typeOfStmts[stoi(x.first)] == queryType::GType::ASGN || typeOfStmts[stoi(x.first)] == queryType::GType::WHILE || typeOfStmts[stoi(x.first)] == queryType::GType::IF || typeOfStmts[stoi(x.first)] == queryType::GType::CALL) {
-                  finalResult.push_back(x.first);
-                }
-              } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-                if (typeOfStmts[stoi(x.first)] == m_selectedType) {
-                  finalResult.push_back(x.first);
-                }
-              } else {
-                finalResult.push_back(x.first);
-              }
-            }
-          }
+          finalResult = filterKeyResults(typeOfStmts, results);
         } else {
-          for (auto& x : results) {
-            for (auto& y : x.second) {
-              if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-                if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-                  finalResult.push_back(y);
-                }
-              } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-                if (typeOfStmts[stoi(y)] == m_selectedType) {
-                  finalResult.push_back(y);
-                }
-              } else {
-                finalResult.push_back(y);
-              }
-            }
-          }
+          finalResult = filterValueResults(typeOfStmts, results);
         }   
       }
     }
@@ -550,54 +510,14 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     //std::cout << "CASE 3\n";
     if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
       std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-      for (auto& x : results) {
-        for (auto& y : x.second) {
-          if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-            if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-              finalResult.push_back(y);
-            }
-          } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-            if (typeOfStmts[stoi(y)] == m_selectedType) {
-              finalResult.push_back(y);
-            }
-          } else {
-            finalResult.push_back(y);
-          }
-        }
-      }
+      finalResult = filterValueResults(typeOfStmts, results);
     } else if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
       if (m_patterns.front().getLeft().getName() == m_selectedSynonym) {
         std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-        for (auto& x : results) {
-          for (auto& y : x.second) {
-            if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-              if (typeOfStmts[stoi(y)] == m_selectedType || typeOfStmts[stoi(y)] == queryType::GType::ASGN || typeOfStmts[stoi(y)] == queryType::GType::WHILE || typeOfStmts[stoi(y)] == queryType::GType::IF || typeOfStmts[stoi(y)] == queryType::GType::CALL) {
-                finalResult.push_back(y);
-              }
-            } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-              if (typeOfStmts[stoi(y)] == m_selectedType) {
-                finalResult.push_back(y);
-              }
-            } else {
-              finalResult.push_back(y);
-            }
-          }
-        }
+        finalResult = filterValueResults(typeOfStmts, results);
       } else if (m_patterns.front().getStmt().getName() == m_selectedSynonym) {
         std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-        for (auto& x : results) {
-          if (m_selectedType == queryType::GType::STMT || m_selectedType == queryType::GType::PROG_LINE) {
-            if (typeOfStmts[stoi(x.first)] == m_selectedType || typeOfStmts[stoi(x.first)] == queryType::GType::ASGN || typeOfStmts[stoi(x.first)] == queryType::GType::WHILE || typeOfStmts[stoi(x.first)] == queryType::GType::IF || typeOfStmts[stoi(x.first)] == queryType::GType::CALL) {
-              finalResult.push_back(x.first);
-            }
-          } else if (m_selectedType == queryType::GType::ASGN || m_selectedType == queryType::GType::WHILE || m_selectedType == queryType::GType::IF || m_selectedType == queryType::GType::CALL) {
-            if (typeOfStmts[stoi(x.first)] == m_selectedType) {
-              finalResult.push_back(x.first);
-            }
-          } else {
-            finalResult.push_back(x.first);
-          }
-        }
+        finalResult = filterKeyResults(typeOfStmts, results);
       }
     }
 
