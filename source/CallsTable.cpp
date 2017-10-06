@@ -50,6 +50,18 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return true;
 }
 
+/*
+* Inserts a statement number to procedure name mapping into the callsStmtMap.
+*/
+bool CallsTable::insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc) {
+  auto itr = m_callsStmtMap.find(t_lineNum);
+  if (itr != m_callsStmtMap.end()) {
+    return false;
+  } else {
+    m_callsStmtMap.emplace(t_lineNum, t_proc);
+    return true;
+  }
+}
 bool CallsTable::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   //if proc1 doesn't exist in callsMap, returns false.
   if (m_callsMap.find(t_proc1) == m_callsMap.end()) {
@@ -184,6 +196,15 @@ bool CallsTable::isCalledByAnything(PROC_NAME t_proc2) {
   return (m_allCalledBy.find(t_proc2) != m_allCalledBy.end());
 }
 
+PROC_NAME CallsTable::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
+  auto itr = m_callsStmtMap.find(t_lineNum);
+  if (itr != m_callsStmtMap.end()) {
+    return itr->second;
+  } else {
+    throw std::invalid_argument("Statement Number does not exist in CallStmtMap");;
+  }
+}
+
 void CallsTable::populateCallsStarMap() {
   //for every key in callsMap
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
@@ -252,21 +273,26 @@ void CallsTable::populateCalledByStarMap() {
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
+  std::unordered_map<STMT_NUM, PROC_NAME> m_callsStmtMap;
   std::set<PROC_NAME> m_allCalls;
   std::set<PROC_NAME> m_allCalledBy;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCallsMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCallsMap() {
   return m_callsMap;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCalledByMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByMap() {
   return m_calledByMap;
 }
 
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCallsStarMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCallsStarMap() {
   return m_callsStarMap;
 }
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> CallsTable::getCalledByStarMap() {
+std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByStarMap() {
   return m_calledByStarMap;
+}
+
+std::unordered_map<STMT_NUM, PROC_NAME>& CallsTable::getCallsStmtMap() {
+  return m_callsStmtMap;
 }

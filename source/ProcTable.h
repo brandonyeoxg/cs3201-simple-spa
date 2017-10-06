@@ -41,7 +41,7 @@ public:
   /**
   * Reurns all procedure name in the program
   */
-  std::vector<PROC_NAME>& getAllProcName();
+  std::vector<PROC_NAME>& getAllProcsName();
 private:
   std::vector<PROC_NAME> m_procIdxToName;
   std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;

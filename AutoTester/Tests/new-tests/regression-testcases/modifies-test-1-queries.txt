@@ -1,0 +1,120 @@
+1 - Select with Modifies and no synonyms - True
+stmt s;
+Select s such that Modifies(24,"life")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32
+5000
+2 - Select with Modifies and no synonyms - False
+stmt s;
+Select s such that Modifies(24,"happiness")
+none
+5000
+3 - Select with Modifies and no synonyms - False for control variable in a container statement
+while w;
+Select w such that Modifies(23,"love")
+none
+5000
+4 - Select with Modifies and no synonyms - True for assign variable in a container statement
+if ifs;
+Select ifs such that Modifies(23,"life")
+23, 26
+5000
+5 - Select with Modifies and no synonyms - False for container statement
+while w;
+Select w such that Modifies(23,"happiness")
+none
+5000
+6 - Select with Modifies and no synonyms - False for control variable in nested if loops
+call c;
+Select c such that Modifies(23,"time")
+none
+5000
+7 - Select with Modifies and no synonyms - True for assign variable in nested if loops
+stmtLst sl;
+Select sl such that Modifies(23,"in")
+1, 3, 7, 13, 15, 18, 20, 22, 24, 27, 28, 30
+5000
+8 - Select with Modifies and no synonyms - False for nested if loops
+stmtLst sl;
+Select sl such that Modifies(23,"loveyou")
+none
+5000
+9 - Select with Modifies and 1 right synonym with no common - True for call statement
+stmt s; variable v;
+Select v such that Modifies(25,v)
+x, a, hello, hi
+5000
+10 - Select with Modifies and 1 right synonym with no common - True for container statement
+stmt s; variable v;
+Select v such that Modifies(23,v)
+life, is, in, x, a, hello, hi
+5000
+11 - Select with Modifies and 1 left synonym with no common - True
+stmt s; variable v;
+Select s such that Modifies(s,"hi")
+19, 23, 26, 29, 16, 25, 30, 21, 5, 8, 11, 2, 6
+5000
+12 - Select with Modifies and 1 left synonym with no common - False
+stmt s; variable v; if ifs;
+Select ifs such that Modifies(ifs,"Love")
+none
+5000
+13 - Select with Modifies and 1 right synonym with 1 common - True
+stmt s; variable v;
+Select v such that Modifies("second",v)
+x, hello, hi, a
+5000
+14 - Select with Modifies and 1 right synonym with 1 common - True for container statement
+stmt s; variable v;
+Select v such that Modifies("fourth",v)
+dear, I, life, x, a, hello, hi, is, in, loveyou
+5000
+15 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; while w;
+Select w such that Modifies(w,"life")
+21, 6, 2
+5000
+16 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; call c;
+Select c such that Modifies(c,"life")
+8
+5000
+17 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; if ifs;
+Select ifs such that Modifies(ifs,"life")
+23
+5000
+18 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; procedure p;
+Select p such that Modifies(p,"a")
+main, second, fourth
+5000
+19 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; assign a;
+Select a such that Modifies(a,"life")
+24, 31
+5000
+20 - Select with Modifies and 1 left synonym with 1 common - False
+stmt s; variable v;
+Select s such that Modifies(s,"column")
+none
+5000
+21 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v; procedure p;
+Select p such that Modifies("main","is")
+main, second, third, fourth
+5000
+22 - Select with Modifies and 2 synonyms with 0 common - True
+stmt s; call c; variable v;
+Select c such that Modifies(s,v)
+5, 8, 11, 16, 25, 29, 30
+5000
+23 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v; if ifs;
+Select ifs such that Modifies(ifs,v)
+23, 26
+5000
+24 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v; if ifs;
+Select v such that Modifies(ifs,v)
+life, is, in, x, a, hello, hi
+5000

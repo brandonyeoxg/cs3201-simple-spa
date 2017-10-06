@@ -9,7 +9,7 @@ std::vector<std::string> Evaluator::filterStmts(std::unordered_map<int, queryTyp
     if (t_typeOfStmts[t_stmtNo] == queryType::GType::STMT || t_typeOfStmts[t_stmtNo] == queryType::GType::PROG_LINE || t_typeOfStmts[t_stmtNo] == queryType::GType::ASGN || t_typeOfStmts[t_stmtNo] == queryType::GType::WHILE || t_typeOfStmts[t_stmtNo] == queryType::GType::IF || t_typeOfStmts[t_stmtNo] == queryType::GType::CALL) {
       stmtVector.push_back(std::to_string(t_stmtNo));
     }
-  } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_typeOfStmts[t_stmtNo] == queryType::GType::IF || t_typeOfStmts[t_stmtNo] == queryType::GType::CALL) {
+  } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_grammar.getType() == queryType::GType::IF || t_grammar.getType() == queryType::GType::CALL) {
     if (t_typeOfStmts[t_stmtNo] == t_grammar.getType()) {
       stmtVector.push_back(std::to_string(t_stmtNo));
     }
@@ -26,7 +26,7 @@ std::vector<std::string> Evaluator::filterStmts(std::unordered_map<int, queryTyp
       if (t_typeOfStmts[stmtNo] == queryType::GType::STMT || t_typeOfStmts[stmtNo] == queryType::GType::PROG_LINE || t_typeOfStmts[stmtNo] == queryType::GType::ASGN || t_typeOfStmts[stmtNo] == queryType::GType::WHILE || t_typeOfStmts[stmtNo] == queryType::GType::IF || t_typeOfStmts[stmtNo] == queryType::GType::CALL) {
         stmtVector.push_back(std::to_string(stmtNo));
       }
-    } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_typeOfStmts[stmtNo] == queryType::GType::IF || t_typeOfStmts[stmtNo] == queryType::GType::CALL) {
+    } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_grammar.getType() == queryType::GType::IF || t_grammar.getType() == queryType::GType::CALL) {
       if (t_typeOfStmts[stmtNo] == t_grammar.getType()) {
         stmtVector.push_back(std::to_string(stmtNo));
       }
@@ -43,7 +43,7 @@ std::vector<std::string> Evaluator::filterStmts(std::unordered_map<int, queryTyp
     if (t_typeOfStmts[t_stmtNo] == queryType::GType::STMT || t_typeOfStmts[t_stmtNo] == queryType::GType::PROG_LINE || t_typeOfStmts[t_stmtNo] == queryType::GType::ASGN || t_typeOfStmts[t_stmtNo] == queryType::GType::WHILE || t_typeOfStmts[t_stmtNo] == queryType::GType::IF || t_typeOfStmts[t_stmtNo] == queryType::GType::CALL) {
       result = t_stmtVector;
     }
-  } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_typeOfStmts[t_stmtNo] == queryType::GType::IF || t_typeOfStmts[t_stmtNo] == queryType::GType::CALL) {
+  } else if (t_grammar.getType() == queryType::GType::ASGN || t_grammar.getType() == queryType::GType::WHILE || t_grammar.getType() == queryType::GType::IF || t_grammar.getType() == queryType::GType::CALL) {
     if (t_typeOfStmts[t_stmtNo] == t_grammar.getType()) {
       result = t_stmtVector;
     }

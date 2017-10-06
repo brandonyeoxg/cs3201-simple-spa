@@ -1,0 +1,45 @@
+procedure main {
+  x=y+z+2+x+23;
+  while i {
+    x=y;
+    I = 0+ am + awesome + 32;
+	call second;
+	while j {
+	  a=b;
+	  call fourth;}}
+  z=y;
+  c=v;
+  call third;
+  while i {
+    x=y;
+    I = can+ do + it;}
+}
+
+procedure second {
+  x=y+z;
+  call third;
+  a=design;
+}
+
+procedure third {
+  hello=how+are+you;
+  hi=hihihi;
+}
+
+procedure fourth {
+  dear=friend;
+  while i {
+	I=Love+You;
+	if love then {
+	  life=happiness;
+	  call second;
+	  if time then {
+		is=precious;}
+	  else {
+		in=memorable;
+		call third;}}
+	else {
+	  call second;
+	  life=sadness;}}
+  loveyou=myfriend;
+}

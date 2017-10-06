@@ -46,6 +46,102 @@ public:
   */
   Grammar getG2();
 
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType FOLLOWS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType FOLLOWS else return false.
+  */
+  static bool isFollows(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType FOLLOWS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType FOLLOWS_ else return false.
+  */
+  static bool isFollowsStar(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType PARENT.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType PARENT else return false.
+  */
+  static bool isParent(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType PARENT_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType PARENT_ else return false.
+  */
+  static bool isParentStar(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType USES.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType USES else return false.
+  */
+  static bool isUses(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType MODIFIES.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType MODIFIES else return false.
+  */
+  static bool isModifies(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType CALLS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType CALLS else return false.
+  */
+  static bool isCalls(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType CALLS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType CALLS_ else return false.
+  */
+  static bool isCallsStar(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType NEXT.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType NEXT else return false.
+  */
+  static bool isNext(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType NEXT_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType NEXT_ else return false.
+  */
+  static bool isNextStar(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType AFFECTS.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType AFFECTS else return false.
+  */
+  static bool isAffects(queryType::RType t_type);
+
+  /**
+  * A public function to check the RType of the given RType.
+  * It checks whether the given RType is of RType AFFECTS_.
+  * @param t_type A RType to be checked.
+  * @return true if the given RType is of RType AFFECTS_ else return false.
+  */
+  static bool isAffectsStar(queryType::RType t_type);
+
 private:
   queryType::RType m_type; /**< Represents the type of this Design Abstraction object */
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */
@@ -56,6 +152,12 @@ private:
   static std::string PRT_;
   static std::string USE;
   static std::string MDF;
+  static std::string CLS;
+  static std::string CLS_;
+  static std::string NXT;
+  static std::string NXT_;
+  static std::string AFS;
+  static std::string AFS_;
 
 };
 

@@ -46,25 +46,6 @@ public:
   */
   virtual bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) = 0;
 
-  /** Deprecated, after pattern matcher in this is to be removed.
-  * Inserts a variable that has been modified.
-  * @param t_varName name of the variable being modified.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  virtual VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines) = 0;
-
-  /** Deprecated, after pattern matcher in this is to be removed.
-  * Inserts a variable that has been used.
-  * @param t_varName name of the variable that is used.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  virtual VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
-
   /**
   * Inserts a variable that has been modified.
   * @param t_varName name of the variable being modified.
@@ -108,14 +89,12 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  virtual void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum) = 0;
-
-  virtual void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens) = 0;
+  virtual void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) = 0;
 
   /**
   * Inserts a call statement into the PKB
   */
-  virtual void insertCallStmt(STMT_NUM t_lineNum) = 0;
+  virtual void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum) = 0;
 
   /**
   * Inserts a while statement into the PKB.
@@ -135,14 +114,6 @@ public:
   */
   virtual STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum) = 0;
 
-  /** Deprecated to be removed once patter matcher is done
-  * Inserts a constant into the PKB.
-  * @param t_constVal the constant to be added in string form.
-  * @param t_curLineNum the current line of the constant.
-  * @return a reference to the constant node.
-  */
-  virtual ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum) = 0;
-
   /**
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
@@ -151,28 +122,22 @@ public:
   */
   virtual void insertConstant(CONSTANT_TERM t_constVal) = 0;
 
-  /**
-  * Returns a plus operator.
-  * @param t_left the node to the left.
-  * @param t_right the node to the right.
-  * @param t_curLineNum the current line number.
-  * @return a reference to the plus node subtree.
+  virtual void insertStmtList(STMT_NUM t_line) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Pattern Matching
+  ///////////////////////////////////////////////////////
+
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   Meaning, for assignment "x = x + y", only pass in "x + y" in t_stmtTokens.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
   */
-  virtual PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum) = 0;
-
-  ///////////////////////////////////////////////////////
-  //  Design Extractor methods 
-  ///////////////////////////////////////////////////////
-  virtual void populateParentStarMap() = 0;
-  
-  virtual void populateParentedByStarMap() = 0;
-
-  virtual void populateAssignTableAbstractions() = 0;
-
-  virtual void populateCallsStarMaps() = 0;
+  virtual void insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) = 0;
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
-  virtual bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
-  
+
 };

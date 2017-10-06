@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+
 #include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -16,19 +17,25 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
+#include "PatternMatch.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
+#include "PkbTablesOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
+#include "UsesTable.h"
+#include "ModifiesTable.h"
+#include "StmtListTable.h"
 
 class TNode;
 
-class PKB: public PkbWriteOnly, public PkbReadOnly {
+class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
   ~PKB();
+
   ///////////////////////////////////////////////////////
   //  PKB building methods
   ///////////////////////////////////////////////////////
@@ -55,25 +62,6 @@ public:
   * @return true if the table is successfully added.
   */
   bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
-
-  /**
-  * Inserts a variable that has been modified.
-  * @param t_varName name of the variable being modified.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  VariableNode* insertModifiesVariable(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines);
-
-  /**
-  * Inserts a variable that has been used.
-  * @param t_varName name of the variable that is used.
-  * @param t_curLineNum the current line of the variable.
-  * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
-  * @return a reference of the variable node.
-  */
-  VariableNode* insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been modified.
@@ -114,24 +102,15 @@ public:
 
   /**
   * Inserts an assignment statement into the PKB
-  * @param t_parentNode reference to the parent node that the assignment statement belongs to.
-  * @param t_varNode reference to the variable node that is at this assignment statement.
-  * @param t_exprNode reference to the expr node of the assignment statement.
-  * @param t_curLineNum the current line that this assignment is at.
-  */
-  void insertAssignStmt(VariableNode* t_varNode, TNode* t_exprNode, int t_curLineNum);
-
-  /**
-  * Inserts an assignment statement into the PKB
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, const LIST_OF_TOKENS& t_tokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName);
 
   /**
   * Inserts a call statement into the PKB
   */
-  void insertCallStmt(STMT_NUM t_lineNum);
+  void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum);
 
   /**
   * Inserts a while statement into the PKB.
@@ -157,24 +136,9 @@ public:
   * @param t_curLineNum the current line of the constant.
   * @return a reference to the constant node.
   */
-  ConstantNode* insertConstant(std::string t_constVal, int t_curLineNum);
-
-  /**
-  * Inserts a constant into the PKB.
-  * @param t_constVal the constant to be added in string form.
-  * @param t_curLineNum the current line of the constant.
-  * @return a reference to the constant node.
-  */
   void insertConstant(CONSTANT_TERM t_constVal);
 
-  /**
-  * Returns a plus operator.
-  * @param t_left the node to the left.
-  * @param t_right the node to the right.
-  * @param t_curLineNum the current line number.
-  * @return a reference to the plus node subtree.
-  */
-  PlusNode* insertPlusOp(TNode* t_left, TNode* t_right, int t_curLineNum);
+  void insertStmtList(STMT_NUM t_line);
   ///////////////////////////////////////////////////////
   //  FollowTable methods
   ///////////////////////////////////////////////////////
@@ -275,8 +239,6 @@ public:
   //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
-  void populateParentStarMap();
-  void populateParentedByStarMap();
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
   bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
   STMT_NUM getParentOf(STMT_NUM t_s2);
@@ -299,7 +261,7 @@ public:
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
-
+  StatementTable* getStatementTable();
   std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
   bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
   std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
@@ -309,23 +271,11 @@ public:
   //  VarTable methods
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
-  STMT_NUM insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  STMT_NUM insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  bool isModifies(STMT_NUM t_lineNum, std::string t_varName);
-  bool isUses(STMT_NUM t_lineNum, std::string t_varName);
-  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
-  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName);
-  LIST_OF_STMT_NUMS getStmtUses(std::string t_varName);
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies();
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses();
-  STMT_NUM getIndexOfVar(std::string t_varName);
-  std::string getVarNameFromIndex(STMT_NUM t_index);
-  bool isModifiesAnything(STMT_NUM t_lineNum);
-  bool isUsesAnything(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifiesAnything();
-  LIST_OF_STMT_NUMS getStmtUsesAnything();
-  LIST_OF_VAR_NAMES getAllVariables();
+  VAR_INDEX insertVar(VAR_NAME t_name);
+  VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+  VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -346,25 +296,22 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  std::unordered_map<std::string, std::list<STMT_NUM>> getAllVarNameWithAssignStmt();
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt();
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
-
-  /*
-  * Populates the rest of the representation in the assignment table.
-  * This method is to be called in the design extractor.
-  */
-  void populateAssignTableAbstractions();
-
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
   ProcTable* getProcTable();
 
+  /**
+  * Returns all procedure name in the program
+  */
+  std::vector<PROC_NAME>& getAllProcsName();
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
@@ -373,30 +320,18 @@ public:
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
-
-  /**
-  * Pattern a("x", "y") or Pattern a("x", _"y"_).
-  * Gets list of statements with exact pattern match on right hand side, and a given variable name on the left hand side.
-  * @param t_varName variable name to be matched.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
+  /** Inserts an assignment statement's right-hand side expression into PatternMatch for subsequent pattern matching.
+  *   NOTE: will assume expression is syntactically correct.
+  *   @param t_stmtNum statement number
+  *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
+  *   @author jazlyn
   */
-  std::list<STMT_NUM> getAssignStmtByVarPattern(std::string t_varName, std::string pattern, bool t_isExact); /*< Pattern a("x", "y") or Pattern a("x", _"y"_)*/
-
-  /**
-  * Pattern a(v,"y") or Pattern a(v, _"y"_).
-  * Gets a statement number mapping to a variable.
-  * @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  * @param t_isExact if it is true a("x", "y") else a("x", _"y"_). *Subject to change in later versions*.
-  * @return list of statement numbers with match
-  */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtAndVarByPattern(std::string t_pattern, bool t_isExact); /* Pattern a(v,"y") or Pattern a(v, _"y"_)*/
+  void insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern);
@@ -404,15 +339,69 @@ public:
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
-  *   @return list of statement numbers with match
+  *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern);
 
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", _""_).
+  *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
+  *   @param t_varName name of variable on left hand side
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", "y + x").
+  *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** Pattern a("x", _"y + x"_).
+  *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
+  *   @param t_varName name of the variable modified in assignment statement
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x+y"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** variable v; Pattern a(v, "x + y + h").
+  *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+
+  // TODO need testing after insert assignment statement implemented
+
+  /** variable v; Pattern a(v, _"x + y + h"_).
+  *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
+  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @author jazlyn
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
-  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  CallsTable* getCallsTable();
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
@@ -428,11 +417,11 @@ public:
   bool hasCallsRelationship();  //calls(_, _)
   bool isCallsAnything(PROC_NAME t_proc1);
   bool isCalledByAnything(PROC_NAME t_proc2);
-  void populateCallsStarMaps();
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
+  ModifiesP* getModifiesP();
   bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
@@ -443,6 +432,7 @@ public:
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
+  UsesP* getUsesP();
   bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
   bool isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
@@ -450,6 +440,33 @@ public:
   MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar(); /*< Modifies(p, x) */
   LIST_OF_PROC_NAMES& getUsesPAllProcNames(); /*< Modifies(p, _) */
 
+  ///////////////////////////////////////////////////////
+  //  UsesTable methods
+  ///////////////////////////////////////////////////////
+  UsesTable* getUsesTable();
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
+  bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
+  LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+
+  ///////////////////////////////////////////////////////
+  //  ModifiesTable methods
+  ///////////////////////////////////////////////////////
+  ModifiesTable* getModifiesTable();
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtModifies();
+  bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
+  LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
+
+  //  StmtListTable
+  ///////////////////////////////////////////////////////
+  LIST_OF_STMT_NUMS& getStmtList();
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -461,6 +478,9 @@ private:
   ModifiesP* m_modifiesP;
   UsesP* m_usesP;
   CallsTable* m_callsTable;
+  UsesTable* m_usesTable;
+  ModifiesTable* m_modifiesTable;
+  StmtListTable* m_stmtListTable;
 
   ASTBuilder m_builder;
 };

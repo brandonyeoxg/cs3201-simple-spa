@@ -28,7 +28,7 @@
 * Takes in the query in the form of 3 queues which stores all the synonyms being selected,
 * all the such that clauses and all the pattern clauses.
 * @author Verbena
-* @date 05/09/2017
+* @date 03/10/2017
 */
 class QueryEvaluator {
 public:
@@ -63,11 +63,182 @@ public:
   std::vector<std::string> evaluateQuery();
 
   /**
+  * A public function to filter the keys by the GType.
+  * It will filter the keys of the results by the GType.
+  * @param t_typeOfStmts A map of all the statements in the simple source program with its type of statement.
+  * @param t_results A map of results to be filtered.
+  * @return a result filtered by the GType in a string vector.
+  */
+  std::vector<std::string> filterKeyResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results);
+
+  /**
+  * A public function to filter the values by the GType.
+  * It will filter the values of the results by the GType.
+  * @param t_typeOfStmts A map of all the statements in the simple source program with its type of statement.
+  * @param t_results A map of results to be filtered.
+  * @return a result filtered by the GType in a string vector.
+  */
+  std::vector<std::string> filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results);
+
+  /**
   * A public function to format integer vector to string vector.
   * Given a vector of integers, it will format it into a vector of strings.
   * @return the contents of a vector of integers in a vector of strings.
   */
   std::vector<std::string> formatVectorIntToVectorString(std::vector<int> t_vectorInt);
+
+  /**
+  * A public function to format string list to string vector.
+  * Given a list of strings, it will format it into a vector of strings.
+  * @return the contents of a list of string in a vector of strings.
+  */
+  std::vector<std::string> formatListStringToVectorString(std::list<std::string> t_listStr);
+
+  /**
+  * A public function to check if both parameters are underscores.
+  * Given two parameters, it will check if both parameters are underscores.
+  * @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  * @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  * @return true if both parameters are underscores else return false.
+  */
+  bool isAllUnderscores(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if both parameters are not synonyms.
+  * Given two parameters, it will check if both parameters are not synonyms.
+  * @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  * @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  * @return true if both parameters are not synonyms else return false.
+  */
+  bool hasNoSynonyms(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if only the second paramter is a synonym.
+  * Given two parameters, it will check if the first parameter is not a synonym
+  * and the second parameter is a synonym.
+  * @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  * @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  * @return true if only the second parameter is a synonym else return false.
+  */
+  bool hasOneRightSynonym(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if only the first paramter is a synonym.
+  * Given two parameters, it will check if the first parameter is a synonym
+  * and the second parameter is not a synonym.
+  * @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  * @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  * @return true if only the first parameter is a synonym else return false.
+  */
+  bool hasOneLeftSynonym(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if both paramters are synonyms.
+  * Given two parameters, it will check if both parameters are synonyms.
+  * @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  * @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  * @return true if both parameters are synonyms else return false.
+  */
+  bool hasTwoSynonyms(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if the pattern clause is anything with any pattern.
+  * Given the pattern parameters, it will check if both parameters are underscores.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @return true if both parameters are underscores.
+  */
+  bool isAnythingWithAnyPattern(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if the pattern clause is anything with an exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is true.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is true.
+  */
+  bool isAnythingWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is false.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is false.
+  */
+  bool isAnythingWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the pattern clause is anything with any pattern.
+  * Given the pattern parameters, it will check if both parameters are underscores.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @return true if both parameters are underscores.
+  */
+  bool isVarWithAnyPattern(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if the pattern clause is anything with an exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is true.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is true.
+  */
+  bool isVarWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is false.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is false.
+  */
+  bool isVarWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the pattern clause is anything with any pattern.
+  * Given the pattern parameters, it will check if both parameters are underscores.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @return true if both parameters are underscores.
+  */
+  bool isSynonymWithAnyPattern(Grammar t_g1, Grammar t_g2);
+
+  /**
+  * A public function to check if the pattern clause is anything with an exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is true.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is true.
+  */
+  bool isSynonymWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * Given the pattern parameters, it will check if the first parameter is underscore
+  * and the second parameter is a string and the third parameter is false.
+  * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
+  * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
+  * @param t_isExact A boolean to indicate whether the pattern has to be an exact match.
+  * @return true if the first parameter is underscore and the second parameter is a string
+  * and the third parameter is false.
+  */
+  bool isSynonymWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */

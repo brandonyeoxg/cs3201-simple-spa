@@ -13,9 +13,10 @@ namespace UnitTesting {
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
+    std::unordered_map<STMT_NUM, PROC_NAME> m_testCallsStmtMap;
 
   public:
-    TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator) {
+    TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
       m_callsTable = new CallsTable();
       m_testCallsMap = {
         { "ATLANTA",{ "BOSTON", "CLEVELAND" } },  
@@ -38,16 +39,30 @@ namespace UnitTesting {
         { "BOSTON",{ "ATLANTA", "CLEVELAND", "DENVER" } },
         { "CLEVELAND",{ "DENVER", "ATLANTA" } }
       };
+
+      m_testCallsStmtMap = {
+        {2, "BOSTON"},
+        {3, "BOSTON"},
+        {5, "CLEVELAND"},
+        {7, "CLEVELAND"}
+      };
       m_callsTable->insertCalls("ATLANTA", "BOSTON");
+      m_callsTable->insertCallsStmt(2, "BOSTON");
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
+      m_callsTable->insertCallsStmt(3, "BOSTON");
       m_callsTable->insertCalls("DENVER", "CLEVELAND");
+      m_callsTable->insertCallsStmt(5, "CLEVELAND");
       m_callsTable->insertCalls("ATLANTA", "CLEVELAND");
+      m_callsTable->insertCallsStmt(7, "CLEVELAND");
       m_callsTable->populateCallsStarMap();
       m_callsTable->populateCalledByStarMap();
     }
     TEST_METHOD(TestInsertCalls) {
       Assert::IsTrue(m_callsTable->getCallsMap() == m_testCallsMap);
       Assert::IsTrue(m_callsTable->getCalledByMap() == m_testCalledByMap);
+    }
+    TEST_METHOD(TestInsertCallsStmt) {
+      Assert::IsTrue(m_callsTable->getCallsStmtMap() == m_testCallsStmtMap);
     }
     TEST_METHOD(TestIsCalls) {
       bool expected = m_callsTable->isCalls("ATLANTA", "BOSTON");
@@ -63,6 +78,21 @@ namespace UnitTesting {
       //non-existent proc2
       expected = m_callsTable->isCalls("ATLANTA", "WASHINGTON");
       Assert::IsFalse(expected);
+    }
+
+    TEST_METHOD(TestGetProcNameFromCallStmtNum) {
+      PROC_NAME expected = "BOSTON";
+      Assert::IsTrue(expected == m_callsTable->getProcNameFromCallStmtNum(2));
+      Assert::IsTrue(expected == m_callsTable->getProcNameFromCallStmtNum(3));
+      bool exceptionThrown = false;
+      try {
+        expected = m_callsTable->getProcNameFromCallStmtNum(9);
+      } catch (std::invalid_argument) {
+        Logger::WriteMessage("Exception thrown in getProcNameFromCallStmtNum");
+        exceptionThrown = true;
+      }
+      Assert::IsTrue(exceptionThrown);
+      
     }
 
     TEST_METHOD(TestGetCalls) {
