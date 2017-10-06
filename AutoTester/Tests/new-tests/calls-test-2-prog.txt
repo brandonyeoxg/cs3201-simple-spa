@@ -3,7 +3,7 @@ procedure O{
 }
 
 procedure P {
-  if x{
+  if x then{
     call R;}
   else{
     call S;}
