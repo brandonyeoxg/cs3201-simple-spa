@@ -87,8 +87,8 @@ std::string Grammar::getValue() { return m_value; }
 * It checks whether the grammar object is of GType PROC.
 * @return true if the grammar object is of GType PROC else return false.
 */
-bool Grammar::isProc() {
-  return this->getType() == queryType::GType::PROC;
+bool Grammar::isProc(queryType::GType t_type) {
+  return t_type == queryType::GType::PROC;
 }
 
 /**
@@ -96,8 +96,8 @@ bool Grammar::isProc() {
 * It checks whether the grammar object is of GType ST_LST.
 * @return true if the grammar object is of GType ST_LST else return false.
 */
-bool Grammar::isStmtLst() {
-  return this->getType() == queryType::GType::ST_LST;
+bool Grammar::isStmtLst(queryType::GType t_type) {
+  return t_type == queryType::GType::ST_LST;
 }
 
 /**
@@ -105,8 +105,8 @@ bool Grammar::isStmtLst() {
 * It checks whether the grammar object is of GType STMT.
 * @return true if the grammar object is of GType STMT else return false.
 */
-bool Grammar::isStmt() {
-  return this->getType() == queryType::GType::STMT;
+bool Grammar::isStmt(queryType::GType t_type) {
+  return t_type == queryType::GType::STMT;
 }
 
 /**
@@ -114,8 +114,8 @@ bool Grammar::isStmt() {
 * It checks whether the grammar object is of GType ASGN.
 * @return true if the grammar object is of GType ASGN else return false.
 */
-bool Grammar::isAssign() {
-  return this->getType() == queryType::GType::ASGN;
+bool Grammar::isAssign(queryType::GType t_type) {
+  return t_type == queryType::GType::ASGN;
 }
 
 /**
@@ -123,8 +123,8 @@ bool Grammar::isAssign() {
 * It checks whether the grammar object is of GType WHILE.
 * @return true if the grammar object is of GType WHILE else return false.
 */
-bool Grammar::isWhile() {
-  return this->getType() == queryType::GType::WHILE;
+bool Grammar::isWhile(queryType::GType t_type) {
+  return t_type == queryType::GType::WHILE;
 }
 
 /**
@@ -132,8 +132,8 @@ bool Grammar::isWhile() {
 * It checks whether the grammar object is of GType IF.
 * @return true if the grammar object is of GType IF else return false.
 */
-bool Grammar::isIf() {
-  return this->getType() == queryType::GType::IF;
+bool Grammar::isIf(queryType::GType t_type) {
+  return t_type == queryType::GType::IF;
 }
 
 /**
@@ -141,8 +141,8 @@ bool Grammar::isIf() {
 * It checks whether the grammar object is of GType CALL.
 * @return true if the grammar object is of GType CALL else return false.
 */
-bool Grammar::isCall() {
-  return this->getType() == queryType::GType::CALL;
+bool Grammar::isCall(queryType::GType t_type) {
+  return t_type == queryType::GType::CALL;
 }
 
 /**
@@ -150,8 +150,8 @@ bool Grammar::isCall() {
 * It checks whether the grammar object is of GType VAR.
 * @return true if the grammar object is of GType VAR else return false.
 */
-bool Grammar::isVar() {
-  return this->getType() == queryType::GType::VAR;
+bool Grammar::isVar(queryType::GType t_type) {
+  return t_type == queryType::GType::VAR;
 }
 
 /**
@@ -159,8 +159,8 @@ bool Grammar::isVar() {
 * It checks whether the grammar object is of GType CONST.
 * @return true if the grammar object is of GType CONST else return false.
 */
-bool Grammar::isConst() {
-  return this->getType() == queryType::GType::CONST;
+bool Grammar::isConst(queryType::GType t_type) {
+  return t_type == queryType::GType::CONST;
 }
 
 /**
@@ -168,8 +168,8 @@ bool Grammar::isConst() {
 * It checks whether the grammar object is of GType PROG_LINE.
 * @return true if the grammar object is of GType PROG_LINE else return false.
 */
-bool Grammar::isProgLine() {
-  return this->getType() == queryType::GType::PROG_LINE;
+bool Grammar::isProgLine(queryType::GType t_type) {
+  return t_type == queryType::GType::PROG_LINE;
 }
 
 /**
@@ -177,8 +177,8 @@ bool Grammar::isProgLine() {
 * It checks whether the grammar object is of GType STMT_NO.
 * @return true if the grammar object is of GType STMT_NO else return false.
 */
-bool Grammar::isStmtNo() {
-  return this->getType() == queryType::GType::STMT_NO;
+bool Grammar::isStmtNo(queryType::GType t_type) {
+  return t_type == queryType::GType::STMT_NO;
 }
 
 /**
@@ -186,8 +186,8 @@ bool Grammar::isStmtNo() {
 * It checks whether the grammar object is of GType STR.
 * @return true if the grammar object is of GType STR else return false.
 */
-bool Grammar::isString() {
-  return this->getType() == queryType::GType::STR;
+bool Grammar::isString(queryType::GType t_type) {
+  return t_type == queryType::GType::STR;
 }
 
 /**
@@ -195,8 +195,8 @@ bool Grammar::isString() {
 * It checks whether the grammar object is of GType BOOLEAN.
 * @return true if the grammar object is of GType BOOLEAN else return false.
 */
-bool Grammar::isBoolean() {
-  return this->getType() == queryType::GType::BOOLEAN;
+bool Grammar::isBoolean(queryType::GType t_type) {
+  return t_type == queryType::GType::BOOLEAN;
 }
 
 /**
@@ -204,8 +204,8 @@ bool Grammar::isBoolean() {
 * It checks whether the grammar object is of AType PROC_NAME.
 * @return true if the grammar object is of AType PROC_NAME else return false.
 */
-bool Grammar::isProcName() {
-  return this->getAttr() == queryType::AType::PROC_NAME;
+bool Grammar::isProcName(queryType::AType t_type) {
+  return t_type == queryType::AType::PROC_NAME;
 }
 
 /**
@@ -213,8 +213,8 @@ bool Grammar::isProcName() {
 * It checks whether the grammar object is of AType VAR_NAME.
 * @return true if the grammar object is of AType VAR_NAME else return false.
 */
-bool Grammar::isVarName() {
-  return this->getAttr() == queryType::AType::VAR_NAME;
+bool Grammar::isVarName(queryType::AType t_type) {
+  return t_type == queryType::AType::VAR_NAME;
 }
 
 /**
@@ -222,8 +222,8 @@ bool Grammar::isVarName() {
 * It checks whether the given object is of AType STMT_NUM.
 * @return true if the grammar object is of AType STMT_NUM else return false.
 */
-bool Grammar::isStmtNum() {
-  return this->getAttr() == queryType::AType::STMT_NUM;
+bool Grammar::isStmtNum(queryType::AType t_type) {
+  return t_type == queryType::AType::STMT_NUM;
 }
 
 /**
@@ -231,6 +231,6 @@ bool Grammar::isStmtNum() {
 * It checks whether the grammar object is of AType VALUE.
 * @return true if the grammar object is of AType VALUE else return false.
 */
-bool Grammar::isValue() {
-  return this->getAttr() == queryType::AType::VALUE;
+bool Grammar::isValue(queryType::AType t_type) {
+  return t_type == queryType::AType::VALUE;
 }

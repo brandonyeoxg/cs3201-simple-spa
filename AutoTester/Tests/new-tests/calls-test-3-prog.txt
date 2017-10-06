@@ -2,7 +2,7 @@ procedure OMG{
 call PuT1n;}
 
 procedure PuT1n {
-                          if x{
+                          if x then{
                                                       call Re55uR3kT;
  call T4uRU5;}
                                         else{
@@ -29,22 +29,22 @@ BR4nD0N =    w111 + n0T * R34d - tH15 + 4nywAy;
         }
 
 procedure uNd3RwE4R{
-                                                      if x{
+                                                      if x then{
                                                                                      while y{
-                           if y2{
-                                                                                                       if z{
+                           if y2 then{
+                                                                                                       if z then{
                                       call T4uRU5;}
                                                                  else{
                          while e{
-                                                                                                            if f{
-      if g{
+                                                                                                            if f then{
+      if g then{
                                       call Qw0P;}
               else{
-                           call Re55uR3kT;}
+                           call Re55uR3kT;}}
                                                                         else{
-                                                                                        InF1n1T3 = p0w3R;}}}
+                                                                                        InF1n1T3 = p0w3R;}}}}
                                                     else{
-                                                                                               call Qw0P;}}
+                                                                                               call Qw0P;}}}
                                                                               else{
                                                                                                        call OMG;}
 }
