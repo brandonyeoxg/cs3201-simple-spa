@@ -36,7 +36,7 @@ Select ifs
 8 - Select Functionality Test
 variable v;
 Select v
-a, b, c
+a, b, c, i, j
 5000
 9 - Select Functionality Test
 prog_line pl;
