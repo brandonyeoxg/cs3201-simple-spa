@@ -79,6 +79,8 @@ private:
   std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
   std::unordered_map<STMT_NUM, std::vector<std::string>> * assignStmtsSubtrees;  /**< Vector of all subtree strings mapped to statement number */
   
+  std::vector<std::string> generate(std::vector<std::string> t_tokens, std::vector<std::string> * t_subtreeStrings);
+
   std::vector<std::string> generateSubtreeStrings(std::vector<std::string> t_tokens, std::vector<std::string> t_subtreeStrings, int t_startIndex, int t_endIndex);
   std::vector<std::string> processBrackets(std::vector<std::string> t_tokens, std::vector<std::string> * t_subtreeStrings, int t_startIndex, int t_endIndex);
   int findLastOperatorIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);

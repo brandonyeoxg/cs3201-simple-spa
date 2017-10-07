@@ -16,7 +16,7 @@ void PatternMatch::resetInstance() {
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
 
-  assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
+  //assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
 
   std::string stmtStr = "";
   for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
@@ -77,12 +77,58 @@ bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_patt
 }
 
 std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens) {
-  return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
+  //return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
+  std::vector<std::string> results = std::vector<std::string>();
+  generate(t_tokens, &results);
+  return results;
 }
 
 PatternMatch::PatternMatch() {
   assignStmts = new std::unordered_map<STMT_NUM, std::string>();
   assignStmtsSubtrees = new std::unordered_map<STMT_NUM, std::vector<std::string>>();
+}
+
+std::vector<std::string> PatternMatch::generate(std::vector<std::string> t_tokens, std::vector<std::string>* t_subtreeStrings) {
+  std::vector<std::string> buffer = std::vector<std::string>();
+  std::vector<std::string> bracketExpression = std::vector<std::string>();
+
+  int i = 0;
+
+  while ( i < t_tokens.size() ) {
+    if (t_tokens.at(i) == BRACKET_OPEN) {
+
+      while (t_tokens.at(i) != BRACKET_CLOSE) {
+        bracketExpression.push_back(t_tokens.at(i));
+        i++;
+      }
+
+      std::vector<std::string> expressionToConvert = std::vector<std::string>();
+      int k = bracketExpression.size() - 1;
+      while (bracketExpression.at(k) != BRACKET_OPEN) {
+        k--;
+      }
+
+      expressionToConvert = std::vector<std::string>(bracketExpression.begin() + k + 1, bracketExpression.end());
+
+      expressionToConvert.insert(expressionToConvert.begin(), "(");
+      expressionToConvert.push_back(")");
+
+      std::string str = convertVectorToStringWithIndex(expressionToConvert, 0, expressionToConvert.size());
+      
+      bracketExpression.erase(bracketExpression.begin() + k + 1, bracketExpression.end());
+      bracketExpression.push_back(str);
+    } else if (t_tokens.at(i) != BRACKET_CLOSE) {
+      buffer.push_back(t_tokens.at(i));
+    }
+
+    i++;
+  }
+  
+  buffer.insert(buffer.end(), bracketExpression.begin(), bracketExpression.end());
+
+  addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(buffer, 0, buffer.size()));
+
+  return buffer;
 }
 
 // recursive function to generate subtree strings
@@ -100,16 +146,7 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
   int lastCloseBracket = findLastCloseBracketIndex(t_startIndex, t_endIndex, t_tokens);
 
   if (firstOpenBracket != INVALID_INDEX && lastCloseBracket != INVALID_INDEX) {
-    std::vector<std::string> newTokens = processBrackets(t_tokens, &t_subtreeStrings, t_startIndex, t_endIndex);
-    //if ((int)newTokens.size() != 0) {
-    //  //t_tokens = newTokens;
-    //  int newEndIndex = t_endIndex;
-    //  if ((int)newTokens.size() < newEndIndex) {
-    //    newEndIndex = newTokens.size();
-    //  }
-    //  addStrIfNotDuplicate(&t_subtreeStrings, convertVectorToStringWithIndex(newTokens, t_startIndex, newEndIndex));
-
-    //}
+    processBrackets(t_tokens, &t_subtreeStrings, t_startIndex, t_endIndex);
   }
 
   
@@ -219,11 +256,6 @@ bool PatternMatch::isStrPlusOrMinus(std::string t_str) {
 /** Given a vector of strings and start and end index, converts to a single string */
 std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string> t_vector, int t_startIndex, int t_endIndex) {
   std::string str = "";
-  
-  //while (t_vector.at(t_startIndex) == BRACKET_OPEN && t_vector.at(t_endIndex-1) == BRACKET_CLOSE) {
-  //  t_startIndex++;
-  //  t_endIndex--;
-  //}
 
   for (int i = t_startIndex; i < t_endIndex; i++) {
     str += t_vector.at(i);
