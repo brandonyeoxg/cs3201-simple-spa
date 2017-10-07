@@ -51,7 +51,7 @@ love, happiness, time, precious, memorable, sadness, y, z, design, how, are, you
 11 - Select with Uses and 1 left synonym with no common - True
 stmt s; variable v;
 Select s such that Uses(s,"hihihi")
-19, 16, 25, 23, 22, 5, 2, 8, 6, 11, 29, 26
+19, 16, 25, 23, 21, 5, 2, 8, 6, 11, 29, 26, 30
 5000
 12 - Select with Uses and 1 left synonym with no common - False
 stmt s; variable v;
