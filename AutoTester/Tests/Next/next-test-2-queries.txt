@@ -1,87 +1,87 @@
 1 - Next Functionality Test
 stmt s; prog_line pl1, pl2;
 Select s such that Next(pl1,pl2)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 5000
 2 - Next Functionality Test
 prog_line pl1, pl2;
 Select pl1 such that Next(pl1,pl2)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 3 - Next Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next(pl1,s)
-
+2, 3, 4, 5, 6, 7, 8, 9, 11, 13
 5000
 4 - Next Functionality Test
 assign a; prog_line pl1;
 Select a such that Next(pl1,a)
-
+3, 5, 6, 7, 8, 11
 5000
 5 - Next Functionality Test
 while w; prog_line pl1;
 Select w such that Next(pl1,w)
-
+None
 5000
 6 - Next Functionality Test
 if ifs; prog_line pl1;
 Select ifs such that Next(pl1,ifs)
-
+2
 5000
 7 - Next Functionality Test
 call c; prog_line pl1;
 Select c such that Next(pl1,c)
-
+4, 9
 5000
 8 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(pl1,2)
-
+1
 5000
 9 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(pl1,_)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 10 - Next Functionality Test - 2 Integers
 prog_line pl1;
 Select pl1 such that Next(1,2)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 5000
 11 - Next Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next(s,pl1)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 12 - Next Functionality Test
 assign a; prog_line pl1;
 Select a such that Next(a,pl1)
-
+3, 5, 6, 7, 8, 12
 5000
 13 - Next Functionality Test
 while w; prog_line pl1;
 Select pl1 such that Next(w,pl1)
-
+1
 5000
 14 - Next Functionality Test
 if ifs; prog_line pl1;
 Select pl1 such that Next(ifs,pl1)
-
+2
 5000
 15 - Next Functionality Test
 call c; prog_line pl1;
 Select pl1 such that Next(c,pl1)
-None
+4
 5000
 16 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(2,pl1)
-3, 4
+3, 7
 5000
 17 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(_,pl1)
-1, 2, 3, 4, 5, 6, 7, 8, 9
+2, 3, 4, 5, 6, 7, 8, 9, 11, 13
 5000
 18 - Next Invalid Test 1
 stmtLst sl; prog_line pl1;
@@ -136,87 +136,87 @@ None
 28 - Next* Functionality Test
 stmt s; prog_line pl1, pl2;
 Select s such that Next*(pl1,pl2)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 5000
 29 - Next* Functionality Test
 prog_line pl1, pl2;
 Select pl1 such that Next*(pl1,pl2)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 30 - Next* Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next*(pl1,s)
-
+2, 3, 4, 5, 6, 7, 8, 9, 11, 13
 5000
 31 - Next* Functionality Test
 assign a; prog_line pl1;
 Select a such that Next*(pl1,a)
-
+3, 5, 6, 7, 8, 11
 5000
 32 - Next* Functionality Test
 while w; prog_line pl1;
 Select w such that Next*(pl1,w)
-
+None
 5000
 33 - Next* Functionality Test
 if ifs; prog_line pl1;
 Select ifs such that Next*(pl1,ifs)
-
+2
 5000
 34 - Next* Functionality Test
 call c; prog_line pl1;
 Select c such that Next*(pl1,c)
-
+4, 9
 5000
 35 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(pl1,2)
-
+1
 5000
 36 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(pl1,_)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 37 - Next* Functionality Test - 2 Integers
 prog_line pl1;
 Select pl1 such that Next*(1,3)
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 5000
 38 - Next* Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next*(s,pl1)
-
+1, 2, 3, 4, 5, 6, 7, 8, 10, 12
 5000
 39 - Next* Functionality Test
 assign a; prog_line pl1;
 Select a such that Next*(a,pl1)
-
+3, 4, 5, 6, 7, 8, 12
 5000
 40 - Next* Functionality Test
 while w; prog_line pl1;
 Select pl1 such that Next*(w,pl1)
-
+2, 3, 4, 5, 6, 7, 8, 9
 5000
 41 - Next* Functionality Test
 if ifs; prog_line pl1;
 Select pl1 such that Next*(ifs,pl1)
-
+3, 4, 5, 6, 7, 8, 9
 5000
 42 - Next* Functionality Test
 call c; prog_line pl1;
 Select pl1 such that Next*(c,pl1)
-
+5, 6, 7, 8, 9, 11
 5000
 43 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(2,pl1)
-
+3, 4, 5, 6
 5000
 44 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(_,pl1)
-
+2, 3, 4, 5, 6, 7, 8, 9, 11, 13
 5000
 45 - Next* Invalid Test 1
 stmtLst sl; prog_line pl1;

@@ -81,7 +81,7 @@ Select pl1 such that Next(2,pl1)
 17 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(_,pl1)
-1, 2, 3, 4, 5, 6, 7, 8, 9
+2, 3, 4, 5, 6, 7, 8, 9
 5000
 18 - Next Invalid Test 1
 stmtLst sl; prog_line pl1;
@@ -216,7 +216,7 @@ Select pl1 such that Next*(2,pl1)
 44 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(_,pl1)
-1, 2, 3, 4, 5, 6, 7, 8, 9
+2, 3, 4, 5, 6, 7, 8, 9
 5000
 45 - Next* Invalid Test 1
 stmtLst sl; prog_line pl1;
