@@ -5,11 +5,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
 #include "VarTable.h"
-#include "ASTBuilder.h"
 #include "ProcTable.h"
 #include "VarTable.h"
 #include "AssignTable.h"
@@ -27,8 +25,6 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
-
-class TNode;
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -133,6 +129,15 @@ public:
   * @return a reference of the while node.
   */
   STMT_NUM insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLinNum, STMT_NUM t_curLineNum);
+
+  /**
+  * Inserts a else statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  STMT_NUM insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum);
+
 
   /**
   * Inserts a constant into the PKB.
@@ -289,7 +294,7 @@ public:
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
   */
-  std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
+  LIST_OF_STMT_NUMS getAllAssignStmtListByVar(VAR_NAME& t_varName);
 
   /*
   * Returns all assignment statements.
@@ -356,7 +361,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVar(std::string t_varName);
 
   // TODO need testing after insert assignment statement implemented
 
@@ -485,6 +490,4 @@ private:
   UsesTable* m_usesTable;
   ModifiesTable* m_modifiesTable;
   StmtListTable* m_stmtListTable;
-
-  ASTBuilder m_builder;
 };

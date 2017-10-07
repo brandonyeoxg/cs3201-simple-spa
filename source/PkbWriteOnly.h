@@ -92,7 +92,15 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  virtual STMT_NUM insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLinNum, STMT_NUM t_curLineNum) = 0;
+  virtual STMT_NUM insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) = 0;
+
+  /**
+  * Inserts a else statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  virtual STMT_NUM insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) = 0;
 
   /**
   * Inserts a constant into the PKB.

@@ -120,6 +120,12 @@ STMT_NUM PKB::insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STM
   return t_curLineNum;
 }
 
+STMT_NUM PKB::insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
+  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
+  return t_curLineNum;
+}
+
 void PKB::insertConstant(CONSTANT_TERM t_constant) {
   m_constantTable->insertConstant(t_constant);
 }
@@ -335,7 +341,7 @@ AssignTable* PKB::getAssignTable() {
   return m_assignTable;
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   if (varIdx == INVALID_INDEX) {
     return {};
@@ -386,7 +392,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern)
   return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return {};
@@ -417,7 +423,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
     return list;
   }
 
-  std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+  LIST_OF_STMT_NUMS stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
 
   for (auto iterator : stmtNums) {
     if (PatternMatch::getInstance().isSubtreePatternInStmt(iterator, t_pattern)) {
