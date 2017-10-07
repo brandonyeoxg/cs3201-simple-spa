@@ -15,7 +15,6 @@ namespace IntegrationTesting
     ParserDriver* m_parser;
     std::string m_tmpFileName;
     std::ofstream m_tmpFile;
-    ASTBuilder m_builder;
 	public:
     TEST_METHOD_INITIALIZE(InitialisePkbandParser) 
     {
@@ -33,17 +32,17 @@ namespace IntegrationTesting
 
 		TEST_METHOD(TestParserAndPKBProcedure)
 		{
-      //// Test for the procedure recorded properly
-      //m_tmpFile << "procedure main {\n";
-      //m_tmpFile.close();
-      //m_parser->openFileStream(m_tmpFileName);
-      //m_parser->parseProcedure();
+      // Test for the procedure recorded properly
+      m_tmpFile << "procedure main {\n";
+      m_tmpFile.close();
+      m_parser->openFileStream(m_tmpFileName);
+      m_parser->parseProcedure();
 
-      //ProcTable* procTable = m_pkb->getProcTable();
-      //std::list<std::string> actual = procTable->getAllProcNameInProgram();
+      ProcTable* procTable = m_pkb->getProcTable();
+      LIST_OF_PROC_NAMES actual = procTable->getAllProcsName();
 
-      //Assert::AreEqual(actual.size(), size_t(1));
-      //Assert::AreEqual(*actual.begin(), std::string("main"));
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::AreEqual(*actual.begin(), std::string("main"));
     }
 
     TEST_METHOD(TestParserAndPKBStmt) // This only tests follows relation
@@ -51,7 +50,6 @@ namespace IntegrationTesting
       m_tmpFile << "procedure main {x=y;}\n";
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
-      //StmtListNode* stmtListNode = m_builder.createStmtList(0);
       LIST_OF_STMT_NUMS stmtList;
       m_parser->parseStmt(stmtList);
 

@@ -29,6 +29,7 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
       //append t_proc 2 to the vector.
       procNames.push_back(t_proc2);
       m_callsMap[t_proc1] = procNames;
+      m_allCalledBy.insert(t_proc2);
     }
 
   }

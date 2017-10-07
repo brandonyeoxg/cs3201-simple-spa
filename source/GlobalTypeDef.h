@@ -25,6 +25,9 @@ typedef std::vector<std::string> LIST_OF_TOKENS;
 typedef std::set<std::string> SET_OF_VAR_NAMES;
 typedef std::set<int> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
+typedef std::unordered_map<int, std::vector<int>> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
+typedef std::unordered_map<std::string, std::vector<int>> MAP_OF_VAR_NAME_TO_STMT_NUMS;
+typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
