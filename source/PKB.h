@@ -53,7 +53,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum);
+  bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
 
   /**
   * Inserts a parent relation in the PKB.
@@ -61,8 +61,12 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
+  bool insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum);
 
+  void insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
+
+  void insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
+  
   /**
   * Inserts a variable that has been modified.
   * @param t_varName name of the variable being modified.
@@ -70,8 +74,8 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertModifiesVariable(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines);
+  void insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum,
+    LIST_OF_STMT_NUMS t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been used.
@@ -80,7 +84,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+  void insertUsesVariable(VAR_NAME t_varName, STMT_NUM m_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been modified to ModifiesP
@@ -119,7 +123,7 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum);
+  STMT_NUM insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME varName, LIST_OF_STMT_NUMS m_nestedStmtLineNum, STMT_NUM t_curLineNum);
 
   /**
   * Inserts a if statement into the PKB.
@@ -128,7 +132,7 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum);
+  STMT_NUM insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLinNum, STMT_NUM t_curLineNum);
 
   /**
   * Inserts a constant into the PKB.

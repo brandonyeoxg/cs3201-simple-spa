@@ -41,7 +41,7 @@ public:
 protected:
   PkbWriteOnly* m_pkbWriteOnly;
   int m_curLineNum;
-  std::string m_nextToken;
+  STRING_TOKEN m_nextToken;
   std::ifstream m_readStream;
   /*
   * Matches the token from the file with the expected token.
@@ -49,7 +49,7 @@ protected:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool isMatchToken(const std::string& t_token);
+  bool isMatchToken(const STRING_TOKEN& t_token);
 
   /*
   * Matches the tokenType from the file with the expected tokenType.
@@ -65,62 +65,62 @@ protected:
   * @param t_token the expected token type.
   * @return the string of that token from the type.
   */
-  std::string getMatchToken(const tokentype::tokenType& t_token);
+  STRING_TOKEN getMatchToken(const tokentype::tokenType& t_token);
 
   /*
   * Returns the first token in a line
   */
-  std::string getCurrentLineToken();
+  STRING_TOKEN getCurrentLineToken();
 
   /*
   * Returns true if the token is an operator.
   *
   * @param t_token the token to be checked.
   */
-  bool isOperator(const std::string& t_token);
+  bool isOperator(const STRING_TOKEN& t_token);
 
   /*
   * Returns true if the token is a brace.
   *
   * @param t_token the token to be checked.
   */
-  bool isBrace(const std::string& t_token);
+  bool isBrace(const STRING_TOKEN& t_token);
 
   /*
   * Returns true if the token is any key delimiter like a space or a brace or operator.
   *
   * @param t_token the token to be checked.
   */
-  bool isKeyDelimiter(const std::string& t_token);
+  bool isKeyDelimiter(const STRING_TOKEN& t_token);
 
   /*
   * Tokenises the line into tokens
   *
   * @param t_line the line to be tokenised
   */
-  std::vector<std::string> tokeniseLine(const std::string& t_line);
+  LIST_OF_TOKENS tokeniseLine(const STRING_TOKEN& t_line);
 
   /*
   * Returns true if the token is a valid name.
   * A valid name refers to LETTER(LETTER|DIGIT)+.
   */
-  bool isValidName(const std::string& t_token);
+  bool isValidName(const STRING_TOKEN& t_token);
 
   /*
   * Returns true if the token is a constant.
   * A constant just consists of purely digits.
   */
-  bool isConstant(const std::string& t_token);
+  bool isConstant(const STRING_TOKEN& t_token);
 
   /*
   * Returns true if the the statement is a non container statement.
   * Checks with m_nextToken if it is an non container statement string.
   */
-  bool isNonContainerStmt(std::string t_token);
+  bool isNonContainerStmt(const STRING_TOKEN& t_token);
 
 private:
-  std::list<STMT_NUM> m_nestedStmtLineNum;
-  std::vector<std::string> m_curTokens;
+  LIST_OF_STMT_NUMS m_nestedStmtLineNum;
+  LIST_OF_TOKENS m_curTokens;
   bool m_isParsingProcedureContent;
   const std::string EMPTY_LINE = "";
   PROC_INDEX m_curProcIdx;
@@ -138,7 +138,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  void parseStmtLst(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the statement.
@@ -146,7 +146,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the assignment statement.
@@ -173,14 +173,14 @@ private:
   *
   * @param t_node the reference to the stmtLst node
   */
-  void parseNonContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
    * Parses a container statement.
    *
    * @param t_node the reference to the stmtLst node
    */
-  void parseContainerStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the while statement.
@@ -188,7 +188,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseWhileStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the if statement.
@@ -196,7 +196,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the else statement.
@@ -204,10 +204,10 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseElseStmt(std::list<STMT_NUM>& t_stmtInStmtLst);
+  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Returns the the next token in the line
   */
-  std::string getToken();
+  STRING_TOKEN getToken();
 };
