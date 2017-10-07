@@ -25,12 +25,12 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOn
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> assignStmts = t_pkb->getAllAssignStmtListByVar(t_g1.getName());
+  LIST_OF_STMT_NUMS assignStmts = t_pkb->getAllAssignStmtListByVar(t_g1.getName());
   if (assignStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(assignStmts);
+  std::vector<std::string> stmtVector = formatVectorIntToVectorStr(assignStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }

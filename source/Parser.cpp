@@ -179,6 +179,7 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
+  m_pkbWriteOnly->insertElseStmt(m_curProcIdx, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS elseStmtLst;
   parseStmtLst(elseStmtLst);
 }

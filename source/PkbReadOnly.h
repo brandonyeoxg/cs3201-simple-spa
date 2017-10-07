@@ -290,7 +290,7 @@ public:
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtListByVar(VAR_NAME& t_varName) = 0;
 
   /*
   * Returns all assignment statements.
@@ -337,7 +337,7 @@ public:
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
 
-  virtual std::list<STMT_NUM> getAllAssignStmtByVar(std::string t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVar(std::string t_varName) = 0;
 
   /** Pattern a("x", "y + x").
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
