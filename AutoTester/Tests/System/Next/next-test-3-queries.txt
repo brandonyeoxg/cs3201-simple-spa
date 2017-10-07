@@ -66,205 +66,205 @@ Select pl1 such that Next(w,pl1)
 14 - Next Functionality Test
 if ifs; prog_line pl1;
 Select pl1 such that Next(ifs,pl1)
-None
+none
 5000
 15 - Next Functionality Test
 call c; prog_line pl1;
 Select pl1 such that Next(c,pl1)
-None
+none
 5000
 16 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(2,pl1)
-None
+none
 5000
 17 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(_,pl1)
-None
+none
 5000
 18 - Next Invalid Test 1
 stmtLst sl; prog_line pl1;
 Select pl1 such that Next(pl1,sl)
-None
+none
 5000
 19 - Next Invalid Test 2
-var v; prog_line pl1;
+variable v; prog_line pl1;
 Select pl1 such that Next(pl1,v)
-None
+none
 5000
 20 - Next Invalid Test 3
 constant c; prog_line pl1;
 Select pl1 such that Next(pl1,c)
-None
+none
 5000
 21 - Next Invalid Test 4
 prog_line pl1;
 Select pl1 such that Next(pl1,"a")
-None
+none
 5000
 22 - Next Invalid Test 5
 procedure p; prog_line pl1;
 Select pl1 such that Next(pl1,p)
-None
+none
 5000
 23 - Next Invalid Test 6
 stmtLst sl; prog_line pl1;
 Select pl1 such that Next(sl,pl1)
-None
+none
 5000
 24 - Next Invalid Test 7
-var v; prog_line pl1;
+variable v; prog_line pl1;
 Select pl1 such that Next(v,pl1)
-None
+none
 5000
 25 - Next Invalid Test 8
 constant c; prog_line pl1;
 Select pl1 such that Next(c,pl1)
-None
+none
 5000
 26 - Next Invalid Test 9
 prog_line pl1;
 Select pl1 such that Next("a",pl1)
-None
+none
 5000
 27 - Next Invalid Test 10
 procedure p; prog_line pl1;
 Select pl1 such that Next(p,pl1)
-None
+none
 5000
 28 - Next* Functionality Test
 stmt s; prog_line pl1, pl2;
 Select s such that Next*(pl1,pl2)
-None
+none
 5000
 29 - Next* Functionality Test
 prog_line pl1, pl2;
 Select pl1 such that Next*(pl1,pl2)
-None
+none
 5000
 30 - Next* Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next*(pl1,s)
-None
+none
 5000
 31 - Next* Functionality Test
 assign a; prog_line pl1;
 Select a such that Next*(pl1,a)
-None
+none
 5000
 32 - Next* Functionality Test
 while w; prog_line pl1;
 Select w such that Next*(pl1,w)
-None
+none
 5000
 33 - Next* Functionality Test
 if ifs; prog_line pl1;
 Select ifs such that Next*(pl1,ifs)
-None
+none
 5000
 34 - Next* Functionality Test
 call c; prog_line pl1;
 Select c such that Next*(pl1,c)
-None
+none
 5000
 35 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(pl1,2)
-None
+none
 5000
 36 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(pl1,_)
-None
+none
 5000
 37 - Next* Functionality Test - 2 Integers
 prog_line pl1;
 Select pl1 such that Next*(1,3)
-None
+none
 5000
 38 - Next* Functionality Test
 stmt s; prog_line pl1;
 Select s such that Next*(s,pl1)
-None
+none
 5000
 39 - Next* Functionality Test
 assign a; prog_line pl1;
 Select a such that Next*(a,pl1)
-None
+none
 5000
 40 - Next* Functionality Test
 while w; prog_line pl1;
 Select pl1 such that Next*(w,pl1)
-None
+none
 5000
 41 - Next* Functionality Test
 if ifs; prog_line pl1;
 Select pl1 such that Next*(ifs,pl1)
-None
+none
 5000
 42 - Next* Functionality Test
 call c; prog_line pl1;
 Select pl1 such that Next*(c,pl1)
-None
+none
 5000
 43 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(2,pl1)
-None
+none
 5000
 44 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(_,pl1)
-None
+none
 5000
 45 - Next* Invalid Test 1
 stmtLst sl; prog_line pl1;
 Select pl1 such that Next*(pl1,sl)
-None
+none
 5000
 46 - Next* Invalid Test 2
-var v; prog_line pl1;
+variable v; prog_line pl1;
 Select pl1 such that Next*(pl1,v)
-None
+none
 5000
 47 - Next* Invalid Test 3
 constant c; prog_line pl1;
 Select pl1 such that Next*(pl1,c)
-None
+none
 5000
 48 - Next* Invalid Test 4
 prog_line pl1;
 Select pl1 such that Next*(pl1,"a")
-None
+none
 5000
 49 - Next* Invalid Test 5
 procedure p; prog_line pl1;
 Select pl1 such that Next*(pl1,p)
-None
+none
 5000
 50 - Next* Invalid Test 6
 stmtLst sl; prog_line pl1;
 Select pl1 such that Next*(sl,pl1)
-None
+none
 5000
 51 - Next* Invalid Test 7
-var v; prog_line pl1;
+variable v; prog_line pl1;
 Select pl1 such that Next*(v,pl1)
-None
+none
 5000
 52 - Next* Invalid Test 8
 constant c; prog_line pl1;
 Select pl1 such that Next*(c,pl1)
-None
+none
 5000
 53 - Next* Invalid Test 9
 prog_line pl1;
 Select pl1 such that Next*("a",pl1)
-None
+none
 5000
 54 - Next* Invalid Test 10
 procedure p; prog_line pl1;
 Select pl1 such that Next*(p,pl1)
-None
+none
 5000
