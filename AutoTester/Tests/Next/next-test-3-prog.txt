@@ -53,7 +53,7 @@
            	 	 	 else{
              	 	 	 	 	 give=give*up;}
         	 else{
-       give=give-up;} 	 	}
+       give=give-up;} 	 	}				}
    	 	 	 	 	 	 	 	 	 	else{
     if super{
       call C0W;
