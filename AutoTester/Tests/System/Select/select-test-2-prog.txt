@@ -1,13 +1,13 @@
 procedure A{
   o=0;
-  if k{
+  if k then{
     while i{
       a=1;
       e=5-2;}
-      if j{
+      if j then{
         call B;
         call C;
-        f=6}
+        f=6;}
       else{
         b=2;}}
   else{
