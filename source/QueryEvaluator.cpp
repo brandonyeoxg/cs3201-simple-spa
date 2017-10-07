@@ -248,47 +248,12 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   } 
 
   delete eval;
-
   if (result.empty()) {
     return false;
   }
 
   // Store the result
-  std::unordered_map<std::string, int>::const_iterator got;
-  if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
-    got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        storeResultFromPkb(result, queryType::RELATION);
-        m_relations.push(t_relation);
-      }
-    }
-  } else if ((t_relation.getG1().getType() == queryType::GType::STMT_NO || t_relation.getG1().getType() == queryType::GType::STR) && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
-    got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        storeResultFromPkb(result, queryType::RELATION);
-        m_relations.push(t_relation);
-      }
-    }
-  } else if (t_relation.getG1().getType() != queryType::GType::STMT_NO && t_relation.getG1().getType() != queryType::GType::STR && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
-    got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        storeResultFromPkb(result, queryType::RELATION);
-        m_relations.push(t_relation);
-      } else {
-        got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
-        if (got != m_synonymsUsedInQuery.end()) {
-          if (got->second > 1) {
-            storeResultFromPkb(result, queryType::RELATION);
-            m_relations.push(t_relation);
-          }
-        }
-      }
-    }
-  }
-
+  storeRelationResultFromPkb(t_relation, result);
   return true;
 }
 
@@ -322,39 +287,12 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   }
 
   delete eval;
-
   if (result.empty()) {
     return false;
   }
 
   // Store the result
-  std::unordered_map<std::string, int>::const_iterator got;
-  if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
-    got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        storeResultFromPkb(result, queryType::PATTERN);
-        m_patterns.push(t_pattern);
-      }
-    }
-  } else if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
-    got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        storeResultFromPkb(result, queryType::PATTERN);
-        m_patterns.push(t_pattern);
-      } else if (got->second == 1) {
-        got = m_synonymsUsedInQuery.find(t_pattern.getLeft().getName());
-        if (got != m_synonymsUsedInQuery.end()) {
-          if (got->second > 1) {
-            storeResultFromPkb(result, queryType::PATTERN);
-            m_patterns.push(t_pattern);
-          }
-        }
-      }
-    }
-  }
-
+  storePatternResultFromPkb(t_pattern, result);
   return true;
 }
 
@@ -456,6 +394,72 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vec
     //std::cout << "Result Type: " << t_type << "\n";
   }
   //printDivider();
+}
+
+void QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+  std::unordered_map<std::string, int>::const_iterator got;
+  if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
+    got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
+    if (got != m_synonymsUsedInQuery.end()) {
+      if (got->second > 1) {
+        storeResultFromPkb(t_result, queryType::RELATION);
+        m_relations.push(t_relation);
+      }
+    }
+  } else if ((t_relation.getG1().getType() == queryType::GType::STMT_NO || t_relation.getG1().getType() == queryType::GType::STR) && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
+    got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
+    if (got != m_synonymsUsedInQuery.end()) {
+      if (got->second > 1) {
+        storeResultFromPkb(t_result, queryType::RELATION);
+        m_relations.push(t_relation);
+      }
+    }
+  } else if (t_relation.getG1().getType() != queryType::GType::STMT_NO && t_relation.getG1().getType() != queryType::GType::STR && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
+    got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
+    if (got != m_synonymsUsedInQuery.end()) {
+      if (got->second > 1) {
+        storeResultFromPkb(t_result, queryType::RELATION);
+        m_relations.push(t_relation);
+      } else {
+        got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
+        if (got != m_synonymsUsedInQuery.end()) {
+          if (got->second > 1) {
+            storeResultFromPkb(t_result, queryType::RELATION);
+            m_relations.push(t_relation);
+          }
+        }
+      }
+    }
+  }
+}
+
+void QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+  std::unordered_map<std::string, int>::const_iterator got;
+  if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
+    got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
+    if (got != m_synonymsUsedInQuery.end()) {
+      if (got->second > 1) {
+        storeResultFromPkb(t_result, queryType::PATTERN);
+        m_patterns.push(t_pattern);
+      }
+    }
+  } else if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
+    got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
+    if (got != m_synonymsUsedInQuery.end()) {
+      if (got->second > 1) {
+        storeResultFromPkb(t_result, queryType::PATTERN);
+        m_patterns.push(t_pattern);
+      } else if (got->second == 1) {
+        got = m_synonymsUsedInQuery.find(t_pattern.getLeft().getName());
+        if (got != m_synonymsUsedInQuery.end()) {
+          if (got->second > 1) {
+            storeResultFromPkb(t_result, queryType::PATTERN);
+            m_patterns.push(t_pattern);
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
