@@ -34,7 +34,7 @@ Select ifs
 3
 5000
 8 - Select Functionality Test
-var v;
+variable v;
 Select v
 a, b, c
 5000
