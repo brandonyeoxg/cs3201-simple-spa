@@ -303,6 +303,22 @@ private:
   void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type);
 
   /**
+  * A private function to store the relation result if it is needed.
+  * It takes in the relation and the relation result to check whether there is a need to store it.
+  * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
+  * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
+  */
+  void storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result);
+  
+  /**
+  * A private function to store the pattern result if it is needed.
+  * It takes in the pattern and the pattern result to check whether there is a need to store it.
+  * @param t_pattern A pattern object which holds the pattern clause that was evaluated to the parameter t_result.
+  * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
+  */
+  void storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result);
+
+  /**
   * A private function to evaluate the final result of the query.
   * By comparing all the results with the common synonyms, get the final result of the query.
   * @return A vector of strings as the query result.
