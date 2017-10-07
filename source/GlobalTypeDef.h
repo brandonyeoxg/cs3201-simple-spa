@@ -21,6 +21,7 @@ typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 typedef std::vector<std::string> LIST_OF_PROC_NAMES;
 typedef std::vector<std::string> LIST_OF_RESULTS;
 typedef std::vector<std::string> LIST_OF_TOKENS;
+typedef std::vector<std::string> LIST_OF_TOKENS;
 typedef std::set<std::string> SET_OF_VAR_NAMES;
 typedef std::set<int> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
