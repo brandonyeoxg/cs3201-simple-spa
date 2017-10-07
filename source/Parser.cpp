@@ -22,7 +22,7 @@ int Parser::parse (const std::string &t_filename) throw() {
   m_nextToken = getCurrentLineToken();
   while (!m_readStream.eof()) {
     parseForProcedure();
-    m_nextToken = getCurrentLineToken();
+    isMatchToken(EMPTY_LINE);
   }
   return 0;
 }
