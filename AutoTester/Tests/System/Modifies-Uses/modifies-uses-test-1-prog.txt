@@ -1,6 +1,6 @@
 procedure First{
   a=b+2;
-  if i{
+  if i then{
     call Furst;}
   else{
     c=d;}
@@ -9,5 +9,5 @@ procedure First{
 }
 
 procedure Furst{
-  g=h;
+  g=4;
 }
