@@ -6,6 +6,6 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/third-prog.txt %~
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fourth-prog.txt %~dp0/Tests/Acceptance/test-4-queries.txt %~dp0/Output/out4.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/uses-test-1-queries.txt %~dp0/Output/uses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/modifies-out1.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Calls/calls-test-1-prog.txt %~dp0/Tests/Calls/calls-test-1-queries.txt %~dp0/Output/calls-out1.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Calls/calls-test-2-prog.txt %~dp0/Tests/Calls/calls-test-2-queries.txt %~dp0/Output/calls-out2.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Calls/calls-test-3-prog.txt %~dp0/Tests/Calls/calls-test-3-queries.txt %~dp0/Output/calls-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-1-prog.txt %~dp0/Tests/System/Calls/calls-test-1-queries.txt %~dp0/Output/calls-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-2-prog.txt %~dp0/Tests/System/Calls/calls-test-2-queries.txt %~dp0/Output/calls-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-3-prog.txt %~dp0/Tests/System/Calls/calls-test-3-queries.txt %~dp0/Output/calls-out3.xml
