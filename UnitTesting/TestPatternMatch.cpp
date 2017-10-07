@@ -191,6 +191,36 @@ public:
     PatternMatch::resetInstance();
   }
 
+  TEST_METHOD(expressionsWithBrackets) {
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> tokens, subtrees;
+
+    tokens = { "(", "x", "+", "y", ")" };
+    tokens = { "(","(","(", "x", "+", "y", ")", ")", ")" };
+    //PatternMatch::getInstance().addAssignStmt(1, tokens);
+
+    //subtrees = PatternMatch::getInstance().getSubtreeStringsWithStmtTokens(tokens);
+    //printVectorOfStrings(subtrees);
+    //stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("x");
+    //printListOfIntegers(stmtNums);
+
+    //tokens = { "(", "x", ")" };
+    //PatternMatch::getInstance().addAssignStmt(2, tokens);
+    //subtrees = PatternMatch::getInstance().getSubtreeStringsWithStmtTokens(tokens);
+    //printVectorOfStrings(subtrees);
+    //stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("x");
+    //printListOfIntegers(stmtNums);
+
+    tokens = { "x", "+", "(", "x", "+", "y", ")" };
+    tokens = { "x", "+", "(","(","(", "x", "+", "y", ")", ")" , ")" };
+    //tokens = { "x", "+", "(","(","(", "x", "+", "y", ")", ")" , ")", "+", "y" };
+    //tokens = { "(", "x", "+", "y", ")", "+", "(", "x", "+", "y", ")" };
+    tokens = { "x", "+", "(", "(", "x", "+", "(", "x", "+", "y", ")", ")", "+", "y", ")" };
+    //PatternMatch::getInstance().addAssignStmt(2, tokens);
+    subtrees = PatternMatch::getInstance().getSubtreeStringsWithStmtTokens(tokens);
+    printVectorOfStrings(subtrees);
+    //stmtNums = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern("x");
+    //printListOfIntegers(stmtNums);
   }
 
 private:
