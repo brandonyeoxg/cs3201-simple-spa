@@ -1,55 +1,60 @@
-1 - Select Functionality Test
-procedure p;
-Select p
-A, B
+1 - Uses Functionality Test
+stmt s; var v;
+Select s such that Uses(s,v)
+1,2,3,4,5,6,7
 5000
-2 - Select Functionality Test
-stmtLst sl;
-Select sl
-1,2,4,5,6
+2 - Uses Functionality Test
+assign a; var v;
+Select a such that Uses(a,v)
+
 5000
-3 - Select Functionality Test
-stmt s;
-Select s
-1, 2, 3, 4, 5, 6
+3 - Uses Functionality Test
+while w; var v;
+Select w such that Uses(w,v)
+
 5000
-4 - Select Functionality Test
-assign a;
-Select a
-2, 5, 6
+4 - Uses Functionality Test
+if ifs; var v;
+Select ifs such that Uses(ifs,v)
+
 5000
-5 - Select Functionality Test
-call ca;
-Select ca
-4
+5 - Uses Functionality Test
+call c; var v;
+Select c such that Uses(c,v)
+
 5000
-6 - Select Functionality Test
-while w;
-Select w
-1
+6 - Uses Functionality Test
+prog_line pl; var v;
+Select pl such that Uses(pl,v)
+
 5000
-7 - Select Functionality Test
-if ifs;
-Select ifs
-3
+7 - Uses Functionality Test
+procedure p; var v;
+Select p such that Uses(p,v)
+
 5000
-8 - Select Functionality Test
+8 - Uses Functionality Test
 var v;
-Select v
-a, b, c
+Select BOOLEAN such that Uses(1,v)
+
 5000
-9 - Select Functionality Test
-prog_line pl;
-Select pl
-1, 2, 3, 4, 5, 6
+9 - Uses Functionality Test
+var v;
+Select BOOLEAN such that Uses("First",v)
+
 5000
-10 - Select Functionality Test
-constant co;
-Select co
-1, 2, 3
+10 - Uses Functionality Test
+stmt s; var v;
+Select s such that Uses(s,"b")
+
 5000
-11 - Select Functionality Test
+11 - Uses Functionality Test
 stmt s;
-Select BOOLEAN
-TRUE
+Select s such that Uses(s,_)
+
 5000
+12 - Uses Invalid Test 1
+stmtLst sl; var v;
+select sl such that Uses(sl,v)
+None
+Invalid

@@ -1,12 +1,13 @@
-procedure A{
-  while i{
-    a=1;}
-  if j{
-    call B;}
+procedure First{
+  a=b+2;
+  if i{
+    call Furst;}
   else{
-    b=2;}
+    c=d;}
+  while j{
+    e=f;}
 }
 
-procedure B{
-  c=3;
+procedure Furst{
+  g=h;
 }
