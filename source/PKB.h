@@ -70,7 +70,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+  void insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
@@ -80,7 +80,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+  void insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been modified to ModifiesP
@@ -105,7 +105,7 @@ public:
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens);
 
   /**
   * Inserts a call statement into the PKB

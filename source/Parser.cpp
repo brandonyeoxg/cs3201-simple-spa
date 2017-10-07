@@ -99,14 +99,13 @@ void Parser::parseAssignStmt() {
   }
  
   m_pkbWriteOnly->insertModifiesProc(m_curProcIdx, varName);
-  m_pkbWriteOnly->insertModifiesVariableNew(varName, m_curLineNum, m_nestedStmtLineNum);
+  m_pkbWriteOnly->insertModifiesVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
   LIST_OF_TOKENS tokenisedExpr = tokeniseExpr();
-  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName);
-  m_pkbWriteOnly->insertAssignStmtPattern(m_curLineNum, tokenisedExpr);
+  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr);
 }
 
 void Parser::parseCallStmt() {
@@ -124,7 +123,7 @@ std::vector<std::string> Parser::tokeniseExpr() {
   if (isConstant(term)) {
     m_pkbWriteOnly->insertConstant(term);
   } else if (isValidName(term)) {
-    m_pkbWriteOnly->insertUsesVariableNew(term, m_curLineNum, m_nestedStmtLineNum);
+    m_pkbWriteOnly->insertUsesVariable(term, m_curLineNum, m_nestedStmtLineNum);
     m_pkbWriteOnly->insertUsesProc(m_curProcIdx, term);
   }
   while (isOperator(m_nextToken)) {
@@ -134,7 +133,7 @@ std::vector<std::string> Parser::tokeniseExpr() {
     if (isConstant(term)) {
       m_pkbWriteOnly->insertConstant(term);
     } else if (isValidName(term)) {
-      m_pkbWriteOnly->insertUsesVariableNew(term, m_curLineNum, m_nestedStmtLineNum);
+      m_pkbWriteOnly->insertUsesVariable(term, m_curLineNum, m_nestedStmtLineNum);
       m_pkbWriteOnly->insertUsesProc(m_curProcIdx, term);
     }
     output.push_back(term);

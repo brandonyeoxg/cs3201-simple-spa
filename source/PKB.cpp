@@ -51,7 +51,7 @@ PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
   return m_procTable->insertProc(t_procName);
 }
 
-void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+void PKB::insertModifiesVariable(std::string t_varName, int t_curLineNum,
   std::list<STMT_NUM> t_nestedStmtLines) {
   insertModifiesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
@@ -60,7 +60,7 @@ void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
   }
 }
 
-void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+void PKB::insertUsesVariable(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
   insertUsesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
   for (auto& containerItr : t_nestedStmtLines) {
@@ -80,11 +80,12 @@ void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
-void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) {
   insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
   insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
   VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
+  PatternMatch::getInstance().addAssignStmt(t_lineNum, t_stmtTokens);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
@@ -98,14 +99,14 @@ void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_cur
 STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
   insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLineNum);
   return t_curLineNum;
 }
 

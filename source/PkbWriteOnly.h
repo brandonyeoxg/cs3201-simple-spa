@@ -52,7 +52,7 @@ public:
   * @param t_curLineNum the current line of the variable.
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   */
-  virtual void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
+  virtual void insertModifiesVariable(std::string t_varName, int t_curLineNum,
     std::list<STMT_NUM> t_nestedStmtLines) = 0;
 
   /**
@@ -61,7 +61,7 @@ public:
   * @param t_curLineNum the current line of the variable.
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   */
-  virtual void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
+  virtual void insertUsesVariable(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) = 0;
 
 
   /**
@@ -89,7 +89,7 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  virtual void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) = 0;
+  virtual void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) = 0;
 
   /**
   * Inserts a call statement into the PKB
