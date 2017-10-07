@@ -420,12 +420,6 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       return false;
     }
 
-    //Checks if Uses/Modifies contains strings as the first parameter and return false if true
-    if (designAbstractionEntity == "Uses" && sTName1.find('"') != std::string::npos
-      || designAbstractionEntity == "Modifies" && sTName1.find('"') != std::string::npos) {
-      return false;
-    }
-
     int sTInt1 = 0;
     int sTInt2 = 0;
 
