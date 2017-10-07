@@ -34,7 +34,7 @@ namespace IntegrationTesting
       m_pkb->insertTypeOfStatementTable(3, queryType::GType::ASGN);
       m_pkb->insertTypeOfStatementTable(4, queryType::GType::ASGN);
 
-      std::list<STMT_NUM> stmtInLst;
+      LIST_OF_STMT_NUMS stmtInLst;
       m_pkb->insertFollowsRelation(stmtInLst, 1);
       stmtInLst.push_back(1);
 

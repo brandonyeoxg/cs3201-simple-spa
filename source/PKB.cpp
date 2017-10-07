@@ -51,20 +51,22 @@ PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
   return m_procTable->insertProc(t_procName);
 }
 
-void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
-  std::list<STMT_NUM> t_nestedStmtLines) {
+void PKB::insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum) {
+  insertModifiesVariable(t_varName, t_curLineNum, t_nestedStmtLines);
+  insertModifiesProc(t_procIdx, t_varName);
+}
+
+void PKB::insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum) {
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLines);
+  insertUsesProc(t_procIdx, t_varName);
+}
+
+void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum,
+    LIST_OF_STMT_NUMS t_nestedStmtLines) {
   insertModifiesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
   for (auto& containerItr : t_nestedStmtLines) {
     insertModifiesForStmt(t_varName, containerItr);
-  }
-}
-
-void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
-  insertUsesForStmt(t_varName, t_curLineNum);
-  insertVar(t_varName);
-  for (auto& containerItr : t_nestedStmtLines) {
-    insertUsesForStmt(t_varName, containerItr);
   }
 }
 
@@ -74,17 +76,26 @@ void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   m_modifiesP->insertModifiesP(t_procIdx, pName, vIdx, t_varName);
 }
 
+void PKB::insertUsesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
+  insertUsesForStmt(t_varName, t_curLineNum);
+  insertVar(t_varName);
+  for (auto& containerItr : t_nestedStmtLines) {
+    insertUsesForStmt(t_varName, containerItr);
+  }
+}
+
 void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
   VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
-void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) {
   insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
   insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
   VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
+  PatternMatch::getInstance().addAssignStmt(t_lineNum, t_stmtTokens);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
@@ -95,17 +106,17 @@ void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_cur
   m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
-STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+STMT_NUM PKB::insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
   insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
   return t_curLineNum;
 }
 
-STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+STMT_NUM PKB::insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
   insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
   return t_curLineNum;
 }
 
@@ -117,7 +128,7 @@ void PKB::insertStmtList(STMT_NUM t_line) {
   m_stmtListTable->insertStmtLst(t_line);
 }
 
-bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
+bool PKB::insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) {
   if (t_stmtInStmtList.empty()) {
     return false;
   }
@@ -125,7 +136,7 @@ bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curL
   return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
 }
 
-bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum) {
+bool PKB::insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum) {
   if (t_nestedStmtInStmtList.empty()) {
     return false;
   }

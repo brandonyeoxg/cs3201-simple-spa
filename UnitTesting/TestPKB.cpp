@@ -19,7 +19,7 @@ namespace UnitTesting {
         { 3,{ 4 } }
       };
       PKB *pkb = new PKB();
-      std::list<STMT_NUM> stmtInLst;
+      LIST_OF_STMT_NUMS stmtInLst;
       pkb->insertFollowsRelation(stmtInLst, 1);
       stmtInLst.push_back(1);
 
