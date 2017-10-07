@@ -15,3 +15,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-3-pr
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-1-prog.txt %~dp0/Tests/System/Next/next-test-1-queries.txt %~dp0/Output/next-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-prog.txt %~dp0/Tests/System/Next/next-test-2-queries.txt %~dp0/Output/next-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/next-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/pattern-out1.xml
