@@ -36,12 +36,12 @@ First
 8 - Uses Functionality Test
 variable v;
 Select BOOLEAN such that Uses(1,v)
-TRUE
+true
 5000
 9 - Uses Functionality Test
 variable v;
 Select BOOLEAN such that Uses("First",v)
-TRUE
+true
 5000
 10 - Uses Functionality Test
 stmt s;
@@ -161,12 +161,12 @@ First, Furst
 33 - Modifies Functionality Test
 variable v;
 Select BOOLEAN such that Modifies(1,v)
-TRUE
+true
 5000
 34 - Modifies Functionality Test
 variable v;
 Select BOOLEAN such that Modifies("First",v)
-TRUE
+true
 5000
 35 - Modifies Functionality Test
 stmt s;

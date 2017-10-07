@@ -19,6 +19,9 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     return evaluateFinalResult();
   } else if (!hasResult) {
     std::vector<std::string> result;
+    if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
+      result.push_back("false");
+    }
     /*printDivider();
     std::cout << "No Query Result: \n";
     for (auto& x : result) {
@@ -1126,6 +1129,16 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     m_patterns.pop();
     m_relationResults.pop();
     m_patternResults.pop();
+  }
+
+  if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
+    if (finalResult.empty()) {
+      finalResult.push_back("false");
+    }
+
+    std::vector<std::string> result;
+    result.push_back("true");
+    finalResult = result;
   }
 
   /*std::cout << "Query Result: \n";
