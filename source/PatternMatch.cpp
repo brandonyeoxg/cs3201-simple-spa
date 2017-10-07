@@ -89,12 +89,31 @@ PatternMatch::PatternMatch() {
 std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::string> t_tokens, 
   std::vector<std::string> t_subtreeStrings, int t_startIndex, int t_endIndex) {
 
-  t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, t_endIndex));
-
   if (t_startIndex >= t_endIndex) {
     return t_subtreeStrings;
   }
 
+  addStrIfNotDuplicate(&t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, t_endIndex));
+
+
+  int firstOpenBracket = findFirstOpenBracketIndex(t_startIndex, t_endIndex, t_tokens);
+  int lastCloseBracket = findLastCloseBracketIndex(t_startIndex, t_endIndex, t_tokens);
+
+  if (firstOpenBracket != INVALID_INDEX && lastCloseBracket != INVALID_INDEX) {
+    std::vector<std::string> newTokens = processBrackets(t_tokens, &t_subtreeStrings, t_startIndex, t_endIndex);
+    //if ((int)newTokens.size() != 0) {
+    //  //t_tokens = newTokens;
+    //  int newEndIndex = t_endIndex;
+    //  if ((int)newTokens.size() < newEndIndex) {
+    //    newEndIndex = newTokens.size();
+    //  }
+    //  addStrIfNotDuplicate(&t_subtreeStrings, convertVectorToStringWithIndex(newTokens, t_startIndex, newEndIndex));
+
+    //}
+  }
+
+  
+  
   int indexOfOperator = findLastOperatorIndex(t_startIndex, t_endIndex, t_tokens);
 
   if (indexOfOperator == INVALID_INDEX) { // no more operators 
@@ -107,15 +126,33 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
   return t_subtreeStrings;
 }
 
-// find index of last operator that branches into 2 subtrees
-int PatternMatch::findLastOperatorIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-  int indexOfOperator = INVALID_INDEX;  // index to branch subtree from
-
-  int lastOpenBracket = findLastOpenBracketIndex(t_startIndex, t_endIndex, t_tokens);
+std::vector<std::string> PatternMatch::processBrackets(std::vector<std::string> t_tokens, std::vector<std::string>* t_subtreeStrings, int t_startIndex, int t_endIndex) {
+  int firstOpenBracket = findFirstOpenBracketIndex(t_startIndex, t_endIndex, t_tokens);
   int lastCloseBracket = findLastCloseBracketIndex(t_startIndex, t_endIndex, t_tokens);
 
-  int lastPlusOrMinus = findLastPlusOrMinusIndex(t_startIndex, t_endIndex, t_tokens, lastOpenBracket, lastCloseBracket);
-  int lastMultiply = findLastMultiplyIndex(t_startIndex, t_endIndex, t_tokens, lastOpenBracket, lastCloseBracket);
+  std::vector<std::string> subtrees = std::vector<std::string>();
+
+  subtrees = generateSubtreeStrings(t_tokens, subtrees, firstOpenBracket + 1, lastCloseBracket);
+  subtrees = generateSubtreeStrings(t_tokens, subtrees, t_startIndex, firstOpenBracket - 1);
+  subtrees = generateSubtreeStrings(t_tokens, subtrees, lastCloseBracket + 2, t_endIndex);
+
+  for (auto subtree : subtrees) {
+    addStrIfNotDuplicate(t_subtreeStrings, subtree);
+  }
+
+  int nextOpenBracket = findFirstOpenBracketIndex(firstOpenBracket + 1, lastCloseBracket, t_tokens);
+  int nextCloseBracket = findLastCloseBracketIndex(firstOpenBracket + 1, lastCloseBracket, t_tokens);
+
+  return std::vector<std::string>();
+
+ 
+}
+
+// find index of last operator that branches into 2 subtrees
+int PatternMatch::findLastOperatorIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
+
+  int lastPlusOrMinus = findLastPlusOrMinusIndex(t_startIndex, t_endIndex, t_tokens);
+  int lastMultiply = findLastMultiplyIndex(t_startIndex, t_endIndex, t_tokens);
 
   if (lastPlusOrMinus != INVALID_INDEX) {
     return lastPlusOrMinus;
@@ -127,8 +164,8 @@ int PatternMatch::findLastOperatorIndex(int t_startIndex, int t_endIndex, std::v
 
 }
 
-int PatternMatch::findLastOpenBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
+int PatternMatch::findFirstOpenBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
+  for (int i = t_startIndex; i < t_endIndex; i++) {
     if (t_tokens.at(i) == BRACKET_OPEN) {
       return i;
     }
@@ -147,24 +184,12 @@ int PatternMatch::findLastCloseBracketIndex(int t_startIndex, int t_endIndex, st
   return INVALID_INDEX;
 }
 
-int PatternMatch::findLastPlusOrMinusIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens, int t_openBracketIndex, int t_closeBracketIndex) {
-  if (t_closeBracketIndex != INVALID_INDEX) {
-    for (int i = t_endIndex - 1; i > t_closeBracketIndex; i--) {
-      if (isStrPlusOrMinus(t_tokens.at(i))) {
-        return i;
-      }
-    }
-  }
-
-  if (t_openBracketIndex != INVALID_INDEX) {
-    for (int i = t_openBracketIndex - 1; i >= t_startIndex; i--) {
-      if (isStrPlusOrMinus(t_tokens.at(i))) {
-        return i;
-      }
-    }
-  }
+int PatternMatch::findLastPlusOrMinusIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
 
   for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
+    if (t_tokens.at(i) == BRACKET_CLOSE) {
+      return INVALID_INDEX;
+    }
     if (isStrPlusOrMinus(t_tokens.at(i))) {
       return i;
     }
@@ -173,24 +198,12 @@ int PatternMatch::findLastPlusOrMinusIndex(int t_startIndex, int t_endIndex, std
   return INVALID_INDEX;
 }
 
-int PatternMatch::findLastMultiplyIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens, int t_openBracketIndex, int t_closeBracketIndex) {
-  if (t_closeBracketIndex != INVALID_INDEX) {
-    for (int i = t_endIndex - 1; i > t_closeBracketIndex; i--) {
-      if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
-        return i;
-      }
-    }
-  }
-
-  if (t_openBracketIndex != INVALID_INDEX) {
-    for (int i = t_openBracketIndex - 1; i >= t_startIndex; i--) {
-      if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
-        return i;
-      }
-    }
-  }
+int PatternMatch::findLastMultiplyIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
 
   for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
+    if (t_tokens.at(i) == BRACKET_CLOSE) {
+      return INVALID_INDEX;
+    }
     if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
       return i;
     }
@@ -207,6 +220,11 @@ bool PatternMatch::isStrPlusOrMinus(std::string t_str) {
 std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string> t_vector, int t_startIndex, int t_endIndex) {
   std::string str = "";
   
+  //while (t_vector.at(t_startIndex) == BRACKET_OPEN && t_vector.at(t_endIndex-1) == BRACKET_CLOSE) {
+  //  t_startIndex++;
+  //  t_endIndex--;
+  //}
+
   for (int i = t_startIndex; i < t_endIndex; i++) {
     str += t_vector.at(i);
   }
@@ -215,22 +233,26 @@ std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string
 }
 
 /** Add string to list of strings only if it is not duplicate string */
-std::vector<std::string> PatternMatch::addStrIfNotDuplicate(std::vector<std::string> t_listOfStr, std::string t_str) {
+void PatternMatch::addStrIfNotDuplicate(std::vector<std::string> * t_listOfStr, std::string t_str) {
 
-  for (int i = 0; i < (int)t_listOfStr.size(); i++) {
-    if (t_listOfStr.at(i) == t_str) {
-      return t_listOfStr;
+  for (int i = 0; i < (int)t_listOfStr->size(); i++) {
+    if (t_listOfStr->at(i) == t_str) {
+      return;
     }
   }
 
-  t_listOfStr.push_back(t_str);
-
-  return t_listOfStr;
+  t_listOfStr->push_back(t_str);
 }
 
 /** Helper function to remove all whitespaces in a given string */
 std::string PatternMatch::removeWhitespaces(std::string t_str) {
   t_str.erase(std::remove(t_str.begin(), t_str.end(), ' '), t_str.end());
+  return t_str;
+}
+
+std::string PatternMatch::removeBrackets(std::string t_str) {
+  t_str.erase(std::remove(t_str.begin(), t_str.end(), '('), t_str.end());
+  t_str.erase(std::remove(t_str.begin(), t_str.end(), ')'), t_str.end());
   return t_str;
 }
 
