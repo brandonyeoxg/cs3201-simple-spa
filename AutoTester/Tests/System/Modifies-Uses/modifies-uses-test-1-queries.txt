@@ -1,7 +1,7 @@
 1 - Uses Functionality Test
 stmt s; variable v;
 Select s such that Uses(s,v)
-1,2,3,4,5,6
+1,2,4,5,6
 5000
 2 - Uses Functionality Test
 assign a; variable v;
@@ -26,7 +26,7 @@ none
 6 - Uses Functionality Test
 prog_line pl; variable v;
 Select pl such that Uses(pl,v)
-1, 2, 3, 4, 5, 6
+1, 2, 4, 5, 6
 5000
 7 - Uses Functionality Test
 procedure p; variable v;
@@ -51,7 +51,7 @@ Select s such that Uses(s,"b")
 11 - Uses Functionality Test
 stmt s;
 Select s such that Uses(s,_)
-1,2,3,4,5,6
+1,2,4,5,6
 5000
 12 - Uses Invalid Test 1
 stmtLst sl; variable v;
@@ -170,13 +170,13 @@ true
 5000
 35 - Modifies Functionality Test
 stmt s;
-Select s such that Modifies(s,"b")
+Select s such that Modifies(s,"a")
 1
 5000
 36 - Modifies Functionality Test
 stmt s;
 Select s such that Modifies(s,_)
-1,2,3,4,5,6
+1,2,3,4,5,6,7
 5000
 37 - Modifies Invalid Test 1
 stmtLst sl; variable v;
