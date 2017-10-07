@@ -51,5 +51,5 @@ Select co
 11 - Select Functionality Test
 stmt s;
 Select BOOLEAN
-TRUE
+true
 5000
