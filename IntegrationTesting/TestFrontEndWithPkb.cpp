@@ -52,7 +52,7 @@ namespace IntegrationTesting
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
       //StmtListNode* stmtListNode = m_builder.createStmtList(0);
-      std::list<STMT_NUM> stmtList;
+      LIST_OF_STMT_NUMS stmtList;
       m_parser->parseStmt(stmtList);
 
       // Follow table should be empty
