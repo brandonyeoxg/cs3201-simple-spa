@@ -21,7 +21,7 @@ Select ifs such that Uses(ifs,v)
 5 - Uses Functionality Test
 call c; variable v;
 Select c such that Uses(c,v)
-None
+none
 5000
 6 - Uses Functionality Test
 prog_line pl; variable v;
@@ -56,72 +56,72 @@ Select s such that Uses(s,_)
 12 - Uses Invalid Test 1
 stmtLst sl; variable v;
 Select sl such that Uses(sl,v)
-None
+none
 5000
 13 - Uses Invalid Test 2
 variable v1, v2;
 Select v1 such that Uses(v1,v2)
-None
+none
 5000
 14 - Uses Invalid Test 3
 constant c; variable v;
 Select c such that Uses(c,v)
-None
+none
 5000
 15 - Uses Invalid Test 4
 variable v;
 Select v such that Uses(_,v)
-None
+none
 5000
 16 - Uses Invalid Test 5
 stmt s; procedure p;
 Select s such that Uses(s,p)
-None
+none
 5000
 17 - Uses Invalid Test 6
 stmtLst sl; stmt s;
 Select s such that Uses(s,sl)
-None
+none
 5000
 18 - Uses Invalid Test 7
 stmt s1, s2;
 Select s1 such that Uses(s1,s2)
-None
+none
 5000
 19 - Uses Invalid Test 8
 assign a; stmt s;
 Select s such that Uses(s,a)
-None
+none
 5000
 20 - Uses Invalid Test 9
 call c; procedure p;
 Select s such that Uses(s,c)
-None
+none
 5000
 21 - Uses Invalid Test 10
 while w; stmt s;
 Select s such that Uses(s,w)
-None
+none
 5000
 22 - Uses Invalid Test 11
 stmt s; if ifs;
 Select s such that Uses(s,ifs)
-None
+none
 5000
 23 - Uses Invalid Test 12
 constant c; stmt s;
 Select s such that Uses(s,c)
-None
+none
 5000
 24 - Uses Invalid Test 13
 stmt s;
 Select s such that Uses(s,2)
-None
+none
 5000
 25 - Uses Invalid Test 14
 prog_line pl; stmt s;
 Select s such that Uses(s,pl)
-None
+none
 5000
 26 - Modifies Functionality Test
 stmt s; variable v;
@@ -150,7 +150,7 @@ Select c such that Modifies(c,v)
 5000
 31 - Modifies Functionality Test
 prog_line pl; variable v;
-Select pl such that Modfies(pl,v)
+Select pl such that Modifies(pl,v)
 1, 2, 3, 4, 5, 6, 7
 5000
 32 - Modifies Functionality Test
@@ -181,70 +181,70 @@ Select s such that Modifies(s,_)
 37 - Modifies Invalid Test 1
 stmtLst sl; variable v;
 Select sl such that Modifies(sl,v)
-None
+none
 5000
 38 - Modifies Invalid Test 2
 variable v1, v2;
 Select v1 such that Modifies(v1,v2)
-None
+none
 5000
 39 - Modifies Invalid Test 3
 constant c; variable v;
 Select c such that Modifies(c,v)
-None
+none
 5000
 40 - Modifies Invalid Test 4
 variable v;
 Select v such that Modifies(_,v)
-None
+none
 5000
 41 - Modifies Invalid Test 5
 stmt s; procedure p;
 Select s such that Modifies(s,p)
-None
+none
 5000
 42 - Modifies Invalid Test 6
 stmtLst sl; stmt s;
 Select s such that Modifies(s,sl)
-None
+none
 5000
 43 - Modifies Invalid Test 7
 stmt s1, s2;
 Select s1 such that Modifies(s1,s2)
-None
+none
 5000
 44 - Modifies Invalid Test 8
 assign a; stmt s;
 Select s such that Modifies(s,a)
-None
+none
 5000
 45 - Modifies Invalid Test 9
 call c; procedure p;
 Select s such that Modifies(s,c)
-None
+none
 5000
 46 - Modifies Invalid Test 10
 while w; stmt s;
 Select s such that Modifies(s,w)
-None
+none
 5000
 47 - Modifies Invalid Test 11
 stmt s; if ifs;
 Select s such that Modifies(s,ifs)
-None
+none
 5000
 48 - Modifies Invalid Test 12
 constant c; stmt s;
 Select s such that Modifies(s,c)
-None
+none
 5000
 49 - Modifies Invalid Test 13
 stmt s;
 Select s such that Modifies(s,2)
-None
+none
 5000
 50 - Modifies Invalid Test 14
 prog_line pl; stmt s;
 Select s such that Modifies(s,pl)
-None
+none
 5000
