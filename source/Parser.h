@@ -191,6 +191,14 @@ private:
   void parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
+  * Parses for the if and else statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+
+  /*
   * Parses the if statement.
   *
   * @param t_node the reference to the stmtLst node

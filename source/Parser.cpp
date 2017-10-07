@@ -136,8 +136,7 @@ void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (isMatchToken("while")) {
     parseWhileStmt(t_stmtInStmtLst);
   } else if (isMatchToken("if")) {
-    parseIfStmt(t_stmtInStmtLst);
-    parseElseStmt(t_stmtInStmtLst);
+    parseIfElseStmt(t_stmtInStmtLst);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
@@ -151,6 +150,13 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS whileStmtLst;
   parseStmtLst(whileStmtLst);
+}
+
+void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+  STMT_NUM ifStmtNum = m_curLineNum;
+  parseIfStmt(t_stmtInStmtLst);
+  m_nestedStmtLineNum.push_back(ifStmtNum);
+  parseElseStmt(t_stmtInStmtLst);
 }
 
 void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
