@@ -7,7 +7,7 @@ procedure L1am4{
       call cH1ck3N;}
     else{
       call A1P4ca;}
-    call P1G;
+    call P1G; //8
 }
 
 procedure A1P4ca{
@@ -23,7 +23,7 @@ procedure A1P4ca{
           call Br4v0;}}
     else{
       call p0w3rPufF;}
-    wUt=m*I+w4tcH1nG;}
+    wUt=m*I+w4tcH1nG;} //19
 }
 
 procedure p1G{
@@ -49,7 +49,7 @@ procedure p1G{
           else{
             give=give*up;}
         else{
-          give=give-up;}}
+          give=give-up;}}} //37
   else{
     if super{
       call C0W;
@@ -70,13 +70,13 @@ procedure p1G{
       else{
         give=give-up;}
     else{
-      call b4B00n;
+      call b4B00n; //52
 }
 
 procedure C0W{
   L1tT13=s1sT3r;
   b1G=Br0Th3R;
-  call cH1ck3N;
+  call cH1ck3N; //55
 }
 
 procedure cH1ck3N{
@@ -87,7 +87,7 @@ procedure W34531{
   W41k=oN*w4t3R;
   cR15iS=fURry+j35us;
   call b4B00n;
-  call p0w3rPufF;
+  call p0w3rPufF; //60
 }
 
 procedure b4B00n{
@@ -99,7 +99,7 @@ procedure Br4v0{
   h3Y=tH3r3;
   l1l=m4Ma;
   cat=cat-call;
-  call p0w3rPufF;
+  call p0w3rPufF; //66
 }
 
 procedure p0w3rPufF{
