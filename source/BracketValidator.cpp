@@ -1,6 +1,9 @@
 #include "BracketValidator.h"
 #include <assert.h>
 
+std::string BracketValidator::OPEN_BRACE = std::string("(");
+std::string BracketValidator::CLOSE_BRACE = std::string(")");
+
 void BracketValidator::insertBracketToken(const STRING_TOKEN& t_brace) {
   assert(t_brace == OPEN_BRACE || t_brace == CLOSE_BRACE);
 

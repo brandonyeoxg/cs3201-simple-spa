@@ -7,6 +7,7 @@
 #include "PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
+#include "BracketValidator.h"
 
 /**
 * Represents a parser. 
@@ -84,6 +85,13 @@ protected:
   * @param t_token the token to be checked.
   */
   bool isBrace(const STRING_TOKEN& t_token);
+
+  /*
+  * Returns true if the token is a bracket.
+  *
+  * @param t_token the token to be checked.
+  */
+  bool isBracket(const STRING_TOKEN& t_token);
 
   /*
   * Returns true if the token is any key delimiter like a space or a brace or operator.
@@ -164,11 +172,18 @@ private:
   /*
   * Returns a tokenised expr belonging to the right side of an assignment statement.
   * Tokenised into a vector, without spaces, each element belongs to a single term or operator.
-  *
   */
   LIST_OF_TOKENS parseExpr();
 
+  /*
+  * Parses each term and tokenises them to be used.
+  */
   void parseEachTerm(LIST_OF_TOKENS& t_tokens);
+
+  /*
+  * Parses the brackets
+  */
+  void parseBrackets(LIST_OF_TOKENS& t_tokens);
 
   /*
   * Parses a non container statemment.
