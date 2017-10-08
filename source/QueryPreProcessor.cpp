@@ -994,7 +994,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
 
       //left side: _
-      if (patternLeftName == "_") {
+      else if (patternLeftName == "_") {
         removeCharsFromString(patternLeftName, "\"");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
 
