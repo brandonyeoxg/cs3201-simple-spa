@@ -35,7 +35,7 @@
       <Filter>PKB\AST</Filter>
     </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
-      <Filter>PKB\Util</Filter>
+      <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Grammar.cpp">
       <Filter>PQL\Query Types</Filter>
@@ -208,6 +208,9 @@
     <ClCompile Include="..\source\UsesExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\BracketValidator.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -247,7 +250,7 @@
       <Filter>PKB\AST</Filter>
     </ClInclude>
     <ClInclude Include="..\source\StringUtil.h">
-      <Filter>PKB\Util</Filter>
+      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Pattern.h">
       <Filter>PQL\Query Types</Filter>
@@ -451,6 +454,12 @@
     <ClInclude Include="..\source\UsesExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxInvalidTerm.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\BracketValidator.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -467,9 +476,6 @@
     </Filter>
     <Filter Include="PKB\AST">
       <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PKB\Util">
-      <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
     </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
@@ -503,6 +509,9 @@
     </Filter>
     <Filter Include="PQL\Patterns\Pattern Evaluator">
       <UniqueIdentifier>{01a35d34-afad-45c5-a588-b18161125f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
