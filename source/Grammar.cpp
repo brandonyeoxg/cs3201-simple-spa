@@ -55,6 +55,12 @@ Grammar::Grammar(int t_type, std::string t_name) {
 }
 
 /**
+* A Setter that returns the attribute of this Grammar object
+* The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+*/
+void Grammar::setAType(queryType::AType aType ) { m_attr = aType; }
+
+/**
  * A Getter that returns the type of this Grammar object
  * The returned GType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
  * @return The type of this Grammar object
