@@ -11,6 +11,8 @@
 class BracketValidator
 {
 public:
+  static std::string OPEN_BRACE;
+  static std::string CLOSE_BRACE;
   BracketValidator() {};
   ~BracketValidator() {};
 
@@ -33,7 +35,5 @@ public:
   const std::stack<STRING_TOKEN>& getBraceStack();
 private:
   std::stack<STRING_TOKEN> m_braces;
-  const std::string OPEN_BRACE = std::string("(");
-  const std::string CLOSE_BRACE = std::string(")");
 };
 
