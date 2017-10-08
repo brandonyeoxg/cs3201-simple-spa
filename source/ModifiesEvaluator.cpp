@@ -116,18 +116,14 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramm
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::PROC) {
-    std::multimap<std::string, std::string> stmtsAndVar = t_pkb->getModifiesPAllProcToVar();
-    if (stmtsAndVar.empty()) {
+    std::multimap<std::string, std::string> procsAndVar = t_pkb->getModifiesPAllProcToVar();
+    if (procsAndVar.empty()) {
       return m_result;
     }
 
-    for (auto& x : stmtsAndVar) {
-      std::vector<std::string> stmtVector;
+    for (auto& x : procsAndVar) {
       if (!x.second.empty()) {
-        stmtVector.push_back(x.second);
-        if (!stmtVector.empty()) {
-          m_result[x.first] = stmtVector;
-        }
+        m_result[x.first].push_back(x.second);
       }
     }
   } else {
