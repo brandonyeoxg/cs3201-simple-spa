@@ -497,14 +497,22 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       if (m_relations.front().getG1().getName() == m_selectedSynonym) {
         //std::cout << "Selected Synonym 1: " << m_relations.front().getG1().getName() << "\n";
         if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          finalResult = filterValueResults(typeOfStmts, results);
+          if (m_relations.front().getG1().getType() == queryType::GType::PROC) {
+            finalResult = filterKeyResults(typeOfStmts, results);
+          } else {
+            finalResult = filterValueResults(typeOfStmts, results);
+          }     
         } else {
           finalResult = filterKeyResults(typeOfStmts, results);
         }   
       } else if (m_relations.front().getG2().getName() == m_selectedSynonym) {
         //std::cout << "Selected Synonym 2: " << m_relations.front().getG2().getName() << "\n";
         if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          finalResult = filterKeyResults(typeOfStmts, results);
+          if (m_relations.front().getG1().getType() == queryType::GType::PROC) {
+            finalResult = filterValueResults(typeOfStmts, results);
+          } else {
+            finalResult = filterKeyResults(typeOfStmts, results);
+          }
         } else {
           finalResult = filterValueResults(typeOfStmts, results);
         }   
