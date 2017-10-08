@@ -1142,11 +1142,11 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
     if (finalResult.empty()) {
       finalResult.push_back("false");
+    } else {
+      std::vector<std::string> result;
+      result.push_back("true");
+      finalResult = result;
     }
-
-    std::vector<std::string> result;
-    result.push_back("true");
-    finalResult = result;
   }
 
   /*std::cout << "Query Result: \n";
