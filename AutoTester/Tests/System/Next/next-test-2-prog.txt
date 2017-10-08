@@ -1,6 +1,6 @@
 procedure Llama{
   while i{
-    if j{
+    if j then{
       a=a+1;
       call Alpaca;
       b=c+2;

@@ -121,6 +121,12 @@ public:
   */
   std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
 
+  /**
+  * DEBUGGING METHODS: 
+  * Check if with clause appears
+  */
+  std::string QueryPreProcessor::getWithStatement(void);
+
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
@@ -139,6 +145,7 @@ private:
   static std::string CONSTANT;
   static std::string PROG_LINE;
   static std::string BOOLEAN;
+  static std::string CALL;
 };
 
 #endif QUERYPREPROCESSOR_H

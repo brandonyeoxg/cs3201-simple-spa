@@ -51,7 +51,7 @@ love, happiness, time, precious, memorable, sadness, y, z, design, how, are, you
 11 - Select with Uses and 1 left synonym with no common - True
 stmt s; variable v;
 Select s such that Uses(s,"hihihi")
-19, 16, 25, 23, 22, 5, 2, 8, 6, 11, 29, 26
+19, 16, 25, 23, 21, 5, 2, 8, 6, 11, 29, 26, 30
 5000
 12 - Select with Uses and 1 left synonym with no common - False
 stmt s; variable v;
@@ -66,7 +66,7 @@ y, z, design, how, are, you, hihihi
 14 - Select with Uses and 1 right synonym with 1 common - True for container statement
 stmt s; variable v;
 Select v such that Uses("fourth",v)
-y, z, design, how, are, you, hihihi, friend, Love, You, love, happiness, time, precious, memorable, sadness, myfriend
+y, z, design, how, are, you, hihihi, friend, i, Love, You, love, happiness, time, precious, memorable, sadness, myfriend
 5000
 15 - Select with Uses and 1 left synonym with 1 common - True
 stmt s; variable v; while w;
