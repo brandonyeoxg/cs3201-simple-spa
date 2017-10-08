@@ -26,6 +26,7 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInp
       //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
       QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
       evaluatedResults = qe->evaluateQuery();
+      delete qe;
 
       QueryResultProjector qrp;
       resultList = qrp.formatResult(evaluatedResults);
