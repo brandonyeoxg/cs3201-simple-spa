@@ -133,6 +133,10 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(opr);
+  if (opr == BracketValidator::OPEN_BRACE) {
+    parseBrackets(t_tokens);
+    return;
+  }
   STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isConstant(term) && !isValidName(term) && !isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
@@ -140,6 +144,9 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
   t_tokens.push_back(term);
   if (term == BracketValidator::OPEN_BRACE) {
     parseBrackets(t_tokens);
+    if (m_nextToken == BracketValidator::OPEN_BRACE) {
+      throw SyntaxUnknownCommandException("Cannot put \")(\" ", m_curLineNum);
+    }
     return;
   } 
   handleInsertionOfTermByPkb(term);
@@ -160,9 +167,9 @@ void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   if (isMatchToken(BracketValidator::CLOSE_BRACE)) {
     t_tokens.push_back(BracketValidator::CLOSE_BRACE);
   } 
-  /*else if ({
+  else {
     throw SyntaxOpenBraceException(m_curLineNum);
-  }*/
+  }
 }
 
 void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
