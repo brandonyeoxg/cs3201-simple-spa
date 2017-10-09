@@ -25,6 +25,7 @@
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
     <ClCompile Include="..\source\ExtractorFactory.cpp" />
+    <ClCompile Include="..\source\IntermediateTable.cpp" />
     <ClCompile Include="..\source\ModifiesExtractor.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\PatternMatch.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\IntermediateTable.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\PatternMatch.h" />
