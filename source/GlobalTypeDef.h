@@ -10,6 +10,7 @@
 typedef int VAR_INDEX;
 typedef int PROC_INDEX;
 typedef int STMT_NUM;
+typedef int PROG_LINE;
 typedef int CONSTANT;
 typedef std::string VAR_NAME;
 typedef std::string PROC_NAME;
