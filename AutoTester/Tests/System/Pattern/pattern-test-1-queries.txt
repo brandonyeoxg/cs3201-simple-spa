@@ -123,232 +123,252 @@ assign a; prog_line pl;
 Select a pattern a (pl,"1")
 none
 5000
-26 - While Pattern Functionality Test
+26 - Assign Pattern Bracket Functionality
+assign a;
+Select a pattern a ("b","2-d*(f+e)")
+5
+5000
+27 - Assign Pattern Bracket Functionality
+assign a;
+Select a pattern a ("b",_"f+e"_)
+5
+5000
+28 - Assign Pattern Bracket Invalid Test 1
+assign a;
+Select a pattern a ("b",_"d*f"_)
+none
+5000
+29 - Assign Pattern Bracket Invalid Test 2
+assign a;
+Select a pattern a ("b",_"2-d"_)
+none
+5000
+30 - While Pattern Functionality Test
 while w; variable v;
 Select w pattern w (v,_)
 1
 5000
-27 - While Pattern Functionality Test
+31 - While Pattern Functionality Test
 while w; variable v;
 Select v pattern w ("i",_)
 a, b, c, i, j
 5000
-28 - While Pattern Functionality Test
+32 - While Pattern Functionality Test
 while w;
 Select w pattern w (_,_)
 1
 5000
-29 - While Pattern Invalid Test 1
+33 - While Pattern Invalid Test 1
 while w; variable v; procedure p;
 Select w pattern w (v,p)
 none
 5000
-30 - While Pattern Invalid Test 2
+34 - While Pattern Invalid Test 2
 while w; variable v; stmtLst sl;
 Select w pattern w (v,sl)
 none
 5000
-31 - While Pattern Invalid Test 3
+35 - While Pattern Invalid Test 3
 while w; variable v; stmt s;
 Select w pattern w (v,s)
 none
 5000
-32 - While Pattern Invalid Test 4
+36 - While Pattern Invalid Test 4
 while w; variable v; assign a;
 Select w pattern w (v,a)
 none
 5000
-33 - While Pattern Invalid Test 5
+37 - While Pattern Invalid Test 5
 while w; variable v; call c;
 Select w pattern w (v,c)
 none
 5000
-34 - While Pattern Invalid Test 6
+38 - While Pattern Invalid Test 6
 while w1, w2; variable v;
 Select w1 pattern w1 (v,w2)
 none
 5000
-35 - While Pattern Invalid Test 7
+39 - While Pattern Invalid Test 7
 while w; variable v; if ifs;
 Select w pattern w (v,ifs)
 none
 5000
-36 - While Pattern Invalid Test 8
+40 - While Pattern Invalid Test 8
 while w; variable v; constant c;
 Select w pattern w (v,c)
 none
 5000
-37 - While Pattern Invalid Test 9
+41 - While Pattern Invalid Test 9
 while w; variable v; prog_line pl;
 Select w pattern w (v,pl)
 none
 5000
-38 - While Pattern Invalid Test 10
+42 - While Pattern Invalid Test 10
 while w; variable v1, v2;
 Select w pattern w (v1,v2)
 none
 5000
-39 - While Pattern Invalid Test 11
+43 - While Pattern Invalid Test 11
 while w; variable v;
 Select w pattern w (v,"i")
 none
 5000
-40 - While Pattern Invalid Test 12
+44 - While Pattern Invalid Test 12
 while w; procedure p;
 Select w pattern w (p,_)
 none
 5000
-41 - While Pattern Invalid Test 13
+45 - While Pattern Invalid Test 13
 while w; stmtLst sl;
 Select w pattern w (sl,_)
 none
 5000
-42 - While Pattern Invalid Test 14
+46 - While Pattern Invalid Test 14
 while w; stmt s;
 Select w pattern w (s,_)
 none
 5000
-43 - While Pattern Invalid Test 15
+47 - While Pattern Invalid Test 15
 while w; assign a;
 Select w pattern w (a,_)
 none
 5000
-44 - While Pattern Invalid Test 16
+48 - While Pattern Invalid Test 16
 while w; call c;
 Select w pattern w (c,_)
 none
 5000
-45 - While Pattern Invalid Test 17
+49 - While Pattern Invalid Test 17
 while w1, w2;
 Select w1 pattern w1 (w2,_)
 none
 5000
-46 - While Pattern Invalid Test 18
+50 - While Pattern Invalid Test 18
 while w; if ifs;
 Select w pattern w (ifs,_)
 none
 5000
-47 - While Pattern Invalid Test 19
+51 - While Pattern Invalid Test 19
 while w; constant c;
 Select w pattern w (c,_)
 none
 5000
-48 - While Pattern Invalid Test 20
+52 - While Pattern Invalid Test 20
 while w; prog_line pl;
 Select w pattern w (pl,_)
 none
 5000
-49 - If Pattern Functionality Test
+53 - If Pattern Functionality Test
 if ifs; variable v;
 Select ifs pattern ifs (v,_,_)
 3
 5000
-27 - If Pattern Functionality Test
+54 - If Pattern Functionality Test
 if ifs; variable v;
 Select v pattern ifs ("i",_,_)
 a, b, c, i, j
 5000
-28 - If Pattern Functionality Test
+55 - If Pattern Functionality Test
 if ifs;
 Select ifs pattern ifs (_,_,_)
 3
 5000
-29 - If Pattern Invalid Test 1
+56 - If Pattern Invalid Test 1
 if ifs; variable v; procedure p;
 Select ifs pattern ifs (v,p,_)
 none
 5000
-30 - If Pattern Invalid Test 2
+57 - If Pattern Invalid Test 2
 if ifs; variable v; stmtLst sl;
 Select ifs pattern ifs (v,sl,_)
 none
 5000
-31 - If Pattern Invalid Test 3
+58 - If Pattern Invalid Test 3
 if ifs; variable v; stmt s;
 Select ifs pattern ifs (v,s,_)
 none
 5000
-32 - If Pattern Invalid Test 4
+59 - If Pattern Invalid Test 4
 if ifs; variable v; assign a;
 Select ifs pattern ifs (v,a,_)
 none
 5000
-33 - If Pattern Invalid Test 5
+60 - If Pattern Invalid Test 5
 while ifs; variable v; call c;
 Select ifs pattern ifs (v,c,_)
 none
 5000
-34 - If Pattern Invalid Test 6
+61 - If Pattern Invalid Test 6
 if ifs; while w; variable v;
 Select ifs pattern ifs (v,w,_)
 none
 5000
-35 - If Pattern Invalid Test 7
+62 - If Pattern Invalid Test 7
 variable v; if ifs1, ifs2;
 Select ifs1 pattern ifs1 (v,ifs2,_)
 none
 5000
-36 - If Pattern Invalid Test 8
+63 - If Pattern Invalid Test 8
 if ifs; variable v; constant c;
 Select ifs pattern ifs (v,c,_)
 none
 5000
-37 - If Pattern Invalid Test 9
+64 - If Pattern Invalid Test 9
 if ifs; variable v; prog_line pl;
 Select ifs pattern ifs (v,pl,_)
 none
 5000
-38 - If Pattern Invalid Test 10
+65 - If Pattern Invalid Test 10
 if ifs; variable v1, v2;
 Select ifs pattern ifs (v1,v2,_)
 none
 5000
-39 - If Pattern Invalid Test 11
+66 - If Pattern Invalid Test 11
 if ifs; variable v;
 Select ifs pattern ifs (v,"i",_)
 none
 5000
-40 - If Pattern Invalid Test 12
+67 - If Pattern Invalid Test 12
 if ifs; procedure p;
 Select ifs pattern ifs (p,_,_)
 none
 5000
-41 - If Pattern Invalid Test 13
+68 - If Pattern Invalid Test 13
 if ifs; stmtLst sl;
 Select ifs pattern ifs (sl,_,_)
 none
 5000
-42 - If Pattern Invalid Test 14
+69 - If Pattern Invalid Test 14
 if ifs; stmt s;
 Select ifs pattern ifs (s,_,_)
 none
 5000
-43 - If Pattern Invalid Test 15
+70 - If Pattern Invalid Test 15
 if ifs; assign a;
 Select ifs pattern ifs (a,_,_)
 none
 5000
-44 - If Pattern Invalid Test 16
+71 - If Pattern Invalid Test 16
 if ifs; call c;
 Select ifs pattern ifs (c,_,_)
 none
 5000
-45 - If Pattern Invalid Test 17
+72 - If Pattern Invalid Test 17
 while w; if ifs;
 Select ifs pattern ifs (w,_,_)
 none
 5000
-46 - If Pattern Invalid Test 18
+73 - If Pattern Invalid Test 18
 if ifs1, ifs2;
 Select ifs1 pattern ifs1 (ifs2,_,_)
 none
 5000
-47 - If Pattern Invalid Test 19
+74 - If Pattern Invalid Test 19
 if ifs; constant c;
 Select ifs pattern ifs (c,_,_)
 none
 5000
-48 - If Pattern Invalid Test 20
+75 - If Pattern Invalid Test 20
 if ifs; prog_line pl;
 Select ifs pattern w (pl,_,_)
 none
