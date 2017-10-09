@@ -27,6 +27,7 @@ PKB::PKB() {
   m_usesTable = new UsesTable();
   m_modifiesTable = new ModifiesTable();
   m_stmtListTable = new StmtListTable();
+  m_patternMatch = new PatternMatch();
 }
 
 PKB::~PKB() {
@@ -42,6 +43,7 @@ PKB::~PKB() {
   delete m_stmtListTable;
   delete m_modifiesTable;
   delete m_usesTable;
+  delete m_patternMatch;
 }
 
 ///////////////////////////////////////////////////////
@@ -95,7 +97,7 @@ void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKEN
   insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
   VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
-  PatternMatch::getInstance().addAssignStmt(t_lineNum, t_stmtTokens);
+  m_patternMatch->addAssignStmt(t_lineNum, t_stmtTokens);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
@@ -385,11 +387,11 @@ std::vector<PROC_NAME>& PKB::getAllProcsName() {
 //  Pattern methods
 ///////////////////////////////////////////////////////
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  return PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  return m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+  return m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
 }
 
 LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
@@ -408,7 +410,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
   }
   auto stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
   for (auto iterator : stmtNums) {
-    if (PatternMatch::getInstance().isExactPatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isExactPatternInStmt(iterator, t_pattern)) {
       list.push_back(iterator);
     }
   }
@@ -426,7 +428,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
   LIST_OF_STMT_NUMS stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
 
   for (auto iterator : stmtNums) {
-    if (PatternMatch::getInstance().isSubtreePatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isSubtreePatternInStmt(iterator, t_pattern)) {
       list.push_back(iterator);
     }
   }
@@ -435,7 +437,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
 
   std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
@@ -449,7 +451,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPatter
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
 
   std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
@@ -463,7 +465,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePatt
 }
 
 void PKB::insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
-  PatternMatch::getInstance().addAssignStmt(t_stmtNum, t_stmtTokens);
+  m_patternMatch->addAssignStmt(t_stmtNum, t_stmtTokens);
 }
 
 ///////////////////////////////////////////////////////
