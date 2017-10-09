@@ -1,5 +1,7 @@
 #pragma once
 
+#include <assert.h>
+
 #include ".\GlobalTypeDef.h"
 
 /** Class to represent Next relationship, Next* relationship
@@ -11,7 +13,14 @@ public:
 
   NextTable();
 
-  bool insertNext(PROG_LINE t_line1, PROG_LINE t_line2);
+  /**
+  * Establish relationship Next(line1, line2).
+  * @param t_line1
+  * @param t_line2
+  */
+  void insertNext(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  void populateNextStarTable();
 
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
@@ -40,5 +49,8 @@ public:
   bool hasNextLine(PROG_LINE t_line);
 
 private:
-  std::vector<std::vector<PROG_LINE>> m_nextTable;
+  static const int MAX_NUM_LINES = 501;
+  bool m_nextTable [MAX_NUM_LINES][MAX_NUM_LINES] = { { false } }; // what is the max number of lines?
+  bool m_nextStarTable[MAX_NUM_LINES][MAX_NUM_LINES] = { { false } };
+
 };
