@@ -211,6 +211,9 @@
     <ClCompile Include="..\source\BracketValidator.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\IntermediateTable.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -459,6 +462,9 @@
     </ClInclude>
     <ClInclude Include="..\source\BracketValidator.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\IntermediateTable.h">
+      <Filter>PQL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
