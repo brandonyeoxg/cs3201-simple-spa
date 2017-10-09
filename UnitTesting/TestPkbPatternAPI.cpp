@@ -11,10 +11,10 @@ namespace UnitTesting {
 public:
 
   TEST_METHOD(insertAndExtractStmts_byExactPattern) {
-    PkbWriteOnly * pkbWrite = new PKB();
-    PkbReadOnly * pkbRead = new PKB();
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *) pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *) pkb;
     std::list<STMT_NUM> result, expected;
-    PatternMatch::resetInstance();
 
     // simple expression
     pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
@@ -43,10 +43,10 @@ public:
   }
 
   TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
-    PkbWriteOnly * pkbWrite = new PKB();
-    PkbReadOnly * pkbRead = new PKB();
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
-    PatternMatch::resetInstance();
 
     pkbWrite->insertAssignStmtPattern(1, { "x", "*", "y", "+", "a", "+", "b" });
     pkbWrite->insertAssignStmtPattern(2, { "a", "*", "b", "+", "x", "*", "y" });
@@ -75,7 +75,6 @@ public:
 
     //Assert::IsTrue(result == expected);
 
-    PatternMatch::resetInstance();
   }
 
 private:
