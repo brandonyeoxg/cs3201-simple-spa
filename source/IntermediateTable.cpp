@@ -28,28 +28,11 @@ void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   }
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_results) {
-
-}
-
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_results) {
-
-}
-
-LIST_OF_RESULTS IntermediateTable::getCommonResults(LIST_OF_RESULTS t_results) {
-
-}
-
-bool IntermediateTable::hasSynonym(SYNONYM_NAME t_name) {
-  auto rowItr = m_synonymRowChecker.find(t_name);
-  return rowItr != m_synonymRowChecker.end();
-}
-
 LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
   LIST_OF_RESULTS output;
   for (SYNONYM_NAME name : t_selectedSyn) {
     // Obtain the index by the syn row
-    auto rItr =  m_synonymRowChecker.find(name);
+    auto rItr = m_synonymRowChecker.find(name);
     if (rItr == m_synonymRowChecker.end()) {
       continue;
     }
@@ -70,4 +53,21 @@ LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
     }
   }
   return output;
+}
+
+bool IntermediateTable::hasSynonym(SYNONYM_NAME t_name) {
+  auto rowItr = m_synonymRowChecker.find(t_name);
+  return rowItr != m_synonymRowChecker.end();
+}
+
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_results) {
+
+}
+
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_results) {
+
+}
+
+LIST_OF_RESULTS IntermediateTable::getCommonResults(LIST_OF_RESULTS t_results) {
+
 }
