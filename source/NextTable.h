@@ -20,10 +20,10 @@ public:
   */
   void insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  /** Next(5, 6) */
+  /** Next(line1, line2) */
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  /** Next*(5, 6) */
+  /** Next*(line1, line2) */
   bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /** Next(line, l) */
