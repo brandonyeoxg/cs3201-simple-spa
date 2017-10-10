@@ -25,6 +25,7 @@
     <ClCompile Include="TestStmtListTable.cpp" />
     <ClCompile Include="TestStatementTable.cpp" />
     <ClCompile Include="TestBracketValidator.cpp" />
+    <ClCompile Include="TestIntermediateTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
