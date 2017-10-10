@@ -18,39 +18,48 @@ public:
   * @param t_line1
   * @param t_line2
   */
-  void insertNext(PROG_LINE t_line1, PROG_LINE t_line2);
+  void insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  void populateNextStarTable();
-
+  /** Next(5, 6) */
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
+  /** Next*(5, 6) */
   bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  PROG_LINE getNextLine(PROG_LINE t_line);
+  /** Next(line, l) */
+  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
 
-  PROG_LINE getLineBefore(PROG_LINE t_line);
+  /** Next(l, line) */
+  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
 
+  /** Next*(line, l) */
   std::vector<PROG_LINE> getNextStar(PROG_LINE t_line);
 
+  /** Next*(l, line) */
   std::vector<int> getBeforeStar(PROG_LINE t_line);
 
+  /** Next(l1, l2) */
   std::unordered_map<int, int> getAllNext();
 
+  /** Next*(l1, l2) */
   std::unordered_map<int, std::vector<int>> getAllNextStar();
 
-  std::vector<int> getNextAndNextStar();
+  /** Next(l, _) */
+  std::vector<int> getAllLinesAfter();
 
-  std::vector<int> getBeforeAndBeforeStar();
+  /** Next(_, l) */
+  std::vector<int> getAllLinesBefore();
 
+  /** Next(_, _) or Next*(_, _) */
   bool hasNextRelationship();
 
+  /** Next(_, line) */
   bool hasLineBefore(PROG_LINE t_line);
 
+  /** Next(line, _) */
   bool hasNextLine(PROG_LINE t_line);
 
 private:
   static const int MAX_NUM_LINES = 501;
-  bool m_nextTable [MAX_NUM_LINES][MAX_NUM_LINES] = { { false } }; // what is the max number of lines?
-  bool m_nextStarTable[MAX_NUM_LINES][MAX_NUM_LINES] = { { false } };
 
 };
