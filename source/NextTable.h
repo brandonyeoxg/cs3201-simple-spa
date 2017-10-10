@@ -20,6 +20,8 @@ public:
   */
   void insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2);
 
+  void executeAfterAllNextInserts();
+
   /** Next(line1, line2) */
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
@@ -60,6 +62,11 @@ public:
   bool hasNextLine(PROG_LINE t_line);
 
 private:
-  static const int MAX_NUM_LINES = 501;
+  PROG_LINE MAX_LINE_NUM;
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
+  std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between 2 lines */
+  
+  bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
 
 };
