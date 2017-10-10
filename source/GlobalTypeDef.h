@@ -11,6 +11,7 @@ typedef int VAR_INDEX;
 typedef int PROC_INDEX;
 typedef int STMT_NUM;
 typedef int CONSTANT;
+typedef int SYNONYM_POSITION;
 typedef std::string VAR_NAME;
 typedef std::string PROC_NAME;
 typedef std::string CONSTANT_TERM;
