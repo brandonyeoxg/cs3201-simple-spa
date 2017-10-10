@@ -4,8 +4,7 @@ procedure A{
   if j then{
     call B;}
   else{
-    b=2;
-    call B;}
+    b=2;}
 }
 
 procedure B{
