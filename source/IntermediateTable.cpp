@@ -105,8 +105,8 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_resu
   INTERMEDIATE_TABLE newResults;
   int i = 0;
   for (auto& x : t_results) {
-    for (auto& y : m_results) {
-      newResults[i] = y;
+    for (auto& row : m_results) {
+      newResults[i] = row;
       newResults[i].push_back(x);
       i++;
     }
@@ -120,8 +120,8 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_resul
   int i = 0;
   for (auto& x : t_results) {
     for (auto& y : x.second) {
-      for (auto& z : m_results) {
-        newResults[i] = z;
+      for (auto& row : m_results) {
+        newResults[i] = row;
         newResults[i].push_back(x.first);
         newResults[i].push_back(y);
         i++;
