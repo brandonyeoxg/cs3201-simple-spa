@@ -1,0 +1,26 @@
+procedure Llama{
+  while i{
+    if j then{
+      a=a+1;
+      call Alpaca;
+      b=c+2;
+      c=78;}
+    else{
+      d=f-e;
+      f=d*e;}
+  call Pajama;}
+}
+
+procedure Alpaca{
+  call Obama;
+  emperor=emperor-new*groove;
+}
+
+procedure Pajama{
+  President=orange;
+  call Alapaca;
+}
+
+procedure Obama{
+  Bush=9*11;
+}

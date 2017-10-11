@@ -1,145 +1,65 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "ProcTable.h"
-#include "..\source\ASTBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestProcTable) {
   public:
-    
-    TEST_METHOD(insertIntoProcTable)
+    ProcTable* m_procTable;
+
+    TEST_METHOD_INITIALIZE(initialiseProcTable) 
     {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-
-      Assert::AreEqual(index, (PROC_INDEX)0);
-
-      dummyProc = builder.createProcedure(dummyProcName + "1");
-      index = procTable.insertProcByProcNode(dummyProc);
-      Assert::AreEqual(index, (PROC_INDEX)1);
+      m_procTable = new ProcTable();
+      m_procTable->insertProc("first");
+      m_procTable->insertProc("second");
     }
 
-    TEST_METHOD(getProcIdxNumWithName)
+    TEST_METHOD_CLEANUP(cleanupProcTable)
     {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-
-      PROC_INDEX actual = procTable.getProcIdxNumWithName(std::string("dummy"));
-
-      Assert::AreEqual(actual, (PROC_INDEX)0);
-
-      dummyProc = builder.createProcedure(dummyProcName + "1");
-      index = procTable.insertProcByProcNode(dummyProc);
-
-      actual = procTable.getProcIdxNumWithName(std::string("dummy1"));
-
-      Assert::AreEqual(actual, (PROC_INDEX)1);
+      delete m_procTable;
     }
 
-    TEST_METHOD(isModifies) 
+    TEST_METHOD(TestInsertIntoProcTable)
     {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-      
-      procTable.insertModifies(index, std::string("HELLO"));
-      procTable.convertProcTableSetToList();
-
-      Assert::IsTrue(procTable.isModifies(dummyProcName, std::string("HELLO")));
-      Assert::IsFalse(procTable.isModifies(dummyProcName, std::string("BYEBYE")));
-    }
-
-    TEST_METHOD(getVarFromProcModifies)
-    {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-      std::string varName1 = "HELLO";
-      std::string varName2 = "BYE";
-      procTable.insertModifies(index, varName1);
-      procTable.insertModifies(index, varName2);
-
-      procTable.convertProcTableSetToList();
-
-      std::list<std::string> actual = procTable.getVarFromProcModifies(index);
-      std::list<std::string> expected = {varName2, varName1};
-
+      int expected = 2;
+      int actual = m_procTable->getAllProcsName().size();
       Assert::IsTrue(actual == expected);
-    }
 
-    TEST_METHOD(getProcNameThatModifiesVar) 
-    {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-      std::string varName1 = "HELLO";
-      std::string varName2 = "BYE";
+      LIST_OF_PROC_NAMES actualList = m_procTable->getAllProcsName();
+      LIST_OF_PROC_NAMES expectedList = { "first", "second" };
+      Assert::IsTrue(actualList == expectedList);
 
-      procTable.insertModifies(index, varName1);
-      procTable.insertModifies(index, varName2);
+      int actualIdx = m_procTable->insertProc("third");
+      Assert::IsTrue(actualIdx == 2);
 
-      dummyProcName = dummyProcName + "1";
-      dummyProc = builder.createProcedure(dummyProcName);
-      index = procTable.insertProcByProcNode(dummyProc);
-      procTable.insertModifies(index, varName2);
-      procTable.convertProcTableSetToList();
-
-      std::list<std::string> expected = { "dummy" };
-      std::list<std::string> actual = procTable.getProcNameThatModifiesVar(varName1);
-      Assert::IsTrue(expected == actual);
-      actual = procTable.getProcNameThatModifiesVar(varName2);
-      expected = { "dummy", "dummy1" };
-      Assert::IsTrue(expected == actual);
-    }
-
-
-    TEST_METHOD(isUses)
-    {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-
-      procTable.insertUses(index, std::string("HELLO"));
-      procTable.convertProcTableSetToList();
-
-      Assert::IsTrue(procTable.isUses(dummyProcName, std::string("HELLO")));
-      Assert::IsFalse(procTable.isUses(dummyProcName, std::string("BYEBYE")));
-    }
-
-    TEST_METHOD(getVarFromProcUses)
-    {
-      ASTBuilder builder;
-      std::string dummyProcName = "dummy";
-      ProcedureNode* dummyProc = builder.createProcedure(dummyProcName);
-      ProcTable procTable;
-      PROC_INDEX index = procTable.insertProcByProcNode(dummyProc);
-      std::string varName1 = "HELLO";
-      std::string varName2 = "BYE";
-      procTable.insertUses(index, varName1);
-      procTable.insertUses(index, varName2);
-
-      procTable.convertProcTableSetToList();
-
-      std::list<std::string> actual = procTable.getVarFromProcUses(index);
-      std::list<std::string> expected = { varName2, varName1 };
-
+      actual = m_procTable->getAllProcsName().size();
+      expected = 3;
       Assert::IsTrue(actual == expected);
+
+      actualList = m_procTable->getAllProcsName();
+      expectedList.push_back("third");
+      Assert::IsTrue(actualList == expectedList);
     }
+
+    TEST_METHOD(TestGetProcIdxWithName)
+    {
+      int actualIdx = m_procTable->getProcIdxFromName("first");
+      Assert::AreEqual(actualIdx, 0);
+      actualIdx = m_procTable->getProcIdxFromName("totallyAProcInTheProgram");
+      Assert::AreEqual(actualIdx, INVALID_INDEX);
+    }
+
+    TEST_METHOD(TestGetProcNameWithIdx) 
+    {
+      std::string actualName = m_procTable->getProcNameFromIdx(0);
+      std::string expectedName = "first";
+      Assert::IsTrue(actualName == expectedName);
+
+      actualName = m_procTable->getProcNameFromIdx(1000);
+      Assert::IsTrue(actualName == "");
+    }
+
   };
 }

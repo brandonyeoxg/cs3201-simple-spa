@@ -4,13 +4,6 @@
 #include <sstream>
 #include <algorithm>
 
-StringUtil::StringUtil() {
-}
-
-
-StringUtil::~StringUtil() {
-}
-
 std::vector<std::string> StringUtil::splitString(std::string t_line, char t_delim) {
   std::vector<std::string> tokens;
   std::stringstream ss(t_line);

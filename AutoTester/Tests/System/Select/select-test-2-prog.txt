@@ -1,0 +1,24 @@
+procedure A{
+  o=0;
+  if k then{
+    while i{
+      a=1;
+      e=5-2;}
+      if j then{
+        call B;
+        call C;
+        f=6;}
+      else{
+        b=2;}}
+  else{
+    d=4*b;}
+}
+
+procedure B{
+  c=3;
+  call C;
+}
+
+procedure C{
+  f=f+f-f*f;
+}

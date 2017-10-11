@@ -1,0 +1,27 @@
+procedure O{
+  call P;
+}
+
+procedure P {
+  if x then{
+    call R;}
+  else{
+    call S;}
+}
+
+procedure Q{
+  x=x+y;
+}
+
+procedure R{
+  call Q;
+}
+
+procedure S{
+  while i{
+    call T;}
+}
+
+procedure T{
+  z=y+x;
+}

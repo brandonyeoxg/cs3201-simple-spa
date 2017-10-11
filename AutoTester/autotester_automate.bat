@@ -1,5 +1,20 @@
-start %~dp0../Debug/AutoTester.exe %~dp0simple-prog.txt %~dp0simple-queries.txt %~dp0out.xml
-start %~dp0../Debug/AutoTester.exe %~dp0/program/first.txt %~dp0/query/test-1.txt %~dp0out1.xml
-start %~dp0../Debug/AutoTester.exe %~dp0/program/second.txt %~dp0/query/test-2.txt %~dp0out2.xml
-start %~dp0../Debug/AutoTester.exe %~dp0/program/third.txt %~dp0/query/test-3.txt %~dp0out3.xml
-start %~dp0../Debug/AutoTester.exe %~dp0/program/fourth.txt %~dp0/query/test-4.txt %~dp0out4.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/simple-prog.txt %~dp0/simple-queries.txt %~dp0/Output/out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Validation/validation-prog.txt %~dp0/Tests/Validation/validation-queries.txt %~dp0/Output/validiation-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/first-prog.txt %~dp0/Tests/Acceptance/test-1-queries.txt %~dp0/Output/acceptance-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/second-prog.txt %~dp0/Tests/Acceptance/test-2-queries.txt %~dp0/Output/acceptance-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/third-prog.txt %~dp0/Tests/Acceptance/test-3-queries.txt %~dp0/Output/acceptance-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fourth-prog.txt %~dp0/Tests/Acceptance/test-4-queries.txt %~dp0/Output/acceptance-out4.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fifth-prog.txt %~dp0/Tests/Acceptance/test-5-queries.txt %~dp0/Output/acceptance-out5.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/uses-test-1-queries.txt %~dp0/Output/regression-uses-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/regression-modifies-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/system-select-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/system-select-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/system-select-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-queries.txt %~dp0/Output/system-modifies-uses-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-1-prog.txt %~dp0/Tests/System/Calls/calls-test-1-queries.txt %~dp0/Output/system-calls-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-2-prog.txt %~dp0/Tests/System/Calls/calls-test-2-queries.txt %~dp0/Output/system-calls-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-3-prog.txt %~dp0/Tests/System/Calls/calls-test-3-queries.txt %~dp0/Output/system-calls-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-1-prog.txt %~dp0/Tests/System/Next/next-test-1-queries.txt %~dp0/Output/system-next-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-prog.txt %~dp0/Tests/System/Next/next-test-2-queries.txt %~dp0/Output/system-next-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/system-next-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/system-pattern-out1.xml

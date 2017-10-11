@@ -332,7 +332,4 @@ __pycache__/
 *.app
 
 AutoTester/out.xml
-AutoTester/out1.xml
-AutoTester/out2.xml
-AutoTester/out3.xml
-AutoTester/out4.xml
+AutoTester/Output/

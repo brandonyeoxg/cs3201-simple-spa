@@ -1,0 +1,120 @@
+67 - Select with Modifies and no synonyms - True
+stmt s;
+Select s such that Modifies(3,"x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+68 - Select with Modifies and no synonyms - False
+stmt s;
+Select s such that Modifies(3,"y")
+none
+5000
+69 - Select with Modifies and no synonyms - True for container statement
+stmt s;
+Select s such that Modifies(2,"x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+70 - Select with Modifies and no synonyms - False for container statement
+stmt s;
+Select s such that Modifies(2,"y")
+none
+5000
+71 - Select with Modifies and no synonyms - True for nested while loops
+stmt s;
+Select s such that Modifies(2,"a")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+72 - Select with Modifies and no synonyms - False for nested while loops
+stmt s;
+Select s such that Modifies(2,"b")
+none
+5000
+73 - Select with Modifies and 1 right synonym with no common - True
+stmt s; variable v;
+Select s such that Modifies(3,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+74 - Select with Modifies and 1 right synonym with no common - True for container statement
+stmt s; variable v;
+Select s such that Modifies(2,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+75 - Select with Modifies and 1 left synonym with no common - True
+stmt s; variable v;
+Select v such that Modifies(s,"x")
+x, y, z, i, I, am, awesome, j, a, b, c, v, can, do, it
+5000
+76 - Select with Modifies and 1 left synonym with no common - False
+stmt s; variable v;
+Select v such that Modifies(s,"v")
+none
+5000
+77 - Select with Modifies and 1 right synonym with 1 common - True
+stmt s; variable v;
+Select v such that Modifies(3,v)
+x
+5000
+78 - Select with Modifies and 1 right synonym with 1 common - True for container statement
+stmt s; variable v;
+Select v such that Modifies(2,v)
+x, I, a
+5000
+79 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v;
+Select s such that Modifies(s,"x")
+1, 2, 3, 9, 10
+5000
+80 - Select with Modifies and 1 left synonym with 1 common - False
+stmt s; variable v;
+Select s such that Modifies(s,"v")
+none
+5000
+81 - Select with Modifies and 2 synonyms with 0 common - True
+stmt s; while w; variable v;
+Select w such that Modifies(s,v)
+2, 5, 9
+5000
+82 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select s such that Modifies(s,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+83 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select v such that Modifies(s,v)
+x, I, a, z, c
+5000
+139 - Select with Modifies and 1 right underscore - True
+stmt s;
+Select s such that Modifies(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+140 - Select with Modifies and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Modifies(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+141 - Select with Modifies and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Modifies(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+205 - Testing assign statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select a such that Modifies(a,v)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+206 - Testing assign statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Modifies(a,v)
+x, I, a, z, c
+5000
+207 - Testing while statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Modifies(w1,v)
+2, 5, 9
+5000
+208 - Testing while statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Modifies(w1,v)
+x, I, a
+5000

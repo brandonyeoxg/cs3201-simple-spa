@@ -1,0 +1,13 @@
+procedure First{
+  a=b+2;
+  if i then{
+    call Furst;}
+  else{
+    c=d;}
+  while j{
+    e=f;}
+}
+
+procedure Furst{
+  g=4;
+}
