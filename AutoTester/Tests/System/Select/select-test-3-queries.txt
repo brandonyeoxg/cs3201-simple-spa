@@ -49,7 +49,7 @@ Select co
 
 5000
 11 - Select Functionality Test
-stmt s;
+
 Select BOOLEAN
 
 5000
