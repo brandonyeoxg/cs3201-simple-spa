@@ -101,10 +101,11 @@ INTERMEDIATE_TABLE IntermediateTable::insertTwoIntoEmptyTable(SET_OF_RESULTS t_r
 
 INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_results) {
   INTERMEDIATE_TABLE newResults;
+
   int i = 0;
   for (auto& x : t_results) {
     for (auto& row : m_results) {
-      newResults[i] = row;
+      newResults.push_back(row);
       newResults[i].push_back(x);
       i++;
     }
@@ -119,7 +120,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_resul
   for (auto& x : t_results) {
     for (auto& y : x.second) {
       for (auto& row : m_results) {
-        newResults[i] = row;
+        newResults.push_back(row);
         newResults[i].push_back(x.first);
         newResults[i].push_back(y);
         i++;
@@ -134,12 +135,10 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME t_synonym, L
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
 
-  int i = 0;
   for (auto& row : m_results) {
     for (auto& x : t_results) {
       if (row[synPos] == x) {
-        newResults[i] = row;
-        i++;
+        newResults.push_back(row);
         break;
       }   
     }
@@ -154,14 +153,12 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1,
   SYNONYM_POSITION syn1Pos = getIndexOfSynonym(t_synonym1);
   SYNONYM_POSITION syn2Pos = getIndexOfSynonym(t_synonym2);
 
-  int i = 0;
   for (auto& row : m_results) {
     for (auto& x : t_results) {
       if (row[syn1Pos] == x.first) {
         for (auto& y : x.second) {
           if (row[syn2Pos] == y) {
-            newResults[i] = row;
-            i++;
+            newResults.push_back(row);
             break;
           }
         }
@@ -182,7 +179,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResults(SYNONYM
     for (auto& x : t_results) {
       if (row[synPos] == x.first) {
         for (auto& y : x.second) {
-          newResults[i] = row;
+          newResults.push_back(row);
           newResults[i].push_back(y);
           i++;
         }
