@@ -71,5 +71,16 @@ namespace UnitTesting {
       actual = m_driver->getResults({});
       Assert::IsTrue(actual == expected);
     }
+
+    TEST_METHOD(TestInsertOneSynonym)
+    {
+      LIST_OF_RESULTS result = { "4", "7", "9" };
+      INTERMEDIATE_TABLE actual = m_driver->TestInsertOneSynonym("w", result);
+      INTERMEDIATE_TABLE expected = { { "1", "a", "2", "3", "4" },
+      { "2", "b", "3", "4", "4" },{ "3","c","4", "5", "4" },
+      { "1", "a", "2", "3", "7" },{ "2", "b", "3", "4", "7" },{ "3","c","4", "5", "7" },
+      { "1", "a", "2", "3", "9" },{ "2", "b", "3", "4", "9" },{ "3","c","4", "5", "9" } };
+      Assert::IsTrue(actual == expected);
+    }
   };
 }

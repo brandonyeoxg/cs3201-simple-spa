@@ -18,3 +18,8 @@ void IntermediateTableDriver::insertSynonymRow(std::vector<SYNONYM_NAME> m_synon
 bool IntermediateTableDriver::TestHasSynonym(SYNONYM_NAME t_name) {
   return hasSynonym(t_name);
 }
+
+INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
+  insertOneSynonym(t_synonym, t_results);
+  return m_results;
+}
