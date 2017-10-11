@@ -146,6 +146,10 @@ private:
   static std::string PROG_LINE;
   static std::string BOOLEAN;
   static std::string CALL;
+  static std::string PROCNAME;
+  static std::string VARNAME;
+  static std::string VALUE;
+  static std::string STMT_NO;
 };
 
 #endif QUERYPREPROCESSOR_H

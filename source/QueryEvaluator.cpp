@@ -474,6 +474,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   //std::cout << "Evaluating the final result...\n";
   std::vector<std::string> finalResult;
   std::unordered_map<int, queryType::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
+  bool hasClauses = false;
 
   if (m_relationResults.empty() && m_patternResults.empty()) {
     //std::cout << "CASE 1\n";
@@ -481,6 +482,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       finalResult = m_selectResults.front();
     } 
   } else if (!m_relationResults.empty() && m_patternResults.empty()) {
+    hasClauses = true;
     //std::cout << "CASE 2\n";
     if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
       //std::cout << "STMT_NO/_ SYNONYM\n";
@@ -522,6 +524,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     m_relations.pop();
     m_relationResults.pop();
   } else if (m_relationResults.empty() && !m_patternResults.empty()) {
+    hasClauses = true;
     //std::cout << "CASE 3\n";
     if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
       std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
@@ -539,6 +542,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     m_patterns.pop();
     m_patternResults.pop();
   } else if (!m_relationResults.empty() && !m_patternResults.empty()) {
+    hasClauses = true;
     std::unordered_map<std::string, int>::const_iterator got;
     got = m_synonymsUsedInQuery.find(m_selectedSynonym);
 
@@ -1140,7 +1144,11 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   }
 
   if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
-    if (finalResult.empty()) {
+    if (!hasClauses) {
+      std::vector<std::string> result;
+      result.push_back("true");
+      finalResult = result;
+    } else if (finalResult.empty()) {
       finalResult.push_back("false");
     } else {
       std::vector<std::string> result;

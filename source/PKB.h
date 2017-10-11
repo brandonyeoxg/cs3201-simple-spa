@@ -490,4 +490,5 @@ private:
   UsesTable* m_usesTable;
   ModifiesTable* m_modifiesTable;
   StmtListTable* m_stmtListTable;
+  PatternMatch* m_patternMatch;
 };

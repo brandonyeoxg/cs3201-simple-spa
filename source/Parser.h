@@ -7,14 +7,14 @@
 #include "PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
+#include "BracketValidator.h"
 
 /**
 * Represents a parser. 
 * Parses the SIMPLE program and builds an ast through the PKB API.
 *
 * @author Brandon
-* @date 8/26/2017
-*
+* @date 8/10/2017
 */
 class Parser {
 public:
@@ -87,6 +87,13 @@ protected:
   bool isBrace(const STRING_TOKEN& t_token);
 
   /*
+  * Returns true if the token is a bracket.
+  *
+  * @param t_token the token to be checked.
+  */
+  bool isBracket(const STRING_TOKEN& t_token);
+
+  /*
   * Returns true if the token is any key delimiter like a space or a brace or operator.
   *
   * @param t_token the token to be checked.
@@ -122,8 +129,9 @@ private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
   LIST_OF_TOKENS m_curTokens;
   bool m_isParsingProcedureContent;
-  const std::string EMPTY_LINE = "";
+  STRING_TOKEN EMPTY_LINE = "";
   PROC_INDEX m_curProcIdx;
+  std::stack<STRING_TOKEN> m_bracketStack;
 
   /*
   * Parses the procedure block.
@@ -162,11 +170,20 @@ private:
   void parseCallStmt();
 
   /*
-  * Tokenise the expr to the right. 
+  * Returns a tokenised expr belonging to the right side of an assignment statement.
   * Tokenised into a vector, without spaces, each element belongs to a single term or operator.
-  *
   */
-  std::vector<std::string> tokeniseExpr();
+  LIST_OF_TOKENS parseExpr();
+
+  /*
+  * Parses each term and tokenises them to be used.
+  */
+  void parseEachTerm(LIST_OF_TOKENS& t_tokens);
+
+  /*
+  * Parses the brackets
+  */
+  void parseBrackets(LIST_OF_TOKENS& t_tokens);
 
   /*
   * Parses a non container statemment.
@@ -218,4 +235,13 @@ private:
   * Returns the the next token in the line
   */
   STRING_TOKEN getToken();
+
+  /*
+  * Handles the insertion api call to pkb based on the token.
+  * If the token is constant, a constant is inserted into PKB and if the token is 
+  * a validName a Uses relation is inserted into PKB.
+  *
+  * @param t_term the term that is in the assignment expression
+  */
+  void handleInsertionOfTermByPkb(const STRING_TOKEN& t_term);
 };
