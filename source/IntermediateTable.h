@@ -42,4 +42,5 @@ private:
   INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCartesianProductOfCommonResults(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results);
 };

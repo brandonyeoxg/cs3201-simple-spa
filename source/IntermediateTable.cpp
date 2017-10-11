@@ -24,12 +24,10 @@ void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     }
   } else if (hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym2);
-    std::vector<std::string> resultsOfFirstSynonym;// = getResultsBySynonym(t_synonym1, t_results);
-    m_results;// = getCartesianProduct((getCommonResults(resultsOfFirstSynonym)));
+    m_results = getCartesianProductOfCommonResults(t_synonym1, t_results);
   } else if (!hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym1);
-    std::vector<std::string> resultsOfSecondSynonym;// = getResultsBySynonym(t_synonym2, t_results);
-    m_results;// = getCartesianProduct((getCommonResults(resultsOfSecondSynonym)));
+    m_results = getCartesianProductOfCommonResults(t_synonym2, t_results);
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
     m_results = getCommonResults(t_synonym1, t_synonym2, t_results);
   }
@@ -166,6 +164,27 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1,
             i++;
             break;
           }
+        }
+        break;
+      }
+    }
+  }
+
+  return newResults;
+}
+
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResults(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
+  INTERMEDIATE_TABLE newResults;
+  SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
+
+  int i = 0;
+  for (auto& row : m_results) {
+    for (auto& x : t_results) {
+      if (row[synPos] == x.first) {
+        for (auto& y : x.second) {
+          newResults[i] = row;
+          newResults[i].push_back(y);
+          i++;
         }
         break;
       }
