@@ -31,7 +31,7 @@ void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     std::vector<std::string> resultsOfSecondSynonym;// = getResultsBySynonym(t_synonym2, t_results);
     m_results;// = getCartesianProduct((getCommonResults(resultsOfSecondSynonym)));
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
-    m_results = removeNonCommonResults(t_results, t_synonym1, t_synonym2);
+    m_results = getCommonResults(t_synonym1, t_synonym2, t_results);
   }
 }
 
