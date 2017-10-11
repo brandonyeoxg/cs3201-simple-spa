@@ -84,11 +84,34 @@ INTERMEDIATE_TABLE IntermediateTable::insertIntoEmptyTable(SET_OF_RESULTS t_resu
 }
 
 INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_results) {
+  INTERMEDIATE_TABLE newResults;
+  int i = 0;
+  for (auto& x : t_results) {
+    for (auto& y : m_results) {
+      newResults[i] = y;
+      newResults[i].push_back(x);
+      i++;
+    }
+  }
 
+  return newResults;
 }
 
 INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_results) {
+  INTERMEDIATE_TABLE newResults;
+  int i = 0;
+  for (auto& x : t_results) {
+    for (auto& y : x.second) {
+      for (auto& z : m_results) {
+        newResults[i] = z;
+        newResults[i].push_back(x.first);
+        newResults[i].push_back(y);
+        i++;
+      }
+    }
+  }
 
+  return newResults;
 }
 
 LIST_OF_RESULTS IntermediateTable::getCommonResults(LIST_OF_RESULTS t_results) {
