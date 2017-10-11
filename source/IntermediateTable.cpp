@@ -2,7 +2,7 @@
 
 void IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
   if (!hasSynonym(t_synonym)) {
-    //insertSynonym(t_synonym);
+    insertSynonym(t_synonym);
     m_results = getCartesianProduct(t_results);
   } else {
     m_results = getCartesianProduct(getCommonResults(t_results));
@@ -11,15 +11,15 @@ void IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS
 
 void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results) {
   if (!hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
-    //insertSynonym(t_synonym1);
-    //insertSynonym(t_synonym2);
+    insertSynonym(t_synonym1);
+    insertSynonym(t_synonym2);
     m_results = getCartesianProduct(t_results);
   } else if (hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
-    //insertSynonym(t_synonym2);
+    insertSynonym(t_synonym2);
     std::vector<std::string> resultsOfFirstSynonym;// = getResultsBySynonym(t_synonym1, t_results);
     m_results = getCartesianProduct((getCommonResults(resultsOfFirstSynonym)));
   } else if (!hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
-    //insertSynonym(t_synonym1);
+    insertSynonym(t_synonym1);
     std::vector<std::string> resultsOfSecondSynonym;// = getResultsBySynonym(t_synonym2, t_results);
     m_results = getCartesianProduct((getCommonResults(resultsOfSecondSynonym)));
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
