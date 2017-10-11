@@ -28,6 +28,8 @@ protected:
 private:
   std::vector<bool> m_ignoreColumn;
 
+  INTERMEDIATE_TABLE insertIntoEmptyTable(LIST_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE insertIntoEmptyTable(SET_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCartesianProduct(LIST_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
   LIST_OF_RESULTS getCommonResults(LIST_OF_RESULTS t_results);
