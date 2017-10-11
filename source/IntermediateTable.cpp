@@ -151,6 +151,26 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME t_synonym, L
 }
 
 // Both synoynm inside the the intermediate table
-INTERMEDIATE_TABLE IntermediateTable::removeNonCommonResults(const SET_OF_RESULTS& t_results, const SYNONYM_NAME& t_synonym1, const SYNONYM_NAME& t_synonym2) {
-  return m_results;
+INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS t_results) {
+  INTERMEDIATE_TABLE newResults;
+  SYNONYM_POSITION syn1Pos = getIndexOfSynonym(t_synonym1);
+  SYNONYM_POSITION syn2Pos = getIndexOfSynonym(t_synonym2);
+
+  int i = 0;
+  for (auto& row : m_results) {
+    for (auto& x : t_results) {
+      if (row[syn1Pos] == x.first) {
+        for (auto& y : x.second) {
+          if (row[syn2Pos] == y) {
+            newResults[i] = row;
+            i++;
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  return newResults;
 }

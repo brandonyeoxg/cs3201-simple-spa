@@ -41,9 +41,5 @@ private:
   INTERMEDIATE_TABLE getCartesianProduct(LIST_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
-
-  /*
-  * Removes all the non common results based on the key.
-  */
-  INTERMEDIATE_TABLE removeNonCommonResults(const SET_OF_RESULTS& t_results, const SYNONYM_NAME& t_synonym1, const SYNONYM_NAME& t_synonym2);
+  INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS t_results);
 };
