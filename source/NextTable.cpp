@@ -15,10 +15,10 @@ void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
   }
 
   // insert key if not present
-  if (m_afterGraph.count(t_line1) == 0) {
+  if (!isKeyInMap(m_afterGraph, t_line1)) {
     m_afterGraph.insert({ t_line1 , std::vector<PROG_LINE>() });
   }
-  if (m_beforeGraph.count(t_line2) == 0) {
+  if (!isKeyInMap(m_beforeGraph, t_line2)) {
     m_beforeGraph.insert({ t_line2 , std::vector<PROG_LINE>() });
   }
 
@@ -43,7 +43,7 @@ bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
 
 bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   // no path from line1 or no path to line2, immediately false
-  if (m_afterGraph.count(t_line1) == 0 || m_beforeGraph.count(t_line2) == 0) {
+  if (!isKeyInMap(m_afterGraph, t_line1) || !isKeyInMap(m_beforeGraph, t_line2)) {
     return false;
   }
 
@@ -73,7 +73,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
     }
 
     // has Next() lines to visit
-    if (m_afterGraph.count(lineToVisit) == 1) {
+    if (isKeyInMap(m_afterGraph, lineToVisit)) {
       for (auto nextLine : m_afterGraph.at(lineToVisit)) {
         if (!visited.at(nextLine)) { // line not visited yet
           toVisit.push_back(nextLine);

@@ -61,12 +61,23 @@ public:
   /** Next(line, _) */
   bool hasNextLine(PROG_LINE t_line);
 
+  ////////////////// for debugging
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
+  PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
+
 private:
   PROG_LINE MAX_LINE_NUM;
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between 2 lines */
   
+  template <typename T>
+  bool isKeyInMap(std::unordered_map<T, std::vector<T>> map, T key);
   bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
 
 };
+
+template<typename T>
+inline bool NextTable::isKeyInMap(std::unordered_map<T, std::vector<T>> map, T key) {
+  return map.count(key) == 1;
+}
