@@ -28,17 +28,6 @@ protected:
 private:
   std::vector<bool> m_ignoreColumn;
 
-  INTERMEDIATE_TABLE insertIntoEmptyTable(LIST_OF_RESULTS t_results);
-  INTERMEDIATE_TABLE insertIntoEmptyTable(SET_OF_RESULTS t_results);
-  INTERMEDIATE_TABLE getCartesianProduct(LIST_OF_RESULTS t_results);
-  INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
-  LIST_OF_RESULTS getCommonResults(LIST_OF_RESULTS t_results);
-
-  /*
-  * Removes all the non common results based on the key.
-  */
-  INTERMEDIATE_TABLE removeNonCommonResults(const SET_OF_RESULTS& t_results, const SYNONYM_NAME& t_synonym1, const SYNONYM_NAME& t_synonym2);
-  
   /*
   * Inserts a synonym into the intermediate table.
   * If inserted synoynm is already in the intermediate table, it will be ignored.
@@ -46,4 +35,15 @@ private:
   * @return the synonym row checker.
   */
   MAP_OF_SYNONYM_TO_TABLE_POSITION insertSynonym(const SYNONYM_NAME& t_synonym);
+  SYNONYM_POSITION getIndexOfSynonym(SYNONYM_NAME t_synonym);
+  INTERMEDIATE_TABLE insertOneIntoEmptyTable(LIST_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE insertTwoIntoEmptyTable(SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCartesianProduct(LIST_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
+
+  /*
+  * Removes all the non common results based on the key.
+  */
+  INTERMEDIATE_TABLE removeNonCommonResults(const SET_OF_RESULTS& t_results, const SYNONYM_NAME& t_synonym1, const SYNONYM_NAME& t_synonym2);
 };
