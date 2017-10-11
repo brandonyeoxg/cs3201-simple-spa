@@ -80,6 +80,7 @@ SYNONYM_POSITION IntermediateTable::getIndexOfSynonym(SYNONYM_NAME t_synonym) {
 
 INTERMEDIATE_TABLE IntermediateTable::insertOneIntoEmptyTable(LIST_OF_RESULTS t_results) {
   for (int i = 0; i < t_results.size(); ++i) {
+    m_results.push_back({});
     m_results[i].push_back(t_results[i]);
   }
 
@@ -90,6 +91,7 @@ INTERMEDIATE_TABLE IntermediateTable::insertTwoIntoEmptyTable(SET_OF_RESULTS t_r
   int i = 0;
   for (auto& x : t_results) {
     for (auto& y : x.second) {
+      m_results.push_back({});
       m_results[i].push_back(x.first);
       m_results[i].push_back(y);
       i++;
