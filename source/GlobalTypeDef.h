@@ -32,6 +32,7 @@ typedef std::unordered_map<int, std::vector<int>> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<int>> MAP_OF_VAR_NAME_TO_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
 typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
+typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;

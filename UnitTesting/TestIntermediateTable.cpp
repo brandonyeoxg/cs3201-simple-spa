@@ -20,8 +20,8 @@ namespace UnitTesting {
       2  'b'  3   4
       3  'c'  4   5
       */
-      INTERMEDIATE_TABLE result = { {"1", "2", "3"}, 
-      {"a", "b", "c"}, {"2","3","4"}, {"3", "4", "5"} };
+      INTERMEDIATE_TABLE result = { {"1", "a", "2", "3"}, 
+      {"2", "b", "3", "4"}, {"3","c","4", "5"}};
       m_driver->insertTable(result);
       m_driver->insertSynonymRow({"a", "v", "s1", "s2"});
     }
