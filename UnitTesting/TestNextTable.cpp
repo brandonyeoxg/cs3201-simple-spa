@@ -55,6 +55,13 @@ public:
 
     // basically an if statement, with a while statement nested in else section
     // if-statement: line 1, while-statement: line 3
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5   stmt
+    */
     nextTable.insertNextRelationship(1, 2);
     nextTable.insertNextRelationship(1, 3);
     nextTable.insertNextRelationship(3, 4);
@@ -86,6 +93,56 @@ public:
     Assert::IsTrue(nextTable.isNextStar(1, 4));
     Assert::IsTrue(nextTable.isNextStar(4, 5));
     Assert::IsTrue(nextTable.isNextStar(3, 3));
+  }
+
+  TEST_METHOD(isNext_isNextStar_02) {
+    NextTable nextTable = NextTable();
+
+    // if-statement nested within if-statement
+    /*  1   stmt
+        2   stmt
+        3   if ...
+        4     if ...
+        5       stmt
+              else
+        6       stmt
+            else
+        7     stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(3, 7);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(4, 6);
+
+    nextTable.executeAfterAllNextInserts();
+
+    // test possible control paths for Next()
+    Assert::IsTrue(nextTable.isNext(1, 2));
+    Assert::IsTrue(nextTable.isNext(2, 3));
+    Assert::IsTrue(nextTable.isNext(4, 5));
+
+    // test for false paths
+    Assert::IsFalse(nextTable.isNext(1, 5));
+    Assert::IsFalse(nextTable.isNext(6, 7));
+
+    // test for possible control paths for Next*()
+    Assert::IsTrue(nextTable.isNextStar(1, 2));
+    Assert::IsTrue(nextTable.isNextStar(1, 3));
+    Assert::IsTrue(nextTable.isNextStar(1, 4));
+    Assert::IsTrue(nextTable.isNextStar(1, 5));
+    Assert::IsTrue(nextTable.isNextStar(1, 6));
+    Assert::IsTrue(nextTable.isNextStar(1, 7));
+
+    Assert::IsTrue(nextTable.isNextStar(3, 5));
+    Assert::IsTrue(nextTable.isNextStar(3, 6));
+    Assert::IsTrue(nextTable.isNextStar(3, 7));
+
+    Assert::IsTrue(nextTable.isNextStar(2, 3));
+    Assert::IsTrue(nextTable.isNextStar(2, 4));
+    Assert::IsTrue(nextTable.isNextStar(2, 5));
+
   }
 
 private:
