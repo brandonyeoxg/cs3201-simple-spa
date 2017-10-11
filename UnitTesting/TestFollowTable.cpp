@@ -96,11 +96,14 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetFollowedBy) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
       Logger::WriteMessage("Running follow table test getFollowedBy");
       FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
+      testFollowTable->setFollowTable(test);
       //test getFollowedBy method (correct behaviour)
       int expected = testFollowTable->getFollowedBy(3);
       Assert::IsTrue(expected == 2);
@@ -140,11 +143,14 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetFollowedByStar) {
+      std::unordered_map<int, std::vector<int>> test = {
+        { 1,{ 2, 3, 4 } },
+        { 2,{ 3, 4 } },
+        { 3,{ 4 } }
+      };
       Logger::WriteMessage("Running follow table test getFollowedByStar");
       FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
+      testFollowTable->setFollowTable(test);
       //test getFollowedByStar method (correct behaviour)
       std::vector<int> expected = testFollowTable->getFollowedByStar(4);
       static const int arr[] = { 1, 2, 3 };

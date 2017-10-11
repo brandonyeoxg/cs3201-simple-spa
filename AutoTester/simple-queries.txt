@@ -898,12 +898,12 @@ stmt s1, s2; assign a1, a2; variable v;
 Select s2 such that Follows(a1,a2) pattern a2(v, _"y"_)
 none
 5000
-181 - Select with Uses + Pattern and 4 synonyms with 1 common between clauses (Subtree) - True
+181 - Select with Follows + Pattern and 4 synonyms with 1 common between clauses (Subtree) - True
 stmt s1, s2; assign a; variable v;
 Select s1 such that Uses(s2,v) pattern a(v, _"y"_)
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
-182 - Select with Uses + Pattern and 4 synonyms with 1 common between clauses (Subtree) - False
+182 - Select with Follows + Pattern and 4 synonyms with 1 common between clauses (Subtree) - False
 stmt s1, s2; assign a; variable v;
 Select s1 such that Uses(s2,v) pattern a(v, _"c"_)
 none
@@ -918,42 +918,42 @@ stmt s1, s2; assign a; variable v;
 Select a such that Follows(a,s2) pattern a(v, _"b"_)
 none
 5000
-185 - Select with Uses + Pattern and 4 synonyms with 1 common between all (Subtree) - True
+185 - Select with Follows + Pattern and 4 synonyms with 1 common between all (Subtree) - True
 stmt s1, s2; assign a; variable v;
 Select v such that Uses(s1,v) pattern a(v, _"y"_)
 x, z
 5000
-186 - Select with Uses + Pattern and 4 synonyms with 1 common between all (Subtree) - False
+186 - Select with Follows + Pattern and 4 synonyms with 1 common between all (Subtree) - False
 stmt s1, s2; assign a; variable v;
 Select v such that Uses(s2,v) pattern a(v, _"b"_)
 none
 5000
-187 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+187 - Select with Follows + Pattern and 4 synonyms with 2 commons (Subtree) - True
 stmt s1, s2; assign a; variable v;
 Select s1 such that Uses(s1,v) pattern a(v, _"y"_)
 1
 5000
-188 - Select with Uses + Pattern and 4 synonyms with 2 common (Subtree) - False
+188 - Select with Follows + Pattern and 4 synonyms with 2 common (Subtree) - False
 stmt s1, s2; assign a; variable v;
 Select s2 such that Uses(s2,v) pattern a(v, _"b"_)
 none
 5000
-189 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+189 - Select with Follows + Pattern and 4 synonyms with 2 commons (Subtree) - True
 stmt s1, s2; assign a; variable v;
 Select a such that Uses(s1,v) pattern a(v, _"y"_)
 1, 3, 7, 10
 5000
-190 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - False
+190 - Select with Follows + Pattern and 4 synonyms with 2 commons (Subtree) - False
 stmt s1, s2; assign a; variable v;
 Select a such that Uses(s2,v) pattern a(v, _"b"_)
 none
 5000
-191 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+191 - Select with Follows + Pattern and 4 synonyms with 2 commons (Subtree) - True
 stmt s1, s2; assign a; variable v1, v2;
 Select v2 such that Uses(a,v1) pattern a(v2, _"y"_)
 x, z
 5000
-192 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - False
+192 - Select with Follows + Pattern and 4 synonyms with 2 commons (Subtree) - False
 stmt s1, s2; assign a; variable v1, v2;
 Select v2 such that Uses(a,v1) pattern a(v2, _"a"_)
 none
@@ -1042,9 +1042,4 @@ x, I, a
 stmt s1, s2; assign a; variable v; while w;
 Select w such that Parent(w,a) pattern a(v, _"y"_)
 2, 9
-5000
-210 - Select stmtList only
-stmtLst sl;
-Select sl
-1, 3, 6, 10
 5000

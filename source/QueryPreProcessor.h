@@ -17,7 +17,6 @@
 #include "Pattern.h"
 #include "PKB.h"
 #include "StringUtil.h"
-#include "GlobalTypeDef.h"
 
 class QueryPreProcessor
 {
@@ -114,19 +113,6 @@ public:
   */
   std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
 
-  /**
-  * A tokenizing method which removes the characters specified in the string character 
-  * in the targeted string targetString and then pushes them into the vector
-  * @return a string vector containing the string tokens
-  */
-  std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
-
-  /**
-  * DEBUGGING METHODS: 
-  * Check if with clause appears
-  */
-  std::string QueryPreProcessor::getWithStatement(void);
-
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
@@ -135,21 +121,18 @@ private:
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;
   StringUtil m_stringUtil;
-  static std::string PROCEDURE;
-  static std::string STMTLST;
-  static std::string STMT;
-  static std::string ASSIGN;
-  static std::string WHILE;
-  static std::string IF;
-  static std::string VARIABLE;
-  static std::string CONSTANT;
-  static std::string PROG_LINE;
-  static std::string BOOLEAN;
-  static std::string CALL;
-  static std::string PROCNAME;
-  static std::string VARNAME;
-  static std::string VALUE;
-  static std::string STMT_NO;
+  const int m_procedure = 0;
+  const int m_statementList = 1;
+  const int m_statement = 2;
+  const int m_assign = 3;
+  const int m_while = 4;
+  const int m_if = 5;
+  const int m_expression = 6;
+  const int m_variable = 7;
+  const int m_constant = 8;
+  const int m_progline = 9;
+  const int m_statementNumber = 10;
+  const int m_string = 11;
 };
 
 #endif QUERYPREPROCESSOR_H
