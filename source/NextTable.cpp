@@ -42,6 +42,7 @@ bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
 }
 
 bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
+  // no path from line1 or no path to line2, immediately false
   if (m_afterGraph.count(t_line1) == 0 || m_beforeGraph.count(t_line2) == 0) {
     return false;
   }
@@ -63,7 +64,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
   }
 
   while (!toVisit.empty()) {
-    PROG_LINE lineToVisit = toVisit.back();
+    PROG_LINE lineToVisit = toVisit.back(); // remove from stack
     toVisit.pop_back();
     visited.at(lineToVisit) = true;
 
@@ -71,13 +72,12 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
       return true;
     }
 
-    if (m_afterGraph.count(lineToVisit) == 0) {
-      return false;
-    }
-
-    for (auto nextLine : m_afterGraph.at(lineToVisit)) {
-      if (!visited.at(nextLine)) {
-        toVisit.push_back(nextLine);
+    // has Next() lines to visit
+    if (m_afterGraph.count(lineToVisit) == 1) {
+      for (auto nextLine : m_afterGraph.at(lineToVisit)) {
+        if (!visited.at(nextLine)) { // line not visited yet
+          toVisit.push_back(nextLine);
+        }
       }
     }
   }
