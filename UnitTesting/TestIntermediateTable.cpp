@@ -34,7 +34,6 @@ namespace UnitTesting {
     TEST_METHOD(TestHasSynonym) 
     {
       bool actual = m_driver->TestHasSynonym("a");
-      bool expected = true;
       Assert::IsTrue(actual);
 
       actual = m_driver->TestHasSynonym("s1");
