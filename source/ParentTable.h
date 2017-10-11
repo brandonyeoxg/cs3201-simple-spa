@@ -20,10 +20,10 @@ public:
   void setParentMap(std::unordered_map<int, int> &t_map);
   void setParentStarMap(std::unordered_map<int, std::vector<int>> &t_map);
   void setParentedByStarMap(std::unordered_map<int, std::vector<int>> &t_map);
-  std::unordered_map<int, std::vector<int>>& getChildMap();
-  std::unordered_map<int, int>& getParentMap();
-  std::unordered_map<int, std::vector<int>>& getParentStarMap();
-  std::unordered_map<int, std::vector<int>>& getParentedByStarMap();
+  std::unordered_map<int, std::vector<int>> getChildMap();
+  std::unordered_map<int, int> getParentMap();
+  std::unordered_map<int, std::vector<int>> getParentStarMap();
+  std::unordered_map<int, std::vector<int>> getParentedByStarMap();
 
   ParentTable();
 
@@ -35,6 +35,8 @@ public:
   std::vector<int> getParentStarOf(int t_s2);
   std::vector<int> getChildrenStarOf(int t_s1);
   std::unordered_map<int, std::vector<int>> getAllParents();
+  void populateParentStarMap();
+  void populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr);
   std::vector<int> getChildrenOfAnything(); //parent(_, s2)
   std::vector<int> getParentOfAnything(); //parent(s1, _)
   std::vector<int> getChildrenStarOfAnything(); //parent*(_, s2)

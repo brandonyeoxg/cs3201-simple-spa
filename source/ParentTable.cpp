@@ -75,29 +75,26 @@ int ParentTable::getParentOf(int t_s2) {
 }
 
 std::vector<int> ParentTable::getChildrenOf(int t_s1) {
-  std::vector<int> emptyVector;
   if (m_childMap.find(t_s1) == m_childMap.end()) {
     //if s1 is not present in childMap, throw exception
-    return emptyVector;
+    throw std::invalid_argument("key s1 does not exist in ParentTable");
   } else {
     return m_childMap[t_s1];
   }
 }
 
 std::vector<int> ParentTable::getParentStarOf(int t_s2) {
-  std::vector<int> emptyVector;
   if (m_parentedByStarMap.find(t_s2) == m_parentedByStarMap.end()) {
-    return emptyVector;
+    throw std::invalid_argument("key s2 does not exist in ParentTable");
   }
   auto iterator = m_parentedByStarMap.find(t_s2);
   return iterator->second;
 }
 
 std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
-  std::vector<int> emptyVector;
-  //if does not exist in childMap, return empty vector.
+  //if does not exist in childMap, throw invalid_argument exception.
   if (m_childMap.find(t_s1) == m_childMap.end()) {
-    return emptyVector;
+    throw std::invalid_argument("key s1 does not exist in ParentTable");
   }
 
   //new implementation: use m_parentStarTable to query for s1.
@@ -107,6 +104,39 @@ std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
 
 std::unordered_map<int, std::vector<int>> ParentTable::getAllParents() {
   return m_childMap;
+}
+
+void ParentTable::populateParentStarMap() {
+  //for every key in childMap
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    int parent = it->first;
+    std::vector<int> children = it->second;
+    m_parentStarMap.emplace(parent, children);
+    std::vector<int> childrenStar = children;
+    for (int i = 0; i < childrenStar.size(); i++) {
+      //for every child, if it can be found in the map, append all from it's mapped vector to children
+      auto iterator = m_childMap.find(childrenStar[i]);
+      if (iterator != m_childMap.end()) {
+        std::vector<int> toBeAppended = iterator->second;
+        childrenStar.reserve(childrenStar.size() + toBeAppended.size());
+        childrenStar.insert(childrenStar.end(), toBeAppended.begin(), toBeAppended.end());
+      }
+    }
+    m_parentStarMap[parent] = childrenStar;
+  }
+
+}
+
+void ParentTable::populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr) {
+  int baseStmtNo = t_mapItr->first;
+  std::vector<int> stmtsOfParentedBy;
+  stmtsOfParentedBy.push_back(t_mapItr->second);
+  auto nextParentLink = m_parentMap.find(t_mapItr->second);
+  while (nextParentLink != m_parentMap.end()) {
+    stmtsOfParentedBy.push_back(nextParentLink->second);
+    nextParentLink = m_parentMap.find(nextParentLink->second);
+  }
+  m_parentedByStarMap.insert({ baseStmtNo, stmtsOfParentedBy });
 }
 
 std::vector<int> ParentTable::getChildrenOfAnything() {
@@ -234,19 +264,19 @@ void ParentTable::setParentedByStarMap(std::unordered_map<int, std::vector<int>>
   m_parentedByStarMap = t_map;
 }
 
-std::unordered_map<int, std::vector<int>>& ParentTable::getChildMap() {
+std::unordered_map<int, std::vector<int>> ParentTable::getChildMap() {
   return m_childMap;
 }
 
-std::unordered_map<int, int>& ParentTable::getParentMap() {
+std::unordered_map<int, int> ParentTable::getParentMap() {
   return m_parentMap;
 }
 
-std::unordered_map<int, std::vector<int>>& ParentTable::getParentStarMap() {
+std::unordered_map<int, std::vector<int>> ParentTable::getParentStarMap() {
   return m_parentStarMap;
 }
 
-std::unordered_map<int, std::vector<int>>& ParentTable::getParentedByStarMap() {
+std::unordered_map<int, std::vector<int>> ParentTable::getParentedByStarMap() {
   return m_parentedByStarMap;
 }
 

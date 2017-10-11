@@ -19,6 +19,9 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
+      <Filter>FrontEnd</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\FollowTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
@@ -35,7 +38,7 @@
       <Filter>PKB\AST</Filter>
     </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
-      <Filter>Util</Filter>
+      <Filter>PKB\Util</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Grammar.cpp">
       <Filter>PQL\Query Types</Filter>
@@ -97,125 +100,11 @@
     <ClCompile Include="..\source\ConstantTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProcTableData.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\StatementTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PatternMatch.cpp">
-      <Filter>PKB\PatternMatch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\FollowsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Relationship.cpp">
-      <Filter>PQL\Relationships</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\FollowsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\NextEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\NextStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AffectsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AffectsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Evaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
-      <Filter>test-drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Patterns.cpp">
-      <Filter>PQL\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AssignPatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\WhilePatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\IfPatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesP.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesP.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ExtractorFactory.cpp">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AssignExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesPExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesPExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\StmtListTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\BracketValidator.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\IntermediateTable.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
-      <Filter>test-drivers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +126,9 @@
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\DesignExtractor.h">
+      <Filter>FrontEnd</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\ParentTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
@@ -256,7 +148,7 @@
       <Filter>PKB\AST</Filter>
     </ClInclude>
     <ClInclude Include="..\source\StringUtil.h">
-      <Filter>Util</Filter>
+      <Filter>PKB\Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Pattern.h">
       <Filter>PQL\Query Types</Filter>
@@ -336,141 +228,15 @@
     <ClInclude Include="..\source\ConstantTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ProcTableData.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
+    <ClInclude Include="..\source\PKB_API.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\StatementTable.h">
       <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PatternMatch.h">
-      <Filter>PKB\PatternMatch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PkbWriteOnly.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PkbReadOnly.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Evaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Patterns.h">
-      <Filter>PQL\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Relationship.h">
-      <Filter>PQL\Relationships</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\NextEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\NextStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\test-drivers\ParserDriver.h">
-      <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AssignPatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\WhilePatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\IfPatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesP.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesP.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ExtractorFactory.h">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PkbTablesOnly.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AssignExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Extractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesPExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesPExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\DesignExtractor.h">
-      <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\StmtListTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxInvalidTerm.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\BracketValidator.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\IntermediateTable.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
-      <Filter>test-drivers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -489,6 +255,9 @@
     <Filter Include="PKB\AST">
       <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PKB\Util">
+      <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
     </Filter>
@@ -497,33 +266,6 @@
     </Filter>
     <Filter Include="FrontEnd\Exception">
       <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PKB\PatternMatch">
-      <UniqueIdentifier>{11e46c09-bc71-4139-8997-177b1d4a1c34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PQL\Relationships">
-      <UniqueIdentifier>{12e2077e-997e-4aa8-9b81-780b5f1438df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PQL\Patterns">
-      <UniqueIdentifier>{85f76b21-f182-4dce-8558-09fc90554d0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="test-drivers">
-      <UniqueIdentifier>{4078f7f2-9786-4d7a-9d57-209f63a077c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrontEnd\DesignExtractor">
-      <UniqueIdentifier>{ba2ff195-3787-4414-890c-6a20a0bbc308}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrontEnd\DesignExtractor\Extractors">
-      <UniqueIdentifier>{c8a97698-fee2-4f8b-98d2-360f0b299b71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PQL\Relationships\Evaluator">
-      <UniqueIdentifier>{6a50b633-5f84-4a0d-8d7a-edc8806dbd34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PQL\Patterns\Pattern Evaluator">
-      <UniqueIdentifier>{01a35d34-afad-45c5-a588-b18161125f59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

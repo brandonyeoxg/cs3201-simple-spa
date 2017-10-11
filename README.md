@@ -20,15 +20,3 @@ doxygen doxygenConfig
 ```
 > * Note: running this in Git bash may not work sometimes, so try using command prompt if Git bash does not work
 4. Navigate to ./Doxygen/html/index.html and open the file in a browser to view documentation
-
-## Tests
-
-1. Double-click the autotester_automate.bat file in the AutoTester folder to run all the tests for acceptance, regression, system and validation
-> * Note: The test cases are in the ./AutoTester/Tests folder
-> * Note: The XML outputs will  be in the ./AutoTester/Output folder
-2. Alternatively, there are other scripts to run just the acceptance/regression/system/validation test cases as listed below:
-> * Acceptance Tests: autotester_automate_acceptance.bat
-> * Regression Tests: autotester_automate_regression.bat
-> * System Tests: autotester_automate_system.bat
-> * Validation Tests: autotester_automate_validate.bat
-3. Navigate to ./AutoTester/Output folder and open the XML files with Firefox to view the results of the test cases

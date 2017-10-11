@@ -9,11 +9,11 @@
 
 #include "Parser.h"
 #include "StringUtil.h"
+#include "nodes\TNode.h"
 #include "SyntaxOpenBraceException.h"
 #include "SyntaxNoEndOfStatementException.h"
 #include "SyntaxUnknownCommandException.h"
 #include "SyntaxEmptyLineException.h"
-#include "SyntaxInvalidTerm.h"
 
 int Parser::parse (const std::string &t_filename) throw() {
   m_readStream = std::ifstream (t_filename);
@@ -23,67 +23,64 @@ int Parser::parse (const std::string &t_filename) throw() {
   m_nextToken = getCurrentLineToken();
   while (!m_readStream.eof()) {
     parseForProcedure();
-    isMatchToken(EMPTY_LINE);
   }
   return 0;
 }
 
-void Parser::parseForProcedure() {
+int Parser::parseForProcedure() {
+  // Construct the AST based on the parsed line
+  // Remove unecessary spaces, tabs	
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+    std::string procName = getMatchToken(tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
-    LIST_OF_STMT_NUMS stmtLst;
-    parseStmtLst(stmtLst);
+    StmtListNode* stmtLst = m_pkb->insertProcedure(procName);
+    return parseStmtLst(stmtLst);
   }
+  return -1;
 }
 
-void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+int Parser::parseStmtLst(StmtListNode *t_node) {
   // Parse the rest of the code in the
-  parseStmt(t_stmtInStmtLst);
+  parseStmt(t_node);
   if (isMatchToken("}")) {
     // Remove from back
     if (!m_nestedStmtLineNum.empty()) {
       m_nestedStmtLineNum.pop_back();
     }
-    return;
+    return 1;
   }
-  parseStmtLst(t_stmtInStmtLst);
+  return parseStmtLst(t_node);
 }
 
-void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+int Parser::parseStmt(TNode *t_node) {
   if (isMatchToken(EMPTY_LINE)) {
-    return;
+    return 1;
   }
   m_curLineNum += 1;
-  m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
-  m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
-  t_stmtInStmtLst.push_back(m_curLineNum);
-  if (t_stmtInStmtLst.size() == 1) {
-    m_pkbWriteOnly->insertStmtList(m_curLineNum);
+  m_pkb->insertFollowsRelation(t_node, m_curLineNum);
+  // Var name
+  if (isNonContainerStmt()) {
+    parseNonContainerStmt(t_node);
   }
-  if (isNonContainerStmt(m_nextToken)) {
-    parseNonContainerStmt(t_stmtInStmtLst);
-  } else {
-    parseContainerStmt(t_stmtInStmtLst);
+  else {
+    parseContainerStmt(t_node);
   }
+  return 1;
 }
 
-void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  if (isMatchToken("call")) {
-    parseCallStmt();
-  } else {
-    parseAssignStmt();
-  }
+int Parser::parseNonContainerStmt(TNode* t_node) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
+  parseAssignStmt(t_node);
   if (!isMatchToken(";")) {
     throw SyntaxNoEndOfStatmentException(m_curLineNum);
   }
+  return 0;
 }
 
-void Parser::parseAssignStmt() {
-  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+int Parser::parseAssignStmt(TNode* t_node) {
+  std::string varName = getMatchToken(tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -93,138 +90,77 @@ void Parser::parseAssignStmt() {
   if (isConstant(varName) && !isValidName(varName)) {
     throw SyntaxUnknownCommandException("Var name is not valid", m_curLineNum);
   }
-  m_pkbWriteOnly->insertModifies(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
+  VariableNode* left = m_pkb->insertModifiedVariable(varName, m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("=")) {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
-  } 
-  LIST_OF_TOKENS tokenisedExpr = parseExpr();
-  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr);
+  }
+  TNode* exprNode = parseExpr();
+  m_pkb->insertAssignStmt(t_node, left, exprNode, m_curLineNum);
+  return 1;
 }
 
-void Parser::parseCallStmt() {
-  std::string procName = getMatchToken(tokentype::PROC_NAME);
-  m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
-}
-
-LIST_OF_TOKENS Parser::parseExpr() {
-  LIST_OF_TOKENS output;
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
-  if (!isConstant(term) && !isValidName(term) && !isBracket(term)) {
-    throw SyntaxInvalidTerm(m_curLineNum);
-  }
-  if (term == BracketValidator::CLOSE_BRACE) {
-    return output;
-  }
-  output.push_back(term);
-  if (term == BracketValidator::OPEN_BRACE) {
-    parseBrackets(output);
+TNode* Parser::parseExpr() {
+  std::stack<TNode *> exprStack;
+  std::string name = getMatchToken(tokenType::VAR_NAME);
+  if (isConstant(name)) {
+    ConstantNode* constNode = m_builder.createConstant(m_curLineNum, atoi(name.c_str()));    
+    m_pkb->insertConstant(name, m_curLineNum);
+    exprStack.push(constNode);
+  } else if (!isValidName(name)) {
+    throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    handleInsertionOfTermByPkb(term);
+    VariableNode* varNode = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
+    exprStack.push(varNode);
   }
-  while (isOperator(m_nextToken) && m_nextToken != BracketValidator::CLOSE_BRACE) {
-    parseEachTerm(output);
+  while (m_nextToken == "+") {
+    if (exprStack.empty() == true || !isMatchToken("+")) {
+      break;
+    }
+    parseEachOperand(exprStack);
   }
-  return output;
+  TNode *childNode = exprStack.top();
+  return childNode;
 }
 
-void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
-  STRING_TOKEN opr = getMatchToken(tokentype::tokenType::EXPR); // operator
-  if (!isOperator(opr)) {
-    throw SyntaxInvalidTerm(m_curLineNum);
-  }
-  t_tokens.push_back(opr);
-  if (opr == BracketValidator::OPEN_BRACE) {
-    parseBrackets(t_tokens);
-    return;
-  }
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
-  if (!isConstant(term) && !isValidName(term) && !isBracket(term)) {
-    throw SyntaxInvalidTerm(m_curLineNum);
-  }
-  t_tokens.push_back(term);
-  if (term == BracketValidator::OPEN_BRACE) {
-    parseBrackets(t_tokens);
-    if (m_nextToken == BracketValidator::OPEN_BRACE) {
-      throw SyntaxUnknownCommandException("Cannot put \")(\" ", m_curLineNum);
-    }
-    return;
-  } 
-  handleInsertionOfTermByPkb(term);
-}
-
-void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
-  if (m_nextToken == BracketValidator::OPEN_BRACE) {
-    STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
-    t_tokens.push_back(term);
-    parseBrackets(t_tokens);
-    while (isOperator(m_nextToken) && m_nextToken != BracketValidator::CLOSE_BRACE) {
-      parseEachTerm(t_tokens);
-    }
+void Parser::parseEachOperand(std::stack<TNode *>& t_exprStack) {
+  std::string name = getMatchToken(tokenType::VAR_NAME);
+  TNode* right;
+  if (isConstant(name)) {
+    right = m_pkb->insertConstant(name, m_curLineNum);
+  } else if (!isValidName(name)) {
+    throw SyntaxUnknownCommandException("Not a valid variable name", m_curLineNum);
   } else {
-    LIST_OF_TOKENS subExprTokens = parseExpr();
-    t_tokens.insert(t_tokens.end(), subExprTokens.begin(), subExprTokens.end());
+    right = m_pkb->insertUsesVariable(name, m_curLineNum, m_nestedStmtLineNum);
   }
-  if (isMatchToken(BracketValidator::CLOSE_BRACE)) {
-    t_tokens.push_back(BracketValidator::CLOSE_BRACE);
-  } 
-  else {
-    throw SyntaxOpenBraceException(m_curLineNum);
-  }
+  TNode* left = t_exprStack.top();
+  t_exprStack.pop();
+  PlusNode* plusNode = m_builder.buildAddition(m_curLineNum, left, right);
+  t_exprStack.push(plusNode);
 }
 
-void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+int Parser::parseContainerStmt(TNode* t_node) {
+  m_pkb->insertParent(t_node->getLineNum(), m_curLineNum);
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
-    parseWhileStmt(t_stmtInStmtLst);
+    parseWhileStmt((WhileNode*)t_node);
   } else if (isMatchToken("if")) {
-    parseIfElseStmt(t_stmtInStmtLst);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
+  return 1;
 }
 
-void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+int Parser::parseWhileStmt(TNode* t_node) {
+  VariableNode* varNode = m_pkb->insertUsesVariable(getMatchToken(tokenType::VAR_NAME), m_curLineNum, m_nestedStmtLineNum);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
-  m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
-  LIST_OF_STMT_NUMS whileStmtLst;
-  parseStmtLst(whileStmtLst);
+  StmtListNode* stmtLstNode = m_pkb->insertWhileStmt(t_node, varNode, m_curLineNum);
+  parseStmtLst(stmtLstNode);
+  return 1;
 }
 
-void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  STMT_NUM ifStmtNum = m_curLineNum;
-  parseIfStmt(t_stmtInStmtLst);
-  m_nestedStmtLineNum.push_back(ifStmtNum);
-  parseElseStmt(t_stmtInStmtLst);
-}
-
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
-  if (!isMatchToken("then")) {
-    throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
-  }
-  if (!isMatchToken("{")) {
-    throw SyntaxOpenBraceException(m_curLineNum);
-  }
-  m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
-  LIST_OF_STMT_NUMS ifStmtLst;
-  parseStmtLst(ifStmtLst);
-}
-
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  if (!isMatchToken("else")) {
-    throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
-  }
-  if (!isMatchToken("{")) {
-    throw SyntaxOpenBraceException(m_curLineNum);
-  }
-  LIST_OF_STMT_NUMS elseStmtLst;
-  parseStmtLst(elseStmtLst);
-}
-
-bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
+bool Parser::isMatchToken(const std::string &t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -232,17 +168,11 @@ bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(tokentype::tokenType t_type) {
+bool Parser::isMatchToken(tokenType t_type) {
   switch (t_type) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
+    case tokenType::PROC_NAME:
+    case tokenType::VAR_NAME:
       if (!isKeyDelimiter(m_nextToken)) {
-        m_nextToken = getCurrentLineToken();
-        return true;
-      }
-      break;
-    case tokentype::tokenType::EXPR:
-      if (isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
@@ -254,13 +184,13 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
   return false;
 }
 
-STRING_TOKEN Parser::getMatchToken(const tokentype::tokenType &t_token) {
-  STRING_TOKEN output = m_nextToken;
+std::string Parser::getMatchToken(const tokenType &t_token) {
+  std::string output = m_nextToken;
   switch (t_token) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
-    case tokentype::tokenType::CONSTANT:
-    case tokentype::tokenType::EXPR :
+    case tokenType::PROC_NAME:
+    case tokenType::VAR_NAME:
+    case tokenType::CONSTANT:
+    case tokenType::EXPR :
       m_nextToken = getCurrentLineToken();
       break;
     default:
@@ -270,7 +200,7 @@ STRING_TOKEN Parser::getMatchToken(const tokentype::tokenType &t_token) {
   return output;
 }
 
-STRING_TOKEN Parser::getCurrentLineToken() {
+std::string Parser::getCurrentLineToken() {
   if (!m_curTokens.empty()) {
     return getToken();
   }
@@ -286,42 +216,37 @@ STRING_TOKEN Parser::getCurrentLineToken() {
   return EMPTY_LINE;  
 }
 
-STRING_TOKEN Parser::getToken() {
+std::string Parser::getToken() {
   if (m_curTokens.empty()) {
     throw SyntaxEmptyLineException();
   }
-  STRING_TOKEN token = m_curTokens.front();
+  std::string token = m_curTokens.front();
   m_curTokens.erase(m_curTokens.begin());
   return token;
 }
 
-bool Parser::isOperator(const STRING_TOKEN& t_token) {
+bool Parser::isOperator(const std::string &t_token) {
   return t_token == "+"
     || t_token == "-"
     || t_token == "*"
-    || t_token == "="
-    || isBracket(t_token);
+    || t_token == "=";
 }
 
-bool Parser::isBrace(const STRING_TOKEN& t_token) {
+bool Parser::isBrace(const std::string &t_token) {
   return t_token == "{" || t_token == "}";
 }
 
-bool Parser::isBracket(const STRING_TOKEN& t_token) {
-  return t_token == "(" || t_token == ")";
-}
-
-bool Parser::isKeyDelimiter(const STRING_TOKEN& t_token) {
+bool Parser::isKeyDelimiter(const std::string &t_token) {
   return isBrace(t_token) 
     || isOperator(t_token) 
     || t_token == " " 
     || t_token == ";";
 }
 
-LIST_OF_TOKENS Parser::tokeniseLine(const STRING_TOKEN& t_line) {
+std::vector<std::string> Parser::tokeniseLine(const std::string &t_line) {
   std::string formatString = StringUtil::reduceString(t_line);
-  LIST_OF_TOKENS tokens;
-  STRING_TOKEN token = EMPTY_LINE;
+  std::vector<std::string> tokens;
+  std::string token = EMPTY_LINE;
   for (auto itr = formatString.begin(); itr != formatString.end(); itr++) {
     const std::string curStrChar = std::string(1, (*itr));
     if (isKeyDelimiter(curStrChar) && token != EMPTY_LINE) { // Tokenise the words
@@ -344,7 +269,7 @@ LIST_OF_TOKENS Parser::tokeniseLine(const STRING_TOKEN& t_line) {
   return tokens;
 }
 
-bool Parser::isValidName(const STRING_TOKEN& t_token) {
+bool Parser::isValidName(std::string& t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -359,7 +284,7 @@ bool Parser::isValidName(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isConstant(const STRING_TOKEN& t_token) {
+bool Parser::isConstant(std::string& t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -368,14 +293,6 @@ bool Parser::isConstant(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt(const STRING_TOKEN& t_token) {
-  return t_token != "while" && t_token != "if";
-}
-
-void Parser::handleInsertionOfTermByPkb(const STRING_TOKEN& t_term) {
-  if (isConstant(t_term)) {
-    m_pkbWriteOnly->insertConstant(t_term);
-  } else if (isValidName(t_term)) {
-    m_pkbWriteOnly->insertUses(m_curProcIdx, t_term, m_nestedStmtLineNum, m_curLineNum);
-  }
+bool Parser::isNonContainerStmt() {
+  return m_nextToken != "while" && m_nextToken != "if";
 }

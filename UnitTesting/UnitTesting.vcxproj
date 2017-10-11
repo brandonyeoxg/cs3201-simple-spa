@@ -162,7 +162,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestBracketValidator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -171,25 +170,17 @@
     </ClCompile>
     <ClCompile Include="TestAssignTable.cpp" />
     <ClCompile Include="TestAST.cpp" />
-    <ClCompile Include="TestCallsTable.cpp" />
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />
     <ClCompile Include="TestFollowTable.cpp" />
-    <ClCompile Include="TestIntermediateTable.cpp" />
-    <ClCompile Include="TestModifiesP.cpp" />
     <ClCompile Include="TestParentTable.cpp" />
     <ClCompile Include="TestParser.cpp" />
-    <ClCompile Include="TestPatternMatch.cpp" />
     <ClCompile Include="TestPKB.cpp" />
-    <ClCompile Include="TestPkbPatternAPI.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
-    <ClCompile Include="TestStatementTable.cpp" />
-    <ClCompile Include="TestStmtListTable.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
-    <ClCompile Include="TestUsesP.cpp" />
-    <ClCompile Include="TestUsesTable.cpp" />
+    <ClCompile Include="TestVarTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
