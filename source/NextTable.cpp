@@ -47,11 +47,36 @@ bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
     return false;
   }
 
+  // check Next() relationship first, faster termination if true
   if (m_isNextTable.at(t_line1).at(t_line2)) {
     return true;
   }
 
   return isTherePathFromLine1ToLine2(t_line1, t_line2);
+}
+
+std::vector<PROG_LINE> NextTable::getLinesAfter(PROG_LINE t_line) {
+  if (isKeyInMap(m_afterGraph, t_line)) {
+    return m_afterGraph.at(t_line);
+  } else {
+    return {};
+  }
+}
+
+std::vector<PROG_LINE> NextTable::getLinesBefore(PROG_LINE t_line) {
+  if (isKeyInMap(m_beforeGraph, t_line)) {
+    return m_beforeGraph.at(t_line);
+  } else {
+    return {};
+  }
+}
+
+std::vector<PROG_LINE> NextTable::getAllLinesAfter(PROG_LINE t_line) {
+  return getListOfLinesReachableFromLine(t_line, m_afterGraph);
+}
+
+std::vector<int> NextTable::getAllLinesBefore(PROG_LINE t_line) {
+  return getListOfLinesReachableFromLine(t_line, m_beforeGraph);
 }
 
 // depth first search
@@ -83,4 +108,33 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
   }
 
   return false;
+}
+
+std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
+  std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
+  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
+  std::vector<PROG_LINE> toVisit = std::vector<PROG_LINE>();
+
+  for (auto nextLine : m_afterGraph.at(t_line)) {
+    toVisit.push_back(nextLine);
+    list.push_back(nextLine);
+  }
+
+  while (!toVisit.empty()) {
+    PROG_LINE lineToVisit = toVisit.back(); // remove from stack
+    toVisit.pop_back();
+    visited.at(lineToVisit) = true;
+
+    // has Next() lines to visit
+    if (isKeyInMap(m_afterGraph, lineToVisit)) {
+      for (auto nextLine : m_afterGraph.at(lineToVisit)) {
+        if (!visited.at(nextLine)) { // line not visited yet
+          toVisit.push_back(nextLine);
+          list.push_back(nextLine);
+        }
+      }
+    }
+  }
+
+  return list;
 }

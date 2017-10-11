@@ -13,32 +13,50 @@ public:
 
   NextTable();
 
-  /**
-  * Establish relationship Next(line1, line2).
-  * @param t_line1
-  * @param t_line2
+  /** Establish relationship Next(line1, line2).
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
   */
   void insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2);
 
+  /** To be executed after all Next relationships are added to NextTable.
+  *   Populates additional design abstractions.
+  */
   void executeAfterAllNextInserts();
 
-  /** Next(line1, line2) */
+  /** Checks if Next(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  /** Next*(line1, line2) */
+  /** Checks if Next*(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
   bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  /** Next(line, l) */
+  /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly after given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
 
-  /** Next(l, line) */
+  /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly before given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
 
   /** Next*(line, l) */
-  std::vector<PROG_LINE> getNextStar(PROG_LINE t_line);
+  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
 
   /** Next*(l, line) */
-  std::vector<int> getBeforeStar(PROG_LINE t_line);
+  std::vector<int> getAllLinesBefore(PROG_LINE t_line);
 
   /** Next(l1, l2) */
   std::unordered_map<int, int> getAllNext();
@@ -74,7 +92,7 @@ private:
   template <typename T>
   bool isKeyInMap(std::unordered_map<T, std::vector<T>> map, T key);
   bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
-
+  std::vector<PROG_LINE> getListOfLinesReachableFromLine(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 };
 
 template<typename T>
