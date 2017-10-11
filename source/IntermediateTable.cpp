@@ -23,40 +23,34 @@ void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     std::vector<std::string> resultsOfSecondSynonym;// = getResultsBySynonym(t_synonym2, t_results);
     m_results = getCartesianProduct((getCommonResults(resultsOfSecondSynonym)));
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
-    removeNonCommonResults(t_results);
-    m_results = getCartesianProduct(t_results);
+    m_results = removeNonCommonResults(t_results, t_synonym1, t_synonym2);
   }
 }
 
 LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
   LIST_OF_RESULTS output;
-  for (SYNONYM_NAME name : t_selectedSyn) {
-    // Obtain the index by the syn row
-    auto rItr = m_synonymRowChecker.find(name);
-    if (rItr == m_synonymRowChecker.end()) {
-      continue;
-    }
-    SYNONYM_POSITION synPos = rItr->second;
-    auto resultList = m_results[synPos];
-    if (output.size() != resultList.size()) {
-      for (auto& result : resultList) {
-        output.push_back(result);
+  if (t_selectedSyn.size() == 0) {
+    return {};
+  }
+  int depthOfTable = m_results.size();
+  for (int i = 0; i < depthOfTable; i++) {
+    STRING_TOKEN result = "";
+    for (auto& sItr : t_selectedSyn) {
+      auto& synInTable = m_synonymRowChecker.find(sItr);
+      if (synInTable == m_synonymRowChecker.end()) {
+        return {};
       }
-    } else {
-      // Obtains from the results and append
-      int i = 0;
-      for (auto& result : resultList) {
-        std::string newStr = output[i] + " " + result;
-        output[i] = newStr;
-        i += 1;
-      }
+      int synPosInTable = synInTable->second;
+      result += m_results[i][synPosInTable] + " ";
     }
+    result.pop_back();
+    output.push_back(result);
   }
   return output;
 }
 
-bool IntermediateTable::hasSynonym(SYNONYM_NAME t_name) {
-  auto rowItr = m_synonymRowChecker.find(t_name);
+bool IntermediateTable::hasSynonym(SYNONYM_NAME t_synonym) {
+  auto rowItr = m_synonymRowChecker.find(t_synonym);
   return rowItr != m_synonymRowChecker.end();
 }
 
@@ -70,4 +64,18 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_resul
 
 LIST_OF_RESULTS IntermediateTable::getCommonResults(LIST_OF_RESULTS t_results) {
 
+}
+
+// Both synoynm inside the the intermediate table
+INTERMEDIATE_TABLE IntermediateTable::removeNonCommonResults(const SET_OF_RESULTS& t_results, const SYNONYM_NAME& t_synonym1, const SYNONYM_NAME& t_synonym2) {
+  return m_results;
+}
+
+MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_NAME& t_synonym) {
+  if (m_synonymRowChecker.find(t_synonym) != m_synonymRowChecker.end()) {
+    return m_synonymRowChecker;
+  }
+  int curSize = m_synonymRowChecker.size();
+  m_synonymRowChecker.emplace(t_synonym, curSize);
+  return m_synonymRowChecker;
 }
