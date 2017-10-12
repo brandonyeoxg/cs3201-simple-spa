@@ -669,6 +669,46 @@ LIST_OF_STMT_NUMS& PKB::getStmtList() {
   return m_stmtListTable->getStmtList();
 }
 
+///////////////////////////////////////////////////////
+//  NextTable methods
+///////////////////////////////////////////////////////
+
 void PKB::executeAfterAllNextInserts() {
   m_nextTable->executeAfterAllNextInserts();
+}
+
+bool PKB::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNext(t_line1, t_line2);
+}
+
+bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNextStar(t_line1, t_line2);
+}
+
+std::vector<PROG_LINE> PKB::getLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getLinesBefore(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesBefore(t_line);
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNext() {
+  return m_nextTable->getAllNext();
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
+  return m_nextTable->getAllNextStar();
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfterAnyLine() {
+  return m_nextTable->getAllLinesAfterAnyLine();
 }
