@@ -27,6 +27,7 @@ PKB::PKB() {
   m_usesTable = new UsesTable();
   m_modifiesTable = new ModifiesTable();
   m_stmtListTable = new StmtListTable();
+  m_nextTable = new NextTable();
   m_patternMatch = new PatternMatch();
 }
 
@@ -43,6 +44,7 @@ PKB::~PKB() {
   delete m_stmtListTable;
   delete m_modifiesTable;
   delete m_usesTable;
+  delete m_nextTable;
   delete m_patternMatch;
 }
 
@@ -142,6 +144,10 @@ bool PKB::insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t
   }
   int prevStmtNum = t_stmtInStmtList.back();
   return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
+}
+
+void PKB::insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2) {
+  m_nextTable->insertNextRelationship(t_line1, t_line2);
 }
 
 bool PKB::insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum) {
@@ -661,4 +667,48 @@ LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
 ///////////////////////////////////////////////////////
 LIST_OF_STMT_NUMS& PKB::getStmtList() {
   return m_stmtListTable->getStmtList();
+}
+
+///////////////////////////////////////////////////////
+//  NextTable methods
+///////////////////////////////////////////////////////
+
+void PKB::executeAfterAllNextInserts() {
+  m_nextTable->executeAfterAllNextInserts();
+}
+
+bool PKB::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNext(t_line1, t_line2);
+}
+
+bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNextStar(t_line1, t_line2);
+}
+
+std::vector<PROG_LINE> PKB::getLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getLinesBefore(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesBefore(t_line);
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNext() {
+  return m_nextTable->getAllNext();
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
+  return m_nextTable->getAllNextStar();
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfterAnyLine() {
+  return m_nextTable->getAllLinesAfterAnyLine();
 }
