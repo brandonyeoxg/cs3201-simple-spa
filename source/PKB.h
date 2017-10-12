@@ -25,6 +25,7 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
+#include "NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -50,6 +51,12 @@ public:
   * @return true if the table is successfully added.
   */
   bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
+
+  /** Insert relationship Next(line1, line2) into PKB.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  */
+  void insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /**
   * Inserts a parent relation in the PKB.
@@ -490,5 +497,6 @@ private:
   UsesTable* m_usesTable;
   ModifiesTable* m_modifiesTable;
   StmtListTable* m_stmtListTable;
+  NextTable* m_nextTable;
   PatternMatch* m_patternMatch;
 };

@@ -38,6 +38,12 @@ public:
   */
   virtual bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) = 0;
 
+  /** Insert relationship Next(line1, line2) into PKB.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  */
+  virtual void insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
+
   /**
   * Inserts a follows relation in the PKB.
   * @param t_node reference to the StmtLst that this statement belongs to.
