@@ -13,7 +13,7 @@ public:
     nextTable.insertNextRelationship(0, 1);
     nextTable.insertNextRelationship(0, 2);
     nextTable.insertNextRelationship(0, 3);
-    nextTable.insertNextRelationship(0, 500);
+    nextTable.insertNextRelationship(0, 500); // Test a large number
 
     nextTable.executeAfterAllNextInserts();
 
@@ -23,7 +23,6 @@ public:
     Assert::IsTrue(nextTable.isNext(0, 3));
     Assert::IsTrue(nextTable.isNext(0, 1));
     Assert::IsTrue(nextTable.isNext(0, 500));
-    
   }
 
   TEST_METHOD(isNextStar) {
@@ -142,7 +141,82 @@ public:
     Assert::IsTrue(nextTable.isNextStar(2, 3));
     Assert::IsTrue(nextTable.isNextStar(2, 4));
     Assert::IsTrue(nextTable.isNextStar(2, 5));
+  }
 
+  TEST_METHOD(getLinesAfter) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5       stmt
+        6       stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(1, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 2, 3 };
+    result = nextTable.getLinesAfter(1);
+    Assert::IsTrue(expected == result);
+
+    expected = {};
+    result = nextTable.getLinesAfter(2);
+    Assert::IsTrue(expected == result);
+
+    expected = {4};
+    result = nextTable.getLinesAfter(3);
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(getAllLinesAfter) {
+     NextTable nextTable = NextTable();
+     std::vector<PROG_LINE> expected, result;
+
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5       stmt
+        6       stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(1, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 2, 3, 4, 5, 6 };
+    result = nextTable.getAllLinesAfter(1);
+    Assert::IsTrue(expected == result);
+
+    expected = {};
+    result = nextTable.getAllLinesAfter(2);
+    Assert::IsTrue(expected == result);
+
+    expected = {4, 5, 6, 3};
+    result = nextTable.getAllLinesAfter(3);
+    Assert::IsTrue(expected == result);
+
+    expected = { 5, 6, 3, 4 };
+    result = nextTable.getAllLinesAfter(4);
+    Assert::IsTrue(expected == result);
+
+    expected = { 3, 4, 5, 6 };
+    result = nextTable.getAllLinesAfter(6);
+    Assert::IsTrue(expected == result);
   }
 
 private:
@@ -153,6 +227,12 @@ private:
       for (auto iter2 : iter.second) {
         Logger::WriteMessage(std::to_string(iter2).c_str());
       }
+    }
+  }
+
+  void printVector(std::vector<int> vector) {
+    for (auto iterator : vector) {
+      Logger::WriteMessage(std::to_string(iterator).c_str());
     }
   }
 
