@@ -260,9 +260,9 @@ public:
     std::vector<PROG_LINE> expected, result;
 
     /*  1   while ...
-    2     while ...
-    3       while ...
-    4         stmt
+        2     while ...
+        3       while ...
+        4         stmt
     */
 
     nextTable.insertNextRelationship(1, 2);
@@ -280,7 +280,6 @@ public:
 
     expected = { 1, 2, 3, 4 };
     result = nextTable.getAllLinesBefore(2);
-    printVector(result);
     Assert::IsTrue(expected == result);
 
     expected = { 1, 2, 3, 4 };
