@@ -23,7 +23,7 @@ void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
   }
 
   m_afterGraph.at(t_line1).push_back(t_line2);
-  //m_beforeGraph.at(t_line2).push_back(t_line1);
+  m_beforeGraph.at(t_line2).push_back(t_line1);
 }
 
 void NextTable::executeAfterAllNextInserts() {
