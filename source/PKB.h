@@ -483,6 +483,16 @@ public:
   //  StmtListTable
   ///////////////////////////////////////////////////////
   LIST_OF_STMT_NUMS& getStmtList();
+
+  ///////////////////////////////////////////////////////
+  //  NextTable methods
+  ///////////////////////////////////////////////////////
+
+  /** To be executed after all Next relationships are added to NextTable.
+  *   Populates additional design abstractions.
+  */
+  void executeAfterAllNextInserts();
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;

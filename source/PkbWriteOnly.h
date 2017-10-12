@@ -134,4 +134,13 @@ public:
   //  CallsTable methods
   ///////////////////////////////////////////////////////
 
+  ///////////////////////////////////////////////////////
+  //  NextTable methods
+  ///////////////////////////////////////////////////////
+
+  /** To be executed after all Next relationships are added to NextTable.
+  *   Populates additional design abstractions.
+  */
+  virtual void executeAfterAllNextInserts() = 0;
+
 };

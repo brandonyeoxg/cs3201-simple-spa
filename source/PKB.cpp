@@ -668,3 +668,7 @@ LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
 LIST_OF_STMT_NUMS& PKB::getStmtList() {
   return m_stmtListTable->getStmtList();
 }
+
+void PKB::executeAfterAllNextInserts() {
+  m_nextTable->executeAfterAllNextInserts();
+}
