@@ -6,8 +6,8 @@
 
 class IntermediateTable {
 public:
-  void insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
-  void insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results);
+  bool insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
+  bool insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results);
   
   /*
   * Returns the results based on the synoynms selected.
@@ -15,6 +15,7 @@ public:
   * @param t_synonyms list of synonyms to determine which results is output in the intermediate table.
   */
   LIST_OF_RESULTS getResults(LIST_OF_SYNONYMS t_synonyms);
+  bool isEmpty();
 
 protected:
   INTERMEDIATE_TABLE m_results;
@@ -42,5 +43,6 @@ private:
   INTERMEDIATE_TABLE getCartesianProduct(SET_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
   INTERMEDIATE_TABLE getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS t_results);
-  INTERMEDIATE_TABLE getCartesianProductOfCommonResults(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCartesianProductOfCommonResultsWithLeft(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE getCartesianProductOfCommonResultsWithRight(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results);
 };

@@ -1,6 +1,6 @@
 #include "IntermediateTable.h"
 
-void IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
+bool IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
   if (!hasSynonym(t_synonym)) {
     insertSynonym(t_synonym);
     if (m_results.empty()) {
@@ -11,9 +11,15 @@ void IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS
   } else {
     m_results = getCommonResults(t_synonym, t_results);
   }
+
+  if (m_results.empty()) {
+    return false;
+  }
+
+  return true;
 }
 
-void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results) {
+bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results) {
   if (!hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym1);
     insertSynonym(t_synonym2);
@@ -24,13 +30,19 @@ void IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     }
   } else if (hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym2);
-    m_results = getCartesianProductOfCommonResults(t_synonym1, t_results);
+    m_results = getCartesianProductOfCommonResultsWithLeft(t_synonym1, t_results);
   } else if (!hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym1);
-    m_results = getCartesianProductOfCommonResults(t_synonym2, t_results);
+    m_results = getCartesianProductOfCommonResultsWithRight(t_synonym2, t_results);
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
     m_results = getCommonResults(t_synonym1, t_synonym2, t_results);
   }
+
+  if (m_results.empty()) {
+    return false;
+  }
+
+  return true;
 }
 
 LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
@@ -53,6 +65,10 @@ LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
     output.push_back(result);
   }
   return output;
+}
+
+bool IntermediateTable::isEmpty() {
+  return m_results.empty();
 }
 
 bool IntermediateTable::hasSynonym(SYNONYM_NAME t_synonym) {
@@ -172,7 +188,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1,
   return newResults;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResults(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithLeft(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
 
@@ -186,6 +202,27 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResults(SYNONYM
           i++;
         }
         break;
+      }
+    }
+  }
+
+  return newResults;
+}
+
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithRight(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
+  INTERMEDIATE_TABLE newResults;
+  SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
+
+  int i = 0;
+  for (auto& row : m_results) {
+    for (auto& x : t_results) {   
+      for (auto& y : x.second) {
+        if (row[synPos] == y) {
+          newResults.push_back(row);
+          newResults[i].push_back(x.first);
+          i++;
+          break;
+        }
       }
     }
   }
