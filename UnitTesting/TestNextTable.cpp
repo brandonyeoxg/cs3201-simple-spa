@@ -291,6 +291,38 @@ public:
     Assert::IsTrue(expected == result);
   }
 
+  TEST_METHOD(getAllNextStar) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(2, 1);
+
+    std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
+    expected = { 1, 2, 3, 4 };
+
+    Assert::IsTrue(map.size() == 4);  // 4 keys in total
+
+    for (auto iter : expected) {
+      Assert::IsTrue(map.count(iter) == 1); // Each key corresponds to a line number
+    }
+
+    for (auto iter : map) {
+      Assert::IsTrue(iter.second == expected);  // Check lines reachable for each line
+    }
+
+  }
+
 private:
 
   void printGraph(std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> graph) {
