@@ -15,15 +15,15 @@ void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
   }
 
   // insert key if not present
-  if (!isKeyInMap(m_afterGraph, t_line1)) {
+  if (!isKeyInMap(t_line1, m_afterGraph)) {
     m_afterGraph.insert({ t_line1 , std::vector<PROG_LINE>() });
   }
-  if (!isKeyInMap(m_beforeGraph, t_line2)) {
+  if (!isKeyInMap(t_line2, m_beforeGraph)) {
     m_beforeGraph.insert({ t_line2 , std::vector<PROG_LINE>() });
   }
 
   m_afterGraph.at(t_line1).push_back(t_line2);
-  m_beforeGraph.at(t_line2).push_back(t_line1);
+  //m_beforeGraph.at(t_line2).push_back(t_line1);
 }
 
 void NextTable::executeAfterAllNextInserts() {
@@ -43,7 +43,7 @@ bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
 
 bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   // no path from line1 or no path to line2, immediately false
-  if (!isKeyInMap(m_afterGraph, t_line1) || !isKeyInMap(m_beforeGraph, t_line2)) {
+  if (!isKeyInMap(t_line1, m_afterGraph) || !isKeyInMap(t_line2, m_beforeGraph)) {
     return false;
   }
 
@@ -56,7 +56,7 @@ bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
 }
 
 std::vector<PROG_LINE> NextTable::getLinesAfter(PROG_LINE t_line) {
-  if (isKeyInMap(m_afterGraph, t_line)) {
+  if (isKeyInMap(t_line, m_afterGraph)) {
     return m_afterGraph.at(t_line);
   } else {
     return {};
@@ -64,7 +64,7 @@ std::vector<PROG_LINE> NextTable::getLinesAfter(PROG_LINE t_line) {
 }
 
 std::vector<PROG_LINE> NextTable::getLinesBefore(PROG_LINE t_line) {
-  if (isKeyInMap(m_beforeGraph, t_line)) {
+  if (isKeyInMap(t_line, m_beforeGraph)) {
     return m_beforeGraph.at(t_line);
   } else {
     return {};
@@ -75,7 +75,7 @@ std::vector<PROG_LINE> NextTable::getAllLinesAfter(PROG_LINE t_line) {
   return getListOfLinesReachableFromLine(t_line, m_afterGraph);
 }
 
-std::vector<int> NextTable::getAllLinesBefore(PROG_LINE t_line) {
+std::vector<PROG_LINE> NextTable::getAllLinesBefore(PROG_LINE t_line) {
   return getListOfLinesReachableFromLine(t_line, m_beforeGraph);
 }
 
@@ -98,7 +98,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
     }
 
     // has Next() lines to visit
-    if (isKeyInMap(m_afterGraph, lineToVisit)) {
+    if (isKeyInMap(lineToVisit, m_afterGraph)) {
       for (auto nextLine : m_afterGraph.at(lineToVisit)) {
         if (!visited.at(nextLine)) { // line not visited yet
           toVisit.push_back(nextLine);
@@ -110,12 +110,18 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
   return false;
 }
 
-std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
+std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_line, 
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
+
+  if (!isKeyInMap(t_line, t_graph)) {
+    return {};
+  }
+
   std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
   std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
   std::vector<PROG_LINE> toVisit = std::vector<PROG_LINE>();
 
-  for (auto nextLine : m_afterGraph.at(t_line)) {
+  for (auto nextLine : t_graph.at(t_line)) {
     toVisit.push_back(nextLine);
     list.push_back(nextLine);
   }
@@ -126,8 +132,8 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_li
     visited.at(lineToVisit) = true;
 
     // has Next() lines to visit
-    if (isKeyInMap(m_afterGraph, lineToVisit)) {
-      for (auto nextLine : m_afterGraph.at(lineToVisit)) {
+    if (isKeyInMap(lineToVisit, t_graph)) {
+      for (auto nextLine : t_graph.at(lineToVisit)) {
         if (!visited.at(nextLine)) { // line not visited yet
           toVisit.push_back(nextLine);
           list.push_back(nextLine);

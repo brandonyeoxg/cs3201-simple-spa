@@ -52,23 +52,26 @@ public:
   */
   std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
 
+
+  ///////// TODO test these 2 mehtods
+
   /** Next*(line, l) */
   std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
 
   /** Next*(l, line) */
-  std::vector<int> getAllLinesBefore(PROG_LINE t_line);
+  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
 
   /** Next(l1, l2) */
-  std::unordered_map<int, int> getAllNext();
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
 
   /** Next*(l1, l2) */
-  std::unordered_map<int, std::vector<int>> getAllNextStar();
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
 
   /** Next(l, _) */
-  std::vector<int> getAllLinesAfter();
+  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
 
   /** Next(_, l) */
-  std::vector<int> getAllLinesBefore();
+  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
 
   /** Next(_, _) or Next*(_, _) */
   bool hasNextRelationship();
@@ -90,12 +93,12 @@ private:
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between 2 lines */
   
   template <typename T>
-  bool isKeyInMap(std::unordered_map<T, std::vector<T>> map, T key);
+  bool isKeyInMap(T key, std::unordered_map<T, std::vector<T>> map);
   bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
   std::vector<PROG_LINE> getListOfLinesReachableFromLine(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 };
 
 template<typename T>
-inline bool NextTable::isKeyInMap(std::unordered_map<T, std::vector<T>> map, T key) {
+inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, std::vector<T>> map) {
   return map.count(key) == 1;
 }
