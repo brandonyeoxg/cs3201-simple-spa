@@ -72,11 +72,25 @@ std::vector<PROG_LINE> NextTable::getLinesBefore(PROG_LINE t_line) {
 }
 
 std::vector<PROG_LINE> NextTable::getAllLinesAfter(PROG_LINE t_line) {
-  return getListOfLinesReachableFromLine(t_line, m_afterGraph);
+  return getListOfLinesReachableFromLineInGraph(t_line, m_afterGraph);
 }
 
 std::vector<PROG_LINE> NextTable::getAllLinesBefore(PROG_LINE t_line) {
-  return getListOfLinesReachableFromLine(t_line, m_beforeGraph);
+  return getListOfLinesReachableFromLineInGraph(t_line, m_beforeGraph);
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNext() {
+  return m_afterGraph;
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar() {
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
+  
+  for (auto iterator : m_afterGraph) {
+    map.insert({ iterator.first, getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph) });
+  }
+
+  return map;
 }
 
 // depth first search
@@ -110,7 +124,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
   return false;
 }
 
-std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_line, 
+std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, 
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
 
   if (!isKeyInMap(t_line, t_graph)) {

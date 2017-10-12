@@ -100,7 +100,7 @@ private:
   template <typename T>
   bool isKeyInMap(T key, std::unordered_map<T, std::vector<T>> map);
   bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
-  std::vector<PROG_LINE> getListOfLinesReachableFromLine(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
+  std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 };
 
 template<typename T>
