@@ -52,10 +52,18 @@ public:
   */
   std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
 
-  /** Next*(line, l) */
+  /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
 
-  /** Next*(l, line) */
+  /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
 
   /** Next(l1, l2) */
