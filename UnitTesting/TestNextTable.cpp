@@ -206,16 +206,89 @@ public:
     result = nextTable.getAllLinesAfter(2);
     Assert::IsTrue(expected == result);
 
-    expected = {4, 5, 6, 3};
+    expected = {3, 4, 5, 6};
     result = nextTable.getAllLinesAfter(3);
     Assert::IsTrue(expected == result);
 
-    expected = { 5, 6, 3, 4 };
+    expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(4);
     Assert::IsTrue(expected == result);
 
     expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(6);
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(getLinesBefore) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(2, 1);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = {2};
+    result = nextTable.getLinesBefore(1);
+    Assert::IsTrue(expected == result);
+
+    expected = { 1, 3 };
+    result = nextTable.getLinesBefore(2);
+    Assert::IsTrue(expected == result);
+
+    expected = { 2, 4 };
+    result = nextTable.getLinesBefore(3);
+    Assert::IsTrue(expected == result);
+
+    expected = { 3 };
+    result = nextTable.getLinesBefore(4);
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(getAllLinesBefore) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   while ...
+    2     while ...
+    3       while ...
+    4         stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(2, 1);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBefore(1);
+    Assert::IsTrue(expected == result);
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBefore(2);
+    printVector(result);
+    Assert::IsTrue(expected == result);
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBefore(3);
+    Assert::IsTrue(expected == result);
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBefore(4);
     Assert::IsTrue(expected == result);
   }
 

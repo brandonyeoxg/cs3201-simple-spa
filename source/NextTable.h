@@ -52,9 +52,6 @@ public:
   */
   std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
 
-
-  ///////// TODO test these 2 mehtods
-
   /** Next*(line, l) */
   std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
 
