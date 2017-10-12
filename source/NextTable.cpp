@@ -93,6 +93,26 @@ std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar(
   return map;
 }
 
+std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
+  std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
+  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
+
+  for (auto iterator : m_afterGraph) {
+    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph);
+    for (auto line : listOfVisitedLines) {
+      visited.at(line) = true;
+    }
+  }
+
+  for (int i = 0; i < (int)visited.size(); i++) {
+    if (visited.at(i)) {
+      list.push_back(i);
+    }
+  }
+
+  return list;
+}
+
 // depth first search
 bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2) {
   std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);

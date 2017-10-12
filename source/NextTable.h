@@ -78,10 +78,10 @@ public:
   */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
 
-  /** Next(l, _) */
+  /** Next(_, l) and Next*(_, l) */
   std::vector<PROG_LINE> getAllLinesAfterAnyLine();
 
-  /** Next(_, l) */
+  /** Next(l, _) and Next*(l, _) */
   std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
 
   /** Next(_, _) or Next*(_, _) */
