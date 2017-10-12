@@ -172,14 +172,14 @@ public:
     result = nextTable.getLinesAfter(2);
     Assert::IsTrue(expected == result);
 
-    expected = {4};
+    expected = { 4 };
     result = nextTable.getLinesAfter(3);
     Assert::IsTrue(expected == result);
   }
 
   TEST_METHOD(getAllLinesAfter) {
-     NextTable nextTable = NextTable();
-     std::vector<PROG_LINE> expected, result;
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
 
     /*  1   if ...
         2     stmt
@@ -206,7 +206,7 @@ public:
     result = nextTable.getAllLinesAfter(2);
     Assert::IsTrue(expected == result);
 
-    expected = {3, 4, 5, 6};
+    expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(3);
     Assert::IsTrue(expected == result);
 
@@ -238,7 +238,7 @@ public:
 
     nextTable.executeAfterAllNextInserts();
 
-    expected = {2};
+    expected = { 2 };
     result = nextTable.getLinesBefore(1);
     Assert::IsTrue(expected == result);
 
