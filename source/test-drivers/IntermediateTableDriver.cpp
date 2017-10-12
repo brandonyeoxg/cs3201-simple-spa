@@ -1,5 +1,10 @@
 #include "IntermediateTableDriver.h"
 
+void IntermediateTableDriver::clearTable() {
+  m_results.clear();
+  m_synonymRowChecker.clear();
+}
+
 void IntermediateTableDriver::insertTable(const INTERMEDIATE_TABLE &t_results) {
   m_results = t_results;
 }
@@ -21,5 +26,10 @@ bool IntermediateTableDriver::TestHasSynonym(SYNONYM_NAME t_name) {
 
 INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
   insertOneSynonym(t_synonym, t_results);
+  return m_results;
+}
+
+INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results) {
+  insertTwoSynonym(t_synonym1, t_synonym2, t_results);
   return m_results;
 }
