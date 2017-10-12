@@ -7,10 +7,10 @@ NextTable::NextTable() {
 }
 
 void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
-  if (MAX_LINE_NUM < t_line1) {
+  if (MAX_LINE_NUM < t_line1 + 1) {
     MAX_LINE_NUM = t_line1 + 1; // offset needed as program lines are 1-based indices
   }
-  if (MAX_LINE_NUM < t_line2) {
+  if (MAX_LINE_NUM < t_line2 + 1) {
     MAX_LINE_NUM = t_line2 + 1;
   }
 
