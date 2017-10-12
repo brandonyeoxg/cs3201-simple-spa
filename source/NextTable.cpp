@@ -123,7 +123,6 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_li
 
   for (auto nextLine : t_graph.at(t_line)) {
     toVisit.push_back(nextLine);
-    list.push_back(nextLine);
   }
 
   while (!toVisit.empty()) {
@@ -136,9 +135,14 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLine(PROG_LINE t_li
       for (auto nextLine : t_graph.at(lineToVisit)) {
         if (!visited.at(nextLine)) { // line not visited yet
           toVisit.push_back(nextLine);
-          list.push_back(nextLine);
         }
       }
+    }
+  }
+
+  for (int i = 0; i < (int) visited.size(); i++) {
+    if (visited.at(i)) {
+      list.push_back(i);
     }
   }
 
