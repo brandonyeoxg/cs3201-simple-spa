@@ -24,6 +24,9 @@ int Parser::parse (const std::string &t_filename) throw() {
   while (!m_readStream.eof()) {
     parseForProcedure();
     isMatchToken(EMPTY_LINE);
+    if (m_nextToken == BracketValidator::CLOSE_BRACE) {
+      throw SyntaxOpenBraceException(m_curLineNum);
+    }
   }
   return 0;
 }
@@ -58,6 +61,9 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
     return;
   }
   m_curLineNum += 1;
+  if (!t_stmtInStmtLst.empty()) {
+    m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
+  }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
   t_stmtInStmtLst.push_back(m_curLineNum);
@@ -188,9 +194,12 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
+  STMT_NUM curLine = m_curLineNum;
   m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS whileStmtLst;
   parseStmtLst(whileStmtLst);
+  m_pkbWriteOnly->insertNextRelation(curLine, whileStmtLst.front());
+  m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
 }
 
 void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
