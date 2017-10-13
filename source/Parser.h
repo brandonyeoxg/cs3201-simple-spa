@@ -43,6 +43,7 @@ protected:
   int m_curLineNum;
   STRING_TOKEN m_nextToken;
   std::ifstream m_readStream;
+
   /*
   * Matches the token from the file with the expected token.
   *
@@ -132,7 +133,7 @@ private:
   STRING_TOKEN EMPTY_LINE = "";
   PROC_INDEX m_curProcIdx;
   std::stack<STRING_TOKEN> m_bracketStack;
-
+  std::list<STMT_NUM> m_ifElseNextList;
   /*
   * Parses the procedure block.
   * 

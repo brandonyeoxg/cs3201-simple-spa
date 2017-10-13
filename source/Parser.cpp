@@ -33,7 +33,7 @@ int Parser::parse (const std::string &t_filename) throw() {
 
 void Parser::parseForProcedure() {
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+    PROC_NAME procName = getMatchToken(tokentype::tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
@@ -61,8 +61,12 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
     return;
   }
   m_curLineNum += 1;
-  if (!t_stmtInStmtLst.empty()) {
+  if (!t_stmtInStmtLst.empty() && m_ifElseNextList.empty()) {
     m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
+  }
+  while (!m_ifElseNextList.empty()) {
+    m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
+    m_ifElseNextList.pop_back();
   }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
@@ -89,7 +93,7 @@ void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
 }
 
 void Parser::parseAssignStmt() {
-  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  VAR_NAME varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -108,7 +112,7 @@ void Parser::parseAssignStmt() {
 }
 
 void Parser::parseCallStmt() {
-  std::string procName = getMatchToken(tokentype::PROC_NAME);
+  PROC_NAME procName = getMatchToken(tokentype::PROC_NAME);
   m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
 }
 
@@ -220,6 +224,7 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS ifStmtLst;
   parseStmtLst(ifStmtLst);
+  m_ifElseNextList.push_back(ifStmtLst.back());
 }
 
 void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
@@ -231,6 +236,7 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   }
   LIST_OF_STMT_NUMS elseStmtLst;
   parseStmtLst(elseStmtLst);
+  m_ifElseNextList.push_back(elseStmtLst.back());
 }
 
 bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
@@ -332,7 +338,7 @@ LIST_OF_TOKENS Parser::tokeniseLine(const STRING_TOKEN& t_line) {
   LIST_OF_TOKENS tokens;
   STRING_TOKEN token = EMPTY_LINE;
   for (auto itr = formatString.begin(); itr != formatString.end(); itr++) {
-    const std::string curStrChar = std::string(1, (*itr));
+    const STRING_TOKEN curStrChar = std::string(1, (*itr));
     if (isKeyDelimiter(curStrChar) && token != EMPTY_LINE) { // Tokenise the words
       tokens.push_back(token);
       token = EMPTY_LINE;
