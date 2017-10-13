@@ -133,17 +133,17 @@ while w1,w2;
 Select w1 with w2.value=7
 none
 5000
-28 - With Value Invalid Test 5
+28 - With Value Invalid Test 7
 if ifs1, ifs2;
 Select ifs1 with ifs2.value=8
 none
 5000
-29 - With Value Invalid Test 6
+29 - With Value Invalid Test 8
 prog_line pl1, pl2;
 Select pl1 with pl2.value=9
 none
 5000
-30 - With Value Invalid Test 7
+30 - With Value Invalid Test 9
 variable v1, v2;
 Select v1 with v2.value=9
 none
@@ -338,8 +338,8 @@ false
 Select BOOLEAN with 1="a"
 false
 5000
-69 - With Integer-Integer Invalid Test Cases
+69 - With Integer-Integer Test Cases
 
-Select BOOLEAN with 1="a"
+Select BOOLEAN with 1=1
 true
 5000
