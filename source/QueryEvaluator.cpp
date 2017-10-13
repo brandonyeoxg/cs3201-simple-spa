@@ -28,6 +28,7 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
       std::cout << x << ", ";
     }
     printDivider();*/
+    m_table->clearTable();
     return result;
   }
 }
@@ -256,8 +257,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   }
 
   // Store the result
-  storeRelationResultFromPkb(t_relation, result);
-  return true;
+  return storeRelationResultFromPkb(t_relation, result);
 }
 
 bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
@@ -295,8 +295,7 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   }
 
   // Store the result
-  storePatternResultFromPkb(t_pattern, result);
-  return true;
+  return storePatternResultFromPkb(t_pattern, result);
 }
 
 /**
@@ -309,7 +308,7 @@ bool QueryEvaluator::getResultFromPkb() {
   int selectSize = m_selects.size();
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
-
+  
   //std::cout << "\nSelect Queue";
   for (int i = 0; i < selectSize; ++i) {
     Grammar grammar = m_selects.front();
@@ -335,6 +334,7 @@ bool QueryEvaluator::getResultFromPkb() {
 
   //std::cout << "\nRelation Queue";
   for (int i = 0; i < relationSize; ++i) {
+    m_isSelectOnly = false;
     Relation relation = m_relations.front();
     /*std::cout << "\n" << i + 1 << ": " << relation.getType() << " ";
     std::cout << relation.getG1().getName() << " ";
@@ -351,6 +351,7 @@ bool QueryEvaluator::getResultFromPkb() {
 
   //std::cout << "\nPattern Queue";
   for (int i = 0; i < patternSize; ++i) {
+    m_isSelectOnly = false;
     Pattern pattern = m_patterns.front();
     /*std::cout << "\n" << i + 1 << ": " << pattern.getStmt().getName() << " ";
     std::cout << pattern.getLeft().getName() << " ";
@@ -399,70 +400,89 @@ void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vec
   //printDivider();
 }
 
-void QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        storeResultFromPkb(t_result, queryType::RELATION);
+        //storeResultFromPkb(t_result, queryType::RELATION);       
         m_relations.push(t_relation);
+        return m_table->insertOneSynonym(t_relation.getG1().getName(), t_result[t_relation.getG1().getName()]);
       }
     }
   } else if ((t_relation.getG1().getType() == queryType::GType::STMT_NO || t_relation.getG1().getType() == queryType::GType::STR) && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
     got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        storeResultFromPkb(t_result, queryType::RELATION);
+        //storeResultFromPkb(t_result, queryType::RELATION);
         m_relations.push(t_relation);
+        return m_table->insertOneSynonym(t_relation.getG2().getName(), t_result[t_relation.getG2().getName()]);
       }
     }
   } else if (t_relation.getG1().getType() != queryType::GType::STMT_NO && t_relation.getG1().getType() != queryType::GType::STR && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        storeResultFromPkb(t_result, queryType::RELATION);
+        //storeResultFromPkb(t_result, queryType::RELATION);
         m_relations.push(t_relation);
+        if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
+          return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
+        } else {
+          return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
+        }
       } else {
         got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
         if (got != m_synonymsUsedInQuery.end()) {
           if (got->second > 1) {
-            storeResultFromPkb(t_result, queryType::RELATION);
+            //storeResultFromPkb(t_result, queryType::RELATION);
             m_relations.push(t_relation);
+            if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
+              return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
+            } else {
+              return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
+            }        
           }
         }
       }
     }
   }
+
+  return true;
 }
 
-void QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        storeResultFromPkb(t_result, queryType::PATTERN);
+        //storeResultFromPkb(t_result, queryType::PATTERN);
         m_patterns.push(t_pattern);
+        return m_table->insertOneSynonym(t_pattern.getStmt().getName(), t_result[t_pattern.getStmt().getName()]);       
       }
     }
   } else if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        storeResultFromPkb(t_result, queryType::PATTERN);
+        //storeResultFromPkb(t_result, queryType::PATTERN);
         m_patterns.push(t_pattern);
+        return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);        
       } else if (got->second == 1) {
         got = m_synonymsUsedInQuery.find(t_pattern.getLeft().getName());
         if (got != m_synonymsUsedInQuery.end()) {
           if (got->second > 1) {
-            storeResultFromPkb(t_result, queryType::PATTERN);
+            //storeResultFromPkb(t_result, queryType::PATTERN);
             m_patterns.push(t_pattern);
+            return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);        
           }
         }
       }
     }
   }
+
+  return true;
 }
 
 /**
@@ -472,689 +492,25 @@ void QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered
 std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   //printDivider();
   //std::cout << "Evaluating the final result...\n";
-  std::vector<std::string> finalResult;
-  std::unordered_map<int, queryType::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
-  bool hasClauses = false;
-
-  if (m_relationResults.empty() && m_patternResults.empty()) {
-    //std::cout << "CASE 1\n";
-    if (!m_selectResults.empty()) {
-      finalResult = m_selectResults.front();
-    } 
-  } else if (!m_relationResults.empty() && m_patternResults.empty()) {
-    hasClauses = true;
-    //std::cout << "CASE 2\n";
-    if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-      //std::cout << "STMT_NO/_ SYNONYM\n";
-      std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      finalResult = filterValueResults(typeOfStmts, results);
-    } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && (m_relations.front().getG2().getType() == queryType::GType::STMT_NO || m_relations.front().getG2().getType() == queryType::GType::STR)) {
-      //std::cout << "SYNONYM STMT_NO/STR\n";
-      std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      finalResult = filterValueResults(typeOfStmts, results);
-    } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-      //std::cout << "SYNONYM SYNONYM\n";
-      std::unordered_map<std::string, std::vector<std::string>> results = m_relationResults.front();
-      
-      if (m_relations.front().getG1().getName() == m_selectedSynonym) {
-        //std::cout << "Selected Synonym 1: " << m_relations.front().getG1().getName() << "\n";
-        if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          if (m_relations.front().getG1().getType() == queryType::GType::PROC) {
-            finalResult = filterKeyResults(typeOfStmts, results);
-          } else {
-            finalResult = filterValueResults(typeOfStmts, results);
-          }     
-        } else {
-          finalResult = filterKeyResults(typeOfStmts, results);
-        }   
-      } else if (m_relations.front().getG2().getName() == m_selectedSynonym) {
-        //std::cout << "Selected Synonym 2: " << m_relations.front().getG2().getName() << "\n";
-        if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-          if (m_relations.front().getG1().getType() == queryType::GType::PROC) {
-            finalResult = filterValueResults(typeOfStmts, results);
-          } else {
-            finalResult = filterKeyResults(typeOfStmts, results);
-          }
-        } else {
-          finalResult = filterValueResults(typeOfStmts, results);
-        }   
-      }
-    }
-
-    m_relations.pop();
-    m_relationResults.pop();
-  } else if (m_relationResults.empty() && !m_patternResults.empty()) {
-    hasClauses = true;
-    //std::cout << "CASE 3\n";
-    if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-      std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-      finalResult = filterValueResults(typeOfStmts, results);
-    } else if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-      if (m_patterns.front().getLeft().getName() == m_selectedSynonym) {
-        std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-        finalResult = filterValueResults(typeOfStmts, results);
-      } else if (m_patterns.front().getStmt().getName() == m_selectedSynonym) {
-        std::unordered_map<std::string, std::vector<std::string>> results = m_patternResults.front();
-        finalResult = filterKeyResults(typeOfStmts, results);
-      }
-    }
-
-    m_patterns.pop();
-    m_patternResults.pop();
-  } else if (!m_relationResults.empty() && !m_patternResults.empty()) {
-    hasClauses = true;
-    std::unordered_map<std::string, int>::const_iterator got;
-    got = m_synonymsUsedInQuery.find(m_selectedSynonym);
-
-    if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second == 1) { // Common Synonym between Relation and Pattern Clause
-        //std::cout << "CASE 4\n";
-        std::vector<std::string> commonResults;
-        if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-            
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            } 
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = m_selectResults.front();
-            }      
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-                if (!commonResults.empty()) {
-                  finalResult = m_selectResults.front();
-                }
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && (m_relations.front().getG2().getType() == queryType::GType::STMT_NO || m_relations.front().getG2().getType() == queryType::GType::STR)) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = m_selectResults.front();
-            } 
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-                if (!commonResults.empty()) {
-                  finalResult = m_selectResults.front();
-                }
-              } 
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }          
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = m_selectResults.front();
-            }
-          } else if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);      
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = m_selectResults.front();
-            }
-          } else if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-            if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-              std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-              std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-              std::vector<std::string> result1;
-              std::vector<std::string> result2;
-
-              if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-                for (auto& x : relationResults) {
-                  result1.push_back(x.first);
-                }
-              } else {
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-              }
-
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-
-              commonResults = getCommonResults(result1, result2);
-              if (!commonResults.empty()) {
-                finalResult = m_selectResults.front();
-              }
-            }
-          }
-        }
-      } else if (got->second == 2) { // Common Synonym between Select + Relation or Select + Pattern and Relation + Pattern Clause
-        //std::cout << "CASE 5\n";
-        std::vector<std::string> commonResults;
-        if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && (m_relations.front().getG2().getType() == queryType::GType::STMT_NO || m_relations.front().getG2().getType() == queryType::GType::STR)) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-          } else if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-          } else if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-            if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-              std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-              std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-              std::vector<std::string> result1;
-              std::vector<std::string> result2;
-
-              if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-                for (auto& x : relationResults) {
-                  result1.push_back(x.first);
-                }
-              } else {
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-              }
-
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-
-              commonResults = getCommonResults(result1, result2);
-            }
-          }
-        }
-
-        if (!commonResults.empty()) {
-          if (m_selectedSynonym == m_relations.front().getG1().getName() && m_relations.front().getG1().getType() == m_selectedType) {
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : m_relationResults.front()) {
-                if (find(commonResults.begin(), commonResults.end(), x.first) != commonResults.end()) {
-                  finalResult.insert(finalResult.end(), x.second.begin(), x.second.end());
-                }
-              }
-            } else {
-              for (auto& x : m_relationResults.front()) {
-                if (!getCommonResults(x.second, commonResults).empty()) {
-                  finalResult.push_back(x.first);
-                }
-              }
-            }
-          } else if (m_selectedSynonym == m_relations.front().getG2().getName() && m_relations.front().getG2().getType() == m_selectedType) {
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : m_relationResults.front()) {
-                if (!getCommonResults(x.second, commonResults).empty()) {
-                  finalResult.push_back(x.first);
-                }
-              }
-            } else {
-              for (auto& x : m_relationResults.front()) {
-                if (find(commonResults.begin(), commonResults.end(), x.first) != commonResults.end()) {
-                  finalResult.insert(finalResult.end(), x.second.begin(), x.second.end());
-                }
-              }
-            }
-          } else if (m_selectedSynonym == m_patterns.front().getStmt().getName() && m_patterns.front().getStmt().getType() == m_selectedType) {
-            for (auto& x : m_patternResults.front()) {
-              if (!getCommonResults(x.second, commonResults).empty()) {
-                finalResult.push_back(x.first);
-              }
-            }
-          } else if (m_selectedSynonym == m_patterns.front().getLeft().getName() && m_patterns.front().getLeft().getType() == m_selectedType) {
-            for (auto& x : m_patternResults.front()) {
-              if (find(commonResults.begin(), commonResults.end(), x.first) != commonResults.end()) {
-                finalResult.insert(finalResult.end(), x.second.begin(), x.second.end());
-              }
-            }
-          }
-        }
-      } else if (got->second > 2) { // Common Synonym between Select, Relation and Pattern Clause
-        //std::cout << "CASE 6\n";
-        std::vector<std::string> commonResults;
-        if ((m_relations.front().getG1().getType() == queryType::GType::STMT_NO || m_relations.front().getG1().getType() == queryType::GType::STR) && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = commonResults;
-            }
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-                if (!commonResults.empty()) {
-                  finalResult = commonResults;
-                }
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && (m_relations.front().getG2().getType() == queryType::GType::STMT_NO || m_relations.front().getG2().getType() == queryType::GType::STR)) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            for (auto& x : relationResults) {
-              result1.insert(result1.end(), x.second.begin(), x.second.end());
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = commonResults;
-            }
-          } else {
-            if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-              if (m_relations.front().getG1().getName() == m_patterns.front().getLeft().getName()) {
-                std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-                std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-                std::vector<std::string> result1;
-                std::vector<std::string> result2;
-
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-
-                for (auto& x : patternResults) {
-                  result2.insert(result2.end(), x.second.begin(), x.second.end());
-                }
-
-                commonResults = getCommonResults(result1, result2);
-                if (!commonResults.empty()) {
-                  finalResult = commonResults;
-                }
-              }
-            }
-          }
-        } else if (m_relations.front().getG1().getType() != queryType::GType::STMT_NO && m_relations.front().getG1().getType() != queryType::GType::STR && m_relations.front().getG2().getType() != queryType::GType::STMT_NO && m_relations.front().getG2().getType() != queryType::GType::STR) {
-          if (m_relations.front().getG1().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = commonResults;
-            }
-          } else if (m_relations.front().getG2().getName() == m_patterns.front().getStmt().getName()) {
-            std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-            std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-            std::vector<std::string> result1;
-            std::vector<std::string> result2;
-
-            if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-              for (auto& x : relationResults) {
-                result1.push_back(x.first);
-              }
-            } else {
-              for (auto& x : relationResults) {
-                result1.insert(result1.end(), x.second.begin(), x.second.end());
-              }
-            }
-
-            if (m_patterns.front().getLeft().getType() != queryType::GType::VAR) {
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-            } else {
-              for (auto& x : patternResults) {
-                result2.push_back(x.first);
-              }
-            }
-
-            commonResults = getCommonResults(result1, result2);
-            if (!commonResults.empty()) {
-              finalResult = commonResults;
-            }
-          } else if (m_patterns.front().getLeft().getType() == queryType::GType::VAR) {
-            if (m_relations.front().getG2().getName() == m_patterns.front().getLeft().getName()) {
-              std::unordered_map<std::string, std::vector<std::string>> relationResults = m_relationResults.front();
-              std::unordered_map<std::string, std::vector<std::string>> patternResults = m_patternResults.front();
-              std::vector<std::string> result1;
-              std::vector<std::string> result2;
-
-              if (m_relations.front().getType() == queryType::RType::USES || m_relations.front().getType() == queryType::RType::MODIFIES) {
-                for (auto& x : relationResults) {
-                  result1.push_back(x.first);
-                }
-              } else {
-                for (auto& x : relationResults) {
-                  result1.insert(result1.end(), x.second.begin(), x.second.end());
-                }
-              }
-
-              for (auto& x : patternResults) {
-                result2.insert(result2.end(), x.second.begin(), x.second.end());
-              }
-
-              commonResults = getCommonResults(result1, result2);
-              if (!commonResults.empty()) {
-                finalResult = commonResults;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    m_relations.pop();
-    m_patterns.pop();
-    m_relationResults.pop();
-    m_patternResults.pop();
-  }
-
+  LIST_OF_RESULTS finalResult;
+  //std::unordered_map<int, queryType::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
+  //bool hasClauses = false;
+  LIST_OF_SYNONYMS selectedSynonyms;
+
+  selectedSynonyms.push_back(m_selectedSynonym);
   if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
-    if (!hasClauses) {
-      std::vector<std::string> result;
-      result.push_back("true");
-      finalResult = result;
-    } else if (finalResult.empty()) {
+    if (m_isSelectOnly) {
+      finalResult.push_back("true");
+    } else if (m_table->hasSynonyms() && m_table->isEmpty()) {
       finalResult.push_back("false");
     } else {
-      std::vector<std::string> result;
-      result.push_back("true");
-      finalResult = result;
+      finalResult.push_back("true");
     }
+  } else {
+    finalResult = m_table->getResults(selectedSynonyms);
+    if (finalResult.empty()) {
+      finalResult = m_selectResults.front();
+    }  
   }
 
   /*std::cout << "Query Result: \n";
@@ -1163,5 +519,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   }*/
 
   //printDivider();
+  m_table->clearTable();
   return finalResult;
 }

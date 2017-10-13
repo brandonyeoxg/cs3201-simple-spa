@@ -19,6 +19,7 @@
 #include "Relationship.h"
 #include "Patterns.h"
 #include "Evaluator.h"
+#include "IntermediateTable.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -48,12 +49,17 @@ public:
       m_selects(t_selects),
       m_relations(t_relations),
       m_patterns(t_patterns),
-      m_synonymsUsedInQuery(t_synonymsList) {};
+      m_synonymsUsedInQuery(t_synonymsList),
+      m_isSelectOnly(true) {
+    m_table = new IntermediateTable();
+  };
 
   /**
   * A destructor.
   */
-  ~QueryEvaluator() {};
+  ~QueryEvaluator() {
+    delete m_table;
+  };
 
   /**
   * A public function to evaluate queries.
@@ -251,6 +257,8 @@ private:
   std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
+  IntermediateTable *m_table;
+  bool m_isSelectOnly;
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -308,7 +316,7 @@ private:
   * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
   */
-  void storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result);
+  bool storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result);
   
   /**
   * A private function to store the pattern result if it is needed.
@@ -316,7 +324,7 @@ private:
   * @param t_pattern A pattern object which holds the pattern clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
   */
-  void storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result);
+  bool storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result);
 
   /**
   * A private function to evaluate the final result of the query.
