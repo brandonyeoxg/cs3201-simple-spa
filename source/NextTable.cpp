@@ -133,6 +133,18 @@ std::vector<PROG_LINE> NextTable::getAllLinesBeforeAnyLine() {
   return list;
 }
 
+bool NextTable::hasNextRelationship() {
+  return m_afterGraph.size() > 0;
+}
+
+bool NextTable::hasNextLine(PROG_LINE t_line) {
+  return isKeyInMap(t_line, m_afterGraph) && m_afterGraph.at(t_line).size() != 0;
+}
+
+bool NextTable::hasLineBefore(PROG_LINE t_line) {
+  return isKeyInMap(t_line, m_beforeGraph) && m_beforeGraph.at(t_line).size() != 0;
+}
+
 // depth first search
 bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2) {
   std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);

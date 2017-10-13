@@ -24,14 +24,14 @@ public:
   */
   void executeAfterAllNextInserts();
 
-  /** Checks if Next(line1, line2) is true.
+  /** Checks if Next(line1, line2) is true, where line1 and line2 are a given line number each.
   *   @param t_line1 the program line before
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
   */
   bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
-  /** Checks if Next*(line1, line2) is true.
+  /** Checks if Next*(line1, line2) is true, where line1 and line2 are a given line number each.
   *   @param t_line1 the program line before
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
@@ -90,14 +90,25 @@ public:
   */
   std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
 
-  /** Next(_, _) or Next*(_, _) */
+  /** For Next(_, _) or Next*(_, _).
+  *   Checks if any Next relationship exists.
+  *   @return true if data structure contains at least one Next(), else false
+  */
   bool hasNextRelationship();
 
-  /** Next(_, line) */
-  bool hasLineBefore(PROG_LINE t_line);
-
-  /** Next(line, _) */
+  /** For Next(line, _) and Next*(line, _), where line is a given line number.
+  *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed after it, else false
+  */
   bool hasNextLine(PROG_LINE t_line);
+
+  /** For Next(_, line) and Next*(_, line), where line is a given line number.
+  *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed before it, else false
+  */
+  bool hasLineBefore(PROG_LINE t_line);
 
   ////////////////// for debugging
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
