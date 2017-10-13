@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
-    <ClCompile Include="..\source\AssignExtractor.cpp" />
     <ClCompile Include="..\source\AssignPatternEvaluator.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
@@ -28,6 +27,7 @@
     <ClCompile Include="..\source\IntermediateTable.cpp" />
     <ClCompile Include="..\source\ModifiesExtractor.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
+    <ClCompile Include="..\source\NextExtractor.cpp" />
     <ClCompile Include="..\source\NextTable.cpp" />
     <ClCompile Include="..\source\PatternMatch.cpp" />
     <ClCompile Include="..\source\ModifiesP.cpp" />
@@ -88,7 +88,6 @@
   <ItemGroup>
     <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
-    <ClInclude Include="..\source\AssignExtractor.h" />
     <ClInclude Include="..\source\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\AST.h" />
@@ -109,6 +108,7 @@
     <ClInclude Include="..\source\IntermediateTable.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
+    <ClInclude Include="..\source\NextExtractor.h" />
     <ClInclude Include="..\source\NextTable.h" />
     <ClInclude Include="..\source\PatternMatch.h" />
     <ClInclude Include="..\source\IfPatternEvaluator.h" />
