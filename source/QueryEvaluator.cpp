@@ -65,24 +65,6 @@ std::vector<std::string> QueryEvaluator::filterValueResults(std::unordered_map<i
   return stmtVector;
 }
 
-std::vector<std::string> QueryEvaluator::formatVectorIntToVectorString(std::vector<int> t_vectorInt) {
-  std::vector<std::string> vectorStr;
-  for (auto& x : t_vectorInt) {
-    vectorStr.push_back(std::to_string(x));
-  }
-
-  return vectorStr;
-}
-
-std::vector<std::string> QueryEvaluator::formatListStringToVectorString(std::list<std::string> t_listStr) {
-  std::vector<std::string> vectorStr;
-  for (auto& x : t_listStr) {
-    vectorStr.push_back(x);
-  }
-
-  return vectorStr;
-}
-
 bool QueryEvaluator::isAllUnderscores(Grammar t_g1, Grammar t_g2) {
   return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
 }
@@ -220,7 +202,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     }
 
     // Change from vector<int> to vector<string>.
-    std::vector<std::string> allSelectedStmts = formatVectorIntToVectorString(allSelectedStmtsInInt);
+    std::vector<std::string> allSelectedStmts = Formatter::formatVectorIntToVectorStr(allSelectedStmtsInInt);
 
     // Push into the selectResults queue.
     storeSelectResultFromPkb(allSelectedStmts);
@@ -233,7 +215,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     storeSelectResultFromPkb(allVariables);
   } else if (t_select.getType() == queryType::GType::CONST) {
     std::list<std::string> constantsList = m_pkb->getAllConstants();
-    std::vector<std::string> allConstants = formatListStringToVectorString(constantsList);
+    std::vector<std::string> allConstants = Formatter::formatListStrToVectorStr(constantsList);
     if (allConstants.empty()) {
       return false;
     }
@@ -252,7 +234,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
       return false;
     }
 
-    std::vector<std::string> allStmtList = formatVectorIntToVectorString(allStmtLst);
+    std::vector<std::string> allStmtList = Formatter::formatVectorIntToVectorStr(allStmtLst);
     storeSelectResultFromPkb(allStmtList);
   }
 

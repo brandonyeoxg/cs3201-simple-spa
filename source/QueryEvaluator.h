@@ -20,6 +20,7 @@
 #include "Patterns.h"
 #include "Evaluator.h"
 #include "IntermediateTable.h"
+#include "Formatter.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -85,20 +86,6 @@ public:
   * @return a result filtered by the GType in a string vector.
   */
   std::vector<std::string> filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results);
-
-  /**
-  * A public function to format integer vector to string vector.
-  * Given a vector of integers, it will format it into a vector of strings.
-  * @return the contents of a vector of integers in a vector of strings.
-  */
-  std::vector<std::string> formatVectorIntToVectorString(std::vector<int> t_vectorInt);
-
-  /**
-  * A public function to format string list to string vector.
-  * Given a list of strings, it will format it into a vector of strings.
-  * @return the contents of a list of string in a vector of strings.
-  */
-  std::vector<std::string> formatListStringToVectorString(std::list<std::string> t_listStr);
 
   /**
   * A public function to check if both parameters are underscores.
