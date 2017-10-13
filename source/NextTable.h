@@ -78,10 +78,16 @@ public:
   */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
 
-  /** Next(_, l) and Next*(_, l) */
+  /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed after any particular line.
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getAllLinesAfterAnyLine();
 
-  /** Next(l, _) and Next*(l, _) */
+  /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed before any particular line.
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
 
   /** Next(_, _) or Next*(_, _) */

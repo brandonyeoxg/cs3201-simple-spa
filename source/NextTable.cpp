@@ -113,6 +113,26 @@ std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
   return list;
 }
 
+std::vector<PROG_LINE> NextTable::getAllLinesBeforeAnyLine() {
+  std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
+  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
+
+  for (auto iterator : m_beforeGraph) {
+    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_beforeGraph);
+    for (auto line : listOfVisitedLines) {
+      visited.at(line) = true;
+    }
+  }
+
+  for (int i = 0; i < (int)visited.size(); i++) {
+    if (visited.at(i)) {
+      list.push_back(i);
+    }
+  }
+
+  return list;
+}
+
 // depth first search
 bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2) {
   std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
