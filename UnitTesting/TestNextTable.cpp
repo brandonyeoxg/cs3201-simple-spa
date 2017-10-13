@@ -375,6 +375,56 @@ public:
     Assert::IsTrue(expected == result);
   }
 
+  TEST_METHOD(getAllLinesBeforeAnyLine_01) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5       stmt
+        6       stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(1, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 1, 3, 4, 5, 6 };
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(getAllLinesBeforeAnyLine_02) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(2, 1);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+  }
+
 private:
 
   void printGraph(std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> graph) {
