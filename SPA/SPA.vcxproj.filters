@@ -172,9 +172,6 @@
     <ClCompile Include="..\source\ExtractorFactory.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AssignExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\CallsExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
@@ -219,6 +216,9 @@
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
       <Filter>test-drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\NextExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
     <ClCompile Include="..\source\With.cpp">
       <Filter>PQL\Query Types</Filter>
@@ -439,9 +439,6 @@
     <ClInclude Include="..\source\PkbTablesOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\AssignExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\CallsExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
@@ -489,6 +486,9 @@
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
     <ClInclude Include="..\source\With.h">
       <Filter>PQL\Query Types</Filter>

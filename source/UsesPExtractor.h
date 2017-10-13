@@ -7,7 +7,5 @@ public:
   ~UsesPExtractor() {};
 
   void extractDesign();
-private:
-
 };
 

@@ -9,6 +9,7 @@
 #include "StatementTable.h"
 #include "ModifiesTable.h"
 #include "UsesTable.h"
+#include "NextTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor
@@ -28,4 +29,5 @@ public:
   virtual StatementTable* getStatementTable() = 0;
   virtual ModifiesTable* getModifiesTable() = 0;
   virtual UsesTable* getUsesTable() = 0;
+  virtual NextTable* getNextTable() = 0;
 };
