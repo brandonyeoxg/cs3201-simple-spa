@@ -457,7 +457,6 @@ bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        //storeResultFromPkb(t_result, queryType::PATTERN);
         m_patterns.push(t_pattern);
         return m_table->insertOneSynonym(t_pattern.getStmt().getName(), t_result[t_pattern.getStmt().getName()]);       
       }
@@ -466,14 +465,12 @@ bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        //storeResultFromPkb(t_result, queryType::PATTERN);
         m_patterns.push(t_pattern);
         return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);        
       } else if (got->second == 1) {
         got = m_synonymsUsedInQuery.find(t_pattern.getLeft().getName());
         if (got != m_synonymsUsedInQuery.end()) {
           if (got->second > 1) {
-            //storeResultFromPkb(t_result, queryType::PATTERN);
             m_patterns.push(t_pattern);
             return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);        
           }
