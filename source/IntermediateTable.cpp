@@ -71,6 +71,11 @@ bool IntermediateTable::isEmpty() {
   return m_results.empty();
 }
 
+void IntermediateTable::clearTable() {
+  m_results.clear();
+  m_synonymRowChecker.clear();
+}
+
 bool IntermediateTable::hasSynonym(SYNONYM_NAME t_synonym) {
   auto rowItr = m_synonymRowChecker.find(t_synonym);
   return rowItr != m_synonymRowChecker.end();

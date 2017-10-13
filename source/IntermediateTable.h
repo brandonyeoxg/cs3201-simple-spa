@@ -1,8 +1,11 @@
 #pragma once
-#include "GlobalTypeDef.h"
+
+#include <stdio.h>
+#include <iostream>
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
+
+#include "GlobalTypeDef.h"
 
 class IntermediateTable {
 public:
@@ -16,6 +19,7 @@ public:
   */
   LIST_OF_RESULTS getResults(LIST_OF_SYNONYMS t_synonyms);
   bool isEmpty();
+  void clearTable();
 
 protected:
   INTERMEDIATE_TABLE m_results;
@@ -27,8 +31,6 @@ protected:
   bool hasSynonym(SYNONYM_NAME t_synonym);
 
 private:
-  std::vector<bool> m_ignoreColumn;
-
   /*
   * Inserts a synonym into the intermediate table.
   * If inserted synoynm is already in the intermediate table, it will be ignored.
