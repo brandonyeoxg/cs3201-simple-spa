@@ -8,12 +8,6 @@
 std::vector<std::string> QueryEvaluator::evaluateQuery() {
   //printDivider();
   //std::cout << "Evaluating Query...\n";
-
-  // Debug: Check the queues
-  /*printSelectQueue();
-  printRelationQueue();
-  printPatternQueue();*/
-
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
@@ -22,133 +16,9 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
       result.push_back("false");
     }
-    /*printDivider();
-    std::cout << "No Query Result: \n";
-    for (auto& x : result) {
-      std::cout << x << ", ";
-    }
-    printDivider();*/
     m_table->clearTable();
     return result;
   }
-}
-
-std::vector<std::string> QueryEvaluator::filterKeyResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results) {
-  std::vector<std::string> stmtVector;
-
-  for (auto& x : t_results) {
-    if (!x.second.empty()) {
-      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isIf(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isCall(t_typeOfStmts[std::stoi(x.first)])) {
-          stmtVector.push_back(x.first);
-        }
-      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType) {
-          stmtVector.push_back(x.first);
-        }
-      } else {
-        stmtVector.push_back(x.first);
-      }
-    }
-  }
-
-  return stmtVector;
-}
-
-std::vector<std::string> QueryEvaluator::filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map <std::string, std::vector<std::string>> t_results) {
-  std::vector<std::string> stmtVector;
-
-  for (auto& x : t_results) {
-    for (auto& stmtNo : x.second) {
-      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isIf(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isCall(t_typeOfStmts[std::stoi(stmtNo)])) {
-          stmtVector.push_back(stmtNo);
-        }
-      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType) {
-          stmtVector.push_back(stmtNo);
-        }
-      } else {
-        stmtVector.push_back(stmtNo);
-      }
-    }
-  }
-
-  return stmtVector;
-}
-
-std::vector<std::string> QueryEvaluator::formatVectorIntToVectorString(std::vector<int> t_vectorInt) {
-  std::vector<std::string> vectorStr;
-  for (auto& x : t_vectorInt) {
-    vectorStr.push_back(std::to_string(x));
-  }
-
-  return vectorStr;
-}
-
-std::vector<std::string> QueryEvaluator::formatListStringToVectorString(std::list<std::string> t_listStr) {
-  std::vector<std::string> vectorStr;
-  for (auto& x : t_listStr) {
-    vectorStr.push_back(x);
-  }
-
-  return vectorStr;
-}
-
-bool QueryEvaluator::isAllUnderscores(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
-}
-
-bool QueryEvaluator::hasNoSynonyms(Grammar t_g1, Grammar t_g2) {
-  return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
-}
-
-bool QueryEvaluator::hasOneRightSynonym(Grammar t_g1, Grammar t_g2) {
-  return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
-}
-
-bool QueryEvaluator::hasOneLeftSynonym(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
-}
-
-bool QueryEvaluator::hasTwoSynonyms(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
-}
-
-bool QueryEvaluator::isAnythingWithAnyPattern(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
-}
-
-bool QueryEvaluator::isAnythingWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
-}
-
-bool QueryEvaluator::isAnythingWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
-}
-
-bool QueryEvaluator::isVarWithAnyPattern(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
-}
-
-bool QueryEvaluator::isVarWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
-}
-
-bool QueryEvaluator::isVarWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::STR && t_g1.getName() != "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
-}
-
-bool QueryEvaluator::isSynonymWithAnyPattern(Grammar t_g1, Grammar t_g2) {
-  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
-}
-
-bool QueryEvaluator::isSynonymWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && t_isExact;
-}
-
-bool QueryEvaluator::isSynonymWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
-  return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
 }
 
 /**
@@ -162,61 +32,42 @@ bool QueryEvaluator::getResultFromPkb() {
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
   
-  //std::cout << "\nSelect Queue";
+  //Loop through the Select Queue
   for (int i = 0; i < selectSize; ++i) {
     Grammar grammar = m_selects.front();
     m_selectedSynonym = grammar.getName();
     m_selectedType = grammar.getType();
-    //std::cout << "\n" << i + 1 << ": " << grammar.getName() << "\n";
-    
-    // Get Select Results from PKB.
     bool hasResult = getSelectResultFromPkb(grammar);
-
-    // Check if there are results else return false.
     if (!hasResult) {
       return false;
     }
 
-    // Print Select Results Queue.
-    //printSelectResultQueue();
-
-    // Move the item to the back of the queue.
+    //Move the item to the back of the queue.
     m_selects.pop();
     m_selects.push(grammar);
   }
 
-  //std::cout << "\nRelation Queue";
+  //Loop through the Relation Queue
   for (int i = 0; i < relationSize; ++i) {
     m_isSelectOnly = false;
     Relation relation = m_relations.front();
-    /*std::cout << "\n" << i + 1 << ": " << relation.getType() << " ";
-    std::cout << relation.getG1().getName() << " ";
-    std::cout << relation.getG2().getName() << "\n";*/
-
     bool hasResult = getRelationResultFromPkb(relation);
     if (!hasResult) {
       return false;
     }
 
-    //printRelationResultQueue();
     m_relations.pop();
   }
 
-  //std::cout << "\nPattern Queue";
+  //Loop through the Pattern Queue
   for (int i = 0; i < patternSize; ++i) {
     m_isSelectOnly = false;
-    Pattern pattern = m_patterns.front();
-    /*std::cout << "\n" << i + 1 << ": " << pattern.getStmt().getName() << " ";
-    std::cout << pattern.getLeft().getName() << " ";
-    std::cout << pattern.getRight().getName() << " ";
-    std::cout << pattern.isSubtree() << "\n";*/
-    
+    Pattern pattern = m_patterns.front(); 
     bool hasResult = getPatternResultFromPkb(pattern);
     if (!hasResult) {
       return false;
     }
 
-    //printPatternResultQueue();
     m_patterns.pop();
   }
 
@@ -251,7 +102,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     }
 
     // Change from vector<int> to vector<string>.
-    std::vector<std::string> allSelectedStmts = formatVectorIntToVectorString(allSelectedStmtsInInt);
+    std::vector<std::string> allSelectedStmts = Formatter::formatVectorIntToVectorStr(allSelectedStmtsInInt);
 
     // Push into the selectResults queue.
     storeSelectResultFromPkb(allSelectedStmts);
@@ -264,7 +115,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     storeSelectResultFromPkb(allVariables);
   } else if (t_select.getType() == queryType::GType::CONST) {
     std::list<std::string> constantsList = m_pkb->getAllConstants();
-    std::vector<std::string> allConstants = formatListStringToVectorString(constantsList);
+    std::vector<std::string> allConstants = Formatter::formatListStrToVectorStr(constantsList);
     if (allConstants.empty()) {
       return false;
     }
@@ -283,7 +134,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
       return false;
     }
 
-    std::vector<std::string> allStmtList = formatVectorIntToVectorString(allStmtLst);
+    std::vector<std::string> allStmtList = Formatter::formatVectorIntToVectorStr(allStmtLst);
     storeSelectResultFromPkb(allStmtList);
   }
 
@@ -298,17 +149,17 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   Grammar g2 = t_relation.getG2();
 
   // Get the respective evaluators to get the results of the relation clauses
-  if (isAllUnderscores(g1, g2)) {
+  if (QueryUtil::isAllUnderscores(g1, g2)) {
     bool result = eval->hasRelationship(m_pkb, g1, g2);
     return result;
-  } else if (hasNoSynonyms(g1, g2)) {
+  } else if (QueryUtil::hasNoSynonyms(g1, g2)) {
     bool result = eval->isRelationTrue(m_pkb, g1, g2);
     return result;
-  } else if (hasOneRightSynonym(g1, g2)) {
+  } else if (QueryUtil::hasOneRightSynonym(g1, g2)) {
     result = eval->evaluateRightSynonym(m_pkb, g1, g2);
-  } else if (hasOneLeftSynonym(g1, g2)) {
+  } else if (QueryUtil::hasOneLeftSynonym(g1, g2)) {
     result = eval->evaluateLeftSynonym(m_pkb, g1, g2);
-  } else if (hasTwoSynonyms(g1, g2)) {
+  } else if (QueryUtil::hasTwoSynonyms(g1, g2)) {
     result = eval->evaluateBothSynonyms(m_pkb, g1, g2);
   }
 
@@ -330,23 +181,23 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   bool isExact = !t_pattern.isSubtree();
 
   // Get the respective evaluators to get the results of the pattern clauses
-  if (isAnythingWithAnyPattern(g1, g2)) {
+  if (QueryUtil::isAnythingWithAnyPattern(g1, g2)) {
     result = eval->getAllStmtsWithAnyPattern(m_pkb, stmt, g1, g2);
-  } else if (isAnythingWithExactPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isAnythingWithExactPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsWithExactPattern(m_pkb, stmt, g1, g2);
-  } else if (isAnythingWithSubPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isAnythingWithSubPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsWithSubPattern(m_pkb, stmt, g1, g2);
-  } else if (isVarWithAnyPattern(g1, g2)) {
+  } else if (QueryUtil::isVarWithAnyPattern(g1, g2)) {
     result = eval->getAllStmtsWithVarAndAnyPattern(m_pkb, stmt, g1, g2);
-  } else if (isSynonymWithAnyPattern(g1, g2)) {
+  } else if (QueryUtil::isSynonymWithAnyPattern(g1, g2)) {
     result = eval->getAllStmtsAndVarWithAnyPattern(m_pkb, stmt, g1, g2);
-  } else if (isVarWithExactPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isVarWithExactPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsWithVarAndExactPattern(m_pkb, stmt, g1, g2);
-  } else if (isVarWithSubPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isVarWithSubPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsWithVarAndSubPattern(m_pkb, stmt, g1, g2);
-  } else if (isSynonymWithExactPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isSynonymWithExactPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsAndVarWithExactPattern(m_pkb, stmt, g1, g2);
-  } else if (isSynonymWithSubPattern(g1, g2, isExact)) {
+  } else if (QueryUtil::isSynonymWithSubPattern(g1, g2, isExact)) {
     result = eval->getAllStmtsAndVarWithSubPattern(m_pkb, stmt, g1, g2);
   }
 
@@ -473,11 +324,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       finalResult = m_selectResults.front();
     }  
   }
-
-  /*std::cout << "Query Result: \n";
-  for (auto& x : finalResult) {
-    std::cout << x << ", ";
-  }*/
 
   //printDivider();
   m_table->clearTable();

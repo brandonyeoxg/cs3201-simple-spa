@@ -2,6 +2,7 @@
 #ifndef GRAMMAR_H
 #define GRAMMAR_H
 
+#include <iostream>
 #include <string>
 #include "GlobalTypeDef.h"
 
@@ -57,6 +58,11 @@ public:
   * @return The value of this Grammar object.
   */
   std::string getValue();
+
+  /**
+  * A public function that prints the content of this Grammar object.
+  */
+  void toString();
 
   /**
   * A public function to check the GType of the given GType.

@@ -47,6 +47,11 @@ public:
   Grammar getG2();
 
   /**
+  * A public function that prints the content of this Relation object.
+  */
+  void toString();
+
+  /**
   * A public function to check the RType of the given RType.
   * It checks whether the given RType is of RType FOLLOWS.
   * @param t_type A RType to be checked.
