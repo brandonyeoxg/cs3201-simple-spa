@@ -329,14 +329,3 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   m_table->clearTable();
   return finalResult;
 }
-
-std::vector<std::string> QueryEvaluator::getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2) {
-  std::vector<std::string> commonResultVector;
-
-  sort(t_resultVector1.begin(), t_resultVector1.end());
-  sort(t_resultVector2.begin(), t_resultVector2.end());
-
-  set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
-
-  return commonResultVector;
-}
