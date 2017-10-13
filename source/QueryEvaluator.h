@@ -303,14 +303,6 @@ private:
   void storeSelectResultFromPkb(std::vector<std::string> t_result);
 
   /**
-  * A private function to store the results which have common synonyms returned from PKB.
-  * It takes in the result and the type of query to determine which queue to store the result in.
-  * @param t_result An unordered map which holds the result returned from PKB.
-  * @param t_type A enum value to indicate the type of query that the result belongs to.
-  */
-  void storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type);
-
-  /**
   * A private function to store the relation result if it is needed.
   * It takes in the relation and the relation result to check whether there is a need to store it.
   * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
