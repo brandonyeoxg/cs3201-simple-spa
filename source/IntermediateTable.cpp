@@ -67,6 +67,10 @@ LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
   return output;
 }
 
+bool IntermediateTable::hasSynonyms() {
+  return !m_synonymRowChecker.empty();
+}
+
 bool IntermediateTable::isEmpty() {
   return m_results.empty();
 }

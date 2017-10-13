@@ -18,6 +18,7 @@ public:
   * @param t_synonyms list of synonyms to determine which results is output in the intermediate table.
   */
   LIST_OF_RESULTS getResults(LIST_OF_SYNONYMS t_synonyms);
+  bool hasSynonyms();
   bool isEmpty();
   void clearTable();
 
