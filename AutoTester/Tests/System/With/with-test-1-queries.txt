@@ -193,3 +193,153 @@ constant co1, co2;
 Select co1 with co2.stmt#=2
 none
 5000
+40 - With Attribute-Attribute Test Cases
+procedure p;
+Select BOOLEAN with p.procName=p.procName
+true
+5000
+41 - With Attribute-Attribute Test Cases
+procedure p1,p2;
+Select BOOLEAN with p1.procName=p2.procName
+true
+5000
+42 - With Attribute-Attribute Test Cases
+procedure p; variable v;
+Select BOOLEAN with p.procName=v.varName
+true
+5000
+43 - With Attribute-Attribute Test Cases
+procedure p; variable v;
+Select BOOLEAN with v.varName=p.procName
+true
+5000
+44 - With Attribute-Attribute Test Cases
+variable v1, v2;
+Select BOOLEAN with v1.varName=v2.varName
+true
+5000
+45 - With Attribute-Attribute Test Cases
+variable v;
+Select BOOLEAN with v.varName=v.varName
+true
+5000
+46 - With Attribute-Attribute Test Cases
+constant co;
+Select BOOLEAN with co.value=co.value
+true
+5000
+47 - With Attribute-Attribute Test Cases
+constant co1, co2;
+Select BOOLEAN with co1.value=co2.value
+true
+5000
+48 - With Attribute-Attribute Test Cases
+constant co; stmt s;
+Select BOOLEAN with co.value=s.stmt#
+true
+5000
+49 - With Attribute-Attribute Test Cases
+constant co; stmt s;
+Select BOOLEAN with s.stmt#=co.value
+true
+5000
+50 - With Attribute-Attribute Test Cases
+stmt s1, s2;
+Select BOOLEAN with s1.stmt#=s2.stmt#
+true
+5000
+51 - With Attribute-Attribute Test Cases
+stmt s;
+Select BOOLEAN with s.stmt#=s.stmt#
+true
+5000
+52 - With Attribute-Synonym Test Cases
+constant co; prog_line pl;
+Select BOOLEAN with co.value=pl
+true
+5000
+53 - With Attribute-Synonym Test Cases
+stmt s; prog_line pl;
+Select BOOLEAN with s.stmt#=pl
+true
+5000
+54 - With Attribute-Synonym Test Cases
+constant co; prog_line pl;
+Select BOOLEAN with pl=co.value
+true
+5000
+55 - With Attribute-Synonym Test Cases
+stmt s; prog_line pl;
+Select BOOLEAN with pl=s.stmt#
+true
+5000
+56 - With String-Attribute Test Cases
+procedure p;
+Select BOOLEAN with "A"=p.procName
+true
+5000
+57 - With String-Attribute Test Cases
+variable v;
+Select BOOLEAN with "a"=v.varName
+true
+5000
+58 - With Integer-Attribute Test Cases
+stmt s;
+Select BOOLEAN with 1=s.stmt#
+true
+5000
+59 - With Integer-Attribute Test Cases
+constant co;
+Select BOOLEAN with 1=co.value
+true
+5000
+60 - With Synonym-Synonym Test Cases
+prog_line pl;
+Select BOOLEAN with pl=pl
+true
+5000
+61 - With Synonym-Synonym Test Cases
+prog_line pl1, pl2;
+Select BOOLEAN with pl1=pl2
+true
+5000
+62 - With Synonym-String Invalid Test Cases - Semantic Error
+prog_line pl;
+Select BOOLEAN with pl="pl"
+false
+5000
+63 - With String-Synonym Invalid Test Cases - Semantic Error
+prog_line pl;
+Select BOOLEAN with "PL"=pl
+false
+5000
+64 - With Synonym-Integer Test Cases
+prog_line pl;
+Select BOOLEAN with pl=1
+true
+5000
+65 - With Integer-Synonym Test Cases
+prog_line pl;
+Select BOOLEAN with pl=1
+true
+5000
+66 - With String-String Test Cases
+
+Select BOOLEAN with "a"="a"
+true
+5000
+67 - With String-Integer Invalid Test Cases
+
+Select BOOLEAN with "a"=1
+false
+5000
+68 - With Integer-String Invalid Test Cases
+
+Select BOOLEAN with 1="a"
+false
+5000
+69 - With Integer-Integer Invalid Test Cases
+
+Select BOOLEAN with 1="a"
+true
+5000
