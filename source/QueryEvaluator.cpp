@@ -95,17 +95,6 @@ std::vector<std::string> QueryEvaluator::formatListStringToVectorString(std::lis
   return vectorStr;
 }
 
-std::vector<std::string> QueryEvaluator::getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2) {
-  std::vector<std::string> commonResultVector;
-
-  sort(t_resultVector1.begin(), t_resultVector1.end());
-  sort(t_resultVector2.begin(), t_resultVector2.end());
-
-  set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
-
-  return commonResultVector;
-}
-
 bool QueryEvaluator::isAllUnderscores(Grammar t_g1, Grammar t_g2) {
   return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
 }
@@ -160,6 +149,78 @@ bool QueryEvaluator::isSynonymWithExactPattern(Grammar t_g1, Grammar t_g2, bool 
 
 bool QueryEvaluator::isSynonymWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact) {
   return t_g1.getType() == queryType::GType::VAR && t_g2.getType() == queryType::GType::STR && t_g2.getName() != "_" && !t_isExact;
+}
+
+/**
+* A function that gets the result of the clauses by calling the API from PKB.
+* @return true if there are results otherwise false
+*/
+bool QueryEvaluator::getResultFromPkb() {
+  //printDivider();
+  //std::cout << "Getting results from PKB...\n";
+  int selectSize = m_selects.size();
+  int relationSize = m_relations.size();
+  int patternSize = m_patterns.size();
+  
+  //std::cout << "\nSelect Queue";
+  for (int i = 0; i < selectSize; ++i) {
+    Grammar grammar = m_selects.front();
+    m_selectedSynonym = grammar.getName();
+    m_selectedType = grammar.getType();
+    //std::cout << "\n" << i + 1 << ": " << grammar.getName() << "\n";
+    
+    // Get Select Results from PKB.
+    bool hasResult = getSelectResultFromPkb(grammar);
+
+    // Check if there are results else return false.
+    if (!hasResult) {
+      return false;
+    }
+
+    // Print Select Results Queue.
+    //printSelectResultQueue();
+
+    // Move the item to the back of the queue.
+    m_selects.pop();
+    m_selects.push(grammar);
+  }
+
+  //std::cout << "\nRelation Queue";
+  for (int i = 0; i < relationSize; ++i) {
+    m_isSelectOnly = false;
+    Relation relation = m_relations.front();
+    /*std::cout << "\n" << i + 1 << ": " << relation.getType() << " ";
+    std::cout << relation.getG1().getName() << " ";
+    std::cout << relation.getG2().getName() << "\n";*/
+
+    bool hasResult = getRelationResultFromPkb(relation);
+    if (!hasResult) {
+      return false;
+    }
+
+    //printRelationResultQueue();
+    m_relations.pop();
+  }
+
+  //std::cout << "\nPattern Queue";
+  for (int i = 0; i < patternSize; ++i) {
+    m_isSelectOnly = false;
+    Pattern pattern = m_patterns.front();
+    /*std::cout << "\n" << i + 1 << ": " << pattern.getStmt().getName() << " ";
+    std::cout << pattern.getLeft().getName() << " ";
+    std::cout << pattern.getRight().getName() << " ";
+    std::cout << pattern.isSubtree() << "\n";*/
+    
+    bool hasResult = getPatternResultFromPkb(pattern);
+    if (!hasResult) {
+      return false;
+    }
+
+    //printPatternResultQueue();
+    m_patterns.pop();
+  }
+
+  return true;
 }
 
 bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
@@ -249,7 +310,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
     result = eval->evaluateLeftSynonym(m_pkb, g1, g2);
   } else if (hasTwoSynonyms(g1, g2)) {
     result = eval->evaluateBothSynonyms(m_pkb, g1, g2);
-  } 
+  }
 
   delete eval;
   if (result.empty()) {
@@ -296,78 +357,6 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 
   // Store the result
   return storePatternResultFromPkb(t_pattern, result);
-}
-
-/**
-* A function that gets the result of the clauses by calling the API from PKB.
-* @return true if there are results otherwise false
-*/
-bool QueryEvaluator::getResultFromPkb() {
-  //printDivider();
-  //std::cout << "Getting results from PKB...\n";
-  int selectSize = m_selects.size();
-  int relationSize = m_relations.size();
-  int patternSize = m_patterns.size();
-  
-  //std::cout << "\nSelect Queue";
-  for (int i = 0; i < selectSize; ++i) {
-    Grammar grammar = m_selects.front();
-    m_selectedSynonym = grammar.getName();
-    m_selectedType = grammar.getType();
-    //std::cout << "\n" << i + 1 << ": " << grammar.getName() << "\n";
-    
-    // Get Select Results from PKB.
-    bool hasResult = getSelectResultFromPkb(grammar);
-
-    // Check if there are results else return false.
-    if (!hasResult) {
-      return false;
-    }
-
-    // Print Select Results Queue.
-    //printSelectResultQueue();
-
-    // Move the item to the back of the queue.
-    m_selects.pop();
-    m_selects.push(grammar);
-  }
-
-  //std::cout << "\nRelation Queue";
-  for (int i = 0; i < relationSize; ++i) {
-    m_isSelectOnly = false;
-    Relation relation = m_relations.front();
-    /*std::cout << "\n" << i + 1 << ": " << relation.getType() << " ";
-    std::cout << relation.getG1().getName() << " ";
-    std::cout << relation.getG2().getName() << "\n";*/
-
-    bool hasResult = getRelationResultFromPkb(relation);
-    if (!hasResult) {
-      return false;
-    }
-
-    //printRelationResultQueue();
-    m_relations.pop();
-  }
-
-  //std::cout << "\nPattern Queue";
-  for (int i = 0; i < patternSize; ++i) {
-    m_isSelectOnly = false;
-    Pattern pattern = m_patterns.front();
-    /*std::cout << "\n" << i + 1 << ": " << pattern.getStmt().getName() << " ";
-    std::cout << pattern.getLeft().getName() << " ";
-    std::cout << pattern.getRight().getName() << " ";
-    std::cout << pattern.isSubtree() << "\n";*/
-    
-    bool hasResult = getPatternResultFromPkb(pattern);
-    if (!hasResult) {
-      return false;
-    }
-
-    //printPatternResultQueue();
-    m_patterns.pop();
-  }
-
-  return true;
 }
 
 /**
@@ -493,4 +482,15 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   //printDivider();
   m_table->clearTable();
   return finalResult;
+}
+
+std::vector<std::string> QueryEvaluator::getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2) {
+  std::vector<std::string> commonResultVector;
+
+  sort(t_resultVector1.begin(), t_resultVector1.end());
+  sort(t_resultVector2.begin(), t_resultVector2.end());
+
+  set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
+
+  return commonResultVector;
 }
