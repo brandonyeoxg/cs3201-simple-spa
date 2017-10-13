@@ -4,9 +4,8 @@
 
 #include ".\GlobalTypeDef.h"
 
-/** Class to represent Next relationship, Next* relationship
+/** Class to represent Next relationship, Next* relationship in PKB
 *   @author jazlyn
-*
 */
 class NextTable {
 public:
@@ -111,22 +110,38 @@ public:
   bool hasLineBefore(PROG_LINE t_line);
 
   ////////////////// for debugging
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
-  PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
+  //std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
+  //PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
 
 private:
-  PROG_LINE MAX_LINE_NUM;
+  PROG_LINE MAX_LINE_NUM; /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
-  std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between 2 lines */
+  std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
   
-  template <typename T>
-  bool isKeyInMap(T key, std::unordered_map<T, std::vector<T>> map);
+  /** Checks if a path exists from line1 to line2, using m_afterGraph.
+  *   This function is used to help check for Next(line1, line2) relationship.
+  *   Uses depth first search to traverse graph.
+  *   @param t_line1 given program line
+  *   @param t_line2 given program line
+  *   @return true if line2 is reachable from line1, else false
+  */
   bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  /** Gets a list of all lines that can be reached from given line number in given graph.
+  *   This function is used to help get lines after or before a particular lines.
+  *   Uses depth first search to traverse graph.
+  *   @param t_line given program line
+  *   @param t_graph given graph to search
+  *   @return list of the lines (in ascending order)
+  */
   std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
+  
+  template <typename T, typename G>
+  bool isKeyInMap(T key, std::unordered_map<T, G> map);  /**< Function to test if key exists in an unordered map. Uses generics. */
 };
 
-template<typename T>
-inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, std::vector<T>> map) {
+template <typename T, typename G>
+inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, G> map) {
   return map.count(key) == 1;
 }
