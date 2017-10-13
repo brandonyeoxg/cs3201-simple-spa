@@ -148,15 +148,6 @@ private:
   * @return A vector of strings as the query result.
   */
   std::vector<std::string> evaluateFinalResult();
-
-  /**
-  * A private function to get the common results between two result vectors.
-  * Given two vectors of string, it will compare and return the common results.
-  * @param t_resultVector1 A string vector which holds a set of results.
-  * @param t_resultVector2 A string vector which holds another set of results.
-  * @return A vector of strings as the common results between two result vectors.
-  */
-  std::vector<std::string> getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2);
 };
 
 #endif QUERYEVALUATOR_H

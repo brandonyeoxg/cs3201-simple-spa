@@ -93,3 +93,14 @@ std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, quer
 
   return result;
 }
+
+std::vector<std::string> EvaluatorUtil::getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2) {
+  std::vector<std::string> commonResultVector;
+
+  sort(t_resultVector1.begin(), t_resultVector1.end());
+  sort(t_resultVector2.begin(), t_resultVector2.end());
+
+  set_intersection(t_resultVector1.begin(), t_resultVector1.end(), t_resultVector2.begin(), t_resultVector2.end(), back_inserter(commonResultVector));
+
+  return commonResultVector;
+}
