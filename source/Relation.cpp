@@ -19,6 +19,15 @@ queryType::RType Relation::getType() { return m_type; }
 Grammar Relation::getG1() { return m_g1; }
 Grammar Relation::getG2() { return m_g2; }
 
+/**
+* A public function that prints the content of this Relation object.
+*/
+void Relation::toString() {
+  std::cout << "\n" << getType() << " (";
+  std::cout << getG1().getName() << ", ";
+  std::cout << getG2().getName() << ")\n";
+}
+
 Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   if (t_type.compare(FLS) == 0) {
     m_type = queryType::RType::FOLLOWS;
