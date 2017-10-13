@@ -1,120 +1,195 @@
 1 - With ProcName Functionality Test
-procedure p;
-Select p with p.procName="B"
-B
+procedure p1, p2;
+Select p1 with p2.procName="B"
+A, B
 5000
 2 - With ProcName Functionality Test
-call ca;
-Select ca with ca.procName="B"
+call ca1, ca2;
+Select ca1 with ca2.procName="B"
 4,6
 5000
 3 - With ProcName Invalid Test 1
-stmtLst sl;
-Select sl with sl.procName="A"
+stmtLst sl1, sl2;
+Select sl1 with sl2.procName="A"
 none
 5000
 4 - With ProcName Invalid Test 2
-stmt s;
-Select s with s.procName="A"
+stmt s1,s2;
+Select s1 with s2.procName="A"
 none
 5000
 5 - With ProcName Invalid Test 3
-assign a;
-Select a with a.procName="A"
+assign a1, a2;
+Select a1 with a2.procName="A"
 none
 5000
 6 - With ProcName Invalid Test 4
-while w;
-Select w with w.procName="A"
+while w1, w2;
+Select w1 with w2.procName="A"
 none
 5000
 7 - With ProcName Invalid Test 5
-if ifs;
-Select ifs with ifs.procName="A"
+if ifs1, ifs2;
+Select ifs1 with ifs2.procName="A"
 none
 5000
 8 - With ProcName Invalid Test 6
-variable v;
-Select v with sl.procName="A"
+variable v1, v2;
+Select v1 with v2.procName="A"
 none
 5000
 9 - With ProcName Invalid Test 7
-constant co;
-Select co with co.procName="A"
+constant co1, co2;
+Select co1 with co2.procName="A"
 none
 5000
 10 - With ProcName Invalid Test 8
-prog_line pl;
-Select pl with pl.procName="A"
+prog_line pl1, pl2;
+Select pl1 with pl2.procName="A"
 none
 5000
 11 - With VarName Functionality Test
-variable v;
-Select v with v.varName="i"
-i
+variable v1, v2;
+Select v1 with v2.varName="i"
+i, a, j, b, c
 5000
 12 - With VarName Invalid Test 1
-procedure p;
-Select p with p.varName="i"
+procedure p1, p2;
+Select p1 with p2.varName="i"
 none
 5000
 13 - With VarName Invalid Test 2
-stmtLst sl;
-Select sl with sl.varName="i"
+stmtLst sl1, sl2;
+Select sl1 with sl2.varName="i"
 none
 5000
 14 - With VarName Invalid Test 3
-stmt s;
-Select s with s.varName="i"
+stmt s1, s2;
+Select s1 with s2.varName="i"
 none
 5000
 15 - With VarName Invalid Test 4
-assign a;
-Select a with a.varName="i"
+assign a1, a2;
+Select a1 with a2.varName="i"
 none
 5000
 16 - With VarName Invalid Test 5
-call ca;
-Select ca with ca.varName="i"
+call ca1, ca2;
+Select ca1 with ca2.varName="i"
 none
 5000
 17 - With VarName Invalid Test 6
-while w;
-Select w with w.varName="i"
+while w1, w2;
+Select w1 with w2.varName="i"
 none
 5000
 18 - With VarName Invalid Test 7
-if ifs;
-Select ifs with ifs.varName="i"
+if ifs1, ifs2;
+Select ifs1 with ifs2.varName="i"
 none
 5000
 19 - With VarName Invalid Test 8
-constant co;
-Select co with co.varName="i"
+constant co1, co2;
+Select co1 with co2.varName="i"
 none
 5000
 20 - With VarName Invalid Test 9
-prog_line pl;
-Select pl with pl.varName="i"
+prog_line pl1, pl2;
+Select pl1 with pl2.varName="i"
 none
 5000
 21 - With Value Functionality Test
-constant c;
-Select c with c.value=2
-2
+constant c1, c2;
+Select c1 with c2.value=2
+1, 2, 3
 5000
 22 - With Value Invalid Test 1
-procedure p;
-Select p with p.value=2
+procedure p1, p2;
+Select p1 with p2.value=2
 none
 5000
 23 - With Value Invalid Test 2
-stmtLst sl;
-Select sl with sl.value=3
+stmtLst sl1, sl2;
+Select sl1 with sl2.value=3
 none
 5000
 24 - With Value Invalid Test 3
-stmt s;
-Select s with s.value=4
+stmt s1, s2;
+Select s1 with s2.value=4
+none
+5000
+25 - With Value Invalid Test 4
+assign a1, a2;
+Select a1 with a2.value=5
+none
+5000
+26 - With Value Invalid Test 5
+call ca1,ca2;
+Select ca1 with ca2.value=6
+none
+5000
+27 - With Value Invalid Test 6
+while w1,w2;
+Select w1 with w2.value=7
+none
+5000
+28 - With Value Invalid Test 5
+if ifs1, ifs2;
+Select ifs1 with ifs2.value=8
+none
+5000
+29 - With Value Invalid Test 6
+prog_line pl1, pl2;
+Select pl1 with pl2.value=9
+none
+5000
+30 - With Value Invalid Test 7
+variable v1, v2;
+Select v1 with v2.value=9
+none
+5000
+31 - With Stmt# Functionality Test
+stmt s, ss;
+Select s with ss.stmt#=1
+1, 2, 3, 4, 5, 6, 7
+5000
+32 - With Stmt# Functionality Test
+assign a1, a2;
+Select a1 with a2.stmt#=2
+2,5,7
+5000
+33 - With Stmt# Functionality Test
+call ca1, ca2;
+Select ca1 with ca2.stmt#=6
+4,6
+5000
+34 - With Stmt# Functionality Test
+while w1, w2;
+Select w1 with w2.stmt#
+1
+5000
+35 - With Stmt# Functionality Test
+if ifs1, ifs2;
+Select ifs1 with ifs2.stmt#=
+3
+5000
+36 - With Stmt# Functionality Test
+prog_line pl1, pl2;
+Select pl1 with pl2.stmt#=1
+1, 2, 3, 4, 5, 6, 7
+5000
+37 - With Stmt# Invalid Test 1
+procedure p1, p2;
+Select p1 with p2.stmt#=1
+none
+5000
+38 - With Stmt# Invalid Test 2
+stmtLst sl1, sl2;
+Select sl1 with sl2.stmt#=4
+none
+5000
+39 - With Stmt# Invalid Test 3
+constant co1, co2;
+Select co1 with co2.stmt#=2
 none
 5000
