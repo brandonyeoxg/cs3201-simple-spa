@@ -381,25 +381,6 @@ void QueryEvaluator::storeSelectResultFromPkb(std::vector<std::string> t_result)
   //printDivider();
 }
 
-/**
-* A function that stores the result in a data structure.
-* @param t_result an unordered_map<string, vector<string>> argument
-* @param t_type an enum queryType argument
-*/
-void QueryEvaluator::storeResultFromPkb(std::unordered_map<std::string, std::vector<std::string>> t_result, queryType::clauseType t_type) {
-  //printDivider();
-  //std::cout << "Storing the result from PKB to different queues...\n";
-
-  if (t_type == queryType::RELATION) {
-    m_relationResults.push(t_result);
-  } else if (t_type == queryType::PATTERN) {
-    m_patternResults.push(t_result);
-  } else {
-    //std::cout << "Result Type: " << t_type << "\n";
-  }
-  //printDivider();
-}
-
 bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
