@@ -493,8 +493,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
   //printDivider();
   //std::cout << "Evaluating the final result...\n";
   LIST_OF_RESULTS finalResult;
-  //std::unordered_map<int, queryType::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
-  //bool hasClauses = false;
   LIST_OF_SYNONYMS selectedSynonyms;
 
   selectedSynonyms.push_back(m_selectedSynonym);
