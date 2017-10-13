@@ -8,12 +8,6 @@
 std::vector<std::string> QueryEvaluator::evaluateQuery() {
   //printDivider();
   //std::cout << "Evaluating Query...\n";
-
-  // Debug: Check the queues
-  /*printSelectQueue();
-  printRelationQueue();
-  printPatternQueue();*/
-
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
@@ -22,12 +16,6 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
       result.push_back("false");
     }
-    /*printDivider();
-    std::cout << "No Query Result: \n";
-    for (auto& x : result) {
-      std::cout << x << ", ";
-    }
-    printDivider();*/
     m_table->clearTable();
     return result;
   }
@@ -162,61 +150,42 @@ bool QueryEvaluator::getResultFromPkb() {
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
   
-  //std::cout << "\nSelect Queue";
+  //Loop through the Select Queue
   for (int i = 0; i < selectSize; ++i) {
     Grammar grammar = m_selects.front();
     m_selectedSynonym = grammar.getName();
     m_selectedType = grammar.getType();
-    //std::cout << "\n" << i + 1 << ": " << grammar.getName() << "\n";
-    
-    // Get Select Results from PKB.
     bool hasResult = getSelectResultFromPkb(grammar);
-
-    // Check if there are results else return false.
     if (!hasResult) {
       return false;
     }
 
-    // Print Select Results Queue.
-    //printSelectResultQueue();
-
-    // Move the item to the back of the queue.
+    //Move the item to the back of the queue.
     m_selects.pop();
     m_selects.push(grammar);
   }
 
-  //std::cout << "\nRelation Queue";
+  //Loop through the Relation Queue
   for (int i = 0; i < relationSize; ++i) {
     m_isSelectOnly = false;
     Relation relation = m_relations.front();
-    /*std::cout << "\n" << i + 1 << ": " << relation.getType() << " ";
-    std::cout << relation.getG1().getName() << " ";
-    std::cout << relation.getG2().getName() << "\n";*/
-
     bool hasResult = getRelationResultFromPkb(relation);
     if (!hasResult) {
       return false;
     }
 
-    //printRelationResultQueue();
     m_relations.pop();
   }
 
-  //std::cout << "\nPattern Queue";
+  //Loop through the Pattern Queue
   for (int i = 0; i < patternSize; ++i) {
     m_isSelectOnly = false;
-    Pattern pattern = m_patterns.front();
-    /*std::cout << "\n" << i + 1 << ": " << pattern.getStmt().getName() << " ";
-    std::cout << pattern.getLeft().getName() << " ";
-    std::cout << pattern.getRight().getName() << " ";
-    std::cout << pattern.isSubtree() << "\n";*/
-    
+    Pattern pattern = m_patterns.front(); 
     bool hasResult = getPatternResultFromPkb(pattern);
     if (!hasResult) {
       return false;
     }
 
-    //printPatternResultQueue();
     m_patterns.pop();
   }
 
@@ -473,11 +442,6 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
       finalResult = m_selectResults.front();
     }  
   }
-
-  /*std::cout << "Query Result: \n";
-  for (auto& x : finalResult) {
-    std::cout << x << ", ";
-  }*/
 
   //printDivider();
   m_table->clearTable();
