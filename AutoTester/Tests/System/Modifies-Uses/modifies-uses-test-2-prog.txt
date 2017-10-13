@@ -1,0 +1,34 @@
+procedure Liliput{
+  a=b;
+  if i then{
+    c=d;
+    while j{
+      e=5;}}
+  else{
+    call Varrock;
+    call Fallabor;}
+  call Kerning;
+}
+
+procedure Varrock{
+  while k{
+    f=a+b;}
+}
+
+procedure Fallabor{
+  if j then{
+    h=a;}
+  else{
+    while i{
+      if k then{
+        a=b+1;}
+      else{
+        b=c-1;
+        c=d*2;}}
+    f=c-a*b+e;
+  call Kerning;}
+}
+
+procedure Kerning{
+  a=b*c-e;
+}

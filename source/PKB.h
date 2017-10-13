@@ -5,11 +5,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include "AST.h"
 #include "FollowTable.h"
 #include "ParentTable.h"
 #include "VarTable.h"
-#include "ASTBuilder.h"
 #include "ProcTable.h"
 #include "VarTable.h"
 #include "AssignTable.h"
@@ -24,9 +22,10 @@
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
+#include "UsesTable.h"
+#include "ModifiesTable.h"
 #include "StmtListTable.h"
-
-class TNode;
+#include "NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -51,7 +50,13 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum);
+  bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
+
+  /** Insert relationship Next(line1, line2) into PKB.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  */
+  void insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /**
   * Inserts a parent relation in the PKB.
@@ -59,8 +64,12 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum);
+  bool insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum);
 
+  void insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
+
+  void insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
+  
   /**
   * Inserts a variable that has been modified.
   * @param t_varName name of the variable being modified.
@@ -68,8 +77,8 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
-    std::list<STMT_NUM> t_nestedStmtLines);
+  void insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum,
+    LIST_OF_STMT_NUMS t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been used.
@@ -78,7 +87,7 @@ public:
   * @param t_nestedStmtLines contains the lines of the statement list that this variable is nested in.
   * @return a reference of the variable node.
   */
-  void insertUsesVariableNew(std::string t_varName, int m_curLineNum, std::list<STMT_NUM> t_nestedStmtLines);
+  void insertUsesVariable(VAR_NAME t_varName, STMT_NUM m_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines);
 
   /**
   * Inserts a variable that has been modified to ModifiesP
@@ -103,7 +112,7 @@ public:
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens);
 
   /**
   * Inserts a call statement into the PKB
@@ -117,7 +126,7 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  STMT_NUM insertWhileStmt(std::string varName, std::list<STMT_NUM> m_nestedStmtLineNum, int t_curLineNum);
+  STMT_NUM insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME varName, LIST_OF_STMT_NUMS m_nestedStmtLineNum, STMT_NUM t_curLineNum);
 
   /**
   * Inserts a if statement into the PKB.
@@ -126,7 +135,16 @@ public:
   * @param t_curLineNum the current line number that this while statement is at.
   * @return a reference of the while node.
   */
-  STMT_NUM insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLinNum, int t_curLineNum);
+  STMT_NUM insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLinNum, STMT_NUM t_curLineNum);
+
+  /**
+  * Inserts a else statement into the PKB.
+  * @param t_parentNode reference to the parent node that this while loop belongs to.
+  * @param t_curLineNum the current line number that this while statement is at.
+  * @return a reference of the while node.
+  */
+  STMT_NUM insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum);
+
 
   /**
   * Inserts a constant into the PKB.
@@ -259,7 +277,7 @@ public:
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
-
+  StatementTable* getStatementTable();
   std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
   bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
   std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
@@ -269,23 +287,11 @@ public:
   //  VarTable methods
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
-  STMT_NUM insertUsesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  STMT_NUM insertModifiesForStmt(std::string t_varName, STMT_NUM t_lineNum);
-  bool isModifies(STMT_NUM t_lineNum, std::string t_varName);
-  bool isUses(STMT_NUM t_lineNum, std::string t_varName);
-  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
-  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName);
-  LIST_OF_STMT_NUMS getStmtUses(std::string t_varName);
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies();
-  std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses();
-  STMT_NUM getIndexOfVar(std::string t_varName);
-  std::string getVarNameFromIndex(STMT_NUM t_index);
-  bool isModifiesAnything(STMT_NUM t_lineNum);
-  bool isUsesAnything(STMT_NUM t_lineNum);
-  LIST_OF_STMT_NUMS getStmtModifiesAnything();
-  LIST_OF_STMT_NUMS getStmtUsesAnything();
-  LIST_OF_VAR_NAMES getAllVariables();
+  VAR_INDEX insertVar(VAR_NAME t_name);
+  VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+  VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -295,7 +301,7 @@ public:
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
   */
-  std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName);
+  LIST_OF_STMT_NUMS getAllAssignStmtListByVar(VAR_NAME& t_varName);
 
   /*
   * Returns all assignment statements.
@@ -362,7 +368,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM>getAllAssignStmtByVar(std::string t_varName);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVar(std::string t_varName);
 
   // TODO need testing after insert assignment statement implemented
 
@@ -451,9 +457,129 @@ public:
   LIST_OF_PROC_NAMES& getUsesPAllProcNames(); /*< Modifies(p, _) */
 
   ///////////////////////////////////////////////////////
+  //  UsesTable methods
+  ///////////////////////////////////////////////////////
+  UsesTable* getUsesTable();
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
+  bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
+  LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+
+  ///////////////////////////////////////////////////////
+  //  ModifiesTable methods
+  ///////////////////////////////////////////////////////
+  ModifiesTable* getModifiesTable();
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
+  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtModifies();
+  bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
+  LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
+
+  ///////////////////////////////////////////////////////
   //  StmtListTable
   ///////////////////////////////////////////////////////
   LIST_OF_STMT_NUMS& getStmtList();
+
+  ///////////////////////////////////////////////////////
+  //  NextTable methods
+  ///////////////////////////////////////////////////////
+  NextTable* getNextTable();
+  /** To be executed after all Next relationships are added to NextTable.
+  *   Populates additional design abstractions.
+  */
+  void executeAfterAllNextInserts();
+
+  /** Checks if Next(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  /** Checks if Next*(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly after given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
+
+  /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly before given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
+
+  /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
+
+  /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
+
+  /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
+
+  /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
+
+  /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed after any particular line.
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+
+  /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed before any particular line.
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
+
+  /** For Next(_, _) or Next*(_, _).
+  *   Checks if any Next relationship exists.
+  *   @return true if data structure contains at least one Next(), else false
+  */
+  bool hasNextRelationship();
+
+  /** For Next(line, _) and Next*(line, _), where line is a given line number.
+  *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed after it, else false
+  */
+  bool hasNextLine(PROG_LINE t_line);
+
+  /** For Next(_, line) and Next*(_, line), where line is a given line number.
+  *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed before it, else false
+  */
+  bool hasLineBefore(PROG_LINE t_line);
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -465,7 +591,9 @@ private:
   ModifiesP* m_modifiesP;
   UsesP* m_usesP;
   CallsTable* m_callsTable;
+  UsesTable* m_usesTable;
+  ModifiesTable* m_modifiesTable;
   StmtListTable* m_stmtListTable;
-
-  ASTBuilder m_builder;
+  NextTable* m_nextTable;
+  PatternMatch* m_patternMatch;
 };

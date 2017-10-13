@@ -31,7 +31,7 @@ int ParserDriver::parseProcedure() {
   return -1;
 }
 
-int ParserDriver::parseStmt(std::list<STMT_NUM>& t_stmtInStmtLst) {
+int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (isMatchToken(EMPTY_LINE)) {
     return 1;
   }

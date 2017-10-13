@@ -84,10 +84,10 @@ public:
   TEST_METHOD(TestGetAllProcToVar)
   {
     auto actualMap = m_UsesP->getAllProcToVar();
-    MAP_OF_PROC_TO_VAR expectedMap = { { "F", "a" },
-    { "F", "b" },
-    { "F", "c" },
-    { "s", "c" } };
+    MAP_OF_PROC_TO_VAR expectedMap = {{ "F", "a" },
+                                      { "F", "b" },
+                                      { "F", "c" },
+                                      { "s", "c" } };
     Assert::IsTrue(actualMap == expectedMap);
   }
 

@@ -9,7 +9,7 @@ public:
 
   int openFileStream(std::string);
   int parseProcedure();
-  int parseStmt(std::list<STMT_NUM>&);
+  int parseStmt(LIST_OF_STMT_NUMS&);
 
   /*
   * Returns true if the token is an operator.

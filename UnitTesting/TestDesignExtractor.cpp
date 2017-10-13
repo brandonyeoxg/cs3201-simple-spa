@@ -17,7 +17,7 @@ namespace UnitTesting {
     TEST_METHOD_INITIALIZE(initaliseDummyPKB)
     {
       m_pkb = new PKB();
-      std::list<STMT_NUM> nestedStmtLine;
+      LIST_OF_STMT_NUMS nestedStmtLine;
 
       m_pkb->insertParentRelation(nestedStmtLine, 1);
       nestedStmtLine.push_back(1);

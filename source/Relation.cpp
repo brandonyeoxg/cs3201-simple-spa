@@ -19,6 +19,15 @@ queryType::RType Relation::getType() { return m_type; }
 Grammar Relation::getG1() { return m_g1; }
 Grammar Relation::getG2() { return m_g2; }
 
+/**
+* A public function that prints the content of this Relation object.
+*/
+void Relation::toString() {
+  std::cout << "\n" << getType() << " (";
+  std::cout << getG1().getName() << ", ";
+  std::cout << getG2().getName() << ")\n";
+}
+
 Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   if (t_type.compare(FLS) == 0) {
     m_type = queryType::RType::FOLLOWS;
@@ -48,4 +57,52 @@ Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
 
   m_g1 = t_g1;
   m_g2 = t_g2;
+}
+
+bool Relation::isFollows(queryType::RType t_type) {
+  return t_type == queryType::RType::FOLLOWS;
+}
+
+bool Relation::isFollowsStar(queryType::RType t_type) {
+  return t_type == queryType::RType::FOLLOWS_;
+}
+
+bool Relation::isParent(queryType::RType t_type) {
+  return t_type == queryType::RType::PARENT;
+}
+
+bool Relation::isParentStar(queryType::RType t_type) {
+  return t_type == queryType::RType::PARENT_;
+}
+
+bool Relation::isUses(queryType::RType t_type) {
+  return t_type == queryType::RType::USES;
+}
+
+bool Relation::isModifies(queryType::RType t_type) {
+  return t_type == queryType::RType::MODIFIES;
+}
+
+bool Relation::isCalls(queryType::RType t_type) {
+  return t_type == queryType::RType::CALLS;
+}
+
+bool Relation::isCallsStar(queryType::RType t_type) {
+  return t_type == queryType::RType::CALLS_;
+}
+
+bool Relation::isNext(queryType::RType t_type) {
+  return t_type == queryType::RType::NEXT;
+}
+
+bool Relation::isNextStar(queryType::RType t_type) {
+  return t_type == queryType::RType::NEXT_;
+}
+
+bool Relation::isAffects(queryType::RType t_type) {
+  return t_type == queryType::RType::AFFECTS;
+}
+
+bool Relation::isAffectsStar(queryType::RType t_type) {
+  return t_type == queryType::RType::AFFECTS_;
 }

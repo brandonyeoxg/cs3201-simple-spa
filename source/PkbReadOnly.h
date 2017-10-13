@@ -256,118 +256,31 @@ public:
   */
   virtual std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
 
+  virtual LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type) = 0;
+
   ///////////////////////////////////////////////////////
   //  VarTable 
   ///////////////////////////////////////////////////////
-  /**
-  * Method that checks if modifies(t_s1, t_varname) holds.
-  * @param t_lineNum an integer argument.
-  * @param s2 t_varName a string argument.
-  * @return true if the relationship holds, false if otherwise.
-  */
-  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
-
-  /**
-  * Method that checks if uses(t_s1, t_varname) holds.
-  * @param t_lineNum an integer argument.
-  * @param s2 t_varName a string argument.
-  * @return true if the relationship holds, false if otherwise.
-  */
-  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
-
-  /**
-  * Method that returns the vector of variables that are modified in line number t_lineNum.
-  * For example: modifies(2, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of variables that satisfy the condition.
-  */
-  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of variables that are used in line number t_lineNum.
-  * For example: uses(2, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of variables that satisfy the condition.
-  */
-  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of statement numbers that modifies variable t_varName.
-  * For example: stmt s; modifies(s, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName) = 0;
-
-  /**
-  * Method that returns the vector of statement numbers that uses variable t_varName.
-  * For example: stmt s; uses(s, "x").
-  * @param t_lineNum an integer argument.
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtUses(std::string t_varName) = 0;
-
-  /**
-  * Method that returns the entire map of modifies relationship.
-  * For example: stmt s, variable v; modifies(s, v).
-  * @return an unordered_map that satisfy the condition.
-  */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
-
-  /**
-  * Method that returns the entire map of uses relationship.
-  * For example: stmt s, variable v; uses(s, v).
-  * @return an unordered_map that satisfy the condition.
-  */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
 
   /**
   * Method that returns the index of the variable t_varName in VarTable.
   * @param t_varName a string argument.
   * @return the index of variable.
   */
-  virtual STMT_NUM getIndexOfVar(std::string t_varName) = 0;
+  virtual STMT_NUM getVarIdxFromName(std::string t_varName) = 0;
 
   /**
   * Method that returns the name of the variable in VarTable given its index.
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual std::string getVarNameFromIndex(STMT_NUM t_index) = 0;
-
-  /**
-  * Method that checks if modifies(t_lineNum, _) holds.
-  * @param t_s1 an integer argument.
-  * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
-  */
-  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that checks if uses(t_lineNum, _) holds.
-  * @param t_s1 an integer argument.
-  * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
-  */
-  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
-
-  /**
-  * Method that returns the vector of line numbers that involves modification of variables.
-  * For example: stmt s; modifies(s, _).
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
-
-  /**
-  * Method that returns the vector of line numbers that involves use of variables.
-  * For example: stmt s; uses(s, _).
-  * @return a vector of statement numbers that satisfy the condition.
-  */
-  virtual LIST_OF_STMT_NUMS getStmtUsesAnything() = 0;
+  virtual std::string getVarNameFromIdx(STMT_NUM t_index) = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
   * @return a vector of statement numbers.
   */
-  virtual LIST_OF_VAR_NAMES getAllVariables() = 0;
+  virtual LIST_OF_VAR_NAMES& getAllVarNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  AssignTable
@@ -377,7 +290,7 @@ public:
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtListByVar(VAR_NAME& t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtListByVar(VAR_NAME& t_varName) = 0;
 
   /*
   * Returns all assignment statements.
@@ -424,7 +337,7 @@ public:
   */
   virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
 
-  virtual std::list<STMT_NUM> getAllAssignStmtByVar(std::string t_varName) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVar(std::string t_varName) = 0;
 
   /** Pattern a("x", "y + x").
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
@@ -496,7 +409,193 @@ public:
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////
+  //  Uses methods
+  ///////////////////////////////////////////////////////
+  /**
+  * Method that checks if uses(t_s1, t_varname) holds.
+  * @param t_lineNum an integer argument.
+  * @param s2 t_varName a string argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
+  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
+  
+  /**
+  * Method that returns the vector of variables that are used in line number t_lineNum.
+  * For example: uses(2, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of variables that satisfy the condition.
+  */
+  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of statement numbers that uses variable t_varName.
+  * For example: stmt s; uses(s, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtUses(std::string t_varName) = 0;
+
+  /**
+  * Method that returns the entire map of uses relationship.
+  * For example: stmt s, variable v; uses(s, v).
+  * @return an unordered_map that satisfy the condition.
+  */
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
+
+  /**
+  * Method that checks if uses(t_lineNum, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
+  */
+  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of line numbers that involves use of variables.
+  * For example: stmt s; uses(s, _).
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtUsesAnything() = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Modifies methods
+  ///////////////////////////////////////////////////////
+  /**
+  * Method that checks if modifies(t_s1, t_varname) holds.
+  * @param t_lineNum an integer argument.
+  * @param s2 t_varName a string argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
+  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
+
+  /**
+  * Method that returns the vector of variables that are modified in line number t_lineNum.
+  * For example: modifies(2, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of variables that satisfy the condition.
+  */
+  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of statement numbers that modifies variable t_varName.
+  * For example: stmt s; modifies(s, "x").
+  * @param t_lineNum an integer argument.
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtModifies(std::string t_varName) = 0;
+
+  /**
+  * Method that returns the entire map of modifies relationship.
+  * For example: stmt s, variable v; modifies(s, v).
+  * @return an unordered_map that satisfy the condition.
+  */
+  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
+
+  /**
+  * Method that checks if modifies(t_lineNum, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
+  */
+  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
+
+  /**
+  * Method that returns the vector of line numbers that involves modification of variables.
+  * For example: stmt s; modifies(s, _).
+  * @return a vector of statement numbers that satisfy the condition.
+  */
+  virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
+
+
   //  StmtListTable
   ///////////////////////////////////////////////////////
   virtual LIST_OF_STMT_NUMS& getStmtList() = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Next Table
+  ///////////////////////////////////////////////////////
+
+  /** Checks if Next(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  virtual bool isNext(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
+
+  /** Checks if Next*(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  virtual bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
+
+  /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly after given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line) = 0;
+
+  /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly before given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line) = 0;
+
+  /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line) = 0;
+
+  /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line) = 0;
+
+  /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  virtual std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext() = 0;
+
+  /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  virtual std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar() = 0;
+
+  /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed after any particular line.
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getAllLinesAfterAnyLine() = 0;
+
+  /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed before any particular line.
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getAllLinesBeforeAnyLine() = 0;
+
+  /** For Next(_, _) or Next*(_, _).
+  *   Checks if any Next relationship exists.
+  *   @return true if data structure contains at least one Next(), else false
+  */
+  virtual bool hasNextRelationship() = 0;
+
+  /** For Next(line, _) and Next*(line, _), where line is a given line number.
+  *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed after it, else false
+  */
+  virtual bool hasNextLine(PROG_LINE t_line) = 0;
+
+  /** For Next(_, line) and Next*(_, line), where line is a given line number.
+  *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed before it, else false
+  */
+  virtual bool hasLineBefore(PROG_LINE t_line) = 0;
 };

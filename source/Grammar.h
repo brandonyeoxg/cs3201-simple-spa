@@ -2,6 +2,7 @@
 #ifndef GRAMMAR_H
 #define GRAMMAR_H
 
+#include <iostream>
 #include <string>
 #include "GlobalTypeDef.h"
 
@@ -23,6 +24,12 @@ public:
   * @param t_name is a string argument that is the Query's name for the Grammar.
   */
   Grammar(int t_type, std::string t_name);
+
+  /**
+  * A Setter that returns the attribute of this Grammar object
+  * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
+  */
+  void Grammar::setAType(queryType::AType aType);
 
   /**
   * A Getter that returns the type of this Grammar object.
@@ -51,6 +58,147 @@ public:
   * @return The value of this Grammar object.
   */
   std::string getValue();
+
+  /**
+  * A public function that prints the content of this Grammar object.
+  */
+  void toString();
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType PROC.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType PROC else return false.
+  */
+  static bool isProc(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType ST_LST.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType ST_LST else return false.
+  */
+  static bool isStmtLst(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STMT.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STMT else return false.
+  */
+  static bool isStmt(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType ASGN.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType ASGN else return false.
+  */
+  static bool isAssign(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType WHILE.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType WHILE else return false.
+  */
+  static bool isWhile(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType IF.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType IF else return false.
+  */
+  static bool isIf(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType CALL.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType CALL else return false.
+  */
+  static bool isCall(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType VAR.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType VAR else return false.
+  */
+  static bool isVar(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType CONST.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType CONST else return false.
+  */
+  static bool isConst(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType PROG_LINE.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType PROG_LINE else return false.
+  */
+  static bool isProgLine(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STMT_NO.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STMT_NO else return false.
+  */
+  static bool isStmtNo(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType STR.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType STR else return false.
+  */
+  static bool isString(queryType::GType t_type);
+
+  /**
+  * A public function to check the GType of the given GType.
+  * It checks whether the given GType is of GType BOOLEAN.
+  * @param t_type A GType to be checked.
+  * @return true if the given GType is of GType BOOLEAN else return false.
+  */
+  static bool isBoolean(queryType::GType t_type);
+
+  /**
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType PROC_NAME.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType PROC_NAME else return false.
+  */
+  static bool isProcName(queryType::AType t_type);
+
+  /**
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType VAR_NAME.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType VAR_NAME else return false.
+  */
+  static bool isVarName(queryType::AType t_type);
+
+  /**
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType STMT_NUM.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType STMT_NUM else return false.
+  */
+  static bool isStmtNum(queryType::AType t_type);
+
+  /**
+  * A public function to check the AType of the given AType.
+  * It checks whether the given AType is of AType VALUE.
+  * @param t_type A AType to be checked.
+  * @return true if the given AType is of AType VALUE else return false.
+  */
+  static bool isValue(queryType::AType t_type);
 
 private:
   queryType::GType m_type; /**< type of this Grammar object */

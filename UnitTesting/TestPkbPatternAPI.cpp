@@ -15,8 +15,9 @@ public:
   }
 
   TEST_METHOD(insertAndExtractStmts_byExactPattern) {
-    PkbWriteOnly * pkbWrite = new PKB();
-    PkbReadOnly * pkbRead = new PKB();
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *) pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *) pkb;
     std::list<STMT_NUM> result, expected;
 
     // simple expression
@@ -48,8 +49,9 @@ public:
   }
 
   TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
-    PkbWriteOnly * pkbWrite = new PKB();
-    PkbReadOnly * pkbRead = new PKB();
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
 
     pkbWrite->insertAssignStmtPattern(1, { "x", "*", "y", "+", "a", "+", "b" });

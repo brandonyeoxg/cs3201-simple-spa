@@ -1,0 +1,13 @@
+procedure A{
+  while i{
+    a=1;}
+  if j then{
+    call B;}
+  else{
+    b=2;
+    call B;}
+}
+
+procedure B{
+  c=3;
+}

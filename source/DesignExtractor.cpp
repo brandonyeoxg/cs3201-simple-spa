@@ -2,29 +2,16 @@
 #include "DesignExtractor.h"
 #include "ExtractorFactory.h"
 
+using namespace designExtractor;
+
 DesignExtractor::DesignExtractor(PkbTablesOnly* t_pkb) {
   m_pkb = t_pkb;
 }
 
 void DesignExtractor::extractRestOfDesignAbstractions() {
-  //populate the parent* maps.
-  Extractor* extractor = ExtractorFactory::makeExtractor(designExtractor::designType::PARENT, m_pkb);
-  extractor->extractDesign();
-  delete extractor;
-
-  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::ASSIGN, m_pkb);
-  extractor->extractDesign();
-  delete extractor;
-
-  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::CALLS, m_pkb);
-  extractor->extractDesign();
-  delete extractor;
-
-  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::MODIFIESP, m_pkb);
-  extractor->extractDesign();
-  delete extractor;
-
-  extractor = ExtractorFactory::makeExtractor(designExtractor::designType::USESP, m_pkb);
-  extractor->extractDesign();
-  delete extractor;
+  for (designType type = designType::PARENT; type != designType::END_ENUM; type = designType(type + 1)) {
+    Extractor *extractor = ExtractorFactory::makeExtractor(type, m_pkb);
+    extractor->extractDesign();
+    delete extractor;
+  }
 }

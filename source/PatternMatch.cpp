@@ -1,22 +1,13 @@
 #include "PatternMatch.h"
 
-PatternMatch * PatternMatch::patternMatch = nullptr;  // initialize as nullptr
-
-PatternMatch PatternMatch::getInstance() {
-  if (patternMatch == nullptr) {
-    patternMatch = new PatternMatch();
-  }
-
-  return *patternMatch;
-}
-
-void PatternMatch::resetInstance() {
-  patternMatch = nullptr;
+PatternMatch::PatternMatch() {
+  assignStmts = new std::unordered_map<STMT_NUM, std::string>();
+  assignStmtsSubtrees = new std::unordered_map<STMT_NUM, std::vector<std::string>>();
 }
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
 
-  //assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
+  assert(assignStmts->count(t_stmtNum) == 0 && assignStmtsSubtrees->count(t_stmtNum) == 0);
 
   std::string stmtStr = "";
   for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
@@ -77,83 +68,44 @@ bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_patt
 }
 
 std::vector<std::string> PatternMatch::getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens) {
-  //return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
-  std::vector<std::string> results = std::vector<std::string>();
-  generate(t_tokens, &results);
-  return results;
-}
-
-PatternMatch::PatternMatch() {
-  assignStmts = new std::unordered_map<STMT_NUM, std::string>();
-  assignStmtsSubtrees = new std::unordered_map<STMT_NUM, std::vector<std::string>>();
-}
-
-std::vector<std::string> PatternMatch::generate(std::vector<std::string> t_tokens, std::vector<std::string>* t_subtreeStrings) {
-  std::vector<std::string> buffer = std::vector<std::string>();
-  std::vector<std::string> bracketExpression = std::vector<std::string>();
-
-  int i = 0;
-
-  while ( i < t_tokens.size() ) {
-    if (t_tokens.at(i) == BRACKET_OPEN) {
-
-      while (t_tokens.at(i) != BRACKET_CLOSE) {
-        bracketExpression.push_back(t_tokens.at(i));
-        i++;
-      }
-
-      std::vector<std::string> expressionToConvert = std::vector<std::string>();
-      int k = bracketExpression.size() - 1;
-      while (bracketExpression.at(k) != BRACKET_OPEN) {
-        k--;
-      }
-
-      expressionToConvert = std::vector<std::string>(bracketExpression.begin() + k + 1, bracketExpression.end());
-
-      expressionToConvert.insert(expressionToConvert.begin(), "(");
-      expressionToConvert.push_back(")");
-
-      std::string str = convertVectorToStringWithIndex(expressionToConvert, 0, expressionToConvert.size());
-      
-      bracketExpression.erase(bracketExpression.begin() + k + 1, bracketExpression.end());
-      bracketExpression.push_back(str);
-    } else if (t_tokens.at(i) != BRACKET_CLOSE) {
-      buffer.push_back(t_tokens.at(i));
-    }
-
-    i++;
-  }
-  
-  buffer.insert(buffer.end(), bracketExpression.begin(), bracketExpression.end());
-
-  addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(buffer, 0, buffer.size()));
-
-  return buffer;
+  return generateSubtreeStrings(t_tokens, std::vector<std::string>(), 0, t_tokens.size());
 }
 
 // recursive function to generate subtree strings
 std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::string> t_tokens, 
   std::vector<std::string> t_subtreeStrings, int t_startIndex, int t_endIndex) {
 
+  t_subtreeStrings = addStrIfNotDuplicate(t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, t_endIndex));
+
   if (t_startIndex >= t_endIndex) {
     return t_subtreeStrings;
   }
 
-  addStrIfNotDuplicate(&t_subtreeStrings, convertVectorToStringWithIndex(t_tokens, t_startIndex, t_endIndex));
+  int indexOfOperator = INVALID_INDEX;
+  int lastPlusOrMinus = INVALID_INDEX;
+  int lastMultiply = INVALID_INDEX;
 
+  // start search from back of vector
+  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
+    if (lastPlusOrMinus == INVALID_INDEX && 
+      (t_tokens.at(i) == OPERATOR_PLUS || t_tokens.at(i) == OPERATOR_MINUS)) {
+      lastPlusOrMinus = i;
+    }
 
-  int firstOpenBracket = findFirstOpenBracketIndex(t_startIndex, t_endIndex, t_tokens);
-  int lastCloseBracket = findLastCloseBracketIndex(t_startIndex, t_endIndex, t_tokens);
+    if (lastMultiply == INVALID_INDEX && t_tokens.at(i) == OPERATOR_MULTIPLY) {
+      lastMultiply = i;
+    }
 
-  if (firstOpenBracket != INVALID_INDEX && lastCloseBracket != INVALID_INDEX) {
-    processBrackets(t_tokens, &t_subtreeStrings, t_startIndex, t_endIndex);
+    if (lastPlusOrMinus != INVALID_INDEX && lastMultiply != INVALID_INDEX) {
+      break;
+    }
   }
 
-  
-  
-  int indexOfOperator = findLastOperatorIndex(t_startIndex, t_endIndex, t_tokens);
-
-  if (indexOfOperator == INVALID_INDEX) { // no more operators 
+  if (lastPlusOrMinus != INVALID_INDEX) {
+    indexOfOperator = lastPlusOrMinus;
+  } else if (lastMultiply != INVALID_INDEX) {
+    indexOfOperator = lastMultiply;
+  } else {  // no more operators
     return t_subtreeStrings;
   }
 
@@ -163,100 +115,10 @@ std::vector<std::string> PatternMatch::generateSubtreeStrings(std::vector<std::s
   return t_subtreeStrings;
 }
 
-std::vector<std::string> PatternMatch::processBrackets(std::vector<std::string> t_tokens, std::vector<std::string>* t_subtreeStrings, int t_startIndex, int t_endIndex) {
-  int firstOpenBracket = findFirstOpenBracketIndex(t_startIndex, t_endIndex, t_tokens);
-  int lastCloseBracket = findLastCloseBracketIndex(t_startIndex, t_endIndex, t_tokens);
-
-  std::vector<std::string> subtrees = std::vector<std::string>();
-
-  subtrees = generateSubtreeStrings(t_tokens, subtrees, firstOpenBracket + 1, lastCloseBracket);
-  subtrees = generateSubtreeStrings(t_tokens, subtrees, t_startIndex, firstOpenBracket - 1);
-  subtrees = generateSubtreeStrings(t_tokens, subtrees, lastCloseBracket + 2, t_endIndex);
-
-  for (auto subtree : subtrees) {
-    addStrIfNotDuplicate(t_subtreeStrings, subtree);
-  }
-
-  int nextOpenBracket = findFirstOpenBracketIndex(firstOpenBracket + 1, lastCloseBracket, t_tokens);
-  int nextCloseBracket = findLastCloseBracketIndex(firstOpenBracket + 1, lastCloseBracket, t_tokens);
-
-  return std::vector<std::string>();
-
- 
-}
-
-// find index of last operator that branches into 2 subtrees
-int PatternMatch::findLastOperatorIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-
-  int lastPlusOrMinus = findLastPlusOrMinusIndex(t_startIndex, t_endIndex, t_tokens);
-  int lastMultiply = findLastMultiplyIndex(t_startIndex, t_endIndex, t_tokens);
-
-  if (lastPlusOrMinus != INVALID_INDEX) {
-    return lastPlusOrMinus;
-  } else if (lastMultiply != INVALID_INDEX) {
-    return lastMultiply;
-  } else {  // no more operators
-    return INVALID_INDEX;
-  }
-
-}
-
-int PatternMatch::findFirstOpenBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-  for (int i = t_startIndex; i < t_endIndex; i++) {
-    if (t_tokens.at(i) == BRACKET_OPEN) {
-      return i;
-    }
-  }
-
-  return INVALID_INDEX;
-}
-
-int PatternMatch::findLastCloseBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
-    if (t_tokens.at(i) == BRACKET_CLOSE) {
-      return i;
-    }
-  }
-
-  return INVALID_INDEX;
-}
-
-int PatternMatch::findLastPlusOrMinusIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-
-  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
-    if (t_tokens.at(i) == BRACKET_CLOSE) {
-      return INVALID_INDEX;
-    }
-    if (isStrPlusOrMinus(t_tokens.at(i))) {
-      return i;
-    }
-  }
-
-  return INVALID_INDEX;
-}
-
-int PatternMatch::findLastMultiplyIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens) {
-
-  for (int i = t_endIndex - 1; i >= t_startIndex; i--) {
-    if (t_tokens.at(i) == BRACKET_CLOSE) {
-      return INVALID_INDEX;
-    }
-    if (t_tokens.at(i) == OPERATOR_MULTIPLY) {
-      return i;
-    }
-  }
-
-  return INVALID_INDEX;
-}
-
-bool PatternMatch::isStrPlusOrMinus(std::string t_str) {
-  return t_str == OPERATOR_PLUS || t_str == OPERATOR_MINUS;
-}
-
 /** Given a vector of strings and start and end index, converts to a single string */
 std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string> t_vector, int t_startIndex, int t_endIndex) {
   std::string str = "";
-
+  
   for (int i = t_startIndex; i < t_endIndex; i++) {
     str += t_vector.at(i);
   }
@@ -265,26 +127,22 @@ std::string PatternMatch::convertVectorToStringWithIndex(std::vector<std::string
 }
 
 /** Add string to list of strings only if it is not duplicate string */
-void PatternMatch::addStrIfNotDuplicate(std::vector<std::string> * t_listOfStr, std::string t_str) {
+std::vector<std::string> PatternMatch::addStrIfNotDuplicate(std::vector<std::string> t_listOfStr, std::string t_str) {
 
-  for (int i = 0; i < (int)t_listOfStr->size(); i++) {
-    if (t_listOfStr->at(i) == t_str) {
-      return;
+  for (int i = 0; i < (int)t_listOfStr.size(); i++) {
+    if (t_listOfStr.at(i) == t_str) {
+      return t_listOfStr;
     }
   }
 
-  t_listOfStr->push_back(t_str);
+  t_listOfStr.push_back(t_str);
+
+  return t_listOfStr;
 }
 
 /** Helper function to remove all whitespaces in a given string */
 std::string PatternMatch::removeWhitespaces(std::string t_str) {
   t_str.erase(std::remove(t_str.begin(), t_str.end(), ' '), t_str.end());
-  return t_str;
-}
-
-std::string PatternMatch::removeBrackets(std::string t_str) {
-  t_str.erase(std::remove(t_str.begin(), t_str.end(), '('), t_str.end());
-  t_str.erase(std::remove(t_str.begin(), t_str.end(), ')'), t_str.end());
   return t_str;
 }
 

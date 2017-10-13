@@ -17,7 +17,7 @@ void ModifiesPExtractor::extractDesign() {
     for (auto& pItr : procsCallingThis) {
       PROC_INDEX calledProcIdx = procTable->getProcIdxFromName(pItr);
       for (auto& vItr : varModifiesInP) {
-        VAR_INDEX varIdx = varTable->getIndexOfVar(vItr);
+        VAR_INDEX varIdx = varTable->getVarIdxFromName(vItr);
         modifiesP->insertModifiesP(calledProcIdx, pItr, varIdx, vItr);
       }
     }

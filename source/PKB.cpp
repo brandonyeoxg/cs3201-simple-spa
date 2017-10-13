@@ -24,7 +24,11 @@ PKB::PKB() {
   m_modifiesP = new ModifiesP();
   m_usesP = new UsesP();
   m_callsTable = new CallsTable();
+  m_usesTable = new UsesTable();
+  m_modifiesTable = new ModifiesTable();
   m_stmtListTable = new StmtListTable();
+  m_nextTable = new NextTable();
+  m_patternMatch = new PatternMatch();
 }
 
 PKB::~PKB() {
@@ -38,21 +42,10 @@ PKB::~PKB() {
   delete m_modifiesP;
   delete m_usesP;
   delete m_stmtListTable;
-}
-
-///////////////////////////////////////////////////////
-//  Getter and Setter methods
-///////////////////////////////////////////////////////
-FollowTable* PKB:: getFollowTable() {
-  return m_followTable;
-}
-
-ParentTable* PKB:: getParentTable() {
-  return m_parentTable;
-}
-
-VarTable* PKB::getVarTable() {
-  return m_varTable;
+  delete m_modifiesTable;
+  delete m_usesTable;
+  delete m_nextTable;
+  delete m_patternMatch;
 }
 
 ///////////////////////////////////////////////////////
@@ -62,38 +55,51 @@ PROC_INDEX PKB::insertProcedure(const PROC_NAME& t_procName) {
   return m_procTable->insertProc(t_procName);
 }
 
-void PKB::insertModifiesVariableNew(std::string t_varName, int t_curLineNum,
-  std::list<STMT_NUM> t_nestedStmtLines) {
+void PKB::insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum) {
+  insertModifiesVariable(t_varName, t_curLineNum, t_nestedStmtLines);
+  insertModifiesProc(t_procIdx, t_varName);
+}
+
+void PKB::insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum) {
+  insertUsesVariable(t_varName, t_curLineNum, t_nestedStmtLines);
+  insertUsesProc(t_procIdx, t_varName);
+}
+
+void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum,
+    LIST_OF_STMT_NUMS t_nestedStmtLines) {
   insertModifiesForStmt(t_varName, t_curLineNum);
+  insertVar(t_varName);
   for (auto& containerItr : t_nestedStmtLines) {
     insertModifiesForStmt(t_varName, containerItr);
   }
 }
 
-void PKB::insertUsesVariableNew(std::string t_varName, int t_curLineNum, std::list<STMT_NUM> t_nestedStmtLines) {
+void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
+  m_modifiesP->insertModifiesP(t_procIdx, pName, vIdx, t_varName);
+}
+
+void PKB::insertUsesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
   insertUsesForStmt(t_varName, t_curLineNum);
+  insertVar(t_varName);
   for (auto& containerItr : t_nestedStmtLines) {
     insertUsesForStmt(t_varName, containerItr);
   }
 }
 
-void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
-  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
-  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
-  m_modifiesP->insertModifiesP(t_procIdx, pName, vIdx, t_varName);
-}
-
 void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
-  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
-void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) {
   insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
   insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
-  VAR_INDEX vIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
+  m_patternMatch->addAssignStmt(t_lineNum, t_stmtTokens);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
@@ -101,19 +107,26 @@ void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_cur
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
   PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
   m_callsTable->insertCalls(proc1, t_proc2);
+  m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
-STMT_NUM PKB::insertWhileStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+STMT_NUM PKB::insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
   insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
   return t_curLineNum;
 }
 
-STMT_NUM PKB::insertIfStmt(std::string t_varName, std::list<STMT_NUM> t_nestedStmtLineNum, int t_curLineNum) {
+STMT_NUM PKB::insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
   insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
   insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
-  insertUsesVariableNew(t_varName, t_curLineNum, t_nestedStmtLineNum);
+  insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
+  return t_curLineNum;
+}
+
+STMT_NUM PKB::insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
+  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
+  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
   return t_curLineNum;
 }
 
@@ -125,7 +138,7 @@ void PKB::insertStmtList(STMT_NUM t_line) {
   m_stmtListTable->insertStmtLst(t_line);
 }
 
-bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curLineNum) {
+bool PKB::insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) {
   if (t_stmtInStmtList.empty()) {
     return false;
   }
@@ -133,7 +146,11 @@ bool PKB::insertFollowsRelation(std::list<STMT_NUM> t_stmtInStmtList, int t_curL
   return m_followTable->insertFollows(prevStmtNum, t_curLineNum);
 }
 
-bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t_curLineNum) {
+void PKB::insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2) {
+  m_nextTable->insertNextRelationship(t_line1, t_line2);
+}
+
+bool PKB::insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum) {
   if (t_nestedStmtInStmtList.empty()) {
     return false;
   }
@@ -143,6 +160,10 @@ bool PKB::insertParentRelation(std::list<STMT_NUM> t_nestedStmtInStmtList, int t
 ///////////////////////////////////////////////////////
 //  FollowTable methods
 ///////////////////////////////////////////////////////
+FollowTable* PKB::getFollowTable() {
+  return m_followTable;
+}
+
 bool PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollows(t_s1, t_s2);
 }
@@ -197,6 +218,10 @@ bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
+
+ParentTable* PKB::getParentTable() {
+  return m_parentTable;
+}
 
 bool PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
@@ -271,8 +296,13 @@ bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
 }
 
 //////////////////////////////////////////////////////////
-//  statementTypeTable and typeOfStatementTable Methods
+//  StatementTable Methods
 //////////////////////////////////////////////////////////
+
+StatementTable* PKB::getStatementTable() {
+  return m_statementTable;
+}
+
 std::unordered_map<STMT_NUM, queryType::GType> PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
@@ -288,75 +318,28 @@ bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) 
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
+LIST_OF_STMT_NUMS PKB::getListOfStatements(queryType::GType t_type) {
+  return m_statementTable->getListOfStatements(t_type);
+}
+
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////
-STMT_NUM PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_varTable->insertUsesForStmt(t_varName, t_lineNum);
-}
 
-STMT_NUM PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_varTable->insertModifiesForStmt(t_varName, t_lineNum);
+VarTable* PKB::getVarTable() {
+  return m_varTable;
 }
-
-bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
-  return m_varTable->isModifies(t_lineNum, t_varName);
+VAR_INDEX PKB::insertVar(VAR_NAME t_name) {
+  return m_varTable->insertVar(t_name);
 }
-
-bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
-  return m_varTable->isUses(t_lineNum, t_varName);
+VAR_NAME PKB::getVarNameFromIdx(VAR_INDEX t_idx) {
+  return m_varTable->getVarNameFromIdx(t_idx);
 }
-
-LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
-  return m_varTable->getModifies(t_lineNum);
+VAR_INDEX PKB::getVarIdxFromName(VAR_NAME t_varName) {
+  return m_varTable->getVarIdxFromName(t_varName);
 }
-
-LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
-  return m_varTable->getUses(t_lineNum);
-}
-
-LIST_OF_STMT_NUMS PKB::getStmtModifies(VAR_NAME t_varName) {
-  return m_varTable->getStmtModifies(t_varName);
-}
-
-LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
-  return m_varTable->getStmtUses(t_varName);
-}
-
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
-  return m_varTable->getAllStmtModifies();
-}
-
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
-  return m_varTable->getAllStmtUses();
-}
-
-int PKB::getIndexOfVar(VAR_NAME t_varName) {
-  return m_varTable->getIndexOfVar(t_varName);
-}
-
-std::string PKB::getVarNameFromIndex(STMT_NUM t_index) {
-  return m_varTable->getVarNameFromIndex(t_index);
-}
-
-bool PKB::isModifiesAnything(STMT_NUM t_lineNum) {
-  return m_varTable->isModifiesAnything(t_lineNum);
-}
-
-bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
-  return m_varTable->isUsesAnything(t_lineNum);
-}
-
-LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
-  return m_varTable->getStmtModifiesAnything();
-}
-
-LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
-  return m_varTable->getStmtUsesAnything();
-}
-
-LIST_OF_VAR_NAMES PKB::getAllVariables() {
-  return m_varTable->getAllVariables();
+LIST_OF_VAR_NAMES& PKB::getAllVarNames() {
+  return m_varTable->getAllVarNames();
 }
 
 ///////////////////////////////////////////////////////
@@ -366,8 +349,8 @@ AssignTable* PKB::getAssignTable() {
   return m_assignTable;
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
-  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   if (varIdx == INVALID_INDEX) {
     return {};
   }
@@ -387,7 +370,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
 }
 
 ///////////////////////////////////////////////////////
-//  ParentTable methods
+//  ConstantTable methods
 ///////////////////////////////////////////////////////
 
 
@@ -410,15 +393,15 @@ std::vector<PROC_NAME>& PKB::getAllProcsName() {
 //  Pattern methods
 ///////////////////////////////////////////////////////
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  return PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  return m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  return PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+  return m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
-  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
+  VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return {};
   }
@@ -427,13 +410,13 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVar(std::string t_varName) {
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
   std::list<STMT_NUM> list = {};
-  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
   }
   auto stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
   for (auto iterator : stmtNums) {
-    if (PatternMatch::getInstance().isExactPatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isExactPatternInStmt(iterator, t_pattern)) {
       list.push_back(iterator);
     }
   }
@@ -442,16 +425,16 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
   std::list<STMT_NUM> list = {};
-  VAR_INDEX varIndex = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
 
   if (varIndex == INVALID_INDEX) {
     return list;
   }
 
-  std::list<STMT_NUM> stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+  LIST_OF_STMT_NUMS stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
 
   for (auto iterator : stmtNums) {
-    if (PatternMatch::getInstance().isSubtreePatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isSubtreePatternInStmt(iterator, t_pattern)) {
       list.push_back(iterator);
     }
   }
@@ -460,7 +443,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithExactPattern(t_pattern);
+  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
 
   std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
@@ -474,7 +457,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPatter
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = PatternMatch::getInstance().getAllStmtNumWithSubtreePattern(t_pattern);
+  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
 
   std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
@@ -488,7 +471,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePatt
 }
 
 void PKB::insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
-  PatternMatch::getInstance().addAssignStmt(t_stmtNum, t_stmtTokens);
+  m_patternMatch->addAssignStmt(t_stmtNum, t_stmtTokens);
 }
 
 ///////////////////////////////////////////////////////
@@ -564,7 +547,7 @@ ModifiesP* PKB::getModifiesP() {
 
 bool PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
-  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_modifiesP->isModifiesP(procIdx, varIdx);
 }
 
@@ -579,7 +562,7 @@ LIST_OF_VAR_NAMES PKB::getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procNa
 }
 
 LIST_OF_PROC_NAMES PKB::getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
-  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_modifiesP->getProcNamesWithVarIdx(varIdx);
 }
 
@@ -599,7 +582,7 @@ UsesP* PKB::getUsesP() {
 
 bool PKB::isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
-  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_usesP->isUsesP(procIdx, varIdx);
 }
 
@@ -614,7 +597,7 @@ LIST_OF_VAR_NAMES PKB::getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) 
 }
 
 LIST_OF_PROC_NAMES PKB::getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
-  VAR_INDEX varIdx = m_varTable->getIndexOfVar(t_varName);
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_usesP->getProcNamesWithVarIdx(varIdx);
 }
 
@@ -626,8 +609,128 @@ LIST_OF_PROC_NAMES& PKB::getUsesPAllProcNames() {
 }
 
 ///////////////////////////////////////////////////////
+//  UsesTable methods
+///////////////////////////////////////////////////////
+UsesTable* PKB::getUsesTable() {
+  return m_usesTable;
+}
+void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
+  return m_usesTable->insertUsesForStmt(t_varName, t_lineNum);
+}
+bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+  return m_usesTable->isUses(t_lineNum, t_varName);
+}
+LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
+  return m_usesTable->getUses(t_lineNum);
+}
+LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
+  return m_usesTable->getStmtUses(t_varName);
+}
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
+  return m_usesTable->getAllStmtUses();
+}
+bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
+  return m_usesTable->isUsesAnything(t_lineNum);
+}
+LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
+  return m_usesTable->getStmtUsesAnything();
+}
+
+///////////////////////////////////////////////////////
+//  ModifiesTable methods
+///////////////////////////////////////////////////////
+ModifiesTable* PKB::getModifiesTable() {
+  return m_modifiesTable;
+}
+void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
+  return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum);
+}
+bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+  return m_modifiesTable->isModifies(t_lineNum, t_varName);
+}
+LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
+  return m_modifiesTable->getModifies(t_lineNum);
+}
+LIST_OF_STMT_NUMS PKB::getStmtModifies(VAR_NAME t_varName) {
+  return m_modifiesTable->getStmtModifies(t_varName);
+}
+std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
+  return m_modifiesTable->getAllStmtModifies();
+}
+bool PKB::isModifiesAnything(STMT_NUM t_lineNum) {
+  return m_modifiesTable->isModifiesAnything(t_lineNum);
+}
+LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
+  return m_modifiesTable->getStmtModifiesAnything();
+}
+
+///////////////////////////////////////////////////////
 //  StmtList method
 ///////////////////////////////////////////////////////
 LIST_OF_STMT_NUMS& PKB::getStmtList() {
   return m_stmtListTable->getStmtList();
+}
+
+///////////////////////////////////////////////////////
+//  NextTable methods
+///////////////////////////////////////////////////////
+
+NextTable* PKB::getNextTable() {
+  return m_nextTable;
+}
+
+void PKB::executeAfterAllNextInserts() {
+  m_nextTable->executeAfterAllNextInserts();
+}
+
+bool PKB::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNext(t_line1, t_line2);
+}
+
+bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
+  return m_nextTable->isNextStar(t_line1, t_line2);
+}
+
+std::vector<PROG_LINE> PKB::getLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getLinesBefore(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfter(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesAfter(t_line);
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesBefore(PROG_LINE t_line) {
+  return m_nextTable->getAllLinesBefore(t_line);
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNext() {
+  return m_nextTable->getAllNext();
+}
+
+std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
+  return m_nextTable->getAllNextStar();
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesAfterAnyLine() {
+  return m_nextTable->getAllLinesAfterAnyLine();
+}
+
+std::vector<PROG_LINE> PKB::getAllLinesBeforeAnyLine() {
+  return m_nextTable->getAllLinesBeforeAnyLine();
+}
+
+bool PKB::hasNextRelationship() {
+  return m_nextTable->hasNextRelationship();
+}
+
+bool PKB::hasNextLine(PROG_LINE t_line) {
+  return m_nextTable->hasNextLine(t_line);
+}
+
+bool PKB::hasLineBefore(PROG_LINE t_line) {
+  return m_nextTable->hasLineBefore(t_line);
 }

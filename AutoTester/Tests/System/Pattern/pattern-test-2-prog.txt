@@ -1,0 +1,29 @@
+procedure Requeiem{
+  if i then{
+    while j{
+      if k then{
+        a=b;}
+      else{
+        b=a;}}
+    c=d;}
+  else{
+    d=(c+(e-3))*d;}
+  call Nightmare;
+}
+
+procedure Nightmare{
+  while i{
+    if j then{
+      while k{
+        call Sanctuary;}}
+    else{
+      call Purgatory;}}
+}
+
+procedure Sanctuary{
+  a=e-3;
+}
+
+procedure Purgatory{
+  b=c*3;
+}

@@ -1,0 +1,16 @@
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/system-select-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/system-select-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/system-select-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-queries.txt %~dp0/Output/system-modifies-uses-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-2-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-2-queries.txt %~dp0/Output/system-modifies-uses-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-3-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-3-queries.txt %~dp0/Output/system-modifies-uses-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-1-prog.txt %~dp0/Tests/System/Calls/calls-test-1-queries.txt %~dp0/Output/system-calls-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-2-prog.txt %~dp0/Tests/System/Calls/calls-test-2-queries.txt %~dp0/Output/system-calls-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-3-prog.txt %~dp0/Tests/System/Calls/calls-test-3-queries.txt %~dp0/Output/system-calls-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-1-prog.txt %~dp0/Tests/System/Next/next-test-1-queries.txt %~dp0/Output/system-next-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-prog.txt %~dp0/Tests/System/Next/next-test-2-queries.txt %~dp0/Output/system-next-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/system-next-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/system-pattern-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-2-prog.txt %~dp0/Tests/System/Pattern/pattern-test-2-queries.txt %~dp0/Output/system-pattern-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/With/with-test-1-prog.txt %~dp0/Tests/System/With/with-test-1-queries.txt %~dp0/Output/system-with-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-queries.txt %~dp0/Output/system-multiple-clauses-out1.xml

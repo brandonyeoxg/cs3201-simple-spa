@@ -74,3 +74,13 @@ void Pattern::setRight(Grammar t_right) {
 void Pattern::setSubtree(bool t_subT) {
   m_subtree = t_subT;
 }
+
+/**
+* A public function that prints the content of this Pattern object.
+*/
+void Pattern::toString() {
+  std::cout << "\n" << getStmt().getName() << " (";
+  std::cout << getLeft().getName() << ", ";
+  std::cout << getRight().getName() << ") ";
+  std::cout << isSubtree() << "\n";
+}

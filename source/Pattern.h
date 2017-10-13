@@ -56,6 +56,11 @@ public:
   */
   bool isSubtree();
 
+  /**
+  * A public function that prints the content of this Pattern object.
+  */
+  void toString();
+
 private:
 
   /**

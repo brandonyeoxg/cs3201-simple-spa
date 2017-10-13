@@ -141,7 +141,7 @@ none
 29 - Calls Relationship Test
 procedure p;
 Select p such that Calls(_, _)
-OMG, PuT1n, Qw0P, Re55uR3kT, T4uRU5, uNd3RwE4R
+OMG, PuT1n, Qw0P, Re55uR3kT, S1yTH3RiN, T4uRU5, uNd3RwE4R
 5000
 30 - Calls* Functionality Test
 stmt s; procedure p, q;
@@ -286,5 +286,5 @@ none
 58 - Calls* Relationship Test
 procedure p;
 Select p such that Calls*(_, _)
-OMG, PuT1n, Qw0P, Re55uR3kT, T4uRU5, uNd3RwE4R
+OMG, PuT1n, Qw0P, Re55uR3kT, S1yTH3RiN, T4uRU5, uNd3RwE4R
 5000

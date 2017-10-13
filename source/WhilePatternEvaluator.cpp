@@ -8,7 +8,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndExactPattern(PkbReadO
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -19,7 +19,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOnl
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -30,7 +30,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOnl
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -41,7 +41,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithExactPattern(PkbReadOnly *t
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -52,7 +52,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_p
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -63,7 +63,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_p
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = formatVectorIntToVectorStr(allWhileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(allWhileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
@@ -74,7 +74,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadO
     return m_result;
   }
 
-  m_result = formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
   return m_result;
 }
 
@@ -84,7 +84,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnl
     return m_result;
   }
 
-  m_result = formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
   return m_result;
 }
 
@@ -94,6 +94,6 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOnl
     return m_result;
   }
 
-  m_result = formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
   return m_result;
 }

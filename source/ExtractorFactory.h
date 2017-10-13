@@ -4,10 +4,13 @@
 namespace designExtractor {
   enum designType {
     PARENT,
-    ASSIGN,
     CALLS,
     MODIFIESP,
-    USESP
+    USESP,
+    MODIFIES,
+    USES,
+    NEXT,
+    END_ENUM
   };
 }
 

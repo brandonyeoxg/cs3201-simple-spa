@@ -2,7 +2,6 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include "nodes\ProcedureNode.h"
 #include "GlobalTypeDef.h"
 
 /**
@@ -41,8 +40,8 @@ public:
   /**
   * Reurns all procedure name in the program
   */
-  std::vector<PROC_NAME>& getAllProcsName();
+  LIST_OF_PROC_NAMES& getAllProcsName();
 private:
-  std::vector<PROC_NAME> m_procIdxToName;
+  LIST_OF_PROC_NAMES m_procIdxToName;
   std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;
 };
