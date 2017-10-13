@@ -49,7 +49,7 @@ SET_OF_RESULTS ParentEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
     m_result[t_g2.getName()] = stmtStrVector;
   } else if (t_g1.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getChildrenOfAnything();
@@ -57,7 +57,7 @@ SET_OF_RESULTS ParentEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
     m_result[t_g2.getName()] = stmtStrVector;
   }
 
@@ -76,7 +76,7 @@ SET_OF_RESULTS ParentEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar 
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = filterStmts(typeOfStmts, stmtNo, t_g1);
+    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
     m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == "_") {
     std::vector<int> stmtIntVector = t_pkb->getParentOfAnything();
@@ -84,7 +84,7 @@ SET_OF_RESULTS ParentEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar 
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
     m_result[t_g1.getName()] = stmtStrVector;
   }
 
@@ -100,9 +100,9 @@ SET_OF_RESULTS ParentEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar
   }
 
   for (auto& x : allParents) {
-    std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, x.second, t_g2);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
     if (!stmtStrVector.empty()) {
-      std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
+      std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
       if (!stmtVector.empty()) {
         m_result[std::to_string(x.first)] = stmtVector;
       }
