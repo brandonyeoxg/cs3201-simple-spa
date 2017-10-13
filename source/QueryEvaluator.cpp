@@ -405,8 +405,7 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unorde
   if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
-      if (got->second > 1) {
-        //storeResultFromPkb(t_result, queryType::RELATION);       
+      if (got->second > 1) {   
         m_relations.push(t_relation);
         return m_table->insertOneSynonym(t_relation.getG1().getName(), t_result[t_relation.getG1().getName()]);
       }
@@ -415,7 +414,6 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unorde
     got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        //storeResultFromPkb(t_result, queryType::RELATION);
         m_relations.push(t_relation);
         return m_table->insertOneSynonym(t_relation.getG2().getName(), t_result[t_relation.getG2().getName()]);
       }
@@ -424,7 +422,6 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unorde
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        //storeResultFromPkb(t_result, queryType::RELATION);
         m_relations.push(t_relation);
         if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
           return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
@@ -435,7 +432,6 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unorde
         got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
         if (got != m_synonymsUsedInQuery.end()) {
           if (got->second > 1) {
-            //storeResultFromPkb(t_result, queryType::RELATION);
             m_relations.push(t_relation);
             if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
               return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
