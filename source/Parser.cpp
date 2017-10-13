@@ -64,9 +64,11 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (!t_stmtInStmtLst.empty() && m_ifElseNextList.empty()) {
     m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
   }
-  while (!m_ifElseNextList.empty()) {
-    m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
-    m_ifElseNextList.pop_back();
+  if (m_ifElseNextList.size() == 2) {
+    while (!m_ifElseNextList.empty()) {
+      m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
+      m_ifElseNextList.pop_back();
+    }
   }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
@@ -208,12 +210,12 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
 
 void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   STMT_NUM ifStmtNum = m_curLineNum;
-  parseIfStmt(t_stmtInStmtLst);
+  parseIfStmt(t_stmtInStmtLst, ifStmtNum);
   m_nestedStmtLineNum.push_back(ifStmtNum);
-  parseElseStmt(t_stmtInStmtLst);
+  parseElseStmt(t_stmtInStmtLst, ifStmtNum);
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
   STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
@@ -224,10 +226,11 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS ifStmtLst;
   parseStmtLst(ifStmtLst);
+  m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, ifStmtLst.front());
   m_ifElseNextList.push_back(ifStmtLst.back());
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
@@ -236,6 +239,7 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   }
   LIST_OF_STMT_NUMS elseStmtLst;
   parseStmtLst(elseStmtLst);
+  m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, elseStmtLst.front());
   m_ifElseNextList.push_back(elseStmtLst.back());
 }
 

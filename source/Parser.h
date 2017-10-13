@@ -222,7 +222,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
 
   /*
   * Parses the else statement.
@@ -230,7 +230,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
 
   /*
   * Returns the the next token in the line
