@@ -480,6 +480,7 @@ public:
   bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 
+  ///////////////////////////////////////////////////////
   //  StmtListTable
   ///////////////////////////////////////////////////////
   LIST_OF_STMT_NUMS& getStmtList();
@@ -547,8 +548,37 @@ public:
   */
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
 
-  /** Next(_, l) and Next*(_, l) */
+  /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed after any particular line.
+  *   @return list of program line numbers
+  */
   std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+
+  /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed before any particular line.
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
+
+  /** For Next(_, _) or Next*(_, _).
+  *   Checks if any Next relationship exists.
+  *   @return true if data structure contains at least one Next(), else false
+  */
+  bool hasNextRelationship();
+
+  /** For Next(line, _) and Next*(line, _), where line is a given line number.
+  *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed after it, else false
+  */
+  bool hasNextLine(PROG_LINE t_line);
+
+  /** For Next(_, line) and Next*(_, line), where line is a given line number.
+  *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed before it, else false
+  */
+  bool hasLineBefore(PROG_LINE t_line);
 
 private:
   FollowTable* m_followTable;
