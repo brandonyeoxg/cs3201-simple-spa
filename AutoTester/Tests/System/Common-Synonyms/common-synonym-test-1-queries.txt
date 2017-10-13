@@ -1,7 +1,6 @@
 1 - 1 Common Synonym Base Test
 stmt s, s1;
 Select s such that Follows(s,s1)
-
 5000
 2 - 1 Common Synonym Base Test
 stmt s; prog_line pl;
@@ -55,6 +54,42 @@ Select s such that Affects(s, ss)
 5000
 12 - 1 Common Synonym Base Test
 stmt s; assign a;
-Select a such that Calls*(s, a)
+Select a such that Affects*(s, a)
 
 5000
+13 - 1 Common Synonym Base Test
+assign a; variable v;
+Select v pattern a(v,"1")
+
+5000
+14 - 1 Common Synonym Base Test
+variable v; while w;
+Select v pattern w(v,_)
+
+5000
+15 - 1 Common Synonym Base Test
+variable v; if ifs;
+Select a pattern ifs(v,_)
+
+5000
+16 - 1 Common Synonym Base Test
+procedure p;
+Select p with p.procName="A"
+
+5000
+17 - 1 Common Synonym Base Test
+variable v;
+Select v with v.varName="a"
+
+5000
+18 - 1 Common Synonym Base Test
+constant co;
+Select co with co.value=1
+
+5000
+19 - 1 Common Synonym Base Test
+stmt s;
+Select s with s.stmt#=1
+
+5000
+
