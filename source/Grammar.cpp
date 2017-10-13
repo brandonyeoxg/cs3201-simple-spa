@@ -89,6 +89,13 @@ std::string Grammar::getName() { return m_name; }
 std::string Grammar::getValue() { return m_value; }
 
 /**
+* A public function that prints the content of this Grammar object.
+*/
+void Grammar::toString() {
+  std::cout << "\n" << getName() << "\n";
+}
+
+/**
 * A public function to check the GType of the grammar object.
 * It checks whether the grammar object is of GType PROC.
 * @return true if the grammar object is of GType PROC else return false.
