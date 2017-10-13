@@ -4,7 +4,8 @@
 
 #include ".\GlobalTypeDef.h"
 
-/** Class to represent Next relationship, Next* relationship in PKB
+/** Class to represent Next relationship, Next* relationship in PKB.
+*   Used to evaluate queries with clauses on Next relationships.
 *   @author jazlyn
 */
 class NextTable {
