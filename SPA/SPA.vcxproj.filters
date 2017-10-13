@@ -223,6 +223,9 @@
     <ClCompile Include="..\source\With.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Formatter.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -483,6 +486,9 @@
     </ClInclude>
     <ClInclude Include="..\source\With.h">
       <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Formatter.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
