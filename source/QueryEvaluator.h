@@ -70,24 +70,6 @@ public:
   */
   std::vector<std::string> evaluateQuery();
 
-  /**
-  * A public function to filter the keys by the GType.
-  * It will filter the keys of the results by the GType.
-  * @param t_typeOfStmts A map of all the statements in the simple source program with its type of statement.
-  * @param t_results A map of results to be filtered.
-  * @return a result filtered by the GType in a string vector.
-  */
-  std::vector<std::string> filterKeyResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results);
-
-  /**
-  * A public function to filter the values by the GType.
-  * It will filter the values of the results by the GType.
-  * @param t_typeOfStmts A map of all the statements in the simple source program with its type of statement.
-  * @param t_results A map of results to be filtered.
-  * @return a result filtered by the GType in a string vector.
-  */
-  std::vector<std::string> filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results);
-
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
   std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */

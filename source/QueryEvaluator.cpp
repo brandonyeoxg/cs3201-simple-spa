@@ -21,50 +21,6 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
   }
 }
 
-std::vector<std::string> QueryEvaluator::filterKeyResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results) {
-  std::vector<std::string> stmtVector;
-
-  for (auto& x : t_results) {
-    if (!x.second.empty()) {
-      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isIf(t_typeOfStmts[std::stoi(x.first)]) || Grammar::isCall(t_typeOfStmts[std::stoi(x.first)])) {
-          stmtVector.push_back(x.first);
-        }
-      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(x.first)] == m_selectedType) {
-          stmtVector.push_back(x.first);
-        }
-      } else {
-        stmtVector.push_back(x.first);
-      }
-    }
-  }
-
-  return stmtVector;
-}
-
-std::vector<std::string> QueryEvaluator::filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map <std::string, std::vector<std::string>> t_results) {
-  std::vector<std::string> stmtVector;
-
-  for (auto& x : t_results) {
-    for (auto& stmtNo : x.second) {
-      if (Grammar::isStmt(m_selectedType) || Grammar::isProgLine(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType || Grammar::isAssign(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isWhile(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isIf(t_typeOfStmts[std::stoi(stmtNo)]) || Grammar::isCall(t_typeOfStmts[std::stoi(stmtNo)])) {
-          stmtVector.push_back(stmtNo);
-        }
-      } else if (Grammar::isAssign(m_selectedType) || Grammar::isWhile(m_selectedType) || Grammar::isIf(m_selectedType) || Grammar::isCall(m_selectedType)) {
-        if (t_typeOfStmts[std::stoi(stmtNo)] == m_selectedType) {
-          stmtVector.push_back(stmtNo);
-        }
-      } else {
-        stmtVector.push_back(stmtNo);
-      }
-    }
-  }
-
-  return stmtVector;
-}
-
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
 * @return true if there are results otherwise false
