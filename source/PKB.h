@@ -488,7 +488,7 @@ public:
   ///////////////////////////////////////////////////////
   //  NextTable methods
   ///////////////////////////////////////////////////////
-
+  NextTable* getNextTable();
   /** To be executed after all Next relationships are added to NextTable.
   *   Populates additional design abstractions.
   */

@@ -675,6 +675,10 @@ LIST_OF_STMT_NUMS& PKB::getStmtList() {
 //  NextTable methods
 ///////////////////////////////////////////////////////
 
+NextTable* PKB::getNextTable() {
+  return m_nextTable;
+}
+
 void PKB::executeAfterAllNextInserts() {
   m_nextTable->executeAfterAllNextInserts();
 }

@@ -24,13 +24,16 @@ int Parser::parse (const std::string &t_filename) throw() {
   while (!m_readStream.eof()) {
     parseForProcedure();
     isMatchToken(EMPTY_LINE);
+    if (m_nextToken == BracketValidator::CLOSE_BRACE) {
+      throw SyntaxOpenBraceException(m_curLineNum);
+    }
   }
   return 0;
 }
 
 void Parser::parseForProcedure() {
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+    PROC_NAME procName = getMatchToken(tokentype::tokenType::PROC_NAME);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
@@ -58,6 +61,15 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
     return;
   }
   m_curLineNum += 1;
+  if (!t_stmtInStmtLst.empty() && m_ifElseNextList.empty()) {
+    m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
+  }
+  if (m_ifElseNextList.size() == 2) {
+    while (!m_ifElseNextList.empty()) {
+      m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
+      m_ifElseNextList.pop_back();
+    }
+  }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
   t_stmtInStmtLst.push_back(m_curLineNum);
@@ -83,7 +95,7 @@ void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
 }
 
 void Parser::parseAssignStmt() {
-  std::string varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  VAR_NAME varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -102,7 +114,7 @@ void Parser::parseAssignStmt() {
 }
 
 void Parser::parseCallStmt() {
-  std::string procName = getMatchToken(tokentype::PROC_NAME);
+  PROC_NAME procName = getMatchToken(tokentype::PROC_NAME);
   m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
 }
 
@@ -188,19 +200,22 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
+  STMT_NUM curLine = m_curLineNum;
   m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS whileStmtLst;
   parseStmtLst(whileStmtLst);
+  m_pkbWriteOnly->insertNextRelation(curLine, whileStmtLst.front());
+  m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
 }
 
 void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   STMT_NUM ifStmtNum = m_curLineNum;
-  parseIfStmt(t_stmtInStmtLst);
+  parseIfStmt(t_stmtInStmtLst, ifStmtNum);
   m_nestedStmtLineNum.push_back(ifStmtNum);
-  parseElseStmt(t_stmtInStmtLst);
+  parseElseStmt(t_stmtInStmtLst, ifStmtNum);
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
   STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
@@ -211,9 +226,11 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS ifStmtLst;
   parseStmtLst(ifStmtLst);
+  m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, ifStmtLst.front());
+  m_ifElseNextList.push_back(ifStmtLst.back());
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
@@ -222,6 +239,8 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   }
   LIST_OF_STMT_NUMS elseStmtLst;
   parseStmtLst(elseStmtLst);
+  m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, elseStmtLst.front());
+  m_ifElseNextList.push_back(elseStmtLst.back());
 }
 
 bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
@@ -323,7 +342,7 @@ LIST_OF_TOKENS Parser::tokeniseLine(const STRING_TOKEN& t_line) {
   LIST_OF_TOKENS tokens;
   STRING_TOKEN token = EMPTY_LINE;
   for (auto itr = formatString.begin(); itr != formatString.end(); itr++) {
-    const std::string curStrChar = std::string(1, (*itr));
+    const STRING_TOKEN curStrChar = std::string(1, (*itr));
     if (isKeyDelimiter(curStrChar) && token != EMPTY_LINE) { // Tokenise the words
       tokens.push_back(token);
       token = EMPTY_LINE;

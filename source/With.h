@@ -36,6 +36,11 @@ public:
   */
   Grammar getG2();
 
+  /**
+  * A public function that prints the content of this With object.
+  */
+  void toString();
+
 private:
   Grammar m_g1; /**< First Grammar object useed by the Design Abstraction */
   Grammar m_g2; /**< Second Grammar object useed by the Design Abstraction */
