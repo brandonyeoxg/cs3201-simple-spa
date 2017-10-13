@@ -25,6 +25,7 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
+#include "NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -50,6 +51,12 @@ public:
   * @return true if the table is successfully added.
   */
   bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
+
+  /** Insert relationship Next(line1, line2) into PKB.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  */
+  void insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /**
   * Inserts a parent relation in the PKB.
@@ -476,6 +483,73 @@ public:
   //  StmtListTable
   ///////////////////////////////////////////////////////
   LIST_OF_STMT_NUMS& getStmtList();
+
+  ///////////////////////////////////////////////////////
+  //  NextTable methods
+  ///////////////////////////////////////////////////////
+
+  /** To be executed after all Next relationships are added to NextTable.
+  *   Populates additional design abstractions.
+  */
+  void executeAfterAllNextInserts();
+
+  /** Checks if Next(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  /** Checks if Next*(line1, line2) is true.
+  *   @param t_line1 the program line before
+  *   @param t_line2 the program line after
+  *   @return true if relationship exists, else false
+  */
+  bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
+
+  /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly after given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
+
+  /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed directly before given line.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
+
+  /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
+
+  /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
+  *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return list of program line numbers
+  */
+  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
+
+  /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
+
+  /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
+  *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
+  *   @return map of <program line number, list of lines executed after it>
+  */
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
+
+  /** Next(_, l) and Next*(_, l) */
+  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -490,4 +564,6 @@ private:
   UsesTable* m_usesTable;
   ModifiesTable* m_modifiesTable;
   StmtListTable* m_stmtListTable;
+  NextTable* m_nextTable;
+  PatternMatch* m_patternMatch;
 };

@@ -1,27 +1,27 @@
 1 - Assign Pattern Functionality Test
 assign a; variable v;
-Select a pattern a (v, "1")
-2
+Select a pattern a (v, "b")
+4
 5000
 2 - Assign Pattern Functionality Test
 assign a; variable v;
-Select v pattern a ("a", "1")
-a, b, c, d, e, f, i, j
+Select v pattern a ("a", "b")
+i,j,k,a,b,c,d,e
 5000
 3 - Assign Pattern Functionality Test
 assign a;
-Select a pattern a (_, "1")
-2
+Select a pattern a (_, "b")
+4
 5000
 4 - Assign Pattern Functionality Test
 assign a; variable v;
-Select a pattern a (v, _"1"_)
-2
+Select a pattern a (v, _"c"_)
+7,15
 5000
 5 - Assign Pattern Functionality Test
 assign a; variable v;
 Select a pattern a (v, _)
-2, 5, 6
+4,5,6,7,14,15
 5000
 6 - Assign Pattern Invalid Test 1
 assign a; procedure p;
@@ -125,38 +125,38 @@ none
 5000
 26 - Assign Pattern Bracket Functionality
 assign a;
-Select a pattern a ("b","2-d*(f+e)")
-5
+Select a pattern a ("d","(c+(e-3))*d")
+7
 5000
 27 - Assign Pattern Bracket Functionality
-assign a;
-Select a pattern a ("b",_"f+e"_)
-5
+variable v; assign a;
+Select a pattern a (v,_"e-3"_)
+7,14
 5000
 28 - Assign Pattern Bracket Invalid Test 1
 assign a;
-Select a pattern a ("b",_"d*f"_)
+Select a pattern a ("b",_"3*d"_)
 none
 5000
 29 - Assign Pattern Bracket Invalid Test 2
 assign a;
-Select a pattern a ("b",_"2-d"_)
+Select a pattern a ("b",_"c+e"_)
 none
 5000
 30 - While Pattern Functionality Test
 while w; variable v;
 Select w pattern w (v,_)
-1
+2,9,11
 5000
 31 - While Pattern Functionality Test
-while w; variable v;
-Select v pattern w ("i",_)
-a, b, c, i, j
+while w;
+Select w pattern w ("i",_)
+9
 5000
 32 - While Pattern Functionality Test
 while w;
 Select w pattern w (_,_)
-1
+2,9,11
 5000
 33 - While Pattern Invalid Test 1
 while w; variable v; procedure p;
@@ -261,17 +261,17 @@ none
 53 - If Pattern Functionality Test
 if ifs; variable v;
 Select ifs pattern ifs (v,_,_)
-3
+1,3,10
 5000
 54 - If Pattern Functionality Test
-if ifs; variable v;
-Select v pattern ifs ("i",_,_)
-a, b, c, i, j
+if ifs;
+Select ifs pattern ifs ("i",_,_)
+1
 5000
 55 - If Pattern Functionality Test
 if ifs;
 Select ifs pattern ifs (_,_,_)
-3
+1,3,10
 5000
 56 - If Pattern Invalid Test 1
 if ifs; variable v; procedure p;

@@ -1,0 +1,60 @@
+1 - 1 Common Synonym Base Test
+stmt s, s1;
+Select s such that Follows(s,s1)
+
+5000
+2 - 1 Common Synonym Base Test
+stmt s; prog_line pl;
+Select pl such that Follows*(s,pl)
+
+5000
+3 - 1 Common Synonym Base Test
+stmt s; if ifs;
+Select ifs such that Parent(ifs,s)
+
+5000
+4 - 1 Common Synonym Base Test
+while w, w1;
+Select w such that Parent*(w1,w)
+
+5000
+5 - 1 Common Synonym Base Test
+call ca; variable v;
+Select ca such that Uses(ca,v)
+
+5000
+6 - 1 Common Synonym Base Test
+variable v;
+Select v such that Modifies(1,v)
+
+5000
+7 - 1 Common Synonym Base Test
+procedure p, q;
+Select p such that Calls(p, q)
+
+5000
+8 - 1 Common Synonym Base Test
+procedure p, q;
+Select p such that Calls*(q, p)
+
+5000
+9 - 1 Common Synonym Base Test
+prog_line pl; stmt s;
+Select pl such that Next(pl, s)
+
+5000
+10 - 1 Common Synonym Base Test
+stmt s; prog_line pl;
+Select s such that Next*(pl, s)
+
+5000
+11 - 1 Common Synonym Base Test
+stmt s, ss;
+Select s such that Affects(s, ss)
+
+5000
+12 - 1 Common Synonym Base Test
+stmt s; assign a;
+Select a such that Calls*(s, a)
+
+5000

@@ -4,7 +4,8 @@ procedure A{
   if j then{
     call B;}
   else{
-    b=2-d*(f+e);}
+    b=2;
+    call B;}
 }
 
 procedure B{

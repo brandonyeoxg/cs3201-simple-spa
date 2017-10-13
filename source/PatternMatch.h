@@ -9,23 +9,12 @@
 #include ".\GlobalTypeDef.h"
 
 /** Class that handles Pattern matching in assignment statements.
-*   Utilizes singleton pattern as there should only be one instance of this class at any one time.
-*   Also ensures that users of this class do not need to pass a reference of an instance around all the time.
-*   Maintains data structures of preprocessed strings of all assignment statements for pattern-related queries.
 *   @author jazlyn
 */
 
 class PatternMatch {
 public:
-  /** Singleton pattern used. Gets instance.
-  *   @return PatternMatch instance
-  */
-  static PatternMatch getInstance();
-
-  /** For testing purpose. Resets internal static instance to nullptr.
-  *   This clears internal data structures. Not to be used in functional code.
-  */
-  static void resetInstance();
+  PatternMatch();
 
   /** Adds an assignment statement's right hand side expression to PatternMatch's data structures.
   *   PatternMatch will generate strings of all possible pattern matches and store them by the statement number.
@@ -72,10 +61,6 @@ public:
   std::vector<std::string> getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens);
 
 private:
-  static PatternMatch* patternMatch;  /**< Static instance of this class. */
-
-  PatternMatch(); /**< Private constructor. */
-
   std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
   std::unordered_map<STMT_NUM, std::vector<std::string>> * assignStmtsSubtrees;  /**< Vector of all subtree strings mapped to statement number */
   
