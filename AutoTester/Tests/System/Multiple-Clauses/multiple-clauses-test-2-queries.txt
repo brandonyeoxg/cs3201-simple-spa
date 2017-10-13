@@ -5,17 +5,17 @@ true
 5000
 2 - Multiple Clauses Such That Pattern Functionality Test
 stmt s1, s2; assign a; variable v;
-Select BOOLEAN such that Follows* (s1, s2) pattern a (v, "1")
+Select BOOLEAN such that Follows* (s1, s2) pattern a ("a", "1")
 true
 5000
 3 - Multiple Clauses Such That Pattern Functionality Test
-stmt s1, s2; assign a; variable v;
-Select BOOLEAN such that Parent (s1, s2) pattern a (v, "2")
+if ifs; call ca; assign a; variable v;
+Select BOOLEAN such that Parent (ifs, ca) pattern a (v, "2")
 true
 5000
 4 - Multiple Clauses Such That Pattern Functionality Test
-stmt s1, s2; assign a; variable v;
-Select BOOLEAN such that Parent* (s1, s2) pattern a (v2, "3")
+while w; call ca; assign a; variable v;
+Select BOOLEAN such that Parent* (w, ca) pattern a (v2, "3")
 true
 5000
 5 - Multiple Clauses Such That Pattern Functionality Test
@@ -35,8 +35,8 @@ true
 5000
 8 - Multiple Clauses Such That Pattern Functionality Test
 procedure p1, p2; assign a; variable v;
-Select BOOLEAN such that Calls* (p1, p2) pattern a (v, "1")
-true
+Select p1 such that Calls* (p1, p2) pattern a (v, "1")
+A, B
 5000
 9 - Multiple Clauses Such That Pattern Functionality Test
 prog_line pl1, pl2; assign a; variable v;
@@ -65,17 +65,17 @@ true
 5000
 16 - Multiple Clauses Such That With Functionality Test
 stmt s1, s2; procedure p;
-Select BOOLEAN such that Follows* (s1, s2) with p.procName="A"
-true
+Select s1 such that Follows* (s1, s2) with p.procName="A"
+2,6,7
 5000
 17 - Multiple Clauses Such That With Functionality Test
-stmt s1, s2; procedure p;
-Select BOOLEAN such that Parent (s1, s2) with p.procName="A"
+if ifs; call ca; procedure p;
+Select BOOLEAN such that Parent (ifs, ca) with p.procName="A"
 true
 5000
 18 - Multiple Clauses Such That With Functionality Test
-stmt s1, s2; procedure p;
-Select BOOLEAN such that Parent* (s1, s2) with p.procName="A"
+while w; call ca; procedure p;
+Select BOOLEAN such that Parent* (w, ca) with p.procName="A"
 true
 5000
 19 - Multiple Clauses Such That With Functionality Test
@@ -184,13 +184,13 @@ Select BOOLEAN such that Follows*(s1,s2) pattern a("a","1") with p.procName="A"
 true
 5000
 40 - Multiple Clauses Such That Pattern With Functionality Test
-stmt s1, s2; assign a; variable v; procedure p;
-Select BOOLEAN such that Parent(s1,s2) pattern a(_,"1") with p.procName="A"
+if ifs; call ca; assign a; variable v; procedure p;
+Select BOOLEAN such that Parent (ifs, ca) pattern a(_,"1") with p.procName="A"
 true
 5000
 41 - Multiple Clauses Such That Pattern With Functionality Test
-stmt s1, s2; assign a; variable v; procedure p;
-Select BOOLEAN such that Parent*(s1,s2) pattern a(v,_"1"_) with p.procName="A"
+while w; if ifs; assign a; variable v; procedure p;
+Select BOOLEAN such that Parent*(w, ifs) pattern a(v,_"1"_) with p.procName="A"
 true
 5000
 42 - Multiple Clauses Such That Pattern With Functionality Test
