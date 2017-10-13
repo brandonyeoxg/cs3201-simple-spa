@@ -30,7 +30,34 @@ public:
   */
   static std::vector<std::string> filterValueResults(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::unordered_map<std::string, std::vector<std::string>> t_results, queryType::GType t_selectedType);
 
+  /**
+  * A public function to filter a statement by the statement type.
+  * It will return the stmt in a vector if it matches a specific stmt type else return an empty vector.
+  * @param t_typeOfStmts A map of all the stmts in the simple source program with its type of stmt.
+  * @param t_stmtNo The stmt number to be filtered. 
+  * @param t_grammar A grammar object with the specific stmt type.
+  * @return a vector of the stmt if it matches a specific stmt type else returns an empty vector.
+  */
   static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar);
+  
+  /**
+  * A public function to filter the statements in a vector by the statement type.
+  * It will return the vector of stmts that matches the specific stmt type.
+  * @param t_typeOfStmts A map of all the stmts in the simple source program with its type of stmt.
+  * @param t_stmtIntVector The vector of stmts to be filtered.
+  * @param t_grammar A grammar object with the specific stmt type.
+  * @return a vector of stmts that matches a specific stmt type.
+  */
   static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::vector<int> t_stmtIntVector, Grammar t_grammar);
+  
+  /**
+  * A public function to filter a statement by the statement type.
+  * It will return the given vector if it matches a specific stmt type else return an empty vector.
+  * @param t_typeOfStmts A map of all the stmts in the simple source program with its type of stmt.
+  * @param t_stmtNo The stmt number to be filtered.
+  * @param t_grammar A grammar object with the specific stmt type.
+  * @param t_stmtIntVector The vector of stmts to be stored.
+  * @return the given vector if the stmt matches a specific stmt type else returns an empty vector.
+  */
   static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, std::vector<std::string> t_stmtVector);
 };
