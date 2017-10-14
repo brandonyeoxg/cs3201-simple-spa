@@ -13,9 +13,6 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
     return evaluateFinalResult();
   } else if (!hasResult) {
     std::vector<std::string> result;
-    if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
-      result.push_back("false");
-    }
     m_table->clearTable();
     return result;
   }
@@ -314,7 +311,7 @@ std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
     if (m_isSelectOnly) {
       finalResult.push_back("true");
     } else if (m_table->hasSynonyms() && m_table->isEmpty()) {
-      finalResult.push_back("false");
+      finalResult.clear();
     } else {
       finalResult.push_back("true");
     }
