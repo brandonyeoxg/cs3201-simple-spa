@@ -22,7 +22,7 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
 }
 
 bool QueryEvaluator::processWithClause() {
-
+  return true;
 }
 
 /**
