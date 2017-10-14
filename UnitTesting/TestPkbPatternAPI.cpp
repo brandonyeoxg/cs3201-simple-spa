@@ -112,6 +112,59 @@ public:
     Assert::IsTrue(result == expected);
   }
 
+  TEST_METHOD(getAllAssignStmtWithVarByExactPattern) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    pkbWrite->insertModifies(0, varNameA, {}, 1);
+    pkbWrite->insertModifies(0, varNameA, {}, 2);
+    pkbWrite->insertModifies(0, varNameA, {}, 3);
+    pkbWrite->insertModifies(0, varNameB, {}, 4);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+    
+    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    result = pkbRead->getAllAssignStmtWithVarByExactPattern({ "x", "*", "y" });
+    Assert::IsTrue(result == expected);
+
+    expected.insert({ 1, varNameA });
+    expected.insert({ 4, varNameB });
+    result = pkbRead->getAllAssignStmtWithVarByExactPattern({ "x", "*", "y", "+", "a", "+", "b" });
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllAssignStmtWithVarBySubtreePattern) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    pkbWrite->insertModifies(0, varNameA, {}, 1);
+    pkbWrite->insertModifies(0, varNameA, {}, 2);
+    pkbWrite->insertModifies(0, varNameA, {}, 3);
+    pkbWrite->insertModifies(0, varNameB, {}, 4);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+
+    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    expected.insert({ 1, varNameA });
+    expected.insert({ 2, varNameA });
+    expected.insert({ 3, varNameA });
+    expected.insert({ 4, varNameB });
+    result = pkbRead->getAllAssignStmtWithVarBySubtreePattern({ "x", "*", "y" });
+    Assert::IsTrue(result == expected);
+  }
+
 private:
   void printListOfIntegers(std::list<int> list) {
     for (auto iterator : list) {
