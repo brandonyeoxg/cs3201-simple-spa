@@ -19,12 +19,13 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInp
     std::queue<Grammar> selectQueue = qpp.getSelect();
     std::queue<Relation> suchThatQueue = qpp.getSuchThat();
     std::queue<Pattern> patternQueue = qpp.getPattern();
+    std::queue<With> withQueue;// = qpp.getWith();
     std::unordered_map<std::string, int> unorderedMap = qpp.getSynonym();
 
     if (isTokenized == true) {
       //Grammar testGrammar = selectQueue.front();
       //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
-      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, unorderedMap);
+      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, withQueue, unorderedMap);
       evaluatedResults = qe->evaluateQuery();
       delete qe;
 

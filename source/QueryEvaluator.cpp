@@ -18,6 +18,27 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
   }
 }
 
+bool QueryEvaluator::processWithClause() {
+  int withSize = m_withs.size();
+  for (int i = 0; i < withSize; ++i) {
+    With with = m_withs.front();
+    Grammar left = with.getG1();
+    Grammar right = with.getG2();
+
+    if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(left.getType()))) {
+
+    } else if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
+
+    } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) || (Grammar::isStmtNo(right.getType()) || Grammar::isString(right.getType()))) {
+
+    } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
+
+    }
+  }
+
+  return true;
+}
+
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
 * @return true if there are results otherwise false
