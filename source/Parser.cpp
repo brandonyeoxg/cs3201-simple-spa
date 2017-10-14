@@ -64,7 +64,9 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_
   }
   m_curLineNum += 1;
   if (!t_stmtInStmtLst.empty()) {
-    m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
+    if (m_ifLookUp.find(t_stmtInStmtLst.back()) == m_ifLookUp.end()) {
+      m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
+    }
   }
   if (!t_progLine.empty()) {
     for (auto& itr : t_progLine) {
