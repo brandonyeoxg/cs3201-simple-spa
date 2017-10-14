@@ -200,27 +200,27 @@ Select w such that Follows*(s, ss) pattern w(v,_) with ss.stmt#=4
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
 constant co; if ifs; variable v; stmt s;
-Select co such that Uses(s,v) pattern ifs(v,_) with co.value=1
+Select co such that Uses(s,v) pattern ifs(v,_,_) with co.value=1
 1
 5000
 46 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; prog_line pl;
-Select ifs such that Parent(ifs, s) pattern ifs(v,_) with pl.stmt#=2
+Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with pl.stmt#=2
 5,16
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; stmt s, ss;
-Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=6
+Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 true
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; stmt s, ss;
-Select ifs such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=6
+Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 5
 5000
 46 - 2 Common Synonyms Test
 if ifs; variable v; prog_line pl;
-Select BOOLEAN such that Uses(ifs, v) pattern ifs(v,_) with pl.stmt#=1
+Select BOOLEAN such that Uses(ifs, v) pattern ifs(v,_,_) with pl.stmt#=1
 true
 5000
 47 - 2 Common Synonyms Test
