@@ -6,6 +6,7 @@
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
+#include "With.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -20,6 +21,7 @@ namespace IntegrationTesting
     std::queue<Grammar> m_selects;
     std::queue<Relation> m_relations;
     std::queue<Pattern> m_patterns;
+    std::queue<With> m_withs;
   public:
     TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator)
     {
@@ -57,7 +59,7 @@ namespace IntegrationTesting
       m_synonymsUsedInQuery["s"] = 1;
       m_synonymsUsedInQuery["s1"] = 1;
       m_synonymsUsedInQuery["s2"] = 1;
-      m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_synonymsUsedInQuery);
+      m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
     }
 
     TEST_METHOD(TestEvaluatorAndPkbForStmt)
