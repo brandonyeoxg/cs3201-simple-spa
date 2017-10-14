@@ -5,7 +5,7 @@
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
-std::vector<std::string> QueryEvaluator::evaluateQuery() {
+LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
   //printDivider();
   //std::cout << "Evaluating Query...\n";
   bool hasResult = getResultFromPkb();
@@ -160,8 +160,8 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 }
 
 bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
-  std::unordered_map<std::string, std::vector<std::string>> result;
-  std::unordered_map<int, queryType::GType> typeOfStmts = m_pkb->getTypeOfStatementTable();
+  SET_OF_RELATION_RESULTS result;
+  MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
   Evaluator *eval = Relationship::createEvaluator(t_relation.getType());
   Grammar g1 = t_relation.getG1();
   Grammar g2 = t_relation.getG2();
@@ -191,7 +191,7 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
 }
 
 bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
-  std::unordered_map<std::string, std::vector<std::string>> result;
+  SET_OF_PATTERN_RESULTS result;
   PatternEvaluator *eval = Patterns::createEvaluator(t_pattern.getStmt().getType());
   Grammar stmt = t_pattern.getStmt();
   Grammar g1 = t_pattern.getLeft();
@@ -232,14 +232,14 @@ bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 * A function that stores the result in a data structure.
 * @param t_result a vector<string> argument
 */
-void QueryEvaluator::storeSelectResultFromPkb(std::vector<std::string> t_result) {
+void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
   //printDivider();
   //std::cout << "Storing the select result from PKB to the select result queue...\n";
   m_selectResults.push(t_result);
   //printDivider();
 }
 
-bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
@@ -286,7 +286,7 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, std::unorde
   return true;
 }
 
-bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result) {
+bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
@@ -321,7 +321,7 @@ bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, std::unordered
 * A function that evaluates the final result of the query by comparing the results based on what the query wants.
 * @return The query results
 */
-std::vector<std::string> QueryEvaluator::evaluateFinalResult() {
+LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
   //printDivider();
   //std::cout << "Evaluating the final result...\n";
   LIST_OF_RESULTS finalResult;

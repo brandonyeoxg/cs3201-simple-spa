@@ -25,10 +25,13 @@ typedef std::vector<int> LIST_OF_STMT_NUMS;
 typedef std::vector<std::string> LIST_OF_VAR_NAMES;
 typedef std::vector<std::string> LIST_OF_PROC_NAMES;
 typedef std::vector<std::string> LIST_OF_RESULTS;
+typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
 typedef std::vector<std::string> LIST_OF_TOKENS;
 typedef std::set<std::string> SET_OF_VAR_NAMES;
 typedef std::set<int> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
+typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
+typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_PATTERN_RESULTS;
 typedef std::unordered_map<int, std::vector<int>> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<int>> MAP_OF_VAR_NAME_TO_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
@@ -38,6 +41,7 @@ typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
+typedef std::unordered_map<std::string, int> MAP_OF_SYNONYMS_TO_COUNTS;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
@@ -132,6 +136,8 @@ namespace queryType {
     AFFECTS_ /**< An enum value representing the Affects* relation. */
   };
 };
+
+typedef queryType::GType SYNONYM_TYPE;
 
 typedef std::unordered_map<STMT_NUM, queryType::GType> MAP_OF_STMT_NUM_TO_GTYPE;
 typedef std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS;

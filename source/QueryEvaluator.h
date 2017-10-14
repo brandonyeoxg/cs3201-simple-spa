@@ -46,7 +46,7 @@ public:
   * @param t_patterns A queue to store all the pattern clauses in the query.
   * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
-  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs,  std::unordered_map<std::string, int> t_synonymsList)
+  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
@@ -70,20 +70,20 @@ public:
   * Get the results of all the clauses in the query from PKB, then compare and get the result of the query.
   * @return the result of the query in a vector of strings.
   */
-  std::vector<std::string> evaluateQuery();
+  LIST_OF_RESULTS evaluateQuery();
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
-  std::string m_selectedSynonym; /**< A string. The synonym that the query selects. */
-  queryType::GType m_selectedType; /**< A string. The type of the synonym that the query selects. */
-  std::unordered_map<std::string, int> m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
+  SYNONYM_NAME m_selectedSynonym; /**< A string. The synonym that the query selects. */
+  SYNONYM_TYPE m_selectedType; /**< A string. The type of the synonym that the query selects. */
+  MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
   std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
   std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
-  std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
-  std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
-  std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
+  std::queue<LIST_OF_SELECT_RESULTS> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
+  std::queue<SET_OF_RELATION_RESULTS> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
+  std::queue<SET_OF_PATTERN_RESULTS> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
   bool m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
 
@@ -135,7 +135,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(std::vector<std::string> t_result);
+  void storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result);
 
   /**
   * A private function to store the relation result if it is needed.
@@ -143,7 +143,7 @@ private:
   * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
   */
-  bool storeRelationResultFromPkb(Relation t_relation, std::unordered_map<std::string, std::vector<std::string>> t_result);
+  bool storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result);
   
   /**
   * A private function to store the pattern result if it is needed.
@@ -151,14 +151,14 @@ private:
   * @param t_pattern A pattern object which holds the pattern clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
   */
-  bool storePatternResultFromPkb(Pattern t_pattern, std::unordered_map<std::string, std::vector<std::string>> t_result);
+  bool storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result);
 
   /**
   * A private function to evaluate the final result of the query.
   * By comparing all the results with the common synonyms, get the final result of the query.
   * @return A vector of strings as the query result.
   */
-  std::vector<std::string> evaluateFinalResult();
+  LIST_OF_RESULTS evaluateFinalResult();
 };
 
 #endif QUERYEVALUATOR_H
