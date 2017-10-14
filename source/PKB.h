@@ -357,6 +357,13 @@ public:
   ////////////////// OLD METHOD
   std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
 
+  ////////////////// OLD METHOD
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+
+  ////////////////// OLD METHOD
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
+
+
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -402,20 +409,20 @@ public:
   /** variable v; Pattern a(v, "x + y + h").
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   Map will be returned with statement number as key, and variable name as value.
-  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** variable v; Pattern a(v, _"x + y + h"_).
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   Map will be returned with statement number as key, and variable name as value.
-  *   @param t_pattern pattern to be matched (having whitespaces will not affect result) i.e. "x + y + h", "x"
-  *   @return list of statement numbers with match (will be empty list if there is none)
+  *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods
