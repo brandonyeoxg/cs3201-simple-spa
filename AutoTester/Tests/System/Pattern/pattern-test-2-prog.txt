@@ -5,7 +5,7 @@ procedure Requeiem{
         a=b;}
       else{
         b=a;}}
-    c=d;}
+    c=d;
   else{
     d=(c+(e-3))*d;}
   call Nightmare;
@@ -17,7 +17,7 @@ procedure Nightmare{
       while k{
         call Sanctuary;}}
     else{
-      call Purgatory;}}
+      call Purgatory;}
 }
 
 procedure Sanctuary{

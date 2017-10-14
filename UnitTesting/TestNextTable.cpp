@@ -375,6 +375,133 @@ public:
     Assert::IsTrue(expected == result);
   }
 
+  TEST_METHOD(getAllLinesBeforeAnyLine_01) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5       stmt
+        6       stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(1, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 1, 3, 4, 5, 6 };
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(getAllLinesBeforeAnyLine_02) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(2, 1);
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = { 1, 2, 3, 4 };
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+  }
+
+  TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_01) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    Assert::IsFalse(nextTable.hasNextRelationship());
+
+    /*  1   if ...
+        2     stmt
+            else
+        3     while ...
+        4       stmt
+        5       stmt
+        6       stmt
+    */
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(1, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    Assert::IsTrue(nextTable.hasNextRelationship());
+    Assert::IsTrue(nextTable.hasNextLine(1));
+    Assert::IsTrue(nextTable.hasNextLine(3));
+    Assert::IsTrue(nextTable.hasNextLine(6));
+
+    Assert::IsFalse(nextTable.hasNextLine(2));
+
+    Assert::IsTrue(nextTable.hasLineBefore(2));
+    Assert::IsTrue(nextTable.hasLineBefore(3));
+    Assert::IsTrue(nextTable.hasLineBefore(5));
+
+    Assert::IsFalse(nextTable.hasLineBefore(1));
+  }
+
+  TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_02) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    Assert::IsFalse(nextTable.hasNextRelationship());
+
+    /*  1   stmt
+        2   stmt
+        3   if ...
+        4     while ...
+        5       stmt
+            else
+        6     stmt
+        7   stmt
+    */
+    nextTable.insertNextRelationship(3, 6);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(5, 4);
+    nextTable.insertNextRelationship(4, 7);
+    nextTable.insertNextRelationship(6, 7);
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+
+    nextTable.executeAfterAllNextInserts();
+
+    Assert::IsTrue(nextTable.hasNextRelationship());
+    Assert::IsTrue(nextTable.hasNextLine(1));
+    Assert::IsTrue(nextTable.hasNextLine(2));
+    Assert::IsTrue(nextTable.hasNextLine(5));
+
+    Assert::IsFalse(nextTable.hasNextLine(7));
+
+    Assert::IsTrue(nextTable.hasLineBefore(2));
+    Assert::IsTrue(nextTable.hasLineBefore(3));
+    Assert::IsTrue(nextTable.hasLineBefore(5));
+
+    Assert::IsFalse(nextTable.hasLineBefore(1));
+  }
+
 private:
 
   void printGraph(std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> graph) {

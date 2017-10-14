@@ -6,7 +6,7 @@ Select a pattern a (v, "1")
 2 - Assign Pattern Functionality Test
 assign a; variable v;
 Select v pattern a ("a", "1")
-a, b, c, d, e, f, i, j
+a, b, c, i, j
 5000
 3 - Assign Pattern Functionality Test
 assign a;

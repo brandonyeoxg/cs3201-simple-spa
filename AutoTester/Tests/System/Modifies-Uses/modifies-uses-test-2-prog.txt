@@ -26,7 +26,7 @@ procedure Fallabor{
         b=c-1;
         c=d*2;}}
     f=c-a*b+e;
-  call Kerning;}
+  call Kerning;
 }
 
 procedure Kerning{

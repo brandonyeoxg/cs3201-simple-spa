@@ -46,7 +46,7 @@ true
 10 - Uses Functionality Test
 stmt s;
 Select s such that Uses(s,"b")
-1,18,15,10,6,7,8,11,13,14,19,2,20,9
+1,18,15,10,6,7,8
 5000
 11 - Uses Functionality Test
 stmt s;
@@ -171,7 +171,7 @@ true
 35 - Modifies Functionality Test
 stmt s;
 Select s such that Modifies(s,"a")
-1,7,8,15,20,11,13,14,19,2
+1, 7,8, 15,20
 5000
 36 - Modifies Functionality Test
 stmt s;
