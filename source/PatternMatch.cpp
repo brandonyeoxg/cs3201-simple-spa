@@ -56,10 +56,9 @@ std::vector<std::string> PatternMatch::convertInfixExpressionToPostfix(std::vect
   std::vector<std::string> operatorStack = std::vector<std::string>();
   std::vector<std::string> postfix = std::vector<std::string>();
 
-  for (int i = 0; i < t_stmtTokens.size(); i++) {
-    std::string token = t_stmtTokens.at(i);
+  for (auto token : t_stmtTokens) {
     if (isOperator(token)) {
-      while (isOperatorGreaterOrEqualPrec(operatorStack.back(), token)) {
+      while (!operatorStack.empty() && isOperatorGreaterOrEqualPrec(operatorStack.back(), token)) {
         postfix.push_back(operatorStack.back());  //push operators into postfix expression
         operatorStack.pop_back();
       }
