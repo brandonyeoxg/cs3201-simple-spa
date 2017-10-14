@@ -54,6 +54,11 @@ Grammar::Grammar(int t_type, std::string t_name) {
   m_name = t_name;
 }
 
+/*Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name) {
+  m_vector = t_vector;
+  m_name = t_name;
+}*/
+
 /**
 * A Setter that sets the attribute of this Grammar object
 */
@@ -79,6 +84,13 @@ queryType::AType Grammar::getAttr() { return m_attr; }
 * @return The name of this Grammar object
 */
 std::string Grammar::getName() { return m_name; }
+
+/**
+* A Getter that returns the vector for this Grammar object
+* The returned vector is the pattern vector which contains tokens from the pattern expression.
+* @return The name of this Grammar object
+*/
+std::vector<std::string> Grammar::getVector() { return m_vector; }
 
 /**
 * A Getter that returns the value of this Grammar object

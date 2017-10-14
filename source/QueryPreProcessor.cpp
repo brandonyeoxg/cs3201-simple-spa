@@ -1112,6 +1112,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     
     patternVector = stringVectorTokenizer("(),;", patternParameters, patternVector);
 
+    //vector to be passed to jazlyn
+    std::vector<std::string> patternExpressionVector;
+
     int counterP = 0;
     Grammar patternOfGrammar;
     Grammar grammarPatternLeft;
@@ -1164,7 +1167,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             grammarPatternLeft = tempPatternGrammarTemp;
             tempSynonymVector.push_back(grammarPatternLeft.getName());
             counterVector.push_back(grammarPatternLeft.getName());
-            //created all entries to be pushed into vector. to work on parsing thru to add into map
+
             std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
             if (got == m_synonymMap.end()) {
               m_synonymMap.insert({ patternLeftName, 1 });
@@ -1190,6 +1193,17 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         return false;
       }
 
+      /*char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        '(', ')', '+', '-', '*',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+      //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
+      size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
+      if (pos != std::string::npos) {
+        // username contains an invalid character at index pos
+        return false;
+      }*/
+
       //Check if any ) exists before (
       if (patternRightName.find(')') < patternRightName.find('(')) {
         return false;
@@ -1201,16 +1215,15 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       std::string patternRightNameTemp = patternRightName;
       char sub = '(';
 
-      size_t pos = patternRightNameTemp.find(sub, 0);
-      while (pos != std::string::npos) {
+      size_t pos3 = patternRightNameTemp.find(sub, 0);
+      while (pos3 != std::string::npos) {
         //positions.push_back(pos);
-        pos = patternRightNameTemp.find(sub, pos + 1);
+        pos3 = patternRightNameTemp.find(sub, pos3 + 1);
         if (patternRightNameTemp.find_first_not_of(" \t") == ')') {
           return false;
         }
       }
 
-      patternRightName = m_stringUtil.trimString(patternRightName);
       if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
         removeCharsFromString(patternRightName, "\\\" _");
         grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
@@ -1224,6 +1237,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         return false;
       }
 
+    //patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+    //grammarPatternRight = Grammar(patternExpressionVector, patternRightName);
+    
     //while patterns
     } else if (patternOfGrammar.getType() == queryType::GType::WHILE) {
       std::string patternLeftName = patternVector.front();
@@ -1231,7 +1247,6 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         removeCharsFromString(patternLeftName, "\\\" ");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
       }
-      //to work on: other forms of pattern
       else if (patternLeftName == "_") {
         removeCharsFromString(patternLeftName, "\"");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
@@ -1246,7 +1261,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             grammarPatternLeft = tempPatternGrammarTemp;
             tempSynonymVector.push_back(grammarPatternLeft.getName());
             counterVector.push_back(grammarPatternLeft.getName());
-            //created all entries to be pushed into vector. to work on parsing thru to add into map
+
             std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
             if (got == m_synonymMap.end()) {
               m_synonymMap.insert({ patternLeftName, 1 });
@@ -1268,46 +1283,64 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         return false;
       }
 
-    //if patterns: not done, require pattern.cpp to have 3rd _
+    
+      //if patterns
     } else if (patternOfGrammar.getType() == queryType::GType::IF) {
-      std::string patternLeftName = patternVector.front();
-      if (patternLeftName.find('"') != std::string::npos) {
-        removeCharsFromString(patternLeftName, "\\\" ");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-      }
+      std::string ifPatternParam1;
+      std::string ifPatternParam2;
 
-      else if (patternLeftName == "_") {
-        removeCharsFromString(patternLeftName, "\"");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-      } else {
-        int counterT = 0;
-        removeCharsFromString(patternLeftName, "\\\" ");
-        std::vector<std::string> counterVector;
-        for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
-          Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
-          std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
-          if (patternLeftName == tempPatternGrammarStringTemp) {
-            grammarPatternLeft = tempPatternGrammarTemp;
-            tempSynonymVector.push_back(grammarPatternLeft.getName());
-            counterVector.push_back(grammarPatternLeft.getName());
-            //created all entries to be pushed into vector. to work on parsing thru to add into map
-            std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
-            if (got == m_synonymMap.end()) {
-              m_synonymMap.insert({ patternLeftName, 1 });
-            } else {
-              m_synonymMap[patternLeftName]++;
-            }
-          }
-        }
-        if (counterVector.size() == 0) {
+      //check there are 3 parameters for if pattern clause
+      if (patternVector.size() == 3) {
+
+        ifPatternParam1 = patternVector.at(1);
+        ifPatternParam2 = patternVector.at(2);
+
+        //check to make sure both pattern parameters are _
+        if (ifPatternParam1 != "_" || ifPatternParam2 != "_") {
           return false;
         }
-      }
 
-      std::string patternRightName = patternVector.back();
-      patternRightName = m_stringUtil.trimString(patternRightName);
-      if (patternRightName == "_") {
-        grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        std::string patternLeftName = patternVector.front();
+        if (patternLeftName.find('"') != std::string::npos) {
+          removeCharsFromString(patternLeftName, "\\\" ");
+          grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+        }
+
+        else if (patternLeftName == "_") {
+          removeCharsFromString(patternLeftName, "\"");
+          grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+        } else {
+          int counterT = 0;
+          removeCharsFromString(patternLeftName, "\\\" ");
+          std::vector<std::string> counterVector;
+          for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
+            Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
+            std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
+            if (patternLeftName == tempPatternGrammarStringTemp) {
+              grammarPatternLeft = tempPatternGrammarTemp;
+              tempSynonymVector.push_back(grammarPatternLeft.getName());
+              counterVector.push_back(grammarPatternLeft.getName());
+
+              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
+              if (got == m_synonymMap.end()) {
+                m_synonymMap.insert({ patternLeftName, 1 });
+              } else {
+                m_synonymMap[patternLeftName]++;
+              }
+            }
+          }
+          if (counterVector.size() == 0) {
+            return false;
+          }
+        }
+
+        std::string patternRightName = ifPatternParam2;
+        patternRightName = m_stringUtil.trimString(patternRightName);
+        if (patternRightName == "_") {
+          grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
@@ -1462,6 +1495,35 @@ std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToR
   }
   if (prev_pos_new < targetString.length()) {
     vector.push_back(targetString.substr(prev_pos_new, std::string::npos));
+  }
+  return vector;
+}
+
+std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsToRemove, std::string patternRightName, std::vector<std::string> vector) {
+  int pos1;
+  int prev_pos_new = 0;
+  std::string c;
+
+  while ((pos1 = patternRightName.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
+    if (pos1 > prev_pos_new) {
+      vector.push_back(patternRightName.substr(prev_pos_new, pos1 - prev_pos_new));
+      c = patternRightName.at(pos1 + 1);
+      if (c == "+") {
+        vector.push_back(c);
+      } else if (c == "-") {
+        vector.push_back(c);
+      } else if (c == "*") {
+        vector.push_back(c);
+      } else if (c == "(") {
+        vector.push_back(c);
+      } else if (c == ")") {
+        vector.push_back(c);
+      }
+    }
+    prev_pos_new = pos1 + 1;
+  }
+  if (prev_pos_new < patternRightName.length()) {
+    vector.push_back(patternRightName.substr(prev_pos_new, std::string::npos));
   }
   return vector;
 }

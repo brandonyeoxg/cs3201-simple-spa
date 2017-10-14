@@ -26,6 +26,14 @@ public:
   Grammar(int t_type, std::string t_name);
 
   /**
+  * 2nd constructor.
+  * Constructs a new Grammar object with a vector of strings and a string with the specified t_name.
+  * @param t_vector is a vector of strings containing tokenized strings for patternexpressions.
+  * @param t_name is a string argument that is the Query's name for the Grammar.
+  */
+ // Grammar(std::vector<std::string> t_vector, std::string t_name);
+
+  /**
   * A Setter that returns the attribute of this Grammar object
   * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
   */
@@ -51,6 +59,13 @@ public:
   * @return The name of this Grammar object.
   */
   std::string getName();
+
+  /**
+  * A Getter that returns the vector for this Grammar object
+  * The returned vector is the pattern vector which contains tokens from the pattern expression.
+  * @return The name of this Grammar object
+  */
+  std::vector<std::string> getVector();
 
   /**
   * A Getter that returns the value of this Grammar object.
@@ -203,6 +218,7 @@ public:
 private:
   queryType::GType m_type; /**< type of this Grammar object */
   queryType::AType m_attr; /**< attribute of this Grammar object */
+  std::vector<std::string> m_vector; /**< vector of this Grammar object for pattern*/
   std::string m_name; /**< name of this Grammar object */
   std::string m_value; /**< value of this Grammar object */
   static int PROC;
