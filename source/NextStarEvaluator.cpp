@@ -4,7 +4,7 @@
 
 bool NextStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == "_") {
-    if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
+    if (t_pkb->hasNextLine(std::stoi(t_g1.getName()))) {
       //std::cout << "Next* By Anything!\n";
       return true;
     } else {
@@ -12,7 +12,7 @@ bool NextStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar
       return false;
     }
   } else if (t_g1.getName() == "_") {
-    if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
+    if (t_pkb->hasLineBefore(std::stoi(t_g2.getName()))) {
       //std::cout << "Next* to Anything!\n";
       return true;
     } else {
@@ -31,7 +31,7 @@ bool NextStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar
 }
 
 bool NextStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasFollowRelationship()) {
+  if (t_pkb->hasNextRelationship()) {
     //std::cout << "Has Next Relationship!\n";
     return true;
   } else {
@@ -57,11 +57,7 @@ SET_OF_RESULTS NextStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramm
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g2);
-    }
-
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
     m_result[t_g2.getName()] = stmtStrVector;
   }
 
@@ -80,16 +76,12 @@ SET_OF_RESULTS NextStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gramma
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == "_") {
-    std::vector<int> stmtIntVector;// = t_pkb->getAllLinesBeforeAnyLine();
+    std::vector<int> stmtIntVector = t_pkb->getAllLinesBeforeAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g1);
-    }
-
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
     m_result[t_g1.getName()] = stmtStrVector;
   }
 
