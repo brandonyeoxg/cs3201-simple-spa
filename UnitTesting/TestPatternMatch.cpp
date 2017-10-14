@@ -9,7 +9,7 @@ namespace UnitTesting {
 public:
   TEST_METHOD(isExactPatternInStmt) {
     PatternMatch patternMatch = PatternMatch();
-    std::vector<std::string> tokens, pattern; 
+    std::vector<std::string> tokens, pattern;
     std::string result;
     int index = 1;
 
@@ -54,7 +54,7 @@ public:
 
     // Test plus and multiply, with constants
     index++;
-    tokens = {"x", "+", "y", "*", "5", "+", "10"};
+    tokens = { "x", "+", "y", "*", "5", "+", "10" };
     patternMatch.addAssignStmt(index, tokens);
     pattern = { "x", "+", "y", "*", "5", "+", "10" };
     Assert::IsTrue(patternMatch.isExactPatternInStmt(index, pattern));
@@ -99,7 +99,7 @@ public:
     Assert::IsTrue(patternMatch.isSubtreePatternInStmt(index, pattern));
     pattern = { "x", "+", "y", "*", "z" };
     Assert::IsTrue(patternMatch.isSubtreePatternInStmt(index, pattern));
-    pattern = {  "z" };
+    pattern = { "z" };
     Assert::IsTrue(patternMatch.isSubtreePatternInStmt(index, pattern));
     pattern = { "y", "*", "z", "-", "a" };
     Assert::IsFalse(patternMatch.isSubtreePatternInStmt(index, pattern));
@@ -112,7 +112,7 @@ public:
     std::vector<std::string> tokens, pattern;
     std::string result;
     int index = 1;
-    
+
     // multi-char variable names
     tokens = { "chicken", "+", "peanut", "-", "duck" };
     patternMatch.addAssignStmt(index, tokens);
@@ -207,80 +207,111 @@ public:
     Assert::IsTrue(stmtNums == expected);
   }
 
-  //TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_plus) {
-  //  // simple expression with only plus
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::list<STMT_NUM> stmtNums, expected;
+  TEST_METHOD(getAllStmtNumWithExactPattern_03) {
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //  patternMatch.addAssignStmt(1, { "x", "+", "y", "+", "a", "+", "b" });
-  //  expected = { 1 };
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("x + y");
-  //  Assert::IsTrue(stmtNums == expected);
+    patternMatch.addAssignStmt(1, { "(", "(", "(", "x", "+", "y", ")", ")", ")" });
+    patternMatch.addAssignStmt(2, { "x" });
+    patternMatch.addAssignStmt(3, { "x", "+", "y" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    expected = { 1, 3 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("x + y + a");
-  //  Assert::IsTrue(stmtNums == expected);
+    pattern = { "(", "x", "+", "y", ")" };
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    expected = { 1, 3 };
+    Assert::IsTrue(stmtNums == expected);
+  }
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("x + y + a + b");
-  //  Assert::IsTrue(stmtNums == expected);
+  TEST_METHOD(getAllStmtNumWithSubtreePattern_01) {
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("a");
-  //  Assert::IsTrue(stmtNums == expected);
+    patternMatch.addAssignStmt(1, { "x", "+", "y", "*", "a" });
+    patternMatch.addAssignStmt(2, { "(", "x", "+", "y", ")", "*", "a" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 2 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  // not a subtree
-  //  expected = {};
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y + a");
-  //  Assert::IsTrue(stmtNums == expected);
-  //}
+    pattern = { "y", "*", "a" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_minusAndMultiply) {
-  //  // singular expression with only minus and multiply
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::list<STMT_NUM> stmtNums, expected;
+    patternMatch.addAssignStmt(3, { "(", "(", "(", "x", "+", "y", ")", ")", ")", "*", "a" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 2, 3 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  // acceptable patterns
-  //  patternMatch.addAssignStmt(1, { "x", "-", "y", "*", "a", "*", "b", "-", "x" });
-  //  expected = { 1 };
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("x - y * a * b - x");
-  //  Assert::IsTrue(stmtNums == expected);
+    pattern = { "x" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1, 2, 3 };
+    Assert::IsTrue(stmtNums == expected);
+  }
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("x - y * a * b");
-  //  Assert::IsTrue(stmtNums == expected);
+  TEST_METHOD(getAllStmtNumWithSubtreePattern_02) {
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y * a * b");
-  //  Assert::IsTrue(stmtNums == expected);
+    patternMatch.addAssignStmt(1, { "x", "-", "b", "*", "(", "x", "+", "y", ")", "*", "a" });
+    patternMatch.addAssignStmt(2, { "x", "-", "(", "b", "*", "x", "+", "y", ")", "*", "a" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y * a");
-  //  Assert::IsTrue(stmtNums == expected);
+    pattern = { "b", "*", "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 2 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  // rejected patterns, invalid subtrees
-  //  expected = {};
+    pattern = { "b", "*", "(", "x", "+", "y", ")" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y * a * b - x");
-  //  Assert::IsTrue(stmtNums == expected);
+    pattern = { "(", "b", "*", "x", "+", "y", ")", "*", "a" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 2 };
+    Assert::IsTrue(stmtNums == expected);
+  }
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y * a - x");
-  //  Assert::IsTrue(stmtNums == expected);
+  TEST_METHOD(getAllStmtNumWithSubtreePattern_03) {
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("y * b");
-  //  Assert::IsTrue(stmtNums == expected);
-  //}
+    patternMatch.addAssignStmt(1, { "(", "x", "+", "(", "(", "x", "+", "(", "x", "+", "y", ")",
+      ")", "+", "y", ")" });
+    patternMatch.addAssignStmt(2, { "(", "x", ")" });
+    patternMatch.addAssignStmt(3, { "x", "+", "y" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1, 3 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_misc) {
-  //  // test with trailing whitespaces, longer variable names
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::list<STMT_NUM> stmtNums, expected;
+    pattern = { "x", "+", "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = {};
+    Assert::IsTrue(stmtNums == expected);
 
-  //  patternMatch.addAssignStmt(1, { "chicken", "+", "peanut   ", "  -   ", "duck" });
-  //  patternMatch.addAssignStmt(2, { "   chicken   ", "+", "turkey", "-", "pokemon" });
-  //  patternMatch.addAssignStmt(3, { "turkey", "-", "pokemon" });
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("chicken");
-  //  expected = { 1, 2 };
-  //  Assert::IsTrue(stmtNums == expected);
+    pattern = { "x", "+", "(", "x", "+", "y", ")" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  stmtNums = patternMatch.getAllStmtNumWithSubtreePattern("   pokemon   ");
-  //  expected = { 2, 3 };
-  //  Assert::IsTrue(stmtNums == expected);
-  //}
+    pattern = { "(", "(","x", "+", "(", "x", "+", "y", ")", ")", ")" };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+    expected = { 1 };
+    Assert::IsTrue(stmtNums == expected);
+  }
 
 private:
 
