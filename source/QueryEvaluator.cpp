@@ -21,6 +21,10 @@ std::vector<std::string> QueryEvaluator::evaluateQuery() {
   }
 }
 
+bool QueryEvaluator::processWithClause() {
+
+}
+
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
 * @return true if there are results otherwise false
