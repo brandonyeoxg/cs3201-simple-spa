@@ -344,37 +344,42 @@ public:
   LIST_OF_STMT_NUMS getParentStarOfAnything();
 
   /**
-  * Method that checks if parent relationship exists in the SIMPLE program.
-  * @return true if parent relationship exists, false if it does not.
+  * Method that checks if parent(_, _) holds.
+  * @return true if there exists a parent relationship (i.e. parentTable is not empty), false if otherwise.
   */
   bool hasParentRelationship();
+
   /**
-  * Method that checks if parent* relationship exists in the SIMPLE program.
-  * @return true if parent* relationship exists, false if it does not.
+  * Method that checks if parent*(_, _) holds.
+  * @return true if there exists a parent* relationship (i.e. parentStarTable is not empty), false if otherwise.
   */
   bool hasParentStarRelationship();
 
   /**
-  * Method that checks if parent(_, s2) holds.
-  * @return true if it does, false if it does not.
+  * Method that checks if parent(_, t_s2) holds.
+  * @param t_s2 an integer argument.
+  * @return true if there exists a parent relationship with t_s2 being the child, false if otherwise.
   */
   bool isChildrenOfAnything(STMT_NUM t_s2);
 
   /**
-  * Method that checks if parent(s1, _) holds.
-  * @return true if it does, false if it does not.
+  * Method that checks if parent(t_s1, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one parent relationship with t_s1 being the parent, false if otherwise.
   */
   bool isParentOfAnything(STMT_NUM t_s1);
 
   /**
-  * Method that checks if parent*(_, s2) holds.
-  * @return true if it does, false if it does not.
+  * Method that checks if parent*(_, t_s2) holds.
+  * @param t_s2 an integer argument.
+  * @return true if there exists at least one parent* relationship with t_s2 being the child, false if otherwise.
   */
   bool isChildrenOfStarAnything(STMT_NUM t_s2);
 
   /**
-  * Method that checks if parent*(s1, _) holds.
-  * @return true if it does, false if it does not.
+  * Method that checks if parent*(t_s1, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one parent* relationship with t_s1 being the parent, false if otherwise.
   */
   bool isParentOfStarAnything(STMT_NUM t_s1);
 

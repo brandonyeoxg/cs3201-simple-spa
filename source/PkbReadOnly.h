@@ -113,90 +113,89 @@ public:
   //  ParentTable
   ///////////////////////////////////////////////////////
   /**
-  * Method that checks if parent(t_s1, t_s2) holds.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * Method that checks if parent(s1, s2) holds.
+  * Checks if s2 exists as value mapped to key s1 in parentMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
   virtual bool isParent(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
-  * Method that checks if parent*(t_s1, t_s2) holds.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * Method that checks if parent*(s1, s2) holds.
+  * Checks if s2 exists in vector mapped to key s1 in parentStarMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
   virtual bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the line numuber that is the parent of t_s2.
-  * For example: stmt s; parent(s, 4).
+  * Method that returns the statement number that is the parent of s2.
+  * Checks if key s2 exists in parentMap.
+  * @throw invalid_arguement exception if key does not exist.
   * @param t_s2 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a statement number.
   */
   virtual STMT_NUM getParentOf(STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children of t_s1.
-  * For example: stmt s; parent(4, s).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s1 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent* of t_s2.
-  * For example: stmt s; parent*(s, 4).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, t_s2).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s2 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children* of t_s1.
-  * For example: stmt s; parent*(4, s).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s1 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1) = 0;
 
   /**
-  * Method that returns the entire of parent relationship.
-  * @return an unordered_map i.e. parentMap.
+  * Method that returns the entire map of line numbers that satisfy the parent relationship.
+  * @return the unordered map that keep tracks of the parent relationship.
   */
-  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParents() = 0;
 
   /**
-  * Method that returns the entire of parent* relationship.
-  * @return an unordered_map i.e. parentStarMap.
+  * Method that returns the entire map of line numbers that satisfy the parent* relationship.
+  * @return the unordered map that keep tracks of the parent* relationship.
   */
-  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParentsStar() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children of any line.
-  * For example: stmt s2; parent(_, s2).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(_, x).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getChildrenOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s1; parent(s1, _).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(x, _).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getParentOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s2; parent*(_, s2).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(_, x).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getChildrenStarOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s1; parent*(s1, _).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, _).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getParentStarOfAnything() = 0;
 
