@@ -10,3 +10,14 @@ stmt s; assign a;
 Select a such that Affects*(s, a)
 
 5000
+
+28 - 1 Common Synonym Base Test
+assign a; stmt s; variable v;
+Select BOOLEAN such that Affects(a,pl) pattern a(v,"c+4")
+true
+5000
+29 - 1 Common Synonym Base Test
+assign a; stmt s; variable v;
+Select BOOLEAN such that Affects*(pl,a) pattern a(v,"c+4")
+true
+5000
