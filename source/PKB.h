@@ -213,13 +213,13 @@ public:
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows();
+  MAP_OF_STMT_NUMS getAllFollows();
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllFollowsStar();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllFollowsStar();
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
@@ -247,7 +247,7 @@ public:
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
-  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  * @return true if t_s2 exists in the allFollows map, return false if otherwise.
   */
   bool isFollowedByAnything(STMT_NUM t_s1);
 
@@ -255,23 +255,127 @@ public:
   //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
+
+  /**
+  * Method that checks if parent(s1, s2) holds.
+  * Checks if s2 exists as value mapped to key s1 in parentMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent*(s1, s2) holds.
+  * Checks if s2 exists in vector mapped to key s1 in parentStarMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
+
+  /**
+  * Method that returns the statement number that is the parent of s2.
+  * Checks if key s2 exists in parentMap.
+  * @throw invalid_arguement exception if key does not exist.
+  * @param t_s2 an integer argument.
+  * @return a statement number. 
+  */
   STMT_NUM getParentOf(STMT_NUM t_s2);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s1 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, t_s2).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s2 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s1 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1);
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents();
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar();
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the parent relationship.
+  * @return the unordered map that keep tracks of the parent relationship.
+  */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParents();
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the parent* relationship.
+  * @return the unordered map that keep tracks of the parent* relationship.
+  */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParentsStar();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(_, x).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getChildrenOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(x, _).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getParentOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(_, x).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getChildrenStarOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, _).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getParentStarOfAnything();
+
+  /**
+  * Method that checks if parent relationship exists in the SIMPLE program.
+  * @return true if parent relationship exists, false if it does not.
+  */
   bool hasParentRelationship();
+  /**
+  * Method that checks if parent* relationship exists in the SIMPLE program.
+  * @return true if parent* relationship exists, false if it does not.
+  */
   bool hasParentStarRelationship();
+
+  /**
+  * Method that checks if parent(_, s2) holds.
+  * @return true if it does, false if it does not.
+  */
   bool isChildrenOfAnything(STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent(s1, _) holds.
+  * @return true if it does, false if it does not.
+  */
   bool isParentOfAnything(STMT_NUM t_s1);
+
+  /**
+  * Method that checks if parent*(_, s2) holds.
+  * @return true if it does, false if it does not.
+  */
   bool isChildrenOfStarAnything(STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent*(s1, _) holds.
+  * @return true if it does, false if it does not.
+  */
   bool isParentOfStarAnything(STMT_NUM t_s1);
 
   //////////////////////////////////////////////////////////
