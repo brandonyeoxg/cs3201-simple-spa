@@ -390,14 +390,23 @@ std::vector<PROC_NAME>& PKB::getAllProcsName() {
 }
 
 ///////////////////////////////////////////////////////
-//  Pattern methods
+//  PatternMatch methods
 ///////////////////////////////////////////////////////
+
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  return m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
+  return std::list<STMT_NUM>();
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  return m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
+  return std::list<STMT_NUM>();
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) {
+  return m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
+}
+
+std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) {
+  return m_patternMatch->getAllStmtNumWithSubtreePattern(t_patternTokens);
 }
 
 LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
