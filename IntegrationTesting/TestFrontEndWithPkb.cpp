@@ -123,6 +123,11 @@ namespace IntegrationTesting
       Assert::IsTrue(actual == expected);
     }
 
+    TEST_METHOD(TestParserAndPKBUsesP) 
+    {
+      editSimpleProgramFile("procedure main {\n x=y;\n}");
+    }
+
     void editSimpleProgramFile(std::string t_editText) {
       m_tmpFile.open(m_tmpFileName);
       m_tmpFile << t_editText;
