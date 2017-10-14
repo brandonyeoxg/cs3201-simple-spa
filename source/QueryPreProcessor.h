@@ -15,6 +15,7 @@
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
+#include "With.h"
 #include "PKB.h"
 #include "StringUtil.h"
 #include "GlobalTypeDef.h"
@@ -103,6 +104,12 @@ public:
   std::queue<Pattern> QueryPreProcessor::getPattern(void);
 
   /**
+  * A getter method for the With Queue variables.
+  * @return a With object Queue containing all variables within the With clause.
+  */
+  std::queue<With> QueryPreProcessor::getWith(void);
+
+  /**
   * A getter method for the Grammar vector variables.
   * @return a Grammar object Vector containing all variables declared within the declaration.
   */
@@ -152,17 +159,18 @@ public:
   void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
 
   /**
-  * A method that takes in 2 attribute strings and calls other methods to process
+  * A method that takes in a string that contains an attribute and processes it
   * @param attribute being the string that contains the attribute
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param withGrammar being the Grammar to be formed on the left side
+  * @return Grammar object with its attributes
   */
-  void QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
+  Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
 
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
+  std::queue<With> m_withQueue;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;
