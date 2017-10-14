@@ -61,6 +61,11 @@ namespace UnitTesting {
       actualList = m_assignTable->getAllAssignStmtListByVar(10);
       expectedList = {};
       Assert::IsTrue(expectedList == actualList);
+
+      m_assignTable->insertAssignStmt(3, 0, "a");
+      actualList = m_assignTable->getAllAssignStmtListByVar(0);
+      expectedList = { 1, 3 };
+      Assert::IsTrue(expectedList == actualList);
     }
 
     TEST_METHOD(TestgetAllAssignStmtWithVar)

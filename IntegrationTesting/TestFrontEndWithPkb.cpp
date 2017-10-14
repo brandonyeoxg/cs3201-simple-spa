@@ -47,10 +47,10 @@ namespace IntegrationTesting
 
     TEST_METHOD(TestParserAndPKBFollows) // This only tests follows relation
     {
-      LIST_OF_STMT_NUMS dummyStmtList;
+      LIST_OF_STMT_NUMS dummyStmtList, dummyProgLines;
       editSimpleProgramFile("procedure main {\n x=y;}\n");
       m_parser->parseProcedure();
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       // Follow table should be empty
       FollowTable* followTable = m_pkb->getFollowTable();
@@ -58,8 +58,8 @@ namespace IntegrationTesting
       Assert::AreEqual(actual.size(), size_t(0));
 
       editSimpleProgramFile("x=y;\ny=x;\n");
-      m_parser->parseStmt(dummyStmtList);
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       // Follow table should be populated with 1 follows relation
       actual = followTable->getFollowsAnything();
@@ -73,21 +73,21 @@ namespace IntegrationTesting
     TEST_METHOD(TestParserAndPKBParent)
     {
       editSimpleProgramFile("procedure main {\n x=y;}\n");
-      LIST_OF_STMT_NUMS dummyStmtList;
+      LIST_OF_STMT_NUMS dummyStmtList, dummyProgLines;
       m_parser->parseProcedure();
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       ParentTable* parentTable = m_pkb->getParentTable();
       LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
       Assert::AreEqual(actual.size(), size_t(0));
 
       editSimpleProgramFile("while i { \nx=y;}");
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
       actual = parentTable->getParentOfAnything();
       Assert::AreEqual(actual.size(), size_t(1));
 
       editSimpleProgramFile("while i {\n while j { \n x=y;}}");
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
       actual = parentTable->getParentOfAnything();
       Assert::AreEqual(actual.size(), size_t(3));
       actual = parentTable->getChildrenOfAnything();
@@ -97,9 +97,9 @@ namespace IntegrationTesting
     TEST_METHOD(TestParserAndPKBModifiesP) 
     {
       editSimpleProgramFile("procedure main {\n x=y;\n}");
-      LIST_OF_STMT_NUMS dummyStmtList;
+      LIST_OF_STMT_NUMS dummyStmtList, dummyProgLines;
       m_parser->parseProcedure();
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       ModifiesP* modifiesP = m_pkb->getModifiesP();
       LIST_OF_RESULTS actual = modifiesP->getAllProcNames();
@@ -111,8 +111,8 @@ namespace IntegrationTesting
       Assert::IsTrue(actual == expected);
 
       editSimpleProgramFile("k =n;\n j =p;");
-      m_parser->parseStmt(dummyStmtList);
-      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
+      m_parser->parseStmt(dummyStmtList, dummyProgLines);
       actual = modifiesP->getAllProcNames();
       expected = { "main" };
       Assert::AreEqual(actual.size(), size_t(1));
