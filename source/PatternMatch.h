@@ -16,14 +16,29 @@ class PatternMatch {
 public:
   PatternMatch();
 
-  /** Adds an assignment statement's right hand side expression to PatternMatch's data structures.
-  *   PatternMatch will generate strings of all possible pattern matches and store them by the statement number.
+  /** Adds an assignment statement's right-hand side expression to PatternMatch's data structure.
   *   NOTE: will assume expression is syntactically correct.
-  *   Will check with assert that a statement number is not added more than once.
+  *   Will assert false if a statement number is added more than once.
   *   @param t_stmtNum statement number
   *   @param t_stmtTokens representation of statement expression with each operator/variable/constant in an index of its own
   */
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
+
+  /** Given statement number, checks if given pattern matches the statement expression exactly.
+  *   Assumes statement number refers to existing assignment statement.
+  *   @param t_stmtNum statement number to check
+  *   @param t_pattern pattern to check, in tokenized form (extra whitespaces will be ignored)
+  *   @return true if pattern matches statement expression, else false
+  */
+  bool isExactPatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern);
+
+  /** Given statement number, checks if given pattern string matches the statement expression by subtree.
+  *   Assumes statement number refers to existing assignment statement.
+  *   @param t_stmtNum statement number to check
+  *   @param t_pattern pattern to check, in tokenized form (extra whitespaces will be ignored)
+  *   @return true if pattern matches statement expression, else false
+  */
+  bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern);
 
   /** Gets all statement numbers with exact pattern match to assignment expression.
   *   @param t_pattern pattern string to be matched (extra whitespaces will be ignored)
@@ -37,27 +52,13 @@ public:
   */
   std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::string t_pattern);
 
-  /** Given statement number, checks if given pattern string matches the statement expression exactly.
-  *   Assumes statement number refers to valid assignment statement.
-  *   @param t_stmtNum statement number to check
-  *   @param t_pattern pattern string to check (extra whitespaces will be ignored)
-  *   @return true if pattern matches statement expression, else false
-  */
-  bool isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
-
-  /** Given statement number, checks if given pattern string matches the statement expression by subtree.
-  *   Assumes statement number refers to valid assignment statement.
-  *   @param t_stmtNum statement number to check
-  *   @param t_pattern pattern string to check (extra whitespaces will be ignored)
-  *   @return true if pattern matches statement expression, else false
-  */
-  bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
-
   ///// for testing
   std::unordered_map<STMT_NUM, std::string> getAssignStmts() { return *m_assignStmts; }
 
 private:
   std::unordered_map<STMT_NUM, std::string> * m_assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
+
+  std::string getPostfixStrWithTokens(std::vector<std::string> t_tokens);
 
   std::vector<std::string> convertInfixExpressionToPostfix(std::vector<std::string> t_stmtTokens);
 
@@ -72,4 +73,6 @@ private:
 
   /* Helper methods */
   std::string removeWhitespaces(std::string t_str);
+
+  void removeWhitespacesFromVector(std::vector<std::string> &t_stmtTokens);
 };

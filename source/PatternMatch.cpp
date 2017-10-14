@@ -7,13 +7,23 @@ PatternMatch::PatternMatch() {
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
   assert(m_assignStmts->count(t_stmtNum) == 0);
 
-  for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
-    t_stmtTokens.at(i) = removeWhitespaces(t_stmtTokens.at(i));
-  }
-
-  std::string postfixStr = convertVectorToStr(convertInfixExpressionToPostfix(t_stmtTokens));
-
+  removeWhitespacesFromVector(t_stmtTokens);
+  std::string postfixStr = getPostfixStrWithTokens(t_stmtTokens);
   m_assignStmts->insert({ t_stmtNum, postfixStr });
+}
+
+bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern) {
+  assert(m_assignStmts->count(t_stmtNum) == 1);
+  removeWhitespacesFromVector(t_pattern);
+  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
+  return m_assignStmts->at(t_stmtNum) == postfixPattern;
+}
+
+bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern) {
+  assert(m_assignStmts->count(t_stmtNum) == 1);
+  removeWhitespacesFromVector(t_pattern);
+  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
+  return m_assignStmts->at(t_stmtNum).find(postfixPattern) != std::string::npos;
 }
 
 std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pattern) {
@@ -38,18 +48,8 @@ std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_
   return stmtNums;
 }
 
-bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
-  assert(m_assignStmts->count(t_stmtNum) == 1); // should exist
-  t_pattern = removeWhitespaces(t_pattern);
-  return m_assignStmts->at(t_stmtNum) == t_pattern;
-}
-
-bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
-  t_pattern = removeWhitespaces(t_pattern);
-
-
-
-  return false;
+std::string PatternMatch::getPostfixStrWithTokens(std::vector<std::string> t_tokens) {
+  return convertVectorToStr(convertInfixExpressionToPostfix(t_tokens));
 }
 
 std::vector<std::string> PatternMatch::convertInfixExpressionToPostfix(std::vector<std::string> t_stmtTokens) {
@@ -120,5 +120,11 @@ std::string PatternMatch::removeWhitespaces(std::string t_str) {
   t_str.erase(std::remove(t_str.begin(), t_str.end(), ' '), t_str.end());
   t_str.erase(std::remove(t_str.begin(), t_str.end(), '\t'), t_str.end());
   return t_str;
+}
+
+void PatternMatch::removeWhitespacesFromVector(std::vector<std::string> &t_tokens) {
+  for (int i = 0; i < (int)t_tokens.size(); i++) {
+    t_tokens.at(i) = removeWhitespaces(t_tokens.at(i));
+  }
 }
 
