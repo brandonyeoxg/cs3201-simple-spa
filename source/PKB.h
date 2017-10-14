@@ -382,9 +382,33 @@ public:
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
   StatementTable* getStatementTable();
-  std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
+
+  /**
+  * Method that returns the entire map that tracks every statement's type.
+  * @return the unordered map that keep tracks of type of statements.
+  */
+  MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable();
+
+  /**
+  * Method that insert statement number and GType into typeofStatementTable.
+  * @param t_lineNum a STMT_NUM argument.
+  * @param t_type a GType argument.
+  * @return true if insertion is successful, false if otherwise.
+  */
   bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
-  std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
+
+  /**
+  * Method that returns the entire map of the list of statements that each type of statement has.
+  * @return the unordered map that keep tracks of type of statements.
+  */
+  MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
+
+  /**
+  * Method that insert statement number and GType into statementTypeTable.
+  * @param t_lineNum a STMT_NUM argument.
+  * @param t_type a GType argument.
+  * @return true if insertion is successful, false if otherwise.
+  */
   bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////

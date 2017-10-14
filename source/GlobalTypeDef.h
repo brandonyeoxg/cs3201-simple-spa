@@ -124,4 +124,7 @@ namespace queryType {
     AFFECTS, /**< An enum value representing the Affects relation. */
     AFFECTS_ /**< An enum value representing the Affects* relation. */
   };
-}
+};
+
+typedef std::unordered_map<STMT_NUM, queryType::GType> MAP_OF_STMT_NUM_TO_GTYPE;
+typedef std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS;
