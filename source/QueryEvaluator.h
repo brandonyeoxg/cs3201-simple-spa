@@ -81,8 +81,8 @@ private:
   std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
-  IntermediateTable *m_table;
-  bool m_isSelectOnly;
+  IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
+  bool m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
 
   /**
   * A private function to get the results of every clause in the query from the PKB.

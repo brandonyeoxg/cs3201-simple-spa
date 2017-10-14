@@ -42,6 +42,7 @@ protected:
   int m_curLineNum;
   STRING_TOKEN m_nextToken;
   std::ifstream m_readStream;
+  PROC_INDEX m_curProcIdx;
 
   /*
   * Matches the token from the file with the expected token.
@@ -103,7 +104,6 @@ private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
   LIST_OF_TOKENS m_curTokens;
   bool m_isParsingProcedureContent;
-  PROC_INDEX m_curProcIdx;
   std::stack<STRING_TOKEN> m_bracketStack;
   std::list<STMT_NUM> m_ifElseNextList;
   /*
