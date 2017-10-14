@@ -9,6 +9,7 @@
 
 #include "Parser.h"
 #include "StringUtil.h"
+#include "TokeniserUtil.h"
 #include "SyntaxOpenBraceException.h"
 #include "SyntaxNoEndOfStatementException.h"
 #include "SyntaxUnknownCommandException.h"
@@ -24,7 +25,7 @@ int Parser::parse (const std::string &t_filename) throw() {
   while (!m_readStream.eof()) {
     parseForProcedure();
     isMatchToken(EMPTY_LINE);
-    if (m_nextToken == BracketValidator::CLOSE_BRACE) {
+    if (m_nextToken == TokeniserUtil::CLOSE_BRACE) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
   }
@@ -121,19 +122,19 @@ void Parser::parseCallStmt() {
 LIST_OF_TOKENS Parser::parseExpr() {
   LIST_OF_TOKENS output;
   STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
-  if (!isConstant(term) && !isValidName(term) && !isBracket(term)) {
+  if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
-  if (term == BracketValidator::CLOSE_BRACE) {
+  if (term == TokeniserUtil::CLOSE_BRACE) {
     return output;
   }
   output.push_back(term);
-  if (term == BracketValidator::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACE) {
     parseBrackets(output);
   } else {
     handleInsertionOfTermByPkb(term);
   }
-  while (isOperator(m_nextToken) && m_nextToken != BracketValidator::CLOSE_BRACE) {
+  while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
     parseEachTerm(output);
   }
   return output;
@@ -141,22 +142,22 @@ LIST_OF_TOKENS Parser::parseExpr() {
 
 void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
   STRING_TOKEN opr = getMatchToken(tokentype::tokenType::EXPR); // operator
-  if (!isOperator(opr)) {
+  if (!TokeniserUtil::isOperator(opr)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(opr);
-  if (opr == BracketValidator::OPEN_BRACE) {
+  if (opr == TokeniserUtil::OPEN_BRACE) {
     parseBrackets(t_tokens);
     return;
   }
   STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
-  if (!isConstant(term) && !isValidName(term) && !isBracket(term)) {
+  if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(term);
-  if (term == BracketValidator::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACE) {
     parseBrackets(t_tokens);
-    if (m_nextToken == BracketValidator::OPEN_BRACE) {
+    if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
       throw SyntaxUnknownCommandException("Cannot put \")(\" ", m_curLineNum);
     }
     return;
@@ -165,19 +166,19 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
 }
 
 void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
-  if (m_nextToken == BracketValidator::OPEN_BRACE) {
+  if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
     STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
     t_tokens.push_back(term);
     parseBrackets(t_tokens);
-    while (isOperator(m_nextToken) && m_nextToken != BracketValidator::CLOSE_BRACE) {
+    while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
       parseEachTerm(t_tokens);
     }
   } else {
     LIST_OF_TOKENS subExprTokens = parseExpr();
     t_tokens.insert(t_tokens.end(), subExprTokens.begin(), subExprTokens.end());
   }
-  if (isMatchToken(BracketValidator::CLOSE_BRACE)) {
-    t_tokens.push_back(BracketValidator::CLOSE_BRACE);
+  if (isMatchToken(TokeniserUtil::CLOSE_BRACE)) {
+    t_tokens.push_back(TokeniserUtil::CLOSE_BRACE);
   } 
   else {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -255,13 +256,13 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
   switch (t_type) {
     case tokentype::tokenType::PROC_NAME:
     case tokentype::tokenType::VAR_NAME:
-      if (!isKeyDelimiter(m_nextToken)) {
+      if (!TokeniserUtil::isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
       break;
     case tokentype::tokenType::EXPR:
-      if (isOperator(m_nextToken)) {
+      if (TokeniserUtil::isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
@@ -296,7 +297,7 @@ STRING_TOKEN Parser::getCurrentLineToken() {
   std::string extractedLine;
   if (getline(m_readStream, extractedLine)) {
     try {
-      m_curTokens = tokeniseLine(extractedLine);
+      m_curTokens = TokeniserUtil::tokeniseLine(extractedLine);
       return getToken();
     } catch (SyntaxEmptyLineException sele) {
       return EMPTY_LINE;
@@ -312,55 +313,6 @@ STRING_TOKEN Parser::getToken() {
   STRING_TOKEN token = m_curTokens.front();
   m_curTokens.erase(m_curTokens.begin());
   return token;
-}
-
-bool Parser::isOperator(const STRING_TOKEN& t_token) {
-  return t_token == "+"
-    || t_token == "-"
-    || t_token == "*"
-    || t_token == "="
-    || isBracket(t_token);
-}
-
-bool Parser::isBrace(const STRING_TOKEN& t_token) {
-  return t_token == "{" || t_token == "}";
-}
-
-bool Parser::isBracket(const STRING_TOKEN& t_token) {
-  return t_token == "(" || t_token == ")";
-}
-
-bool Parser::isKeyDelimiter(const STRING_TOKEN& t_token) {
-  return isBrace(t_token) 
-    || isOperator(t_token) 
-    || t_token == " " 
-    || t_token == ";";
-}
-
-LIST_OF_TOKENS Parser::tokeniseLine(const STRING_TOKEN& t_line) {
-  std::string formatString = StringUtil::reduceString(t_line);
-  LIST_OF_TOKENS tokens;
-  STRING_TOKEN token = EMPTY_LINE;
-  for (auto itr = formatString.begin(); itr != formatString.end(); itr++) {
-    const STRING_TOKEN curStrChar = std::string(1, (*itr));
-    if (isKeyDelimiter(curStrChar) && token != EMPTY_LINE) { // Tokenise the words
-      tokens.push_back(token);
-      token = EMPTY_LINE;
-    }
-    if (isOperator(curStrChar)) { // Tokenise operator
-      tokens.push_back(curStrChar);
-      token = EMPTY_LINE;
-      continue;
-    }
-    if (curStrChar != " ") {
-      token += (*itr);
-    }
-  }
-  if (token.length() > 0) {
-    tokens.push_back(token);
-    token = EMPTY_LINE;
-  }
-  return tokens;
 }
 
 bool Parser::isValidName(const STRING_TOKEN& t_token) {

@@ -64,52 +64,52 @@ namespace UnitTesting
       assertParseOnProgramExpectException("procedure test{x=y; \n\n");
     }
 
-    TEST_METHOD(testIsOperator) 
-    {
-      Assert::IsTrue(m_parser->testIsOperator("+"));
-      Assert::IsTrue(m_parser->testIsOperator("-"));
-      Assert::IsTrue(m_parser->testIsOperator("*"));
-      Assert::IsFalse(m_parser->testIsOperator("/"));
-      Assert::IsFalse(m_parser->testIsOperator("\\"));
-    }
+    //TEST_METHOD(testIsOperator) 
+    //{
+    //  Assert::IsTrue(m_parser->testIsOperator("+"));
+    //  Assert::IsTrue(m_parser->testIsOperator("-"));
+    //  Assert::IsTrue(m_parser->testIsOperator("*"));
+    //  Assert::IsFalse(m_parser->testIsOperator("/"));
+    //  Assert::IsFalse(m_parser->testIsOperator("\\"));
+    //}
 
-    TEST_METHOD(testIsBrace) 
-    {
-      Assert::IsTrue(m_parser->testIsBrace("{"));
-      Assert::IsTrue(m_parser->testIsBrace("}"));
-      Assert::IsFalse(m_parser->testIsBrace("-"));
-    }
+    //TEST_METHOD(testIsBrace) 
+    //{
+    //  Assert::IsTrue(m_parser->testIsBrace("{"));
+    //  Assert::IsTrue(m_parser->testIsBrace("}"));
+    //  Assert::IsFalse(m_parser->testIsBrace("-"));
+    //}
 
-    TEST_METHOD(testIsKeyDelimeter)
-    {
-      Assert::IsTrue(m_parser->testIsKeyDelimiter(";"));
-      Assert::IsFalse(m_parser->testIsKeyDelimiter(""));
-      Assert::IsTrue(m_parser->testIsKeyDelimiter(" "));
-    }
+    //TEST_METHOD(testIsKeyDelimeter)
+    //{
+    //  Assert::IsTrue(m_parser->testIsKeyDelimiter(";"));
+    //  Assert::IsFalse(m_parser->testIsKeyDelimiter(""));
+    //  Assert::IsTrue(m_parser->testIsKeyDelimiter(" "));
+    //}
 
-    TEST_METHOD(testTokeniseLine) 
-    {
-      std::string input = "Hello = X";
-      std::vector<std::string> expected = { "Hello", "=", "X" };
-      assertTokeniseLine(input, expected);
+    //TEST_METHOD(testTokeniseLine) 
+    //{
+    //  std::string input = "Hello = X";
+    //  std::vector<std::string> expected = { "Hello", "=", "X" };
+    //  assertTokeniseLine(input, expected);
 
-      input = "Hello =X";
-      assertTokeniseLine(input, expected);
+    //  input = "Hello =X";
+    //  assertTokeniseLine(input, expected);
 
-      input = "Hello= X";
-      assertTokeniseLine(input, expected);
-    
-      input = "Hello=X";
-      assertTokeniseLine(input, expected);
+    //  input = "Hello= X";
+    //  assertTokeniseLine(input, expected);
+    //
+    //  input = "Hello=X";
+    //  assertTokeniseLine(input, expected);
 
-      input = "Hello";
-      expected = { "Hello" };
-      assertTokeniseLine(input, expected);
+    //  input = "Hello";
+    //  expected = { "Hello" };
+    //  assertTokeniseLine(input, expected);
 
-      input = "Hello X + =";
-      expected = { "Hello", "X", "+", "=" };
-      assertTokeniseLine(input, expected);
-    }
+    //  input = "Hello X + =";
+    //  expected = { "Hello", "X", "+", "=" };
+    //  assertTokeniseLine(input, expected);
+    //}
 
     TEST_METHOD(testIsValidName) 
     {
@@ -129,10 +129,6 @@ namespace UnitTesting
       Assert::IsFalse(m_parser->testIsConstant(std::string("89c")));
     }
 
-    void assertTokeniseLine(std::string t_input, std::vector<std::string> t_expected) {
-      std::vector<std::string> actual = m_parser->testTokeniseLine(t_input);
-      Assert::IsTrue(actual == t_expected);
-    }
 
     void assertParseOnProgramExpectException(const std::string &t_programString) {
       // Lamda capture list only captures this pointer and non static local variable....

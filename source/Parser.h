@@ -7,7 +7,6 @@
 #include "PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
-#include "BracketValidator.h"
 
 /**
 * Represents a parser. 
@@ -73,40 +72,6 @@ protected:
   */
   STRING_TOKEN getCurrentLineToken();
 
-  /*
-  * Returns true if the token is an operator.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isOperator(const STRING_TOKEN& t_token);
-
-  /*
-  * Returns true if the token is a brace.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isBrace(const STRING_TOKEN& t_token);
-
-  /*
-  * Returns true if the token is a bracket.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isBracket(const STRING_TOKEN& t_token);
-
-  /*
-  * Returns true if the token is any key delimiter like a space or a brace or operator.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool isKeyDelimiter(const STRING_TOKEN& t_token);
-
-  /*
-  * Tokenises the line into tokens
-  *
-  * @param t_line the line to be tokenised
-  */
-  LIST_OF_TOKENS tokeniseLine(const STRING_TOKEN& t_line);
 
   /*
   * Returns true if the token is a valid name.
@@ -130,7 +95,6 @@ private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
   LIST_OF_TOKENS m_curTokens;
   bool m_isParsingProcedureContent;
-  STRING_TOKEN EMPTY_LINE = "";
   PROC_INDEX m_curProcIdx;
   std::stack<STRING_TOKEN> m_bracketStack;
   std::list<STMT_NUM> m_ifElseNextList;

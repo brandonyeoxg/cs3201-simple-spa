@@ -40,22 +40,6 @@ int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   return 1;
 }
 
-bool ParserDriver::testIsOperator(const std::string& t_token) {
-  return isOperator(t_token);
-}
-
-bool ParserDriver::testIsBrace(const std::string& t_token) {
-  return isBrace(t_token);
-}
-
-bool ParserDriver::testIsKeyDelimiter(const std::string& t_token) {
-  return isKeyDelimiter(t_token);
-}
-
-std::vector<std::string> ParserDriver::testTokeniseLine(const std::string& t_line) {
-  return tokeniseLine(t_line);
-}
-
 bool ParserDriver::testIsValidName(std::string& t_token) {
   return isValidName(t_token);
 }
