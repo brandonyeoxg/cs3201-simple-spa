@@ -23,6 +23,7 @@
 class QueryPreProcessor
 {
 public:
+
   /**
   * Default QueryPreProcessor constructor.
   */
@@ -127,6 +128,13 @@ public:
   * @return a string vector containing the string tokens
   */
   std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
+
+  /**
+  * A tokenizing method tailored for patterns which removes the characters specified in the string character
+  * in the targeted string patternRightName and then pushes them into the vector
+  * @return a string vector containing the string tokens
+  */
+  std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsToRemove, std::string patternRightName, std::vector<std::string> vector);
 
   /**
   * A method that takes in an attribute string and number and calls other methods to process
