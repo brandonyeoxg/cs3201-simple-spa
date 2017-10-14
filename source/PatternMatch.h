@@ -53,8 +53,19 @@ public:
   */
   bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
+  std::vector<std::string> convertInfixExpressionToPostfix(std::vector<std::string> t_stmtTokens);
+
 private:
   std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
+
+  bool isOperator(std::string t_str);
+
+  // is first operator greater precedence than second operator
+  bool isOperatorGreaterOrEqualPrec(std::string t_op1, std::string t_op2);
+
+  int getPrecedenceLevel(std::string t_operator);
+
+  std::string convertVectorToStr(std::vector<std::string> t_vector);
 
   /* Helper methods */
   std::string removeWhitespaces(std::string t_str);
