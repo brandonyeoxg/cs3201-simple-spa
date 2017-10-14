@@ -135,7 +135,7 @@ true
 5000
 30 - 1 Common Synonym Base Test
 while w; stmt s; variable v;
-Select BOOLEAN such that Follows(w,s) pattern w(v,_)
+Select BOOLEAN such that Follows(s,w) pattern w(v,_)
 true
 5000
 31 - 1 Common Synonym Base Test
@@ -150,7 +150,7 @@ true
 5000
 33 - 1 Common Synonym Base Test
 procedure p, p1;
-Select BOOLEAN such that Calls*(p,p1) with p1.procName="A"
+Select BOOLEAN such that Calls*(p,p1) with p1.procName="B"
 true
 5000
 34 - 1 Common Synonym Base Test

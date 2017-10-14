@@ -1,97 +1,87 @@
 1 - 1 Common Synonym Base Test
 stmt s, s1;
 Select s such that Follows(s,s1)
-
+1,3,4,7,11,12,13
 5000
 2 - 1 Common Synonym Base Test
 stmt s; prog_line pl;
 Select pl such that Follows*(s,pl)
-
+1,2,3,4,5,7,11,12,13,16
 5000
 3 - 1 Common Synonym Base Test
 stmt s; if ifs;
 Select ifs such that Parent(ifs,s)
-
+5,16
 5000
 4 - 1 Common Synonym Base Test
 while w, w1;
 Select w such that Parent*(w1,w)
-
+18
 5000
 5 - 1 Common Synonym Base Test
 call ca; variable v;
 Select ca such that Uses(ca,v)
-
+6,8,9,10,12,17,19
 5000
 6 - 1 Common Synonym Base Test
 variable v;
 Select v such that Modifies(1,v)
-
+d
 5000
 7 - 1 Common Synonym Base Test
 procedure p, q;
 Select p such that Calls(p, q)
-
+A,B,C,D
 5000
 8 - 1 Common Synonym Base Test
 procedure p, q;
 Select p such that Calls*(q, p)
-
+B,C,D,E
 5000
 9 - 1 Common Synonym Base Test
 prog_line pl; stmt s;
 Select pl such that Next(pl, s)
-
+2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20
 5000
 10 - 1 Common Synonym Base Test
 stmt s; prog_line pl;
 Select s such that Next*(pl, s)
-
-5000
-11 - 1 Common Synonym Base Test
-stmt s, ss;
-Select s such that Affects(s, ss)
-
-5000
-12 - 1 Common Synonym Base Test
-stmt s; assign a;
-Select a such that Affects*(s, a)
-
+2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20
 5000
 13 - 1 Common Synonym Base Test
 assign a; variable v;
 Select v pattern a(v,"1")
-
+a
 5000
 14 - 1 Common Synonym Base Test
 variable v; while w;
 Select v pattern w(v,_)
-
+i, j, k
 5000
 15 - 1 Common Synonym Base Test
 variable v; if ifs;
 Select v pattern ifs(v,_)
-
+j, i
 5000
 16 - 1 Common Synonym Base Test
 procedure p;
 Select p with p.procName="A"
-
+A
 5000
 17 - 1 Common Synonym Base Test
 variable v;
 Select v with v.varName="a"
-
+a
 5000
 18 - 1 Common Synonym Base Test
 constant co;
 Select co with co.value=1
-
+1
 5000
 19 - 1 Common Synonym Base Test
 stmt s;
 Select s with s.stmt#=1
-
+1
 5000
 20 - 1 Common Synonym Base Test
 assign a; stmt s; variable v;
@@ -133,24 +123,14 @@ assign a; prog_line pl; variable v;
 Select BOOLEAN such that Next*(a,pl) pattern a(v,"1")
 true
 5000
-28 - 1 Common Synonym Base Test
-assign a; stmt s; variable v;
-Select BOOLEAN such that Affects(a,pl) pattern a(v,"c+4")
-true
-5000
-29 - 1 Common Synonym Base Test
-assign a; stmt s; variable v;
-Select BOOLEAN such that Affects*(pl,a) pattern a(v,"c+4")
-true
-5000
 30 - 1 Common Synonym Base Test
 while w; stmt s; variable v;
-Select BOOLEAN such that Follows(w,s) pattern w(v,_)
+Select BOOLEAN such that Follows(s,w) pattern w(v,_)
 true
 5000
 31 - 1 Common Synonym Base Test
 if ifs; stmt s; variable v;
-Select BOOLEAN such that Follows*(s,ifs) pattern ifs(v,_)
+Select BOOLEAN such that Follows*(ifs,s) pattern ifs(v,_)
 true
 5000
 32 - 1 Common Synonym Base Test
@@ -160,7 +140,7 @@ true
 5000
 33 - 1 Common Synonym Base Test
 procedure p, p1;
-Select BOOLEAN such that Calls*(p,p1) with p1.procName="A"
+Select BOOLEAN such that Calls*(p,p1) with p1.procName="B"
 true
 5000
 34 - 1 Common Synonym Base Test
@@ -175,12 +155,12 @@ true
 5000
 36 - 1 Common Synonym Base Test
 stmt s, s1;
-Select BOOLEAN such that Follows(s,s1) with s.stmt#=6
+Select BOOLEAN such that Follows(s,s1) with s.stmt#=3
 true
 5000
 37 - 1 Common Synonym Base Test
 stmt s, s1;
-Select BOOLEAN such that Follows*(s,s1) with s1.stmt#=3
+Select BOOLEAN such that Follows*(s,s1) with s1.stmt#=9
 true
 5000
 38 - 1 Common Synonym Base Test
@@ -190,7 +170,7 @@ true
 5000
 39 - 1 Common Synonym Base Test
 stmt s; while w;
-Select BOOLEAN such that Parent*(w,s) with s.stmt#=2
+Select BOOLEAN such that Parent*(w,s) with s.stmt#=6
 true
 5000
 40 - 1 Common Synonym Base Test
@@ -200,7 +180,7 @@ true
 5000
 41 - 1 Common Synonym Base Test
 while w; variable v;
-Select BOOLEAN pattern w(v,_) with w.stmt#=1
+Select BOOLEAN pattern w(v,_) with w.stmt#=2
 true
 5000
 42 - 1 Common Synonym Base Test
@@ -211,32 +191,32 @@ true
 43 - 1 Common Synonym On Multiple Clauses Test
 assign a, b; stmt s; variable v;
 Select a such that Follows(a,s) pattern b(v,"c+4") with v.varName="d"
-
+1,3,4,7,11,13
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
 while w; variable v; stmt s, ss;
-Select w such that Follows*(s, ss) pattern w(v,_) with ss.stmt#=3
-
+Select w such that Follows*(s, ss) pattern w(v,_) with ss.stmt#=4
+2,15,18
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
 constant co; if ifs; variable v; stmt s;
 Select co such that Uses(s,v) pattern ifs(v,_) with co.value=1
-
+1
 5000
 46 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; prog_line pl;
 Select ifs such that Parent(ifs, s) pattern ifs(v,_) with pl.stmt#=2
-
+5,16
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; stmt s, ss;
-Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=3
+Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=6
 true
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; stmt s, ss;
-Select ifs such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=3
-
+Select ifs such that Parent(ifs, s) pattern ifs(v,_) with s.stmt#=6
+5
 5000
 46 - 2 Common Synonyms Test
 if ifs; variable v; prog_line pl;
