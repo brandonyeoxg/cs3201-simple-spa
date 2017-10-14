@@ -420,7 +420,7 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> list = {};
+  std::list<STMT_NUM> list = std::list<STMT_NUM>();
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
@@ -437,7 +437,7 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
 }
 
 std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> list = {};
+  std::list<STMT_NUM> list = std::list<STMT_NUM>();
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
@@ -474,10 +474,6 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPatter
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
   return std::unordered_map<STMT_NUM, VAR_NAME>();
 
-}
-
-void PKB::insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
-  m_patternMatch->addAssignStmt(t_stmtNum, t_stmtTokens);
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
