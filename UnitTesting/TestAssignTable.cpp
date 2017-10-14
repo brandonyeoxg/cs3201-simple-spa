@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "AssignTable.h"
-#include "ASTBuilder.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

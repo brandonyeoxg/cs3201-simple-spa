@@ -189,6 +189,7 @@
     <ClCompile Include="TestStatementTable.cpp" />
     <ClCompile Include="TestStmtListTable.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
+    <ClCompile Include="TestTokeniserUtil.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestUsesTable.cpp" />
   </ItemGroup>
