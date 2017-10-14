@@ -32,7 +32,7 @@ int ParserDriver::parseProcedure() {
 }
 
 int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  Parser::parseStmt(t_stmtInStmtLst);
+  //Parser::parseStmt(t_stmtInStmtLst);
   return 1;
 }
 
