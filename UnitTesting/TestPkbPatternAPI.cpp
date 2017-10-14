@@ -10,10 +10,6 @@ namespace UnitTesting {
   TEST_CLASS(TestPkbPatternAPI) {
 public:
 
-  TEST_METHOD(beforeTests) {
-    PatternMatch::resetInstance();
-  }
-
   TEST_METHOD(insertAndExtractStmts_byExactPattern) {
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *) pkb;
@@ -45,7 +41,6 @@ public:
     result = pkbRead->getAllAssignStmtByExactPattern("   xMan  ");
     Assert::IsTrue(result == expected);
 
-    PatternMatch::resetInstance();
   }
 
   TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
@@ -61,7 +56,6 @@ public:
     result = pkbRead->getAllAssignStmtBySubtreePattern(" x *  y   ");
     Assert::IsTrue(result == expected);
 
-    PatternMatch::resetInstance();
   }
 
   //TODO will need testing after insertAssignStmt done, with AST and nodes decoupled from PKB

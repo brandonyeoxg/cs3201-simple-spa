@@ -9,37 +9,35 @@ namespace UnitTesting {
 public:
   TEST_METHOD(getSubtreeStringsWithTokens_patternLogic) {
     PatternMatch patternMatch = PatternMatch();
-    std::vector<std::string> tokens, subtrees, expected;
+    std::vector<std::string> tokens; 
+    std::string expected, result;
 
     // Test simple expression with only plus operator
     tokens = { "x", "+", "y" };
-    expected = { "x+y", "x", "y" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+    expected = "xy+";
+    patternMatch.addAssignStmt(1, tokens);
+    result = patternMatch.getAssignStmts().at(1);
+    Assert::IsTrue(expected == result);
 
     // Longer expression with only plus operator
     tokens = { "x", "+", "y", "+", "z" };
-    expected = { "x+y+z", "x+y", "x", "y", "z" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
 
     // Long expression with plus and minus
     tokens = { "x", "+", "y", "+", "z", "-", "a" };
-    expected = { "x+y+z-a", "x+y+z", "x+y", "x", "y", "z", "a" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
 
     // Test plus and multiply
     tokens = { "x", "+", "y", "*", "z" };
-    expected = { "x+y*z", "x", "y*z", "y", "z" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
+
+
 
     // Test plus and multiply, with constants
     tokens = {"x", "+", "y", "*", "5", "+", "10"};
-    expected = { "x+y*5+10", "x+y*5", "x", "y*5", "y", "5", "10" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
+
+
 
   }
 
@@ -50,8 +48,7 @@ public:
     // Test with trailing duplicates, each variable should not appear more than once
     tokens = { "x", "+", "x", "+", "x" };
     expected = { "x+x+x", "x+x", "x" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
   }
 
   TEST_METHOD(getSubtreeStringsWithTokens_testWithMultiCharVariables) {
@@ -61,14 +58,12 @@ public:
     // Test with variables longer than 1 char
     tokens = { "chicken", "+", "peanut", "-", "duck" };
     expected = { "chicken+peanut-duck", "chicken+peanut", "chicken", "peanut", "duck" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
 
     // Ensure variables with same name but different case are included
     tokens = { "chicken", "+", "CHICKEN", "-", "Chicken" };
     expected = { "chicken+CHICKEN-Chicken", "chicken+CHICKEN", "chicken", "CHICKEN", "Chicken" };
-    subtrees = patternMatch.getSubtreeStringsWithStmtTokens(tokens);
-    Assert::IsTrue(subtrees == expected);
+
   }
 
   TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern01) {
