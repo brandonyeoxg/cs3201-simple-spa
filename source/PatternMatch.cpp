@@ -1,54 +1,67 @@
 #include "PatternMatch.h"
 
 PatternMatch::PatternMatch() {
-  m_assignStmts = new std::unordered_map<STMT_NUM, std::string>();
+  m_assignStmts = std::unordered_map<STMT_NUM, std::string>();
 }
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
-  assert(m_assignStmts->count(t_stmtNum) == 0);
+  assert(m_assignStmts.count(t_stmtNum) == 0);
 
   removeWhitespacesFromVector(t_stmtTokens);
   std::string postfixStr = getPostfixStrWithTokens(t_stmtTokens);
-  m_assignStmts->insert({ t_stmtNum, postfixStr });
+  m_assignStmts.insert({ t_stmtNum, postfixStr });
+}
+
+bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
+  assert(m_assignStmts.count(t_stmtNum) == 1);
+  removeWhitespaces(t_pattern);
+  return m_assignStmts.at(t_stmtNum) == t_pattern;
+}
+
+bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
+  assert(m_assignStmts.count(t_stmtNum) == 1);
+  removeWhitespaces(t_pattern);
+  return m_assignStmts.at(t_stmtNum).find(t_pattern) != std::string::npos;
 }
 
 bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern) {
-  assert(m_assignStmts->count(t_stmtNum) == 1);
-  removeWhitespacesFromVector(t_pattern);
-  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
-  return m_assignStmts->at(t_stmtNum) == postfixPattern;
+  return isExactPatternInStmt(t_stmtNum, getPostfixStrWithTokens(t_pattern));
 }
 
 bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern) {
-  assert(m_assignStmts->count(t_stmtNum) == 1);
-  removeWhitespacesFromVector(t_pattern);
-  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
-  return m_assignStmts->at(t_stmtNum).find(postfixPattern) != std::string::npos;
+  return isSubtreePatternInStmt(t_stmtNum, getPostfixStrWithTokens(t_pattern));
 }
 
-std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pattern) {
-  removeWhitespaces(t_pattern);
+std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::vector<std::string> t_pattern) {
+  removeWhitespacesFromVector(t_pattern);
+  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
   std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
 
-  for (auto iterator = m_assignStmts->begin(); iterator != m_assignStmts->end(); iterator++) {
-    if (iterator->second == t_pattern) {
-      stmtNums.push_back(iterator->first);
+  for (auto iterator : m_assignStmts) {
+    if (isExactPatternInStmt(iterator.first, postfixPattern)) {
+      stmtNums.push_back(iterator.first);
     }
   }
 
   return stmtNums;
 }
 
-std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_pattern) {
-  removeWhitespaces(t_pattern);
+std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::vector<std::string> t_pattern) {
+  removeWhitespacesFromVector(t_pattern);
+  std::string postfixPattern = getPostfixStrWithTokens(t_pattern);
   std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
 
-
+  for (auto iterator : m_assignStmts) {
+    if (isSubtreePatternInStmt(iterator.first, postfixPattern)) {
+      stmtNums.push_back(iterator.first);
+    }
+  }
 
   return stmtNums;
 }
 
 std::string PatternMatch::getPostfixStrWithTokens(std::vector<std::string> t_tokens) {
+  removeWhitespacesFromVector(t_tokens);
   return convertVectorToStr(convertInfixExpressionToPostfix(t_tokens));
 }
 
