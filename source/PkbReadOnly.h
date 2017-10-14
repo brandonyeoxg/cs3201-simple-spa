@@ -71,13 +71,13 @@ public:
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows() = 0;
+  virtual MAP_OF_STMT_NUMS getAllFollows() = 0;
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<STMT_NUM, std::vector<int>> getAllFollowsStar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllFollowsStar() = 0;
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
@@ -363,20 +363,103 @@ public:
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method to check if the relationship calls(t_proc1, t_proc2) holds.
+  * @param t_proc1 a procedure that calls another procedure.
+  * @param t_proc2 a procedure to be called.
+  * @return true if relationship holds, false if otherwise. 
+  */
   virtual bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to check if the relationship calls*(t_proc1, t_proc2) holds.
+  * @param t_proc1 a procedure that calls* another procedure.
+  * @param t_proc2 a procedure to be called.
+  * @return true if relationship holds, false if otherwise.
+  */
   virtual bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls(p, t_proc2) holds.
+  * @param t_proc2 a procedure to be called.
+  * @return a vector of precedures that calls t_proc2.
+  */
   virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls(t_proc1, p) holds.
+  * @param t_proc1 a procedure that calls p.
+  * @return a vector of precedures that are called by t_proc1.
+  */
   virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls*(p, t_proc2) holds.
+  * @param t_proc2 a procedure to be called*.
+  * @return a vector of precedure that fulfills the relationship.
+  */
   virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls*(t_proc1, p) holds.
+  * @param t_proc1 a procedure that calls* p.
+  * @return a vector of precedures that fulfills the relationship.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
-  virtual std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls() = 0;
-  virtual std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar() = 0; //calls*(proc1, proc2) 
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the calls relationship.
+  * @return the entire map that keep tracks of the calls relationship.
+  */
+  virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the calls* relationship.
+  * @return the entire map that keep tracks of the calls* relationship.
+  */
+  virtual MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES getAllCallsStar() = 0; //calls*(proc1, proc2) 
+
+  /**
+  * Method that returns the vector of procedure names that calls another procedure.
+  * @return the vector of keys within the callsMap.
+  */
   virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
+
+  /**
+  * Method that returns the vector of procedure names that calls* another procedure.
+  * @return the vector of keys within the callsStarMap.
+  */
   virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
+
+  /**
+  * Method that returns the vector of procedure names that called by another procedure.
+  * @return the vector of keys within the calledByMap.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByAnything() = 0; //calls(_, proc2)
+
+  /**
+  * Method that returns the vector of procedure names that called by* another procedure.
+  * @return the vector of keys within the calledByStarMap.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
+
+  /**
+  * Method that checks if a calls relationship exists in the SIMPLE program.
+  * @return true if relationship exists, false if otherwise.
+  */
   virtual bool hasCallsRelationship() = 0;  //calls(_, _)
+
+  /**
+  * Method that checks if procedure t_proc1 calls another procedure.
+  * @return true if it does, false if otherwise.
+  */
   virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
+
+  /**
+  * Method that checks if procedure t_proc2 was called by another procedure.
+  * @return true if it does, false if otherwise.
+  */
   virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
 
   ///////////////////////////////////////////////////////
@@ -390,21 +473,91 @@ public:
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method that checks if the procedure t_procName contains t_varName that is being modified.
+  * @param t_procName the procedure name.
+  * @param t_varName the variable name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+
+  /**
+  * Method that checks if the procedure t_procName contains any variables that are being modified.
+  * @param t_procName the procedure name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+
+  /**
+  * Method that returns the list of variable names in modifiesP using the index number of the procedure.
+  * @param t_procName the procedure name.
+  * @return the vector of variable names.
+  */
   virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+
+  /**
+  * Method that returns the list of procedure names in modifiesP using the index number of the variable.
+  * @param t_varName the variable name.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+
+  /**
+  * Method that returns the entire map of procedures p that satisfy the Modifies(p, x) where x is any variable.
+  * @return the map of procedures mapped to variable names.
+  */
   virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+
+  /**
+  * Method that returns the list of procedure names in modifiesP.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
 
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method that checks if the procedure t_procName contains t_varName that is being used.
+  * @param t_procName the procedure name.
+  * @param t_varName the variable name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Uses("First", "x") */
+
+  /**
+  * Method that checks if the procedure t_procName contains any variables that are being used.
+  * @param t_procName the procedure name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+
+  /**
+  * Method that returns the list of variable names in usesP using the index number of the procedure.
+  * @param t_procName the procedure name.
+  * @return the vector of variable names.
+  */
   virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Uses("First", x) */
+
+  /**
+  * Method that returns the list of procedure names in usesP using the index number of the variable.
+  * @param t_varName the variable name.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Uses(p, "x") */
+
+  /**
+  * Method that returns the entire map of procedures p that satisfy the uses(p, x) where x is any variable.
+  * @return the map of procedures mapped to variable names.
+  */
   virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Uses(p, x) */
+
+  /**
+  * Method that returns the list of procedure names in usesP.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////

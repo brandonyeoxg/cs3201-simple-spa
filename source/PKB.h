@@ -421,8 +421,25 @@ public:
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
   VAR_INDEX insertVar(VAR_NAME t_name);
+
+  /**
+  * Method that returns the index of the variable t_varName in VarTable.
+  * @param t_varName a string argument.
+  * @return the index of variable.
+  */
   VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+
+  /**
+  * Method that returns the index of the variable t_varName in VarTable.
+  * @param t_varName a string argument.
+  * @return the index of variable.
+  */
   VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+
+  /**
+  * Method that returns the vector of variables that are stored within VarTable.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_VAR_NAMES& getAllVarNames();
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
