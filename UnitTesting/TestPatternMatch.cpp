@@ -167,53 +167,45 @@ public:
     Assert::IsFalse(patternMatch.isExactPatternInStmt(index, pattern));
   }
 
-  //TEST_METHOD(getSubtreeStringsWithTokens_testWithMultiCharVariables) {
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::vector<std::string> tokens, subtrees, expected;
+  TEST_METHOD(getAllStmtNumWithExactPattern_01) {
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //  // Test with variables longer than 1 char
-  //  tokens = { "chicken", "+", "peanut", "-", "duck" };
-  //  expected = { "chicken+peanut-duck", "chicken+peanut", "chicken", "peanut", "duck" };
+    patternMatch.addAssignStmt(1, { "x", "+", "y" });
+    patternMatch.addAssignStmt(2, { "x" });
+    patternMatch.addAssignStmt(3, { "x", "+", "y" });
+    pattern = { "x", "+", "y" };
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    expected = { 1, 3 };
+    Assert::IsTrue(stmtNums == expected);
 
+    patternMatch.addAssignStmt(40, { "xMan", "-", "sugar" });
+    patternMatch.addAssignStmt(50, { "xMan", "+", "sugar" });
+    pattern = { "xMan", "-", "sugar" };
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    expected = { 40 };
+    Assert::IsTrue(stmtNums == expected);
 
-  //  // Ensure variables with same name but different case are included
-  //  tokens = { "chicken", "+", "CHICKEN", "-", "Chicken" };
-  //  expected = { "chicken+CHICKEN-Chicken", "chicken+CHICKEN", "chicken", "CHICKEN", "Chicken" };
+    pattern = { "xMan" };
+    expected = {};
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    Assert::IsTrue(stmtNums == expected);
+  }
 
-  //}
+  TEST_METHOD(getAllStmtNumWithExactPattern_02) {
+    // test with trailing whitespaces, longer variable names
+    PatternMatch patternMatch = PatternMatch();
+    std::list<STMT_NUM> stmtNums, expected;
+    std::vector<std::string> pattern;
 
-  //TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern01) {
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::list<STMT_NUM> stmtNums, expected;
-
-  //  patternMatch.addAssignStmt(1, { "x", "+", "y" });
-  //  patternMatch.addAssignStmt(2, { "x" });
-  //  patternMatch.addAssignStmt(3, { "x", "+", "y" });
-  //  stmtNums = patternMatch.getAllStmtNumWithExactPattern("x+y");
-  //  expected = { 1, 3 };
-  //  Assert::IsTrue(stmtNums == expected);
-
-  //  patternMatch.addAssignStmt(40, { "xMan", "-", "sugar" });
-  //  patternMatch.addAssignStmt(50, { "xMan", "+", "sugar" });
-  //  stmtNums = patternMatch.getAllStmtNumWithExactPattern("xMan-sugar");
-  //  expected = { 40 };
-  //  Assert::IsTrue(stmtNums == expected);
-
-  //  stmtNums = patternMatch.getAllStmtNumWithExactPattern("xMan");
-  //  Assert::IsTrue((int)stmtNums.size() == 0);
-  //}
-
-  //TEST_METHOD(addAssignStmt_getAllStmtNumWithExactPattern02) {
-  //  // test with trailing whitespaces, longer variable names
-  //  PatternMatch patternMatch = PatternMatch();
-  //  std::list<STMT_NUM> stmtNums, expected;
-
-  //  patternMatch.addAssignStmt(1, { "  chicken  ", "+", "peanut", "-", "duck" });
-  //  patternMatch.addAssignStmt(2, { "chicken", "  +   ", "peanut   ", "-", "duck" });
-  //  stmtNums = patternMatch.getAllStmtNumWithExactPattern("chicken+peanut-duck");
-  //  expected = { 1, 2 };
-  //  Assert::IsTrue(stmtNums == expected);
-  //}
+    patternMatch.addAssignStmt(1, { " \t chicken  ", "+", "peanut", "-", "duck" });
+    patternMatch.addAssignStmt(2, { "chicken", "  +   ", "peanut \t  ", "-", "duck" });
+    pattern = { "chicken", "+", "peanut", "-", "duck" };
+    stmtNums = patternMatch.getAllStmtNumWithExactPattern(pattern);
+    expected = { 1, 2 };
+    Assert::IsTrue(stmtNums == expected);
+  }
 
   //TEST_METHOD(addAssignStmt_getAllStmtNumWithSubtreePattern_plus) {
   //  // simple expression with only plus
