@@ -53,32 +53,9 @@ public:
   */
   bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
-  /** Not to be used in outside of this class. Exposed only for testing purposes.
-  *   This method calls the recursive method to generate strings of all subtrees within a given expression.
-  *   @param t_tokens tokens of an assignment statement's right hand side
-  *   @return vector of strings of all subtrees in given expression
-  */
-  std::vector<std::string> getSubtreeStringsWithStmtTokens(std::vector<std::string> t_tokens);
-
 private:
   std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
-  std::unordered_map<STMT_NUM, std::vector<std::string>> * assignStmtsSubtrees;  /**< Vector of all subtree strings mapped to statement number */
-  
-  std::vector<std::string> generate(std::vector<std::string> t_tokens, std::vector<std::string> * t_subtreeStrings);
-
-  std::vector<std::string> generateSubtreeStrings(std::vector<std::string> t_tokens, std::vector<std::string> t_subtreeStrings, int t_startIndex, int t_endIndex);
-  std::vector<std::string> processBrackets(std::vector<std::string> t_tokens, std::vector<std::string> * t_subtreeStrings, int t_startIndex, int t_endIndex);
-  int findLastOperatorIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);
-  int findFirstOpenBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);
-  int findLastCloseBracketIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);
-  int findLastPlusOrMinusIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);
-  int findLastMultiplyIndex(int t_startIndex, int t_endIndex, std::vector<std::string> t_tokens);
-
-  bool isStrPlusOrMinus(std::string t_str);
 
   /* Helper methods */
-  std::string convertVectorToStringWithIndex(std::vector<std::string> t_vector, int t_startIndex, int t_endIndex);
-  void addStrIfNotDuplicate(std::vector<std::string> * t_listOfStr, std::string t_str);
   std::string removeWhitespaces(std::string t_str);
-  std::string removeBrackets(std::string t_str);
 };
