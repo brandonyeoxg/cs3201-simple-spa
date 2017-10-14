@@ -393,10 +393,12 @@ std::vector<PROC_NAME>& PKB::getAllProcsName() {
 //  PatternMatch methods
 ///////////////////////////////////////////////////////
 
+////////////////// OLD METHOD
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
   return std::list<STMT_NUM>();
 }
 
+////////////////// OLD METHOD
 std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
   return std::list<STMT_NUM>();
 }
@@ -417,66 +419,81 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
   return m_assignTable->getAllAssignStmtListByVar(varIndex);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
   std::list<STMT_NUM> list = {};
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
   }
+
   auto stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+  std::string patternPostfixStr = m_patternMatch->getPostfixStrWithTokens(t_patternTokens);
   for (auto iterator : stmtNums) {
-    if (m_patternMatch->isExactPatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isExactPatternInStmt(iterator, patternPostfixStr)) {
       list.push_back(iterator);
     }
   }
   return list;
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
   std::list<STMT_NUM> list = {};
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
-
   if (varIndex == INVALID_INDEX) {
     return list;
   }
 
-  LIST_OF_STMT_NUMS stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
-
+  auto stmtNums = m_assignTable->getAllAssignStmtListByVar(varIndex);
+  std::string patternPostfixStr = m_patternMatch->getPostfixStrWithTokens(t_patternTokens);
   for (auto iterator : stmtNums) {
-    if (m_patternMatch->isSubtreePatternInStmt(iterator, t_pattern)) {
+    if (m_patternMatch->isSubtreePatternInStmt(iterator, patternPostfixStr)) {
       list.push_back(iterator);
     }
   }
+  return list;
+}
 
+////////////////// OLD METHOD
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
+  return list;
+}
+
+////////////////// OLD METHOD
+std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
+  std::list<STMT_NUM> list = {};
   return list;
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
+  //std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_pattern);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  //std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
-  for (auto stmtNum : stmtsWithMatch) {
-    assert(getModifies(stmtNum).size() == 1);
-    std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
-  }
+  //for (auto stmtNum : stmtsWithMatch) {
+  //  assert(getModifies(stmtNum).size() == 1);
+  //  std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
+  //  mapStmtToVar.insert({ stmtNum, varName });
+  //}
 
-  return mapStmtToVar;
+  //return mapStmtToVar;
+  return std::unordered_map<STMT_NUM, VAR_NAME>();
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
-  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
+  //std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_pattern);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  //std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
 
-  for (auto stmtNum : stmtsWithMatch) {
-    assert(getModifies(stmtNum).size() == 1);
-    std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
-  }
+  //for (auto stmtNum : stmtsWithMatch) {
+  //  assert(getModifies(stmtNum).size() == 1);
+  //  std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
+  //  mapStmtToVar.insert({ stmtNum, varName });
+  //}
 
-  return mapStmtToVar;
+  //return mapStmtToVar;
+  return std::unordered_map<STMT_NUM, VAR_NAME>();
+
 }
 
 void PKB::insertAssignStmtPattern(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
