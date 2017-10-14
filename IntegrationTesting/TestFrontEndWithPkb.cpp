@@ -56,19 +56,18 @@ namespace IntegrationTesting
       FollowTable* followTable = m_pkb->getFollowTable();
       LIST_OF_STMT_NUMS actual = followTable->getFollowsAnything();
       Assert::AreEqual(actual.size(), size_t(0));
-      delete m_parser;
 
-      m_parser = new ParserDriver(m_pkb);
       editSimpleProgramFile("x=y;\ny=x;\n");
       m_parser->parseStmt(dummyStmtList);
-      dummyStmtList.push_back(1);
       m_parser->parseStmt(dummyStmtList);
 
       // Follow table should be populated with 1 follows relation
       actual = followTable->getFollowsAnything();
-      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::AreEqual(actual.size(), size_t(2));
       Assert::IsTrue(m_pkb->isFollows(1, 2));
+      Assert::IsTrue(m_pkb->isFollows(2, 3));
       Assert::IsFalse(m_pkb->isFollows(0, 1));
+      Assert::IsFalse(m_pkb->isFollows(3, 4));
     }
 
     TEST_METHOD(TestParserAndPKBParent)
@@ -95,11 +94,33 @@ namespace IntegrationTesting
       Assert::AreEqual(actual.size(), size_t(3));
     }
 
-    TEST_METHOD(TestParserAndPKBModifiesP)
+    TEST_METHOD(TestParserAndPKBModifiesP) 
     {
-      editSimpleProgramFile("procedure main {\n x=y;}");
+      editSimpleProgramFile("procedure main {\n x=y;\n}");
+      LIST_OF_STMT_NUMS dummyStmtList;
       m_parser->parseProcedure();
-      
+      m_parser->parseStmt(dummyStmtList);
+
+      ModifiesP* modifiesP = m_pkb->getModifiesP();
+      LIST_OF_RESULTS actual = modifiesP->getAllProcNames();
+      LIST_OF_RESULTS expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::IsTrue(actual == expected);
+      actual = modifiesP->getVarNamesWithProcIdx(0);
+      expected = { "x" };
+      Assert::IsTrue(actual == expected);
+
+      editSimpleProgramFile("k =n;\n j =p;");
+      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList);
+      actual = modifiesP->getAllProcNames();
+      expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::IsTrue(actual == expected);
+      actual = modifiesP->getVarNamesWithProcIdx(0);
+      expected = { "x", "k", "j" };
+      Assert::AreEqual(actual.size(), size_t(3));
+      Assert::IsTrue(actual == expected);
     }
 
     void editSimpleProgramFile(std::string t_editText) {
