@@ -43,6 +43,7 @@ const int INVALID_INDEX = -1;
 const std::string OPERATOR_MULTIPLY = "*";
 const std::string OPERATOR_MINUS = "-";
 const std::string OPERATOR_PLUS = "+";
+const std::string EMPTY_LINE = "";
 
 /*Called in QueryPreProcessor.h, by aaron*/
 

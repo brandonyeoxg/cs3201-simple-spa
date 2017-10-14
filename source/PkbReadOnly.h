@@ -567,6 +567,35 @@ public:
   */
   virtual std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar() = 0;
 
-  /** Next(_, l) and Next*(_, l) */
+  /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed after any particular line.
+  *   @return list of program line numbers
+  */
   virtual std::vector<PROG_LINE> getAllLinesAfterAnyLine() = 0;
+
+  /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
+  *   Gets list of all lines that can be executed before any particular line.
+  *   @return list of program line numbers
+  */
+  virtual std::vector<PROG_LINE> getAllLinesBeforeAnyLine() = 0;
+
+  /** For Next(_, _) or Next*(_, _).
+  *   Checks if any Next relationship exists.
+  *   @return true if data structure contains at least one Next(), else false
+  */
+  virtual bool hasNextRelationship() = 0;
+
+  /** For Next(line, _) and Next*(line, _), where line is a given line number.
+  *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed after it, else false
+  */
+  virtual bool hasNextLine(PROG_LINE t_line) = 0;
+
+  /** For Next(_, line) and Next*(_, line), where line is a given line number.
+  *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
+  *   @param t_line given program line
+  *   @return true if given line has at least one line that can be executed before it, else false
+  */
+  virtual bool hasLineBefore(PROG_LINE t_line) = 0;
 };

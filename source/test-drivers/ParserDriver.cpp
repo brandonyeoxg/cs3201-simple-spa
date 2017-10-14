@@ -25,35 +25,15 @@ int ParserDriver::parseProcedure() {
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
-    m_pkbWriteOnly->insertProcedure(procName);
+    m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     return 1;
   }
   return -1;
 }
 
 int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  if (isMatchToken(EMPTY_LINE)) {
-    return 1;
-  }
-  m_curLineNum += 1;
-  m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
+  Parser::parseStmt(t_stmtInStmtLst);
   return 1;
-}
-
-bool ParserDriver::testIsOperator(const std::string& t_token) {
-  return isOperator(t_token);
-}
-
-bool ParserDriver::testIsBrace(const std::string& t_token) {
-  return isBrace(t_token);
-}
-
-bool ParserDriver::testIsKeyDelimiter(const std::string& t_token) {
-  return isKeyDelimiter(t_token);
-}
-
-std::vector<std::string> ParserDriver::testTokeniseLine(const std::string& t_line) {
-  return tokeniseLine(t_line);
 }
 
 bool ParserDriver::testIsValidName(std::string& t_token) {
