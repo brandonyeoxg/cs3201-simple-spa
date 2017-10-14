@@ -14,6 +14,7 @@
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
+#include "With.h"
 #include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
 #include "Relationship.h"
@@ -45,12 +46,13 @@ public:
   * @param t_patterns A queue to store all the pattern clauses in the query.
   * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
-  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::unordered_map<std::string, int> t_synonymsList)
+  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs,  std::unordered_map<std::string, int> t_synonymsList)
     : m_pkb(t_pkb),
       m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
       m_patterns(t_patterns),
+      m_withs(t_withs),
       m_synonymsUsedInQuery(t_synonymsList),
       m_isSelectOnly(true) {
     m_table = new IntermediateTable();
@@ -78,6 +80,7 @@ private:
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
   std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
+  std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
   std::queue<std::vector<std::string>> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
   std::queue<std::unordered_map<std::string, std::vector<std::string>>> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
