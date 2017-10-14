@@ -102,7 +102,10 @@ bool PatternMatch::isOperator(std::string t_str) {
 }
 
 bool PatternMatch::isOperatorGreaterOrEqualPrec(std::string t_op1, std::string t_op2) {
-  assert(isOperator(t_op1) && isOperator(t_op2));
+  assert(isOperator(t_op2));
+  if (!isOperator(t_op1)) { //  means is a bracket
+    return false;
+  }
 
   int precedence1 = getPrecedenceLevel(t_op1);
   int precedence2 = getPrecedenceLevel(t_op2);
