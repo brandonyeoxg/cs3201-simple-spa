@@ -70,9 +70,6 @@ public:
 
   std::string getPostfixStrWithTokens(std::vector<std::string> t_tokens);
 
-  ///// for testing
-  //std::unordered_map<STMT_NUM, std::string> getAssignStmts() { return *m_assignStmts; }
-
 private:
   std::unordered_map<STMT_NUM, std::string> m_assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
  
@@ -81,6 +78,7 @@ private:
   bool isOperator(std::string t_str);
 
   // is first operator greater precedence than second operator
+  // will return false if op1 is not an operator
   bool isOperatorGreaterOrEqualPrec(std::string t_op1, std::string t_op2);
 
   int getPrecedenceLevel(std::string t_operator);
