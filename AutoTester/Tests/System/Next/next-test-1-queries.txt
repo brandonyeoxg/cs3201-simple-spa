@@ -61,7 +61,7 @@ Select a such that Next(a,pl1)
 13 - Next Functionality Test
 while w; prog_line pl1;
 Select pl1 such that Next(w,pl1)
-3, 4
+6, 9
 5000
 14 - Next Functionality Test
 if ifs; prog_line pl1;
@@ -81,7 +81,7 @@ Select pl1 such that Next(2,pl1)
 17 - Next Functionality Test
 prog_line pl1;
 Select pl1 such that Next(_,pl1)
-2, 3, 4, 5, 6, 7, 8, 9
+2, 3, 4, 5, 6, 7, 8, 9, 10
 5000
 18 - Next Invalid Test 1
 stmtLst sl; prog_line pl1;
@@ -196,12 +196,12 @@ Select a such that Next*(a,pl1)
 40 - Next* Functionality Test
 while w; prog_line pl1;
 Select pl1 such that Next*(w,pl1)
-3, 4
+5, 6, 7, 8, 9, 10
 5000
 41 - Next* Functionality Test
 if ifs; prog_line pl1;
 Select pl1 such that Next*(ifs,pl1)
-3, 4
+3, 4, 5, 6, 7, 8, 9, 10
 5000
 42 - Next* Functionality Test
 call c; prog_line pl1;
@@ -211,12 +211,12 @@ none
 43 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(2,pl1)
-3, 4
+3, 4, 5, 6, 7, 8, 9, 10
 5000
 44 - Next* Functionality Test
 prog_line pl1;
 Select pl1 such that Next*(_,pl1)
-2, 3, 4, 5, 6, 7, 8, 9
+2, 3, 4, 5, 6, 7, 8, 9, 10
 5000
 45 - Next* Invalid Test 1
 stmtLst sl; prog_line pl1;

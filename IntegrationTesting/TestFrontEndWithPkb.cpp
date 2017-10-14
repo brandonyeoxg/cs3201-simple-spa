@@ -22,20 +22,20 @@ namespace IntegrationTesting
       m_parser = new ParserDriver(m_pkb);
       std::ofstream tmpFile;
       m_tmpFileName = "testSimple.txt";
-      m_tmpFile.open(m_tmpFileName);
     }
 
     TEST_METHOD_CLEANUP(CleanupPkbAndParser) 
     {
+      m_tmpFile.close();
       std::remove(m_tmpFileName.c_str());
+      delete m_pkb;
+      delete m_parser;
     }
 
 		TEST_METHOD(TestParserAndPKBProcedure)
 		{
       // Test for the procedure recorded properly
-      m_tmpFile << "procedure main {\n";
-      m_tmpFile.close();
-      m_parser->openFileStream(m_tmpFileName);
+      editSimpleProgramFile("procedure main {\n");
       m_parser->parseProcedure();
 
       ProcTable* procTable = m_pkb->getProcTable();
@@ -45,39 +45,89 @@ namespace IntegrationTesting
       Assert::AreEqual(*actual.begin(), std::string("main"));
     }
 
-    TEST_METHOD(TestParserAndPKBStmt) // This only tests follows relation
+    TEST_METHOD(TestParserAndPKBFollows) // This only tests follows relation
     {
-      m_tmpFile << "procedure main {x=y;}\n";
-      m_tmpFile.close();
-      m_parser->openFileStream(m_tmpFileName);
-      LIST_OF_STMT_NUMS stmtList;
-      m_parser->parseStmt(stmtList);
+      LIST_OF_STMT_NUMS dummyStmtList;
+      editSimpleProgramFile("procedure main {\n x=y;}\n");
+      m_parser->parseProcedure();
+      m_parser->parseStmt(dummyStmtList);
 
       // Follow table should be empty
       FollowTable* followTable = m_pkb->getFollowTable();
-      std::vector<int> actual = followTable->getFollowsAnything();
+      LIST_OF_STMT_NUMS actual = followTable->getFollowsAnything();
       Assert::AreEqual(actual.size(), size_t(0));
 
-      // Parent table should be empty
-      ParentTable* parentTable = m_pkb->getParentTable();
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(0));
-
-      delete m_parser;
-      m_parser = new ParserDriver(m_pkb);
-      m_tmpFile.open(m_tmpFileName);
-      m_tmpFile << "x=y;\ny=x;\n";
-      m_tmpFile.close();
-      m_parser->openFileStream(m_tmpFileName);
-      m_parser->parseStmt(stmtList);
-      stmtList.push_back(1);
-      m_parser->parseStmt(stmtList);
+      editSimpleProgramFile("x=y;\ny=x;\n");
+      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList);
 
       // Follow table should be populated with 1 follows relation
       actual = followTable->getFollowsAnything();
-      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::AreEqual(actual.size(), size_t(2));
       Assert::IsTrue(m_pkb->isFollows(1, 2));
+      Assert::IsTrue(m_pkb->isFollows(2, 3));
       Assert::IsFalse(m_pkb->isFollows(0, 1));
+      Assert::IsFalse(m_pkb->isFollows(3, 4));
+    }
+
+    TEST_METHOD(TestParserAndPKBParent)
+    {
+      editSimpleProgramFile("procedure main {\n x=y;}\n");
+      LIST_OF_STMT_NUMS dummyStmtList;
+      m_parser->parseProcedure();
+      m_parser->parseStmt(dummyStmtList);
+
+      ParentTable* parentTable = m_pkb->getParentTable();
+      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(0));
+
+      editSimpleProgramFile("while i { \nx=y;}");
+      m_parser->parseStmt(dummyStmtList);
+      actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(1));
+
+      editSimpleProgramFile("while i {\n while j { \n x=y;}}");
+      m_parser->parseStmt(dummyStmtList);
+      actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(3));
+      actual = parentTable->getChildrenOfAnything();
+      Assert::AreEqual(actual.size(), size_t(3));
+    }
+
+    TEST_METHOD(TestParserAndPKBModifiesP) 
+    {
+      editSimpleProgramFile("procedure main {\n x=y;\n}");
+      LIST_OF_STMT_NUMS dummyStmtList;
+      m_parser->parseProcedure();
+      m_parser->parseStmt(dummyStmtList);
+
+      ModifiesP* modifiesP = m_pkb->getModifiesP();
+      LIST_OF_RESULTS actual = modifiesP->getAllProcNames();
+      LIST_OF_RESULTS expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::IsTrue(actual == expected);
+      actual = modifiesP->getVarNamesWithProcIdx(0);
+      expected = { "x" };
+      Assert::IsTrue(actual == expected);
+
+      editSimpleProgramFile("k =n;\n j =p;");
+      m_parser->parseStmt(dummyStmtList);
+      m_parser->parseStmt(dummyStmtList);
+      actual = modifiesP->getAllProcNames();
+      expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::IsTrue(actual == expected);
+      actual = modifiesP->getVarNamesWithProcIdx(0);
+      expected = { "x", "k", "j" };
+      Assert::AreEqual(actual.size(), size_t(3));
+      Assert::IsTrue(actual == expected);
+    }
+
+    void editSimpleProgramFile(std::string t_editText) {
+      m_tmpFile.open(m_tmpFileName);
+      m_tmpFile << t_editText;
+      m_tmpFile.close();
+      m_parser->openFileStream(m_tmpFileName);
     }
 	};
 }
