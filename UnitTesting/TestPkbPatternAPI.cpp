@@ -10,7 +10,7 @@ namespace UnitTesting {
   TEST_CLASS(TestPkbPatternAPI) {
 public:
 
-  TEST_METHOD(insertAndExtractStmts_byExactPattern) {
+  TEST_METHOD(getAllAssignStmtByExactPattern) {
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *) pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *) pkb;
@@ -19,7 +19,7 @@ public:
     // simple expression
     pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
     expected = { 1 };
-    result = pkbRead->getAllAssignStmtByExactPattern("x+y");
+    result = pkbRead->getAllAssignStmtByExactPattern({ "x", "+", "y" });
     Assert::IsTrue(result == expected);
 
     pkbWrite->insertAssignStmtPattern(2, { "x", "-", "y" });
@@ -27,23 +27,24 @@ public:
 
     // more assignment statements, pattern with extra whitespaces
     expected = { 1 , 3 };
-    result = pkbRead->getAllAssignStmtByExactPattern("   x  +  y  ");
+    result = pkbRead->getAllAssignStmtByExactPattern({ "  x  ", "   +  ", "  y" });
     Assert::IsTrue(result == expected);
 
     // multi-char strings for variables, extra whitespaces, larger integer for statement number
     pkbWrite->insertAssignStmtPattern(500, { "xMan", "+", "chicken" });
     expected = { 500 };
-    result = pkbRead->getAllAssignStmtByExactPattern("   xMan  +  chicken  ");
+    result = pkbRead->getAllAssignStmtByExactPattern({ "  xMan  \t\t", "\t+", "chicken" });
     Assert::IsTrue(result == expected);
 
     // should not match subtree
     expected = {};
-    result = pkbRead->getAllAssignStmtByExactPattern("   xMan  ");
+    std::vector<std::string> pattern = { "xMan" };
+    result = pkbRead->getAllAssignStmtByExactPattern(pattern);
     Assert::IsTrue(result == expected);
 
   }
 
-  TEST_METHOD(insertAndExtractStmts_bySubtreePattern) {
+  TEST_METHOD(getAllAssignStmtBySubtreePattern) {
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
@@ -53,29 +54,8 @@ public:
     pkbWrite->insertAssignStmtPattern(2, { "a", "*", "b", "+", "x", "*", "y" });
     pkbWrite->insertAssignStmtPattern(3, { "x", "*", "y", "*", "b" });
     expected = { 1, 2, 3 };
-    result = pkbRead->getAllAssignStmtBySubtreePattern(" x *  y   ");
+    result = pkbRead->getAllAssignStmtBySubtreePattern({ "x", "*", "y" });
     Assert::IsTrue(result == expected);
-
-  }
-
-  //TODO will need testing after insertAssignStmt done, with AST and nodes decoupled from PKB
-  TEST_METHOD(insertAndExtractStmts_byVarAndExactPattern) {
-    //PKB * pkb = new PKB();
-    //PkbWriteOnly * pkbWrite = pkb;
-    //PkbReadOnly * pkbRead = pkb;
-    //std::list<STMT_NUM> result, expected;
-
-    //pkbWrite->insertAssignStmtPattern(1, { "x", "+", "y" });
-    //pkbWrite->insertModifiedVariable("x", 1, {});
-    //pkbWrite->populateAssignTableAbstractions();
-
-    //result = pkbRead->getAllAssignStmtByVarAndExactPattern("x", "x+y");
-
-    //printListOfIntegers(result);
-
-    //expected = { 1 };
-
-    //Assert::IsTrue(result == expected);
 
   }
 
