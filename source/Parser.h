@@ -98,7 +98,7 @@ protected:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine);
 
 private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
@@ -106,6 +106,7 @@ private:
   bool m_isParsingProcedureContent;
   std::stack<STRING_TOKEN> m_bracketStack;
   std::list<STMT_NUM> m_ifElseNextList;
+  std::unordered_set<STMT_NUM> m_ifLookUp;
   /*
   * Parses the procedure block.
   * 
@@ -119,7 +120,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  void parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine);
 
   /*
   * Parses the assignment statement.
@@ -162,7 +163,7 @@ private:
    *
    * @param t_node the reference to the stmtLst node
    */
-  void parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine);
 
   /*
   * Parses the while statement.
@@ -170,7 +171,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLines);
 
   /*
   * Parses for the if and else statement.
@@ -178,7 +179,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine);
 
   /*
   * Parses the if statement.
@@ -186,7 +187,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
+  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine);
 
   /*
   * Parses the else statement.
@@ -194,7 +195,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
+  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine);
 
   /*
   * Returns the the next token in the line
