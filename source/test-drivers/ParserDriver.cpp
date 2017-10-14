@@ -31,8 +31,8 @@ int ParserDriver::parseProcedure() {
   return -1;
 }
 
-int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  Parser::parseStmt(t_stmtInStmtLst);
+int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLines) {
+  Parser::parseStmt(t_stmtInStmtLst, t_progLines);
   return 1;
 }
 

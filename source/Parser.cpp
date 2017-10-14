@@ -40,13 +40,14 @@ void Parser::parseForProcedure() {
     }
     m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     LIST_OF_STMT_NUMS stmtLst;
-    parseStmtLst(stmtLst);
+    LIST_OF_STMT_NUMS progLine;
+    parseStmtLst(stmtLst, progLine);
   }
 }
 
-void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
   // Parse the rest of the code in the
-  parseStmt(t_stmtInStmtLst);
+  parseStmt(t_stmtInStmtLst, t_progLine);
   if (isMatchToken("}")) {
     // Remove from back
     if (!m_nestedStmtLineNum.empty()) {
@@ -54,22 +55,27 @@ void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
     }
     return;
   }
-  parseStmtLst(t_stmtInStmtLst);
+  parseStmtLst(t_stmtInStmtLst, t_progLine);
 }
 
-void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
   if (isMatchToken(EMPTY_LINE)) {
     return;
   }
   m_curLineNum += 1;
-  if (!t_stmtInStmtLst.empty() && m_ifElseNextList.empty()) {
-    m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
-  }
-  if (m_ifElseNextList.size() == 2) {
-    while (!m_ifElseNextList.empty()) {
-      m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
-      m_ifElseNextList.pop_back();
+  if (!t_stmtInStmtLst.empty()) {
+    if (m_ifLookUp.find(t_stmtInStmtLst.back()) == m_ifLookUp.end()) {
+      m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
     }
+  }
+  if (!t_progLine.empty()) {
+    for (auto& itr : t_progLine) {
+      if (itr == t_stmtInStmtLst.back()) {
+        continue;
+      }
+      m_pkbWriteOnly->insertNextRelation(itr, m_curLineNum);
+    }
+    t_progLine.clear();
   }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
@@ -80,7 +86,7 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (isNonContainerStmt(m_nextToken)) {
     parseNonContainerStmt(t_stmtInStmtLst);
   } else {
-    parseContainerStmt(t_stmtInStmtLst);
+    parseContainerStmt(t_stmtInStmtLst, t_progLine);
   }
 }
 
@@ -185,18 +191,18 @@ void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   }
 }
 
-void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
-    parseWhileStmt(t_stmtInStmtLst);
+    parseWhileStmt(t_stmtInStmtLst, t_progLine);
   } else if (isMatchToken("if")) {
-    parseIfElseStmt(t_stmtInStmtLst);
+    parseIfElseStmt(t_stmtInStmtLst, t_progLine);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
 }
 
-void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
   STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -204,19 +210,35 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   STMT_NUM curLine = m_curLineNum;
   m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS whileStmtLst;
-  parseStmtLst(whileStmtLst);
+  parseStmtLst(whileStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(curLine, whileStmtLst.front());
-  m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
+  if (m_ifLookUp.find(whileStmtLst.back()) == m_ifLookUp.end()) {
+    m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
+  }
+  for (auto& itr : t_progLine) {
+    m_pkbWriteOnly->insertNextRelation(itr, curLine);
+  }
+  t_progLine.clear();
+  t_progLine.push_back(curLine);
 }
 
-void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
   STMT_NUM ifStmtNum = m_curLineNum;
-  parseIfStmt(t_stmtInStmtLst, ifStmtNum);
+  m_ifLookUp.insert(ifStmtNum);
+
+  LIST_OF_STMT_NUMS tempProgLineForIf;
+  parseIfStmt(t_stmtInStmtLst, ifStmtNum, tempProgLineForIf);
+
   m_nestedStmtLineNum.push_back(ifStmtNum);
-  parseElseStmt(t_stmtInStmtLst, ifStmtNum);
+
+  LIST_OF_STMT_NUMS tempProgLineForElse;
+  parseElseStmt(t_stmtInStmtLst, ifStmtNum, tempProgLineForElse);
+
+  t_progLine.insert(t_progLine.end(), tempProgLineForIf.begin(), tempProgLineForIf.end());
+  t_progLine.insert(t_progLine.end(), tempProgLineForElse.begin(), tempProgLineForElse.end());
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
+void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine) {
   STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
@@ -226,12 +248,17 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNu
   }
   m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS ifStmtLst;
-  parseStmtLst(ifStmtLst);
+  parseStmtLst(ifStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, ifStmtLst.front());
-  m_ifElseNextList.push_back(ifStmtLst.back());
+  if (m_ifLookUp.find(ifStmtLst.back()) == m_ifLookUp.end()) {
+    if (!t_progLine.empty() && ifStmtLst.back() == t_progLine.back()) {
+      return;
+    }
+    t_progLine.push_back(ifStmtLst.back());
+  }
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
+void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
@@ -239,9 +266,11 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmt
     throw SyntaxOpenBraceException(m_curLineNum);
   }
   LIST_OF_STMT_NUMS elseStmtLst;
-  parseStmtLst(elseStmtLst);
+  parseStmtLst(elseStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, elseStmtLst.front());
-  m_ifElseNextList.push_back(elseStmtLst.back());
+  if (m_ifLookUp.find(elseStmtLst.back()) == m_ifLookUp.end()) {
+    t_progLine.push_back(elseStmtLst.back());
+  }
 }
 
 bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
