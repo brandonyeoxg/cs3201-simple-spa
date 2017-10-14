@@ -43,6 +43,7 @@ protected:
   int m_curLineNum;
   STRING_TOKEN m_nextToken;
   std::ifstream m_readStream;
+
   /*
   * Matches the token from the file with the expected token.
   *
@@ -132,7 +133,7 @@ private:
   STRING_TOKEN EMPTY_LINE = "";
   PROC_INDEX m_curProcIdx;
   std::stack<STRING_TOKEN> m_bracketStack;
-
+  std::list<STMT_NUM> m_ifElseNextList;
   /*
   * Parses the procedure block.
   * 
@@ -221,7 +222,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
 
   /*
   * Parses the else statement.
@@ -229,7 +230,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum);
 
   /*
   * Returns the the next token in the line

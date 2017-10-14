@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
-    <ClCompile Include="..\source\AssignExtractor.cpp" />
     <ClCompile Include="..\source\AssignPatternEvaluator.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
@@ -24,10 +23,14 @@
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
+    <ClCompile Include="..\source\EvaluatorUtil.cpp" />
     <ClCompile Include="..\source\ExtractorFactory.cpp" />
+    <ClCompile Include="..\source\Formatter.cpp" />
     <ClCompile Include="..\source\IntermediateTable.cpp" />
     <ClCompile Include="..\source\ModifiesExtractor.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
+    <ClCompile Include="..\source\NextExtractor.cpp" />
+    <ClCompile Include="..\source\NextTable.cpp" />
     <ClCompile Include="..\source\PatternMatch.cpp" />
     <ClCompile Include="..\source\ModifiesP.cpp" />
     <ClCompile Include="..\source\Evaluator.cpp" />
@@ -43,6 +46,7 @@
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />
     <ClCompile Include="..\source\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\Patterns.cpp" />
+    <ClCompile Include="..\source\QueryUtil.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\FollowTable.cpp" />
@@ -83,11 +87,11 @@
     <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\WhilePatternEvaluator.cpp" />
+    <ClCompile Include="..\source\With.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
-    <ClInclude Include="..\source\AssignExtractor.h" />
     <ClInclude Include="..\source\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\AST.h" />
@@ -100,14 +104,18 @@
     <ClInclude Include="..\source\CallsStarEvaluator.h" />
     <ClInclude Include="..\source\ConstantTable.h" />
     <ClInclude Include="..\source\Evaluator.h" />
+    <ClInclude Include="..\source\EvaluatorUtil.h" />
     <ClInclude Include="..\source\Extractor.h" />
     <ClInclude Include="..\source\ExtractorFactory.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
+    <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\IntermediateTable.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
+    <ClInclude Include="..\source\NextExtractor.h" />
+    <ClInclude Include="..\source\NextTable.h" />
     <ClInclude Include="..\source\PatternMatch.h" />
     <ClInclude Include="..\source\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\ModifiesP.h" />
@@ -123,6 +131,7 @@
     <ClInclude Include="..\source\PkbReadOnly.h" />
     <ClInclude Include="..\source\PkbTablesOnly.h" />
     <ClInclude Include="..\source\PkbWriteOnly.h" />
+    <ClInclude Include="..\source\QueryUtil.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\FollowTable.h" />
@@ -170,6 +179,7 @@
     <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\WhilePatternEvaluator.h" />
+    <ClInclude Include="..\source\With.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

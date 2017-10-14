@@ -177,6 +177,7 @@
     <ClCompile Include="TestFollowTable.cpp" />
     <ClCompile Include="TestIntermediateTable.cpp" />
     <ClCompile Include="TestModifiesP.cpp" />
+    <ClCompile Include="TestNextTable.cpp" />
     <ClCompile Include="TestParentTable.cpp" />
     <ClCompile Include="TestParser.cpp" />
     <ClCompile Include="TestPatternMatch.cpp" />

@@ -83,7 +83,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
         return m_result;
       }
 
-      std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
+      std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
       if (!stmtStrVector.empty()) {
         m_result[t_g1.getName()] = stmtStrVector;
       }
@@ -102,7 +102,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
         return m_result;
       }
 
-      std::vector<std::string> stmtStrVector = filterStmts(typeOfStmts, stmtIntVector, t_g1);
+      std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
       if (!stmtStrVector.empty()) {
         m_result[t_g1.getName()] = stmtStrVector;
       }
@@ -134,7 +134,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t
 
     for (auto& x : stmtsAndVar) {
       if (!x.second.empty()) {
-        std::vector<std::string> stmtVector = filterStmts(typeOfStmts, x.second, t_g1);
+        std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g1);
         if (!stmtVector.empty()) {
           m_result[x.first] = stmtVector;
         }

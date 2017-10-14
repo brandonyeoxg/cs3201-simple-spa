@@ -10,6 +10,8 @@ Static Program Analyzer for source code written in language SIMPLE which analyze
 
 Documentation pages hosted on Github Pages [here](https://turtle96.github.io/cs3201-doxygen/html/annotated.html).
 
+Repository for documentation code [here](https://github.com/turtle96/cs3201-doxygen).
+
 ## Generate Documentation
 
 1. Download [Doxygen](http://www.stack.nl/~dimitri/doxygen/) and [Graphviz](http://www.graphviz.org/)
