@@ -25,12 +25,12 @@ procedure Fa1L4bor{
       else{
         bpkb=(bpkb+((((cp02-1))+3*cp02)-10-apql));
         while L4nce10t{
-          call V4rR0ck;
+          call V4rR0ck;  //18
           cp02=d0g*2;}
         if aRtHuR then{
           while L4nce10t{
             inTern3T=L4nce10t;
-            L4nce10t=aRtHuR;}
+            L4nce10t=aRtHuR;}}
         else{
           h4pPy=(apql+bpkb)*3;}}
     f15h=cp02-(((((apql*bpkb)))))+e1p;
