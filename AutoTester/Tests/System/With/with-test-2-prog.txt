@@ -7,7 +7,7 @@ procedure A{
       if e then{
         call C;}
       else{
-        call D;}}
+        call D;}}}
   else{
     b=2;
     call B;}
