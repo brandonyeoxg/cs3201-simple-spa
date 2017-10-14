@@ -1,11 +1,11 @@
 #include "PatternMatch.h"
 
 PatternMatch::PatternMatch() {
-  assignStmts = new std::unordered_map<STMT_NUM, std::string>();
+  m_assignStmts = new std::unordered_map<STMT_NUM, std::string>();
 }
 
 void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens) {
-  assert(assignStmts->count(t_stmtNum) == 0);
+  assert(m_assignStmts->count(t_stmtNum) == 0);
 
   for (int i = 0; i < (int)t_stmtTokens.size(); i++) {
     t_stmtTokens.at(i) = removeWhitespaces(t_stmtTokens.at(i));
@@ -13,14 +13,14 @@ void PatternMatch::addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_
 
   std::string postfixStr = convertVectorToStr(convertInfixExpressionToPostfix(t_stmtTokens));
 
-  assignStmts->insert({ t_stmtNum, postfixStr });
+  m_assignStmts->insert({ t_stmtNum, postfixStr });
 }
 
 std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pattern) {
   t_pattern = removeWhitespaces(t_pattern);
   std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
 
-  for (auto iterator = assignStmts->begin(); iterator != assignStmts->end(); iterator++) {
+  for (auto iterator = m_assignStmts->begin(); iterator != m_assignStmts->end(); iterator++) {
     if (iterator->second == t_pattern) {
       stmtNums.push_back(iterator->first);
     }
@@ -39,9 +39,9 @@ std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_
 }
 
 bool PatternMatch::isExactPatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {
-  assert(assignStmts->count(t_stmtNum) == 1); // should exist
+  assert(m_assignStmts->count(t_stmtNum) == 1); // should exist
   t_pattern = removeWhitespaces(t_pattern);
-  return assignStmts->at(t_stmtNum) == t_pattern;
+  return m_assignStmts->at(t_stmtNum) == t_pattern;
 }
 
 bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern) {

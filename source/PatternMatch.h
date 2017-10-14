@@ -53,10 +53,13 @@ public:
   */
   bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
-  std::vector<std::string> convertInfixExpressionToPostfix(std::vector<std::string> t_stmtTokens);
+  ///// for testing
+  std::unordered_map<STMT_NUM, std::string> getAssignStmts() { return *m_assignStmts; }
 
 private:
-  std::unordered_map<STMT_NUM, std::string> * assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
+  std::unordered_map<STMT_NUM, std::string> * m_assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
+
+  std::vector<std::string> convertInfixExpressionToPostfix(std::vector<std::string> t_stmtTokens);
 
   bool isOperator(std::string t_str);
 
