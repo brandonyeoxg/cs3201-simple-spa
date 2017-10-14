@@ -356,6 +356,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   //storing select queue synonyms
   int counterM = 0;
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
+    if (m_selectQueue.size() == 1) {
+      break;
+    }
     g1 = m_grammarVector.at(counterM);
     std::string grammarName = g1.getName();
     
@@ -382,7 +385,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
-  m_synonymMap.insert({ selectGrammar.getName(), 1});
+  m_synonymMap.insert({ selectGrammar.getName(), 1 });
   //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
@@ -447,12 +450,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
     int counterK = 0;
     int counterQ = 0;
-    
+
     //storing designabstractionqueue synonyms
 
     Grammar g1;
     Grammar g2;
-   
+
     //case: both synonyms are the same. e.g Follows(s, s)
     if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != "_")) {
       //return empty list
@@ -461,6 +464,166 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
 
     else {
+      //Checks for no declaration first before moving on to check for synonyms
+      //Follows and Follows*
+      if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, Number
+        if (sTInt1 > 0 && sTInt2 > 0 ) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //_, Number
+        } else if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        // _, _
+        } else if (sTName1 == "_" && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      //Parent and Parent*
+      } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, Number
+        if (sTInt1 > 0 && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } else if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          // _, _
+        } else if (sTName1 == "_" && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      //Uses, Modifies
+      } else if(designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, String
+        if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+         //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //String, String
+        } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //String, _
+        } else if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+      
+      //Call, Calls*
+      } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //String, _
+        if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //_, String
+        } else if (sTName1 == "_" && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+        // Number, _
+        if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+        }
+
+      //Affects, Affects*
+      } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        // Number, _
+        if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+        }
+      }
+
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
         Grammar tempGrammar = m_grammarVector.at(counterK);
         std::string grammarName = tempGrammar.getName();

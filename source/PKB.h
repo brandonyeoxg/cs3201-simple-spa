@@ -213,13 +213,13 @@ public:
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows();
+  MAP_OF_STMT_NUMS getAllFollows();
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllFollowsStar();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllFollowsStar();
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
@@ -247,7 +247,7 @@ public:
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
-  * @return true if s2 exists in the allFollows map, return false if otherwise.
+  * @return true if t_s2 exists in the allFollows map, return false if otherwise.
   */
   bool isFollowedByAnything(STMT_NUM t_s1);
 
@@ -255,32 +255,165 @@ public:
   //  ParentTable methods
   ///////////////////////////////////////////////////////
   ParentTable* getParentTable();
+
+  /**
+  * Method that checks if parent(s1, s2) holds.
+  * Checks if s2 exists as value mapped to key s1 in parentMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent*(s1, s2) holds.
+  * Checks if s2 exists in vector mapped to key s1 in parentStarMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
+  * @return true if the relationship holds, false if otherwise.
+  */
   bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
+
+  /**
+  * Method that returns the statement number that is the parent of s2.
+  * Checks if key s2 exists in parentMap.
+  * @throw invalid_arguement exception if key does not exist.
+  * @param t_s2 an integer argument.
+  * @return a statement number. 
+  */
   STMT_NUM getParentOf(STMT_NUM t_s2);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s1 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, t_s2).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s2 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2);
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
+  * @param t_s1 an integer argument.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1);
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents();
-  std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar();
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the parent relationship.
+  * @return the unordered map that keep tracks of the parent relationship.
+  */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParents();
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the parent* relationship.
+  * @return the unordered map that keep tracks of the parent* relationship.
+  */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParentsStar();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(_, x).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getChildrenOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(x, _).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getParentOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(_, x).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getChildrenStarOfAnything();
+
+  /**
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, _).
+  * @return the vector of keys within the parentTable.
+  */
   LIST_OF_STMT_NUMS getParentStarOfAnything();
+
+  /**
+  * Method that checks if parent(_, _) holds.
+  * @return true if there exists a parent relationship (i.e. parentTable is not empty), false if otherwise.
+  */
   bool hasParentRelationship();
+
+  /**
+  * Method that checks if parent*(_, _) holds.
+  * @return true if there exists a parent* relationship (i.e. parentStarTable is not empty), false if otherwise.
+  */
   bool hasParentStarRelationship();
+
+  /**
+  * Method that checks if parent(_, t_s2) holds.
+  * @param t_s2 an integer argument.
+  * @return true if there exists a parent relationship with t_s2 being the child, false if otherwise.
+  */
   bool isChildrenOfAnything(STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent(t_s1, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one parent relationship with t_s1 being the parent, false if otherwise.
+  */
   bool isParentOfAnything(STMT_NUM t_s1);
+
+  /**
+  * Method that checks if parent*(_, t_s2) holds.
+  * @param t_s2 an integer argument.
+  * @return true if there exists at least one parent* relationship with t_s2 being the child, false if otherwise.
+  */
   bool isChildrenOfStarAnything(STMT_NUM t_s2);
+
+  /**
+  * Method that checks if parent*(t_s1, _) holds.
+  * @param t_s1 an integer argument.
+  * @return true if there exists at least one parent* relationship with t_s1 being the parent, false if otherwise.
+  */
   bool isParentOfStarAnything(STMT_NUM t_s1);
 
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
   //////////////////////////////////////////////////////////
   StatementTable* getStatementTable();
-  std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable();
+
+  /**
+  * Method that returns the entire map that tracks every statement's type.
+  * @return the unordered map that keep tracks of type of statements.
+  */
+  MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable();
+
+  /**
+  * Method that insert statement number and GType into typeofStatementTable.
+  * @param t_lineNum a STMT_NUM argument.
+  * @param t_type a GType argument.
+  * @return true if insertion is successful, false if otherwise.
+  */
   bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
-  std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable();
+
+  /**
+  * Method that returns the entire map of the list of statements that each type of statement has.
+  * @return the unordered map that keep tracks of type of statements.
+  */
+  MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
+
+  /**
+  * Method that insert statement number and GType into statementTypeTable.
+  * @param t_lineNum a STMT_NUM argument.
+  * @param t_type a GType argument.
+  * @return true if insertion is successful, false if otherwise.
+  */
   bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////
@@ -288,8 +421,25 @@ public:
   ///////////////////////////////////////////////////////
   VarTable* getVarTable();
   VAR_INDEX insertVar(VAR_NAME t_name);
+
+  /**
+  * Method that returns the index of the variable t_varName in VarTable.
+  * @param t_varName a string argument.
+  * @return the index of variable.
+  */
   VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
+
+  /**
+  * Method that returns the index of the variable t_varName in VarTable.
+  * @param t_varName a string argument.
+  * @return the index of variable.
+  */
   VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
+
+  /**
+  * Method that returns the vector of variables that are stored within VarTable.
+  * @return a vector of statement numbers.
+  */
   LIST_OF_VAR_NAMES& getAllVarNames();
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 

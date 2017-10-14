@@ -1,0 +1,52 @@
+procedure Requ313m{
+  if iNs1GHt then{
+    while jUmP{
+      if K1nG10gAr1nU5 then{
+        aP0St1e=B1oOD;}
+      else{
+        B1oOD=aP0St1e;}}
+    C41nHuRsT=d3Ep;}
+  else{
+    d3Ep=(C41nHuRsT+(eMIS5arY-3))*d3Ep;}
+  call n1ghTm4r3;
+}
+
+procedure n1ghTm4r3{
+  while iNs1GHt{
+    if jUmP then{
+      while K1nG10gAr1nU5{
+        call S4ncTuAry;}}
+    else{
+      call PuRg4tOrY;}}
+}
+
+procedure S4ncTuAry{
+  aP0St1e=eMIS5arY-3;
+}
+
+procedure PuRg4tOrY{
+  B1oOD=C41nHuRsT*3;
+  call O1d0ne;
+  call aMygd411A;
+  call hUNt3r;
+}
+
+procedure aMygd411A{
+  if B1oOD then{
+    K1nG10gAr1nU5 = K1nG10gAr1nU5 + iNs1GHt - jUmP;}
+  else{
+    while d3Ep{
+      while gArG0y13{
+        while HuNtSm4N{
+          if G4rdEn0f3y35 then{
+            iNs1GHt = (aP0St1e*(((8544*B1oOD) + K1nG10gAr1nU5))-f1uOreSc3nTF10wEr)*45123;}
+          else{
+}
+
+procedure O1d0ne{
+
+}
+
+procedure hUNt3r{
+
+}
