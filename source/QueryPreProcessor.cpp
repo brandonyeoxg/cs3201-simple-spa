@@ -37,6 +37,10 @@ std::queue<Pattern> QueryPreProcessor::getPattern(void) {
   return m_patternQueue;
 }
 
+std::queue<With> QueryPreProcessor::getWith(void) {
+  return m_withQueue;
+}
+
 std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void) {
   return m_synonymMap;
 }
@@ -335,23 +339,24 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
     patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
   } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos) {
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
+    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
     withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
+    std::cout << "with" << std::endl;
   } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos) {
     selectStatement = t_queryInput;
   }
 
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
-  //std::cout << synonym << " before trimming " << std::endl;
   synonym = m_stringUtil.trimString(synonym);
-  //std::cout << synonym << " after trimming " << std::endl;
+
+  Grammar g1;
   
   //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
   //storing select queue synonyms
   int counterM = 0;
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
-    Grammar g1 = m_grammarVector.at(counterM);
+    g1 = m_grammarVector.at(counterM);
     std::string grammarName = g1.getName();
     
     //std::cout << grammarName << " this is the grammarName" << std::endl;
@@ -363,6 +368,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
       m_selectQueue.push(g1);
     }
+  }
+
+  if (synonym == BOOLEAN && m_grammarVector.size() == 0) {
+    g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
+    m_selectQueue.push(g1);
   }
 
   //Checks if the select statement synonym is not declared
@@ -1153,12 +1163,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     withStatement = m_stringUtil.trimString(withStatement);
     std::string delimiterSpace1 = " ";
     std::string withObject = withStatement.substr(withStatement.find(delimiterSpace1), withStatement.size());
+    withObject = m_stringUtil.trimString(withObject);
+
+    //Check if with expression contains =
+    if (withObject.find('=') == std::string::npos) {
+      return false;
+    }
 
     std::string withLeft = withObject.substr(0, withObject.find("="));
-    std::string withRight = withObject.substr(withObject.find("="), withObject.size());
+    std::string withRight = withObject.substr(withObject.find("=") + 1, withObject.size());
 
     withLeft = m_stringUtil.trimString(withLeft);
     withRight = m_stringUtil.trimString(withRight);
+
+    //Check if with expression is empty on either side =
+    if (withLeft == "" || withRight == "") {
+      return false;
+    }
 
     Grammar withLeftGrammar;
     Grammar withRightGrammar;
@@ -1176,6 +1197,19 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     if (!(convertRight >> withRightInt)) {
       withRightInt = 0;
     }
+    //Check if both are strings
+    if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
+      if (withLeft != withRight) {
+        return false;
+      } else if (withLeft == withRight) {
+        removeCharsFromString(withLeft, "\\\" ");
+        removeCharsFromString(withRight, "\\\" ");
+        withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
+        withRightGrammar = Grammar(queryType::GType::STR, withRight);
+
+        With withObjectCreated(withLeftGrammar, withRightGrammar);
+        m_withQueue.push(withObjectCreated);
+      }
 
     //Check if both left and right are numbers
     if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
@@ -1183,6 +1217,9 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
       withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
       withRightGrammar = Grammar(queryType::GType::CONST, withRight);
+      
+      With withObjectCreated(withLeftGrammar, withRightGrammar);
+      m_withQueue.push(withObjectCreated);
     }
 
     //Check orientation of parameters: left integer, right attribute
@@ -1213,8 +1250,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (isWithTrue == false) {
         return false;
       }
+    } else if (withLeft.find('.') == std::string::npos && withRight.find('"') != std::string::npos) {
+      return false;
+    } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
+      return false;
     }
-  }
+  } 
 
   isTokenized = true;
   return isTokenized;
@@ -1263,7 +1304,14 @@ std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToR
 }
 
 bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  withAttributeProcessor(attribute, withLeftGrammar);
+  std::string tempAttribute = attribute;
+  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
+
+  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
+  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
+
+  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
   
   //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
   if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
@@ -1281,33 +1329,56 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
     && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
 
     withRightGrammar = Grammar(queryType::GType::CONST, integer);
-  } 
-
-  return true;
+  }
+  if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
+    || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string inputString, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  withAttributeProcessor(attribute, withLeftGrammar);
-  
+  std::string tempAttribute = attribute;
+  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
+
+  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
+  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
+
+  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+
   removeCharsFromString(inputString, "\"");
   withRightGrammar = Grammar(queryType::GType::STR, inputString);
-  
-  if (withLeftGrammar.getAttr() != queryType::AType::PROC_NAME
-    || withLeftGrammar.getAttr() != queryType::AType::VAR_NAME) {
-    return false;
-  } else {
+
+  if (withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::PROC
+    || withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::CALL
+    || withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && withLeftGrammar.getType() == queryType::GType::VAR) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
     return true;
+  } else {
+    return false;
   }
 }
 
 void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  withAttributeProcessor(leftAttribute, withLeftGrammar);
-  withAttributeProcessor(rightAttribute, withRightGrammar);
+  withLeftGrammar = withAttributeProcessor(leftAttribute, withLeftGrammar);
+  withRightGrammar = withAttributeProcessor(rightAttribute, withRightGrammar);
+  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
 }
 
-void QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
+Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
   std::string withSynonym = attribute.substr(0, attribute.find("."));
-  std::string withAttribute = attribute.substr(attribute.find("."), attribute.size());
+  std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
 
   withSynonym = m_stringUtil.trimString(withSynonym);
   withAttribute = m_stringUtil.trimString(withAttribute);
@@ -1317,7 +1388,7 @@ void QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar wi
     if (m_grammarVector.at(counterS).getName() == withSynonym) {
       if (withAttribute == PROCNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::PROC_NAME);
+        withGrammar.setAType(queryType::AType::PROC_NAME);        
       } else if (withAttribute == VARNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::VAR_NAME);
@@ -1331,4 +1402,5 @@ void QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar wi
 
     }
   }
+  return withGrammar;
 }

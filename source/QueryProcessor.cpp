@@ -28,10 +28,15 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInp
       evaluatedResults = qe->evaluateQuery();
       delete qe;
 
-      QueryResultProjector qrp;
-      resultList = qrp.formatResult(evaluatedResults);
     }
   }
+  
+  std::queue<Grammar> selectQueue2 = qpp.getSelect();
+  if (selectQueue2.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()) {
+    evaluatedResults.push_back("false");
+  }
 
+  QueryResultProjector qrp;
+  resultList = qrp.formatResult(evaluatedResults);
   return resultList;
 }
