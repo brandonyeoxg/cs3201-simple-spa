@@ -32,11 +32,7 @@ int ParserDriver::parseProcedure() {
 }
 
 int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  if (isMatchToken(EMPTY_LINE)) {
-    return 1;
-  }
-  m_curLineNum += 1;
-  m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
+  Parser::parseStmt(t_stmtInStmtLst);
   return 1;
 }
 

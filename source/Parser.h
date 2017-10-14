@@ -91,6 +91,14 @@ protected:
   */
   bool isNonContainerStmt(const STRING_TOKEN& t_token);
 
+  /*
+  * Parses the statement.
+  *
+  * @param t_node the reference to the stmtLst node
+  * @return -1 if there is syntax error.
+  */
+  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+
 private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
   LIST_OF_TOKENS m_curTokens;
@@ -112,14 +120,6 @@ private:
   * @return -1 if there is syntax error.
   */
   void parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
-
-  /*
-  * Parses the statement.
-  *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
-  */
-  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
 
   /*
   * Parses the assignment statement.

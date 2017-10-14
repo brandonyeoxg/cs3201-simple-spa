@@ -28,6 +28,8 @@ namespace IntegrationTesting
     TEST_METHOD_CLEANUP(CleanupPkbAndParser) 
     {
       std::remove(m_tmpFileName.c_str());
+      delete m_pkb;
+      delete m_parser;
     }
 
 		TEST_METHOD(TestParserAndPKBProcedure)
@@ -45,39 +47,57 @@ namespace IntegrationTesting
       Assert::AreEqual(*actual.begin(), std::string("main"));
     }
 
-    TEST_METHOD(TestParserAndPKBStmt) // This only tests follows relation
+    TEST_METHOD(TestParserAndPKBFollows) // This only tests follows relation
     {
       m_tmpFile << "procedure main {x=y;}\n";
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
-      LIST_OF_STMT_NUMS stmtList;
-      m_parser->parseStmt(stmtList);
+      LIST_OF_STMT_NUMS dummyStmtList;
+      m_parser->parseStmt(dummyStmtList);
 
       // Follow table should be empty
       FollowTable* followTable = m_pkb->getFollowTable();
-      std::vector<int> actual = followTable->getFollowsAnything();
+      LIST_OF_STMT_NUMS actual = followTable->getFollowsAnything();
       Assert::AreEqual(actual.size(), size_t(0));
-
-      // Parent table should be empty
-      ParentTable* parentTable = m_pkb->getParentTable();
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(0));
-
       delete m_parser;
+
       m_parser = new ParserDriver(m_pkb);
       m_tmpFile.open(m_tmpFileName);
       m_tmpFile << "x=y;\ny=x;\n";
       m_tmpFile.close();
       m_parser->openFileStream(m_tmpFileName);
-      m_parser->parseStmt(stmtList);
-      stmtList.push_back(1);
-      m_parser->parseStmt(stmtList);
+      m_parser->parseStmt(dummyStmtList);
+      dummyStmtList.push_back(1);
+      m_parser->parseStmt(dummyStmtList);
 
       // Follow table should be populated with 1 follows relation
       actual = followTable->getFollowsAnything();
       Assert::AreEqual(actual.size(), size_t(1));
       Assert::IsTrue(m_pkb->isFollows(1, 2));
       Assert::IsFalse(m_pkb->isFollows(0, 1));
+    }
+
+    TEST_METHOD(TestParserAndPKBParent)
+    {
+      m_tmpFile << "procedure main {\n x=y;}\n";
+      m_tmpFile.close();
+      m_parser->openFileStream(m_tmpFileName);
+      LIST_OF_STMT_NUMS dummyStmtList;
+      m_parser->parseProcedure();
+      m_parser->parseStmt(dummyStmtList);
+
+      ParentTable* parentTable = m_pkb->getParentTable();
+      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(0));
+
+      m_tmpFile.open(m_tmpFileName);
+      m_tmpFile << "while i { \nx=y;}";
+      m_tmpFile.close();
+      m_parser->openFileStream(m_tmpFileName);
+      m_parser->parseStmt(dummyStmtList);
+      
+      actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(1));
     }
 	};
 }
