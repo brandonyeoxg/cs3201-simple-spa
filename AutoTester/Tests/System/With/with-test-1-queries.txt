@@ -165,18 +165,18 @@ Select ca1 with ca2.stmt#=6
 5000
 34 - With Stmt# Functionality Test
 while w1, w2;
-Select w1 with w2.stmt#
+Select w1 with w2.stmt#=1
 1
 5000
 35 - With Stmt# Functionality Test
 if ifs1, ifs2;
-Select ifs1 with ifs2.stmt#=
+Select ifs1 with ifs2.stmt#=3
 3
 5000
-36 - With Stmt# Functionality Test
+36 - With Stmt# Invalid Test 0
 prog_line pl1, pl2;
 Select pl1 with pl2.stmt#=1
-1, 2, 3, 4, 5, 6, 7
+none
 5000
 37 - With Stmt# Invalid Test 1
 procedure p1, p2;

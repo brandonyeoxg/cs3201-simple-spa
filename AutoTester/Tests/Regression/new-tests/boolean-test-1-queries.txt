@@ -10,7 +10,7 @@ true
 5000
 3 - Test BOOLEAN with declarations + true Follows - True
 stmt s;
-Select BOOLEAN such that Follows(2,7)
+Select BOOLEAN such that Follows(2,9)
 true
 5000
 4 - Test BOOLEAN with declarations + false Follows - False
@@ -25,12 +25,12 @@ true
 5000
 6 - Test BOOLEAN with declarations + false Follows - False
 stmt s1, s2;
-Select BOOLEAN such that Follows(5,s2)
+Select BOOLEAN such that Follows(6,s2)
 false
 5000
 7 - Test BOOLEAN with no declarations + true Follows - True
 
-Select BOOLEAN such that Follows(2,7)
+Select BOOLEAN such that Follows(2,9)
 true
 5000
 8 - Test BOOLEAN with no declarations + false Follows - False
