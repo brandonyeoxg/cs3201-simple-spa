@@ -24,7 +24,6 @@
     <ClCompile Include="TestUsesTable.cpp" />
     <ClCompile Include="TestStmtListTable.cpp" />
     <ClCompile Include="TestStatementTable.cpp" />
-    <ClCompile Include="TestBracketValidator.cpp" />
     <ClCompile Include="TestNextTable.cpp" />
     <ClCompile Include="TestIntermediateTable.cpp" />
     <ClCompile Include="TestTokeniserUtil.cpp" />

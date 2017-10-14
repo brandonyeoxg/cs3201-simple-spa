@@ -205,9 +205,6 @@
     <ClCompile Include="..\source\UsesExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\BracketValidator.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\IntermediateTable.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
@@ -477,9 +474,6 @@
     </ClInclude>
     <ClInclude Include="..\source\SyntaxInvalidTerm.h">
       <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\BracketValidator.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\IntermediateTable.h">
       <Filter>PQL</Filter>
