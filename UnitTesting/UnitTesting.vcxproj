@@ -162,7 +162,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestBracketValidator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -189,6 +188,7 @@
     <ClCompile Include="TestStatementTable.cpp" />
     <ClCompile Include="TestStmtListTable.cpp" />
     <ClCompile Include="TestStringUtil.cpp" />
+    <ClCompile Include="TestTokeniserUtil.cpp" />
     <ClCompile Include="TestUsesP.cpp" />
     <ClCompile Include="TestUsesTable.cpp" />
   </ItemGroup>

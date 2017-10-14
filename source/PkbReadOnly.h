@@ -71,13 +71,13 @@ public:
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<STMT_NUM, STMT_NUM> getAllFollows() = 0;
+  virtual MAP_OF_STMT_NUMS getAllFollows() = 0;
 
   /**
   * Method that returns the entire map of line numbers that satisfy the follow* relationship.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  virtual std::unordered_map<STMT_NUM, std::vector<int>> getAllFollowsStar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllFollowsStar() = 0;
 
   /**
   * Method that returns the list of line numbers that is followed by another statement.
@@ -113,90 +113,89 @@ public:
   //  ParentTable
   ///////////////////////////////////////////////////////
   /**
-  * Method that checks if parent(t_s1, t_s2) holds.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * Method that checks if parent(s1, s2) holds.
+  * Checks if s2 exists as value mapped to key s1 in parentMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
   virtual bool isParent(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
-  * Method that checks if parent*(t_s1, t_s2) holds.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * Method that checks if parent*(s1, s2) holds.
+  * Checks if s2 exists in vector mapped to key s1 in parentStarMap.
+  * @param t_s1 an integer argument.
+  * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
   virtual bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the line numuber that is the parent of t_s2.
-  * For example: stmt s; parent(s, 4).
+  * Method that returns the statement number that is the parent of s2.
+  * Checks if key s2 exists in parentMap.
+  * @throw invalid_arguement exception if key does not exist.
   * @param t_s2 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a statement number.
   */
   virtual STMT_NUM getParentOf(STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children of t_s1.
-  * For example: stmt s; parent(4, s).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s1 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getChildrenOf(STMT_NUM t_s1) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent* of t_s2.
-  * For example: stmt s; parent*(s, 4).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, t_s2).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s2 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getParentStarOf(STMT_NUM t_s2) = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children* of t_s1.
-  * For example: stmt s; parent*(4, s).
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(t_s1, x).
+  * Returns empty vector if no relationship holds for all statement numbers.
   * @param t_s1 an integer argument.
-  * @return a vector of line numbers that satisfy the condition.
+  * @return a vector of statement numbers.
   */
   virtual LIST_OF_STMT_NUMS getChildrenStarOf(STMT_NUM t_s1) = 0;
 
   /**
-  * Method that returns the entire of parent relationship.
-  * @return an unordered_map i.e. parentMap.
+  * Method that returns the entire map of line numbers that satisfy the parent relationship.
+  * @return the unordered map that keep tracks of the parent relationship.
   */
-  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParents() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParents() = 0;
 
   /**
-  * Method that returns the entire of parent* relationship.
-  * @return an unordered_map i.e. parentStarMap.
+  * Method that returns the entire map of line numbers that satisfy the parent* relationship.
+  * @return the unordered map that keep tracks of the parent* relationship.
   */
-  virtual std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> getAllParentsStar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllParentsStar() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the children of any line.
-  * For example: stmt s2; parent(_, s2).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(_, x).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getChildrenOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s1; parent(s1, _).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent(x, _).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getParentOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s2; parent*(_, s2).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(_, x).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getChildrenStarOfAnything() = 0;
 
   /**
-  * Method that returns the vector of line numubers that are the parent of any line.
-  * For example: stmt s1; parent*(s1, _).
-  * @return a vector of line numbers that satisfy the condition.
+  * Method that returns a vector of statement numbers, x that satisfy the relationship parent*(x, _).
+  * @return the vector of keys within the parentTable.
   */
   virtual LIST_OF_STMT_NUMS getParentStarOfAnything() = 0;
 
@@ -248,13 +247,13 @@ public:
   * Method that retrieves the TypeOfStatementTable.
   * @return the unordered_map of the statement's line number mapped to the type of the statement.
   */
-  virtual std::unordered_map<STMT_NUM, queryType::GType> getTypeOfStatementTable() = 0;
+  virtual MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable() = 0;
 
   /**
   * Method that retrieves the StatementTypeTable.
   * @return the unordered_map of type of the statement mapped to its line number.
   */
-  virtual std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS>  getStatementTypeTable() = 0;
+  virtual MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable() = 0;
 
   virtual LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type) = 0;
 
@@ -400,20 +399,103 @@ public:
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method to check if the relationship calls(t_proc1, t_proc2) holds.
+  * @param t_proc1 a procedure that calls another procedure.
+  * @param t_proc2 a procedure to be called.
+  * @return true if relationship holds, false if otherwise. 
+  */
   virtual bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to check if the relationship calls*(t_proc1, t_proc2) holds.
+  * @param t_proc1 a procedure that calls* another procedure.
+  * @param t_proc2 a procedure to be called.
+  * @return true if relationship holds, false if otherwise.
+  */
   virtual bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls(p, t_proc2) holds.
+  * @param t_proc2 a procedure to be called.
+  * @return a vector of precedures that calls t_proc2.
+  */
   virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls(t_proc1, p) holds.
+  * @param t_proc1 a procedure that calls p.
+  * @return a vector of precedures that are called by t_proc1.
+  */
   virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls*(p, t_proc2) holds.
+  * @param t_proc2 a procedure to be called*.
+  * @return a vector of precedure that fulfills the relationship.
+  */
   virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
+
+  /**
+  * Method to get a vector of procedure p that the relationship calls*(t_proc1, p) holds.
+  * @param t_proc1 a procedure that calls* p.
+  * @return a vector of precedures that fulfills the relationship.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
-  virtual std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls() = 0;
-  virtual std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar() = 0; //calls*(proc1, proc2) 
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the calls relationship.
+  * @return the entire map that keep tracks of the calls relationship.
+  */
+  virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
+
+  /**
+  * Method that returns the entire map of line numbers that satisfy the calls* relationship.
+  * @return the entire map that keep tracks of the calls* relationship.
+  */
+  virtual MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES getAllCallsStar() = 0; //calls*(proc1, proc2) 
+
+  /**
+  * Method that returns the vector of procedure names that calls another procedure.
+  * @return the vector of keys within the callsMap.
+  */
   virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
+
+  /**
+  * Method that returns the vector of procedure names that calls* another procedure.
+  * @return the vector of keys within the callsStarMap.
+  */
   virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
+
+  /**
+  * Method that returns the vector of procedure names that called by another procedure.
+  * @return the vector of keys within the calledByMap.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByAnything() = 0; //calls(_, proc2)
+
+  /**
+  * Method that returns the vector of procedure names that called by* another procedure.
+  * @return the vector of keys within the calledByStarMap.
+  */
   virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
+
+  /**
+  * Method that checks if a calls relationship exists in the SIMPLE program.
+  * @return true if relationship exists, false if otherwise.
+  */
   virtual bool hasCallsRelationship() = 0;  //calls(_, _)
+
+  /**
+  * Method that checks if procedure t_proc1 calls another procedure.
+  * @return true if it does, false if otherwise.
+  */
   virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
+
+  /**
+  * Method that checks if procedure t_proc2 was called by another procedure.
+  * @return true if it does, false if otherwise.
+  */
   virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
 
   ///////////////////////////////////////////////////////
@@ -427,21 +509,91 @@ public:
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method that checks if the procedure t_procName contains t_varName that is being modified.
+  * @param t_procName the procedure name.
+  * @param t_varName the variable name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+
+  /**
+  * Method that checks if the procedure t_procName contains any variables that are being modified.
+  * @param t_procName the procedure name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+
+  /**
+  * Method that returns the list of variable names in modifiesP using the index number of the procedure.
+  * @param t_procName the procedure name.
+  * @return the vector of variable names.
+  */
   virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+
+  /**
+  * Method that returns the list of procedure names in modifiesP using the index number of the variable.
+  * @param t_varName the variable name.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+
+  /**
+  * Method that returns the entire map of procedures p that satisfy the Modifies(p, x) where x is any variable.
+  * @return the map of procedures mapped to variable names.
+  */
   virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+
+  /**
+  * Method that returns the list of procedure names in modifiesP.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
 
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Method that checks if the procedure t_procName contains t_varName that is being used.
+  * @param t_procName the procedure name.
+  * @param t_varName the variable name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Uses("First", "x") */
+
+  /**
+  * Method that checks if the procedure t_procName contains any variables that are being used.
+  * @param t_procName the procedure name.
+  * @return true if the relationship holds, false if otherwise.
+  */
   virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+
+  /**
+  * Method that returns the list of variable names in usesP using the index number of the procedure.
+  * @param t_procName the procedure name.
+  * @return the vector of variable names.
+  */
   virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Uses("First", x) */
+
+  /**
+  * Method that returns the list of procedure names in usesP using the index number of the variable.
+  * @param t_varName the variable name.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Uses(p, "x") */
+
+  /**
+  * Method that returns the entire map of procedures p that satisfy the uses(p, x) where x is any variable.
+  * @return the map of procedures mapped to variable names.
+  */
   virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Uses(p, x) */
+
+  /**
+  * Method that returns the list of procedure names in usesP.
+  * @return the vector of procedure names.
+  */
   virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
 
   ///////////////////////////////////////////////////////

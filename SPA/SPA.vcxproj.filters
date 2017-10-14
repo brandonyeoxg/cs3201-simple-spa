@@ -205,9 +205,6 @@
     <ClCompile Include="..\source\UsesExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\BracketValidator.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\IntermediateTable.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
@@ -230,6 +227,9 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="..\source\EvaluatorUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TokeniserUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
@@ -475,9 +475,6 @@
     <ClInclude Include="..\source\SyntaxInvalidTerm.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\BracketValidator.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\IntermediateTable.h">
       <Filter>PQL</Filter>
     </ClInclude>
@@ -500,6 +497,9 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\EvaluatorUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TokeniserUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>

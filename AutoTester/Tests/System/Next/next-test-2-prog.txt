@@ -7,8 +7,8 @@ procedure Llama{
       c=78;}
     else{
       d=f-e;
-      f=d*e;}
-  call Pajama;}
+      f=d*e;}}
+  call Pajama;
 }
 
 procedure Alpaca{

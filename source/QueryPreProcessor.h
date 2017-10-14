@@ -15,6 +15,7 @@
 #include "Grammar.h"
 #include "Relation.h"
 #include "Pattern.h"
+#include "With.h"
 #include "PKB.h"
 #include "StringUtil.h"
 #include "GlobalTypeDef.h"
@@ -103,6 +104,12 @@ public:
   std::queue<Pattern> QueryPreProcessor::getPattern(void);
 
   /**
+  * A getter method for the With Queue variables.
+  * @return a With object Queue containing all variables within the With clause.
+  */
+  std::queue<With> QueryPreProcessor::getWith(void);
+
+  /**
   * A getter method for the Grammar vector variables.
   * @return a Grammar object Vector containing all variables declared within the declaration.
   */
@@ -122,15 +129,48 @@ public:
   std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
 
   /**
-  * DEBUGGING METHODS: 
-  * Check if with clause appears
+  * A method that takes in an attribute string and number and calls other methods to process
+  * @param attribute being the side that has an attribute
+  * @param integer being a constant for constant value or stmt#
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  std::string QueryPreProcessor::getWithStatement(void);
+  bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A method that takes in an attribute string and string and calls other methods to process
+  * @param attribute being the side that has an attribute
+  * @param string being a string for procName/varName
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string string, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A method that takes in 2 attribute strings and calls other methods to process
+  * @param leftAttribute being the left side that has an attribute
+  * @param rightAttribute being the left side that has an attribute
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A method that takes in a string that contains an attribute and processes it
+  * @param attribute being the string that contains the attribute
+  * @param withGrammar being the Grammar to be formed on the left side
+  * @return Grammar object with its attributes
+  */
+  Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
 
 private:
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
+  std::queue<With> m_withQueue;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;

@@ -4,7 +4,7 @@
 
 bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == "_") {
-    if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
+    if (t_pkb->hasNextLine(std::stoi(t_g1.getName()))) {
       //std::cout << "Next By Anything!\n";
       return true;
     } else {
@@ -12,7 +12,7 @@ bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g
       return false;
     }
   } else if (t_g1.getName() == "_") {
-    if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
+    if (t_pkb->hasLineBefore(std::stoi(t_g2.getName()))) {
       //std::cout << "Next To Anything!\n";
       return true;
     } else {
@@ -20,7 +20,7 @@ bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g
       return false;
     }
   } else {
-    if (t_pkb->isFollows(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
+    if (t_pkb->isNext(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
       //std::cout << "Next: True\n";
       return true;
     } else {
@@ -31,7 +31,7 @@ bool NextEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g
 }
 
 bool NextEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasFollowRelationship()) {
+  if (t_pkb->hasNextRelationship()) {
     //std::cout << "Has Next Relationship!\n";
     return true;
   } else {
@@ -44,28 +44,20 @@ SET_OF_RESULTS NextEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
-      //std::cout << "getNext - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getNext(s1)\n";
+    std::vector<int> stmts = t_pkb->getLinesAfter(std::stoi(t_g1.getName()));
+    if (stmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g2);
+    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g2);
     m_result[t_g2.getName()] = stmtVector;
   } else if (t_g1.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
+    std::vector<int> stmtIntVector = t_pkb->getAllLinesAfterAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g2);
-    }
-
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
     m_result[t_g2.getName()] = stmtStrVector;
   }
 
@@ -76,28 +68,20 @@ SET_OF_RESULTS NextEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
-      //std::cout << "getNextBy - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getNextBy(s2)\n";
+    std::vector<int> stmts = t_pkb->getLinesBefore(std::stoi(t_g2.getName()));
+    if (stmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
+    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
+    std::vector<int> stmtIntVector = t_pkb->getAllLinesBeforeAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g1);
-    }
-
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
     m_result[t_g1.getName()] = stmtStrVector;
   }
 
@@ -107,12 +91,12 @@ SET_OF_RESULTS NextEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
 SET_OF_RESULTS NextEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
-  if (allFollows.empty()) {
+  std::unordered_map<int, std::vector<int>> allNext = t_pkb->getAllNext();
+  if (allNext.empty()) {
     return m_result;
   }
 
-  for (auto& x : allFollows) {
+  for (auto& x : allNext) {
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
     m_result[std::to_string(x.first)] = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
   }

@@ -12,34 +12,6 @@ public:
   int parseStmt(LIST_OF_STMT_NUMS&);
 
   /*
-  * Returns true if the token is an operator.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool testIsOperator(const std::string& t_token);
-
-  /*
-  * Returns true if the token is a brace.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool testIsBrace(const std::string& t_token);
-
-  /*
-  * Returns true if the token is any key delimiter like a space or a brace or operator.
-  *
-  * @param t_token the token to be checked.
-  */
-  bool testIsKeyDelimiter(const std::string& t_token);
-
-  /*
-  * Tokenises the line into tokens
-  *
-  * @param t_line the line to be tokenised
-  */
-  std::vector<std::string> testTokeniseLine(const std::string& t_line);
-
-  /*
   * Returns true if the token is a valid name.
   * A valid name refers to LETTER(LETTER|DIGIT)+.
   */

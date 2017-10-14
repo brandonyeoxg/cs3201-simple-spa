@@ -303,7 +303,7 @@ StatementTable* PKB::getStatementTable() {
   return m_statementTable;
 }
 
-std::unordered_map<STMT_NUM, queryType::GType> PKB::getTypeOfStatementTable() {
+MAP_OF_STMT_NUM_TO_GTYPE PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
 

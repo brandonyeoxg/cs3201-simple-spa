@@ -1,0 +1,32 @@
+procedure A{
+  while i{
+    a=1;}
+  if j then{
+    while d{
+      call B;
+      if e then{
+        call C;}
+      else{
+        call D;}}}
+  else{
+    b=2;
+    call B;}
+}
+
+procedure B{
+  c=3;
+  call C;
+}
+
+procedure C{
+  call D;
+  if A then{
+    call D;}
+  else{
+    while B{
+      C=c+1;}}
+}
+
+procedure D{
+  D=a+b*c-C;
+}

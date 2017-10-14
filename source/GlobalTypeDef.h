@@ -34,6 +34,10 @@ typedef std::unordered_map<std::string, std::vector<int>> MAP_OF_VAR_NAME_TO_STM
 typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
 typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
 typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
+typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
+typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
+typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
@@ -43,8 +47,11 @@ const int INVALID_INDEX = -1;
 const std::string OPERATOR_MULTIPLY = "*";
 const std::string OPERATOR_MINUS = "-";
 const std::string OPERATOR_PLUS = "+";
+
 const std::string BRACKET_OPEN = "(";
 const std::string BRACKET_CLOSE = ")";
+
+const std::string EMPTY_LINE = "";
 
 /*Called in QueryPreProcessor.h, by aaron*/
 
@@ -124,4 +131,7 @@ namespace queryType {
     AFFECTS, /**< An enum value representing the Affects relation. */
     AFFECTS_ /**< An enum value representing the Affects* relation. */
   };
-}
+};
+
+typedef std::unordered_map<STMT_NUM, queryType::GType> MAP_OF_STMT_NUM_TO_GTYPE;
+typedef std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS;

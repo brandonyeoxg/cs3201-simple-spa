@@ -1,0 +1,25 @@
+Test 1
+
+11 - Multiple Clauses Such That Pattern Functionality Test
+stmt s1, s2; assign a; variable v;
+Select BOOLEAN such that Affects (s1, s2) pattern a (v, "1")
+true
+5000
+12 - Multiple Clauses Such That Pattern Functionality Test
+stmt s1, s2; assign a; variable v;
+Select BOOLEAN such that Affects* (s1, s2) pattern a (v, "2")
+true
+5000
+
+Test 2
+
+11 - Multiple Clauses Such That Pattern Functionality Test
+stmt s1, s2; assign a; variable v;
+Select BOOLEAN such that Affects (s1, s2) pattern a (v, "1")
+true
+5000
+12 - Multiple Clauses Such That Pattern Functionality Test
+stmt s1, s2; assign a; variable v;
+Select BOOLEAN such that Affects* (s1, s2) pattern a (v, "2")
+true
+5000

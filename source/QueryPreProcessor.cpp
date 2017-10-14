@@ -37,6 +37,10 @@ std::queue<Pattern> QueryPreProcessor::getPattern(void) {
   return m_patternQueue;
 }
 
+std::queue<With> QueryPreProcessor::getWith(void) {
+  return m_withQueue;
+}
+
 std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void) {
   return m_synonymMap;
 }
@@ -64,120 +68,121 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
 
 bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
   bool isTokenized = false;
-  std::vector<std::string> declarationVector;
-  //std::cout << t_declarationInput << "test1" << std::endl;
+  if (t_declarationInput == "") {
+    return true;
+  } else {
+    std::vector<std::string> declarationVector;
+    //std::cout << t_declarationInput << "test1" << std::endl;
 
-  std::string starterString;
-  //tokens are split by ;
-  std::size_t prev_pos = 0, pos;
-  starterString = m_stringUtil.trimString(t_declarationInput);
-  //std::cout << "Starter String: " << starterString << std::endl;
+    std::string starterString;
+    //tokens are split by ;
+    std::size_t prev_pos = 0, pos;
+    starterString = m_stringUtil.trimString(t_declarationInput);
 
-  //for cases with only one relation(such that)
-  if ((pos = starterString.find(";", prev_pos)) == std::string::npos) {
-    declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
-  }
-
-  //rest of cases
-  else {
-    while ((pos = starterString.find(";", prev_pos)) != std::string::npos) {
-      if (prev_pos == 0) {
-        declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
-        prev_pos = pos + 1;
-      }
-      if (pos > prev_pos) {
-        declarationVector.push_back(starterString.substr(prev_pos + 1, pos - prev_pos - 1)); //prev pos + 1 so that we can delete the trailing space in "; "
-      } prev_pos = pos + 1;
-    }
-    if (prev_pos < starterString.length()) {
-      declarationVector.push_back(starterString.substr(prev_pos + 1, std::string::npos));  //prev pos + 1 so that we can delete the trailing space in "; "
-    }
-  }
-
-  std::string delimiterSpace = " ";
-  std::string tempString;
-
-  for (std::size_t j = 0; j != declarationVector.size(); ++j) {
-    tempString = declarationVector.at(j);
-    tempString = m_stringUtil.trimString(tempString);
-
-    std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
-    std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
-
-    entity = m_stringUtil.trimString(entity);
-    variables = m_stringUtil.trimString(variables);
-    //Checks whether there is no entity for the synonym e.g stmt s; s1; variable v;
-    if (entity == variables) {
-      return false;
+    //for cases with only one relation(such that)
+    if ((pos = starterString.find(";", prev_pos)) == std::string::npos) {
+      declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
     }
 
-    //Check if string is properly named: s, s1, s#..
-    char cBack;
-    char cFront;
-    cFront = variables.front();
-    cBack = variables.back();
-    if (isalpha(cFront) && isalnum(cBack)
-      || isalpha(cFront) && cBack == '#') {
-      //std::cout << "This is entity: " << entity << std::endl;
-      //std::cout << "This is variables: " << variables << std::endl;
-
-      prev_pos = 0;
-      std::vector<std::string> variableVector;
-      while ((pos = variables.find_first_of(", ", prev_pos)) != std::string::npos) {
+    //rest of cases
+    else {
+      while ((pos = starterString.find(";", prev_pos)) != std::string::npos) {
+        if (prev_pos == 0) {
+          declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
+          prev_pos = pos + 1;
+        }
         if (pos > prev_pos) {
-          variableVector.push_back(variables.substr(prev_pos, pos - prev_pos));
-        }
-        prev_pos = pos + 1;
+          declarationVector.push_back(starterString.substr(prev_pos + 1, pos - prev_pos - 1)); //prev pos + 1 so that we can delete the trailing space in "; "
+        } prev_pos = pos + 1;
       }
-      if (prev_pos < variables.length()) {
-        variableVector.push_back(variables.substr(prev_pos, std::string::npos));
+      if (prev_pos < starterString.length()) {
+        declarationVector.push_back(starterString.substr(prev_pos + 1, std::string::npos));  //prev pos + 1 so that we can delete the trailing space in "; "
       }
-
-      //std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
-
-      int counterL = 0;
-      for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
-        if (entity == PROCEDURE) {
-          Grammar g(queryType::GType::PROC, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == STMTLST) {
-          Grammar g(queryType::GType::ST_LST, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == STMT) {
-          Grammar g(queryType::GType::STMT, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == ASSIGN) {
-          Grammar g(queryType::GType::ASGN, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == WHILE) {
-          Grammar g(queryType::GType::WHILE, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == IF) {
-          Grammar g(queryType::GType::IF, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == VARIABLE) {
-          Grammar g(queryType::GType::VAR, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == CONSTANT) {
-          Grammar g(queryType::GType::CONST, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == PROG_LINE) {
-          Grammar g(queryType::GType::PROG_LINE, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == BOOLEAN) {
-          Grammar g(queryType::GType::BOOLEAN, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else if (entity == CALL) {
-          Grammar g(queryType::GType::CALL, variableVector.at(counterL));
-          m_grammarVector.push_back(g);
-        } else {
-          //do nothing
-        }
-      }
-    } else {
-      return false;
     }
-  } 
+
+    std::string delimiterSpace = " ";
+    std::string tempString;
+
+    for (std::size_t j = 0; j != declarationVector.size(); ++j) {
+      tempString = declarationVector.at(j);
+      tempString = m_stringUtil.trimString(tempString);
+
+      std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
+      std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
+
+      entity = m_stringUtil.trimString(entity);
+      variables = m_stringUtil.trimString(variables);
+      //Checks whether there is no entity for the synonym e.g stmt s; s1; variable v;
+      if (entity == variables) {
+        return false;
+      }
+
+      //Check if string is properly named: s, s1, s#..
+      char cBack;
+      char cFront;
+      cFront = variables.front();
+      cBack = variables.back();
+      if (isalpha(cFront) && isalnum(cBack)
+        || isalpha(cFront) && cBack == '#') {
+
+        prev_pos = 0;
+        std::vector<std::string> variableVector;
+        while ((pos = variables.find_first_of(", ", prev_pos)) != std::string::npos) {
+          if (pos > prev_pos) {
+            variableVector.push_back(variables.substr(prev_pos, pos - prev_pos));
+          }
+          prev_pos = pos + 1;
+        }
+        if (prev_pos < variables.length()) {
+          variableVector.push_back(variables.substr(prev_pos, std::string::npos));
+        }
+
+        //std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
+
+        int counterL = 0;
+        for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
+          if (entity == PROCEDURE) {
+            Grammar g(queryType::GType::PROC, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == STMTLST) {
+            Grammar g(queryType::GType::ST_LST, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == STMT) {
+            Grammar g(queryType::GType::STMT, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == ASSIGN) {
+            Grammar g(queryType::GType::ASGN, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == WHILE) {
+            Grammar g(queryType::GType::WHILE, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == IF) {
+            Grammar g(queryType::GType::IF, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == VARIABLE) {
+            Grammar g(queryType::GType::VAR, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == CONSTANT) {
+            Grammar g(queryType::GType::CONST, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == PROG_LINE) {
+            Grammar g(queryType::GType::PROG_LINE, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == BOOLEAN) {
+            Grammar g(queryType::GType::BOOLEAN, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else if (entity == CALL) {
+            Grammar g(queryType::GType::CALL, variableVector.at(counterL));
+            m_grammarVector.push_back(g);
+          } else {
+            //do nothing
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+  }
   isTokenized = true;
   return isTokenized;
 }
@@ -334,23 +339,27 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
     patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
   } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos) {
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
+    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
     withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
+    std::cout << "with" << std::endl;
   } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos) {
     selectStatement = t_queryInput;
   }
 
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
-  //std::cout << synonym << " before trimming " << std::endl;
   synonym = m_stringUtil.trimString(synonym);
-  //std::cout << synonym << " after trimming " << std::endl;
+
+  Grammar g1;
   
   //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
   //storing select queue synonyms
   int counterM = 0;
   for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
-    Grammar g1 = m_grammarVector.at(counterM);
+    if (m_selectQueue.size() == 1) {
+      break;
+    }
+    g1 = m_grammarVector.at(counterM);
     std::string grammarName = g1.getName();
     
     //std::cout << grammarName << " this is the grammarName" << std::endl;
@@ -364,6 +373,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
   }
 
+  if (synonym == BOOLEAN && m_grammarVector.size() == 0) {
+    g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
+    m_selectQueue.push(g1);
+  }
+
   //Checks if the select statement synonym is not declared
   if (m_selectQueue.size() == 0) {
     return false;
@@ -371,7 +385,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
-  m_synonymMap.insert({ selectGrammar.getName(), 1});
+  m_synonymMap.insert({ selectGrammar.getName(), 1 });
   //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
@@ -436,12 +450,12 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
     int counterK = 0;
     int counterQ = 0;
-    
+
     //storing designabstractionqueue synonyms
 
     Grammar g1;
     Grammar g2;
-   
+
     //case: both synonyms are the same. e.g Follows(s, s)
     if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != "_")) {
       //return empty list
@@ -450,6 +464,166 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
 
     else {
+      //Checks for no declaration first before moving on to check for synonyms
+      //Follows and Follows*
+      if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, Number
+        if (sTInt1 > 0 && sTInt2 > 0 ) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //_, Number
+        } else if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        // _, _
+        } else if (sTName1 == "_" && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      //Parent and Parent*
+      } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, Number
+        if (sTInt1 > 0 && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } else if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          // _, _
+        } else if (sTName1 == "_" && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      //Uses, Modifies
+      } else if(designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //Number, String
+        if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+         //Number, _
+        } else if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //String, String
+        } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //String, _
+        } else if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+      
+      //Call, Calls*
+      } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        //String, _
+        if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        //_, String
+        } else if (sTName1 == "_" && sTName2.find('"') != std::string::npos) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+        }
+
+      } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+        // Number, _
+        if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+        }
+
+      //Affects, Affects*
+      } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN
+        || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+
+        // Number, _
+        if (sTInt1 > 0 && sTName2 == "_") {
+          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+          g2 = Grammar(queryType::GType::STR, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+
+          //_, Number
+        } if (sTName1 == "_" && sTInt2 > 0) {
+          g1 = Grammar(queryType::GType::STR, sTName1);
+          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+          Relation DAO(designAbstractionEntity, g1, g2);
+          m_suchThatQueue.push(DAO);
+        }
+      }
+
       for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
         Grammar tempGrammar = m_grammarVector.at(counterK);
         std::string grammarName = tempGrammar.getName();
@@ -488,22 +662,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
 
           //Checks if Next contains the correct parameters
-          if (designAbstractionEntity == "Next" && g1.getType() != queryType::GType::STMT
-            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::ASGN
-            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::WHILE
-            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::IF
-            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::CALL
-            || designAbstractionEntity == "Next" && g1.getType() != queryType::GType::PROG_LINE) {
+          if (designAbstractionEntity == "Next" && g1.getType() == queryType::GType::VAR
+            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::PROC
+            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::ST_LST
+            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::CONST) {
             return false;
           }
 
           //Checks if Next* contains the correct parameters
-          if (designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::STMT
-            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::ASGN
-            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::WHILE
-            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::IF
-            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::CALL
-            || designAbstractionEntity == "Next*" && g1.getType() != queryType::GType::PROG_LINE) {
+          if (designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::VAR
+            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::PROC
+            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::ST_LST
+            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::CONST) {
             return false;
           }
 
@@ -533,22 +703,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               }
 
               //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
               //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
@@ -635,22 +801,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               g2 = tempGrammar2;
 
               //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
               //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
@@ -734,22 +896,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               g2 = tempGrammar2;
 
               //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
               //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
@@ -836,22 +994,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               g2 = tempGrammar2;
 
               //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
               //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::STMT
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::ASGN
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::WHILE
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::IF
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::CALL
-                || designAbstractionEntity == "Next*" && g2.getType() != queryType::GType::PROG_LINE) {
+              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
                 return false;
               }
 
@@ -1026,11 +1180,18 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       std::string patternRightName = patternVector.back();
 
+      patternRightName = m_stringUtil.trimString(patternRightName);
+
       //Check for equal number of matching brackets
       size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
       size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
 
       if (n1 != n2) {
+        return false;
+      }
+
+      //Check if any ) exists before (
+      if (patternRightName.find(')') < patternRightName.find('(')) {
         return false;
       }
 
@@ -1041,13 +1202,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       char sub = '(';
 
       size_t pos = patternRightNameTemp.find(sub, 0);
-      if (patternRightNameTemp.at(pos + 2) == ')') {
-        return false;
-      }
       while (pos != std::string::npos) {
         //positions.push_back(pos);
         pos = patternRightNameTemp.find(sub, pos + 1);
-        if (patternRightNameTemp.at(pos + 2) == ')') {
+        if (patternRightNameTemp.find_first_not_of(" \t") == ')') {
           return false;
         }
       }
@@ -1166,17 +1324,29 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::cout << "with statement is empty" << std::endl;
   } else {
     withStatement = m_stringUtil.trimString(withStatement);
-    std::string delimiterSpace = " ";
-    std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
+    std::string delimiterSpace1 = " ";
+    std::string withObject = withStatement.substr(withStatement.find(delimiterSpace1), withStatement.size());
+    withObject = m_stringUtil.trimString(withObject);
+
+    //Check if with expression contains =
+    if (withObject.find('=') == std::string::npos) {
+      return false;
+    }
 
     std::string withLeft = withObject.substr(0, withObject.find("="));
-    std::string withRight = withObject.substr(withObject.find("="), withObject.size());
+    std::string withRight = withObject.substr(withObject.find("=") + 1, withObject.size());
 
     withLeft = m_stringUtil.trimString(withLeft);
     withRight = m_stringUtil.trimString(withRight);
 
+    //Check if with expression is empty on either side =
+    if (withLeft == "" || withRight == "") {
+      return false;
+    }
+
     Grammar withLeftGrammar;
     Grammar withRightGrammar;
+    bool isWithTrue = true;
 
     int withLeftInt = 0;
     int withRightInt = 0;
@@ -1190,127 +1360,65 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     if (!(convertRight >> withRightInt)) {
       withRightInt = 0;
     }
-
-    //left side does not contain attribute: either string or number
-    /*if (withLeft.find(".") == std::string::npos) {
-
-      //Case 1: String
-      if (withLeft.find("\"")) {
-        removeCharsFromString(withLeft, "\"");
+    //Check if both are strings
+    if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
+      if (withLeft != withRight) {
+        return false;
+      } else if (withLeft == withRight) {
+        removeCharsFromString(withLeft, "\\\" ");
+        removeCharsFromString(withRight, "\\\" ");
         withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
-        //Case 2: Number. Can have more than one case: constant = constant, number = stmt number
-      } else if (withLeftInt > 0) {
-
-        //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
-        if (withGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || witasdhGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withGzxcvzxcvrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withGzxcvrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withGzxcvzxcvsrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withGzxcvrammar.getType() == queryType::GType::PROG_LINE
-          ) {
-
-          withLeftGrammar = Grammar(queryType::GType::STMT_NO, withLeft);
-
-          //Case 2.2: GType: CONSTANT, AType: VALUE
-        } else if (withGrammar.getType() == queryType::GType::CONST
-          && withGrammar.getAttr() == queryType::AType::VALUE) {
-
-          withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
-        }
-
-      }
-      //with contains attributes
-    } else if (withLeft.find(".") != std::string::npos) {
-      std::string withLeftSynonym = withLeft.substr(0, withLeft.find("."));
-      std::string withLeftAttribute = withLeft.substr(withLeft.find("."), withLeft.size());
-
-      withLeftSynonym = m_stringUtil.trimString(withLeftSynonym);
-      withLeftAttribute = m_stringUtil.trimString(withLeftAttribute);
-
-      int counterS = 0;
-      for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
-        if (m_grammarVector.at(counterS).getName == withLeftSynonym) {
-          if (withLeftAttribute == PROCNAME) {
-            withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withLeftSynonym);
-            withLeftGrammar.setAType(queryType::AType::PROC_NAME);
-          } else if (withLeftAttribute == VARNAME) {
-            withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withLeftSynonym);
-            withLeftGrammar.setAType(queryType::AType::VAR_NAME);
-          } else if (withLeftAttribute == VALUE) {
-            withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withLeftSynonym);
-            withLeftGrammar.setAType(queryType::AType::VALUE);
-          } else if (withLeftAttribute == STMT_NO) {
-            withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withLeftSynonym);
-            withLeftGrammar.setAType(queryType::AType::STMT_NUM);
-          }
-
-        }
-
-      }
-
-    }
-    */
-    //right side does not contain attribute: either string or number
-    if (withRight.find(".") == std::string::npos) {
-
-      //Case 1: String
-      if (withRight.find("\"")) {
-        removeCharsFromString(withRight, "\"");
         withRightGrammar = Grammar(queryType::GType::STR, withRight);
-      //Case 2: Number. Can have more than one case: constant = constant, number = stmt number
-      } else if (withRightInt > 0) {
-        
-        //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
-        if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-          || withLeftGrammar.getType() == queryType::GType::PROG_LINE
-          ) {
-          
-            withRightGrammar = Grammar(queryType::GType::STMT_NO, withRight);
 
-          //Case 2.2: GType: CONSTANT, AType: VALUE
-        } else if (withLeftGrammar.getType() == queryType::GType::CONST
-          && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
-
-            withRightGrammar = Grammar(queryType::GType::CONST, withRight);
-        }
-
-      } 
-    //with contains attributes
-    } else if (withRight.find(".") != std::string::npos) {
-      std::string withRightSynonym = withRight.substr(0, withRight.find("."));
-      std::string withRightAttribute = withRight.substr(withRight.find("."), withRight.size());
-
-      withRightSynonym = m_stringUtil.trimString(withRightSynonym);
-      withRightAttribute = m_stringUtil.trimString(withRightAttribute);
-
-      int counterS = 0;
-      for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
-        if (m_grammarVector.at(counterS).getName() == withRightSynonym) {
-          if (withRightAttribute == PROCNAME) {
-            withRightGrammar = Grammar(m_grammarVector.at(counterS).getType(), withRightSynonym);
-            withRightGrammar.setAType(queryType::AType::PROC_NAME);
-          } else if (withRightAttribute == VARNAME) {
-            withRightGrammar = Grammar(m_grammarVector.at(counterS).getType(), withRightSynonym);
-            withRightGrammar.setAType(queryType::AType::VAR_NAME);
-          } else if (withRightAttribute == VALUE) {
-            withRightGrammar = Grammar(m_grammarVector.at(counterS).getType(), withRightSynonym);
-            withRightGrammar.setAType(queryType::AType::VALUE);
-          } else if (withRightAttribute == STMT_NO) {
-            withRightGrammar = Grammar(m_grammarVector.at(counterS).getType(), withRightSynonym);
-            withRightGrammar.setAType(queryType::AType::STMT_NUM);
-          }
-
-        }
-
+        With withObjectCreated(withLeftGrammar, withRightGrammar);
+        m_withQueue.push(withObjectCreated);
       }
 
+    //Check if both left and right are numbers
+    if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
+      return false;
+    } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
+      withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
+      withRightGrammar = Grammar(queryType::GType::CONST, withRight);
+      
+      With withObjectCreated(withLeftGrammar, withRightGrammar);
+      m_withQueue.push(withObjectCreated);
     }
-  }
+
+    //Check orientation of parameters: left integer, right attribute
+    if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
+      isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    //Case 2: left string, right attribute
+    } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos) {
+      isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    //Case 3: left attribute, right attribute
+    } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
+      withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+
+    //Case 4: left attribute, right integer
+    } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
+      isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    //Case 5: left attribute, right string
+    } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos) {
+      isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    } else if (withLeft.find('.') == std::string::npos && withRight.find('"') != std::string::npos) {
+      return false;
+    } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
+      return false;
+    }
+  } 
 
   isTokenized = true;
   return isTokenized;
@@ -1356,4 +1464,106 @@ std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToR
     vector.push_back(targetString.substr(prev_pos_new, std::string::npos));
   }
   return vector;
+}
+
+bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  std::string tempAttribute = attribute;
+  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
+
+  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
+  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
+
+  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+  
+  //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
+  if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::PROG_LINE
+    ) {
+
+    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+
+    //Case 2.2: GType: CONSTANT, AType: VALUE
+  } else if (withLeftGrammar.getType() == queryType::GType::CONST
+    && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
+
+    withRightGrammar = Grammar(queryType::GType::CONST, integer);
+  }
+  if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
+    || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string inputString, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  std::string tempAttribute = attribute;
+  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
+
+  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
+  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
+
+  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+
+  removeCharsFromString(inputString, "\"");
+  withRightGrammar = Grammar(queryType::GType::STR, inputString);
+
+  if (withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::PROC
+    || withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::CALL
+    || withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && withLeftGrammar.getType() == queryType::GType::VAR) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  withLeftGrammar = withAttributeProcessor(leftAttribute, withLeftGrammar);
+  withRightGrammar = withAttributeProcessor(rightAttribute, withRightGrammar);
+  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
+}
+
+Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
+  std::string withSynonym = attribute.substr(0, attribute.find("."));
+  std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
+
+  withSynonym = m_stringUtil.trimString(withSynonym);
+  withAttribute = m_stringUtil.trimString(withAttribute);
+
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == withSynonym) {
+      if (withAttribute == PROCNAME) {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::PROC_NAME);        
+      } else if (withAttribute == VARNAME) {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::VAR_NAME);
+      } else if (withAttribute == VALUE) {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::VALUE);
+      } else if (withAttribute == STMT_NO) {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::STMT_NUM);
+      }
+
+    }
+  }
+  return withGrammar;
 }
