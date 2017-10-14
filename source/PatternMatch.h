@@ -72,7 +72,7 @@ private:
   std::string convertVectorToStr(std::vector<std::string> t_vector);
 
   /* Helper methods */
-  std::string removeWhitespaces(std::string t_str);
+  void removeWhitespaces(std::string &t_str);
 
   void removeWhitespacesFromVector(std::vector<std::string> &t_stmtTokens);
 };

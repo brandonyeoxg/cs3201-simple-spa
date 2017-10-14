@@ -27,7 +27,7 @@ bool PatternMatch::isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::vector<std::s
 }
 
 std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pattern) {
-  t_pattern = removeWhitespaces(t_pattern);
+  removeWhitespaces(t_pattern);
   std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
 
   for (auto iterator = m_assignStmts->begin(); iterator != m_assignStmts->end(); iterator++) {
@@ -40,7 +40,7 @@ std::list<STMT_NUM> PatternMatch::getAllStmtNumWithExactPattern(std::string t_pa
 }
 
 std::list<STMT_NUM> PatternMatch::getAllStmtNumWithSubtreePattern(std::string t_pattern) {
-  t_pattern = removeWhitespaces(t_pattern);
+  removeWhitespaces(t_pattern);
   std::list<STMT_NUM> stmtNums = std::list<STMT_NUM>();
 
 
@@ -116,15 +116,14 @@ std::string PatternMatch::convertVectorToStr(std::vector<std::string> t_vector) 
 /** Helper function to remove all whitespaces in a given string
     should remove tabs as well (TEST THIS)
 */
-std::string PatternMatch::removeWhitespaces(std::string t_str) {
+void PatternMatch::removeWhitespaces(std::string &t_str) {
   t_str.erase(std::remove(t_str.begin(), t_str.end(), ' '), t_str.end());
   t_str.erase(std::remove(t_str.begin(), t_str.end(), '\t'), t_str.end());
-  return t_str;
 }
 
 void PatternMatch::removeWhitespacesFromVector(std::vector<std::string> &t_tokens) {
   for (int i = 0; i < (int)t_tokens.size(); i++) {
-    t_tokens.at(i) = removeWhitespaces(t_tokens.at(i));
+    removeWhitespaces(t_tokens.at(i));
   }
 }
 
