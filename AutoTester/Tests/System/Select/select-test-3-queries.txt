@@ -6,7 +6,7 @@ a1pha, B3ta, Om3g4, pH1, z3T4
 2 - Select Functionality Test
 stmtLst sl;
 Select sl
-1, 3, 4, 6, 7, 11, 12, 13, 14, 15, 16, 17, 20, 22
+1, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22
 5000
 3 - Select Functionality Test
 stmt s;

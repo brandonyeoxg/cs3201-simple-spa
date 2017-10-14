@@ -1,0 +1,40 @@
+procedure a1pha{
+  call B3ta;
+  if gR33K then{
+    call Om3G4;}
+  else{
+    while Tr0Y{
+      if C435aR then {
+        h0r5e = 10;}
+      else{
+        w00d3n = 1;
+        call Om3g4;}
+      call z3T4;}
+    call pH1;}
+}
+
+procedure B3ta{
+  K4t=3;
+}
+
+procedure Om3g4{
+  while gR33K{
+    while C435aR{
+      if h0r5e then{
+        while p0c4honTAS{
+          r41d = 3;}
+        }
+      else{
+        while p0c4honTAS{
+          r41d = 3;}
+        sunT53=1;}}}
+}
+
+procedure pH1{
+  h0r5e = gR33K-10*3+1;
+  call z3T4;
+}
+
+procedure z3T4{
+  w00d3n = p0c4honTAS;
+}
