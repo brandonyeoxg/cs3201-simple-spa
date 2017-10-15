@@ -50,7 +50,7 @@ protected:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool isMatchToken(const STRING_TOKEN& t_token);
+  bool isMatchToken(STRING_TOKEN t_token);
 
   /*
   * Matches the tokenType from the file with the expected tokenType.
@@ -58,7 +58,7 @@ protected:
   * @param t_token the expected tokenType.
   * @return true if the token matches.
   */
-  bool isMatchToken(tokentype::tokenType t_type);
+  bool isMatchToken(TOKEN_TYPE t_type);
 
   /*
   * Matches the token from the file with the expected token type.
@@ -66,7 +66,7 @@ protected:
   * @param t_token the expected token type.
   * @return the string of that token from the type.
   */
-  STRING_TOKEN getMatchToken(const tokentype::tokenType& t_token);
+  STRING_TOKEN getMatchToken(TOKEN_TYPE t_token);
 
   /*
   * Returns the first token in a line
@@ -78,19 +78,19 @@ protected:
   * Returns true if the token is a valid name.
   * A valid name refers to LETTER(LETTER|DIGIT)+.
   */
-  bool isValidName(const STRING_TOKEN& t_token);
+  bool isValidName(STRING_TOKEN t_token);
 
   /*
   * Returns true if the token is a constant.
   * A constant just consists of purely digits.
   */
-  bool isConstant(const STRING_TOKEN& t_token);
+  bool isConstant(STRING_TOKEN t_token);
 
   /*
   * Returns true if the the statement is a non container statement.
   * Checks with m_nextToken if it is an non container statement string.
   */
-  bool isNonContainerStmt(const STRING_TOKEN& t_token);
+  bool isNonContainerStmt(STRING_TOKEN t_token);
 
   /*
   * Parses the statement.
@@ -209,5 +209,5 @@ private:
   *
   * @param t_term the term that is in the assignment expression
   */
-  void handleInsertionOfTermByPkb(const STRING_TOKEN& t_term);
+  void handleInsertionOfTermByPkb(STRING_TOKEN t_term);
 };

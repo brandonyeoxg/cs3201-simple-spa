@@ -34,7 +34,7 @@ int Parser::parse (const std::string &t_filename) throw() {
 
 void Parser::parseForProcedure() {
   if (isMatchToken("procedure")) {
-    PROC_NAME procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+    PROC_NAME procName = getMatchToken(TOKEN_TYPE::PROC_NAME_TYPE);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
@@ -102,7 +102,7 @@ void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
 }
 
 void Parser::parseAssignStmt() {
-  VAR_NAME varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  VAR_NAME varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -121,13 +121,13 @@ void Parser::parseAssignStmt() {
 }
 
 void Parser::parseCallStmt() {
-  PROC_NAME procName = getMatchToken(tokentype::PROC_NAME);
+  PROC_NAME procName = getMatchToken(PROC_NAME_TYPE);
   m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
 }
 
 LIST_OF_TOKENS Parser::parseExpr() {
   LIST_OF_TOKENS output;
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -147,7 +147,7 @@ LIST_OF_TOKENS Parser::parseExpr() {
 }
 
 void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
-  STRING_TOKEN opr = getMatchToken(tokentype::tokenType::EXPR); // operator
+  STRING_TOKEN opr = getMatchToken(TOKEN_TYPE::EXPR_TYPE); // operator
   if (!TokeniserUtil::isOperator(opr)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -156,7 +156,7 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
     parseBrackets(t_tokens);
     return;
   }
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -173,7 +173,7 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
 
 void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
-    STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
     t_tokens.push_back(term);
     parseBrackets(t_tokens);
     while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
@@ -203,7 +203,7 @@ void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT
 }
 
 void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
@@ -239,7 +239,7 @@ void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NU
 }
 
 void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
   }
@@ -273,7 +273,7 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmt
   }
 }
 
-bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
+bool Parser::isMatchToken(STRING_TOKEN t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -281,16 +281,16 @@ bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(tokentype::tokenType t_type) {
+bool Parser::isMatchToken(TOKEN_TYPE t_type) {
   switch (t_type) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
+    case TOKEN_TYPE::PROC_NAME_TYPE:
+    case TOKEN_TYPE::VAR_NAME_TYPE:
       if (!TokeniserUtil::isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
       break;
-    case tokentype::tokenType::EXPR:
+    case TOKEN_TYPE::EXPR_TYPE:
       if (TokeniserUtil::isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
@@ -303,13 +303,13 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
   return false;
 }
 
-STRING_TOKEN Parser::getMatchToken(const tokentype::tokenType &t_token) {
+STRING_TOKEN Parser::getMatchToken(TOKEN_TYPE t_token) {
   STRING_TOKEN output = m_nextToken;
   switch (t_token) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
-    case tokentype::tokenType::CONSTANT:
-    case tokentype::tokenType::EXPR :
+    case TOKEN_TYPE::PROC_NAME_TYPE:
+    case TOKEN_TYPE::VAR_NAME_TYPE:
+    case TOKEN_TYPE::CONSTANT_TYPE:
+    case TOKEN_TYPE::EXPR_TYPE :
       m_nextToken = getCurrentLineToken();
       break;
     default:
@@ -344,7 +344,7 @@ STRING_TOKEN Parser::getToken() {
   return token;
 }
 
-bool Parser::isValidName(const STRING_TOKEN& t_token) {
+bool Parser::isValidName(STRING_TOKEN t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -359,7 +359,7 @@ bool Parser::isValidName(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isConstant(const STRING_TOKEN& t_token) {
+bool Parser::isConstant(STRING_TOKEN t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -368,11 +368,11 @@ bool Parser::isConstant(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt(const STRING_TOKEN& t_token) {
+bool Parser::isNonContainerStmt(STRING_TOKEN t_token) {
   return t_token != "while" && t_token != "if";
 }
 
-void Parser::handleInsertionOfTermByPkb(const STRING_TOKEN& t_term) {
+void Parser::handleInsertionOfTermByPkb(STRING_TOKEN t_term) {
   if (isConstant(t_term)) {
     m_pkbWriteOnly->insertConstant(t_term);
   } else if (isValidName(t_term)) {

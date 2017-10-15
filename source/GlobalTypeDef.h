@@ -18,6 +18,7 @@ typedef std::string PROC_NAME;
 typedef std::string CONSTANT_TERM;
 typedef std::string STRING_TOKEN;
 typedef std::string SYNONYM_NAME;
+typedef std::string NAME;
 
 /*Data Structs*/
 typedef std::vector<std::string> LIST_OF_SYNONYMS;
@@ -56,14 +57,11 @@ const std::string EMPTY_LINE = "";
 /*Called in QueryPreProcessor.h, by aaron*/
 
 /*Called in Parser.h, by brandon*/
-namespace tokentype {
-  enum tokenType {
-    PROC_NAME,
-    VAR_NAME,
-    CONSTANT,
-    EXPR,
-  };
-
+enum TOKEN_TYPE {
+  PROC_NAME_TYPE,
+  VAR_NAME_TYPE,
+  CONSTANT_TYPE,
+  EXPR_TYPE,
 };
 
 /*Called in ProcTable.h, by brandon*/
