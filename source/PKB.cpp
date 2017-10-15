@@ -504,7 +504,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePatt
   return mapStmtToVar;
 }
 
-LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING varName) {
+LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
   LIST_OF_STMT_NUMS list = LIST_OF_STMT_NUMS();
   if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
     return list;
@@ -513,7 +513,7 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING varName) {
   LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
   
   for (auto stmtNum : whileStmts) {
-    if (isUses(stmtNum, varName)) {
+    if (isUses(stmtNum, t_varName)) {
       list.push_back(stmtNum);
     }
   }

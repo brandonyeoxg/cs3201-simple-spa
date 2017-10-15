@@ -397,10 +397,24 @@ public:
   */
   virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
-  virtual LIST_OF_STMT_NUMS getWhileStmtByVar(STRING varName) = 0;
+  /** For Pattern w("x", _), where w is a common synonym for all while statements.
+  *   Gets list of while statements that uses a given variable.
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
+  virtual LIST_OF_STMT_NUMS getWhileStmtByVar(STRING t_varName) = 0;
 
+  /** For Pattern w(v, _), where w is a common synonym for all while statements.
+  *   Gets map of while statements with the variable name used in each while statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
 
+  /** For Pattern w(_,  _), where w is a common synonym for all while statements.
+  *   Gets list of all while statements.
+  *   @return list of statement numbers
+  */
   virtual LIST_OF_STMT_NUMS getAllWhileStmts() = 0;
 
   ///////////////////////////////////////////////////////
