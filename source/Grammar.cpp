@@ -52,7 +52,7 @@ Grammar::Grammar(int t_type, std::string t_name) {
     m_type = queryType::GType::BOOLEAN;
   }
   m_name = t_name;
-  m_value = EMPTY_STRING;
+  m_value = "";
 }
 
 Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type) {
