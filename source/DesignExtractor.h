@@ -1,15 +1,19 @@
 #pragma once
-#include "ParentTable.h"
 #include "PkbTablesOnly.h"
 /**
- * Represents an extractor which extract complicated abstractions from AST.
+ * Represents a wrapper which extracts further complicated design abstractions from the PKB tables.
+ * Designs are extracted through the ExtractorFactory.
  *
  * @author Brandon
- * @date 8/27/2017
+ * @date 15/10/2017
  */
 class DesignExtractor {
 public:
   DesignExtractor(PkbTablesOnly* t_pkb);
+
+  /*
+  * Called to extract all design abstractions from the PKB table.
+  */
   void extractRestOfDesignAbstractions();
 
 private:

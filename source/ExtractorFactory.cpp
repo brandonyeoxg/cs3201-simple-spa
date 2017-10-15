@@ -7,21 +7,21 @@
 #include "UsesExtractor.h"
 #include "NextExtractor.h"
 
-Extractor* ExtractorFactory::makeExtractor(designExtractor::designType t_type, PkbTablesOnly* t_pkb) {
+Extractor* ExtractorFactory::makeExtractor(DESIGN_TYPE t_type, PkbTablesOnly* t_pkb) {
   switch (t_type) {
-  case designExtractor::designType::PARENT:
+  case DESIGN_TYPE::PARENT:
     return new ParentExtractor(t_pkb);
-  case designExtractor::designType::CALLS:
+  case DESIGN_TYPE::CALLS:
     return new CallsExtractor(t_pkb);
-  case designExtractor::designType::MODIFIESP:
+  case DESIGN_TYPE::MODIFIESP:
     return new ModifiesPExtractor(t_pkb);
-  case designExtractor::designType::USESP:
+  case DESIGN_TYPE::USESP:
     return new UsesPExtractor(t_pkb);
-  case designExtractor::designType::MODIFIES:
+  case DESIGN_TYPE::MODIFIES:
     return new ModifiesExtractor(t_pkb);
-  case designExtractor::designType::USES:
+  case DESIGN_TYPE::USES:
     return new UsesExtractor(t_pkb);
-  case designExtractor::designType::NEXT:
+  case DESIGN_TYPE::NEXT:
     return new NextExtractor(t_pkb);
   }
   return nullptr;

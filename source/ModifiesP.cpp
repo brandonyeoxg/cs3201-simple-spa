@@ -1,6 +1,6 @@
 #include "ModifiesP.h"
 
-void ModifiesP::insertModifiesP(PROC_INDEX t_procIdx, const PROC_NAME& t_procName, VAR_INDEX t_varIdx, const VAR_NAME& t_varName) {
+void ModifiesP::insertModifiesP(PROC_INDEX t_procIdx, PROC_NAME t_procName, VAR_INDEX t_varIdx, VAR_NAME t_varName) {
   insertModifiesWithProcAsKey(t_procIdx, t_varName);
   insertModifiesWithProcAsKeyWithVarHash(t_procIdx, t_varIdx);
   insertModifiesWithVarAsKey(t_varIdx, t_procName);
@@ -86,7 +86,7 @@ bool ModifiesP::isModifiesInProc(PROC_INDEX t_idx) {
   return m_procToVarNames.find(t_idx) != m_procToVarNames.end();
 }
 
-LIST_OF_VAR_NAMES ModifiesP::getVarNamesWithProcIdx(PROC_INDEX t_idx) { /*< Modifies("First", x) */
+LIST_OF_VAR_NAMES ModifiesP::getVarNamesWithProcIdx(PROC_INDEX t_idx) {
   auto pItr = m_procToVarNames.find(t_idx);
   if (pItr == m_procToVarNames.end()) {
     return LIST_OF_VAR_NAMES();
@@ -94,7 +94,7 @@ LIST_OF_VAR_NAMES ModifiesP::getVarNamesWithProcIdx(PROC_INDEX t_idx) { /*< Modi
   return pItr->second;
 }
 
-LIST_OF_PROC_NAMES ModifiesP::getProcNamesWithVarIdx(VAR_INDEX t_idx) { /*< Modifies(p, "x") */
+LIST_OF_PROC_NAMES ModifiesP::getProcNamesWithVarIdx(VAR_INDEX t_idx) {
   auto vItr = m_varToProcNames.find(t_idx);
   if (vItr == m_varToProcNames.end()) {
     return LIST_OF_PROC_NAMES();
@@ -102,9 +102,9 @@ LIST_OF_PROC_NAMES ModifiesP::getProcNamesWithVarIdx(VAR_INDEX t_idx) { /*< Modi
   return m_varToProcNames.find(t_idx)->second;
 }
 
-MAP_OF_PROC_TO_VAR& ModifiesP::getAllProcToVar() { /*< Modifies(p, x) */
+MAP_OF_PROC_TO_VAR ModifiesP::getAllProcToVar() {
   return m_allProcNamesToVarNames;
 }
-LIST_OF_PROC_NAMES& ModifiesP::getAllProcNames() { /*< Modifies(p, _) */
+LIST_OF_PROC_NAMES ModifiesP::getAllProcNames() {
   return m_procNames;
 }

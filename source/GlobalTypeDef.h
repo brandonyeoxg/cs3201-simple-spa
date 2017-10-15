@@ -18,23 +18,27 @@ typedef INTEGER STMT_NUM;
 typedef INTEGER PROG_LINE;
 typedef INTEGER CONSTANT;
 typedef INTEGER SYNONYM_POSITION;
+typedef STRING NAME;
 typedef STRING VAR_NAME;
 typedef STRING PROC_NAME;
 typedef STRING CONSTANT_TERM;
 typedef STRING STRING_TOKEN;
 typedef STRING SYNONYM_NAME;
 typedef STRING RESULT;
-typedef STRING NAME;
 
 /*Data Structs*/
 typedef std::list<RESULT> RESULT_LIST;
 typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
 typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
+typedef std::vector<STMT_NUM>& MUTABLE_LIST_OF_STMT_NUMS;
+typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
+typedef std::vector<PROG_LINE>& MUTABLE_LIST_OF_PROG_LINES;
 typedef std::vector<VAR_NAME> LIST_OF_VAR_NAMES;
 typedef std::vector<PROC_NAME> LIST_OF_PROC_NAMES;
 typedef std::vector<RESULT> LIST_OF_RESULTS;
 typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
+typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
 typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;

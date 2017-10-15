@@ -25,7 +25,7 @@ public:
     : m_pkbWriteOnly(t_pkbWriteOnly), 
       m_curLineNum(0),
       m_nextToken(""),
-      m_curProcIdx(-1){};
+      m_curProcIdx(-1) {};
 
   ~Parser() {};
   
@@ -35,7 +35,7 @@ public:
   * @param t_filename filename of the file to be passed. Must be a valid readable file.
   * @return -1 if the file cannot be read or syntax error.
   */
-  int parse(const std::string &t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
+  int parse(NAME t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
 protected:
   PkbWriteOnly* m_pkbWriteOnly;
   int m_curLineNum;
@@ -49,7 +49,7 @@ protected:
   * @param t_token the expected token.
   * @return true if the token matches.
   */
-  bool isMatchToken(STRING_TOKEN t_token);
+  BOOLEAN isMatchToken(STRING_TOKEN t_token);
 
   /*
   * Matches the tokenType from the file with the expected tokenType.
@@ -57,7 +57,7 @@ protected:
   * @param t_token the expected tokenType.
   * @return true if the token matches.
   */
-  bool isMatchToken(TOKEN_TYPE t_type);
+  BOOLEAN isMatchToken(TOKEN_TYPE t_type);
 
   /*
   * Matches the token from the file with the expected token type.
@@ -76,19 +76,19 @@ protected:
   * Returns true if the token is a valid name.
   * A valid name refers to LETTER(LETTER|DIGIT)+.
   */
-  bool isValidName(STRING_TOKEN t_token);
+  BOOLEAN isValidName(STRING_TOKEN t_token);
 
   /*
   * Returns true if the token is a constant.
   * A constant just consists of purely digits.
   */
-  bool isConstant(STRING_TOKEN t_token);
+  BOOLEAN isConstant(STRING_TOKEN t_token);
 
   /*
   * Returns true if the the statement is a non container statement.
   * Checks with m_nextToken if it is an non container statement string.
   */
-  bool isNonContainerStmt(STRING_TOKEN t_token);
+  BOOLEAN isNonContainerStmt(STRING_TOKEN t_token);
 
   /*
   * Parses the statement.
@@ -96,7 +96,7 @@ protected:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine);
+  void parseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
 private:
   LIST_OF_STMT_NUMS m_nestedStmtLineNum;
@@ -116,7 +116,7 @@ private:
   * @param t_node the reference to the procedure node
   * @return -1 if there is syntax error.
   */
-  void parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine);
+  void parseStmtLst(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the assignment statement.
@@ -140,26 +140,26 @@ private:
   /*
   * Parses each term and tokenises them to be used.
   */
-  void parseEachTerm(LIST_OF_TOKENS& t_tokens);
+  void parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens);
 
   /*
   * Parses the brackets
   */
-  void parseBrackets(LIST_OF_TOKENS& t_tokens);
+  void parseBrackets(MUTABLE_LIST_OF_TOKENS t_tokens);
 
   /*
   * Parses a non container statemment.
   *
   * @param t_node the reference to the stmtLst node
   */
-  void parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst);
+  void parseNonContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst);
 
   /*
    * Parses a container statement.
    *
    * @param t_node the reference to the stmtLst node
    */
-  void parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine);
+  void parseContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the while statement.
@@ -167,7 +167,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLines);
+  void parseWhileStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLines);
 
   /*
   * Parses for the if and else statement.
@@ -175,7 +175,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine);
+  void parseIfElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the if statement.
@@ -183,7 +183,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine);
+  void parseIfStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the else statement.
@@ -191,7 +191,7 @@ private:
   * @param t_node the reference to the stmtLst node
   * @return -1 if there is syntax error.
   */
-  void parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine);
+  void parseElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Returns the the next token in the line
