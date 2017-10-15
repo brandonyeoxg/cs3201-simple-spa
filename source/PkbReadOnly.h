@@ -406,6 +406,8 @@ public:
 
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
 
+  virtual LIST_OF_STMT_NUMS getAllIfStmts() = 0;
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////

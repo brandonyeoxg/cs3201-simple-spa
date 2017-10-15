@@ -547,6 +547,14 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
   return mapStmtToVar;
 }
 
+LIST_OF_STMT_NUMS PKB::getAllIfStmts() {
+  if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
+    return {};
+  }
+
+  return getStatementTypeTable().at(queryType::GType::IF);
+}
+
 ///////////////////////////////////////////////////////
 //  CallsTable methods
 ///////////////////////////////////////////////////////
