@@ -30,7 +30,7 @@ public:
   * @param t_stringInput is the string passed from TestWrapper
   * @return a list of strings containing the evaluated answers. return empty list if false.
   */
-  std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput);
+  RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput);
 
 private:
   PKB *m_pkb;

@@ -1108,9 +1108,11 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     //std::cout << patternSynonym << std::endl;
     patternSynonym = m_stringUtil.trimString(patternSynonym);
 
+    patternParameters = patternParameters.substr(patternParameters.find_first_of('(') + 1, patternParameters.find_last_of(')') - 1);
+
     std::vector<std::string> patternVector;
     
-    patternVector = stringVectorTokenizer("(),;", patternParameters, patternVector);
+    patternVector = stringVectorTokenizer(",;", patternParameters, patternVector);
 
     //vector to be passed to jazlyn
     std::vector<std::string> patternExpressionVector;
@@ -1193,16 +1195,16 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         return false;
       }
 
-      /*char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+      char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '(', ')', '+', '-', '*',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '"', '_' };
       //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
       size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
       if (pos != std::string::npos) {
         // username contains an invalid character at index pos
         return false;
-      }*/
+      }
 
       //Check if any ) exists before (
       if (patternRightName.find(')') < patternRightName.find('(')) {
@@ -1226,19 +1228,20 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
         removeCharsFromString(patternRightName, "\\\" _");
-        grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+        grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
         isSubTree = true;
       } else if (patternRightName.find('"') != std::string::npos && patternRightName.front() != '_' && patternRightName.back() != '_') {
         removeCharsFromString(patternRightName, "\\\" ");
-        grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+        grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
       } else if (patternRightName == "_") {
         grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
       } else {
         return false;
       }
-
-    //patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
-    //grammarPatternRight = Grammar(patternExpressionVector, patternRightName);
     
     //while patterns
     } else if (patternOfGrammar.getType() == queryType::GType::WHILE) {
@@ -1506,8 +1509,24 @@ std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsTo
 
   while ((pos1 = patternRightName.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
     if (pos1 > prev_pos_new) {
+      
       vector.push_back(patternRightName.substr(prev_pos_new, pos1 - prev_pos_new));
-      c = patternRightName.at(pos1 + 1);
+      c = patternRightName.at(pos1);
+      if (c == "+") {
+        vector.push_back(c);
+      } else if (c == "-") {
+        vector.push_back(c);
+      } else if (c == "*") {
+        vector.push_back(c);
+      } else if (c == "(") {
+        vector.push_back(c);
+      } else if (c == ")") {
+        vector.push_back(c);
+      }
+
+    //character next to previous token is a bracket, operator
+    } else if (pos1 = prev_pos_new) {
+      c = patternRightName.at(pos1);
       if (c == "+") {
         vector.push_back(c);
       } else if (c == "-") {

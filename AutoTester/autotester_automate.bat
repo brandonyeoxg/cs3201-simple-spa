@@ -22,9 +22,13 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-prog
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/system-next-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/system-pattern-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-2-prog.txt %~dp0/Tests/System/Pattern/pattern-test-2-queries.txt %~dp0/Output/system-pattern-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-3-prog.txt %~dp0/Tests/System/Pattern/pattern-test-3-queries.txt %~dp0/Output/system-pattern-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/With/with-test-1-prog.txt %~dp0/Tests/System/With/with-test-1-queries.txt %~dp0/Output/system-with-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/With/with-test-2-prog.txt %~dp0/Tests/System/With/with-test-2-queries.txt %~dp0/Output/system-with-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/With/with-test-3-prog.txt %~dp0/Tests/System/With/with-test-3-queries.txt %~dp0/Output/system-with-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-queries.txt %~dp0/Output/system-multiple-clauses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-2-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-2-queries.txt %~dp0/Output/system-multiple-clauses-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-3-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-3-queries.txt %~dp0/Output/system-multiple-clauses-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-queries.txt %~dp0/Output/system-common-synonym-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-queries.txt %~dp0/Output/system-common-synonym-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-queries.txt %~dp0/Output/system-common-synonym-out3.xml

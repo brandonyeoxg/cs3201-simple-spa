@@ -19,9 +19,9 @@ namespace UnitTesting {
       ConstantTable *constantTable = new ConstantTable();
       int index = constantTable->insertConstant("25");
       index = constantTable->insertConstant("378");
-      std::list<std::string> expected = constantTable->getAllConstants();
+      LIST_OF_RESULTS expected = constantTable->getAllConstants();
 
-      std::list<std::string> actual;
+      LIST_OF_RESULTS actual;
       actual.push_back("25");
       actual.push_back("378");
 

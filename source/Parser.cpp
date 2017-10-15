@@ -16,7 +16,7 @@
 #include "SyntaxEmptyLineException.h"
 #include "SyntaxInvalidTerm.h"
 
-int Parser::parse (const std::string &t_filename) throw() {
+int Parser::parse (NAME t_filename) throw() {
   m_readStream = std::ifstream (t_filename);
   if (!m_readStream.is_open()) {
     return -1;
@@ -25,7 +25,7 @@ int Parser::parse (const std::string &t_filename) throw() {
   while (!m_readStream.eof()) {
     parseForProcedure();
     isMatchToken(EMPTY_LINE);
-    if (m_nextToken == TokeniserUtil::CLOSE_BRACE) {
+    if (m_nextToken == TokeniserUtil::CLOSE_BRACKET) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
   }
@@ -45,7 +45,7 @@ void Parser::parseForProcedure() {
   }
 }
 
-void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseStmtLst(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   // Parse the rest of the code in the
   parseStmt(t_stmtInStmtLst, t_progLine);
   if (isMatchToken("}")) {
@@ -58,7 +58,7 @@ void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES
   parseStmtLst(t_stmtInStmtLst, t_progLine);
 }
 
-void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   if (isMatchToken(EMPTY_LINE)) {
     return;
   }
@@ -90,7 +90,7 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t
   }
 }
 
-void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseNonContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst) {
   if (isMatchToken("call")) {
     parseCallStmt();
   } else {
@@ -131,28 +131,28 @@ LIST_OF_TOKENS Parser::parseExpr() {
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
-  if (term == TokeniserUtil::CLOSE_BRACE) {
+  if (term == TokeniserUtil::CLOSE_BRACKET) {
     return output;
   }
   output.push_back(term);
-  if (term == TokeniserUtil::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(output);
   } else {
     handleInsertionOfTermByPkb(term);
   }
-  while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
+  while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACKET) {
     parseEachTerm(output);
   }
   return output;
 }
 
-void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
+void Parser::parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens) {
   STRING_TOKEN opr = getMatchToken(TOKEN_TYPE::EXPR_TYPE); // operator
   if (!TokeniserUtil::isOperator(opr)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(opr);
-  if (opr == TokeniserUtil::OPEN_BRACE) {
+  if (opr == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(t_tokens);
     return;
   }
@@ -161,9 +161,9 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(term);
-  if (term == TokeniserUtil::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(t_tokens);
-    if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
+    if (m_nextToken == TokeniserUtil::OPEN_BRACKET) {
       throw SyntaxUnknownCommandException("Cannot put \")(\" ", m_curLineNum);
     }
     return;
@@ -171,27 +171,27 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
   handleInsertionOfTermByPkb(term);
 }
 
-void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
-  if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
+void Parser::parseBrackets(MUTABLE_LIST_OF_TOKENS t_tokens) {
+  if (m_nextToken == TokeniserUtil::OPEN_BRACKET) {
     STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
     t_tokens.push_back(term);
     parseBrackets(t_tokens);
-    while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
+    while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACKET) {
       parseEachTerm(t_tokens);
     }
   } else {
     LIST_OF_TOKENS subExprTokens = parseExpr();
     t_tokens.insert(t_tokens.end(), subExprTokens.begin(), subExprTokens.end());
   }
-  if (isMatchToken(TokeniserUtil::CLOSE_BRACE)) {
-    t_tokens.push_back(TokeniserUtil::CLOSE_BRACE);
+  if (isMatchToken(TokeniserUtil::CLOSE_BRACKET)) {
+    t_tokens.push_back(TokeniserUtil::CLOSE_BRACKET);
   } 
   else {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
 }
 
-void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt(t_stmtInStmtLst, t_progLine);
@@ -202,7 +202,7 @@ void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG
   }
 }
 
-void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseWhileStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -222,7 +222,7 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LIN
   t_progLine.push_back(curLine);
 }
 
-void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseIfElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   STMT_NUM ifStmtNum = m_curLineNum;
   m_ifLookUp.insert(ifStmtNum);
 
@@ -238,7 +238,7 @@ void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LI
   t_progLine.insert(t_progLine.end(), tempProgLineForElse.begin(), tempProgLineForElse.end());
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseIfStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
@@ -258,7 +258,7 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNu
   }
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
+void Parser::parseElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
@@ -273,7 +273,7 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmt
   }
 }
 
-bool Parser::isMatchToken(STRING_TOKEN t_token) {
+BOOLEAN Parser::isMatchToken(STRING_TOKEN t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -281,7 +281,7 @@ bool Parser::isMatchToken(STRING_TOKEN t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(TOKEN_TYPE t_type) {
+BOOLEAN Parser::isMatchToken(TOKEN_TYPE t_type) {
   switch (t_type) {
     case TOKEN_TYPE::PROC_NAME_TYPE:
     case TOKEN_TYPE::VAR_NAME_TYPE:
@@ -344,7 +344,7 @@ STRING_TOKEN Parser::getToken() {
   return token;
 }
 
-bool Parser::isValidName(STRING_TOKEN t_token) {
+BOOLEAN Parser::isValidName(STRING_TOKEN t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -359,7 +359,7 @@ bool Parser::isValidName(STRING_TOKEN t_token) {
   return true;
 }
 
-bool Parser::isConstant(STRING_TOKEN t_token) {
+BOOLEAN Parser::isConstant(STRING_TOKEN t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -368,7 +368,7 @@ bool Parser::isConstant(STRING_TOKEN t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt(STRING_TOKEN t_token) {
+BOOLEAN Parser::isNonContainerStmt(STRING_TOKEN t_token) {
   return t_token != "while" && t_token != "if";
 }
 

@@ -5,6 +5,8 @@
 #include <list>
 #include <vector>
 
+#include "GlobalTypeDef.h"
+
 /**
 *  A class used to format the output string vector into a string list.
 */
@@ -16,7 +18,7 @@ public:
   * @params result is a vector<string> from the QueryEvaluator.
   * @return The same result but as a list<string> instead.
   */
-  std::list<std::string> formatResult(std::vector<std::string> result);
+  RESULT_LIST formatResult(LIST_OF_RESULTS result);
 };
 
 #endif

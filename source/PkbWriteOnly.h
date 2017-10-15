@@ -2,12 +2,6 @@
 #include <list>
 
 #include "GlobalTypeDef.h"
-#include "nodes\StmtListNode.h"
-#include "nodes\VariableNode.h"
-#include "nodes\AssignNode.h"
-#include "nodes\ConstantNode.h"
-#include "nodes\PlusNode.h"
-#include "nodes\WhileNode.h"
 
 /**
 * Represents an interface for WriteOnly methods in the PKB.

@@ -19,15 +19,15 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestInsertAssignStmt) {
       int expected = 2;
-      int actual = m_assignTable->getAllAssignStmt().size();
+      int actual = m_assignTable->getAllAssignStmts().size();
       Assert::IsTrue(expected == actual);
 
       expected = 3;
       m_assignTable->insertAssignStmt(3, 2, "c");
-      actual = m_assignTable->getAllAssignStmt().size();
+      actual = m_assignTable->getAllAssignStmts().size();
       Assert::IsTrue(expected == actual);
 
-      auto actualList = m_assignTable->getAllAssignStmt();
+      auto actualList = m_assignTable->getAllAssignStmts();
       LIST_OF_STMT_NUMS expectedList = { 1, 2, 3 };
       Assert::IsTrue(expectedList == actualList);
 
@@ -40,10 +40,10 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetAllStmtList) {
       int expected = 2;
-      int actual = m_assignTable->getAllAssignStmt().size();
+      int actual = m_assignTable->getAllAssignStmts().size();
       Assert::IsTrue(expected == actual);
 
-      auto actualList = m_assignTable->getAllAssignStmt();
+      auto actualList = m_assignTable->getAllAssignStmts();
       LIST_OF_STMT_NUMS expectedList = { 1, 2 };
       Assert::IsTrue(expectedList == actualList);
     }
