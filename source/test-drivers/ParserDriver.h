@@ -9,7 +9,7 @@ public:
 
   int openFileStream(std::string);
   int parseProcedure();
-  int parseStmt(LIST_OF_STMT_NUMS&);
+  int parseStmt(LIST_OF_STMT_NUMS&, LIST_OF_STMT_NUMS&);
 
   /*
   * Returns true if the token is a valid name.

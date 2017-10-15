@@ -34,19 +34,20 @@ int Parser::parse (const std::string &t_filename) throw() {
 
 void Parser::parseForProcedure() {
   if (isMatchToken("procedure")) {
-    PROC_NAME procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+    PROC_NAME procName = getMatchToken(TOKEN_TYPE::PROC_NAME_TYPE);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
     m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     LIST_OF_STMT_NUMS stmtLst;
-    parseStmtLst(stmtLst);
+    LIST_OF_PROG_LINES progLine;
+    parseStmtLst(stmtLst, progLine);
   }
 }
 
-void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   // Parse the rest of the code in the
-  parseStmt(t_stmtInStmtLst);
+  parseStmt(t_stmtInStmtLst, t_progLine);
   if (isMatchToken("}")) {
     // Remove from back
     if (!m_nestedStmtLineNum.empty()) {
@@ -54,22 +55,27 @@ void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
     }
     return;
   }
-  parseStmtLst(t_stmtInStmtLst);
+  parseStmtLst(t_stmtInStmtLst, t_progLine);
 }
 
-void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   if (isMatchToken(EMPTY_LINE)) {
     return;
   }
   m_curLineNum += 1;
-  if (!t_stmtInStmtLst.empty() && m_ifElseNextList.empty()) {
-    m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
-  }
-  if (m_ifElseNextList.size() == 2) {
-    while (!m_ifElseNextList.empty()) {
-      m_pkbWriteOnly->insertNextRelation(m_ifElseNextList.back(), m_curLineNum);
-      m_ifElseNextList.pop_back();
+  if (!t_stmtInStmtLst.empty()) {
+    if (m_ifLookUp.find(t_stmtInStmtLst.back()) == m_ifLookUp.end()) {
+      m_pkbWriteOnly->insertNextRelation(t_stmtInStmtLst.back(), m_curLineNum);
     }
+  }
+  if (!t_progLine.empty()) {
+    for (auto& itr : t_progLine) {
+      if (itr == t_stmtInStmtLst.back()) {
+        continue;
+      }
+      m_pkbWriteOnly->insertNextRelation(itr, m_curLineNum);
+    }
+    t_progLine.clear();
   }
   m_pkbWriteOnly->insertFollowsRelation(t_stmtInStmtLst, m_curLineNum);
   m_pkbWriteOnly->insertParentRelation(m_nestedStmtLineNum, m_curLineNum);
@@ -80,7 +86,7 @@ void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
   if (isNonContainerStmt(m_nextToken)) {
     parseNonContainerStmt(t_stmtInStmtLst);
   } else {
-    parseContainerStmt(t_stmtInStmtLst);
+    parseContainerStmt(t_stmtInStmtLst, t_progLine);
   }
 }
 
@@ -96,7 +102,7 @@ void Parser::parseNonContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
 }
 
 void Parser::parseAssignStmt() {
-  VAR_NAME varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+  VAR_NAME varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (varName == "") {
     throw SyntaxOpenBraceException(m_curLineNum - 1);
   }
@@ -115,13 +121,13 @@ void Parser::parseAssignStmt() {
 }
 
 void Parser::parseCallStmt() {
-  PROC_NAME procName = getMatchToken(tokentype::PROC_NAME);
+  PROC_NAME procName = getMatchToken(PROC_NAME_TYPE);
   m_pkbWriteOnly->insertCallStmt(m_curProcIdx, procName, m_curLineNum);
 }
 
 LIST_OF_TOKENS Parser::parseExpr() {
   LIST_OF_TOKENS output;
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -141,7 +147,7 @@ LIST_OF_TOKENS Parser::parseExpr() {
 }
 
 void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
-  STRING_TOKEN opr = getMatchToken(tokentype::tokenType::EXPR); // operator
+  STRING_TOKEN opr = getMatchToken(TOKEN_TYPE::EXPR_TYPE); // operator
   if (!TokeniserUtil::isOperator(opr)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -150,7 +156,7 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
     parseBrackets(t_tokens);
     return;
   }
-  STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+  STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
@@ -167,7 +173,7 @@ void Parser::parseEachTerm(LIST_OF_TOKENS& t_tokens) {
 
 void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
-    STRING_TOKEN term = getMatchToken(tokentype::tokenType::VAR_NAME);
+    STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
     t_tokens.push_back(term);
     parseBrackets(t_tokens);
     while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
@@ -185,39 +191,55 @@ void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   }
 }
 
-void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
-    parseWhileStmt(t_stmtInStmtLst);
+    parseWhileStmt(t_stmtInStmtLst, t_progLine);
   } else if (isMatchToken("if")) {
-    parseIfElseStmt(t_stmtInStmtLst);
+    parseIfElseStmt(t_stmtInStmtLst, t_progLine);
   } else {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   }
 }
 
-void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
+  STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
   }
   STMT_NUM curLine = m_curLineNum;
   m_pkbWriteOnly->insertWhileStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS whileStmtLst;
-  parseStmtLst(whileStmtLst);
+  parseStmtLst(whileStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(curLine, whileStmtLst.front());
-  m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
+  if (m_ifLookUp.find(whileStmtLst.back()) == m_ifLookUp.end()) {
+    m_pkbWriteOnly->insertNextRelation(whileStmtLst.back(), curLine);
+  }
+  for (auto& itr : t_progLine) {
+    m_pkbWriteOnly->insertNextRelation(itr, curLine);
+  }
+  t_progLine.clear();
+  t_progLine.push_back(curLine);
 }
 
-void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
+void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   STMT_NUM ifStmtNum = m_curLineNum;
-  parseIfStmt(t_stmtInStmtLst, ifStmtNum);
+  m_ifLookUp.insert(ifStmtNum);
+
+  LIST_OF_STMT_NUMS tempProgLineForIf;
+  parseIfStmt(t_stmtInStmtLst, ifStmtNum, tempProgLineForIf);
+
   m_nestedStmtLineNum.push_back(ifStmtNum);
-  parseElseStmt(t_stmtInStmtLst, ifStmtNum);
+
+  LIST_OF_STMT_NUMS tempProgLineForElse;
+  parseElseStmt(t_stmtInStmtLst, ifStmtNum, tempProgLineForElse);
+
+  t_progLine.insert(t_progLine.end(), tempProgLineForIf.begin(), tempProgLineForIf.end());
+  t_progLine.insert(t_progLine.end(), tempProgLineForElse.begin(), tempProgLineForElse.end());
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
-  STRING_TOKEN varName = getMatchToken(tokentype::tokenType::VAR_NAME);
+void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
+  STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
   }
@@ -226,12 +248,17 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNu
   }
   m_pkbWriteOnly->insertIfStmt(m_curProcIdx, varName, m_nestedStmtLineNum, m_curLineNum);
   LIST_OF_STMT_NUMS ifStmtLst;
-  parseStmtLst(ifStmtLst);
+  parseStmtLst(ifStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, ifStmtLst.front());
-  m_ifElseNextList.push_back(ifStmtLst.back());
+  if (m_ifLookUp.find(ifStmtLst.back()) == m_ifLookUp.end()) {
+    if (!t_progLine.empty() && ifStmtLst.back() == t_progLine.back()) {
+      return;
+    }
+    t_progLine.push_back(ifStmtLst.back());
+  }
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum) {
+void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
@@ -239,12 +266,14 @@ void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmt
     throw SyntaxOpenBraceException(m_curLineNum);
   }
   LIST_OF_STMT_NUMS elseStmtLst;
-  parseStmtLst(elseStmtLst);
+  parseStmtLst(elseStmtLst, t_progLine);
   m_pkbWriteOnly->insertNextRelation(t_ifStmtNum, elseStmtLst.front());
-  m_ifElseNextList.push_back(elseStmtLst.back());
+  if (m_ifLookUp.find(elseStmtLst.back()) == m_ifLookUp.end()) {
+    t_progLine.push_back(elseStmtLst.back());
+  }
 }
 
-bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
+bool Parser::isMatchToken(STRING_TOKEN t_token) {
   if (m_nextToken == t_token) {
     m_nextToken = getCurrentLineToken();
     return true;
@@ -252,16 +281,16 @@ bool Parser::isMatchToken(const STRING_TOKEN& t_token) {
   return false;
 }
 
-bool Parser::isMatchToken(tokentype::tokenType t_type) {
+bool Parser::isMatchToken(TOKEN_TYPE t_type) {
   switch (t_type) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
+    case TOKEN_TYPE::PROC_NAME_TYPE:
+    case TOKEN_TYPE::VAR_NAME_TYPE:
       if (!TokeniserUtil::isKeyDelimiter(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
       }
       break;
-    case tokentype::tokenType::EXPR:
+    case TOKEN_TYPE::EXPR_TYPE:
       if (TokeniserUtil::isOperator(m_nextToken)) {
         m_nextToken = getCurrentLineToken();
         return true;
@@ -274,13 +303,13 @@ bool Parser::isMatchToken(tokentype::tokenType t_type) {
   return false;
 }
 
-STRING_TOKEN Parser::getMatchToken(const tokentype::tokenType &t_token) {
+STRING_TOKEN Parser::getMatchToken(TOKEN_TYPE t_token) {
   STRING_TOKEN output = m_nextToken;
   switch (t_token) {
-    case tokentype::tokenType::PROC_NAME:
-    case tokentype::tokenType::VAR_NAME:
-    case tokentype::tokenType::CONSTANT:
-    case tokentype::tokenType::EXPR :
+    case TOKEN_TYPE::PROC_NAME_TYPE:
+    case TOKEN_TYPE::VAR_NAME_TYPE:
+    case TOKEN_TYPE::CONSTANT_TYPE:
+    case TOKEN_TYPE::EXPR_TYPE :
       m_nextToken = getCurrentLineToken();
       break;
     default:
@@ -315,7 +344,7 @@ STRING_TOKEN Parser::getToken() {
   return token;
 }
 
-bool Parser::isValidName(const STRING_TOKEN& t_token) {
+bool Parser::isValidName(STRING_TOKEN t_token) {
   if (t_token.size() == 0) {
     return false;
   }
@@ -330,7 +359,7 @@ bool Parser::isValidName(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isConstant(const STRING_TOKEN& t_token) {
+bool Parser::isConstant(STRING_TOKEN t_token) {
   for (auto& cToken : t_token) {
     if (!isdigit(cToken)) {
       return false;
@@ -339,11 +368,11 @@ bool Parser::isConstant(const STRING_TOKEN& t_token) {
   return true;
 }
 
-bool Parser::isNonContainerStmt(const STRING_TOKEN& t_token) {
+bool Parser::isNonContainerStmt(STRING_TOKEN t_token) {
   return t_token != "while" && t_token != "if";
 }
 
-void Parser::handleInsertionOfTermByPkb(const STRING_TOKEN& t_term) {
+void Parser::handleInsertionOfTermByPkb(STRING_TOKEN t_term) {
   if (isConstant(t_term)) {
     m_pkbWriteOnly->insertConstant(t_term);
   } else if (isValidName(t_term)) {

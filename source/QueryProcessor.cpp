@@ -33,7 +33,7 @@ std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInp
   }
   
   std::queue<Grammar> selectQueue2 = qpp.getSelect();
-  if (selectQueue2.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()) {
+  if (!selectQueue2.empty() && selectQueue2.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()) {
     evaluatedResults.push_back("false");
   }
 
