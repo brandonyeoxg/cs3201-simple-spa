@@ -126,6 +126,30 @@ namespace IntegrationTesting
     TEST_METHOD(TestParserAndPKBUsesP) 
     {
       editSimpleProgramFile("procedure main {\n x=y;\n}");
+      LIST_OF_STMT_NUMS dummyStmtList, dummyProgList;
+      m_parser->parseProcedure();
+      m_parser->parseStmt(dummyStmtList, dummyProgList);
+
+      UsesP* usesP = m_pkb->getUsesP();
+      LIST_OF_RESULTS actual = usesP->getAllProcNames();
+      LIST_OF_RESULTS expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+
+      actual = usesP->getVarNamesWithProcIdx(0);
+      expected = { "y" };
+      Assert::IsTrue(actual == expected);
+
+      editSimpleProgramFile("k =n;\n j =p;");
+      m_parser->parseStmt(dummyStmtList, dummyProgList);
+      m_parser->parseStmt(dummyStmtList, dummyProgList);
+      actual = usesP->getAllProcNames();
+      expected = { "main" };
+      Assert::AreEqual(actual.size(), size_t(1));
+      Assert::IsTrue(actual == expected);
+      actual = usesP->getVarNamesWithProcIdx(0);
+      expected = { "y", "n", "p" };
+      Assert::AreEqual(actual.size(), size_t(3));
+      Assert::IsTrue(actual == expected);
     }
 
     void editSimpleProgramFile(std::string t_editText) {

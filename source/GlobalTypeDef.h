@@ -19,6 +19,8 @@ typedef std::string CONSTANT_TERM;
 typedef std::string STRING_TOKEN;
 typedef std::string SYNONYM_NAME;
 typedef std::string RESULT;
+typedef std::string NAME;
+typedef bool BOOLEAN;
 
 /*Data Structs*/
 typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
@@ -28,8 +30,9 @@ typedef std::vector<PROC_NAME> LIST_OF_PROC_NAMES;
 typedef std::vector<RESULT> LIST_OF_RESULTS;
 typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
+typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
-typedef std::set<int> SET_OF_STMT_NUMS;
+typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_PATTERN_RESULTS;
@@ -61,14 +64,11 @@ const std::string EMPTY_LINE = "";
 /*Called in QueryPreProcessor.h, by aaron*/
 
 /*Called in Parser.h, by brandon*/
-namespace tokentype {
-  enum tokenType {
-    PROC_NAME,
-    VAR_NAME,
-    CONSTANT,
-    EXPR,
-  };
-
+enum TOKEN_TYPE {
+  PROC_NAME_TYPE,
+  VAR_NAME_TYPE,
+  CONSTANT_TYPE,
+  EXPR_TYPE,
 };
 
 /*Called in ProcTable.h, by brandon*/

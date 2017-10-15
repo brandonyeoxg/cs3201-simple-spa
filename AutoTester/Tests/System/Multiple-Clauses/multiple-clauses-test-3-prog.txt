@@ -1,0 +1,54 @@
+procedure A66eRAt10n{
+  while inF35tOr{
+    a1Ar4K=1;
+    if HyDR4l1Sk then{
+      call bRo0dLoRD;}
+    else{
+      Br0ODlInG=2;}}
+}
+
+procedure bRo0dLoRD{
+  Z3rgLiNg=3;
+  call uLtR4115k;
+  MuT41isk=4;
+}
+
+procedure uLtR4115k{
+  eNt4ro=5;
+}
+
+procedure NyDu5{
+  while Z3rgLiNg{
+    call Ru5H;
+    while HyDR4l1Sk{
+      r04Ch = r04Ch * (((10 + 20)));
+      if Br0ODlInG then{
+        call h1V3;}
+      else{
+        MuT41isk = 2*(((((MuT41isk) + MuT41isk)*MuT41isk)-MuT41isk)*4);
+        call Ru5H;
+        while a1Ar4K{
+          call Ru5H;
+          while inF35tOr{
+            call Ru5H;}}
+        call Ru5H;}
+      call Ru5H;
+      call Ru5H;}}
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call h1V3;
+  call Ru5H;
+}
+
+procedure h1V3{
+  qU3En = qU3En + 2;
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call Ru5H;
+}
+
+procedure Ru5H{
+  while eNt4ro{
+    Z3rgLiNg = Z3rgLiNg * (Z3rgLiNg + Z3rgLiNg) - (Z3rgLiNg + (2-3)*Z3rgLiNg);
+    a1Ar4K = a1Ar4K-1;
+    eNt4ro = eNt4ro-1;
+    Z3rgLiNg = 0;}
+}
