@@ -18,7 +18,6 @@ public:
   * @param t_stmtNum is the statement number that the assignment statement is on.
   * @param t_varIdx is the index as stored in the variable table.
   * @param t_varName is the variable name 
-  p
   */
   void insertAssignStmt(STMT_NUM t_stmtNum, VAR_INDEX t_varIdx, VAR_NAME t_varName);
 
