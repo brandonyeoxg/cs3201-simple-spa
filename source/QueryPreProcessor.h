@@ -181,6 +181,10 @@ public:
   std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
 
 private:
+  std::vector<std::string> m_selectVector;
+  std::vector<std::string> m_relationVector;
+  std::vector<std::string> m_patternVector;
+  std::vector<std::string> m_withVector;
   std::queue<Grammar> m_selectQueue;
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
