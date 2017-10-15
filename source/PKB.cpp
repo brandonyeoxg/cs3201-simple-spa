@@ -480,7 +480,8 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
   LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
   
   for (auto stmtNum : whileStmts) {
-    if (isUses(stmtNum, t_varName)) {
+    assert(getUses(stmtNum).size() > 0);
+    if (getUses(stmtNum).at(0) == t_varName) {
       list.push_back(stmtNum);
     }
   }
@@ -521,7 +522,8 @@ LIST_OF_STMT_NUMS PKB::getIfStmtByVar(STRING t_varName) {
   LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
 
   for (auto stmtNum : ifStmts) {
-    if (isUses(stmtNum, t_varName)) {
+    assert(getUses(stmtNum).size() > 0);
+    if (getUses(stmtNum).at(0) == t_varName) {
       list.push_back(stmtNum);
     }
   }

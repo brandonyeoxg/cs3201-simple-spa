@@ -287,12 +287,13 @@ public:
     pkbWrite->insertIfStmt(0, varNameA, {}, 4);
     pkbWrite->insertWhileStmt(0, varNameB, {}, 5);
     pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 7);
 
     expected = { 1, 2, 4 };
     result = pkbRead->getIfStmtByVar(varNameA);
     Assert::IsTrue(result == expected);
 
-    expected = { 3 };
+    expected = { 3, 7 };
     result = pkbRead->getIfStmtByVar(varNameB);
     Assert::IsTrue(result == expected);
   }
