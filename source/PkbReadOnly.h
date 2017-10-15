@@ -322,21 +322,6 @@ public:
   //  Pattern Matching
   ///////////////////////////////////////////////////////
 
-  ////////////////// OLD METHODS ////////////////////
-  virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern) = 0;
-  
-  virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
-
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) = 0;
-
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) = 0;
-
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern) = 0;
-
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) = 0;
-  ///////////////////////////////////////////////////
-
-
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)

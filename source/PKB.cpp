@@ -393,16 +393,6 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
 //  PatternMatch methods
 ///////////////////////////////////////////////////////
 
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  return std::list<STMT_NUM>();
-}
-
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  return std::list<STMT_NUM>();
-}
-
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) {
   return m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 }
@@ -451,29 +441,6 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
     }
   }
   return list;
-}
-
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
-  std::list<STMT_NUM> list = {};
-  return list;
-}
-
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
-  std::list<STMT_NUM> list = {};
-  return list;
-}
-
-////////////////// OLD METHOD
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
-  return std::unordered_map<STMT_NUM, VAR_NAME>();
-}
-
-////////////////// OLD METHOD
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
-  return std::unordered_map<STMT_NUM, VAR_NAME>();
-
 }
 
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
