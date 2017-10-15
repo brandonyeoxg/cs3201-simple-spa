@@ -596,10 +596,10 @@ LIST_OF_PROC_NAMES PKB::getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varNam
   return m_modifiesP->getProcNamesWithVarIdx(varIdx);
 }
 
-MAP_OF_PROC_TO_VAR& PKB::getModifiesPAllProcToVar() {
+MAP_OF_PROC_TO_VAR PKB::getModifiesPAllProcToVar() {
   return m_modifiesP->getAllProcToVar();
 }
-LIST_OF_PROC_NAMES& PKB::getModifiesPAllProcNames() {
+LIST_OF_PROC_NAMES PKB::getModifiesPAllProcNames() {
   return m_modifiesP->getAllProcNames();
 }
 
@@ -631,10 +631,10 @@ LIST_OF_PROC_NAMES PKB::getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
   return m_usesP->getProcNamesWithVarIdx(varIdx);
 }
 
-MAP_OF_PROC_TO_VAR& PKB::getUsesPAllProcToVar() {
+MAP_OF_PROC_TO_VAR PKB::getUsesPAllProcToVar() {
   return m_usesP->getAllProcToVar();
 }
-LIST_OF_PROC_NAMES& PKB::getUsesPAllProcNames() {
+LIST_OF_PROC_NAMES PKB::getUsesPAllProcNames() {
   return m_usesP->getAllProcNames();
 }
 

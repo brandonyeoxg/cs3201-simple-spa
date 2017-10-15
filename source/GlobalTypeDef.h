@@ -19,7 +19,8 @@ typedef std::string PROC_NAME;
 typedef std::string CONSTANT_TERM;
 typedef std::string STRING_TOKEN;
 typedef std::string SYNONYM_NAME;
-typedef std::string NAME;
+typedef std::string STRING;
+typedef char STRING_CHARACTER;
 
 /*Data Structs*/
 typedef bool BOOLEAN;
