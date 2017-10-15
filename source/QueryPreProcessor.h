@@ -40,7 +40,7 @@ public:
   * @param t_declarationInput is the input declaration string.
   * @return true if there is no errors. else returns false.
   */
-  bool tokenizeDeclaration(std::string t_declarationInput);
+  BOOLEAN tokenizeDeclaration(std::string t_declarationInput);
 
   /**
   * Method takes in the query parsed string and generates the Grammar objects for 
@@ -49,7 +49,7 @@ public:
   * @param t_queryInput is the input query string.
   * @return true if there is no errors. else returns false.
   */
-  bool tokenizeQuery(std::string t_queryInput);
+  BOOLEAN tokenizeQuery(std::string t_queryInput);
 
   /**
   * Method takes in a string and removes all characters specified in charsToRemove.
@@ -198,7 +198,7 @@ private:
   static std::string VARIABLE;
   static std::string CONSTANT;
   static std::string PROG_LINE;
-  static std::string BOOLEAN;
+  static std::string BOOLEAN_QPP;
   static std::string CALL;
   static std::string PROCNAME;
   static std::string VARNAME;
