@@ -6,6 +6,11 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+/** This file tests pattern matching API in PKB.h.
+    Ensures PKB integrated with PatternMatch works correctly.
+    @jazlyn
+*/
+
 namespace UnitTesting {
   TEST_CLASS(TestPkbPatternAPI) {
 public:
@@ -80,19 +85,25 @@ public:
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
 
-    pkb->insertVar("xMan");
-    pkb->insertVar("y");
-    pkbWrite->insertAssignStmt(1, "xMan", { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, "xMan", { "x", "*", "y", "*", "b" });
+    pkb->insertVar(varNameA);
+    pkb->insertVar(varNameB);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
 
     expected = { 1 };
-    result = pkbRead->getAllAssignStmtByVarAndExactPattern("xMan", { "x", "*", "y", "+", "a", "+", "b" });
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    Assert::IsTrue(result == expected);
+
+    expected = { 2 };
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameB, { "x", "*", "y", "+", "a", "+", "b" });
     Assert::IsTrue(result == expected);
 
     expected = {};
-    result = pkbRead->getAllAssignStmtByVarAndExactPattern("xMan", { "x", "*", "y" });
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameA, { "x", "*", "y" });
     Assert::IsTrue(result == expected);
   }
 
@@ -101,14 +112,21 @@ public:
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
 
-    pkb->insertVar("x");
-    pkb->insertVar("y");
-    pkbWrite->insertAssignStmt(1, "x", { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, "x", { "x", "*", "y", "*", "b" });
+    pkb->insertVar(varNameA);
+    pkb->insertVar(varNameB);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameB, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+
     expected = { 1, 3 };
-    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern("x", { "x", "*", "y" });
+    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern(varNameA, { "x", "*", "y" });
+    Assert::IsTrue(result == expected);
+
+    expected = { 2 };
+    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern(varNameB, { "x", "*", "y" });
     Assert::IsTrue(result == expected);
   }
 
