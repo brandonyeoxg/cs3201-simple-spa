@@ -457,7 +457,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     Grammar g2;
 
     //case: both synonyms are the same. e.g Follows(s, s)
-    if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != "_")) {
+    if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
       //return empty list
       std::cout << "return an empty list of strings" << std::endl;
       return false;
@@ -477,21 +477,21 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_suchThatQueue.push(DAO);
 
         //Number, _
-        } else if (sTInt1 > 0 && sTName2 == "_") {
+        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
         //_, Number
-        } else if (sTName1 == "_" && sTInt2 > 0) {
+        } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STMT_NO, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
         // _, _
-        } else if (sTName1 == "_" && sTName2 == "_") {
+        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -511,21 +511,21 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_suchThatQueue.push(DAO);
 
           //Number, _
-        } else if (sTInt1 > 0 && sTName2 == "_") {
+        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
           //_, Number
-        } else if (sTName1 == "_" && sTInt2 > 0) {
+        } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STMT_NO, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
           // _, _
-        } else if (sTName1 == "_" && sTName2 == "_") {
+        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -545,7 +545,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_suchThatQueue.push(DAO);
 
          //Number, _
-        } else if (sTInt1 > 0 && sTName2 == "_") {
+        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -559,7 +559,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_suchThatQueue.push(DAO);
 
           //String, _
-        } else if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+        } else if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -572,14 +572,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN) {
 
         //String, _
-        if (sTName1.find('"') != std::string::npos && sTName2 == "_") {
+        if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
         //_, String
-        } else if (sTName1 == "_" && sTName2.find('"') != std::string::npos) {
+        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2.find('"') != std::string::npos) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -590,14 +590,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN
         || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN) {
         // Number, _
-        if (sTInt1 > 0 && sTName2 == "_") {
+        if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
           //_, Number
-        } if (sTName1 == "_" && sTInt2 > 0) {
+        } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STMT_NO, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -609,14 +609,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN) {
 
         // Number, _
-        if (sTInt1 > 0 && sTName2 == "_") {
+        if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
           g2 = Grammar(queryType::GType::STR, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
           m_suchThatQueue.push(DAO);
 
           //_, Number
-        } if (sTName1 == "_" && sTInt2 > 0) {
+        } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
           g1 = Grammar(queryType::GType::STR, sTName1);
           g2 = Grammar(queryType::GType::STMT_NO, sTName2);
           Relation DAO(designAbstractionEntity, g1, g2);
@@ -777,7 +777,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            } else if (sTName2 == "_") {
+            } else if (sTName2 == OPERATOR_UNDERSCORE) {
               g2 = Grammar (queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -871,7 +871,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            } else if (sTName2 == "_") {
+            } else if (sTName2 == OPERATOR_UNDERSCORE) {
               g2 = Grammar(queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -974,14 +974,14 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            } else if (sTName2 == "_") {
+            } else if (sTName2 == OPERATOR_UNDERSCORE) {
               g2 = Grammar (queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
             }
           }
-        } else if (sTName1 == "_") {
+        } else if (sTName1 == OPERATOR_UNDERSCORE) {
           if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
             return false;
           }
@@ -1072,7 +1072,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
               break;
-            } else if (sTName2 == "_") {
+            } else if (sTName2 == OPERATOR_UNDERSCORE) {
               g2 = Grammar(queryType::GType::STR, sTName2);
               Relation DAO(designAbstractionEntity, g1, g2);
               m_suchThatQueue.push(DAO);
@@ -1153,7 +1153,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
 
       //left side: _
-      else if (patternLeftName == "_") {
+      else if (patternLeftName == OPERATOR_UNDERSCORE) {
         removeCharsFromString(patternLeftName, "\"");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
 
@@ -1197,8 +1197,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        '(', ')', '+', '-', '*',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '"', '_' };
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 
+        'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '(', ')', '+', '-', '*', '"', '_',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
       //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
       size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
       if (pos != std::string::npos) {
@@ -1237,7 +1239,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
         patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
         grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
-      } else if (patternRightName == "_") {
+      } else if (patternRightName == OPERATOR_UNDERSCORE) {
         grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
       } else {
         return false;
@@ -1250,7 +1252,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         removeCharsFromString(patternLeftName, "\\\" ");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
       }
-      else if (patternLeftName == "_") {
+      else if (patternLeftName == OPERATOR_UNDERSCORE) {
         removeCharsFromString(patternLeftName, "\"");
         grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
       } else {
@@ -1280,7 +1282,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       std::string patternRightName = patternVector.back();
       patternRightName = m_stringUtil.trimString(patternRightName);
-      if (patternRightName == "_") {
+      if (patternRightName == OPERATOR_UNDERSCORE) {
         grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
       } else {
         return false;
@@ -1299,7 +1301,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         ifPatternParam2 = patternVector.at(2);
 
         //check to make sure both pattern parameters are _
-        if (ifPatternParam1 != "_" || ifPatternParam2 != "_") {
+        if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
           return false;
         }
 
@@ -1309,7 +1311,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
         }
 
-        else if (patternLeftName == "_") {
+        else if (patternLeftName == OPERATOR_UNDERSCORE) {
           removeCharsFromString(patternLeftName, "\"");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
         } else {
@@ -1339,7 +1341,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
         std::string patternRightName = ifPatternParam2;
         patternRightName = m_stringUtil.trimString(patternRightName);
-        if (patternRightName == "_") {
+        if (patternRightName == OPERATOR_UNDERSCORE) {
           grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
         } else {
           return false;
@@ -1364,13 +1366,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::string withObject = withStatement.substr(withStatement.find(delimiterSpace1), withStatement.size());
     withObject = m_stringUtil.trimString(withObject);
 
-    //Check if with expression contains =
+    //Check if with expression does not contains =
     if (withObject.find('=') == std::string::npos) {
       return false;
     }
 
-    std::string withLeft = withObject.substr(0, withObject.find("="));
-    std::string withRight = withObject.substr(withObject.find("=") + 1, withObject.size());
+    std::string withLeft = withObject.substr(0, withObject.find(OPERATOR_EQUAL));
+    std::string withRight = withObject.substr(withObject.find(OPERATOR_EQUAL) + 1, withObject.size());
 
     withLeft = m_stringUtil.trimString(withLeft);
     withRight = m_stringUtil.trimString(withRight);
@@ -1449,9 +1451,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (isWithTrue == false) {
         return false;
       }
-    } else if (withLeft.find('.') == std::string::npos && withRight.find('"') != std::string::npos) {
-      return false;
+    //Case 6: SPECIAL CASE synonym with no attributes used.
+    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+      isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    //Case 7: SPECIAL CASE synonym with no attributes used.
     } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
+      return false;
+    //Case of string left side int right side
+    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+      return false;
+    //Case of int left side string right side
+    } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
+      return false;
+      //Case 7: SPECIAL CASE synonym with no attributes used.
+    } else {
       return false;
     }
   } 
@@ -1472,20 +1488,6 @@ void QueryPreProcessor::printVector(std::vector<std::string> t_vector) {
   }
 }
 
-bool QueryPreProcessor::isContainsOne(std::string toFind, std::string t_query) {
-  int tempCounter = 0;
-  bool isContains = true;
-  //Check whether there exists more than one such that clause(check "such" > 2)
-  for (size_t position = t_query.find(toFind, 0); position != std::string::npos; position =
-    t_query.find(toFind, position + 1)) {
-    tempCounter++;
-    if (tempCounter > 1) {
-      return false;
-    }
-  }
-  return isContains;
-}
-
 std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector) {
   int pos1;
   int prev_pos_new = 0;
@@ -1503,13 +1505,27 @@ std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToR
 }
 
 std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsToRemove, std::string patternRightName, std::vector<std::string> vector) {
-  int pos1;
+  int pos1 = 0;
   int prev_pos_new = 0;
   std::string c;
 
   while ((pos1 = patternRightName.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
+    if (prev_pos_new == 0) {
+      c = patternRightName.at(prev_pos_new);
+      if (c == "+") {
+        vector.push_back(c);
+      } else if (c == "-") {
+        vector.push_back(c);
+      } else if (c == "*") {
+        vector.push_back(c);
+      } else if (c == "(") {
+        vector.push_back(c);
+      } else if (c == ")") {
+        vector.push_back(c);
+      }
+
+    }
     if (pos1 > prev_pos_new) {
-      
       vector.push_back(patternRightName.substr(prev_pos_new, pos1 - prev_pos_new));
       c = patternRightName.at(pos1);
       if (c == "+") {
@@ -1538,7 +1554,7 @@ std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsTo
       } else if (c == ")") {
         vector.push_back(c);
       }
-    }
+    } 
     prev_pos_new = pos1 + 1;
   }
   if (prev_pos_new < patternRightName.length()) {
@@ -1581,6 +1597,26 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
     || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
     || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
     || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+    With withObjectCreated(withLeftGrammar, withRightGrammar); 
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
+
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == withSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+    }
+  }
+
+  withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+  
+  if(withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
     m_withQueue.push(withObjectCreated);
     return true;
