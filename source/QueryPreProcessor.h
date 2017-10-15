@@ -79,51 +79,7 @@ public:
   void QueryPreProcessor::printVector(std::vector<std::string> t_vector);
 
   /**
-  * Method takes in a query string and checks if there are more than one instance of another string.
-  * @param t_query is the input query string. toFind is the string that is to be found.
-  * @return true if only one of the instance is found. else false
-  */
-  bool QueryPreProcessor::isContainsOne(std::string toFind, std::string t_query);
-
-//--------------------------------Getter Methods------------------------------------------
-  /**
-  * A getter method for the Select Queue variables.
-  * @return a Grammar object Queue containing all variables within the Select clause.
-  */
-  std::queue<Grammar> QueryPreProcessor::getSelect(void);
-
-  /**
-  * A getter method for the Such That Queue variables.
-  * @return a Relation object Queue containing all variables within the Such That clause.
-  */
-  std::queue<Relation> QueryPreProcessor::getSuchThat(void);
-
-  /**
-  * A getter method for the Pattern Queue variables.
-  * @return a Pattern object Queue containing all variables within the Pattern clause.
-  */
-  std::queue<Pattern> QueryPreProcessor::getPattern(void);
-
-  /**
-  * A getter method for the With Queue variables.
-  * @return a With object Queue containing all variables within the With clause.
-  */
-  std::queue<With> QueryPreProcessor::getWith(void);
-
-  /**
-  * A getter method for the Grammar vector variables.
-  * @return a Grammar object Vector containing all variables declared within the declaration.
-  */
-  std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
-
-  /**
-  * A getter method for the Synonym Unordered Map variables.
-  * @return an unordered map containing 2 values(string synonym, int number of times it appears) declared within query statement.
-  */
-  std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
-
-  /**
-  * A tokenizing method which removes the characters specified in the string character 
+  * A tokenizing method which removes the characters specified in the string character
   * in the targeted string targetString and then pushes them into the vector
   * @return a string vector containing the string tokens
   */
@@ -173,6 +129,46 @@ public:
   * @return Grammar object with its attributes
   */
   Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------Getter Methods------------------------------------------//
+////////////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+  * A getter method for the Select Queue variables.
+  * @return a Grammar object Queue containing all variables within the Select clause.
+  */
+  std::queue<Grammar> QueryPreProcessor::getSelect(void);
+
+  /**
+  * A getter method for the Such That Queue variables.
+  * @return a Relation object Queue containing all variables within the Such That clause.
+  */
+  std::queue<Relation> QueryPreProcessor::getSuchThat(void);
+
+  /**
+  * A getter method for the Pattern Queue variables.
+  * @return a Pattern object Queue containing all variables within the Pattern clause.
+  */
+  std::queue<Pattern> QueryPreProcessor::getPattern(void);
+
+  /**
+  * A getter method for the With Queue variables.
+  * @return a With object Queue containing all variables within the With clause.
+  */
+  std::queue<With> QueryPreProcessor::getWith(void);
+
+  /**
+  * A getter method for the Grammar vector variables.
+  * @return a Grammar object Vector containing all variables declared within the declaration.
+  */
+  std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
+
+  /**
+  * A getter method for the Synonym Unordered Map variables.
+  * @return an unordered map containing 2 values(string synonym, int number of times it appears) declared within query statement.
+  */
+  std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
 
 private:
   std::queue<Grammar> m_selectQueue;
