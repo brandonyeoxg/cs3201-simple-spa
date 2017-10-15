@@ -40,12 +40,12 @@ void Parser::parseForProcedure() {
     }
     m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
     LIST_OF_STMT_NUMS stmtLst;
-    LIST_OF_STMT_NUMS progLine;
+    LIST_OF_PROG_LINES progLine;
     parseStmtLst(stmtLst, progLine);
   }
 }
 
-void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   // Parse the rest of the code in the
   parseStmt(t_stmtInStmtLst, t_progLine);
   if (isMatchToken("}")) {
@@ -58,7 +58,7 @@ void Parser::parseStmtLst(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS&
   parseStmtLst(t_stmtInStmtLst, t_progLine);
 }
 
-void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   if (isMatchToken(EMPTY_LINE)) {
     return;
   }
@@ -191,7 +191,7 @@ void Parser::parseBrackets(LIST_OF_TOKENS& t_tokens) {
   }
 }
 
-void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   m_nestedStmtLineNum.push_back(m_curLineNum);
   if (isMatchToken("while")) {
     parseWhileStmt(t_stmtInStmtLst, t_progLine);
@@ -202,7 +202,7 @@ void Parser::parseContainerStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT
   }
 }
 
-void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("{")) {
     throw SyntaxOpenBraceException(m_curLineNum);
@@ -222,7 +222,7 @@ void Parser::parseWhileStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUM
   t_progLine.push_back(curLine);
 }
 
-void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_PROG_LINES& t_progLine) {
   STMT_NUM ifStmtNum = m_curLineNum;
   m_ifLookUp.insert(ifStmtNum);
 
@@ -238,7 +238,7 @@ void Parser::parseIfElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NU
   t_progLine.insert(t_progLine.end(), tempProgLineForElse.begin(), tempProgLineForElse.end());
 }
 
-void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
   STRING_TOKEN varName = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
   if (!isMatchToken("then")) {
     throw SyntaxUnknownCommandException("If statements require 'then' keyword", m_curLineNum);
@@ -258,7 +258,7 @@ void Parser::parseIfStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNu
   }
 }
 
-void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_STMT_NUMS& t_progLine) {
+void Parser::parseElseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, STMT_NUM t_ifStmtNum, LIST_OF_PROG_LINES& t_progLine) {
   if (!isMatchToken("else")) {
     throw SyntaxUnknownCommandException("If statements require 'else' keyword", m_curLineNum);
   }
