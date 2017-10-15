@@ -1,0 +1,32 @@
+procedure A1aTr3oN{
+  while iNv1nciB1e{
+    aTt4cC=1;}
+  if JumP then{
+    while d41AmaDuR{
+      call B0ar;
+      if eTh3r then{
+        call C4ed3U5;}
+      else{
+        call D1n0SauR;}}}
+  else{
+    b4TtL3=2;
+    call B0ar;}
+}
+
+procedure B0ar{
+  cU1L=3;
+  call C4ed3U5;
+}
+
+procedure C4ed3U5{
+  call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      C4ed3U5=cU1L+1;}}
+}
+
+procedure D1n0SauR{
+  D1n0SauR=a+b4TtL3*cU1L- C4ed3U5;
+}
