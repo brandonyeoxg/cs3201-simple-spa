@@ -1,16 +1,16 @@
 1 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4;
-Select BOOLEAN such that Follows (s1, s2) Follows*(s3,s4)
+Select BOOLEAN such that Follows (s1, s2) such that Follows*(s3,s4)
 true
 5000
 2 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4, s5, s6, s7, s8, s9, s10;
-Select BOOLEAN such that Follows (s1, s2) Follows*(s3,s4) and Parent(s5, s6) Parent*(s7,s8) and Next(s9,s10)
+Select BOOLEAN such that Follows (s1, s2) and Follows*(s3,s4) and Parent(s5, s6) and Parent*(s7,s8) and Next(s9,s10)
 true
 5000
 3 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4,s5,s6, s7, s8, s9, s10, s11, s12,s13,s14, s15, s16, s17, s18, s19,s20;
-Select BOOLEAN such that Follows (s1,s2) and Follows*(s3,s4) and Parent(s5, s6) Parent*(s7,s8) Next(s9,s10) Next*(s11,s12) and Follows(s13,s14) Next(s15,s16) Parent(s17,s18) Follows*(s19,s20)
+Select BOOLEAN such that Follows (s1,s2) and Follows*(s3,s4) and Parent(s5, s6) such that Parent*(s7,s8) and Next(s9,s10) and Next*(s11,s12) and Follows(s13,s14) such that Next(s15,s16) and Parent(s17,s18) and Follows*(s19,s20)
 true
 5000
 4 - Multiple Clauses Such That Pattern Stress Test
@@ -20,7 +20,7 @@ true
 5000
 5 - Multiple Clauses Such That Pattern Stress Test
 assign a1, a2; while w1, w2; if i; variable v1, v2, v3;
-Select BOOLEAN pattern a1(v1,"1") pattern w1(v2,_) pattern i(v3,_,_) pattern a2("b",2) and pattern w2("i",_)
+Select BOOLEAN pattern a1(v1,"1") and w1(v2,_) pattern i(v3,_,_) and a2("b",2) and and w2("i",_)
 true
 5000
 6 - Multiple Clauses Such That Pattern Stress Test
@@ -30,41 +30,41 @@ true
 5000
 7 - Multiple Clauses Such That Pattern Stress Test
 constant co1, co2;
-Select BOOLEAN with co1.value=1 co2.value=2
+Select BOOLEAN with co1.value=1 with co2.value=2
 true
 5000
 8 - Multiple Clauses Such That Pattern Stress Test
 constant co1, co2, co3, co4, co5, co6, co7, co8, co9, co10;
-Select BOOLEAN with co1.value=1 co2.value=2 co3.value=co4.value and co5.value=3 co6.value=co7.value co8.value=co9.value co10.value=4
+Select BOOLEAN with co1.value=1 and co2.value=2 and co3.value=co4.value and co5.value=3 with co6.value=co7.value and co8.value=co9.value and co10.value=4
 true
 5000
 9 - Multiple Clauses Such That Pattern Stress Test
 constant co1, co2, co3, co4, co5, co6, co7, co8, co9, co10;
-Select BOOLEAN with co1.value=1 co2.value=2 co3.value=co4.value and co5.value=3 co6.value=co7.value co8.value=co9.value co10.value=4
+Select BOOLEAN with co1.value=1 and co2.value=2 with co3.value=co4.value and co5.value=3 and co6.value=co7.value and co8.value=co9.value with co10.value=4
 true
 5000
 10 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4; assign a; while w; variable v1, v2;
-Select BOOLEAN such that Follows (s1, s2) Follows*(s3,s4) pattern a(v1,"1") pattern w(v2,_)
+Select BOOLEAN such that Follows (s1, s2) and Follows*(s3,s4) pattern a(v1,"1") pattern w(v2,_)
 true
 5000
 11 - Multiple Clauses Such That Pattern Stress Test
 assign a; while w; variable v1, v2; constant co1, co2;
-Select BOOLEAN pattern a(v1,"1") pattern w(v2,_) with co1.value=1 co2.value=2
+Select BOOLEAN pattern a(v1,"1") pattern w(v2,_) with co1.value=1 and co2.value=2
 true
 5000
 12 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4; constant co1, co2;
-Select BOOLEAN such that Follows (s1, s2) Follows*(s3,s4) with co1.value=1 co2.value=2
+Select BOOLEAN such that Follows (s1, s2) and Follows*(s3,s4) with co1.value=1 and co2.value=2
 true
 5000
 13 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4, s5, s6, s7, s8, s9, s10; assign a1, a2; while w1, w2; if i; variable v1, v2, v3; constant co1, co2, co3, co4, co5, co6, co7, co8, co9, co10;
-Select BOOLEAN such that Follows (s1, s2) Follows*(s3,s4) and Parent(s5, s6) Parent*(s7,s8) and Next(s9,s10) pattern a1(v1,"1") pattern w1(v2,_) pattern i(v3,_,_) pattern a2("b",2) and pattern w2("i",_) with co1.value=1 co2.value=2 co3.value=co4.value and co5.value=3 co6.value=co7.value co8.value=co9.value co10.value=4
+Select BOOLEAN such that Follows (s1, s2) and Follows*(s3,s4) and Parent(s5, s6) such that Parent*(s7,s8) and Next(s9,s10) pattern a1(v1,"1") pattern w1(v2,_) pattern i(v3,_,_) pattern a2("b",2) pattern w2("i",_) with co1.value=1 and co2.value=2 with co3.value=co4.value and co5.value=3 and co6.value=co7.value and co8.value=co9.value with co10.value=4
 true
 5000
 14 - Multiple Clauses Such That Pattern Stress Test
 stmt s1, s2, s3, s4,s5,s6, s7, s8, s9, s10, s11, s12,s13,s14, s15, s16, s17, s18, s19,s20; assign a1, a2, a3; while w1, w2, w3; if i1,i2,i3,i4; variable v1, v2, v3, v4, v5, v6, v7; constant co1, co2, co3, co4, co5, co6, co7, co8, co9, co10;
-Select BOOLEAN such that Follows (s1,s2) and Follows*(s3,s4) and Parent(s5, s6) Parent*(s7,s8) Next(s9,s10) Next*(s11,s12) and Follows(s13,s14) Next(s15,s16) Parent(s17,s18) Follows*(s19,s20) pattern a1(v1,"1") pattern w1(v2,_) pattern i1(v3,_,_) pattern a2("b",2) and pattern w2("i",_) and pattern w3(v4,_) pattern i2(v5,_,_) pattern i3("j",_,_) and pattern a3(v6,"4") pattern i4(v7,_,_) with co1.value=1 co2.value=2 co3.value=co4.value and co5.value=3 co6.value=co7.value co8.value=co9.value co10.value=4
+Select BOOLEAN such that Follows (s1,s2) and Follows*(s3,s4) and Parent(s5, s6) such that Parent*(s7,s8) and Next(s9,s10) and Next*(s11,s12) and Follows(s13,s14) such that Next(s15,s16) and Parent(s17,s18) such that Follows*(s19,s20) pattern a1(v1,"1") pattern w1(v2,_) pattern i1(v3,_,_) pattern a2("b",2) pattern w2("i",_) pattern w3(v4,_) pattern i2(v5,_,_) pattern i3("j",_,_) and a3(v6,"4") pattern i4(v7,_,_) with co1.value=1 with co2.value=2 with co3.value=co4.value and co5.value=3 and co6.value=co7.value with co8.value=co9.value and co10.value=4
 true
 5000
