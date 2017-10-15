@@ -1,0 +1,9 @@
+procedure A{
+  a=1;
+  while i{
+    b=2;}
+  if j then{
+    c=3;}
+  else{
+    d=4;}
+}
