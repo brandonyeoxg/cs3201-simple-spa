@@ -4,6 +4,9 @@
 
 /*
 * Handles utility methods for manipulation of strings.
+*
+* @author Brandon
+* @date 8/10/2017
 */
 class StringUtil
 {

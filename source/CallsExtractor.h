@@ -1,5 +1,12 @@
 #pragma once
 #include "Extractor.h"
+
+/*
+* Handles extractions for the Calls relation.
+*
+* @author Brandon
+* @date 8/10/2017
+*/
 class CallsExtractor : public Extractor
 {
 public:

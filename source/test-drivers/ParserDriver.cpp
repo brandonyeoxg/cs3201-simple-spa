@@ -10,7 +10,7 @@ ParserDriver::~ParserDriver()
 {
 }
 
-int ParserDriver::openFileStream(std::string t_filename) {
+int ParserDriver::openFileStream(NAME t_filename) {
   m_readStream = std::ifstream(t_filename);
   if (!m_readStream.is_open()) {
     return -1;
