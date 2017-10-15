@@ -1197,8 +1197,10 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        '(', ')', '+', '-', '*',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '"', '_' };
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 
+        'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '(', ')', '+', '-', '*', '"', '_',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
       //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
       size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
       if (pos != std::string::npos) {
@@ -1364,7 +1366,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::string withObject = withStatement.substr(withStatement.find(delimiterSpace1), withStatement.size());
     withObject = m_stringUtil.trimString(withObject);
 
-    //Check if with expression contains =
+    //Check if with expression does not contains =
     if (withObject.find('=') == std::string::npos) {
       return false;
     }
@@ -1449,9 +1451,23 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (isWithTrue == false) {
         return false;
       }
-    } else if (withLeft.find('.') == std::string::npos && withRight.find('"') != std::string::npos) {
-      return false;
+    //Case 6: SPECIAL CASE synonym with no attributes used.
+    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+      isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+      if (isWithTrue == false) {
+        return false;
+      }
+    //Case 7: SPECIAL CASE synonym with no attributes used.
     } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
+      return false;
+    //Case of string left side int right side
+    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+      return false;
+    //Case of int left side string right side
+    } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
+      return false;
+      //Case 7: SPECIAL CASE synonym with no attributes used.
+    } else {
       return false;
     }
   } 
@@ -1569,6 +1585,61 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
     withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
 
     //Case 2.2: GType: CONSTANT, AType: VALUE
+  } else if (withLeftGrammar.getType() == queryType::GType::CONST
+    && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
+
+    withRightGrammar = Grammar(queryType::GType::CONST, integer);
+  }
+  if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
+    || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+    With withObjectCreated(withLeftGrammar, withRightGrammar); 
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  std::string withSynonym = attribute.substr(0, attribute.find("."));
+  std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
+
+  withSynonym = m_stringUtil.trimString(withSynonym);
+  withAttribute = m_stringUtil.trimString(withAttribute);
+
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == withSynonym) {
+    }
+  }
+  
+  
+  std::string tempAttribute = attribute;
+  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
+
+  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
+  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
+
+  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+
+  //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
+  if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || withLeftGrammar.getType() == queryType::GType::PROG_LINE
+    ) {
+
+    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+
+  //Case 2.2: GType: CONSTANT, AType: VALUE
   } else if (withLeftGrammar.getType() == queryType::GType::CONST
     && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
 
