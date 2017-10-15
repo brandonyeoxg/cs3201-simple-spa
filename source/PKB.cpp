@@ -393,16 +393,6 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
 //  PatternMatch methods
 ///////////////////////////////////////////////////////
 
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::string t_pattern) {
-  return std::list<STMT_NUM>();
-}
-
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::string t_pattern) {
-  return std::list<STMT_NUM>();
-}
-
 std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) {
   return m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 }
@@ -453,29 +443,6 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
   return list;
 }
 
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) {
-  std::list<STMT_NUM> list = {};
-  return list;
-}
-
-////////////////// OLD METHOD
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) {
-  std::list<STMT_NUM> list = {};
-  return list;
-}
-
-////////////////// OLD METHOD
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::string t_pattern) {
-  return std::unordered_map<STMT_NUM, VAR_NAME>();
-}
-
-////////////////// OLD METHOD
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) {
-  return std::unordered_map<STMT_NUM, VAR_NAME>();
-
-}
-
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
   std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 
@@ -502,6 +469,88 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePatt
   }
 
   return mapStmtToVar;
+}
+
+LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
+  LIST_OF_STMT_NUMS list = LIST_OF_STMT_NUMS();
+  if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
+    return list;
+  }
+
+  LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
+  
+  for (auto stmtNum : whileStmts) {
+    if (isUses(stmtNum, t_varName)) {
+      list.push_back(stmtNum);
+    }
+  }
+
+  return list;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
+    return mapStmtToVar;
+  }
+
+  LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
+
+  for (auto stmtNum : whileStmts) {
+    std::string varName = getUses(stmtNum).at(0);
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
+LIST_OF_STMT_NUMS PKB::getAllWhileStmts() {
+  if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
+    return {};
+  }
+
+  return getStatementTypeTable().at(queryType::GType::WHILE);
+}
+
+LIST_OF_STMT_NUMS PKB::getIfStmtByVar(STRING t_varName) {
+  LIST_OF_STMT_NUMS list = LIST_OF_STMT_NUMS();
+  if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
+    return list;
+  }
+
+  LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
+
+  for (auto stmtNum : ifStmts) {
+    if (isUses(stmtNum, t_varName)) {
+      list.push_back(stmtNum);
+    }
+  }
+
+  return list;
+}
+
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
+    return mapStmtToVar;
+  }
+
+  LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
+
+  for (auto stmtNum : ifStmts) {
+    std::string varName = getUses(stmtNum).at(0);
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
+LIST_OF_STMT_NUMS PKB::getAllIfStmts() {
+  if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
+    return {};
+  }
+
+  return getStatementTypeTable().at(queryType::GType::IF);
 }
 
 ///////////////////////////////////////////////////////

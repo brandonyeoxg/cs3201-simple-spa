@@ -322,21 +322,6 @@ public:
   //  Pattern Matching
   ///////////////////////////////////////////////////////
 
-  ////////////////// OLD METHODS ////////////////////
-  virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_pattern) = 0;
-  
-  virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_pattern) = 0;
-
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern) = 0;
-
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern) = 0;
-
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern) = 0;
-
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern) = 0;
-  ///////////////////////////////////////////////////
-
-
   /** Pattern a(_, "x + y + h").
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -396,6 +381,46 @@ public:
   *   @author jazlyn
   */
   virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+
+  /** For Pattern w("x", _), where w is a common synonym for all while statements.
+  *   Gets list of while statements that uses a given variable.
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
+  virtual LIST_OF_STMT_NUMS getWhileStmtByVar(STRING t_varName) = 0;
+
+  /** For Pattern w(v, _), where w is a common synonym for all while statements.
+  *   Gets map of while statements with the variable name used in each while statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
+
+  /** For Pattern w(_,  _), where w is a common synonym for all while statements.
+  *   Gets list of all while statements.
+  *   @return list of statement numbers
+  */
+  virtual LIST_OF_STMT_NUMS getAllWhileStmts() = 0;
+
+  /** For Pattern i("x", _), where i is a common synonym for all if statements.
+  *   Gets list of if statements that uses a given variable (in the if statement itself, not nested statements).
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
+  virtual LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName) = 0;
+
+  /** For Pattern i(v, _), where i is a common synonym for all if statements.
+  *   Gets map of if statements with the variable name used in each if statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
+
+  /** For Pattern i(_,  _), where i is a common synonym for all if statements.
+  *   Gets list of all if statements.
+  *   @return list of statement numbers
+  */
+  virtual LIST_OF_STMT_NUMS getAllIfStmts() = 0;
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods

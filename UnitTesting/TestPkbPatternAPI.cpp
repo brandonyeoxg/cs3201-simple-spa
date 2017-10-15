@@ -6,6 +6,11 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+/** This file tests pattern matching API in PKB.h.
+    Ensures PKB integrated with PatternMatch works correctly.
+    @jazlyn
+*/
+
 namespace UnitTesting {
   TEST_CLASS(TestPkbPatternAPI) {
 public:
@@ -80,19 +85,25 @@ public:
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
 
-    pkb->insertVar("xMan");
-    pkb->insertVar("y");
-    pkbWrite->insertAssignStmt(1, "xMan", { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, "xMan", { "x", "*", "y", "*", "b" });
+    pkb->insertVar(varNameA);
+    pkb->insertVar(varNameB);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
 
     expected = { 1 };
-    result = pkbRead->getAllAssignStmtByVarAndExactPattern("xMan", { "x", "*", "y", "+", "a", "+", "b" });
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    Assert::IsTrue(result == expected);
+
+    expected = { 2 };
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameB, { "x", "*", "y", "+", "a", "+", "b" });
     Assert::IsTrue(result == expected);
 
     expected = {};
-    result = pkbRead->getAllAssignStmtByVarAndExactPattern("xMan", { "x", "*", "y" });
+    result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameA, { "x", "*", "y" });
     Assert::IsTrue(result == expected);
   }
 
@@ -101,14 +112,21 @@ public:
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
     std::list<STMT_NUM> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
 
-    pkb->insertVar("x");
-    pkb->insertVar("y");
-    pkbWrite->insertAssignStmt(1, "x", { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, "x", { "x", "*", "y", "*", "b" });
+    pkb->insertVar(varNameA);
+    pkb->insertVar(varNameB);
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(2, varNameB, { "a", "*", "b", "+", "x", "*", "y" });
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+
     expected = { 1, 3 };
-    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern("x", { "x", "*", "y" });
+    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern(varNameA, { "x", "*", "y" });
+    Assert::IsTrue(result == expected);
+
+    expected = { 2 };
+    result = pkbRead->getAllAssignStmtByVarAndSubtreePattern(varNameB, { "x", "*", "y" });
     Assert::IsTrue(result == expected);
   }
 
@@ -162,6 +180,179 @@ public:
     expected.insert({ 3, varNameA });
     expected.insert({ 4, varNameB });
     result = pkbRead->getAllAssignStmtWithVarBySubtreePattern({ "x", "*", "y" });
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getWhileStmtByVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getWhileStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 1);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 5);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 6);
+
+    expected = {1, 2, 4};
+    result = pkbRead->getWhileStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    expected = { 3 };
+    result = pkbRead->getWhileStmtByVar(varNameB);
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllWhileStmtsWithVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 1);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 5);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 6);
+
+    expected.insert({ 1, varNameA });
+    expected.insert({ 2, varNameA });
+    expected.insert({ 3, varNameB });
+    expected.insert({ 4, varNameA });
+
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 500);
+    expected.insert({ 500, varNameA });
+
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllWhileStmts) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getAllWhileStmts();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 1);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 5);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 6);
+
+    expected = { 1, 2, 3, 4 };
+    result = pkbRead->getAllWhileStmts();
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getIfStmtByVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getIfStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertIfStmt(0, varNameA, {}, 1);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 2);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 3);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 4);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 5);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
+
+    expected = { 1, 2, 4 };
+    result = pkbRead->getIfStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    expected = { 3 };
+    result = pkbRead->getIfStmtByVar(varNameB);
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllIfStmtsWithVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    result = pkbRead->getAllIfStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertIfStmt(0, varNameA, {}, 1);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 2);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 3);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 4);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 5);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
+
+    expected.insert({ 1, varNameA });
+    expected.insert({ 2, varNameA });
+    expected.insert({ 3, varNameB });
+    expected.insert({ 4, varNameA });
+
+    result = pkbRead->getAllIfStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertIfStmt(0, varNameA, {}, 500);
+    expected.insert({ 500, varNameA });
+
+    result = pkbRead->getAllIfStmtsWithVar();
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllIfStmts) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getAllIfStmts();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertIfStmt(0, varNameA, {}, 1);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 2);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 3);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 5);
+
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 4);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
+
+    expected = { 1, 2, 3, 5 };
+    result = pkbRead->getAllIfStmts();
     Assert::IsTrue(result == expected);
   }
 

@@ -8,7 +8,9 @@
 
 #include ".\GlobalTypeDef.h"
 
-/** Class that handles Pattern matching in assignment statements.
+/** Class that handles Pattern matching in assignment statements for PKB.
+*   Stores each assignment statement's right-hand side expression in postfix notation, along with its
+*   statement number.
 *   @author jazlyn
 */
 
@@ -24,7 +26,7 @@ public:
   */
   void addAssignStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_stmtTokens);
 
-  /** Given statement number, checks if given pattern matches the statement expression exactly.
+  /** Given statement number, checks if given pattern string matches the statement expression exactly.
   *   Assumes statement number refers to existing assignment statement.
   *   @param t_stmtNum statement number to check
   *   @param t_pattern pattern string to check (extra whitespaces will be ignored)
@@ -40,7 +42,7 @@ public:
   */
   bool isSubtreePatternInStmt(STMT_NUM t_stmtNum, std::string t_pattern);
 
-  /** Given statement number, checks if given pattern matches the statement expression exactly.
+  /** Given statement number, checks if given pattern (in tokens) matches the statement expression exactly.
   *   Assumes statement number refers to existing assignment statement.
   *   @param t_stmtNum statement number to check
   *   @param t_pattern pattern to check, in tokenized form (extra whitespaces will be ignored)
@@ -48,7 +50,7 @@ public:
   */
   bool isExactPatternInStmt(STMT_NUM t_stmtNum, std::vector<std::string> t_pattern);
 
-  /** Given statement number, checks if given pattern string matches the statement expression by subtree.
+  /** Given statement number, checks if given pattern (in tokens) matches the statement expression by subtree.
   *   Assumes statement number refers to existing assignment statement.
   *   @param t_stmtNum statement number to check
   *   @param t_pattern pattern to check, in tokenized form (extra whitespaces will be ignored)
@@ -68,6 +70,11 @@ public:
   */
   std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::vector<std::string> t_pattern);
 
+  /** Given a set of tokens representing an expression, converts it to postfix notation as a string.
+  *   Tokens meaning: "x + y" is passed in as {"x", "+", "y"}.
+  *   @param t_tokens valid mathematical expression
+  *   @return string of the expression in postfix notation i.e. "xy+"
+  */
   std::string getPostfixStrWithTokens(std::vector<std::string> t_tokens);
 
   //////// for debugging
@@ -89,6 +96,8 @@ private:
   std::string convertVectorToStr(std::vector<std::string> t_vector);
 
   /* Helper methods */
+
+  // removes spaces and tabs
   void removeWhitespaces(std::string &t_str);
 
   void removeWhitespacesFromVector(std::vector<std::string> &t_stmtTokens);

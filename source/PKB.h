@@ -487,26 +487,7 @@ public:
   //  Pattern Matching
   ///////////////////////////////////////////////////////
 
-  ////////////////// OLD METHOD
-  std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::string t_patternTokens);
-
-  ////////////////// OLD METHOD
-  std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::string t_patternTokens);
-
-  ////////////////// OLD METHOD
-  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::string t_pattern);
-
-  ////////////////// OLD METHOD
-  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::string t_pattern);
-
-  ////////////////// OLD METHOD
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::string t_pattern);
-
-  ////////////////// OLD METHOD
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::string t_pattern);
-
-
-  /** Pattern a(_, "x + y + h").
+  /** For Pattern a(_, "x + y + h"), where a is a common synonym for all assignment statements.
   *   Gets list of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
   *   @return list of statement numbers with match (will be empty list if there is none)
@@ -514,7 +495,7 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
 
-  /** Pattern a(_, _"x + y + h"_).
+  /** For Pattern a(_, _"x + y + h"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
   *   @return list of statement numbers with match (will be empty list if there is none)
@@ -522,7 +503,7 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
 
-  /** Pattern a("x", _""_).
+  /** For Pattern a("x", _""_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
   *   @param t_varName name of variable on left hand side
   *   @return list of statement numbers with match (will be empty list if there is none)
@@ -530,7 +511,7 @@ public:
   */
   LIST_OF_STMT_NUMS getAllAssignStmtByVar(std::string t_varName);
 
-  /** Pattern a("x", "y + x").
+  /** For Pattern a("x", "y + x"), where a is a common synonym for all assignment statements.
   *   Gets list of statements with given variable name on left hand side, and exact pattern match on right hand side.
   *   @param t_varName name of the variable modified in assignment statement
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -539,7 +520,7 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
-  /** Pattern a("x", _"y + x"_).
+  /** For Pattern a("x", _"y + x"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
   *   @param t_varName name of the variable modified in assignment statement
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -548,7 +529,7 @@ public:
   */
   std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
-  /** variable v; Pattern a(v, "x + y + h").
+  /** For Pattern a(v, "x + y + h"), where v is a common synonym for all variables.
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
   *   Map will be returned with statement number as key, and variable name as value.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -557,7 +538,7 @@ public:
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
 
-  /** variable v; Pattern a(v, _"x + y + h"_).
+  /** For Pattern a(v, _"x + y + h"_), where v is a common synonym for all variables.
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
   *   Map will be returned with statement number as key, and variable name as value.
   *   @param t_pattern pattern to be matched, in tokens (having whitespaces will not affect result)
@@ -565,6 +546,46 @@ public:
   *   @author jazlyn
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
+
+  /** For Pattern w("x", _), where w is a common synonym for all while statements.
+  *   Gets list of while statements that uses a given variable (in the while statement itself, not nested statements).
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
+  LIST_OF_STMT_NUMS getWhileStmtByVar(STRING t_varName);
+
+  /** For Pattern w(v, _), where w is a common synonym for all while statements.
+  *   Gets map of while statements with the variable name used in each while statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar();
+
+  /** For Pattern w(_,  _), where w is a common synonym for all while statements.
+  *   Gets list of all while statements.
+  *   @return list of statement numbers
+  */
+  LIST_OF_STMT_NUMS getAllWhileStmts();
+
+  /** For Pattern i("x", _), where i is a common synonym for all if statements.
+  *   Gets list of if statements that uses a given variable (in the if statement itself, not nested statements).
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
+  LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName);
+
+  /** For Pattern i(v, _), where i is a common synonym for all if statements.
+  *   Gets map of if statements with the variable name used in each if statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar();
+
+  /** For Pattern i(_,  _), where i is a common synonym for all if statements.
+  *   Gets list of all if statements.
+  *   @return list of statement numbers
+  */
+  LIST_OF_STMT_NUMS getAllIfStmts();
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods
