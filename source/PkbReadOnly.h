@@ -402,10 +402,24 @@ public:
   */
   virtual LIST_OF_STMT_NUMS getAllWhileStmts() = 0;
 
+  /** For Pattern i("x", _), where i is a common synonym for all if statements.
+  *   Gets list of if statements that uses a given variable (in the if statement itself, not nested statements).
+  *   @param t_varName variable name
+  *   @return list of statement numbers
+  */
   virtual LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName) = 0;
 
+  /** For Pattern i(v, _), where i is a common synonym for all if statements.
+  *   Gets map of if statements with the variable name used in each if statement.
+  *   Map will be returned with statement number as key, and variable name as value.
+  *   @return map of statement numbers to their respective variable names (will be empty if none)
+  */
   virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
 
+  /** For Pattern i(_,  _), where i is a common synonym for all if statements.
+  *   Gets list of all if statements.
+  *   @return list of statement numbers
+  */
   virtual LIST_OF_STMT_NUMS getAllIfStmts() = 0;
 
   ///////////////////////////////////////////////////////
