@@ -6,23 +6,28 @@
 #include <map>
 #include <set>
 
-/*Indexes*/
-typedef int VAR_INDEX;
-typedef int PROC_INDEX;
-typedef int STMT_NUM;
-typedef int PROG_LINE;
-typedef int CONSTANT;
-typedef int SYNONYM_POSITION;
-typedef std::string VAR_NAME;
-typedef std::string PROC_NAME;
-typedef std::string CONSTANT_TERM;
-typedef std::string STRING_TOKEN;
-typedef std::string SYNONYM_NAME;
-typedef std::string RESULT;
-typedef std::string NAME;
+/*Data Types*/
 typedef bool BOOLEAN;
+typedef int INTEGER;
+typedef std::string STRING;
+
+/*Indexes*/
+typedef INTEGER VAR_INDEX;
+typedef INTEGER PROC_INDEX;
+typedef INTEGER STMT_NUM;
+typedef INTEGER PROG_LINE;
+typedef INTEGER CONSTANT;
+typedef INTEGER SYNONYM_POSITION;
+typedef STRING VAR_NAME;
+typedef STRING PROC_NAME;
+typedef STRING CONSTANT_TERM;
+typedef STRING STRING_TOKEN;
+typedef STRING SYNONYM_NAME;
+typedef STRING RESULT;
+typedef STRING NAME;
 
 /*Data Structs*/
+typedef std::list<RESULT> RESULT_LIST;
 typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
 typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
 typedef std::vector<VAR_NAME> LIST_OF_VAR_NAMES;

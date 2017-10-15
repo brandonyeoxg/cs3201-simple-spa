@@ -85,7 +85,7 @@ private:
   std::queue<SET_OF_RELATION_RESULTS> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
   std::queue<SET_OF_PATTERN_RESULTS> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
-  bool m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
+  BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
 
   /**
   * A private function to process all the with clauses.
@@ -93,7 +93,7 @@ private:
   * @return true if all of the with clauses are true or has results
   * otherwise false if there are one clause which is false or has no results.
   */
-  bool processWithClause();
+  BOOLEAN processWithClause();
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -101,7 +101,7 @@ private:
   * @return true if all of the clauses have non-empty results
   * otherwise false if there are one clause which returns an empty result.
   */
-  bool getResultFromPkb();
+  BOOLEAN getResultFromPkb();
 
   /**
   * A private function to get the results of the select clause in the query from the PKB.
@@ -110,7 +110,7 @@ private:
   * @return true if the select clause has non-empty results
   * otherwise false if the select clause returns an empty result.
   */
-  bool getSelectResultFromPkb(Grammar t_select);
+  BOOLEAN getSelectResultFromPkb(Grammar t_select);
 
   /**
   * A private function to get the results of the relation clause in the query from the PKB.
@@ -119,7 +119,7 @@ private:
   * @return true if the relation clause has non-empty results
   * otherwise false if the relation clause returns an empty result.
   */
-  bool getRelationResultFromPkb(Relation t_relation);
+  BOOLEAN getRelationResultFromPkb(Relation t_relation);
 
   /**
   * A private function to get the results of the pattern clause in the query from the PKB.
@@ -128,7 +128,7 @@ private:
   * @return true if the pattern clause has non-empty results
   * otherwise false if the pattern clause returns an empty result.
   */
-  bool getPatternResultFromPkb(Pattern t_pattern);
+  BOOLEAN getPatternResultFromPkb(Pattern t_pattern);
 
   /**
   * A private function to store the select results.
@@ -143,7 +143,7 @@ private:
   * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
   */
-  bool storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result);
+  BOOLEAN storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result);
   
   /**
   * A private function to store the pattern result if it is needed.
@@ -151,7 +151,7 @@ private:
   * @param t_pattern A pattern object which holds the pattern clause that was evaluated to the parameter t_result.
   * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
   */
-  bool storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result);
+  BOOLEAN storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result);
 
   /**
   * A private function to evaluate the final result of the query.

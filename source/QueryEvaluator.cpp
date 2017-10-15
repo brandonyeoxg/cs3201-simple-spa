@@ -18,7 +18,7 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
   }
 }
 
-bool QueryEvaluator::processWithClause() {
+BOOLEAN QueryEvaluator::processWithClause() {
   int withSize = m_withs.size();
   for (int i = 0; i < withSize; ++i) {
     With with = m_withs.front();
@@ -43,7 +43,7 @@ bool QueryEvaluator::processWithClause() {
 * A function that gets the result of the clauses by calling the API from PKB.
 * @return true if there are results otherwise false
 */
-bool QueryEvaluator::getResultFromPkb() {
+BOOLEAN QueryEvaluator::getResultFromPkb() {
   //printDivider();
   //std::cout << "Getting results from PKB...\n";
   int selectSize = m_selects.size();
@@ -55,7 +55,7 @@ bool QueryEvaluator::getResultFromPkb() {
     Grammar grammar = m_selects.front();
     m_selectedSynonym = grammar.getName();
     m_selectedType = grammar.getType();
-    bool hasResult = getSelectResultFromPkb(grammar);
+    BOOLEAN hasResult = getSelectResultFromPkb(grammar);
     if (!hasResult) {
       return false;
     }
@@ -69,7 +69,7 @@ bool QueryEvaluator::getResultFromPkb() {
   for (int i = 0; i < relationSize; ++i) {
     m_isSelectOnly = false;
     Relation relation = m_relations.front();
-    bool hasResult = getRelationResultFromPkb(relation);
+    BOOLEAN hasResult = getRelationResultFromPkb(relation);
     if (!hasResult) {
       return false;
     }
@@ -81,7 +81,7 @@ bool QueryEvaluator::getResultFromPkb() {
   for (int i = 0; i < patternSize; ++i) {
     m_isSelectOnly = false;
     Pattern pattern = m_patterns.front(); 
-    bool hasResult = getPatternResultFromPkb(pattern);
+    BOOLEAN hasResult = getPatternResultFromPkb(pattern);
     if (!hasResult) {
       return false;
     }
@@ -92,7 +92,7 @@ bool QueryEvaluator::getResultFromPkb() {
   return true;
 }
 
-bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
+BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
   if (t_select.getType() != queryType::GType::PROC && t_select.getType() != queryType::GType::ST_LST && t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
     // Call the PKB API getStatementTypeTable().
     std::unordered_map<queryType::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
@@ -159,7 +159,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
   return true;
 }
 
-bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
+BOOLEAN QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   SET_OF_RELATION_RESULTS result;
   MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
   Evaluator *eval = Relationship::createEvaluator(t_relation.getType());
@@ -168,10 +168,10 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
 
   // Get the respective evaluators to get the results of the relation clauses
   if (QueryUtil::isAllUnderscores(g1, g2)) {
-    bool result = eval->hasRelationship(m_pkb, g1, g2);
+    BOOLEAN result = eval->hasRelationship(m_pkb, g1, g2);
     return result;
   } else if (QueryUtil::hasNoSynonyms(g1, g2)) {
-    bool result = eval->isRelationTrue(m_pkb, g1, g2);
+    BOOLEAN result = eval->isRelationTrue(m_pkb, g1, g2);
     return result;
   } else if (QueryUtil::hasOneRightSynonym(g1, g2)) {
     result = eval->evaluateRightSynonym(m_pkb, g1, g2);
@@ -190,13 +190,13 @@ bool QueryEvaluator::getRelationResultFromPkb(Relation t_relation) {
   return storeRelationResultFromPkb(t_relation, result);
 }
 
-bool QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
+BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
   SET_OF_PATTERN_RESULTS result;
   PatternEvaluator *eval = Patterns::createEvaluator(t_pattern.getStmt().getType());
   Grammar stmt = t_pattern.getStmt();
   Grammar g1 = t_pattern.getLeft();
   Grammar g2 = t_pattern.getRight();
-  bool isExact = !t_pattern.isSubtree();
+  BOOLEAN isExact = !t_pattern.isSubtree();
 
   // Get the respective evaluators to get the results of the pattern clauses
   if (QueryUtil::isAnythingWithAnyPattern(g1, g2)) {
@@ -239,7 +239,7 @@ void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
   //printDivider();
 }
 
-bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {
+BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
@@ -286,7 +286,7 @@ bool QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELA
   return true;
 }
 
-bool QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result) {
+BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
   if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
