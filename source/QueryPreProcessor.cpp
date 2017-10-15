@@ -193,15 +193,19 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string selectStatement;
   std::string suchThatStatement;
   std::string patternStatement;
+  std::string delimiterSpace = " ";
   std::string withStatement;
   std::string delimiterSelect = "Select";
   std::string delimiterSuchThat = "such that";
   std::string delimiterPattern = "pattern";
   std::string delimiterWith = "with";
   std::string tempStatement;
-  std::string tempStatement1;
   std::string tempStatement2;
-  std::string tempStatement3;
+
+  std::string secondStatement;
+  std::string prevClause = "";
+  std::string secondTempStatement;
+
   std::vector<std::string> tempSynonymVector;
   int mapValue = 1;
   int mapDefaultValue = 1;
@@ -211,7 +215,64 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     return false;
   }
 
-  //Cases with Select, such that, with, pattern clause
+  //New Method:
+  //Case 1: only select statements
+  /*if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
+    selectStatement = t_queryInput;
+  } else {
+    if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
+      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
+    } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
+      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
+    } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
+      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
+    }
+
+    while (true) {
+      secondStatement = m_stringUtil.trimString(secondStatement);
+      secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+      if (secondTempStatement == "such") {
+        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement = m_stringUtil.trimString(secondStatement);
+        secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+        if (secondTempStatement == "that") {
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = m_stringUtil.trimString(secondStatement);
+          suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE));
+          //to add into such that data abstraction
+          prevClause = delimiterSuchThat;
+        }
+      } else if (secondTempStatement == "pattern") {
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          prevClause = delimiterPattern;
+      } else if (secondTempStatement == "with") {
+
+          prevClause = delimiterWith;
+      } else if (secondTempStatement == "and") {
+        if (prevClause.compare(delimiterSuchThat) == 0) {
+          
+          
+          prevClause = delimiterSuchThat;
+        } else if (prevClause.compare(delimiterPattern) == 0) {
+          
+          
+          prevClause = delimiterPattern;
+        } else if (prevClause.compare(delimiterWith) == 0) {
+          
+          
+          prevClause = delimiterWith;
+        } 
+      } else {
+        break;
+      }
+      secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+    }
+  }
+  */
+  //OLD METHOD - Cases with Select, such that, with, pattern clause - WORKS ONLY FOR ONE CLAUSE
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos 
     && t_queryInput.find(delimiterWith) != std::string::npos) {
 
@@ -1093,7 +1154,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   if (patternStatement == "") {
     std::cout << "pattern statement is empty" << std::endl;
   } else {
-    std::string delimiterSpace = " ";
     std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
     std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
 
@@ -1362,8 +1422,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::cout << "with statement is empty" << std::endl;
   } else {
     withStatement = m_stringUtil.trimString(withStatement);
-    std::string delimiterSpace1 = " ";
-    std::string withObject = withStatement.substr(withStatement.find(delimiterSpace1), withStatement.size());
+    std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
     withObject = m_stringUtil.trimString(withObject);
 
     //Check if with expression does not contains =
@@ -1588,7 +1647,7 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
   } else if (withLeftGrammar.getType() == queryType::GType::CONST
     && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
 
-    withRightGrammar = Grammar(queryType::GType::CONST, integer);
+    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
   }
   if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
     || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
