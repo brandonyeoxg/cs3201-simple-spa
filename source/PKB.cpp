@@ -497,7 +497,6 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
   LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
 
   for (auto stmtNum : whileStmts) {
-    assert(getUses(stmtNum).size() == 1);
     std::string varName = getUses(stmtNum).at(0);
     mapStmtToVar.insert({ stmtNum, varName });
   }
@@ -539,7 +538,6 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
   LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
 
   for (auto stmtNum : ifStmts) {
-    assert(getUses(stmtNum).size() == 1);
     std::string varName = getUses(stmtNum).at(0);
     mapStmtToVar.insert({ stmtNum, varName });
   }
