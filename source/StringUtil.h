@@ -1,6 +1,10 @@
 #pragma once
 #include <iostream>
 #include <vector>
+
+/*
+* Handles utility methods for manipulation of strings.
+*/
 class StringUtil
 {
 public:
