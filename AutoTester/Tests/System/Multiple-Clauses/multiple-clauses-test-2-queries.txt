@@ -135,7 +135,7 @@ true
 5000
 30 - Multiple Clauses Such That With Functionality Test
 stmt s1, s2, s3;
-Select BOOLEAN such that Follows* (s1, s2) with s1.prog_line#=4
+Select BOOLEAN such that Follows* (s1, s2) with s3.prog_line#=4
 true
 5000
 31 - Multiple Clauses Pattern With Functionality Test
