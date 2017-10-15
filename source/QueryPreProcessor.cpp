@@ -205,6 +205,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string secondStatement;
   std::string prevClause = "";
   std::string secondTempStatement;
+  std::string withStatementLeft;
+  std::string withStatementRight;
 
   std::vector<std::string> tempSynonymVector;
   int mapValue = 1;
@@ -217,61 +219,975 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //New Method:
   //Case 1: only select statements
-  /*if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
+  if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
     selectStatement = t_queryInput;
+    m_selectVector.push_back(selectStatement);
   } else {
-    if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-    } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-    } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-      secondStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-    }
+    int tempSpaceLoc;
+
+    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
+    t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
+    t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
+    tempSpaceLoc = t_queryInput.find(delimiterSpace);
+    std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
+    selectStatement.append(" ");
+    selectStatement.append(tempSelectStatement);
+    secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
+    //secondStatement = t_queryInput.substr(secondStatement.find_first_not_of(delimiterSpace) + 1, secondStatement.size());
+    secondStatement = m_stringUtil.trimString(secondStatement);
 
     while (true) {
-      secondStatement = m_stringUtil.trimString(secondStatement);
+      //secondStatement = m_stringUtil.trimString(secondStatement);
       secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
       if (secondTempStatement == "such") {
         secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement = m_stringUtil.trimString(secondStatement);
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace));
         secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
         if (secondTempStatement == "that") {
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-          secondStatement = m_stringUtil.trimString(secondStatement);
-          suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE));
-          //to add into such that data abstraction
+         
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
+          m_relationVector.push_back(suchThatStatement);
+
+          secondStatement = secondStatement.substr(secondStatement.find(BRACKET_CLOSE) + 1, secondStatement.size());
+          if (secondStatement == "") {
+            break;
+          }
+          //
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
           prevClause = delimiterSuchThat;
+
         }
+
       } else if (secondTempStatement == "pattern") {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+
+        //case 1: where with, such that, pattern still exists and such that is the next token
+        if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
           prevClause = delimiterPattern;
+
+          //Case 2: where with, such that, pattern still exists and pattern is the next token
+        } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 3: where with, such that, pattern still exists and with is the next token
+        } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 4: where with, such that only exists and such that is the next token
+        } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 5: where with, such that only exists and with is the next token
+        } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 6: where with, pattern only exists and pattern is the next token
+        } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 7: where with, pattern only exists and with is the next token
+        } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 8: where such that, pattern only exists and pattern is the next token
+        } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 9: where such that, pattern only exists and such that is the next token
+        } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 10: where such that exists only
+        } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 11: where pattern exists only
+        } else if (secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 12: where with exists only
+        } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 13: where and exists after pattern and there is such that, pattern, with after it
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+          && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 14: where and exists and such that and pattern exists and and is the next token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+          && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 15: where and exists and such that and pattern exists and with and such that next token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+          && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 17: where and exists and such that and pattern exists and with and with is the next token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+          && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 18: where and and such that and pattern exists and and is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find("and") < secondStatement.find(delimiterPattern)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 19: where and and such that and pattern exists and such that is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 20: where and and such that and pattern exists and pattern is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 21: where and and such that and with exists and and is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+          && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 22: where and and such that and with exists and such that is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 23: where and and such that and with exists and with is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterWith) < secondStatement.find("and")
+          && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 24: where and and pattern and with exists and and is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+          && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 25: where and and pattern and with exists and pattern is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+          && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 26: where and and pattern and with exists and with is the first token
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterWith) < secondStatement.find("and")
+          && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 27: where and and such that exists only and such that first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 28: where and and such that exists only and and first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) != std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterSuchThat) > secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 29: where and and pattern exists only and and first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterPattern) > secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 30: where and and pattern exists only and pattern first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) != std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos
+          && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 31: where and and with exists only and with first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 32: where and and with exists only and and first
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) != std::string::npos
+          && secondStatement.find(delimiterWith) > secondStatement.find("and")) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 32: where and exists only
+        } else if (secondStatement.find("and") != std::string::npos
+          && secondStatement.find(delimiterSuchThat) == std::string::npos
+          && secondStatement.find(delimiterPattern) == std::string::npos
+          && secondStatement.find(delimiterWith) == std::string::npos) {
+
+          patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+          m_patternVector.push_back(patternStatement);
+          secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+          prevClause = delimiterPattern;
+
+          //Case 33: no more other clause behind
+        } else {
+          patternStatement = secondStatement;
+          m_patternVector.push_back(patternStatement);
+
+        }
+
       } else if (secondTempStatement == "with") {
 
-          prevClause = delimiterWith;
+        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
+        secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
+        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+
+        withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+
+        withStatement.append(withStatementLeft);
+        withStatement.append("=");
+        withStatement.append(withStatementRight);
+
+        m_withVector.push_back(withStatement);
+        withStatement = "";
+        //push with statement into a data structure;
+        if (secondStatement.find(delimiterSpace) == std::string::npos) {
+          break;
+        }
+        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+        prevClause = delimiterWith;
+
       } else if (secondTempStatement == "and") {
         if (prevClause.compare(delimiterSuchThat) == 0) {
-          
-          
-          prevClause = delimiterSuchThat;
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          //
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
+
+          m_relationVector.push_back(suchThatStatement);
+          secondStatement = secondStatement.substr(secondStatement.find(BRACKET_CLOSE) + 1, secondStatement.size());
+          if (secondStatement == "") {
+            break;
+          }
+          //
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          prevClause = delimiterSuchThat;;
         } else if (prevClause.compare(delimiterPattern) == 0) {
-          
-          
-          prevClause = delimiterPattern;
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          //
+
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+
+          //case 1: where with, such that, pattern still exists and such that is the next token
+          if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 2: where with, such that, pattern still exists and pattern is the next token
+          } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 3: where with, such that, pattern still exists and with is the next token
+          } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 4: where with, such that only exists and such that is the next token
+          } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 5: where with, such that only exists and with is the next token
+          } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 6: where with, pattern only exists and pattern is the next token
+          } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 7: where with, pattern only exists and with is the next token
+          } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 8: where such that, pattern only exists and pattern is the next token
+          } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 9: where such that, pattern only exists and such that is the next token
+          } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 10: where such that exists only
+          } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 11: where pattern exists only
+          } else if (secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 12: where with exists only
+          } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 13: where and exists after pattern and there is such that, pattern, with after it
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+            && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 14: where and exists and such that and pattern exists and and is the next token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+            && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 15: where and exists and such that and pattern exists and with and such that next token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+            && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 17: where and exists and such that and pattern exists and with and with is the next token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+            && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 18: where and and such that and pattern exists and and is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find("and") < secondStatement.find(delimiterPattern)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 19: where and and such that and pattern exists and such that is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 20: where and and such that and pattern exists and pattern is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 21: where and and such that and with exists and and is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+            && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 22: where and and such that and with exists and such that is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 23: where and and such that and with exists and with is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterWith) < secondStatement.find("and")
+            && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 24: where and and pattern and with exists and and is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+            && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 25: where and and pattern and with exists and pattern is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+            && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 26: where and and pattern and with exists and with is the first token
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterWith) < secondStatement.find("and")
+            && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 27: where and and such that exists only and such that first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 28: where and and such that exists only and and first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) != std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterSuchThat) > secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 29: where and and pattern exists only and and first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterPattern) > secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 30: where and and pattern exists only and pattern first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) != std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos
+            && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 31: where and and with exists only and with first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 32: where and and with exists only and and first
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) != std::string::npos
+            && secondStatement.find(delimiterWith) > secondStatement.find("and")) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 32: where and exists only
+          } else if (secondStatement.find("and") != std::string::npos
+            && secondStatement.find(delimiterSuchThat) == std::string::npos
+            && secondStatement.find(delimiterPattern) == std::string::npos
+            && secondStatement.find(delimiterWith) == std::string::npos) {
+
+            patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+            m_patternVector.push_back(patternStatement);
+            secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+            prevClause = delimiterPattern;
+
+            //Case 33: no more other clause behind
+          } else {
+
+            patternStatement = secondStatement.substr(secondStatement.size());
+            m_patternVector.push_back(patternStatement);
+
+          }
         } else if (prevClause.compare(delimiterWith) == 0) {
-          
-          
+
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
+          secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
+          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+
+          withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+
+          withStatement.append(withStatementLeft);
+          withStatement.append("=");
+          withStatement.append(withStatementRight);
+
+          m_withVector.push_back(withStatement);
+          withStatement = "";
+          //push with statement into a data structure;
+          if (secondStatement.find(delimiterSpace) == std::string::npos) {
+            break;
+          }
+          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
           prevClause = delimiterWith;
-        } 
+
+        }
       } else {
         break;
       }
-      secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+
     }
   }
-  */
+  std::cout << "Relation Vector size: " << m_relationVector.size() << std::endl;
+  std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
+  std::cout << "with Vector size: " << m_withVector.size() << std::endl;
+
+  /*
   //OLD METHOD - Cases with Select, such that, with, pattern clause - WORKS ONLY FOR ONE CLAUSE
   if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos 
     && t_queryInput.find(delimiterWith) != std::string::npos) {
@@ -405,7 +1321,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     std::cout << "with" << std::endl;
   } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos) {
     selectStatement = t_queryInput;
-  }
+  }*/
 
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
@@ -450,928 +1366,872 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
-  if (suchThatStatement == "") {
-    std::cout << "suchthatStatement is empty" << std::endl;
+  if (m_relationVector.empty()) {
+    std::cout << "relation vector is empty" << std::endl;
   }
   //if design abstraction object exists, create Relation object with parameters type, g1 g2
   else {
-    //Trim whitespaces for such that statement.
-    suchThatStatement = m_stringUtil.trimString(suchThatStatement);
-    std::string delimiterDesignAbstraction = "such that";
-    std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
-                                                                                                                                                  //IMPT: to be worked on in the future for more complex queries
-    designAbstractions = m_stringUtil.trimString(designAbstractions);
+    int counterB = 0;
+    for (auto b = m_relationVector.begin(); b != m_relationVector.end(); b++, counterB++) {
+      //Trim whitespaces for such that statement.
+      /*suchThatStatement = m_stringUtil.trimString(suchThatStatement);
+      std::string delimiterDesignAbstraction = "such that";*/
+      //std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
+      std::string designAbstractions = m_relationVector.at(counterB);                                                                                                                                              //IMPT: to be worked on in the future for more complex queries
+      designAbstractions = m_stringUtil.trimString(designAbstractions);
 
-    std::string delimiterBracket = "(";
-    std::string designAbstractionEntity = designAbstractions.substr(0, designAbstractions.find(delimiterBracket));
-    std::string designAbstractionObject = designAbstractions.substr(designAbstractions.find(delimiterBracket), designAbstractions.size());
+      std::string delimiterBracket = "(";
+      std::string designAbstractionEntity = designAbstractions.substr(0, designAbstractions.find(delimiterBracket));
+      std::string designAbstractionObject = designAbstractions.substr(designAbstractions.find(delimiterBracket), designAbstractions.size());
 
-    designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
-    designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
+      designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
+      designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
 
-    //std::cout << designAbstractionEntity << std::endl;
-    std::vector<std::string> designAbstractionVectorNew;
+      //std::cout << designAbstractionEntity << std::endl;
+      std::vector<std::string> designAbstractionVectorNew;
 
-    designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
+      designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
 
-    //test method to print vector string values
+      //test method to print vector string values
 
-    std::string sTName1 = designAbstractionVectorNew.front();
-    std::string sTName2 = designAbstractionVectorNew.back();
+      std::string sTName1 = designAbstractionVectorNew.front();
+      std::string sTName2 = designAbstractionVectorNew.back();
 
-    //Check if design abstraction parameter one contains "" and has design entity as below
-    if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
-      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
-      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
-      || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+      //Check if design abstraction parameter one contains "" and has design entity as below
+      if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
 
-      return false;
-    }
+        return false;
+      }
 
-    //Check if design abstraction parameter two contains "" and has design entity as below
-    if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
-      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
-      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
-      || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+      //Check if design abstraction parameter two contains "" and has design entity as below
+      if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
 
-      return false;
-    }
+        return false;
+      }
 
-    int sTInt1 = 0;
-    int sTInt2 = 0;
+      int sTInt1 = 0;
+      int sTInt2 = 0;
 
-    std::stringstream convert(sTName1);
-    if (!(convert >> sTInt1)) {
-      sTInt1 = 0;
-    }
-    std::stringstream convert2(sTName2);
-    if (!(convert2 >> sTInt2)) {
-      sTInt2 = 0;
-    }
+      std::stringstream convert(sTName1);
+      if (!(convert >> sTInt1)) {
+        sTInt1 = 0;
+      }
+      std::stringstream convert2(sTName2);
+      if (!(convert2 >> sTInt2)) {
+        sTInt2 = 0;
+      }
 
-    int counterK = 0;
-    int counterQ = 0;
+      int counterK = 0;
+      int counterQ = 0;
 
-    //storing designabstractionqueue synonyms
+      //storing designabstractionqueue synonyms
 
-    Grammar g1;
-    Grammar g2;
+      Grammar g1;
+      Grammar g2;
 
-    //case: both synonyms are the same. e.g Follows(s, s)
-    if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
-      //return empty list
-      std::cout << "return an empty list of strings" << std::endl;
-      return false;
-    }
+      //case: both synonyms are the same. e.g Follows(s, s)
+      if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
+        //return empty list
+        std::cout << "return an empty list of strings" << std::endl;
+        return false;
+      }
 
-    else {
-      //Checks for no declaration first before moving on to check for synonyms
-      //Follows and Follows*
-      if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
+      else {
+        //Checks for no declaration first before moving on to check for synonyms
+        //Follows and Follows*
+        if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
-        //Number, Number
-        if (sTInt1 > 0 && sTInt2 > 0 ) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+          //Number, Number
+          if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-        //Number, _
-        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //Number, _
+          } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-        //_, Number
-        } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //_, Number
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-        // _, _
-        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            // _, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-        }
+          }
 
-      //Parent and Parent*
-      } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
+          //Parent and Parent*
+        } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
-        //Number, Number
-        if (sTInt1 > 0 && sTInt2 > 0) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+          //Number, Number
+          if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-          //Number, _
-        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //Number, _
+          } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-          //_, Number
-        } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //_, Number
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-          // _, _
-        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            // _, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-        }
+          }
 
-      //Uses, Modifies
-      } else if(designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
+          //Uses, Modifies
+        } else if (designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
-        //Number, String
-        if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+          //Number, String
+          if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-         //Number, _
-        } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //Number, _
+          } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
-          //String, String
-        } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+            //String, String
+          } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //String, _
+          } else if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+          }
+
+          //Call, Calls*
+        } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
           //String, _
-        } else if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+          if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
 
+            //_, String
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2.find('"') != std::string::npos) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+          }
+
+        } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
+          // Number, _
+          if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //_, Number
+          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
+
+          //Affects, Affects*
+        } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+          || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
+
+          // Number, _
+          if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //_, Number
+          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+          }
         }
-      
-      //Call, Calls*
-      } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
-        //String, _
-        if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
+        for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
+          Grammar tempGrammar = m_grammarVector.at(counterK);
+          std::string grammarName = tempGrammar.getName();
 
-        //_, String
-        } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2.find('"') != std::string::npos) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
-
-        }
-
-      } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
-        // Number, _
-        if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
-
-          //_, Number
-        } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
-        }
-
-      //Affects, Affects*
-      } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
-        || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
-
-        // Number, _
-        if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
-          g1 = Grammar(queryType::GType::STMT_NO, sTName1);
-          g2 = Grammar(queryType::GType::STR, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
-
-          //_, Number
-        } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
-          g1 = Grammar(queryType::GType::STR, sTName1);
-          g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-          Relation DAO(designAbstractionEntity, g1, g2);
-          m_suchThatQueue.push(DAO);
-        }
-      }
-
-      for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
-        Grammar tempGrammar = m_grammarVector.at(counterK);
-        std::string grammarName = tempGrammar.getName();
-        
-        counterQ = 0;
-        if (m_suchThatQueue.size() == 1) {
-          break;
-        }
-        if (sTName1 == grammarName) {
-          g1 = tempGrammar;
-
-          //Checks if Parent contains assignment statements for the first parameter
-          if (designAbstractionEntity == "Parent" && g1.getType() == queryType::GType::ASGN
-            || designAbstractionEntity == "Parent*" && g1.getType() == queryType::GType::ASGN) {
-            return false;
+          counterQ = 0;
+          if (m_suchThatQueue.size() == 1) {
+            break;
           }
+          if (sTName1 == grammarName) {
+            g1 = tempGrammar;
 
-          //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-          if (designAbstractionEntity == "Follows" && g1.getType() == queryType::GType::VAR
-            || designAbstractionEntity == "Follows*" && g1.getType() == queryType::GType::VAR) {
-            return false;
-          }
+            //Checks if Parent contains assignment statements for the first parameter
+            if (designAbstractionEntity == "Parent" && g1.getType() == queryType::GType::ASGN
+              || designAbstractionEntity == "Parent*" && g1.getType() == queryType::GType::ASGN) {
+              return false;
+            }
 
-          //Checks if Uses/Modifies contains the correct parameters and return false if true
-          if (designAbstractionEntity == "Uses" && g1.getType() == queryType::GType::VAR
-            || designAbstractionEntity == "Uses" && g1.getType() == queryType::GType::ST_LST
-            || designAbstractionEntity == "Modifies" && g1.getType() == queryType::GType::VAR
-            || designAbstractionEntity == "Modifies" && g1.getType() == queryType::GType::ST_LST) {
-            return false;
-          }
+            //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+            if (designAbstractionEntity == "Follows" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Follows*" && g1.getType() == queryType::GType::VAR) {
+              return false;
+            }
 
-          //Checks if Calls contains the correct parameters: Procedure condition
-          if (designAbstractionEntity == "Calls" && g1.getType() != queryType::GType::PROC
-            || designAbstractionEntity == "Calls*" && g1.getType() != queryType::GType::PROC) {
-            return false;
-          }
+            //Checks if Uses/Modifies contains the correct parameters and return false if true
+            if (designAbstractionEntity == "Uses" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Uses" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Modifies" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Modifies" && g1.getType() == queryType::GType::ST_LST) {
+              return false;
+            }
 
-          //Checks if Next contains the correct parameters
-          if (designAbstractionEntity == "Next" && g1.getType() == queryType::GType::VAR
-            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::PROC
-            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::ST_LST
-            || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::CONST) {
-            return false;
-          }
+            //Checks if Calls contains the correct parameters: Procedure condition
+            if (designAbstractionEntity == "Calls" && g1.getType() != queryType::GType::PROC
+              || designAbstractionEntity == "Calls*" && g1.getType() != queryType::GType::PROC) {
+              return false;
+            }
 
-          //Checks if Next* contains the correct parameters
-          if (designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::VAR
-            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::PROC
-            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::ST_LST
-            || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::CONST) {
-            return false;
-          }
+            //Checks if Next contains the correct parameters
+            if (designAbstractionEntity == "Next" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Next" && g1.getType() == queryType::GType::CONST) {
+              return false;
+            }
 
-          //check is any design abstraction synonyms contains constant c
-          if (g1.getType() == queryType::GType::CONST) {
-            return false;
-          }
+            //Checks if Next* contains the correct parameters
+            if (designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::CONST) {
+              return false;
+            }
 
-          tempSynonymVector.push_back(g1.getName());
-          std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName1);
-          if (got == m_synonymMap.end()) {
-            m_synonymMap.insert({ sTName1, 1 });
-          } else {
-            m_synonymMap[sTName1]++;
-          }
-          //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
-          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
-            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
-            std::string grammarName2 = tempGrammar2.getName();
-            if (sTName2 == grammarName2) {
-              g2 = tempGrammar2;
+            //check is any design abstraction synonyms contains constant c
+            if (g1.getType() == queryType::GType::CONST) {
+              return false;
+            }
 
-              //Checks if Calls contains the correct parameters: procedure condition
-              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
-                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
-                return false;
+            tempSynonymVector.push_back(g1.getName());
+            std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName1);
+            if (got == m_synonymMap.end()) {
+              m_synonymMap.insert({ sTName1, 1 });
+            } else {
+              m_synonymMap[sTName1]++;
+            }
+            //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
+            for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+              Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+              std::string grammarName2 = tempGrammar2.getName();
+              if (sTName2 == grammarName2) {
+                g2 = tempGrammar2;
+
+                //Checks if Calls contains the correct parameters: procedure condition
+                if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                  || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                  return false;
+                }
+
+                //Checks if Next contains the correct parameters
+                if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Next* contains the correct parameters
+                if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Parent contains variables in their parameters and return false if true
+                if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+                if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+                if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
+                  || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
+                  return false;
+                }
+
+                //check is any design abstraction synonyms contains constant c
+                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+                if (got == m_synonymMap.end()) {
+                  m_synonymMap.insert({ sTName2, 1 });
+                } else {
+                  m_synonymMap[sTName2]++;
+                }
+                break;
+              } else if (sTInt2 > 0) {
+
+                //Checks if Calls contains the correct parameters: no numbers
+                if (designAbstractionEntity == "Calls"
+                  || designAbstractionEntity == "Calls*") {
+                  return false;
+                }
+
+                g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+
+              } else if (sTName2.find('"') != std::string::npos) {
+
+                //Checks if Next/Next* contains the correct parameters: no string
+                if (designAbstractionEntity == "Next"
+                  || designAbstractionEntity == "Next*") {
+                  return false;
+                }
+
+                removeCharsFromString(sTName2, "\\\"");
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2 == OPERATOR_UNDERSCORE) {
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
               }
+            }
+          } else if (sTInt1 > 0) {
+            counterQ = 0;
 
-              //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
-                return false;
+            //Checks if Calls contains the correct parameters: no numbers
+            if (designAbstractionEntity == "Calls"
+              || designAbstractionEntity == "Calls*") {
+              return false;
+            }
+
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+              Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+              std::string grammarName2 = tempGrammar2.getName();
+              if (sTName2 == grammarName2) {
+                g2 = tempGrammar2;
+
+                //Checks if Next contains the correct parameters
+                if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Next* contains the correct parameters
+                if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Parent and Parent* contains the correct parameters
+                if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+                if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+                if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
+                  || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
+                  return false;
+                }
+
+                //check is any design abstraction synonyms contains constant c
+                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+                //check is any design abstraction synonyms contains constant c
+                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+                if (got == m_synonymMap.end()) {
+                  m_synonymMap.insert({ sTName2, 1 });
+                } else {
+                  m_synonymMap[sTName2]++;
+                }
+                break;
+              } else if (sTInt2 > 0) {
+                g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2.find('"') != std::string::npos) {
+
+                //Checks if Next/Next* contains the correct parameters: no string
+                if (designAbstractionEntity == "Next"
+                  || designAbstractionEntity == "Next*") {
+                  return false;
+                }
+
+                removeCharsFromString(sTName2, "\\\"");
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2 == OPERATOR_UNDERSCORE) {
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
               }
+            }
+          } else if (sTName1.find('"') != std::string::npos) {
 
-              //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
-                return false;
+            //Checks if Next/Next* contains the correct parameters: no string
+            if (designAbstractionEntity == "Next"
+              || designAbstractionEntity == "Next*") {
+              return false;
+            }
+
+            removeCharsFromString(sTName1, "\\\"");
+            counterQ = 0;
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+              Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+              std::string grammarName2 = tempGrammar2.getName();
+              if (sTName2 == grammarName2) {
+                g2 = tempGrammar2;
+
+                //Checks if Next contains the correct parameters
+                if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Next* contains the correct parameters
+                if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Calls contains the correct parameters: procedure condition
+                if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                  || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                  return false;
+                }
+
+                //Checks if Parent/Parent* contains variables in their parameters and return false if tue
+                if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+                if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+                if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
+                  || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
+                  return false;
+                }
+
+                //check is any design abstraction synonyms contains constant c
+                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+                if (got == m_synonymMap.end()) {
+                  m_synonymMap.insert({ sTName2, 1 });
+                } else {
+                  m_synonymMap[sTName2]++;
+                }
+                break;
+              } else if (sTInt2 > 0) {
+
+                //Checks if Calls contains the correct parameters: no numbers
+                if (designAbstractionEntity == "Calls"
+                  || designAbstractionEntity == "Calls*") {
+                  return false;
+                }
+
+                g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2.find('"') != std::string::npos) {
+
+                //Checks if Next/Next* contains the correct parameters: no string
+                if (designAbstractionEntity == "Next"
+                  || designAbstractionEntity == "Next*") {
+                  return false;
+                }
+
+                removeCharsFromString(sTName2, "\\\"");
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2 == OPERATOR_UNDERSCORE) {
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
               }
+            }
+          } else if (sTName1 == OPERATOR_UNDERSCORE) {
+            if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
+              return false;
+            }
+            counterQ = 0;
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
+              Grammar tempGrammar2 = m_grammarVector.at(counterQ);
+              std::string grammarName2 = tempGrammar2.getName();
+              if (sTName2 == grammarName2) {
+                g2 = tempGrammar2;
 
-              //Checks if Parent contains variables in their parameters and return false if true
-              if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR ) {
-                return false;
+                //Checks if Next contains the correct parameters
+                if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Next* contains the correct parameters
+                if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                //Checks if Calls contains the correct parameters: procedure condition
+                if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
+                  || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
+                  return false;
+                }
+
+                //Checks if Parent contains variables in their parameters and return false if true
+                if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Follow/Follows* contains variables in their parameters and return false if tue
+                if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
+                  return false;
+                }
+
+                //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
+                if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
+                  || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
+                  return false;
+                }
+
+                //check is any design abstraction synonyms contains constant c
+                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                  return false;
+                }
+
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
+                if (got == m_synonymMap.end()) {
+                  m_synonymMap.insert({ sTName2, 1 });
+                } else {
+                  m_synonymMap[sTName2]++;
+                }
+                break;
+              } else if (sTInt2 > 0) {
+
+                //Checks if Calls contains the correct parameters: no numbers
+                if (designAbstractionEntity == "Calls"
+                  || designAbstractionEntity == "Calls*") {
+                  return false;
+                }
+
+                g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2.find('"') != std::string::npos) {
+
+                //Checks if Next/Next* contains the correct parameters: no string
+                if (designAbstractionEntity == "Next"
+                  || designAbstractionEntity == "Next*") {
+                  return false;
+                }
+
+                removeCharsFromString(sTName2, "\\\"");
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
+              } else if (sTName2 == OPERATOR_UNDERSCORE) {
+                g2 = Grammar(queryType::GType::STR, sTName2);
+                Relation DAO(designAbstractionEntity, g1, g2);
+                m_suchThatQueue.push(DAO);
+                break;
               }
-
-              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-              
-              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
-                || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
-                return false;
-              }
-
-              //check is any design abstraction synonyms contains constant c
-              if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
-              if (got == m_synonymMap.end()) {
-                m_synonymMap.insert({ sTName2, 1 });
-              } else {
-                m_synonymMap[sTName2]++;
-              }
-              break;
-            } else if (sTInt2 > 0) {
-
-              //Checks if Calls contains the correct parameters: no numbers
-              if (designAbstractionEntity == "Calls"
-                || designAbstractionEntity == "Calls*") {
-                return false;
-              }
-
-              g2 = Grammar (queryType::GType::STMT_NO, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-
-            } else if (sTName2.find('"') != std::string::npos) {
-
-              //Checks if Next/Next* contains the correct parameters: no string
-              if (designAbstractionEntity == "Next"
-                || designAbstractionEntity == "Next*") {
-                return false;
-              }
-
-              removeCharsFromString(sTName2, "\\\"");
-              g2 = Grammar (queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2 == OPERATOR_UNDERSCORE) {
-              g2 = Grammar (queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
             }
           }
-        } else if (sTInt1 > 0) {
-          counterQ = 0;
-
-          //Checks if Calls contains the correct parameters: no numbers
-          if (designAbstractionEntity == "Calls"
-            || designAbstractionEntity == "Calls*") {
-            return false;
-          }
-
-          g1 = Grammar (queryType::GType::STMT_NO, sTName1);
-          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
-            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
-            std::string grammarName2 = tempGrammar2.getName();
-            if (sTName2 == grammarName2) {
-              g2 = tempGrammar2;
-
-              //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Parent and Parent* contains the correct parameters
-              if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
-                || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
-                return false;
-              }
-
-              //check is any design abstraction synonyms contains constant c
-              if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-              //check is any design abstraction synonyms contains constant c
-              if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
-              if (got == m_synonymMap.end()) {
-                m_synonymMap.insert({ sTName2, 1 });
-              }
-              else {
-                m_synonymMap[sTName2]++;
-              }
-              break;
-            } else if (sTInt2 > 0) {
-              g2 =  Grammar(queryType::GType::STMT_NO, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2.find('"') != std::string::npos) {
-
-              //Checks if Next/Next* contains the correct parameters: no string
-              if (designAbstractionEntity == "Next"
-                || designAbstractionEntity == "Next*") {
-                return false;
-              }
-
-              removeCharsFromString(sTName2, "\\\"");
-              g2 = Grammar(queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2 == OPERATOR_UNDERSCORE) {
-              g2 = Grammar(queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } 
-          }
-        } else if (sTName1.find('"') != std::string::npos) {
-
-          //Checks if Next/Next* contains the correct parameters: no string
-          if (designAbstractionEntity == "Next"
-            || designAbstractionEntity == "Next*") {
-            return false;
-          }
-
-          removeCharsFromString(sTName1, "\\\"");
-          counterQ = 0;
-          g1 = Grammar (queryType::GType::STR, sTName1);
-          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
-            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
-            std::string grammarName2 = tempGrammar2.getName();
-            if (sTName2 == grammarName2) {
-              g2 = tempGrammar2;
-
-              //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Calls contains the correct parameters: procedure condition
-              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
-                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
-                return false;
-              }
-
-              //Checks if Parent/Parent* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
-                || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
-                return false;
-              }
-
-              //check is any design abstraction synonyms contains constant c
-              if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
-              if (got == m_synonymMap.end()) {
-                m_synonymMap.insert({ sTName2, 1 });
-              } else {
-                m_synonymMap[sTName2]++;
-              }
-              break;
-            } else if (sTInt2 > 0) {
-
-              //Checks if Calls contains the correct parameters: no numbers
-              if (designAbstractionEntity == "Calls"
-                || designAbstractionEntity == "Calls*") {
-                return false;
-              }
-
-              g2 = Grammar (queryType::GType::STMT_NO, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2.find('"') != std::string::npos) {
-
-              //Checks if Next/Next* contains the correct parameters: no string
-              if (designAbstractionEntity == "Next"
-                || designAbstractionEntity == "Next*") {
-                return false;
-              }
-
-              removeCharsFromString(sTName2, "\\\"");
-              g2 = Grammar (queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2 == OPERATOR_UNDERSCORE) {
-              g2 = Grammar (queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            }
-          }
-        } else if (sTName1 == OPERATOR_UNDERSCORE) {
-          if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
-            return false;
-          }
-          counterQ = 0;
-          g1 = Grammar (queryType::GType::STR, sTName1);
-          for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
-            Grammar tempGrammar2 = m_grammarVector.at(counterQ);
-            std::string grammarName2 = tempGrammar2.getName();
-            if (sTName2 == grammarName2) {
-              g2 = tempGrammar2;
-
-              //Checks if Next contains the correct parameters
-              if (designAbstractionEntity == "Next" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Next* contains the correct parameters
-              if (designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::PROC
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::ST_LST
-                || designAbstractionEntity == "Next*" && g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              //Checks if Calls contains the correct parameters: procedure condition
-              if (designAbstractionEntity == "Calls" && g2.getType() != queryType::GType::PROC
-                || designAbstractionEntity == "Calls*" && g2.getType() != queryType::GType::PROC) {
-                return false;
-              }
-
-              //Checks if Parent contains variables in their parameters and return false if true
-              if (designAbstractionEntity == "Parent" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Parent*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Follow/Follows* contains variables in their parameters and return false if tue
-              if (designAbstractionEntity == "Follows" && g2.getType() == queryType::GType::VAR
-                || designAbstractionEntity == "Follows*" && g2.getType() == queryType::GType::VAR) {
-                return false;
-              }
-
-              //Checks if Uses/Modifies contains statements in their 2nd parameter and return false if true
-              if (designAbstractionEntity == "Uses" && g2.getType() != queryType::GType::VAR
-                || designAbstractionEntity == "Modifies" && g2.getType() != queryType::GType::VAR) {
-                return false;
-              }
-
-              //check is any design abstraction synonyms contains constant c
-              if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
-                return false;
-              }
-
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
-              if (got == m_synonymMap.end()) {
-                m_synonymMap.insert({ sTName2, 1 });
-              } else {
-                m_synonymMap[sTName2]++;
-              }
-              break;
-            } else if (sTInt2 > 0) {
-
-              //Checks if Calls contains the correct parameters: no numbers
-              if (designAbstractionEntity == "Calls"
-                || designAbstractionEntity == "Calls*") {
-                return false;
-              }
-
-              g2 = Grammar(queryType::GType::STMT_NO, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2.find('"') != std::string::npos) {
-
-              //Checks if Next/Next* contains the correct parameters: no string
-              if (designAbstractionEntity == "Next"
-                || designAbstractionEntity == "Next*") {
-                return false;
-              }
-
-              removeCharsFromString(sTName2, "\\\"");
-              g2 = Grammar(queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            } else if (sTName2 == OPERATOR_UNDERSCORE) {
-              g2 = Grammar(queryType::GType::STR, sTName2);
-              Relation DAO(designAbstractionEntity, g1, g2);
-              m_suchThatQueue.push(DAO);
-              break;
-            }   
-          }
         }
+        //Relation DAO(designAbstractionEntity, g1, g2);
+        //m_suchThatQueue.push(DAO);
       }
-      //Relation DAO(designAbstractionEntity, g1, g2);
-      //m_suchThatQueue.push(DAO);
-    }
-    if (m_suchThatQueue.size() == 0) {
-      return false;
+      if (m_suchThatQueue.size() == 0) {
+        return false;
+      }
     }
   }
-    
   //creation of pattern object
-  if (patternStatement == "") {
-    std::cout << "pattern statement is empty" << std::endl;
+  if (m_patternVector.empty()) {
+    std::cout << "pattern vector is empty" << std::endl;
   } else {
-    std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
-    std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
+    int counterC = 0;
+    for (auto c = m_patternVector.begin(); c != m_patternVector.end(); c++, counterC++) {
+      //std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
+      //std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
+      std::string patternObject = m_patternVector.at(counterC);
 
-    patternObject = m_stringUtil.trimString(patternObject);
+      patternObject = m_stringUtil.trimString(patternObject);
 
-    std::cout << patternObject << std::endl;
+      std::cout << patternObject << std::endl;
 
-    std::string delimiterBracket1 = "(";
-    std::string patternSynonym = patternObject.substr(0, patternObject.find(delimiterBracket1));
-    std::string patternParameters = patternObject.substr(patternObject.find(delimiterBracket1), patternObject.size());
+      std::string delimiterBracket1 = "(";
+      std::string patternSynonym = patternObject.substr(0, patternObject.find(delimiterBracket1));
+      std::string patternParameters = patternObject.substr(patternObject.find(delimiterBracket1), patternObject.size());
 
-    //std::cout << patternSynonym << std::endl;
-    patternSynonym = m_stringUtil.trimString(patternSynonym);
+      //std::cout << patternSynonym << std::endl;
+      patternSynonym = m_stringUtil.trimString(patternSynonym);
 
-    patternParameters = patternParameters.substr(patternParameters.find_first_of('(') + 1, patternParameters.find_last_of(')') - 1);
+      patternParameters = patternParameters.substr(patternParameters.find_first_of('(') + 1, patternParameters.find_last_of(')') - 1);
 
-    std::vector<std::string> patternVector;
-    
-    patternVector = stringVectorTokenizer(",;", patternParameters, patternVector);
+      std::vector<std::string> patternVector;
 
-    //vector to be passed to jazlyn
-    std::vector<std::string> patternExpressionVector;
+      patternVector = stringVectorTokenizer(",;", patternParameters, patternVector);
 
-    int counterP = 0;
-    Grammar patternOfGrammar;
-    Grammar grammarPatternLeft;
-    Grammar grammarPatternRight;
-    bool isSubTree = false;
-    int counterR = 0;
-    std::vector<std::string> counterVect;
-    for (auto r = m_grammarVector.begin(); r != m_grammarVector.end(); r++, counterR++) {
-      Grammar tempPatternGrammar = m_grammarVector.at(counterR);
-      std::string tempPatternGrammarString = tempPatternGrammar.getName();
-      if (patternSynonym == tempPatternGrammarString) {
-        patternOfGrammar = tempPatternGrammar;
-        counterVect.push_back(tempPatternGrammarString);
-        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternSynonym);
-        if (got == m_synonymMap.end()) {
-          m_synonymMap.insert({ patternSynonym, 1 });
-        } else {
-          m_synonymMap[patternSynonym]++;
-        }
-      } 
-    }
-    if (counterVect.size() == 0) {
-      return false;
-    }
+      //vector to be passed to jazlyn
+      std::vector<std::string> patternExpressionVector;
 
-    //assignment patterns
-    if (patternOfGrammar.getType() == queryType::GType::ASGN) {
-      std::string patternLeftName = patternVector.front();
-      
-      //left side: string
-      if (patternLeftName.find('"') != std::string::npos) {
-        removeCharsFromString(patternLeftName, "\\\" ");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-      }
-
-      //left side: _
-      else if (patternLeftName == OPERATOR_UNDERSCORE) {
-        removeCharsFromString(patternLeftName, "\"");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-
-      //left side: synonym
-      } else {
-        int counterT = 0;
-        removeCharsFromString(patternLeftName, "\\\" ");
-        std::vector<std::string> counterVector;
-        for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
-          Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
-          std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
-          if (patternLeftName == tempPatternGrammarStringTemp) {
-            grammarPatternLeft = tempPatternGrammarTemp;
-            tempSynonymVector.push_back(grammarPatternLeft.getName());
-            counterVector.push_back(grammarPatternLeft.getName());
-
-            std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
-            if (got == m_synonymMap.end()) {
-              m_synonymMap.insert({ patternLeftName, 1 });
-            } else {
-              m_synonymMap[patternLeftName]++;
-            }
+      int counterP = 0;
+      Grammar patternOfGrammar;
+      Grammar grammarPatternLeft;
+      Grammar grammarPatternRight;
+      bool isSubTree = false;
+      int counterR = 0;
+      std::vector<std::string> counterVect;
+      for (auto r = m_grammarVector.begin(); r != m_grammarVector.end(); r++, counterR++) {
+        Grammar tempPatternGrammar = m_grammarVector.at(counterR);
+        std::string tempPatternGrammarString = tempPatternGrammar.getName();
+        if (patternSynonym == tempPatternGrammarString) {
+          patternOfGrammar = tempPatternGrammar;
+          counterVect.push_back(tempPatternGrammarString);
+          std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternSynonym);
+          if (got == m_synonymMap.end()) {
+            m_synonymMap.insert({ patternSynonym, 1 });
+          } else {
+            m_synonymMap[patternSynonym]++;
           }
         }
-        if (counterVector.size() == 0) {
-          return false;
-        }
       }
-
-      std::string patternRightName = patternVector.back();
-
-      patternRightName = m_stringUtil.trimString(patternRightName);
-
-      //Check for equal number of matching brackets
-      size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
-      size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
-
-      if (n1 != n2) {
+      if (counterVect.size() == 0) {
         return false;
       }
 
-      char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-        'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 
-        'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        '(', ')', '+', '-', '*', '"', '_', ' ',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-      //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
-      size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
-      if (pos != std::string::npos) {
-        // username contains an invalid character at index pos
-        return false;
-      }
-
-      //Check if any ) exists before (
-      if (patternRightName.find(')') < patternRightName.find('(')) {
-        return false;
-      }
-
-      //Check for any brackets that are: ()
-      //std::vector<size_t> positions; // holds all the positions that sub occurs within str
-
-      std::string patternRightNameTemp = patternRightName;
-      char sub = '(';
-
-      size_t pos3 = patternRightNameTemp.find(sub, 0);
-      while (pos3 != std::string::npos) {
-        //positions.push_back(pos);
-        pos3 = patternRightNameTemp.find(sub, pos3 + 1);
-        if (patternRightNameTemp.find_first_not_of(" \t") == ')') {
-          return false;
-        }
-      }
-
-      if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
-        removeCharsFromString(patternRightName, "\\\" _");
-        //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
-        patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
-        grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
-        isSubTree = true;
-      } else if (patternRightName.find('"') != std::string::npos && patternRightName.front() != '_' && patternRightName.back() != '_') {
-        removeCharsFromString(patternRightName, "\\\" ");
-        //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
-        patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
-        grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
-      } else if (patternRightName == OPERATOR_UNDERSCORE) {
-        grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
-      } else {
-        return false;
-      }
-    
-    //while patterns
-    } else if (patternOfGrammar.getType() == queryType::GType::WHILE) {
-      std::string patternLeftName = patternVector.front();
-      if (patternLeftName.find('"') != std::string::npos) {
-        removeCharsFromString(patternLeftName, "\\\" ");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-      }
-      else if (patternLeftName == OPERATOR_UNDERSCORE) {
-        removeCharsFromString(patternLeftName, "\"");
-        grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
-      } else {
-        int counterT = 0;
-        removeCharsFromString(patternLeftName, "\\\" ");
-        std::vector<std::string> counterVector;
-        for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
-          Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
-          std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
-          if (patternLeftName == tempPatternGrammarStringTemp) {
-            grammarPatternLeft = tempPatternGrammarTemp;
-            tempSynonymVector.push_back(grammarPatternLeft.getName());
-            counterVector.push_back(grammarPatternLeft.getName());
-
-            std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
-            if (got == m_synonymMap.end()) {
-              m_synonymMap.insert({ patternLeftName, 1 });
-            } else {
-              m_synonymMap[patternLeftName]++;
-            }
-          }
-        }
-        if (counterVector.size() == 0) {
-          return false;
-        }
-      }
-
-      std::string patternRightName = patternVector.back();
-      patternRightName = m_stringUtil.trimString(patternRightName);
-      if (patternRightName == OPERATOR_UNDERSCORE) {
-        grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
-      } else {
-        return false;
-      }
-
-    
-      //if patterns
-    } else if (patternOfGrammar.getType() == queryType::GType::IF) {
-      std::string ifPatternParam1;
-      std::string ifPatternParam2;
-
-      //check there are 3 parameters for if pattern clause
-      if (patternVector.size() == 3) {
-
-        ifPatternParam1 = patternVector.at(1);
-        ifPatternParam2 = patternVector.at(2);
-
-        //check to make sure both pattern parameters are _
-        if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
-          return false;
-        }
-
+      //assignment patterns
+      if (patternOfGrammar.getType() == queryType::GType::ASGN) {
         std::string patternLeftName = patternVector.front();
+
+        //left side: string
         if (patternLeftName.find('"') != std::string::npos) {
           removeCharsFromString(patternLeftName, "\\\" ");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
         }
 
+        //left side: _
         else if (patternLeftName == OPERATOR_UNDERSCORE) {
+          removeCharsFromString(patternLeftName, "\"");
+          grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+
+          //left side: synonym
+        } else {
+          int counterT = 0;
+          removeCharsFromString(patternLeftName, "\\\" ");
+          std::vector<std::string> counterVector;
+          for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
+            Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
+            std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
+            if (patternLeftName == tempPatternGrammarStringTemp) {
+              grammarPatternLeft = tempPatternGrammarTemp;
+              tempSynonymVector.push_back(grammarPatternLeft.getName());
+              counterVector.push_back(grammarPatternLeft.getName());
+
+              std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
+              if (got == m_synonymMap.end()) {
+                m_synonymMap.insert({ patternLeftName, 1 });
+              } else {
+                m_synonymMap[patternLeftName]++;
+              }
+            }
+          }
+          if (counterVector.size() == 0) {
+            return false;
+          }
+        }
+
+        std::string patternRightName = patternVector.back();
+
+        patternRightName = m_stringUtil.trimString(patternRightName);
+
+        //Check for equal number of matching brackets
+        size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
+        size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
+
+        if (n1 != n2) {
+          return false;
+        }
+
+        char validChars[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+          'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+          'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+          'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+          '(', ')', '+', '-', '*', '"', '_', ' ',
+          '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
+        size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
+        if (pos != std::string::npos) {
+          // username contains an invalid character at index pos
+          return false;
+        }
+
+        //Check if any ) exists before (
+        if (patternRightName.find(')') < patternRightName.find('(')) {
+          return false;
+        }
+
+        //Check for any brackets that are: ()
+        //std::vector<size_t> positions; // holds all the positions that sub occurs within str
+
+        std::string patternRightNameTemp = patternRightName;
+        char sub = '(';
+
+        size_t pos3 = patternRightNameTemp.find(sub, 0);
+        while (pos3 != std::string::npos) {
+          //positions.push_back(pos);
+          pos3 = patternRightNameTemp.find(sub, pos3 + 1);
+          if (patternRightNameTemp.find_first_not_of(" \t") == ')') {
+            return false;
+          }
+        }
+
+        if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
+          removeCharsFromString(patternRightName, "\\\" _");
+          //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+          patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+          grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
+          isSubTree = true;
+        } else if (patternRightName.find('"') != std::string::npos && patternRightName.front() != '_' && patternRightName.back() != '_') {
+          removeCharsFromString(patternRightName, "\\\" ");
+          //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+          patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+          grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
+        } else if (patternRightName == OPERATOR_UNDERSCORE) {
+          grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+        } else {
+          return false;
+        }
+
+        //while patterns
+      } else if (patternOfGrammar.getType() == queryType::GType::WHILE) {
+        std::string patternLeftName = patternVector.front();
+        if (patternLeftName.find('"') != std::string::npos) {
+          removeCharsFromString(patternLeftName, "\\\" ");
+          grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+        } else if (patternLeftName == OPERATOR_UNDERSCORE) {
           removeCharsFromString(patternLeftName, "\"");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
         } else {
@@ -1399,137 +2259,201 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         }
 
-        std::string patternRightName = ifPatternParam2;
+        std::string patternRightName = patternVector.back();
         patternRightName = m_stringUtil.trimString(patternRightName);
         if (patternRightName == OPERATOR_UNDERSCORE) {
           grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
         } else {
           return false;
         }
-      } else {
-        return false;
-      }
-    }
 
-    //create pattern object
-    Pattern patternObjectCreated(patternOfGrammar, grammarPatternLeft, grammarPatternRight, isSubTree);
-    m_patternQueue.push(patternObjectCreated);
-    
+
+        //if patterns
+      } else if (patternOfGrammar.getType() == queryType::GType::IF) {
+        std::string ifPatternParam1;
+        std::string ifPatternParam2;
+
+        //check there are 3 parameters for if pattern clause
+        if (patternVector.size() == 3) {
+
+          ifPatternParam1 = patternVector.at(1);
+          ifPatternParam2 = patternVector.at(2);
+
+          //check to make sure both pattern parameters are _
+          if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
+            return false;
+          }
+
+          std::string patternLeftName = patternVector.front();
+          if (patternLeftName.find('"') != std::string::npos) {
+            removeCharsFromString(patternLeftName, "\\\" ");
+            grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+          }
+
+          else if (patternLeftName == OPERATOR_UNDERSCORE) {
+            removeCharsFromString(patternLeftName, "\"");
+            grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+          } else {
+            int counterT = 0;
+            removeCharsFromString(patternLeftName, "\\\" ");
+            std::vector<std::string> counterVector;
+            for (auto t = m_grammarVector.begin(); t != m_grammarVector.end(); t++, counterT++) {
+              Grammar tempPatternGrammarTemp = m_grammarVector.at(counterT);
+              std::string tempPatternGrammarStringTemp = tempPatternGrammarTemp.getName();
+              if (patternLeftName == tempPatternGrammarStringTemp) {
+                grammarPatternLeft = tempPatternGrammarTemp;
+                tempSynonymVector.push_back(grammarPatternLeft.getName());
+                counterVector.push_back(grammarPatternLeft.getName());
+
+                std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(patternLeftName);
+                if (got == m_synonymMap.end()) {
+                  m_synonymMap.insert({ patternLeftName, 1 });
+                } else {
+                  m_synonymMap[patternLeftName]++;
+                }
+              }
+            }
+            if (counterVector.size() == 0) {
+              return false;
+            }
+          }
+
+          std::string patternRightName = ifPatternParam2;
+          patternRightName = m_stringUtil.trimString(patternRightName);
+          if (patternRightName == OPERATOR_UNDERSCORE) {
+            grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+
+      //create pattern object
+      Pattern patternObjectCreated(patternOfGrammar, grammarPatternLeft, grammarPatternRight, isSubTree);
+      m_patternQueue.push(patternObjectCreated);
+
     }
+  }
 
   //creation of with object
-  if (withStatement == "") {
-    std::cout << "with statement is empty" << std::endl;
+  if (m_withVector.empty()) {
+    std::cout << "with vector is empty" << std::endl;
   } else {
-    withStatement = m_stringUtil.trimString(withStatement);
-    std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
-    withObject = m_stringUtil.trimString(withObject);
+    int counterD=0;
+    for (auto d = m_withVector.begin(); d != m_withVector.end(); d++, counterD++) {
+      //withStatement = m_stringUtil.trimString(withStatement);
+      //std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
+      std::string withObject = m_withVector.at(counterD);
+      withObject = m_stringUtil.trimString(withObject);
 
-    //Check if with expression does not contains =
-    if (withObject.find('=') == std::string::npos) {
-      return false;
-    }
-
-    std::string withLeft = withObject.substr(0, withObject.find(OPERATOR_EQUAL));
-    std::string withRight = withObject.substr(withObject.find(OPERATOR_EQUAL) + 1, withObject.size());
-
-    withLeft = m_stringUtil.trimString(withLeft);
-    withRight = m_stringUtil.trimString(withRight);
-
-    //Check if with expression is empty on either side =
-    if (withLeft == "" || withRight == "") {
-      return false;
-    }
-
-    Grammar withLeftGrammar;
-    Grammar withRightGrammar;
-    bool isWithTrue = true;
-
-    int withLeftInt = 0;
-    int withRightInt = 0;
-
-    std::stringstream convertLeft(withLeft);
-    if (!(convertLeft >> withLeftInt)) {
-      withLeftInt = 0;
-    }
-
-    std::stringstream convertRight(withRight);
-    if (!(convertRight >> withRightInt)) {
-      withRightInt = 0;
-    }
-    //Check if both are strings
-    if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
-      if (withLeft != withRight) {
-        return false;
-      } else if (withLeft == withRight) {
-        removeCharsFromString(withLeft, "\\\" ");
-        removeCharsFromString(withRight, "\\\" ");
-        withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
-        withRightGrammar = Grammar(queryType::GType::STR, withRight);
-
-        With withObjectCreated(withLeftGrammar, withRightGrammar);
-        m_withQueue.push(withObjectCreated);
-      }
-
-    //Check if both left and right are numbers
-    if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
-      return false;
-    } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
-      withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
-      withRightGrammar = Grammar(queryType::GType::CONST, withRight);
-      
-      With withObjectCreated(withLeftGrammar, withRightGrammar);
-      m_withQueue.push(withObjectCreated);
-    }
-
-    //Check orientation of parameters: left integer, right attribute
-    if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
-      isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
-      if (isWithTrue == false) {
+      //Check if with expression does not contains =
+      if (withObject.find('=') == std::string::npos) {
         return false;
       }
-    //Case 2: left string, right attribute
-    } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos) {
-      isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
-      if (isWithTrue == false) {
-        return false;
-      }
-    //Case 3: left attribute, right attribute
-    } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
-      withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
 
-    //Case 4: left attribute, right integer
-    } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
-      isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
-      if (isWithTrue == false) {
+      std::string withLeft = withObject.substr(0, withObject.find(OPERATOR_EQUAL));
+      std::string withRight = withObject.substr(withObject.find(OPERATOR_EQUAL) + 1, withObject.size());
+
+      withLeft = m_stringUtil.trimString(withLeft);
+      withRight = m_stringUtil.trimString(withRight);
+
+      //Check if with expression is empty on either side =
+      if (withLeft == "" || withRight == "") {
         return false;
       }
-    //Case 5: left attribute, right string
-    } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos) {
-      isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
-      if (isWithTrue == false) {
-        return false;
+
+      Grammar withLeftGrammar;
+      Grammar withRightGrammar;
+      bool isWithTrue = true;
+
+      int withLeftInt = 0;
+      int withRightInt = 0;
+
+      std::stringstream convertLeft(withLeft);
+      if (!(convertLeft >> withLeftInt)) {
+        withLeftInt = 0;
       }
-    //Case 6: SPECIAL CASE synonym with no attributes used.
-    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
-      isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
-      if (isWithTrue == false) {
-        return false;
+
+      std::stringstream convertRight(withRight);
+      if (!(convertRight >> withRightInt)) {
+        withRightInt = 0;
       }
-    //Case 7: SPECIAL CASE synonym with no attributes used.
-    } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
-      return false;
-    //Case of string left side int right side
-    } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
-      return false;
-    //Case of int left side string right side
-    } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
-      return false;
-      //Case 7: SPECIAL CASE synonym with no attributes used.
-    } else {
-      return false;
+      //Check if both are strings
+      if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
+        if (withLeft != withRight) {
+          return false;
+        } else if (withLeft == withRight) {
+          removeCharsFromString(withLeft, "\\\" ");
+          removeCharsFromString(withRight, "\\\" ");
+          withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
+          withRightGrammar = Grammar(queryType::GType::STR, withRight);
+
+          With withObjectCreated(withLeftGrammar, withRightGrammar);
+          m_withQueue.push(withObjectCreated);
+        }
+
+        //Check if both left and right are numbers
+        if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
+          return false;
+        } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
+          withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
+          withRightGrammar = Grammar(queryType::GType::CONST, withRight);
+
+          With withObjectCreated(withLeftGrammar, withRightGrammar);
+          m_withQueue.push(withObjectCreated);
+        }
+
+        //Check orientation of parameters: left integer, right attribute
+        if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
+          isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 2: left string, right attribute
+        } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos) {
+          isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 3: left attribute, right attribute
+        } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
+          withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+
+          //Case 4: left attribute, right integer
+        } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
+          isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 5: left attribute, right string
+        } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos) {
+          isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 6: SPECIAL CASE synonym with no attributes used.
+        } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+          isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 7: SPECIAL CASE synonym with no attributes used.
+        } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
+          return false;
+          //Case of string left side int right side
+        } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+          return false;
+          //Case of int left side string right side
+        } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
+          return false;
+          //Case 7: SPECIAL CASE synonym with no attributes used.
+        } else {
+          return false;
+        }
     }
-  } 
+  }
 
   isTokenized = true;
   return isTokenized;
