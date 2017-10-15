@@ -447,24 +447,24 @@ public:
   //  AssignTable
   ///////////////////////////////////////////////////////
   AssignTable* getAssignTable();
-  /**
+  /*
   * Returns all assignment statements number that modifies the variable name.
   * @param t_varName the name of the variable.
   */
   LIST_OF_STMT_NUMS getAllAssignStmtListByVar(VAR_NAME& t_varName);
 
-  /**
+  /*
   * Returns all assignment statements.
   */
   LIST_OF_STMT_NUMS getAllAssignStmts();
 
-  /**
+  /*
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
   MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt();
 
-  /**
+  /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
@@ -591,7 +591,7 @@ public:
   ///////////////////////////////////////////////////////
   ModifiesP* getModifiesP();
 
-  /**
+  /*
   * Returns true if the procedure has a modifies relation of that variable.
   * Used in the query evaluator for Modifies("First", "x").
   *
@@ -600,7 +600,7 @@ public:
   */
   BOOLEAN isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName);
   
-  /**
+  /*
   * Returns true if the procedure has a modifies relation.
   * Used in the query evaluator for Modifies("First", _).
   *
@@ -608,7 +608,7 @@ public:
   */
   BOOLEAN isModifiesInProc(const PROC_NAME& t_procName);
 
-  /**
+  /*
   * Returns the list of variable names that are modified in the procedure specified.
   * Used in the query evaluator for Modifies("First", x).
   *
@@ -616,7 +616,7 @@ public:
   */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
   
-  /**
+  /*
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
   *
@@ -624,14 +624,14 @@ public:
   */
   LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
   
-  /**
+  /*
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar();
 
-  /**
+  /*
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
@@ -643,7 +643,7 @@ public:
   ///////////////////////////////////////////////////////
   UsesP* getUsesP();
 
-  /**
+  /*
   * Returns true if the procedure has a uses relation of that variable.
   * Used in the query evaluator for Uses("First", "x").
   *
@@ -652,7 +652,7 @@ public:
   */
   BOOLEAN isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName);
   
-  /**
+  /*
   * Returns true if the procedure has a uses relation.
   * Used in the query evaluator for Uses("First", _).
   *
@@ -660,7 +660,7 @@ public:
   */
   BOOLEAN isUsesInProc(const PROC_NAME& t_procName);
   
-  /**
+  /*
   * Returns the list of variable names that are used in the procedure specified.
   * Used in the query evaluator for Uses("First", x).
   *
@@ -668,7 +668,7 @@ public:
   */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
 
-  /**
+  /*
   * Returns the list of procedure names that are used by the variable.
   * Used in the query evaluator for Uses(p, "x").
   *
@@ -676,14 +676,14 @@ public:
   */
   LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
 
-  /**
+  /*
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
   * Used in the query evaluator for Uses(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getUsesPAllProcToVar();
 
-  /**
+  /*
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for  Uses(p, _)
   *
