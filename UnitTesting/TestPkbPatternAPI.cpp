@@ -209,6 +209,37 @@ public:
     Assert::IsTrue(result == expected);
   }
 
+  TEST_METHOD(getAllWhileStmtsWithVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 1);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+
+    expected.insert({ 1, varNameA });
+    expected.insert({ 2, varNameA });
+    expected.insert({ 3, varNameB });
+    expected.insert({ 4, varNameA });
+
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 500);
+    expected.insert({ 500, varNameA });
+
+    result = pkbRead->getAllWhileStmtsWithVar();
+    Assert::IsTrue(result == expected);
+  }
 
 private:
   void printListOfIntegers(std::list<int> list) {
