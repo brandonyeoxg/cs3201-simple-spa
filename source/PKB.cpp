@@ -357,8 +357,8 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtListByVar(VAR_NAME& t_varName) {
   return m_assignTable->getAllAssignStmtListByVar(varIdx);
 }
 
-LIST_OF_STMT_NUMS PKB::getAllAssignStmtList() {
-  return m_assignTable->getAllAssignStmtList();
+LIST_OF_STMT_NUMS PKB::getAllAssignStmts() {
+  return m_assignTable->getAllAssignStmts();
 }
 
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllVarNameWithAssignStmt() {
@@ -374,7 +374,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
 ///////////////////////////////////////////////////////
 
 
-std::list<VAR_NAME> PKB::getAllConstants() {
+LIST_OF_RESULTS PKB::getAllConstants() {
   return m_constantTable->getAllConstants();
 }
 
@@ -385,7 +385,7 @@ ProcTable* PKB::getProcTable() {
   return m_procTable;
 }
 
-std::vector<PROC_NAME>& PKB::getAllProcsName() {
+LIST_OF_RESULTS PKB::getAllProcsName() {
   return m_procTable->getAllProcsName();
 }
 

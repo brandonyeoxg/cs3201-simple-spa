@@ -1,6 +1,12 @@
 #pragma once
 #include "Extractor.h"
 
+/*
+* Handles extractions for the Parent relation.
+*
+* @author Brandon
+* @date 8/10/2017
+*/
 class ParentExtractor : public Extractor
 {
 public:
@@ -12,6 +18,5 @@ public:
 private:
   void populateParentedByStarMap();
   void populateParentStarMap();
-  void populateParentedByStarMap(std::unordered_map<STMT_NUM, STMT_NUM>::iterator t_mapItr, ParentTable* t_table);
 };
 

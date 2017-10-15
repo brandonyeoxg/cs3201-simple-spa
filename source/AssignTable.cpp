@@ -26,9 +26,6 @@ void AssignTable::insertAssignStmt(STMT_NUM t_stmtNum, VAR_INDEX t_varIdx, VAR_N
   m_assignMapWithVar.emplace(t_stmtNum, t_varName);
 }
 
-LIST_OF_STMT_NUMS& AssignTable::getAllAssignStmt() {
-  return m_assignStmts;
-}
 
 LIST_OF_STMT_NUMS AssignTable::getAllAssignStmtListByVar(VAR_INDEX t_index) {
   auto aItr = m_assignVarWithAssignStmtNum.find(t_index);
@@ -42,16 +39,12 @@ MAP_OF_STMT_NUM_TO_VAR_NAME& AssignTable::getAllAssignStmtWithVar() {
   return m_assignMapWithVar;
 }
 
-LIST_OF_STMT_NUMS& AssignTable::getAllAssignStmtList() {
+LIST_OF_STMT_NUMS& AssignTable::getAllAssignStmts() {
   return m_assignStmts;
 }
 
 MAP_OF_VAR_INDEX_TO_STMT_NUMS& AssignTable::getAllVarIndexWithAssignStmtNum() {
   return m_assignVarWithAssignStmtNum;
-}
-
-std::unordered_map<STMT_NUM, VAR_NAME>& AssignTable::getAssignMapWithVar() {
-  return m_assignMapWithVar;
 }
 
 MAP_OF_VAR_NAME_TO_STMT_NUMS& AssignTable::getAllAssignVarNameWithStmtNum() {
