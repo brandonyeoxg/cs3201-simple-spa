@@ -4,7 +4,7 @@
 
 /**
 * Represents the modifies relationship for procedures.
-* If a procedure A calls procedure B, this relationship is also stored in the table.
+* If a procedure A calls procedure B, the modifies relationship of procedure B is also stored as belonging to procedure A in the table.
 *
 * @author Brandon
 * @date 29/9/2017
@@ -67,7 +67,7 @@ public:
 
   /*
   * Returns a list of procedures that modifies something.
-  * Used in the query evaluator for  Modifies(p, _)
+  * Used in the query evaluator for Modifies(p, _)
   * 
   */
   LIST_OF_PROC_NAMES getAllProcNames(); 
@@ -88,7 +88,7 @@ private:
   void insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
   
   /*
-  * Helper method to insert the modifies relation for procedures with procedure as a key and a variable index  hash set as the value.
+  * Helper method to insert the modifies relation for procedures with procedure as a key and a variable index hash set as the value.
   *
   * @param t_procIdx the procedure index that has the modifies relation.
   * @param t_varIdx the variable index of the variable that is modified by the procedure.
