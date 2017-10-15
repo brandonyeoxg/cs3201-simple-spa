@@ -2203,6 +2203,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     }
   }
 
+  std::cout << "patternQueue size: " << m_patternQueue.size() << std::endl;
+
   //creation of with object
   if (m_withVector.empty()) {
     std::cout << "with vector is empty" << std::endl;
@@ -2320,6 +2322,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
     }
   }
+  std::cout << "withQueue size: " << m_withQueue.size() << std::endl;
+
 
   isTokenized = true;
   return isTokenized;
