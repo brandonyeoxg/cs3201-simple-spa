@@ -130,7 +130,7 @@ std::string PatternMatch::convertVectorToStr(std::vector<std::string> t_vector) 
 }
 
 /** Helper function to remove all whitespaces in a given string
-    should remove tabs as well (TEST THIS)
+    should remove tabs as well
 */
 void PatternMatch::removeWhitespaces(std::string &t_str) {
   t_str.erase(std::remove(t_str.begin(), t_str.end(), ' '), t_str.end());
