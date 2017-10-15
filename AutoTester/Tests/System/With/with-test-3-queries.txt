@@ -80,22 +80,22 @@ none
 5000
 17 - With VarName Invalid Test 6
 while w1, w2;
-Select w1 with w2.varName="i"
+Select w1 with w2.varName="iNv1nciB1e"
 none
 5000
 18 - With VarName Invalid Test 7
 if ifs1, ifs2;
-Select ifs1 with ifs2.varName="i"
+Select ifs1 with ifs2.varName="iNv1nciB1e"
 none
 5000
 19 - With VarName Invalid Test 8
 constant co1, co2;
-Select co1 with co2.varName="i"
+Select co1 with co2.varName="iNv1nciB1e"
 none
 5000
 20 - With VarName Invalid Test 9
 prog_line pl1, pl2;
-Select pl1 with pl2.varName="i"
+Select pl1 with pl2.varName="iNv1nciB1e"
 none
 5000
 21 - With Value Functionality Test

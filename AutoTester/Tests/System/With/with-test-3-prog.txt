@@ -24,9 +24,19 @@ procedure C4ed3U5{
     call D1n0SauR;}
   else{
     while B0ar{
-      C4ed3U5=cU1L+1;}}
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3*cU1L- C4ed3U5;}}}}}
 }
 
 procedure D1n0SauR{
-  D1n0SauR=a+b4TtL3*cU1L- C4ed3U5;
+  D1n0SauR=aTt4cC+b4TtL3*cU1L- C4ed3U5;
+  aTt4cC=((((((iNv1nciB1e)))+b4TtL3))*cU1L) - ((C4ed3U5));
+  d41AmaDuR = cU1L- (C4ed3U5 + b4TtL3)*D1n0SauR;
 }
