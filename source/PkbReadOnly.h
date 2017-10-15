@@ -294,19 +294,19 @@ public:
   /*
   * Returns all assignment statements.
   */
-  virtual LIST_OF_STMT_NUMS getAllAssignStmtList() = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmts() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  virtual std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt() = 0;
+  virtual MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName() = 0;
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
@@ -315,7 +315,7 @@ public:
   * Method that returns the list of all constants that are stored within ConstantTable.
   * @return a list of constants (strings).
   */
-  virtual std::list<std::string> getAllConstants() = 0;
+  virtual LIST_OF_RESULTS getAllConstants() = 0;
 
   ///////////////////////////////////////////////////////
   //  Pattern Matching
@@ -504,97 +504,109 @@ public:
   /**
   * Returns all procedure name in the program
   */
-  virtual std::vector<PROC_NAME>& getAllProcsName() = 0;
+  virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
 
-  /**
-  * Method that checks if the procedure t_procName contains t_varName that is being modified.
-  * @param t_procName the procedure name.
-  * @param t_varName the variable name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a modifies relation of that variable.
+  * Used in the query evaluator for Modifies("First", "x").
+  *
+  * @param t_procName the procedure name that has the modifies relation.
+  * @param t_varName the variable name of the variable that is modified.
   */
-  virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual BOOLEAN isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that checks if the procedure t_procName contains any variables that are being modified.
-  * @param t_procName the procedure name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a modifies relation.
+  * Used in the query evaluator for Modifies("First", _).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual BOOLEAN isModifiesInProc(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of variable names in modifiesP using the index number of the procedure.
-  * @param t_procName the procedure name.
-  * @return the vector of variable names.
+  /*
+  * Returns the list of variable names that are modified in the procedure specified.
+  * Used in the query evaluator for Modifies("First", x).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of procedure names in modifiesP using the index number of the variable.
-  * @param t_varName the variable name.
-  * @return the vector of procedure names.
+  /*
+  * Returns the list of procedure names that are modified by the variable.
+  * Used in the query evaluator for Modifies(p, "x").
+  *
+  * @param t_varName the variable name that is checked.
   */
-  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that returns the entire map of procedures p that satisfy the Modifies(p, x) where x is any variable.
-  * @return the map of procedures mapped to variable names.
+  /*
+  * Returns a results of a set of procedures mapped to a list of variables that they modifies.
+  * Used in the query evaluator for Modifies(p, x);
+  *
   */
-  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0;
 
-  /**
-  * Method that returns the list of procedure names in modifiesP.
-  * @return the vector of procedure names.
+  /*
+  * Returns a list of procedures that modifies something.
+  * Used in the query evaluator for  Modifies(p, _)
+  *
   */
-  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
+  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
 
-  /**
-  * Method that checks if the procedure t_procName contains t_varName that is being used.
-  * @param t_procName the procedure name.
-  * @param t_varName the variable name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a uses relation of that variable.
+  * Used in the query evaluator for Uses("First", "x").
+  *
+  * @param t_procName the procedure name that has the uses relation.
+  * @param t_varName the variable name of the variable that is used.
   */
-  virtual bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Uses("First", "x") */
+  virtual BOOLEAN isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that checks if the procedure t_procName contains any variables that are being used.
-  * @param t_procName the procedure name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a uses relation.
+  * Used in the query evaluator for Uses("First", _).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual bool isUsesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual BOOLEAN isUsesInProc(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of variable names in usesP using the index number of the procedure.
-  * @param t_procName the procedure name.
-  * @return the vector of variable names.
+  /*
+  * Returns the list of variable names that are used in the procedure specified.
+  * Used in the query evaluator for Uses("First", x).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Uses("First", x) */
+  virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of procedure names in usesP using the index number of the variable.
-  * @param t_varName the variable name.
-  * @return the vector of procedure names.
+  /*
+  * Returns the list of procedure names that are used by the variable.
+  * Used in the query evaluator for Uses(p, "x").
+  *
+  * @param t_varName the variable name that is checked.
   */
-  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Uses(p, "x") */
+  virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that returns the entire map of procedures p that satisfy the uses(p, x) where x is any variable.
-  * @return the map of procedures mapped to variable names.
+  /*
+  * Returns a results of a set of procedures mapped to a list of variables that they uses.
+  * Used in the query evaluator for Uses(p, x);
+  *
   */
-  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0; /*< Uses(p, x) */
+  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0;
 
-  /**
-  * Method that returns the list of procedure names in usesP.
-  * @return the vector of procedure names.
+  /*
+  * Returns a list of procedures that uses something.
+  * Used in the query evaluator for  Uses(p, _)
+  *
   */
-  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0; /*< Uses(p, _) */
+  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  Uses methods
@@ -605,7 +617,7 @@ public:
   * @param s2 t_varName a string argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
+  virtual BOOLEAN isUses(STMT_NUM t_lineNum, std::string t_varName) = 0;
   
   /**
   * Method that returns the vector of variables that are used in line number t_lineNum.
@@ -635,7 +647,7 @@ public:
   * @param t_s1 an integer argument.
   * @return true if there exists at least one uses relationship with t_lineNum being the statement number, false if otherwise.
   */
-  virtual bool isUsesAnything(STMT_NUM t_lineNum) = 0;
+  virtual BOOLEAN isUsesAnything(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of line numbers that involves use of variables.
@@ -692,9 +704,13 @@ public:
   */
   virtual LIST_OF_STMT_NUMS getStmtModifiesAnything() = 0;
 
-
+  ///////////////////////////////////////////////////////
   //  StmtListTable
   ///////////////////////////////////////////////////////
+
+  /*
+  * Returns all statemnet list in the program.
+  */
   virtual LIST_OF_STMT_NUMS& getStmtList() = 0;
 
   ///////////////////////////////////////////////////////

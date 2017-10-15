@@ -30,8 +30,8 @@ int ConstantTable::insertConstant(std::string t_constant) {
 
 }
 
-std::list<std::string> ConstantTable::getAllConstants() {
-  std::list<std::string> values;
+LIST_OF_RESULTS ConstantTable::getAllConstants() {
+  LIST_OF_RESULTS values;
   //copy the m_allFollows set to values vector.
   values.assign(m_constantSet.begin(), m_constantSet.end());
   return values;

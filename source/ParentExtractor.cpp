@@ -11,22 +11,17 @@ void ParentExtractor::populateParentedByStarMap() {
   auto parentMap = parentTable->getParentMap();
   std::unordered_map<STMT_NUM, std::list<LIST_OF_STMT_NUMS>> parentStarMap;
   for (auto mapItr = parentMap.begin(); mapItr != parentMap.end(); mapItr++) {
-    populateParentedByStarMap(mapItr, parentTable);
+    int baseStmtNo = mapItr->first;
+    std::vector<int> stmtsOfParentedBy;
+    stmtsOfParentedBy.push_back(mapItr->second);
+    auto nextParentLink = parentTable->getParentMap().find(mapItr->second);
+    while (nextParentLink != parentTable->getParentMap().end()) {
+      stmtsOfParentedBy.push_back(nextParentLink->second);
+      nextParentLink = parentTable->getParentMap().find(nextParentLink->second);
+    }
+    parentTable->getParentedByStarMap().insert({ baseStmtNo, stmtsOfParentedBy });
   }
 }
-
-void ParentExtractor::populateParentedByStarMap(std::unordered_map<int, int>::iterator t_mapItr, ParentTable* t_table) {
-  int baseStmtNo = t_mapItr->first;
-  std::vector<int> stmtsOfParentedBy;
-  stmtsOfParentedBy.push_back(t_mapItr->second);
-  auto nextParentLink = t_table->getParentMap().find(t_mapItr->second);
-  while (nextParentLink != t_table->getParentMap().end()) {
-    stmtsOfParentedBy.push_back(nextParentLink->second);
-    nextParentLink = t_table->getParentMap().find(nextParentLink->second);
-  }
-  t_table->getParentedByStarMap().insert({ baseStmtNo, stmtsOfParentedBy });
-}
-
 
 void ParentExtractor::populateParentStarMap() {
   ParentTable* parentTable = m_pkb->getParentTable();

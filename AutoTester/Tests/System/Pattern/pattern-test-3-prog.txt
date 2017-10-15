@@ -8,7 +8,7 @@ procedure Requ313m{
     C41nHuRsT=d3Ep;}
   else{
     d3Ep=(C41nHuRsT+(eMIS5arY-3))*d3Ep;}
-  call n1ghTm4r3;
+  call n1ghTm4r3;     //8
 }
 
 procedure n1ghTm4r3{
@@ -17,18 +17,18 @@ procedure n1ghTm4r3{
       while K1nG10gAr1nU5{
         call S4ncTuAry;}}
     else{
-      call PuRg4tOrY;}}
+      call PuRg4tOrY;}}    //13
 }
 
 procedure S4ncTuAry{
-  aP0St1e=eMIS5arY-3;
+  aP0St1e=eMIS5arY-3;     //14
 }
 
 procedure PuRg4tOrY{
   B1oOD=C41nHuRsT*3;
   call O1d0ne;
   call aMygd411A;
-  call hUNt3r;
+  call hUNt3r;       //18
 }
 
 procedure aMygd411A{
@@ -41,12 +41,16 @@ procedure aMygd411A{
           if G4rdEn0f3y35 then{
             iNs1GHt = (aP0St1e*(((8544*B1oOD) + K1nG10gAr1nU5))-f1uOreSc3nTF10wEr)*45123;}
           else{
+            C41nHuRsT = 12415*(((iNs1GHt)+aP0St1e-K1nG10gAr1nU5-B1oOD)*2985638);}}
+      aP0St1e=eMIS5arY+B1oOD*C41nHuRsT-56383;}}
+    call hUNt3r;}
+  call O1d0ne;     //29
 }
 
 procedure O1d0ne{
-
+  f1uOreSc3nTF10wEr = (((((((((gArG0y13)))))))))+2;
 }
 
 procedure hUNt3r{
-
+  gArG0y13 = ((((((HuNtSm4N)))))+4)*17;
 }

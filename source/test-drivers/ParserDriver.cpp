@@ -10,7 +10,7 @@ ParserDriver::~ParserDriver()
 {
 }
 
-int ParserDriver::openFileStream(std::string t_filename) {
+int ParserDriver::openFileStream(NAME t_filename) {
   m_readStream = std::ifstream(t_filename);
   if (!m_readStream.is_open()) {
     return -1;
@@ -21,7 +21,7 @@ int ParserDriver::openFileStream(std::string t_filename) {
 
 int ParserDriver::parseProcedure() {
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+   PROC_NAME procName = getMatchToken(TOKEN_TYPE::PROC_NAME_TYPE);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }

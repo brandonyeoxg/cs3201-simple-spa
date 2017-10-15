@@ -1,13 +1,16 @@
 #pragma once
 #include "../Parser.h"
 
+/*
+* Represents a driver to drive the testing of the Parser since parser is recursively implemented.
+*/
 class ParserDriver : public Parser
 {
 public:
   ParserDriver::ParserDriver(PkbWriteOnly* t_pkb) : Parser(t_pkb) {}
   ~ParserDriver();
 
-  int openFileStream(std::string);
+  int openFileStream(NAME);
   int parseProcedure();
   int parseStmt(LIST_OF_STMT_NUMS&, LIST_OF_STMT_NUMS&);
 

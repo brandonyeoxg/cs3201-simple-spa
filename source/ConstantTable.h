@@ -1,6 +1,6 @@
 #pragma once
 
-#include<stdio.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <list>
@@ -8,11 +8,13 @@
 #include <vector>
 #include <unordered_map>
 
+#include "GlobalTypeDef.h"
+
 class ConstantTable {
 public:
   ConstantTable();
   int insertConstant(std::string t_constant);
-  std::list<std::string> getAllConstants();
+  LIST_OF_RESULTS getAllConstants();
 
 private:
   std::set<std::string> m_constantSet;
