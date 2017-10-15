@@ -566,6 +566,24 @@ public:
   */
   std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
 
+  /** For Pattern w("x", _) */
+  LIST_OF_STMT_NUMS getWhileStmtByVar(STRING varName);
+
+  /** For Pattern w(v, _) */
+  std::unordered_map<STMT_NUM, VAR_NAME> getWhileStmtWithVar();
+
+  /** For Pattern w(_,  _) */
+  LIST_OF_STMT_NUMS getAllWhileStmts();
+
+  /** For Pattern i("x", _) */
+  LIST_OF_STMT_NUMS getIfStmtByVar(STRING varName);
+
+  /** For Pattern i(v, _) */
+  std::unordered_map<STMT_NUM, VAR_NAME> getIfStmtWithVar();
+
+  /** For Pattern i(_,  _) */
+  LIST_OF_STMT_NUMS getAllIfStmts();
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
