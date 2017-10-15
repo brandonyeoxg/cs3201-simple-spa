@@ -3,62 +3,62 @@
 #include "IfPatternEvaluator.h"
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithVarAndExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> ifStmts;// = t_pkb->getIfStmtByVarPattern(t_g1.getName(), t_g2.getName(), true);
+  std::vector<int> ifStmts = t_pkb->getIfStmtByVar(t_g1.getName());
   if (ifStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(ifStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> ifStmts;// = t_pkb->getIfStmtByVarPattern(t_g1.getName(), t_g2.getName(), false);
+  std::vector<int> ifStmts = t_pkb->getIfStmtByVar(t_g1.getName());
   if (ifStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(ifStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> ifStmts;// = t_pkb->getAllIfStmtListByVar(t_g1.getName());
+  std::vector<int> ifStmts = t_pkb->getIfStmtByVar(t_g1.getName());
   if (ifStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(ifStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> ifStmts;// = t_pkb->getAllIfStmtByExactPattern(t_g2.getName());
+  std::vector<int> ifStmts = t_pkb->getAllIfStmts();
   if (ifStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(ifStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> ifStmts;// = t_pkb->getAllIfStmtBySubtreePattern(t_g2.getName());
+  std::vector<int> ifStmts = t_pkb->getAllIfStmts();
   if (ifStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(ifStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::vector<int> allIfStmts;// = t_pkb->getAllIfStmtList();
+  std::vector<int> allIfStmts = t_pkb->getAllIfStmts();
   if (allIfStmts.empty()) {
     return m_result;
   }
@@ -69,7 +69,7 @@ SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_pkb,
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar;// = t_pkb->getAllIfStmtAndVarByPattern(t_g2.getName(), true);
+  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
@@ -79,7 +79,7 @@ SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar;// = t_pkb->getAllIfStmtAndVarByPattern(t_g2.getName(), false);
+  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
@@ -89,7 +89,7 @@ SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar;// = t_pkb->getAllIfStmtWithVarName();
+  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
