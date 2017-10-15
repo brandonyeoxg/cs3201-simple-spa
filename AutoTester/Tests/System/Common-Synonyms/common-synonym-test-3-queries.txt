@@ -150,7 +150,7 @@ true
 5000
 35 - 1 Common Synonym Base Test
 procedure p; variable v;
-Select BOOLEAN such that Modfies(p,v) with v.varName="c"
+Select BOOLEAN such that Modifies(p,v) with v.varName="c"
 true
 5000
 36 - 1 Common Synonym Base Test
