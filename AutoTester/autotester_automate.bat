@@ -7,6 +7,7 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fourth-prog.txt %
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fifth-prog.txt %~dp0/Tests/Acceptance/test-5-queries.txt %~dp0/Output/acceptance-out5.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/uses-test-1-queries.txt %~dp0/Output/regression-uses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/regression-modifies-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/boolean-test-1-queries.txt %~dp0/Output/regression-boolean-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/system-select-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/system-select-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/system-select-out3.xml
@@ -26,3 +27,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/With/with-test-2-prog
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-1-queries.txt %~dp0/Output/system-multiple-clauses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-2-prog.txt %~dp0/Tests/System/Multiple-Clauses/multiple-clauses-test-2-queries.txt %~dp0/Output/system-multiple-clauses-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-queries.txt %~dp0/Output/system-common-synonym-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-queries.txt %~dp0/Output/system-common-synonym-out2.xml

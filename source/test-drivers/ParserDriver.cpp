@@ -21,7 +21,7 @@ int ParserDriver::openFileStream(std::string t_filename) {
 
 int ParserDriver::parseProcedure() {
   if (isMatchToken("procedure")) {
-    std::string procName = getMatchToken(tokentype::tokenType::PROC_NAME);
+   PROC_NAME procName = getMatchToken(TOKEN_TYPE::PROC_NAME_TYPE);
     if (!isMatchToken("{")) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
@@ -31,8 +31,8 @@ int ParserDriver::parseProcedure() {
   return -1;
 }
 
-int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst) {
-  //Parser::parseStmt(t_stmtInStmtLst);
+int ParserDriver::parseStmt(LIST_OF_STMT_NUMS& t_stmtInStmtLst, LIST_OF_STMT_NUMS& t_progLines) {
+  Parser::parseStmt(t_stmtInStmtLst, t_progLines);
   return 1;
 }
 

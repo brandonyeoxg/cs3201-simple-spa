@@ -7,12 +7,12 @@ procedure L111put{
   else{
     call V4rR0ck;
     call Fa1L4bor;}
-  call K3Rn1ng;   //8
+  call K3Rn1ng;
 }
 
 procedure V4rR0ck{
   while k1NG{
-    f15h=apql+bpkb;} //10
+    f15h=apql+bpkb;}
 }
 
 procedure Fa1L4bor{
@@ -25,21 +25,21 @@ procedure Fa1L4bor{
       else{
         bpkb=(bpkb+((((cp02-1))+3*cp02)-10-apql));
         while L4nce10t{
-          call V4rR0ck;  //18
+          call V4rR0ck;
           cp02=d0g*2;}
         if aRtHuR then{
           while L4nce10t{
             inTern3T=L4nce10t;
             L4nce10t=aRtHuR;}}
         else{
-          h4pPy=(apql+bpkb)*3;}}
-    f15h=cp02-(((((apql*bpkb)))))+e1p;
-  call K3Rn1ng;}  //26
+          h4pPy=(apql+bpkb)*3;}}}
+    f15h=cp02-(((((apql*bpkb)))))+e1p;}
+  call K3Rn1ng;
 }
 
 procedure K3Rn1ng{
   apql=bpkb*cp02-e1p;
   e1p=bpkb*(cp02-apql);
   juMp5u1t=3*4-(2+1)-bpkb*(cp02-apql);
-  cp02=(2+(f15H+bpkb))*(k1NG-apql);  //30
+  cp02=(2+(f15H+bpkb))*(k1NG-apql);
 }
