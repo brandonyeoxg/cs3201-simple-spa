@@ -9,7 +9,7 @@ std::string QueryPreProcessor::IF = "if";
 std::string QueryPreProcessor::VARIABLE = "variable";
 std::string QueryPreProcessor::CONSTANT = "constant";
 std::string QueryPreProcessor::PROG_LINE = "prog_line";
-std::string QueryPreProcessor::BOOLEAN = "BOOLEAN";
+std::string QueryPreProcessor::BOOLEAN_QPP = "BOOLEAN";
 std::string QueryPreProcessor::CALL = "call";
 std::string QueryPreProcessor::PROCNAME = "procName";
 std::string QueryPreProcessor::VARNAME = "varName";
@@ -66,7 +66,7 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
 }
 
 
-bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
+BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
   bool isTokenized = false;
   if (t_declarationInput == "") {
     return true;
@@ -168,7 +168,7 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
           } else if (entity == PROG_LINE) {
             Grammar g(queryType::GType::PROG_LINE, variableVector.at(counterL));
             m_grammarVector.push_back(g);
-          } else if (entity == BOOLEAN) {
+          } else if (entity == BOOLEAN_QPP) {
             Grammar g(queryType::GType::BOOLEAN, variableVector.at(counterL));
             m_grammarVector.push_back(g);
           } else if (entity == CALL) {
@@ -187,7 +187,7 @@ bool QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
   return isTokenized;
 }
 
-bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
+BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   bool isTokenized = false;
   std::vector<std::string> queryVector;
   std::string selectStatement;
@@ -367,13 +367,13 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       m_selectQueue.push(g1);       
       //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
       //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-    } else if (synonym == BOOLEAN) {
+    } else if (synonym == BOOLEAN_QPP) {
       g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
       m_selectQueue.push(g1);
     }
   }
 
-  if (synonym == BOOLEAN && m_grammarVector.size() == 0) {
+  if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
     g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
     m_selectQueue.push(g1);
   }
@@ -466,8 +466,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     else {
       //Checks for no declaration first before moving on to check for synonyms
       //Follows and Follows*
-      if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Follows*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
         //Number, Number
         if (sTInt1 > 0 && sTInt2 > 0 ) {
@@ -500,8 +500,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
 
       //Parent and Parent*
-      } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      } else if (designAbstractionEntity == "Parent" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Parent*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
         //Number, Number
         if (sTInt1 > 0 && sTInt2 > 0) {
@@ -534,8 +534,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
 
       //Uses, Modifies
-      } else if(designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      } else if(designAbstractionEntity == "Uses" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Modifies" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
         //Number, String
         if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
@@ -568,8 +568,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
       
       //Call, Calls*
-      } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      } else if (designAbstractionEntity == "Calls" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Calls*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
         //String, _
         if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
@@ -587,8 +587,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
         }
 
-      } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
         // Number, _
         if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
           g1 = Grammar(queryType::GType::STMT_NO, sTName1);
@@ -605,8 +605,8 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
 
       //Affects, Affects*
-      } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN
-        || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN) {
+      } else if (designAbstractionEntity == "Affects" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
+        || designAbstractionEntity == "Affects*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
 
         // Number, _
         if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1199,7 +1199,7 @@ bool QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 
         'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        '(', ')', '+', '-', '*', '"', '_',
+        '(', ')', '+', '-', '*', '"', '_', ' ',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
       //Check that expression only counters valid arguments: alphanumeric characters, valid operators and brackets
       size_t pos = patternRightName.find_first_not_of(validChars, 0, sizeof(validChars));
