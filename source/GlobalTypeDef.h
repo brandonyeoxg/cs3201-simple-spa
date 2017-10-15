@@ -6,46 +6,60 @@
 #include <map>
 #include <set>
 
-/*Indexes*/
-typedef int VAR_INDEX;
-typedef int PROC_INDEX;
-typedef int STMT_NUM;
-typedef int PROG_LINE;
-typedef int CONSTANT;
-typedef int SYNONYM_POSITION;
-typedef std::string NAME;
-typedef std::string VAR_NAME;
-typedef std::string PROC_NAME;
-typedef std::string CONSTANT_TERM;
-typedef std::string STRING_TOKEN;
-typedef std::string SYNONYM_NAME;
+/*Data Types*/
+typedef bool BOOLEAN;
+typedef int INTEGER;
 typedef std::string STRING;
 typedef char STRING_CHARACTER;
 
+/*Indexes*/
+typedef INTEGER VAR_INDEX;
+typedef INTEGER PROC_INDEX;
+typedef INTEGER STMT_NUM;
+typedef INTEGER PROG_LINE;
+typedef INTEGER CONSTANT;
+typedef INTEGER SYNONYM_POSITION;
+typedef STRING NAME;
+typedef STRING VAR_NAME;
+typedef STRING PROC_NAME;
+typedef STRING CONSTANT_TERM;
+typedef STRING STRING_TOKEN;
+typedef STRING SYNONYM_NAME;
+typedef STRING RESULT;
+
 /*Data Structs*/
-typedef bool BOOLEAN;
-typedef std::vector<std::string> LIST_OF_SYNONYMS;
-typedef std::vector<int> LIST_OF_STMT_NUMS;
-typedef std::vector<int>& MUTABLE_LIST_OF_STMT_NUMS;
-typedef std::vector<int> LIST_OF_PROG_LINES;
-typedef std::vector<int>& MUTABLE_LIST_OF_PROG_LINES;
-typedef std::vector<std::string> LIST_OF_VAR_NAMES;
-typedef std::vector<std::string> LIST_OF_PROC_NAMES;
-typedef std::vector<std::string> LIST_OF_RESULTS;
-typedef std::vector<std::string> LIST_OF_TOKENS;
-typedef std::vector<std::string>& MUTABLE_LIST_OF_TOKENS;
-typedef std::set<std::string> SET_OF_VAR_NAMES;
-typedef std::set<int> SET_OF_STMT_NUMS;
+typedef std::list<RESULT> RESULT_LIST;
+typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
+typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
+typedef std::vector<STMT_NUM>& MUTABLE_LIST_OF_STMT_NUMS;
+typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
+typedef std::vector<PROG_LINE>& MUTABLE_LIST_OF_PROG_LINES;
+typedef std::vector<VAR_NAME> LIST_OF_VAR_NAMES;
+typedef std::vector<PROC_NAME> LIST_OF_PROC_NAMES;
+typedef std::vector<RESULT> LIST_OF_RESULTS;
+typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
+typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
+typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
+typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
+typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
+typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
-typedef std::unordered_map<int, std::vector<int>> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
-typedef std::unordered_map<std::string, std::vector<int>> MAP_OF_VAR_NAME_TO_STMT_NUMS;
+typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
+typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_PATTERN_RESULTS;
+typedef std::unordered_map<VAR_INDEX, LIST_OF_STMT_NUMS> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
+typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
 typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
 typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES;
 typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
+typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS;
+typedef std::list<std::string> LIST_OF_CONSTANTS;
+typedef std::list<STMT_NUM> LIST_OF_ASSIGN_STMTS_FOR_PATTERN;
+typedef std::unordered_map<SYNONYM_NAME, int> MAP_OF_SYNONYMS_TO_COUNTS;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
@@ -137,6 +151,8 @@ namespace queryType {
     AFFECTS_ /**< An enum value representing the Affects* relation. */
   };
 };
+
+typedef queryType::GType SYNONYM_TYPE;
 
 typedef std::unordered_map<STMT_NUM, queryType::GType> MAP_OF_STMT_NUM_TO_GTYPE;
 typedef std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS;

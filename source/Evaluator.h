@@ -11,8 +11,8 @@
 
 class Evaluator {
 public:
-  virtual bool isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
-  virtual bool hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
+  virtual BOOLEAN isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
+  virtual BOOLEAN hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
   virtual SET_OF_RESULTS evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
   virtual SET_OF_RESULTS evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;
   virtual SET_OF_RESULTS evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) = 0;

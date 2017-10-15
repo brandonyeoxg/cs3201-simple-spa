@@ -25,7 +25,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isFollows(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isFollows(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if follows*(s1, s2) holds.
@@ -34,7 +34,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -95,19 +95,19 @@ public:
   * Method that checks if follows(_, _) or follows*(_, _) holds.
   * @return true if the size of the followTable is more than zero, return false if otherwise.
   */
-  virtual bool hasFollowRelationship() = 0;
+  virtual BOOLEAN hasFollowRelationship() = 0;
 
   /**
   * Method that checks if follows(_, t_s2) and follows*(_, t_s2) holds, where t_s2 is a statement number.
   * @return true if t_s2 exists in the allFollows map, return false if otherwise.
   */
-  virtual bool isFollowsAnything(STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isFollowsAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  virtual bool isFollowedByAnything(STMT_NUM t_s1) = 0;
+  virtual BOOLEAN isFollowedByAnything(STMT_NUM t_s1) = 0;
 
   ///////////////////////////////////////////////////////
   //  ParentTable
@@ -119,7 +119,7 @@ public:
   * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isParent(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isParent(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent*(s1, s2) holds.
@@ -128,7 +128,7 @@ public:
   * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) = 0;
 
   /**
   * Method that returns the statement number that is the parent of s2.
@@ -203,41 +203,41 @@ public:
   * Method that checks if parent(_, _) holds.
   * @return true if there exists a parent relationship (i.e. parentTable is not empty), false if otherwise.
   */
-  virtual bool hasParentRelationship() = 0;
+  virtual BOOLEAN hasParentRelationship() = 0;
 
   /**
   * Method that checks if parent*(_, _) holds.
   * @return true if there exists a parent* relationship (i.e. parentStarTable is not empty), false if otherwise.
   */
-  virtual bool hasParentStarRelationship() = 0;
+  virtual BOOLEAN hasParentStarRelationship() = 0;
 
   /**
   * Method that checks if parent(_, t_s2) holds.
   * @param t_s2 an integer argument.
   * @return true if there exists a parent relationship with t_s2 being the child, false if otherwise.
   */
-  virtual bool isChildrenOfAnything(STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isChildrenOfAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent relationship with t_s1 being the parent, false if otherwise.
   */
-  virtual bool isParentOfAnything(STMT_NUM t_s1) = 0;
+  virtual BOOLEAN isParentOfAnything(STMT_NUM t_s1) = 0;
 
   /**
   * Method that checks if parent*(_, t_s2) holds.
   * @param t_s2 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s2 being the child, false if otherwise.
   */
-  virtual bool isChildrenOfStarAnything(STMT_NUM t_s2) = 0;
+  virtual BOOLEAN isChildrenOfStarAnything(STMT_NUM t_s2) = 0;
 
   /**
   * Method that checks if parent*(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s1 being the parent, false if otherwise.
   */
-  virtual bool isParentOfStarAnything(STMT_NUM t_s1) = 0;
+  virtual BOOLEAN isParentOfStarAnything(STMT_NUM t_s1) = 0;
 
   //////////////////////////////////////////////////////////
   //  StatementTypeTable and TypeOfStatementTable
@@ -273,7 +273,7 @@ public:
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual std::string getVarNameFromIdx(STMT_NUM t_index) = 0;
+  virtual VAR_NAME getVarNameFromIdx(STMT_NUM t_index) = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
@@ -301,6 +301,7 @@ public:
   * The representation is a variable mapped to all statement number under that variable.
   */
   virtual MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt() = 0;
+
 
   /*
   * Returns all assignment statements in a representation.
@@ -342,7 +343,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -350,7 +351,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _""_).
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -367,7 +368,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _"y + x"_).
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -376,7 +377,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, "x + y + h").
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -385,7 +386,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, _"x + y + h"_).
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -394,7 +395,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   ///////////////////////////////////////////////////////
   //  CallsTable methods
@@ -406,7 +407,7 @@ public:
   * @param t_proc2 a procedure to be called.
   * @return true if relationship holds, false if otherwise. 
   */
-  virtual bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
 
   /**
   * Method to check if the relationship calls*(t_proc1, t_proc2) holds.
@@ -414,7 +415,7 @@ public:
   * @param t_proc2 a procedure to be called.
   * @return true if relationship holds, false if otherwise.
   */
-  virtual bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
+  virtual BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) = 0;
 
   /**
   * Method to get a vector of procedure p that the relationship calls(p, t_proc2) holds.
@@ -484,19 +485,19 @@ public:
   * Method that checks if a calls relationship exists in the SIMPLE program.
   * @return true if relationship exists, false if otherwise.
   */
-  virtual bool hasCallsRelationship() = 0;  //calls(_, _)
+  virtual BOOLEAN hasCallsRelationship() = 0;  //calls(_, _)
 
   /**
   * Method that checks if procedure t_proc1 calls another procedure.
   * @return true if it does, false if otherwise.
   */
-  virtual bool isCallsAnything(PROC_NAME t_proc1) = 0;
+  virtual BOOLEAN isCallsAnything(PROC_NAME t_proc1) = 0;
 
   /**
   * Method that checks if procedure t_proc2 was called by another procedure.
   * @return true if it does, false if otherwise.
   */
-  virtual bool isCalledByAnything(PROC_NAME t_proc2) = 0;
+  virtual BOOLEAN isCalledByAnything(PROC_NAME t_proc2) = 0;
 
   ///////////////////////////////////////////////////////
   //  ProcTable
@@ -640,7 +641,7 @@ public:
   * For example: stmt s, variable v; uses(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtUses() = 0;
+  virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses() = 0;
 
   /**
   * Method that checks if uses(t_lineNum, _) holds.
@@ -665,7 +666,7 @@ public:
   * @param s2 t_varName a string argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  virtual bool isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
+  virtual BOOLEAN isModifies(STMT_NUM t_lineNum, std::string t_varName) = 0;
 
   /**
   * Method that returns the vector of variables that are modified in line number t_lineNum.
@@ -688,14 +689,14 @@ public:
   * For example: stmt s, variable v; modifies(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual std::unordered_map<std::string, LIST_OF_STMT_NUMS> getAllStmtModifies() = 0;
+  virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies() = 0;
 
   /**
   * Method that checks if modifies(t_lineNum, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one modifies relationship with t_lineNum being the statement number, false if otherwise.
   */
-  virtual bool isModifiesAnything(STMT_NUM t_lineNum) = 0;
+  virtual BOOLEAN isModifiesAnything(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of line numbers that involves modification of variables.
@@ -722,84 +723,84 @@ public:
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
   */
-  virtual bool isNext(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
+  virtual BOOLEAN isNext(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
 
   /** Checks if Next*(line1, line2) is true.
   *   @param t_line1 the program line before
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
   */
-  virtual bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
+  virtual BOOLEAN isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) = 0;
 
   /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly after given line.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line) = 0;
+  virtual LIST_OF_PROG_LINES getLinesAfter(PROG_LINE t_line) = 0;
 
   /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly before given line.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line) = 0;
+  virtual LIST_OF_PROG_LINES getLinesBefore(PROG_LINE t_line) = 0;
 
   /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line) = 0;
+  virtual LIST_OF_PROG_LINES getAllLinesAfter(PROG_LINE t_line) = 0;
 
   /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line) = 0;
+  virtual LIST_OF_PROG_LINES getAllLinesBefore(PROG_LINE t_line) = 0;
 
   /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
   *   @return map of <program line number, list of lines executed after it>
   */
-  virtual std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext() = 0;
+  virtual MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNext() = 0;
 
   /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
   *   @return map of <program line number, list of lines executed after it>
   */
-  virtual std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar() = 0;
+  virtual MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNextStar() = 0;
 
   /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed after any particular line.
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getAllLinesAfterAnyLine() = 0;
+  virtual LIST_OF_PROG_LINES getAllLinesAfterAnyLine() = 0;
 
   /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed before any particular line.
   *   @return list of program line numbers
   */
-  virtual std::vector<PROG_LINE> getAllLinesBeforeAnyLine() = 0;
+  virtual LIST_OF_PROG_LINES getAllLinesBeforeAnyLine() = 0;
 
   /** For Next(_, _) or Next*(_, _).
   *   Checks if any Next relationship exists.
   *   @return true if data structure contains at least one Next(), else false
   */
-  virtual bool hasNextRelationship() = 0;
+  virtual BOOLEAN hasNextRelationship() = 0;
 
   /** For Next(line, _) and Next*(line, _), where line is a given line number.
   *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return true if given line has at least one line that can be executed after it, else false
   */
-  virtual bool hasNextLine(PROG_LINE t_line) = 0;
+  virtual BOOLEAN hasNextLine(PROG_LINE t_line) = 0;
 
   /** For Next(_, line) and Next*(_, line), where line is a given line number.
   *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return true if given line has at least one line that can be executed before it, else false
   */
-  virtual bool hasLineBefore(PROG_LINE t_line) = 0;
+  virtual BOOLEAN hasLineBefore(PROG_LINE t_line) = 0;
 };

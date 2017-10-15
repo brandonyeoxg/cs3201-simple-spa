@@ -137,6 +137,13 @@ public:
     Assert::IsTrue(patternMatch.isSubtreePatternInStmt(index, pattern));
     pattern = { "ChiCKEN" };
     Assert::IsFalse(patternMatch.isSubtreePatternInStmt(index, pattern));
+
+    // similar variable names (substring) should return false
+    pattern = { "c" };
+    Assert::IsFalse(patternMatch.isSubtreePatternInStmt(index, pattern));
+
+    pattern = { "chi" };
+    Assert::IsFalse(patternMatch.isSubtreePatternInStmt(index, pattern));
   }
 
   TEST_METHOD(isExactPatternInStmt_isSubtreePatternInStmt_02) {
@@ -314,6 +321,13 @@ public:
   }
 
 private:
+
+  void printMap(std::unordered_map<int, std::string> map) {
+    for (auto iter : map) {
+      Logger::WriteMessage((std::to_string(iter.first)).c_str());
+      Logger::WriteMessage(iter.second.c_str());
+    }
+  }
 
   void printVectorOfStrings(std::vector<std::string> t_vector) {
     for (int i = 0; i < (int)t_vector.size(); i++) {

@@ -30,7 +30,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  virtual bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) = 0;
+  virtual BOOLEAN insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) = 0;
 
   /** Insert relationship Next(line1, line2) into PKB.
   *   @param t_line1 the program line before
@@ -44,7 +44,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  virtual bool insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtLineNum, int t_curLineNum) = 0;
+  virtual BOOLEAN insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtLineNum, int t_curLineNum) = 0;
 
   /**
   * Inserts a variable that has been modified.

@@ -1,6 +1,6 @@
 #include "QueryProcessor.h"
 
-std::list<std::string> QueryProcessor::runQueryProcessor(std::string t_stringInput) {
+RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
   QueryPreProcessor qpp;
 
   std::string declaration, query;

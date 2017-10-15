@@ -25,5 +25,5 @@ public:
   SET_OF_RESULTS getAllStmtsAndVarWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2);
 
 private:
-  std::unordered_map<std::string, std::vector<std::string>> m_result;
+  SET_OF_RESULTS m_result;
 };
