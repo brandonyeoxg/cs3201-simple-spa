@@ -13,7 +13,7 @@ public:
   UsesP() {}
   ~UsesP() {}
 
-  /*
+  /**
   * Inserts the uses relation for procedures.
   *
   * @param t_procIdx the procedure index that has the uses relation.
@@ -23,7 +23,7 @@ public:
   */
   void insertUsesP(PROC_INDEX t_procIdx, const PROC_NAME& t_procName, VAR_INDEX t_varIdx, const VAR_NAME& t_varName);
   
-  /*
+  /**
   * Returns true if the procedure has a uses relation of that variable.
   * Used in the query evaluator for Uses("First", "x").
   *
@@ -32,7 +32,7 @@ public:
   */
   BOOLEAN isUsesP(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx);
 
-  /*
+  /**
   * Returns true if the procedure has a uses relation.
   * Used in the query evaluator for Uses("First", _).
   *
@@ -40,7 +40,7 @@ public:
   */
   BOOLEAN isUsesInProc(PROC_INDEX t_idx);
 
-  /*
+  /**
   * Returns the list of variable names that are used in the procedure specified.
   * Used in the query evaluator for Uses("First", x).
   *
@@ -48,7 +48,7 @@ public:
   */
   LIST_OF_VAR_NAMES getVarNamesWithProcIdx(PROC_INDEX t_idx);
   
-  /*
+  /**
   * Returns the list of procedure names that are used by the variable.
   * Used in the query evaluator for Uses(p, "x").
   *
@@ -56,14 +56,14 @@ public:
   */
   LIST_OF_PROC_NAMES getProcNamesWithVarIdx(VAR_INDEX t_idx);
   
-  /*
+  /**
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
   * Used in the query evaluator for Uses(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR& getAllProcToVar();
 
-  /*
+  /**
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for Uses(p, _)
   *
@@ -77,7 +77,7 @@ private:
   MAP_OF_PROC_TO_VAR m_allProcNamesToVarNames;
   LIST_OF_PROC_NAMES m_procNames;
 
-  /*
+  /**
   * Helper method to insert the uses relation for procedures with procedure as a key and variable name as the value.
   *
   * @param t_procIdx the procedure index that has the uses relation.
@@ -85,7 +85,7 @@ private:
   */
   void insertUsesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
   
-  /*
+  /**
   * Helper method to insert the uses relation for procedures with procedure as a key and a variable index hash set as the value.
   *
   * @param t_procIdx the procedure index that has the uses relation.
@@ -93,7 +93,7 @@ private:
   */
   void insertUsesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx);
   
-  /*
+  /**
   * Helper method to insert the uses relation for procedures with variable as a key and a procedure name as the value.
   *
   * @param t_varIdx the variable index that is used.
@@ -101,14 +101,14 @@ private:
   */
   void insertUsesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName);
   
-  /*
+  /**
   * Helper method to insert the procedure name that has a uses relation.
   *
   * @param t_name the name of the procedure that has the is uses relation.
   */
   void insertUsesProcName(const PROC_NAME& t_name);
 
-  /*
+  /**
   * Helper method to insert uses relation where the procedure name is mapped to a variable name.
   *
   * @param t_name the name of the procedure that has the is uses relation.

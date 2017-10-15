@@ -4,7 +4,7 @@
 #include <sstream>
 #include <algorithm>
 
-std::vector<std::string> StringUtil::splitString(std::string t_line, char t_delim) {
+std::vector<std::string> StringUtil::splitString(STRING t_line, STRING_CHARACTER t_delim) {
   std::vector<std::string> tokens;
   std::stringstream ss(t_line);
   std::string token;
@@ -16,8 +16,8 @@ std::vector<std::string> StringUtil::splitString(std::string t_line, char t_deli
   return tokens;
 }
 
-std::string StringUtil::trimString(const std::string& str,
-  const std::string& whitespace) {
+std::string StringUtil::trimString(const STRING& str,
+  const STRING& whitespace) {
   const auto strBegin = str.find_first_not_of(whitespace);
   if (strBegin == std::string::npos) {
     return ""; // no content
@@ -29,9 +29,9 @@ std::string StringUtil::trimString(const std::string& str,
   return str.substr(strBegin, strRange);
 }
 
-std::string StringUtil::reduceString(const std::string& str,
-  const std::string& fill,
-  const std::string& whitespace) {
+std::string StringUtil::reduceString(const STRING& str,
+  const STRING& fill,
+  const STRING& whitespace) {
   // trim first
   auto result = trimString(str, whitespace);
 
@@ -50,10 +50,10 @@ std::string StringUtil::reduceString(const std::string& str,
   return result;
 }
 
-void StringUtil::removeWhiteSpace(std::string &str) {
+void StringUtil::removeWhiteSpace(STRING &str) {
   str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
 }
 
-void StringUtil::toLower(std::string &str) {
+void StringUtil::toLower(STRING &str) {
   std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
