@@ -111,6 +111,16 @@ public:
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
   bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string string, Grammar withLeftGrammar, Grammar withRightGrammar);
+  
+  /**
+  * A specialised method for synonyms with no attributes that takes in an attribute string and number and calls other methods to process
+  * @param attribute being the side that has an attribute
+  * @param integer being a constant for constant value or stmt#
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar);
 
   /**
   * A method that takes in 2 attribute strings and calls other methods to process

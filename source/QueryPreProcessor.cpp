@@ -1605,53 +1605,18 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
   }
 }
 
-bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  std::string withSynonym = attribute.substr(0, attribute.find("."));
-  std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
-
-  withSynonym = m_stringUtil.trimString(withSynonym);
-  withAttribute = m_stringUtil.trimString(withAttribute);
+bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
 
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
     if (m_grammarVector.at(counterS).getName() == withSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
     }
   }
+
+  withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
   
-  
-  std::string tempAttribute = attribute;
-  std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
-  std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
-
-  withTempSynonym = m_stringUtil.trimString(withTempSynonym);
-  withTempAttribute = m_stringUtil.trimString(withTempAttribute);
-
-  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
-
-  //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
-  if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::PROG_LINE
-    ) {
-
-    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
-
-  //Case 2.2: GType: CONSTANT, AType: VALUE
-  } else if (withLeftGrammar.getType() == queryType::GType::CONST
-    && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
-
-    withRightGrammar = Grammar(queryType::GType::CONST, integer);
-  }
-  if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
-    || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+  if(withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
     m_withQueue.push(withObjectCreated);
     return true;
