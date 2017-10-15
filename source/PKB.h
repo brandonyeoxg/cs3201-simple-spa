@@ -462,13 +462,13 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt();
+  MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt();
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName();
+  MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName();
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -477,11 +477,11 @@ public:
   /**
   * Returns all procedure name in the program
   */
-  std::vector<PROC_NAME>& getAllProcsName();
+  LIST_OF_RESULTS getAllProcsName();
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
-  std::list<std::string> getAllConstants();
+  LIST_OF_RESULTS getAllConstants();
 
   ///////////////////////////////////////////////////////
   //  Pattern Matching

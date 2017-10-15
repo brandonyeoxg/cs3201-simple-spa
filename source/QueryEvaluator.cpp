@@ -132,8 +132,7 @@ bool QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 
     storeSelectResultFromPkb(allVariables);
   } else if (t_select.getType() == queryType::GType::CONST) {
-    std::list<std::string> constantsList = m_pkb->getAllConstants();
-    std::vector<std::string> allConstants = Formatter::formatListStrToVectorStr(constantsList);
+    LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
     if (allConstants.empty()) {
       return false;
     }

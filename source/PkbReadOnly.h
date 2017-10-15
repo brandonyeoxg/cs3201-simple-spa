@@ -300,13 +300,13 @@ public:
   * Returns all assignment statements in a representation.
   * The representation is a variable mapped to all statement number under that variable.
   */
-  virtual std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllVarNameWithAssignStmt() = 0;
+  virtual MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarName() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName() = 0;
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
@@ -315,7 +315,7 @@ public:
   * Method that returns the list of all constants that are stored within ConstantTable.
   * @return a list of constants (strings).
   */
-  virtual std::list<std::string> getAllConstants() = 0;
+  virtual LIST_OF_RESULTS getAllConstants() = 0;
 
   ///////////////////////////////////////////////////////
   //  Pattern Matching
@@ -504,7 +504,7 @@ public:
   /**
   * Returns all procedure name in the program
   */
-  virtual std::vector<PROC_NAME>& getAllProcsName() = 0;
+  virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
