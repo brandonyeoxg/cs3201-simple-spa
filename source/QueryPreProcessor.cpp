@@ -1187,142 +1187,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
   std::cout << "with Vector size: " << m_withVector.size() << std::endl;
 
-  /*
-  //OLD METHOD - Cases with Select, such that, with, pattern clause - WORKS ONLY FOR ONE CLAUSE
-  if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos 
-    && t_queryInput.find(delimiterWith) != std::string::npos) {
-
-    //Case 1: Check clause ordering is: Select, such that, pattern, with
-    if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)
-      && t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterWith)
-      && t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterPattern));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement2.substr(tempStatement2.find(delimiterPattern), tempStatement2.find(delimiterWith));
-      withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-
-    //Case 2: Check clause ordering is: Select, such that, with, pattern
-    } else if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)
-      && t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterWith)
-      && t_queryInput.find(delimiterPattern) > t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterWith));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterWith), t_queryInput.size());
-      patternStatement = tempStatement2.substr(tempStatement2.find(delimiterWith), tempStatement2.find(delimiterPattern));
-      withStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-
-    //Case 3: Check clause ordering is: Select, pattern, such that, with
-    } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)
-      && t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterWith)
-      && t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterSuchThat));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement2.substr(tempStatement2.find(delimiterSuchThat), tempStatement2.find(delimiterWith));
-      withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-
-    //Case 4: Check clause ordering is: Select, pattern, with, such that
-    } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)
-      && t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterWith)
-      && t_queryInput.find(delimiterSuchThat) > t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterWith));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterWith), t_queryInput.size());
-      withStatement = tempStatement2.substr(tempStatement2.find(delimiterWith), tempStatement2.find(delimiterSuchThat));
-      suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-
-    //Case 5: Check clause ordering is: Select, with, such that, pattern
-    } else if (t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterPattern)
-      && t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterSuchThat)
-      && t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-      withStatement = tempStatement.substr(tempStatement.find(delimiterWith), tempStatement.find(delimiterSuchThat));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement2.substr(tempStatement2.find(delimiterSuchThat), tempStatement2.find(delimiterPattern));
-      patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-
-    //Case 6: Check clause ordering is: Select, with, pattern, such that
-    } else if (t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterPattern)
-      && t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterSuchThat)
-      && t_queryInput.find(delimiterSuchThat) > t_queryInput.find(delimiterPattern)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-      withStatement = tempStatement.substr(tempStatement.find(delimiterWith), tempStatement.find(delimiterPattern));
-      tempStatement2 = tempStatement.substr(tempStatement.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement2.substr(tempStatement2.find(delimiterPattern), tempStatement2.find(delimiterSuchThat));
-      suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-    }
-  }
-
-  //Cases with just Select, such that, pattern clauses
-  if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
-    if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterPattern)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterPattern));
-      patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-
-    } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterSuchThat)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterSuchThat));
-      suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-    } 
-  }
-
-  //Cases with just Select, with, such that clauses
-  if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos) {
-    if (t_queryInput.find(delimiterSuchThat) < t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-      suchThatStatement = tempStatement.substr(tempStatement.find(delimiterSuchThat), tempStatement.find(delimiterWith));
-      withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-
-    } else if (t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterSuchThat)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-      withStatement = tempStatement.substr(tempStatement.find(delimiterWith), tempStatement.find(delimiterSuchThat));
-      suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-    }
-  }
-
-  //Cases with just Select, with, pattern clauses
-  if (t_queryInput.find(delimiterWith) != std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos && t_queryInput.find(delimiterSuchThat) == std::string::npos) {
-    if (t_queryInput.find(delimiterWith) < t_queryInput.find(delimiterPattern)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-      withStatement = tempStatement.substr(tempStatement.find(delimiterWith), tempStatement.find(delimiterPattern));
-      patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-
-    } else if (t_queryInput.find(delimiterPattern) < t_queryInput.find(delimiterWith)) {
-      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-      tempStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-      patternStatement = tempStatement.substr(tempStatement.find(delimiterPattern), tempStatement.find(delimiterWith));
-      withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-    }
-  }
-
-  //Cases with just Select clause + one other clause and Select clause only
-  if (t_queryInput.find(delimiterSuchThat) != std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSuchThat) - 1);
-    suchThatStatement = t_queryInput.substr(t_queryInput.find(delimiterSuchThat), t_queryInput.size());
-  } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) != std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterPattern) - 1);
-    patternStatement = t_queryInput.substr(t_queryInput.find(delimiterPattern), t_queryInput.size());
-  } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) != std::string::npos) {
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterWith) - 1);
-    withStatement = t_queryInput.substr(t_queryInput.find(delimiterWith), t_queryInput.size());
-    std::cout << "with" << std::endl;
-  } else if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos) {
-    selectStatement = t_queryInput;
-  }*/
-
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
   synonym = m_stringUtil.trimString(synonym);
@@ -1602,13 +1466,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             m_suchThatQueue.push(DAO);
           }
         }
-
+        counterK = 0;
         for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
           Grammar tempGrammar = m_grammarVector.at(counterK);
           std::string grammarName = tempGrammar.getName();
 
           counterQ = 0;
-          if (m_suchThatQueue.size() == 1) {
+          if (m_suchThatQueue.size() == 1 && counterK > 2) {
             break;
           }
           if (sTName1 == grammarName) {
@@ -2067,6 +1931,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
     }
   }
+  std::cout << "suchThatQueue size: " << m_suchThatQueue.size() << std::endl;
+  
   //creation of pattern object
   if (m_patternVector.empty()) {
     std::cout << "pattern vector is empty" << std::endl;
