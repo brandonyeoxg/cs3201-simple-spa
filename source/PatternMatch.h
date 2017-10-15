@@ -70,6 +70,9 @@ public:
 
   std::string getPostfixStrWithTokens(std::vector<std::string> t_tokens);
 
+  //////// for debugging
+  //std::unordered_map<STMT_NUM, std::string> getAssignStmts() { return m_assignStmts; }
+
 private:
   std::unordered_map<STMT_NUM, std::string> m_assignStmts;  /**< String representation of all assignment statements (right-hand side of equal sign) mapped to statement numbers. */
  
