@@ -1,12 +1,12 @@
 1 - With ProcName Functionality Test
 procedure p1, p2;
 Select p1 with p2.procName="B0ar"
-
+A1aTr3oN, B0ar, C4ed3U5, D1n0SauR
 5000
 2 - With ProcName Functionality Test
 call ca1, ca2;
 Select ca1 with ca2.procName="B0ar"
-
+5, 7, 8, 10, 12, 13, 15, 21, 22
 5000
 3 - With ProcName Invalid Test 1
 stmtLst sl1, sl2;
@@ -51,7 +51,7 @@ none
 11 - With VarName Functionality Test
 variable v1, v2;
 Select v1 with v2.varName="iNv1nciB1e"
-
+A1aTr3oN, B0ar, C4ed3U5, D1n0SauR, JumP, aTt4cC, b4TtL3, cU1L, d41AmaDuR, eTh3r, iNv1nciB1e
 5000
 12 - With VarName Invalid Test 1
 procedure p1, p2;
@@ -101,7 +101,7 @@ none
 21 - With Value Functionality Test
 constant c1, c2;
 Select c1 with c2.value=2
-
+1, 2, 3
 5000
 22 - With Value Invalid Test 1
 procedure p1, p2;
@@ -151,32 +151,32 @@ none
 31 - With Stmt# Functionality Test
 stmt s, ss;
 Select s with ss.stmt#=1
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 5000
 32 - With Stmt# Functionality Test
 assign a1, a2;
 Select a1 with a2.stmt#=2
-
+2, 9, 11, 18, 23, 24, 25, 26, 27
 5000
 33 - With Stmt# Functionality Test
 call ca1, ca2;
 Select ca1 with ca2.stmt#=6
-
+none
 5000
 34 - With Stmt# Functionality Test
 while w1, w2;
-Select w1 with w2.stmt#
-
+Select w1 with w2.stmt#=16
+1, 4, 16, 19, 20
 5000
 35 - With Stmt# Functionality Test
 if ifs1, ifs2;
-Select ifs1 with ifs2.stmt#=
-
+Select ifs1 with ifs2.stmt#=14
+3, 6, 14, 17
 5000
-36 - With Stmt# Functionality Test
+36 - With Stmt# Invalid Test 0
 prog_line pl1, pl2;
 Select pl1 with pl2.stmt#=1
-
+none
 5000
 37 - With Stmt# Invalid Test 1
 procedure p1, p2;
