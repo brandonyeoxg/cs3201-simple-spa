@@ -50,7 +50,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
+  BOOLEAN insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum);
 
   /** Insert relationship Next(line1, line2) into PKB.
   *   @param t_line1 the program line before
@@ -64,7 +64,7 @@ public:
   * @param t_curLineNum the current line number.
   * @return true if the table is successfully added.
   */
-  bool insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum);
+  BOOLEAN insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum);
 
   void insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
 
@@ -167,7 +167,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollows(STMT_NUM t_s1, STMT_NUM t_s2);
+  BOOLEAN isFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows*(s1, s2) holds.
@@ -176,7 +176,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2);
+  BOOLEAN isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -237,19 +237,19 @@ public:
   * Method that checks if follows(_, _) or follows*(_, _) holds.
   * @return true if the size of the followTable is more than zero, return false if otherwise.
   */
-  bool hasFollowRelationship();
+  BOOLEAN hasFollowRelationship();
 
   /**
   * Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowsAnything(STMT_NUM t_s2);
+  BOOLEAN isFollowsAnything(STMT_NUM t_s2);
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
   * @return true if t_s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowedByAnything(STMT_NUM t_s1);
+  BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
   ///////////////////////////////////////////////////////
   //  ParentTable methods
@@ -263,7 +263,7 @@ public:
   * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isParent(STMT_NUM t_s1, STMT_NUM t_s2);
+  BOOLEAN isParent(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if parent*(s1, s2) holds.
@@ -272,7 +272,7 @@ public:
   * @param t_s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
+  BOOLEAN isParentStar(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that returns the statement number that is the parent of s2.
@@ -347,41 +347,41 @@ public:
   * Method that checks if parent(_, _) holds.
   * @return true if there exists a parent relationship (i.e. parentTable is not empty), false if otherwise.
   */
-  bool hasParentRelationship();
+  BOOLEAN hasParentRelationship();
 
   /**
   * Method that checks if parent*(_, _) holds.
   * @return true if there exists a parent* relationship (i.e. parentStarTable is not empty), false if otherwise.
   */
-  bool hasParentStarRelationship();
+  BOOLEAN hasParentStarRelationship();
 
   /**
   * Method that checks if parent(_, t_s2) holds.
   * @param t_s2 an integer argument.
   * @return true if there exists a parent relationship with t_s2 being the child, false if otherwise.
   */
-  bool isChildrenOfAnything(STMT_NUM t_s2);
+  BOOLEAN isChildrenOfAnything(STMT_NUM t_s2);
 
   /**
   * Method that checks if parent(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent relationship with t_s1 being the parent, false if otherwise.
   */
-  bool isParentOfAnything(STMT_NUM t_s1);
+  BOOLEAN isParentOfAnything(STMT_NUM t_s1);
 
   /**
   * Method that checks if parent*(_, t_s2) holds.
   * @param t_s2 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s2 being the child, false if otherwise.
   */
-  bool isChildrenOfStarAnything(STMT_NUM t_s2);
+  BOOLEAN isChildrenOfStarAnything(STMT_NUM t_s2);
 
   /**
   * Method that checks if parent*(t_s1, _) holds.
   * @param t_s1 an integer argument.
   * @return true if there exists at least one parent* relationship with t_s1 being the parent, false if otherwise.
   */
-  bool isParentOfStarAnything(STMT_NUM t_s1);
+  BOOLEAN isParentOfStarAnything(STMT_NUM t_s1);
 
   //////////////////////////////////////////////////////////
   //  statementTypeTable and typeOfStatementTable Methods
@@ -400,7 +400,7 @@ public:
   * @param t_type a GType argument.
   * @return true if insertion is successful, false if otherwise.
   */
-  bool insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
+  BOOLEAN insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
 
   /**
   * Method that returns the entire map of the list of statements that each type of statement has.
@@ -414,7 +414,7 @@ public:
   * @param t_type a GType argument.
   * @return true if insertion is successful, false if otherwise.
   */
-  bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
+  BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
   ///////////////////////////////////////////////////////
   //  VarTable methods
@@ -570,8 +570,8 @@ public:
   //  CallsTable methods
   ///////////////////////////////////////////////////////
   CallsTable* getCallsTable();
-  bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
-  bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
@@ -582,16 +582,16 @@ public:
   LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
   LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
-  bool hasCallsRelationship();  //calls(_, _)
-  bool isCallsAnything(PROC_NAME t_proc1);
-  bool isCalledByAnything(PROC_NAME t_proc2);
+  BOOLEAN hasCallsRelationship();  //calls(_, _)
+  BOOLEAN isCallsAnything(PROC_NAME t_proc1);
+  BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
   ModifiesP* getModifiesP();
-  bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
-  bool isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
+  BOOLEAN isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
+  BOOLEAN isModifiesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
   LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName); /*< Modifies(p, "x") */
   MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar(); /*< Modifies(p, x) */
@@ -601,8 +601,8 @@ public:
   //  UsesP methods
   ///////////////////////////////////////////////////////
   UsesP* getUsesP();
-  bool isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
-  bool isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
+  BOOLEAN isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName); /*< Modifies("First", "x") */
+  BOOLEAN isUsesInProc(const PROC_NAME& t_procName); /*< Modifies("First", _) */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName); /*< Modifies("First", x) */
   LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName); /*< Modifies(p, "x") */
   MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar(); /*< Modifies(p, x) */
@@ -613,11 +613,11 @@ public:
   ///////////////////////////////////////////////////////
   UsesTable* getUsesTable();
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
-  bool isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
-  bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
+  BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
 
   ///////////////////////////////////////////////////////
@@ -625,11 +625,11 @@ public:
   ///////////////////////////////////////////////////////
   ModifiesTable* getModifiesTable();
   void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
-  bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
+  BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtModifies();
-  bool isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
+  BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 
   ///////////////////////////////////////////////////////
@@ -651,14 +651,14 @@ public:
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
   */
-  bool isNext(PROG_LINE t_line1, PROG_LINE t_line2);
+  BOOLEAN isNext(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /** Checks if Next*(line1, line2) is true.
   *   @param t_line1 the program line before
   *   @param t_line2 the program line after
   *   @return true if relationship exists, else false
   */
-  bool isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
+  BOOLEAN isNextStar(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /** For Next(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly after given line.
@@ -716,21 +716,21 @@ public:
   *   Checks if any Next relationship exists.
   *   @return true if data structure contains at least one Next(), else false
   */
-  bool hasNextRelationship();
+  BOOLEAN hasNextRelationship();
 
   /** For Next(line, _) and Next*(line, _), where line is a given line number.
   *   Checks if given line has any lines that can be executed after it, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return true if given line has at least one line that can be executed after it, else false
   */
-  bool hasNextLine(PROG_LINE t_line);
+  BOOLEAN hasNextLine(PROG_LINE t_line);
 
   /** For Next(_, line) and Next*(_, line), where line is a given line number.
   *   Checks if given line has any lines that can be executed before it, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return true if given line has at least one line that can be executed before it, else false
   */
-  bool hasLineBefore(PROG_LINE t_line);
+  BOOLEAN hasLineBefore(PROG_LINE t_line);
 
 private:
   FollowTable* m_followTable;
