@@ -538,6 +538,14 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
   return mapStmtToVar;
 }
 
+LIST_OF_STMT_NUMS PKB::getAllWhileStmts() {
+  if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
+    return {};
+  }
+
+  return getStatementTypeTable().at(queryType::GType::WHILE);
+}
+
 ///////////////////////////////////////////////////////
 //  CallsTable methods
 ///////////////////////////////////////////////////////
