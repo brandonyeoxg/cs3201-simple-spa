@@ -456,7 +456,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  LIST_OF_STMT_NUMS getAllAssignStmtList();
+  LIST_OF_STMT_NUMS getAllAssignStmts();
 
   /*
   * Returns all assignment statements in a representation.

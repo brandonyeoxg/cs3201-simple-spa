@@ -294,7 +294,7 @@ public:
   /*
   * Returns all assignment statements.
   */
-  virtual LIST_OF_STMT_NUMS getAllAssignStmtList() = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmts() = 0;
 
   /*
   * Returns all assignment statements in a representation.
