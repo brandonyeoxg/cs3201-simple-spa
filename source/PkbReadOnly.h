@@ -399,6 +399,8 @@ public:
 
   virtual LIST_OF_STMT_NUMS getWhileStmtByVar(STRING varName) = 0;
 
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////

@@ -570,7 +570,7 @@ public:
   LIST_OF_STMT_NUMS getWhileStmtByVar(STRING varName);
 
   /** For Pattern w(v, _) */
-  std::unordered_map<STMT_NUM, VAR_NAME> getWhileStmtWithVar();
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar();
 
   /** For Pattern w(_,  _) */
   LIST_OF_STMT_NUMS getAllWhileStmts();

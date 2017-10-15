@@ -521,6 +521,23 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING varName) {
   return list;
 }
 
+std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
+  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
+    return mapStmtToVar;
+  }
+
+  LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
+
+  for (auto stmtNum : whileStmts) {
+    assert(getUses(stmtNum).size() == 1);
+    std::string varName = getUses(stmtNum).at(0);
+    mapStmtToVar.insert({ stmtNum, varName });
+  }
+
+  return mapStmtToVar;
+}
+
 ///////////////////////////////////////////////////////
 //  CallsTable methods
 ///////////////////////////////////////////////////////
