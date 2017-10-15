@@ -397,6 +397,8 @@ public:
   */
   virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
+  virtual LIST_OF_STMT_NUMS getWhileStmtByVar(STRING varName) = 0;
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
