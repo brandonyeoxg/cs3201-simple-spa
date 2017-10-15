@@ -83,6 +83,7 @@ const std::string BRACKET_OPEN = "(";
 const std::string BRACKET_CLOSE = ")";
 
 const std::string EMPTY_LINE = "";
+std::string EMPTY_STRING = "";
 
 /*Called in QueryPreProcessor.h, by aaron*/
 
