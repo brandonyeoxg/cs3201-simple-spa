@@ -8,9 +8,9 @@
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
 
-/**
-* Represents a parser. 
-* Parses the SIMPLE program and builds an ast through the PKB API.
+/*
+* Represents a parser which parses the SIMPLE program and builds an ast through the PKB API.
+* The Parser will throw exceptions when there are problems with the SIMPLE program.
 *
 * @author Brandon
 * @date 8/10/2017
@@ -35,7 +35,7 @@ public:
   * @param t_filename filename of the file to be passed. Must be a valid readable file.
   * @return -1 if the file cannot be read or syntax error.
   */
-  int parse(NAME t_filename) throw(); //! < returns 0 if no issue, -1 if there is a problem.
+  int parse(NAME t_filename); //! < returns 0 if no issue, -1 if there is a problem.
 protected:
   PkbWriteOnly* m_pkbWriteOnly;
   int m_curLineNum;
@@ -54,21 +54,20 @@ protected:
   /*
   * Matches the tokenType from the file with the expected tokenType.
   *
-  * @param t_token the expected tokenType.
+  * @param t_token the expected TOKEN_TYPE.
   * @return true if the token matches.
   */
   BOOLEAN isMatchToken(TOKEN_TYPE t_type);
 
   /*
-  * Matches the token from the file with the expected token type.
+  * Returns the token is it matches with the TOKEN_TYPE.
   *
   * @param t_token the expected token type.
-  * @return the string of that token from the type.
   */
   STRING_TOKEN getMatchToken(TOKEN_TYPE t_token);
 
   /*
-  * Returns the first token in a line
+  * Returns the first token of a text line
   */
   STRING_TOKEN getCurrentLineToken();
 
@@ -103,26 +102,22 @@ private:
   LIST_OF_TOKENS m_curTokens;
   LIST_OF_PROG_LINES m_ifElseNextList;
   std::unordered_set<STMT_NUM> m_ifLookUp;
+
   /*
   * Parses the procedure block.
-  * 
-  * @return -1 if there is syntax error.
   */
   void parseForProcedure();
   
   /*
   * Parses the statement list block.
   * 
-  * @param t_node the reference to the procedure node
-  * @return -1 if there is syntax error.
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseStmtLst(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the assignment statement.
-  *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
   */
   void parseAssignStmt();
 
@@ -134,62 +129,72 @@ private:
   /*
   * Returns a tokenised expr belonging to the right side of an assignment statement.
   * Tokenised into a vector, without spaces, each element belongs to a single term or operator.
+  * Does validating of brackets being properly formed.
   */
   LIST_OF_TOKENS parseExpr();
 
   /*
   * Parses each term and tokenises them to be used.
+  * Used by LIST_OF_TOKENS parseExpr().
+  *
+  * @param t_tokens is the list of tokens to be appended in to
   */
   void parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens);
 
   /*
-  * Parses the brackets
+  * Parses the expressions inside the brackets.
+  * 
+  * @param t_tokens is the list of tokens to be appended in to
   */
   void parseBrackets(MUTABLE_LIST_OF_TOKENS t_tokens);
 
   /*
   * Parses a non container statemment.
   *
-  * @param t_node the reference to the stmtLst node
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseNonContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst);
 
   /*
    * Parses a container statement.
    *
-   * @param t_node the reference to the stmtLst node
+   * @param t_stmtInStmtLst the statements before this statment in the statement list.
+   * @param t_progLine the program lines that have been found to cross over the statement list.
    */
   void parseContainerStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the while statement.
   *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseWhileStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLines);
 
   /*
   * Parses for the if and else statement.
   *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseIfElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the if statement.
   *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_ifStmtNum statement number belonging to the start of the if statement.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseIfStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 
   /*
   * Parses the else statement.
   *
-  * @param t_node the reference to the stmtLst node
-  * @return -1 if there is syntax error.
+  * @param t_stmtInStmtLst the statements before this statment in the statement list.
+  * @param t_ifStmtNum statement number belonging to the start of the if statement.
+  * @param t_progLine the program lines that have been found to cross over the statement list.
   */
   void parseElseStmt(MUTABLE_LIST_OF_STMT_NUMS t_stmtInStmtLst, STMT_NUM t_ifStmtNum, MUTABLE_LIST_OF_PROG_LINES t_progLine);
 

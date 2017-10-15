@@ -30,8 +30,9 @@ public:
   * Constructs a new Grammar object with a vector of strings and a string with the specified t_name.
   * @param t_vector is a vector of strings containing tokenized strings for patternexpressions.
   * @param t_name is a string argument that is the Query's name for the Grammar.
+  * @param t_type is an integer argument which corresponds to a specific GType.
   */
- // Grammar(std::vector<std::string> t_vector, std::string t_name);
+  Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type);
 
   /**
   * A Setter that returns the attribute of this Grammar object

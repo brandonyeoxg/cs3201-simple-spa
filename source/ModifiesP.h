@@ -15,7 +15,7 @@ public:
   ModifiesP() {};
   ~ModifiesP() {};
 
-  /*
+  /**
   * Inserts the modifies relation for procedures.
   * 
   * @param t_procIdx the procedure index that has the modifies relation.
@@ -25,7 +25,7 @@ public:
   */
   void insertModifiesP(PROC_INDEX t_procIdx, PROC_NAME t_procName, VAR_INDEX t_varIdx, VAR_NAME t_varName);
 
-  /*
+  /**
   * Returns true if the procedure has a modifies relation of that variable.
   * Used in the query evaluator for Modifies("First", "x").
   *
@@ -34,7 +34,7 @@ public:
   */
   BOOLEAN isModifiesP(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx);
 
-  /*
+  /**
   * Returns true if the procedure has a modifies relation.
   * Used in the query evaluator for Modifies("First", _).
   *
@@ -42,7 +42,7 @@ public:
   */
   BOOLEAN isModifiesInProc(PROC_INDEX t_idx);
 
-  /*
+  /**
   * Returns the list of variable names that are modified in the procedure specified.
   * Used in the query evaluator for Modifies("First", x).
   *
@@ -50,7 +50,7 @@ public:
   */
   LIST_OF_VAR_NAMES getVarNamesWithProcIdx(PROC_INDEX t_idx);
 
-  /*
+  /**
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
   *
@@ -58,14 +58,14 @@ public:
   */
   LIST_OF_PROC_NAMES getProcNamesWithVarIdx(VAR_INDEX t_varIdx);
 
-  /*
+  /**
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   * 
   */
   MAP_OF_PROC_TO_VAR getAllProcToVar(); 
 
-  /*
+  /**
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for Modifies(p, _)
   * 
@@ -79,7 +79,7 @@ private:
   MAP_OF_PROC_TO_VAR m_allProcNamesToVarNames;
   LIST_OF_PROC_NAMES m_procNames;
 
-  /*
+  /**
   * Helper method to insert the modifies relation for procedures with procedure as a key and variable name as the value.
   *
   * @param t_procIdx the procedure index that has the modifies relation.
@@ -87,7 +87,7 @@ private:
   */
   void insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
   
-  /*
+  /**
   * Helper method to insert the modifies relation for procedures with procedure as a key and a variable index hash set as the value.
   *
   * @param t_procIdx the procedure index that has the modifies relation.
@@ -95,7 +95,7 @@ private:
   */
   void insertModifiesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx);
 
-  /*
+  /**
   * Helper method to insert the modifies relation for procedures with variable as a key and a procedure name as the value.
   *
   * @param t_varIdx the variable index that is modified.
@@ -103,14 +103,14 @@ private:
   */
   void insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName);
 
-  /*
+  /**
   * Helper method to insert the procedure name that has a modifies relation.
   *
   * @param t_name the name of the procedure that has the is modifies relation.
   */
   void insertModifiesProcName(const PROC_NAME& t_name);
 
-  /*
+  /**
   * Helper method to insert modifies relation where the procedure name is mapped to a variable name.
   *
   * @param t_name the name of the procedure that has the is modifies relation.

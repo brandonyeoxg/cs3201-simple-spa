@@ -10,6 +10,7 @@
 typedef bool BOOLEAN;
 typedef int INTEGER;
 typedef std::string STRING;
+typedef char STRING_CHARACTER;
 
 /*Indexes*/
 typedef INTEGER VAR_INDEX;

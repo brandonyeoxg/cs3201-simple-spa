@@ -548,14 +548,14 @@ public:
   * Used in the query evaluator for Modifies(p, x);
   *
   */
-  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0;
+  virtual MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar() = 0;
 
   /*
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
   */
-  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0;
+  virtual LIST_OF_PROC_NAMES getModifiesPAllProcNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  UsesP methods
@@ -599,14 +599,14 @@ public:
   * Used in the query evaluator for Uses(p, x);
   *
   */
-  virtual MAP_OF_PROC_TO_VAR& getUsesPAllProcToVar() = 0;
+  virtual MAP_OF_PROC_TO_VAR getUsesPAllProcToVar() = 0;
 
   /*
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for  Uses(p, _)
   *
   */
-  virtual LIST_OF_PROC_NAMES& getUsesPAllProcNames() = 0;
+  virtual LIST_OF_PROC_NAMES getUsesPAllProcNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  Uses methods

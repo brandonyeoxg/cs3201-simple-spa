@@ -54,10 +54,37 @@ Grammar::Grammar(int t_type, std::string t_name) {
   m_name = t_name;
 }
 
-/*Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name) {
+Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type) {
   m_vector = t_vector;
   m_name = t_name;
-}*/
+  if (t_type == PROC) {
+    m_type = queryType::GType::PROC;
+  } else if (t_type == STLST) {
+    m_type = queryType::GType::ST_LST;
+  } else if (t_type == STMT) {
+    m_type = queryType::GType::STMT;
+  } else if (t_type == ASGN) {
+    m_type = queryType::GType::ASGN;
+  } else if (t_type == WHILE) {
+    m_type = queryType::GType::WHILE;
+  } else if (t_type == IF) {
+    m_type = queryType::GType::IF;
+  } else if (t_type == CALL) {
+    m_type = queryType::GType::CALL;
+  } else if (t_type == VAR) {
+    m_type = queryType::GType::VAR;
+  } else if (t_type == CONST) {
+    m_type = queryType::GType::CONST;
+  } else if (t_type == PROGLN) {
+    m_type = queryType::GType::PROG_LINE;
+  } else if (t_type == STMTNUM) {
+    m_type = queryType::GType::STMT_NO;
+  } else if (t_type == STR) {
+    m_type = queryType::GType::STR;
+  } else if (t_type == BOOLEAN) {
+    m_type = queryType::GType::BOOLEAN;
+  }
+}
 
 /**
 * A Setter that sets the attribute of this Grammar object
