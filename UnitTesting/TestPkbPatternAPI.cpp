@@ -183,6 +183,33 @@ public:
     Assert::IsTrue(result == expected);
   }
 
+  TEST_METHOD(getWhileStmtByVar) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getWhileStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 1);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+
+    expected = {1, 2, 4};
+    result = pkbRead->getWhileStmtByVar(varNameA);
+    Assert::IsTrue(result == expected);
+
+    expected = { 3 };
+    result = pkbRead->getWhileStmtByVar(varNameB);
+    Assert::IsTrue(result == expected);
+  }
+
+
 private:
   void printListOfIntegers(std::list<int> list) {
     for (auto iterator : list) {
