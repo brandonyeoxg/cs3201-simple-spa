@@ -710,7 +710,6 @@ public:
 
   /*
   * Returns all statemnet list in the program.
-  *
   */
   virtual LIST_OF_STMT_NUMS& getStmtList() = 0;
 
