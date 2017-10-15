@@ -3,62 +3,62 @@
 #include "WhilePatternEvaluator.h"
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> whileStmts;// = t_pkb->getWhileStmtByVarPattern(t_g1.getName(), t_g2.getName(), true);
+  std::vector<int> whileStmts = t_pkb->getWhileStmtByVar(t_g1.getName());
   if (whileStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> whileStmts;// = t_pkb->getWhileStmtByVarPattern(t_g1.getName(), t_g2.getName(), false);
+  std::vector<int> whileStmts = t_pkb->getWhileStmtByVar(t_g1.getName());
   if (whileStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> whileStmts;// = t_pkb->getAllWhileStmtListByVar(t_g1.getName());
+  std::vector<int> whileStmts = t_pkb->getWhileStmtByVar(t_g1.getName());
   if (whileStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> whileStmts;// = t_pkb->getAllWhileStmtByExactPattern(t_g2.getName());
+  std::vector<int> whileStmts = t_pkb->getAllWhileStmts();
   if (whileStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::list<int> whileStmts;// = t_pkb->getAllWhileStmtBySubtreePattern(t_g2.getName());
+  std::vector<int> whileStmts = t_pkb->getAllWhileStmts();
   if (whileStmts.empty()) {
     return m_result;
   }
 
-  std::vector<std::string> stmtVector = Formatter::formatListIntToVectorStr(whileStmts);
+  std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[t_stmt.getName()] = stmtVector;
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::vector<int> allWhileStmts;// = t_pkb->getAllWhileStmtList();
+  std::vector<int> allWhileStmts = t_pkb->getAllWhileStmts();
   if (allWhileStmts.empty()) {
     return m_result;
   }
@@ -69,7 +69,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_p
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar;// = t_pkb->getAllWhileStmtAndVarByPattern(t_g2.getName(), true);
+  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
@@ -79,7 +79,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadO
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar;// = t_pkb->getAllWhileStmtAndVarByPattern(t_g2.getName(), false);
+  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
@@ -89,7 +89,7 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnl
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar;// = t_pkb->getAllWhileStmtWithVarName();
+  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
