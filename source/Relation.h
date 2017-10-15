@@ -35,6 +35,13 @@ public:
   queryType::RType getType();
 
   /**
+  * A Getter that returns the type of this Relation object in string.
+  * The returned string identifies the Relation as one of the Design Abstractions.
+  * @return The RType of this query in string.
+  */
+  STRING getTypeInString();
+
+  /**
   * A Getter that returns the first Grammar object of the Dersign Abstraction.
   * @return The first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
   */

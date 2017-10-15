@@ -23,6 +23,7 @@
 #include "IntermediateTable.h"
 #include "Formatter.h"
 #include "QueryUtil.h"
+#include "WithEvaluator.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -87,13 +88,11 @@ private:
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
 
-  /**
-  * A private function to process all the with clauses.
-  * Loop through the with queue and process all the with clauses.
-  * @return true if all of the with clauses are true or has results
-  * otherwise false if there are one clause which is false or has no results.
-  */
-  BOOLEAN processWithClause();
+  void rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt);
+  void rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr);
+  void rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn);
+  void rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList);
+  void rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList);
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -102,6 +101,15 @@ private:
   * otherwise false if there are one clause which returns an empty result.
   */
   BOOLEAN getResultFromPkb();
+
+  /**
+  * A private function to process all the with clauses.
+  * Loop through the with queue and process all the with clauses.
+  * @param t_with A with object that stores the with clause
+  * @return true if all of the with clauses are true or has results
+  * otherwise false if there are one clause which is false or has no results.
+  */
+  BOOLEAN getWithResult(With t_with);
 
   /**
   * A private function to get the results of the select clause in the query from the PKB.
