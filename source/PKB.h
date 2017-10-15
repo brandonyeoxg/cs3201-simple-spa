@@ -571,7 +571,7 @@ public:
   LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName);
 
   /** For Pattern i(v, _) */
-  std::unordered_map<STMT_NUM, VAR_NAME> getIfStmtWithVar();
+  std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar();
 
   /** For Pattern i(_,  _) */
   LIST_OF_STMT_NUMS getAllIfStmts();

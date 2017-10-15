@@ -402,6 +402,10 @@ public:
   */
   virtual LIST_OF_STMT_NUMS getAllWhileStmts() = 0;
 
+  virtual LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName) = 0;
+
+  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
+
   ///////////////////////////////////////////////////////
   //  CallsTable methods
   ///////////////////////////////////////////////////////
