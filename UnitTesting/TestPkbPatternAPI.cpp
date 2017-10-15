@@ -227,6 +227,8 @@ public:
     pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
     pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
     pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 5);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 6);
 
     expected.insert({ 1, varNameA });
     expected.insert({ 2, varNameA });
@@ -259,6 +261,8 @@ public:
     pkbWrite->insertWhileStmt(0, varNameA, {}, 2);
     pkbWrite->insertWhileStmt(0, varNameB, {}, 3);
     pkbWrite->insertWhileStmt(0, varNameA, {}, 4);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 5);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 6);
 
     expected = { 1, 2, 3, 4 };
     result = pkbRead->getAllWhileStmts();
@@ -302,7 +306,7 @@ public:
     std::string varNameB = "varNameB";
 
     expected = std::unordered_map<STMT_NUM, VAR_NAME>();
-    result = pkbRead->getAllWhileStmtsWithVar();
+    result = pkbRead->getAllIfStmtsWithVar();
     Assert::IsTrue(result == expected);
 
     pkbWrite->insertIfStmt(0, varNameA, {}, 1);
@@ -324,6 +328,31 @@ public:
     expected.insert({ 500, varNameA });
 
     result = pkbRead->getAllIfStmtsWithVar();
+    Assert::IsTrue(result == expected);
+  }
+
+  TEST_METHOD(getAllIfStmts) {
+    PKB * pkb = new PKB();
+    PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
+    PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
+    LIST_OF_STMT_NUMS result, expected;
+    std::string varNameA = "varNameA";
+    std::string varNameB = "varNameB";
+
+    expected = {};
+    result = pkbRead->getAllIfStmts();
+    Assert::IsTrue(result == expected);
+
+    pkbWrite->insertIfStmt(0, varNameA, {}, 1);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 2);
+    pkbWrite->insertIfStmt(0, varNameB, {}, 3);
+    pkbWrite->insertIfStmt(0, varNameA, {}, 5);
+
+    pkbWrite->insertWhileStmt(0, varNameB, {}, 4);
+    pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
+
+    expected = { 1, 2, 3, 5 };
+    result = pkbRead->getAllIfStmts();
     Assert::IsTrue(result == expected);
   }
 
