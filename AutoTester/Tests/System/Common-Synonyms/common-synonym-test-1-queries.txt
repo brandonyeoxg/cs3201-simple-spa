@@ -1,12 +1,12 @@
 1 - 1 Common Synonym Base Test
 stmt s, s1;
 Select s such that Follows(s,s1)
-6
+1, 6
 5000
 2 - 1 Common Synonym Base Test
 stmt s; prog_line pl;
 Select pl such that Follows*(s,pl)
-7
+3, 7
 5000
 3 - 1 Common Synonym Base Test
 stmt s; if ifs;
@@ -16,7 +16,7 @@ Select ifs such that Parent(ifs,s)
 4 - 1 Common Synonym Base Test
 while w, w1;
 Select w such that Parent*(w1,w)
-1
+none
 5000
 5 - 1 Common Synonym Base Test
 call ca; variable v;
@@ -41,12 +41,12 @@ B
 9 - 1 Common Synonym Base Test
 prog_line pl; stmt s;
 Select pl such that Next(pl, s)
-1,2,3,4,6
+1,2,3,6
 5000
 10 - 1 Common Synonym Base Test
 stmt s; prog_line pl;
 Select s such that Next*(pl, s)
-2,3,4,5,7
+1,2,3,4,5,7
 5000
 11 - 1 Common Synonym Base Test
 assign a; variable v;
@@ -60,7 +60,7 @@ i
 5000
 13 - 1 Common Synonym Base Test
 variable v; if ifs;
-Select v pattern ifs(v,_)
+Select v pattern ifs(v,_,_)
 j
 5000
 14 - 1 Common Synonym Base Test
@@ -126,7 +126,7 @@ true
 26 - 1 Common Synonym Base Test
 while w; stmt s; variable v;
 Select BOOLEAN such that Follows(s,w) pattern w(v,_)
-true
+false
 5000
 27 - 1 Common Synonym Base Test
 if ifs; stmt s; variable v;
@@ -191,7 +191,7 @@ true
 39 - 1 Common Synonym On Multiple Clauses Test
 assign a, b; stmt s; variable v;
 Select a such that Follows(a,s) pattern b(v,"c+4") with v.varName="d"
-7
+6
 5000
 40 - 1 Common Synonym On Multiple Clauses Test
 while w; variable v; stmt s, ss;
@@ -206,7 +206,7 @@ Select co such that Uses(s,v) pattern ifs(v,_,_) with co.value=1
 42 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; prog_line pl;
 Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with pl.stmt#=2
-3
+none
 5000
 43 - 1 Common Synonym On Multiple Clauses Test
 if ifs; stmt s; variable v; stmt s, ss;
@@ -221,7 +221,7 @@ Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=3
 45 - 2 Common Synonyms Test
 if ifs; variable v; prog_line pl;
 Select BOOLEAN such that Uses(ifs, v) pattern ifs(v,_,_) with pl.stmt#=1
-true
+false
 5000
 46 - 2 Common Synonyms Test
 assign ifs; variable v; stmt s;
