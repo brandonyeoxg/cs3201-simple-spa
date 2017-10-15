@@ -124,7 +124,9 @@ int PatternMatch::getPrecedenceLevel(std::string t_operator) {
 std::string PatternMatch::convertVectorToStr(std::vector<std::string> t_vector) {
   std::string str = "";
   for (auto iter : t_vector) {
-    str += iter;
+    str += (iter + "/");  // slash is used as a terminator for each token to prevent false positive matches
+                          // i.e "c" will match "chickenCHICKEN+"
+                          // so now it should look "c/" vs "chicken/CHICKEN/+/"
   }
   return str;
 }
