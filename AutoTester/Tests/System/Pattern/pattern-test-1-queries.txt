@@ -151,7 +151,7 @@ Select w pattern w (v,_)
 31 - While Pattern Functionality Test
 while w; variable v;
 Select v pattern w ("i",_)
-a, b, c, i, j
+a, b, c, d, e, f, i, j
 5000
 32 - While Pattern Functionality Test
 while w;
@@ -265,8 +265,8 @@ Select ifs pattern ifs (v,_,_)
 5000
 54 - If Pattern Functionality Test
 if ifs; variable v;
-Select v pattern ifs ("i",_,_)
-a, b, c, i, j
+Select v pattern ifs ("j",_,_)
+a, b, c, d, e, f, i, j
 5000
 55 - If Pattern Functionality Test
 if ifs;
@@ -295,7 +295,7 @@ none
 5000
 60 - If Pattern Invalid Test 5
 while ifs; variable v; call c;
-Select ifs pattern ifs (v,c,_)
+Select ifs pattern ifs (v,c)
 none
 5000
 61 - If Pattern Invalid Test 6

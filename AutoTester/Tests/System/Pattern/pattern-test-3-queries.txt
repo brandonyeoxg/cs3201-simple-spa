@@ -295,7 +295,7 @@ none
 5000
 60 - If Pattern Invalid Test 5
 while ifs; variable v; call c;
-Select ifs pattern ifs (v,c,_)
+Select ifs pattern ifs (v,c)
 none
 5000
 61 - If Pattern Invalid Test 6
