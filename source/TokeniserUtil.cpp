@@ -1,8 +1,8 @@
 #include "TokeniserUtil.h"
 #include "StringUtil.h"
 
-std::string TokeniserUtil::OPEN_BRACE = std::string("(");
-std::string TokeniserUtil::CLOSE_BRACE = std::string(")");
+STRING_TOKEN TokeniserUtil::OPEN_BRACKET = std::string("(");
+STRING_TOKEN TokeniserUtil::CLOSE_BRACKET = std::string(")");
 
 LIST_OF_TOKENS TokeniserUtil::tokeniseLine(STRING_TOKEN t_lineToTokenise) {
   STRING_TOKEN formattedString = StringUtil::reduceString(t_lineToTokenise);
@@ -30,7 +30,7 @@ LIST_OF_TOKENS TokeniserUtil::tokeniseLine(STRING_TOKEN t_lineToTokenise) {
   return tokens;
 }
 
-bool TokeniserUtil::isKeyDelimiter(STRING_TOKEN t_token) {
+BOOLEAN TokeniserUtil::isKeyDelimiter(STRING_TOKEN t_token) {
   return isOperator(t_token)
     || t_token == " "
     || t_token == ";"
@@ -38,7 +38,7 @@ bool TokeniserUtil::isKeyDelimiter(STRING_TOKEN t_token) {
     || t_token == "}";
 }
 
-bool TokeniserUtil::isOperator(STRING_TOKEN t_token) {
+BOOLEAN TokeniserUtil::isOperator(STRING_TOKEN t_token) {
   return t_token == "+"
     || t_token == "-"
     || t_token == "*"
@@ -46,6 +46,6 @@ bool TokeniserUtil::isOperator(STRING_TOKEN t_token) {
     || isBracket(t_token);
 }
 
-bool TokeniserUtil::isBracket(STRING_TOKEN t_token) {
+BOOLEAN TokeniserUtil::isBracket(STRING_TOKEN t_token) {
   return t_token == "(" || t_token == ")";
 }

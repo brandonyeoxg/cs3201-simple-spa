@@ -25,7 +25,7 @@ int Parser::parse (NAME t_filename) throw() {
   while (!m_readStream.eof()) {
     parseForProcedure();
     isMatchToken(EMPTY_LINE);
-    if (m_nextToken == TokeniserUtil::CLOSE_BRACE) {
+    if (m_nextToken == TokeniserUtil::CLOSE_BRACKET) {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
   }
@@ -131,16 +131,16 @@ LIST_OF_TOKENS Parser::parseExpr() {
   if (!isConstant(term) && !isValidName(term) && !TokeniserUtil::isBracket(term)) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
-  if (term == TokeniserUtil::CLOSE_BRACE) {
+  if (term == TokeniserUtil::CLOSE_BRACKET) {
     return output;
   }
   output.push_back(term);
-  if (term == TokeniserUtil::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(output);
   } else {
     handleInsertionOfTermByPkb(term);
   }
-  while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
+  while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACKET) {
     parseEachTerm(output);
   }
   return output;
@@ -152,7 +152,7 @@ void Parser::parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(opr);
-  if (opr == TokeniserUtil::OPEN_BRACE) {
+  if (opr == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(t_tokens);
     return;
   }
@@ -161,9 +161,9 @@ void Parser::parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens) {
     throw SyntaxInvalidTerm(m_curLineNum);
   }
   t_tokens.push_back(term);
-  if (term == TokeniserUtil::OPEN_BRACE) {
+  if (term == TokeniserUtil::OPEN_BRACKET) {
     parseBrackets(t_tokens);
-    if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
+    if (m_nextToken == TokeniserUtil::OPEN_BRACKET) {
       throw SyntaxUnknownCommandException("Cannot put \")(\" ", m_curLineNum);
     }
     return;
@@ -172,19 +172,19 @@ void Parser::parseEachTerm(MUTABLE_LIST_OF_TOKENS t_tokens) {
 }
 
 void Parser::parseBrackets(MUTABLE_LIST_OF_TOKENS t_tokens) {
-  if (m_nextToken == TokeniserUtil::OPEN_BRACE) {
+  if (m_nextToken == TokeniserUtil::OPEN_BRACKET) {
     STRING_TOKEN term = getMatchToken(TOKEN_TYPE::VAR_NAME_TYPE);
     t_tokens.push_back(term);
     parseBrackets(t_tokens);
-    while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACE) {
+    while (TokeniserUtil::isOperator(m_nextToken) && m_nextToken != TokeniserUtil::CLOSE_BRACKET) {
       parseEachTerm(t_tokens);
     }
   } else {
     LIST_OF_TOKENS subExprTokens = parseExpr();
     t_tokens.insert(t_tokens.end(), subExprTokens.begin(), subExprTokens.end());
   }
-  if (isMatchToken(TokeniserUtil::CLOSE_BRACE)) {
-    t_tokens.push_back(TokeniserUtil::CLOSE_BRACE);
+  if (isMatchToken(TokeniserUtil::CLOSE_BRACKET)) {
+    t_tokens.push_back(TokeniserUtil::CLOSE_BRACKET);
   } 
   else {
     throw SyntaxOpenBraceException(m_curLineNum);
