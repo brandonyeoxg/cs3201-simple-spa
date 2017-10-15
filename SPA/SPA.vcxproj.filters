@@ -232,6 +232,9 @@
     <ClCompile Include="..\source\TokeniserUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\WithEvaluator.cpp">
+      <Filter>PQL\Withs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -502,6 +505,9 @@
     <ClInclude Include="..\source\TokeniserUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\WithEvaluator.h">
+      <Filter>PQL\Withs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -554,6 +560,9 @@
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PQL\Withs">
+      <UniqueIdentifier>{caeb84a4-5766-4c6c-88ca-b56f3cb2048b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

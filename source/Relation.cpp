@@ -59,6 +59,36 @@ Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   m_g2 = t_g2;
 }
 
+STRING Relation::getTypeInString() {
+  if (m_type = queryType::RType::FOLLOWS) {
+    return FLS;
+  } else if (m_type = queryType::RType::FOLLOWS_) {
+    return FLS_;
+  } else if (m_type = queryType::RType::PARENT) {
+    return PRT;
+  } else if (m_type = queryType::RType::PARENT_) {
+    return PRT_;
+  } else if (m_type = queryType::RType::USES) {
+    return USE;
+  } else if (m_type = queryType::RType::MODIFIES) {
+    return MDF;
+  } else if (m_type = queryType::RType::CALLS) {
+    return CLS;
+  } else if (m_type = queryType::RType::CALLS_) {
+    return CLS_;
+  } else if (m_type = queryType::RType::NEXT) {
+    return NXT;
+  } else if (m_type = queryType::RType::NEXT_) {
+    return NXT_;
+  } else if (m_type = queryType::RType::AFFECTS) {
+    return AFS;
+  } else if (m_type = queryType::RType::AFFECTS_) {
+    return AFS_;
+  }
+
+  return "";
+}
+
 bool Relation::isFollows(queryType::RType t_type) {
   return t_type == queryType::RType::FOLLOWS;
 }
