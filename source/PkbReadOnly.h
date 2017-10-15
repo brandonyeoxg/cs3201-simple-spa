@@ -510,46 +510,52 @@ public:
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
 
-  /**
-  * Method that checks if the procedure t_procName contains t_varName that is being modified.
-  * @param t_procName the procedure name.
-  * @param t_varName the variable name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a modifies relation of that variable.
+  * Used in the query evaluator for Modifies("First", "x").
+  *
+  * @param t_procName the procedure name that has the modifies relation.
+  * @param t_varName the variable name of the variable that is modified.
   */
-  virtual bool isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0; /*< Modifies("First", "x") */
+  virtual BOOLEAN isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that checks if the procedure t_procName contains any variables that are being modified.
-  * @param t_procName the procedure name.
-  * @return true if the relationship holds, false if otherwise.
+  /*
+  * Returns true if the procedure has a modifies relation.
+  * Used in the query evaluator for Modifies("First", _).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual bool isModifiesInProc(const PROC_NAME& t_procName) = 0; /*< Modifies("First", _) */
+  virtual BOOLEAN isModifiesInProc(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of variable names in modifiesP using the index number of the procedure.
-  * @param t_procName the procedure name.
-  * @return the vector of variable names.
+  /*
+  * Returns the list of variable names that are modified in the procedure specified.
+  * Used in the query evaluator for Modifies("First", x).
+  *
+  * @param t_procName the procedure name that is checked.
   */
-  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0; /*< Modifies("First", x) */
+  virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
 
-  /**
-  * Method that returns the list of procedure names in modifiesP using the index number of the variable.
-  * @param t_varName the variable name.
-  * @return the vector of procedure names.
+  /*
+  * Returns the list of procedure names that are modified by the variable.
+  * Used in the query evaluator for Modifies(p, "x").
+  *
+  * @param t_varName the variable name that is checked.
   */
-  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0; /*< Modifies(p, "x") */
+  virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
 
-  /**
-  * Method that returns the entire map of procedures p that satisfy the Modifies(p, x) where x is any variable.
-  * @return the map of procedures mapped to variable names.
+  /*
+  * Returns a results of a set of procedures mapped to a list of variables that they modifies.
+  * Used in the query evaluator for Modifies(p, x);
+  *
   */
-  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0; /*< Modifies(p, x) */
+  virtual MAP_OF_PROC_TO_VAR& getModifiesPAllProcToVar() = 0;
 
-  /**
-  * Method that returns the list of procedure names in modifiesP.
-  * @return the vector of procedure names.
+  /*
+  * Returns a list of procedures that modifies something.
+  * Used in the query evaluator for  Modifies(p, _)
+  *
   */
-  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0; /*< Modifies(p, _) */
+  virtual LIST_OF_PROC_NAMES& getModifiesPAllProcNames() = 0;
 
   ///////////////////////////////////////////////////////
   //  UsesP methods
