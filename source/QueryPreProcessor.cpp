@@ -1148,7 +1148,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             //Case 33: no more other clause behind
           } else {
 
-            patternStatement = secondStatement.substr(secondStatement.size());
+            patternStatement = secondStatement.substr(0, secondStatement.size());
             m_patternVector.push_back(patternStatement);
 
           }
@@ -1209,7 +1209,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
       //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
     } else if (synonym == BOOLEAN_QPP) {
-      g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
+      g1 = Grammar(queryType::GType::BOOLEAN,"BOOLEAN");
       m_selectQueue.push(g1);
     }
   }
@@ -1226,7 +1226,9 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
-  m_synonymMap.insert({ selectGrammar.getName(), 1 });
+  if (selectGrammar.getType() != queryType::GType::BOOLEAN) {
+    m_synonymMap.insert({ selectGrammar.getName(), 1 });
+  }
   //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
@@ -1467,12 +1469,16 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         }
         counterK = 0;
+        bool moveOn = false;
         for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
           Grammar tempGrammar = m_grammarVector.at(counterK);
           std::string grammarName = tempGrammar.getName();
 
           counterQ = 0;
-          if (m_suchThatQueue.size() == 1 && counterK > 2) {
+          //if (m_suchThatQueue.size() == 1 && counterK > 2) {
+          //  break;
+          //}
+          if (moveOn) {
             break;
           }
           if (sTName1 == grammarName) {
@@ -1593,6 +1599,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 } else {
                   m_synonymMap[sTName2]++;
                 }
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTInt2 > 0) {
 
@@ -1605,6 +1613,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
 
               } else if (sTName2.find('"') != std::string::npos) {
@@ -1619,11 +1629,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
@@ -1694,11 +1708,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 } else {
                   m_synonymMap[sTName2]++;
                 }
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTInt2 > 0) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
@@ -1712,11 +1730,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
@@ -1802,6 +1824,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
@@ -1820,6 +1844,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
@@ -1913,11 +1939,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }

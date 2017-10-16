@@ -15,7 +15,7 @@ true
 5000
 4 - Multiple Clauses Such That Pattern Functionality Test
 stmt s1, s2; assign a; variable v;
-Select BOOLEAN such that Parent* (s1, s2) pattern a (v2, "3")
+Select BOOLEAN such that Parent* (s1, s2) pattern a (v, "3")
 true
 5000
 5 - Multiple Clauses Such That Pattern Functionality Test
@@ -133,10 +133,10 @@ stmt s, s1, s2;
 Select BOOLEAN such that Follows (s1, s2) with s.stmt#=3
 true
 5000
-30 - Multiple Clauses Such That With Functionality Test
+30 - Multiple Clauses Such That With Invalid Test
 stmt s1, s2, s3;
 Select BOOLEAN such that Follows* (s1, s2) with s3.prog_line#=4
-true
+false
 5000
 31 - Multiple Clauses Pattern With Functionality Test
 assign a; variable v; procedure p;
@@ -168,10 +168,10 @@ if ifs; variable v; stmt s;
 Select BOOLEAN pattern ifs (v,_,_) with s.stmt#=2
 true
 5000
-37 - Multiple Clauses Pattern With Functionality Test
+37 - Multiple Clauses Pattern With Invalid Test
 assign a; variable v; stmt s;
 Select BOOLEAN pattern a (v, "1") with s.prog_line=3
-true
+false
 5000
 38 - Multiple Clauses Such That Pattern With Functionality Test
 stmt s1, s2; assign a; variable v; procedure p;
@@ -245,7 +245,7 @@ true
 5000
 52 - Multiple Clauses Such That Pattern With Functionality Test
 stmt s1, s2; assign a; variable v1, v2; procedure p;
-Select BOOLEAN such that Parent(s1,s2) pattern w(v1,"1") with v2.varName="a"
+Select BOOLEAN such that Parent(s1,s2) pattern a(v1,"1") with v2.varName="a"
 true
 5000
 53 - Multiple Clauses Such That Pattern With Functionality Test
@@ -255,11 +255,11 @@ true
 5000
 54 - Multiple Clauses Such That Pattern With Functionality Test
 stmt s1,s2; if w; variable v1,v2;
-Select BOOLEAN such that Uses(s1,v2) pattern w(v1,_) with s2.stmt#=2
+Select BOOLEAN such that Uses(s1,v2) pattern w(v1,_,_) with s2.stmt#=2
 true
 5000
-55 - Multiple Clauses Such That Pattern With Functionality Test
+55 - Multiple Clauses Such That Pattern With Invalid Test
 stmt s1,s2; assign w; variable v2;
 Select BOOLEAN such that Modifies(s1,v2) pattern w("a","1") with s2.prog_line#=2
-true
+false
 5000
