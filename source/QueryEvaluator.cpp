@@ -25,23 +25,10 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   //std::cout << "Getting results from PKB...\n";
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
-  //int withSize = m_withs.size();
 
   Grammar grammar = m_selects.front();
   m_selectedSynonym = grammar.getName();
   m_selectedType = grammar.getType();
-
-  //Loop through the With Queue
-  /*for (int i = 0; i < withSize; ++i) {
-    m_isSelectOnly = false;
-    With with = m_withs.front();
-    BOOLEAN hasResult = getWithResult(with);
-    if (!hasResult) {
-      return false;
-    }
-
-    m_withs.pop();
-  }*/
 
   //Loop through the Relation Queue
   for (int i = 0; i < relationSize; ++i) {
