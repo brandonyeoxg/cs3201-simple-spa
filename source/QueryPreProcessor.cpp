@@ -74,13 +74,11 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     return true;
   } else {
     std::vector<std::string> declarationVector;
-    //std::cout << t_declarationInput << "test1" << std::endl;
 
     std::string starterString;
     //tokens are split by ;
     std::size_t prev_pos = 0, pos;
     starterString = m_stringUtil.trimString(t_declarationInput);
-    starterString = m_stringUtil.reduceString(t_declarationInput);
 
     //for cases with only one relation(such that)
     if ((pos = starterString.find(";", prev_pos)) == std::string::npos) {
@@ -109,15 +107,12 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     for (std::size_t j = 0; j != declarationVector.size(); ++j) {
       tempString = declarationVector.at(j);
       tempString = m_stringUtil.trimString(tempString);
-      tempString = m_stringUtil.reduceString(tempString);
 
       std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
       std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
 
       entity = m_stringUtil.trimString(entity);
       variables = m_stringUtil.trimString(variables);
-      entity = m_stringUtil.reduceString(entity);
-      variables = m_stringUtil.reduceString(variables);
       //Checks whether there is no entity for the synonym e.g stmt s; s1; variable v;
       if (entity == variables) {
         return false;
@@ -231,8 +226,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int tempSpaceLoc;
 
-    t_queryInput = m_stringUtil.reduceString(t_queryInput);
-
     selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
     t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
     t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
@@ -243,7 +236,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
     //secondStatement = t_queryInput.substr(secondStatement.find_first_not_of(delimiterSpace) + 1, secondStatement.size());
     secondStatement = m_stringUtil.trimString(secondStatement);
-    secondStatement = m_stringUtil.reduceString(secondStatement);
 
     while (true) {
       //secondStatement = m_stringUtil.trimString(secondStatement);
@@ -1199,7 +1191,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
   synonym = m_stringUtil.trimString(synonym);
-  synonym = m_stringUtil.reduceString(synonym);
 
   Grammar g1;
   
@@ -1255,7 +1246,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       //std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
       std::string designAbstractions = m_relationVector.at(counterB);                                                                                                                                              //IMPT: to be worked on in the future for more complex queries
       designAbstractions = m_stringUtil.trimString(designAbstractions);
-      designAbstractions = m_stringUtil.reduceString(designAbstractions);
 
       std::string delimiterBracket = "(";
       std::string designAbstractionEntity = designAbstractions.substr(0, designAbstractions.find(delimiterBracket));
@@ -1263,8 +1253,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
       designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
-      designAbstractionEntity = m_stringUtil.reduceString(designAbstractionEntity);
-      designAbstractionObject = m_stringUtil.reduceString(designAbstractionObject);
 
       //std::cout << designAbstractionEntity << std::endl;
       std::vector<std::string> designAbstractionVectorNew;
@@ -1987,7 +1975,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       std::string patternObject = m_patternVector.at(counterC);
 
       patternObject = m_stringUtil.trimString(patternObject);
-      patternObject = m_stringUtil.reduceString(patternObject);
 
       std::cout << patternObject << std::endl;
 
@@ -1997,7 +1984,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       //std::cout << patternSynonym << std::endl;
       patternSynonym = m_stringUtil.trimString(patternSynonym);
-      patternSynonym = m_stringUtil.reduceString(patternSynonym);
 
       patternParameters = patternParameters.substr(patternParameters.find_first_of('(') + 1, patternParameters.find_last_of(')') - 1);
 
@@ -2038,7 +2024,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         std::string patternLeftName = patternVector.front();
 
         patternLeftName = m_stringUtil.trimString(patternLeftName);
-        patternLeftName = m_stringUtil.reduceString(patternLeftName);
 
         //left side: string
         if (patternLeftName.find('"') != std::string::npos) {
@@ -2080,7 +2065,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         std::string patternRightName = patternVector.back();
 
         patternRightName = m_stringUtil.trimString(patternRightName);
-        patternRightName = m_stringUtil.reduceString(patternRightName);
         //Check for equal number of matching brackets
         size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
         size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
@@ -2146,7 +2130,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           removeCharsFromString(patternLeftName, "\\\" ");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
           patternLeftName = m_stringUtil.trimString(patternLeftName);
-          patternLeftName = m_stringUtil.reduceString(patternLeftName);
         } else if (patternLeftName == OPERATOR_UNDERSCORE) {
           removeCharsFromString(patternLeftName, "\"");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
@@ -2177,7 +2160,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
         std::string patternRightName = patternVector.back();
         patternRightName = m_stringUtil.trimString(patternRightName);
-        patternRightName = m_stringUtil.reduceString(patternRightName);
         if (patternRightName == OPERATOR_UNDERSCORE) {
           grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
         } else {
@@ -2197,8 +2179,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           ifPatternParam1 = m_stringUtil.trimString(ifPatternParam1);
           ifPatternParam2 = m_stringUtil.trimString(ifPatternParam2);
-          ifPatternParam1 = m_stringUtil.reduceString(ifPatternParam1);
-          ifPatternParam2 = m_stringUtil.reduceString(ifPatternParam2);
 
           //check to make sure both pattern parameters are _
           if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
@@ -2241,7 +2221,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           std::string patternRightName = ifPatternParam2;
           patternRightName = m_stringUtil.trimString(patternRightName);
-          patternRightName = m_stringUtil.reduceString(patternRightName);
           if (patternRightName == OPERATOR_UNDERSCORE) {
             grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
           } else {
@@ -2271,7 +2250,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       //std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
       std::string withObject = m_withVector.at(counterD);
       withObject = m_stringUtil.trimString(withObject);
-      withObject = m_stringUtil.reduceString(withObject);
 
       //Check if with expression does not contains =
       if (withObject.find('=') == std::string::npos) {
@@ -2283,8 +2261,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       withLeft = m_stringUtil.trimString(withLeft);
       withRight = m_stringUtil.trimString(withRight);
-      withLeft = m_stringUtil.reduceString(withLeft);
-      withRight = m_stringUtil.reduceString(withRight);
 
       //Check if with expression is empty on either side =
       if (withLeft == "" || withRight == "") {
@@ -2482,8 +2458,6 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
 
   withTempSynonym = m_stringUtil.trimString(withTempSynonym);
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
-  withTempSynonym = m_stringUtil.reduceString(withTempSynonym);
-  withTempAttribute = m_stringUtil.reduceString(withTempAttribute);
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
   
@@ -2546,8 +2520,6 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
 
   withTempSynonym = m_stringUtil.trimString(withTempSynonym);
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
-  withTempSynonym = m_stringUtil.reduceString(withTempSynonym);
-  withTempAttribute = m_stringUtil.reduceString(withTempAttribute);
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
 
@@ -2578,8 +2550,6 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
 
   withSynonym = m_stringUtil.trimString(withSynonym);
   withAttribute = m_stringUtil.trimString(withAttribute);
-  withSynonym = m_stringUtil.reduceString(withSynonym);
-  withAttribute = m_stringUtil.reduceString(withAttribute);
 
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
