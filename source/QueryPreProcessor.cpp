@@ -54,6 +54,7 @@ std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
   std::string declaration = t_Input.substr(0, t_Input.find(delimiter));
 
   declaration = m_stringUtil.trimString(declaration);
+  declaration = m_stringUtil.reduceString(declaration);
   return declaration;
 }
 
@@ -62,6 +63,7 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
 
   query = m_stringUtil.trimString(query);
+  query = m_stringUtil.reduceString(query);
   return query;
 }
 
@@ -72,7 +74,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     return true;
   } else {
     std::vector<std::string> declarationVector;
-    //std::cout << t_declarationInput << "test1" << std::endl;
 
     std::string starterString;
     //tokens are split by ;
@@ -2022,6 +2023,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (patternOfGrammar.getType() == queryType::GType::ASGN) {
         std::string patternLeftName = patternVector.front();
 
+        patternLeftName = m_stringUtil.trimString(patternLeftName);
+
         //left side: string
         if (patternLeftName.find('"') != std::string::npos) {
           removeCharsFromString(patternLeftName, "\\\" ");
@@ -2062,7 +2065,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         std::string patternRightName = patternVector.back();
 
         patternRightName = m_stringUtil.trimString(patternRightName);
-
         //Check for equal number of matching brackets
         size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
         size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
@@ -2127,6 +2129,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         if (patternLeftName.find('"') != std::string::npos) {
           removeCharsFromString(patternLeftName, "\\\" ");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+          patternLeftName = m_stringUtil.trimString(patternLeftName);
         } else if (patternLeftName == OPERATOR_UNDERSCORE) {
           removeCharsFromString(patternLeftName, "\"");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
@@ -2168,12 +2171,14 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       } else if (patternOfGrammar.getType() == queryType::GType::IF) {
         std::string ifPatternParam1;
         std::string ifPatternParam2;
-
         //check there are 3 parameters for if pattern clause
         if (patternVector.size() == 3) {
 
           ifPatternParam1 = patternVector.at(1);
           ifPatternParam2 = patternVector.at(2);
+
+          ifPatternParam1 = m_stringUtil.trimString(ifPatternParam1);
+          ifPatternParam2 = m_stringUtil.trimString(ifPatternParam2);
 
           //check to make sure both pattern parameters are _
           if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
