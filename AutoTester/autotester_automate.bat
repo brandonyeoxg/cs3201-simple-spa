@@ -1,5 +1,6 @@
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/simple-prog.txt %~dp0/simple-queries.txt %~dp0/Output/out.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Validation/validation-prog.txt %~dp0/Tests/Validation/validation-queries.txt %~dp0/Output/validiation-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/sample-prog.txt %~dp0/Tests/Acceptance/sample-queries.txt %~dp0/Output/acceptance-sample-out.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/first-prog.txt %~dp0/Tests/Acceptance/test-1-queries.txt %~dp0/Output/acceptance-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/second-prog.txt %~dp0/Tests/Acceptance/test-2-queries.txt %~dp0/Output/acceptance-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/third-prog.txt %~dp0/Tests/Acceptance/test-3-queries.txt %~dp0/Output/acceptance-out3.xml
