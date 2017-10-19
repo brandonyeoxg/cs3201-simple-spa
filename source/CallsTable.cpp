@@ -59,6 +59,18 @@ bool CallsTable::insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc) {
   if (itr != m_callsStmtMap.end()) {
     return false;
   } else {
+    //insertion to procNameToCallsStmtsMap.
+    LIST_OF_STMT_NUMS stmtNums;
+    auto itr2 = m_procNameToCallsStmtsMap.find(t_proc);
+    if (itr2 == m_procNameToCallsStmtsMap.end()) {
+      stmtNums.push_back(t_lineNum);
+      m_procNameToCallsStmtsMap.emplace(t_proc, stmtNums);
+    } else {
+      stmtNums = m_procNameToCallsStmtsMap[t_proc];
+      stmtNums.push_back(t_lineNum);
+      m_procNameToCallsStmtsMap[t_proc] = stmtNums;
+    }
+    //insertion to callsStmtMap.
     m_callsStmtMap.emplace(t_lineNum, t_proc);
     return true;
   }
@@ -206,6 +218,16 @@ PROC_NAME CallsTable::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
   }
 }
 
+LIST_OF_STMT_NUMS CallsTable::getStmtNumsFromProcName(PROC_NAME t_procName) {
+  LIST_OF_STMT_NUMS stmtNums;
+  auto itr = m_procNameToCallsStmtsMap.find(t_procName);
+  if (itr == m_procNameToCallsStmtsMap.end()) {
+    return stmtNums;
+  } else {
+    return m_procNameToCallsStmtsMap[t_procName];
+  }
+}
+
 void CallsTable::populateCallsStarMap() {
   //for every key in callsMap
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
@@ -275,6 +297,7 @@ void CallsTable::populateCalledByStarMap() {
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
   std::unordered_map<STMT_NUM, PROC_NAME> m_callsStmtMap;
+  std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_procNameToCallsStmtsMap;
   std::set<PROC_NAME> m_allCalls;
   std::set<PROC_NAME> m_allCalledBy;
 }
@@ -296,4 +319,8 @@ std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByStarMa
 
 std::unordered_map<STMT_NUM, PROC_NAME>& CallsTable::getCallsStmtMap() {
   return m_callsStmtMap;
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS>& CallsTable::getProcNameToCallsStmtsMap() {
+  return m_procNameToCallsStmtsMap;
 }
