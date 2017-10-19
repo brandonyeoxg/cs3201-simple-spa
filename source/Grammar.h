@@ -36,15 +36,21 @@ public:
 
   /**
   * A Setter that sets the name of this Grammar object.
-  * The name of the grammar object is set by the name in the parameter.
+  * The name of the grammar object is changed to the name in the parameter.
   */
   void Grammar::setName(STRING t_name);
+
+  /**
+  * A Setter that sets the GType of this Grammar object.
+  * The GType of the grammar object is changed to the GType in the parameter.
+  */
+  void Grammar::setGType(queryType::GType t_gType);
 
   /**
   * A Setter that sets the attribute of this Grammar object
   * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
   */
-  void Grammar::setAType(queryType::AType aType);
+  void Grammar::setAType(queryType::AType t_aType);
 
   /**
   * A Getter that returns the type of this Grammar object.
