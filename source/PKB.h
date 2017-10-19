@@ -606,6 +606,8 @@ public:
   BOOLEAN hasCallsRelationship();  //calls(_, _)
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
+  PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods

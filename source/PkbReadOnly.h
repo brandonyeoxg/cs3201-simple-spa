@@ -524,6 +524,9 @@ public:
   */
   virtual BOOLEAN isCalledByAnything(PROC_NAME t_proc2) = 0;
 
+  virtual PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName) = 0;
+
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
