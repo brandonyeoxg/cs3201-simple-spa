@@ -217,11 +217,17 @@ PROC_NAME CallsTable::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
     throw std::invalid_argument("Statement Number does not exist in CallStmtMap");;
   }
 }
-/*
-LIST_OF_STMT_NUMS CallsTable::getStmtNumsFromProcName(PROC_NAME t_procName) {
 
+LIST_OF_STMT_NUMS CallsTable::getStmtNumsFromProcName(PROC_NAME t_procName) {
+  LIST_OF_STMT_NUMS stmtNums;
+  auto itr = m_procNameToCallsStmtsMap.find(t_procName);
+  if (itr == m_procNameToCallsStmtsMap.end()) {
+    return stmtNums;
+  } else {
+    return m_procNameToCallsStmtsMap[t_procName];
+  }
 }
-*/
+
 void CallsTable::populateCallsStarMap() {
   //for every key in callsMap
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
