@@ -81,11 +81,11 @@ public:
   std::vector<std::string> getVector();
 
   /**
-  * A Getter that returns the value of this Grammar object.
-  * The returned string is the value of the variable as specified by the query.
-  * @return The value of this Grammar object.
+  * A public function to check whether the grammar object has an attribute.
+  * If the grammar object has an attribute, it will return true else return false.
+  * @return true if the grammar object has an attribute else return false.
   */
-  std::string getValue();
+  bool hasAttr();
 
   /**
   * A public function that prints the content of this Grammar object.
@@ -233,7 +233,6 @@ private:
   queryType::AType m_attr; /**< attribute of this Grammar object */
   std::vector<std::string> m_vector; /**< vector of this Grammar object for pattern*/
   std::string m_name; /**< name of this Grammar object */
-  std::string m_value; /**< value of this Grammar object */
   static int PROC;
   static int STLST;
   static int STMT;
