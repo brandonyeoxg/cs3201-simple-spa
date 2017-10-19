@@ -35,7 +35,13 @@ public:
   Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type);
 
   /**
-  * A Setter that returns the attribute of this Grammar object
+  * A Setter that sets the name of this Grammar object.
+  * The name of the grammar object is set by the name in the parameter.
+  */
+  void Grammar::setName(STRING t_name);
+
+  /**
+  * A Setter that sets the attribute of this Grammar object
   * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
   */
   void Grammar::setAType(queryType::AType aType);

@@ -88,6 +88,11 @@ Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_ty
 }
 
 /**
+* A Setter that sets the name of this Grammar object
+*/
+void Grammar::setName(STRING t_name) { m_name = t_name; }
+
+/**
 * A Setter that sets the attribute of this Grammar object
 */
 void Grammar::setAType(queryType::AType aType ) { m_attr = aType; }
