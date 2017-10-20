@@ -320,7 +320,7 @@ true
 5000
 65 - With Integer-Synonym Test Cases
 prog_line pl;
-Select BOOLEAN with pl=1
+Select BOOLEAN with 1=pl
 true
 5000
 66 - With String-String Test Cases
