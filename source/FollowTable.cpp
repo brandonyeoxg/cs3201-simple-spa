@@ -86,6 +86,7 @@ BOOLEAN FollowTable::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
 }
 
 BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
+  /*
   //in this case, since s1 is known,
   //we just retrieve the vector mapped to s1 and check if s2 exists.
   if (m_followMap.find(t_s1) == m_followMap.end()) {
@@ -99,7 +100,9 @@ BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
     } else {
       return false;
     }
-  }
+  } */
+
+  return m_followsMatrix.at(t_s1).at(t_s2);
 }
 
 int FollowTable::getFollows(STMT_NUM t_s1) {
