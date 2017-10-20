@@ -71,7 +71,7 @@ typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
-
+typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
 const int INVALID_INDEX = -1;
 
 const std::string OPERATOR_MULTIPLY = "*";
