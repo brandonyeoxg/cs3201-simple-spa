@@ -416,6 +416,12 @@ public:
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
+  /**
+  * Method to return the total number of statements appeared in the source program.
+  * @return the size of statementTypeTable, which equals to total number of lines.
+  */
+  TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
+
   ///////////////////////////////////////////////////////
   //  VarTable methods
   ///////////////////////////////////////////////////////

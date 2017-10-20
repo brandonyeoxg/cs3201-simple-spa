@@ -322,6 +322,9 @@ LIST_OF_STMT_NUMS PKB::getListOfStatements(queryType::GType t_type) {
   return m_statementTable->getListOfStatements(t_type);
 }
 
+TOTAL_NUMBER_OF_STMTS PKB::getNumberOfStatements() {
+  return m_statementTable->getNumberOfStatements();
+}
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////
