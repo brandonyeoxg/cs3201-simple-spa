@@ -198,7 +198,7 @@ BOOLEAN FollowTable::isFollowedByAnything(STMT_NUM t_s1) {
 }
 
 void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
-  m_followsMatrix = std::vector<std::vector<bool>>(total+1, std::vector<bool>(total+1, false));
+  m_followsMatrix = BOOLEAN_MATRIX(total+1, std::vector<bool>(total+1, false));
   //for every key in m_followMap
   for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
     STMT_NUM s1 = it->first;
@@ -216,6 +216,6 @@ void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
 FollowTable::FollowTable() {
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
-  std::vector<std::vector<BOOLEAN>> m_followsMatrix;
+  BOOLEAN_MATRIX m_followsMatrix;
   std::set<int> m_allFollows;
 }

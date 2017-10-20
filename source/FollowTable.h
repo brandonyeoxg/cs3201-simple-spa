@@ -145,6 +145,6 @@ public:
 private:
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
-  std::vector<std::vector<BOOLEAN>> m_followsMatrix;
+  BOOLEAN_MATRIX m_followsMatrix;
   std::set<int> m_allFollows;
 };
