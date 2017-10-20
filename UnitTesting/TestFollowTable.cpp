@@ -7,87 +7,68 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
+  private:
+    FollowTable* m_testFollowTable;
+    std::unordered_map<int, std::vector<int>> testFollowTableResult;
   public:
-    
-    TEST_METHOD(TestInsertFollow) {
-      //test insertFollows method.
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
-      testFollowTable->insertFollows(4, 5);
-      std::unordered_map<int, std::vector<int>> testFollowTableResult;
+    TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
+      m_testFollowTable = new FollowTable();
       testFollowTableResult = {
-        { 1, { 2, 3, 4, 5 } },
-        { 2, { 3, 4, 5 } },
-        { 3, { 4, 5 } },
-        { 4, { 5 } }
-      };
-      Assert::IsTrue(testFollowTable->getFollowTable() == testFollowTableResult);
-      //test insertFollows method (duplicate key/value).
-      //testFollowTable->setFollowTable(test);
-      bool expected = testFollowTable->insertFollows(2, 3);
-      Assert::IsFalse(expected);
-    }
-    TEST_METHOD(TestIsFollows) {
-      std::unordered_map<int, std::vector<int>> test = {
         { 1,{ 2, 3, 4 } },
         { 2,{ 3, 4 } },
         { 3,{ 4 } }
       };
+      m_testFollowTable->insertFollows(1, 2);
+      m_testFollowTable->insertFollows(2, 3);
+      m_testFollowTable->insertFollows(3, 4);
+      m_testFollowTable->populateFollowsMatrix(4);
+    }
+    TEST_METHOD(TestInsertFollow) {
+      //test insertFollows method.
+      Assert::IsTrue(m_testFollowTable->getFollowTable() == testFollowTableResult);
+      //test insertFollows method (duplicate key/value).
+      //m_testFollowTable->setFollowTable(test);
+      bool expected = m_testFollowTable->insertFollows(2, 3);
+      Assert::IsFalse(expected);
+    }
+    TEST_METHOD(TestIsFollows) {
       Logger::WriteMessage("Running follow table test isFollows");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
       //test isFollows method (correct behaviour).
-      bool expected = testFollowTable->isFollows(1, 2);
+      bool expected = m_testFollowTable->isFollows(1, 2);
       Assert::IsTrue(expected);
       //test isFollows method (existing in vector but not first element).
-      expected = testFollowTable->isFollows(1, 3);
+      expected = m_testFollowTable->isFollows(1, 3);
       Assert::IsFalse(expected);
       //test isFollows method (non-existing key/value pair).
-      expected = testFollowTable->isFollows(1, 6);
+      expected = m_testFollowTable->isFollows(1, 6);
       Assert::IsFalse(expected);
       //test isFollows method (non-existing key).
-      expected = testFollowTable->isFollows(5, 6);
+      expected = m_testFollowTable->isFollows(5, 6);
       Assert::IsFalse(expected);
     }
 
     TEST_METHOD(TestIsFollowsStar) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test isFollowsStar");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
       //test isFollowsStar method (correct behaviour).
-      bool expected = testFollowTable->isFollowsStar(1, 4);
+      bool expected = m_testFollowTable->isFollowsStar(1, 4);
       Assert::IsTrue(expected);
       //test isFollowsStar method (non-existing key).
-      expected = testFollowTable->isFollows(4, 5);
+      expected = m_testFollowTable->isFollows(4, 5);
       Assert::IsFalse(expected);
       //test isFollowsStar method (non-existing value in existing key).
-      expected = testFollowTable->isFollows(2, 5);
+      expected = m_testFollowTable->isFollows(2, 5);
       Assert::IsFalse(expected);
     }
 
     TEST_METHOD(TestGetFollows) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test getFollows");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
       //test getFollows method (correct behaviour)
-      int expected = testFollowTable->getFollows(1);
+      int expected = m_testFollowTable->getFollows(1);
       Assert::IsTrue(expected == 2);
       //test getFollows method (non-existing s1, expects exception)
       bool exceptionThrown = false;
       try {
-        int expected = testFollowTable->getFollows(5);
+        int expected = m_testFollowTable->getFollows(5);
       } catch(std::invalid_argument) {
         Logger::WriteMessage("Exception thrown in getFollows");
         exceptionThrown = true;
@@ -97,20 +78,16 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetFollowedBy) {
       Logger::WriteMessage("Running follow table test getFollowedBy");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
       //test getFollowedBy method (correct behaviour)
-      int expected = testFollowTable->getFollowedBy(3);
+      int expected = m_testFollowTable->getFollowedBy(3);
       Assert::IsTrue(expected == 2);
       //test getFollowedBy method (s2 being the first element in vector)
-      expected = testFollowTable->getFollowedBy(2);
+      expected = m_testFollowTable->getFollowedBy(2);
       Assert::IsTrue(expected == 1);
       //test getFollowed method (non-existing s2, expects exception)
       bool exceptionThrown = false;
       try {
-        expected = testFollowTable->getFollowedBy(5);
+        expected = m_testFollowTable->getFollowedBy(5);
       } catch (std::invalid_argument) {
         Logger::WriteMessage("Exception thrown in getFollowedBy");
         exceptionThrown = true;
@@ -119,72 +96,48 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestGetFollowsStar) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test getFollowsStar");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
       //test getFollowsStar method (correct behaviour)
-      std::vector<int> expected = testFollowTable->getFollowsStar(1);
+      std::vector<int> expected = m_testFollowTable->getFollowsStar(1);
       static const int arr[] = { 2, 3, 4 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
 
       //test getFollowsStar method (non-existent s1, return empty vector)
       std::vector<int> emptyResult;
-      expected = testFollowTable->getFollowsStar(5);
+      expected = m_testFollowTable->getFollowsStar(5);
       Assert::IsTrue(expected == emptyResult);
     }
 
     TEST_METHOD(TestGetFollowedByStar) {
       Logger::WriteMessage("Running follow table test getFollowedByStar");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
       //test getFollowedByStar method (correct behaviour)
-      std::vector<int> expected = testFollowTable->getFollowedByStar(4);
+      std::vector<int> expected = m_testFollowTable->getFollowedByStar(4);
       static const int arr[] = { 1, 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
       //test getFollowedByStar method (non-existent s2, return empty vector)
       std::vector<int> emptyResult;
-      expected = testFollowTable->getFollowedByStar(5);
+      expected = m_testFollowTable->getFollowedByStar(5);
       Assert::IsTrue(expected == emptyResult);
     }
 
     TEST_METHOD(TestGetAllFollows) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test getAllFollows");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
+
       //test getAllFollows method (correct behaviour)
       std::unordered_map<int, int> expected = {
         { 1, 2 },
         { 2, 3 },
         { 3, 4 }
       };
-      Assert::IsTrue(expected == testFollowTable->getAllFollows());
+      Assert::IsTrue(expected == m_testFollowTable->getAllFollows());
     }
 
     TEST_METHOD(TestGetFollowedByAnything) {
-      std::unordered_map<int, std::vector<int>> test = {
-        { 1,{ 2, 3, 4 } },
-        { 2,{ 3, 4 } },
-        { 3,{ 4 } }
-      };
       Logger::WriteMessage("Running follow table test getFollowedByAnything");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->setFollowTable(test);
       //test getFollowedByStar method (correct behaviour)
-      std::vector<int> expected = testFollowTable->getFollowedByAnything();
+      std::vector<int> expected = m_testFollowTable->getFollowedByAnything();
       static const int arr[] = { 1, 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
@@ -192,40 +145,29 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetFollowsAnything) {
       Logger::WriteMessage("Running follow table test getFollowsAnything");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
       static const int arr[] = { 2, 3, 4 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
 
-      std::vector<int> expected = testFollowTable->getFollowsAnything();
+      std::vector<int> expected = m_testFollowTable->getFollowsAnything();
       Assert::IsTrue(expected == actual);
     }
 
     TEST_METHOD(TestIsFollowsAnything) {
       Logger::WriteMessage("Running follow table test isFollowsAnything");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
 
-      Assert::IsFalse(testFollowTable->isFollowsAnything(1));
-      Assert::IsTrue(testFollowTable->isFollowsAnything(2));
-      Assert::IsTrue(testFollowTable->isFollowsAnything(3));
-      Assert::IsTrue(testFollowTable->isFollowsAnything(4));
+
+      Assert::IsFalse(m_testFollowTable->isFollowsAnything(1));
+      Assert::IsTrue(m_testFollowTable->isFollowsAnything(2));
+      Assert::IsTrue(m_testFollowTable->isFollowsAnything(3));
+      Assert::IsTrue(m_testFollowTable->isFollowsAnything(4));
     }
 
     TEST_METHOD(TestIsFollowedByAnything) {
       Logger::WriteMessage("Running follow table test isFollowedByAnything");
-      FollowTable *testFollowTable = new FollowTable();
-      testFollowTable->insertFollows(1, 2);
-      testFollowTable->insertFollows(2, 3);
-      testFollowTable->insertFollows(3, 4);
 
-      Assert::IsTrue(testFollowTable->isFollowedByAnything(2));
-      Assert::IsTrue(testFollowTable->isFollowedByAnything(3));
-      Assert::IsFalse(testFollowTable->isFollowedByAnything(4));
+      Assert::IsTrue(m_testFollowTable->isFollowedByAnything(2));
+      Assert::IsTrue(m_testFollowTable->isFollowedByAnything(3));
+      Assert::IsFalse(m_testFollowTable->isFollowedByAnything(4));
 
     }
   };
