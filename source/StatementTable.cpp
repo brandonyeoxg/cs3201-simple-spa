@@ -66,5 +66,5 @@ LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
 }
 
 TOTAL_NUMBER_OF_STMTS StatementTable::getNumberOfStatements() {
-  return m_statementTypeTable.size();
+  return m_typeOfStatementTable.size();
 }

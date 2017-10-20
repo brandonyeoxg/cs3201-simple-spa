@@ -18,6 +18,6 @@ public:
 private:
   void populateParentedByStarMap();
   void populateParentStarMap();
-  void populateParentMatrix(TOTAL_NUMBER_OF_STMTS total);
+  void populateParentMatrix();
 };
 

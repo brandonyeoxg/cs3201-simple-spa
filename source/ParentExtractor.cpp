@@ -43,7 +43,9 @@ void ParentExtractor::populateParentStarMap() {
   }
 }
 
-void ParentExtractor::populateParentMatrix(TOTAL_NUMBER_OF_STMTS total) {
+void ParentExtractor::populateParentMatrix() {
+  TOTAL_NUMBER_OF_STMTS number_of_stmts;
+  number_of_stmts = m_pkb->getStatementTable()->getNumberOfStatements();
   ParentTable* parentTable = m_pkb->getParentTable();
-  parentTable->populateParentMatrix(total);
+  parentTable->populateParentMatrix(number_of_stmts);
 }
