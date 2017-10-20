@@ -4,6 +4,7 @@
 void ParentExtractor::extractDesign() {
   populateParentedByStarMap();
   populateParentStarMap();
+  populateParentMatrix();
 }
 
 void ParentExtractor::populateParentedByStarMap() {
