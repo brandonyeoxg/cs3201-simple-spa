@@ -11,7 +11,7 @@ namespace UnitTesting {
     FollowTable* m_testFollowTable;
     std::unordered_map<int, std::vector<int>> testFollowTableResult;
   public:
-    TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
+    TEST_METHOD_INITIALIZE(InitialiseFollowsTable) {
       m_testFollowTable = new FollowTable();
       testFollowTableResult = {
         { 1,{ 2, 3, 4 } },

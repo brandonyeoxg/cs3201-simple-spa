@@ -12,5 +12,7 @@ public:
   ~FollowsExtractor() {};
 
   void extractDesign();
+private:
+  void populateFollowsMatrix();
 };
 
