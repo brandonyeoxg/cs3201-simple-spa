@@ -184,9 +184,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
       }
     }
   }
-  
-  //20/10/2017 check for double declared statements
-
   isTokenized = true;
   return isTokenized;
 }
