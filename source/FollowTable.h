@@ -134,7 +134,7 @@ public:
   */
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getFollowTable();
 
-  void populateFollowsMatrix();
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
 
   /**
   * A constructor.

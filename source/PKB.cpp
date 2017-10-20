@@ -215,6 +215,10 @@ bool PKB::isFollowsAnything(STMT_NUM t_s2) {
 bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
   return m_followTable->isFollowedByAnything(t_s1);
 }
+
+void PKB::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
+  return m_followTable->populateFollowsMatrix(total);
+}
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////

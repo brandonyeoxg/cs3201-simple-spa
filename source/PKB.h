@@ -251,6 +251,7 @@ public:
   */
   BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////

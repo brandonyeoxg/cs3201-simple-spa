@@ -194,6 +194,18 @@ BOOLEAN FollowTable::isFollowedByAnything(STMT_NUM t_s1) {
   }
 }
 
+void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
+  m_followsMatrix = std::vector<std::vector<bool>>(total+1, std::vector<bool>(total+1, false));
+  //for every key in m_followMap
+  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
+    STMT_NUM s1 = it->first;
+    LIST_OF_STMT_NUMS numList = it->second;
+    for (int i: numList) {
+      m_followsMatrix.at(s1).at(i) = true;
+    }
+  }
+}
+
 /**
 * A constructor.
 * Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
@@ -201,5 +213,6 @@ BOOLEAN FollowTable::isFollowedByAnything(STMT_NUM t_s1) {
 FollowTable::FollowTable() {
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
+  std::vector<std::vector<BOOLEAN>> m_followsMatrix;
   std::set<int> m_allFollows;
 }
