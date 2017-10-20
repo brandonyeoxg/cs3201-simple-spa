@@ -185,7 +185,7 @@ true
 5000
 38 - 1 Common Synonym Base Test
 if ifs; variable v;
-Select BOOLEAN pattern ifs(v,_) with v.varName="j"
+Select BOOLEAN pattern ifs(v,_,_) with v.varName="j"
 true
 5000
 39 - 1 Common Synonym On Multiple Clauses Test
