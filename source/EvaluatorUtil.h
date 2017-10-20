@@ -77,7 +77,7 @@ public:
   * Return all the constants that are less than or equals to the maximum program line.
   * @param t_allConstants A string vector which holds all the constants.
   * @param t_maxProgLine A number that indicates the maximum program line.
-  * @return A vector of strings as the constants that are less than or equals to the maximum program line.
+  * @return An unordered map of constants that are less than or equals to the maximum program line.
   */
   static SET_OF_RESULTS getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine);
 };
