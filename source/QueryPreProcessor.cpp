@@ -1192,39 +1192,56 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
   synonym = m_stringUtil.trimString(synonym);
 
+  std::string synonymAttribute;
+
+  //selecting synonym with attributes
+  if (synonym.find('.') != std::string::npos) {
+    std::string synonym = synonym.substr(0, synonym.find('.'));
+    std::string synonymAttribute = synonym.substr(synonym.find('.'), synonym.size());
+  }
+  synonym = m_stringUtil.trimString(synonym);
+  synonymAttribute = m_stringUtil.trimString(synonymAttribute);
+
   Grammar g1;
-  
-  //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
+
   //storing select queue synonyms
-  int counterM = 0;
-  for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
-    if (m_selectQueue.size() == 1) {
-      break;
-    }
-    g1 = m_grammarVector.at(counterM);
-    std::string grammarName = g1.getName();
+
+  //Case 1: synonym attribute exists
+  if (synonymAttribute != "") {
+  
+
+  //Case 2: synonym attribute does not exist
+  } else {
     
-    //std::cout << grammarName << " this is the grammarName" << std::endl;
-    if (grammarName == synonym) {
-      m_selectQueue.push(g1);       
-      //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
-      //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-    } else if (synonym == BOOLEAN_QPP) {
-      g1 = Grammar(queryType::GType::BOOLEAN,"BOOLEAN");
+    int counterM = 0;
+    for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
+      if (m_selectQueue.size() == 1) {
+        break;
+      }
+      g1 = m_grammarVector.at(counterM);
+      std::string grammarName = g1.getName();
+
+      //std::cout << grammarName << " this is the grammarName" << std::endl;
+      if (grammarName == synonym) {
+        m_selectQueue.push(g1);
+        //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
+        //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
+      } else if (synonym == BOOLEAN_QPP) {
+        g1 = Grammar(queryType::GType::BOOLEAN, "BOOLEAN");
+        m_selectQueue.push(g1);
+      }
+    }
+
+    if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
+      g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
       m_selectQueue.push(g1);
     }
-  }
 
-  if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
-    g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
-    m_selectQueue.push(g1);
+    //Checks if the select statement synonym is not declared
+    if (m_selectQueue.size() == 0) {
+      return false;
+    }
   }
-
-  //Checks if the select statement synonym is not declared
-  if (m_selectQueue.size() == 0) {
-    return false;
-  }
-
   //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
   if (selectGrammar.getType() != queryType::GType::BOOLEAN) {
@@ -2283,39 +2300,18 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (!(convertRight >> withRightInt)) {
         withRightInt = 0;
       }
-      //Check if both are strings
-      if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
-        if (withLeft != withRight) {
-          return false;
-        } else if (withLeft == withRight) {
-          removeCharsFromString(withLeft, "\\\" ");
-          removeCharsFromString(withRight, "\\\" ");
-          withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
-          withRightGrammar = Grammar(queryType::GType::STR, withRight);
 
-          With withObjectCreated(withLeftGrammar, withRightGrammar);
-          m_withQueue.push(withObjectCreated);
-        }
+      std::cout << withLeftInt << std::endl;
+      std::cout << withRightInt << std::endl;
 
-        //Check if both left and right are numbers
-        if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
-          return false;
-        } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
-          withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
-          withRightGrammar = Grammar(queryType::GType::CONST, withRight);
-
-          With withObjectCreated(withLeftGrammar, withRightGrammar);
-          m_withQueue.push(withObjectCreated);
-        }
-
-        //Check orientation of parameters: left integer, right attribute
+        //Case 1: Check orientation of parameters: left integer, right attribute
         if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
           isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
           if (isWithTrue == false) {
             return false;
           }
           //Case 2: left string, right attribute
-        } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos) {
+        } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
           isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
           if (isWithTrue == false) {
             return false;
@@ -2331,27 +2327,72 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             return false;
           }
           //Case 5: left attribute, right string
-        } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos) {
+        } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
           isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
           if (isWithTrue == false) {
             return false;
           }
-          //Case 6: SPECIAL CASE synonym with no attributes used.
-        } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+          //Case 6: SPECIAL CASE synonym with no attributes used. number = pl
+        } else if (withLeftInt > 0 && withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withRightInt == 0) {
           isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
           if (isWithTrue == false) {
             return false;
           }
-          //Case 7: SPECIAL CASE synonym with no attributes used.
-        } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
-          return false;
-          //Case of string left side int right side
+          //Case 7: SPECIAL CASE synonym with no attributes used. pl = number
+        } else if (withRightInt > 0 && withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withLeftInt == 0) {
+          isWithTrue = withClauseAttNumNoSynonymAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 8: SPECIAL CASE left syn no attribute, right syn attribute
+        } else if (withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withRight.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+          isWithTrue = withClauseSynAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 9: SPECIAL CASE left syn attribute, right syn no attribute
+        } else if (withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withLeft.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+          isWithTrue = withClauseSynAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 10: SPECIAL CASE both sides pl synonyms
+        } else if (withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+          isWithTrue = withClauseSynSyn(withLeft, withRight, withLeftGrammar, withRightGrammar);
+          if (isWithTrue == false) {
+            return false;
+          }
+          //Case 11: Both sides strings
+        } else if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+          if (withLeft != withRight) {
+            return false;
+          } else if (withLeft == withRight) {
+            removeCharsFromString(withLeft, "\\\" ");
+            removeCharsFromString(withRight, "\\\" ");
+            withLeftGrammar = Grammar(queryType::GType::STR, withLeft);
+            withRightGrammar = Grammar(queryType::GType::STR, withRight);
+
+            With withObjectCreated(withLeftGrammar, withRightGrammar);
+            m_withQueue.push(withObjectCreated);
+          }
+          //Case 12: Both sides integers
+        } else if (withLeftInt > 0 && withRightInt > 0) {
+          if (withLeftInt != withRightInt) {
+            return false;
+          } else if (withLeftInt == withRightInt) {
+            withLeftGrammar = Grammar(queryType::GType::STMT_NO, withLeft);
+            withRightGrammar = Grammar(queryType::GType::STMT_NO, withRight);
+
+            With withObjectCreated(withLeftGrammar, withRightGrammar);
+            m_withQueue.push(withObjectCreated);
+          }
+          //Case 13: string left side int right side
         } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
           return false;
-          //Case of int left side string right side
+          //Case 14: int right side string left side
         } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
           return false;
-          //Case 7: SPECIAL CASE synonym with no attributes used.
+          //Case 15: all other cases
         } else {
           return false;
         }
@@ -2544,6 +2585,73 @@ void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string 
   m_withQueue.push(withObjectCreated);
 }
 
+bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+      std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+      if (got == m_synonymMap.end()) {
+        m_synonymMap.insert({ leftSynonym, 1 });
+      } else {
+        m_synonymMap[leftSynonym]++;
+      }
+    }
+  }
+
+  withRightGrammar = withAttributeProcessor(rightSynonym, withRightGrammar);
+
+  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+
+  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
+}
+
+bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+      std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+      if (got == m_synonymMap.end()) {
+        m_synonymMap.insert({ leftSynonym, 1 });
+      } else {
+        m_synonymMap[leftSynonym]++;
+      }
+    }
+  }
+
+  int counterS2 = 0;
+  for (auto s2 = m_grammarVector.begin(); s2 != m_grammarVector.end(); s2++, counterS2++) {
+    if (m_grammarVector.at(counterS2).getName() == rightSynonym) {
+      withRightGrammar = Grammar(m_grammarVector.at(counterS2).getType(), rightSynonym);
+      std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(rightSynonym);
+      if (got == m_synonymMap.end()) {
+        m_synonymMap.insert({ rightSynonym, 1 });
+      } else {
+        m_synonymMap[rightSynonym]++;
+      }
+    }
+  }
+
+  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE && withRightGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    return true;
+  } else {
+    return false;
+  }
+
+  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
+}
+
 Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
   std::string withSynonym = attribute.substr(0, attribute.find("."));
   std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
@@ -2556,18 +2664,41 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
     if (m_grammarVector.at(counterS).getName() == withSynonym) {
       if (withAttribute == PROCNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::PROC_NAME);        
+        withGrammar.setAType(queryType::AType::PROC_NAME);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == VARNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::VAR_NAME);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == VALUE) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::VALUE);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == STMT_NO) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::STMT_NUM);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       }
-
     }
   }
   return withGrammar;
