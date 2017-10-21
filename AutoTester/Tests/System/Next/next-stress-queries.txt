@@ -1,0 +1,15 @@
+1 - Next* Functionality Stress Test
+prog_line pl1, pl2;
+Select BOOLEAN such that Next*(pl1,pl2)
+true
+5000
+2 - Next* Functionality Stress Test
+prog_line pl1, pl2, pl3, pl4;
+Select pl1 such that Next*(pl1,pl4) Next*(pl3,pl2)
+true
+5000
+3 - Next* Functionality Stress Test
+prog_line pl1, pl2, pl3, pl4, pl5, pl6;
+Select pl1 such that Next*(pl1,pl2) Next*(pl3,pl4) Next*(pl5,pl6)
+true
+5000
