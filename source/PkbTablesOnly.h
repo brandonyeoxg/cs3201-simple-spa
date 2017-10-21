@@ -1,4 +1,5 @@
 #pragma once
+#include "FollowTable.h"
 #include "ParentTable.h"
 #include "AssignTable.h"
 #include "VarTable.h"
@@ -19,6 +20,7 @@
 */
 class PkbTablesOnly {
 public:
+  virtual FollowTable* getFollowTable() = 0;
   virtual ParentTable* getParentTable() = 0;
   virtual AssignTable* getAssignTable() = 0;
   virtual ProcTable* getProcTable() = 0;

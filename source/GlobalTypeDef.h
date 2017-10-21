@@ -19,6 +19,7 @@ typedef INTEGER STMT_NUM;
 typedef INTEGER PROG_LINE;
 typedef INTEGER CONSTANT;
 typedef INTEGER SYNONYM_POSITION;
+typedef INTEGER TOTAL_NUMBER_OF_STMTS;
 typedef STRING NAME;
 typedef STRING VAR_NAME;
 typedef STRING PROC_NAME;
@@ -45,6 +46,9 @@ typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
 typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
+typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
+typedef std::unordered_map<STMT_NUM, std::unordered_set<std::string>> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
+typedef std::unordered_map<std::string, std::unordered_set<std::string>> MAP_OF_NAME_TO_SET_OF_NAMES;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_PATTERN_RESULTS;
@@ -70,7 +74,7 @@ typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;
-
+typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
 const int INVALID_INDEX = -1;
 
 const std::string OPERATOR_MULTIPLY = "*";

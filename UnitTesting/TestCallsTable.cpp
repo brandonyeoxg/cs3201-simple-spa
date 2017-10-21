@@ -10,8 +10,10 @@ namespace UnitTesting {
   private:
     CallsTable* m_callsTable;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsStarSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
     std::unordered_map<STMT_NUM, PROC_NAME> m_testCallsStmtMap;
     std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_testProcNameToCallsStmtsMap;

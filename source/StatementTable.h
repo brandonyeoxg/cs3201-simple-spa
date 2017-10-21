@@ -17,6 +17,7 @@ public:
   MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
   bool insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
+  TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
 
 private:
   std::unordered_map<STMT_NUM, queryType::GType> m_typeOfStatementTable;

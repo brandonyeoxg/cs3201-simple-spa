@@ -25,6 +25,7 @@
     <ClCompile Include="..\source\ConstantTable.cpp" />
     <ClCompile Include="..\source\EvaluatorUtil.cpp" />
     <ClCompile Include="..\source\ExtractorFactory.cpp" />
+    <ClCompile Include="..\source\FollowsExtractor.cpp" />
     <ClCompile Include="..\source\Formatter.cpp" />
     <ClCompile Include="..\source\IntermediateTable.cpp" />
     <ClCompile Include="..\source\ModifiesExtractor.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="..\source\Extractor.h" />
     <ClInclude Include="..\source\ExtractorFactory.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
+    <ClInclude Include="..\source\FollowsExtractor.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />

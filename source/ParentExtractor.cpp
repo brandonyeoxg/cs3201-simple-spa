@@ -4,6 +4,7 @@
 void ParentExtractor::extractDesign() {
   populateParentedByStarMap();
   populateParentStarMap();
+  populateParentMatrix();
 }
 
 void ParentExtractor::populateParentedByStarMap() {
@@ -41,4 +42,11 @@ void ParentExtractor::populateParentStarMap() {
     }
     parentTable->getParentStarMap()[parent] = childrenStar;
   }
+}
+
+void ParentExtractor::populateParentMatrix() {
+  TOTAL_NUMBER_OF_STMTS number_of_stmts;
+  number_of_stmts = m_pkb->getStatementTable()->getNumberOfStatements();
+  ParentTable* parentTable = m_pkb->getParentTable();
+  parentTable->populateParentMatrix(number_of_stmts);
 }

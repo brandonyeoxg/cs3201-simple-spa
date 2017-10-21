@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include "GlobalTypeDef.h"
 
 /** 
 * Represents the follow relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
@@ -24,7 +25,7 @@ public:
   * @param s2 an integer argument.
   * @return The status of the insertion.
   */
-  bool insertFollows(int t_s1, int t_s2);
+  BOOLEAN insertFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows(s1, s2) holds.
@@ -33,7 +34,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollows(int t_s1, int t_s2);
+  BOOLEAN isFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows*(s1, s2) holds.
@@ -42,7 +43,7 @@ public:
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.
   */
-  bool isFollowsStar(int t_s1, int t_s2);
+  BOOLEAN isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -50,14 +51,14 @@ public:
   * @param s1 an integer argument.
   * @return the line number that line s1 follows.
   */
-  int getFollows(int t_s1);
+  STMT_NUM getFollows(STMT_NUM t_s1);
 
   /**
   * Method that returns the line number that follows(s, s2) holds, where s is a variable and s2 is a known line number.
   * @param s2 an integer argument.
   * @return the line number that is followed by line s2.
   */
-  int getFollowedBy(int t_s2);
+  STMT_NUM getFollowedBy(STMT_NUM t_s2);
 
   /**
   * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
@@ -65,7 +66,7 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that line s1 follows*.
   */
-  std::vector<int> getFollowsStar(int t_s1);
+  LIST_OF_STMT_NUMS getFollowsStar(STMT_NUM t_s1);
 
   /**
   * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
@@ -73,49 +74,49 @@ public:
   * @param s1 an integer argument.
   * @return the vector of line numbers that are followedBy* s2.
   */
-  std::vector<int> getFollowedByStar(int t_s2);
+  LIST_OF_STMT_NUMS getFollowedByStar(STMT_NUM t_s2);
 
   /**
   * Method that returns the entire map of line numbers that follows(s1, s2) holds, where s1 and s2 are both variables.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<int, int> getAllFollows();
+  MAP_OF_STMT_NUMS getAllFollows();
 
   /**
   * Method that returns the entire map of line numbers that follows*(s1, s2) holds, where s1 and s2 are both variables.
   * @return the entire map that keep tracks of the follow relationship.
   */
-  std::unordered_map<int, std::vector<int>> getAllFollowsStar();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllFollowsStar();
 
   /**
   * Method that returns the list of line numbers that follows(s1, _) and follows*(s1, _) holds, where s1 is a variable.
   * @return the vector of keys within the followTable.
   */
-  std::vector<int> getFollowedByAnything();
+  LIST_OF_STMT_NUMS getFollowedByAnything();
 
   /**
   * Method that returns the list of line numbers that follows (_, s2) and Follows* (_, s2) holds, where s1 is a variable.
   * @return the vector of keys within the followTable.
   */
-  std::vector<int> getFollowsAnything();
+  LIST_OF_STMT_NUMS getFollowsAnything();
 
   /**
   * Method that checks if follows(_, _) or follows*(_, _) holds, where s2 is a variable.
   * @return true if the size of the followTable is more than zero, return false if otherwise.
   */
-  bool hasFollowRelationship();
+  BOOLEAN hasFollowRelationship();
 
   /**
   * Method that checks if follows(_, s2) and follows*(_, s2) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowsAnything(int t_s2);
+  BOOLEAN isFollowsAnything(STMT_NUM t_s2);
 
   /**
   * Method that checks if follows(2, _) and follows*(2, _) holds, where s2 is a statement number.
   * @return true if s2 exists in the allFollows map, return false if otherwise.
   */
-  bool isFollowedByAnything(int t_s1);
+  BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
   ///////////////////////////////////////////////////////
   //  Getter and Setter methods 
@@ -125,13 +126,15 @@ public:
   * A setter method for followTable.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
   */
-  void setFollowTable(std::unordered_map<int, std::vector<int>> &t_table);
+  void setFollowTable(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS &t_table);
 
   /**
   * A getter method for followTable.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
   */
-  std::unordered_map<int, std::vector<int>> getFollowTable();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getFollowTable();
+
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
 
   /**
   * A constructor.
@@ -140,7 +143,8 @@ public:
   FollowTable();
 
 private:
-  std::unordered_map<int, std::vector<int>> m_followMap;
-  std::unordered_map<int, std::vector<int>> m_followedByMap;
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
+  BOOLEAN_MATRIX m_followsMatrix;
   std::set<int> m_allFollows;
 };
