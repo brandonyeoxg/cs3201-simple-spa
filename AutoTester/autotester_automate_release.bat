@@ -1,3 +1,13 @@
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/simple-prog.txt %~dp0/simple-queries.txt %~dp0/Output/out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Validation/validation-prog.txt %~dp0/Tests/Validation/validation-queries.txt %~dp0/Output/validiation-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/first-prog.txt %~dp0/Tests/Acceptance/test-1-queries.txt %~dp0/Output/acceptance-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/second-prog.txt %~dp0/Tests/Acceptance/test-2-queries.txt %~dp0/Output/acceptance-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/third-prog.txt %~dp0/Tests/Acceptance/test-3-queries.txt %~dp0/Output/acceptance-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fourth-prog.txt %~dp0/Tests/Acceptance/test-4-queries.txt %~dp0/Output/acceptance-out4.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fifth-prog.txt %~dp0/Tests/Acceptance/test-5-queries.txt %~dp0/Output/acceptance-out5.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/uses-test-1-queries.txt %~dp0/Output/regression-uses-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/regression-modifies-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/boolean-test-1-queries.txt %~dp0/Output/regression-boolean-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/system-select-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/system-select-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/system-select-out3.xml

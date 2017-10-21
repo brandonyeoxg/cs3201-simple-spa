@@ -6,7 +6,6 @@
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
 LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
-  //printDivider();
   //std::cout << "Evaluating Query...\n";
   bool hasResult = getResultFromPkb();
   if (hasResult) {
@@ -18,80 +17,18 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
   }
 }
 
-void QueryEvaluator::rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt) {
-  int relationSize = m_relations.size();
-  for (int i = 0; i < relationSize; ++i) {
-    Relation relation = m_relations.front();
-    Grammar g1 = relation.getG1();
-    Grammar g2 = relation.getG2();
-    Grammar newGrammar;
-    Relation newRelation;
-
-    std::unordered_map<std::string, int>::const_iterator got;
-    got = t_synToInt.find(g1.getName());
-    if (got != t_synToInt.end()) {
-      newGrammar = Grammar(10, std::to_string(got->second));
-      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
-      m_relations.push(newRelation);
-    }
-
-    m_relations.pop();
-  }
-}
-
-void QueryEvaluator::rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr) {
-
-}
-
-void QueryEvaluator::rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn) {
-
-}
-
-void QueryEvaluator::rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList) {
-
-}
-
-void QueryEvaluator::rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList) {
-
-}
-
 /**
 * A function that gets the result of the clauses by calling the API from PKB.
 * @return true if there are results otherwise false
 */
 BOOLEAN QueryEvaluator::getResultFromPkb() {
-  //printDivider();
   //std::cout << "Getting results from PKB...\n";
-  int selectSize = m_selects.size();
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
-  int withSize = m_withs.size();
 
-  //Loop through the With Queue
-  /*for (int i = 0; i < withSize; ++i) {
-    With with = m_withs.front();
-    BOOLEAN hasResult = getWithResult(with);
-    if (!hasResult) {
-      return false;
-    }
-
-    m_withs.pop();
-  }*/
-
-  //Loop through the Select Queue
-  for (int i = 0; i < selectSize; ++i) {
-    Grammar grammar = m_selects.front();
-    m_selectedSynonym = grammar.getName();
-    m_selectedType = grammar.getType();
-    BOOLEAN hasResult = getSelectResultFromPkb(grammar);
-    if (!hasResult) {
-      return false;
-    }
-
-    //Move the item to the back of the queue.
-    m_selects.pop();
-    m_selects.push(grammar);
-  }
+  Grammar grammar = m_selects.front();
+  m_selectedSynonym = grammar.getName();
+  m_selectedType = grammar.getType();
 
   //Loop through the Relation Queue
   for (int i = 0; i < relationSize; ++i) {
@@ -117,91 +54,6 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     m_patterns.pop();
   }
 
-  return true;
-}
-
-BOOLEAN QueryEvaluator::getWithResult(With t_with) {
-  Grammar left = t_with.getG1();
-  Grammar right = t_with.getG2();
-
-  WithEvaluator *eval = new WithEvaluator(m_pkb, left, right);
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS synToInt;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING synToStr;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS synToSyn;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS synToIntList;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS synToStrList;
-
-  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(left.getType()))) {
-    BOOLEAN isEquals = eval->isEquals();
-    delete eval;
-    return isEquals;
-  } else if (Grammar::isStmtNo(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    synToInt = eval->evaluateSynWithInt();
-    if (synToInt.empty()) {
-      return false;
-    }
-    rewriteSynAsInt(synToInt);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isStmtNo(right.getType())) {
-    synToInt = eval->evaluateSynWithInt();
-    if (synToInt.empty()) {
-      return false;
-    }
-    rewriteSynAsInt(synToInt);
-  } else if (Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    synToStr = eval->evaluateSynWithStr();
-    if (synToStr.empty()) {
-      return false;
-    }
-    rewriteSynAsStr(synToStr);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isString(right.getType())) {
-    synToStr = eval->evaluateSynWithStr();
-    if (synToStr.empty()) {
-      return false;
-    }
-    rewriteSynAsStr(synToStr);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    if (Grammar::isProgLine(left.getType()) && !Grammar::isProgLine(right.getType())) {
-      synToIntList = eval->evaluateIntAttrWithIntAttr();
-      if (synToIntList.empty()) {
-        return false;
-      }
-      rewriteSynAsIntList(synToIntList);
-    } else if (!Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
-      synToIntList = eval->evaluateIntAttrWithIntAttr();
-      if (synToIntList.empty()) {
-        return false;
-      }
-      rewriteSynAsIntList(synToIntList);
-    } else if (Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
-      synToSyn = eval->evaluateSynWithSyn();
-      if (synToSyn.empty()) {
-        return false;
-      }
-      rewriteSynAsSyn(synToSyn);
-    } else if (left.getAttr() == right.getAttr()) {
-      synToSyn = eval->evaluateSynWithSyn();
-      if (synToSyn.empty()) {
-        return false;
-      }
-      rewriteSynAsSyn(synToSyn);
-    } else if (left.getAttr() != right.getAttr()) {
-      if (Grammar::isProcName(left.getAttr()) || Grammar::isVarName(left.getAttr())) {
-        synToStrList = eval->evaluateStrAttrWithStrAttr();
-        if (synToStrList.empty()) {
-          return false;
-        }
-        rewriteSynAsStrList(synToStrList);
-      } else {
-        synToIntList = eval->evaluateIntAttrWithIntAttr();
-        if (synToIntList.empty()) {
-          return false;
-        }
-        rewriteSynAsIntList(synToIntList);
-      }
-    }
-  }
-
-  delete eval;
   return true;
 }
 
@@ -347,10 +199,8 @@ BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 * @param t_result a vector<string> argument
 */
 void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
-  //printDivider();
   //std::cout << "Storing the select result from PKB to the select result queue...\n";
   m_selectResults.push(t_result);
-  //printDivider();
 }
 
 BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {
@@ -436,7 +286,6 @@ BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATT
 * @return The query results
 */
 LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
-  //printDivider();
   //std::cout << "Evaluating the final result...\n";
   LIST_OF_RESULTS finalResult;
   LIST_OF_SYNONYMS selectedSynonyms;
@@ -453,11 +302,302 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
   } else {
     finalResult = m_table->getResults(selectedSynonyms);
     if (finalResult.empty()) {
-      finalResult = m_selectResults.front();
+      BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
+      if (!hasResult) {
+        return finalResult;
+      } else {
+        finalResult = m_selectResults.front();
+      }   
     }  
   }
 
-  //printDivider();
   m_table->clearTable();
   return finalResult;
+}
+
+BOOLEAN QueryEvaluator::getWithResult(With t_with) {
+  Grammar left = t_with.getG1();
+  Grammar right = t_with.getG2();
+
+  WithEvaluator *eval = new WithEvaluator(m_pkb, left, right, m_synonymsUsedInQuery, m_selectedSynonym);
+  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS synToInt;
+  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING synToStr;
+  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS synToSyn;
+  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS synToIntList;
+  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS synToStrList;
+
+  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(left.getType()))) {
+    BOOLEAN isEquals = eval->isEquals();
+    delete eval;
+    return isEquals;
+  } else if (Grammar::isStmtNo(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
+    synToInt = eval->evaluateSynWithInt();
+    if (synToInt.empty()) {
+      return false;
+    }
+
+    if (Grammar::isConst(right.getType())) {
+      if (m_selectedSynonym != right.getName()) {
+        return true;
+      } else {
+        //Todo:
+      }
+    }
+
+    rewriteSynAsInt(synToInt);
+  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isStmtNo(right.getType())) {
+    synToInt = eval->evaluateSynWithInt();
+    if (synToInt.empty()) {
+      return false;
+    }
+
+    if (Grammar::isConst(left.getType())) {
+      if (m_selectedSynonym != left.getName()) {
+        return true;
+      } else {
+        //Todo:
+      }
+    }
+
+    rewriteSynAsInt(synToInt);
+  } else if (Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
+    synToStr = eval->evaluateSynWithStr();
+    if (synToStr.empty()) {
+      return false;
+    }
+    rewriteSynAsStr(synToStr);
+  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isString(right.getType())) {
+    synToStr = eval->evaluateSynWithStr();
+    if (synToStr.empty()) {
+      return false;
+    }
+    rewriteSynAsStr(synToStr);
+  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
+    if (Grammar::isProgLine(left.getType()) && !Grammar::isProgLine(right.getType())) {
+      synToIntList = eval->evaluateIntAttrWithIntAttr();
+      if (synToIntList.empty()) {
+        return false;
+      }
+      rewriteSynAsIntList(synToIntList);
+    } else if (!Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
+      synToIntList = eval->evaluateIntAttrWithIntAttr();
+      if (synToIntList.empty()) {
+        return false;
+      }
+      rewriteSynAsIntList(synToIntList);
+    } else if (Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
+      if (left.getName() == right.getName()) {
+        return true;
+      }
+
+      synToSyn = eval->evaluateSynWithSyn();
+      if (synToSyn.empty()) {
+        return false;
+      }
+      rewriteSynAsSyn(synToSyn);
+    } else if (left.getAttr() == right.getAttr()) {
+      if (left.getName() == right.getName()) {
+        return true;
+      }
+
+      synToSyn = eval->evaluateSynWithSyn();
+      if (synToSyn.empty()) {
+        return false;
+      }
+      rewriteSynAsSyn(synToSyn);
+    } else if (left.getAttr() != right.getAttr()) {
+      if (Grammar::isProcName(left.getAttr()) || Grammar::isVarName(left.getAttr())) {
+        synToStrList = eval->evaluateStrAttrWithStrAttr();
+        if (synToStrList.empty()) {
+          return false;
+        }
+        rewriteSynAsStrList(synToStrList);
+      } else {
+        synToIntList = eval->evaluateIntAttrWithIntAttr();
+        if (synToIntList.empty()) {
+          return false;
+        }
+        rewriteSynAsIntList(synToIntList);
+      }
+    }
+  }
+
+  delete eval;
+  return true;
+}
+
+void QueryEvaluator::rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt) {
+  int relationSize = m_relations.size();
+  for (int i = 0; i < relationSize; ++i) {
+    Relation relation = m_relations.front();
+    Grammar g1 = relation.getG1();
+    Grammar g2 = relation.getG2();
+    Grammar newGrammar;
+    Relation newRelation;
+
+    std::unordered_map<std::string, int>::const_iterator got;
+    got = t_synToInt.find(g1.getName());
+    if (got != t_synToInt.end()) {
+      newGrammar = Grammar(10, std::to_string(got->second));
+      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
+      m_relations.push(newRelation);
+    }
+
+    got = t_synToInt.find(g2.getName());
+    if (got != t_synToInt.end()) {
+      newGrammar = Grammar(10, std::to_string(got->second));
+      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
+      m_relations.push(newRelation);
+    }
+
+    m_relations.pop();
+  }
+
+  int patternSize = m_patterns.size();
+  for (int i = 0; i < patternSize; ++i) {
+    Pattern pattern = m_patterns.front();
+    Grammar stmt = pattern.getStmt();
+    Grammar left = pattern.getLeft();
+    Grammar right = pattern.getRight();
+    BOOLEAN isSubtree = pattern.isSubtree();
+    Grammar newGrammar;
+    Pattern newPattern;
+
+    std::unordered_map<std::string, int>::const_iterator got;
+    got = t_synToInt.find(stmt.getName());
+    if (got != t_synToInt.end()) {
+      newGrammar = Grammar(10, std::to_string(got->second));
+      newPattern = Pattern(newGrammar, left, right, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    m_patterns.pop();
+  }
+}
+
+void QueryEvaluator::rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr) {
+  int relationSize = m_relations.size();
+  for (int i = 0; i < relationSize; ++i) {
+    Relation relation = m_relations.front();
+    Grammar g1 = relation.getG1();
+    Grammar g2 = relation.getG2();
+    Grammar newGrammar;
+    Relation newRelation;
+
+    std::unordered_map<std::string, std::string>::const_iterator got;
+    got = t_synToStr.find(g1.getName());
+    if (got != t_synToStr.end()) {
+      newGrammar = Grammar(11, got->second);
+      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
+      m_relations.push(newRelation);
+    }
+
+    got = t_synToStr.find(g2.getName());
+    if (got != t_synToStr.end()) {
+      newGrammar = Grammar(11, got->second);
+      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
+      m_relations.push(newRelation);
+    }
+
+    m_relations.pop();
+  }
+
+  int patternSize = m_patterns.size();
+  for (int i = 0; i < patternSize; ++i) {
+    Pattern pattern = m_patterns.front();
+    Grammar stmt = pattern.getStmt();
+    Grammar left = pattern.getLeft();
+    Grammar right = pattern.getRight();
+    BOOLEAN isSubtree = pattern.isSubtree();
+    Grammar newGrammar;
+    Pattern newPattern;
+
+    std::unordered_map<std::string, std::string>::const_iterator got;
+    got = t_synToStr.find(left.getName());
+    if (got != t_synToStr.end()) {
+      newGrammar = Grammar(11, got->second);
+      newPattern = Pattern(stmt, newGrammar, right, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    got = t_synToStr.find(right.getName());
+    if (got != t_synToStr.end()) {
+      newGrammar = Grammar(11, got->second);
+      newPattern = Pattern(stmt, left, newGrammar, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    m_patterns.pop();
+  }
+}
+
+void QueryEvaluator::rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn) {
+  int relationSize = m_relations.size();
+  for (int i = 0; i < relationSize; ++i) {
+    Relation relation = m_relations.front();
+    Grammar g1 = relation.getG1();
+    Grammar g2 = relation.getG2();
+    Grammar newGrammar;
+    Relation newRelation;
+
+    std::unordered_map<std::string, std::string>::const_iterator got;
+    got = t_synToSyn.find(g1.getName());
+    if (got != t_synToSyn.end()) {
+      newGrammar = Grammar(g1.getType(), got->second);
+      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
+      m_relations.push(newRelation);
+    }
+
+    got = t_synToSyn.find(g2.getName());
+    if (got != t_synToSyn.end()) {
+      newGrammar = Grammar(g2.getType(), got->second);
+      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
+      m_relations.push(newRelation);
+    }
+
+    m_relations.pop();
+  }
+
+  int patternSize = m_patterns.size();
+  for (int i = 0; i < patternSize; ++i) {
+    Pattern pattern = m_patterns.front();
+    Grammar stmt = pattern.getStmt();
+    Grammar left = pattern.getLeft();
+    Grammar right = pattern.getRight();
+    BOOLEAN isSubtree = pattern.isSubtree();
+    Grammar newGrammar;
+    Pattern newPattern;
+
+    std::unordered_map<std::string, std::string>::const_iterator got;
+    got = t_synToSyn.find(stmt.getName());
+    if (got != t_synToSyn.end()) {
+      newGrammar = Grammar(stmt.getType(), got->second);
+      newPattern = Pattern(newGrammar, left, right, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    got = t_synToSyn.find(left.getName());
+    if (got != t_synToSyn.end()) {
+      newGrammar = Grammar(left.getType(), got->second);
+      newPattern = Pattern(stmt, newGrammar, right, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    got = t_synToSyn.find(right.getName());
+    if (got != t_synToSyn.end()) {
+      newGrammar = Grammar(right.getType(), got->second);
+      newPattern = Pattern(stmt, left, newGrammar, isSubtree);
+      m_patterns.push(newPattern);
+    }
+
+    m_patterns.pop();
+  }
+}
+
+void QueryEvaluator::rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList) {
+
+}
+
+void QueryEvaluator::rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList) {
+
 }

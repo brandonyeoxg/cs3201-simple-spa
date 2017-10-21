@@ -215,6 +215,10 @@ bool PKB::isFollowsAnything(STMT_NUM t_s2) {
 bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
   return m_followTable->isFollowedByAnything(t_s1);
 }
+
+void PKB::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
+  return m_followTable->populateFollowsMatrix(total);
+}
 ///////////////////////////////////////////////////////
 //  ParentTable methods
 ///////////////////////////////////////////////////////
@@ -322,6 +326,9 @@ LIST_OF_STMT_NUMS PKB::getListOfStatements(queryType::GType t_type) {
   return m_statementTable->getListOfStatements(t_type);
 }
 
+TOTAL_NUMBER_OF_STMTS PKB::getNumberOfStatements() {
+  return m_statementTable->getNumberOfStatements();
+}
 ///////////////////////////////////////////////////////
 //  VarTable methods
 ///////////////////////////////////////////////////////
@@ -618,6 +625,13 @@ bool PKB::isCallsAnything(PROC_NAME t_proc1) {
 
 bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
   return m_callsTable->isCalledByAnything(t_proc2);
+}
+
+PROC_NAME PKB::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
+  return m_callsTable->getProcNameFromCallStmtNum(t_lineNum);
+}
+LIST_OF_STMT_NUMS PKB::getStmtNumsFromProcName(PROC_NAME t_procName) {
+  return m_callsTable->getStmtNumsFromProcName(t_procName);
 }
 ///////////////////////////////////////////////////////
 //  ModifiesP methods

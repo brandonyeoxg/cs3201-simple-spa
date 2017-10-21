@@ -251,6 +251,7 @@ public:
   */
   BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////
@@ -415,6 +416,12 @@ public:
   * @return true if insertion is successful, false if otherwise.
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
+
+  /**
+  * Method to return the total number of statements appeared in the source program.
+  * @return the size of statementTypeTable, which equals to total number of lines.
+  */
+  TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
 
   ///////////////////////////////////////////////////////
   //  VarTable methods
@@ -606,6 +613,8 @@ public:
   BOOLEAN hasCallsRelationship();  //calls(_, _)
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
+  PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods

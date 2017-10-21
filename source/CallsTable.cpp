@@ -16,19 +16,26 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   if (m_callsMap.find(t_proc1) == m_callsMap.end()) {
     //if s1 is not present in callsMap
     LIST_OF_PROC_NAMES procNames;
+    UNORDERED_SET_OF_NAMES procNamesSet;
     procNames.push_back(t_proc2);
+    procNamesSet.insert(t_proc2);
     m_callsMap.emplace(t_proc1, procNames);
+    m_callsSet.emplace(t_proc1, procNamesSet);
     m_allCalls.insert(t_proc1);
     m_allCalledBy.insert(t_proc2);
   } else {
     //if not, first check if the existing vector consists s2; if it does, return false
     LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
-    if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    UNORDERED_SET_OF_NAMES procNamesSet = m_callsSet[t_proc1];
+   // if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    if (procNamesSet.find(t_proc2) != procNamesSet.end()) {
       return false;
     } else {
       //append t_proc 2 to the vector.
       procNames.push_back(t_proc2);
+      procNamesSet.insert(t_proc2);
       m_callsMap[t_proc1] = procNames;
+      m_callsSet[t_proc1] = procNamesSet;
       m_allCalledBy.insert(t_proc2);
     }
 
@@ -59,6 +66,18 @@ bool CallsTable::insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc) {
   if (itr != m_callsStmtMap.end()) {
     return false;
   } else {
+    //insertion to procNameToCallsStmtsMap.
+    LIST_OF_STMT_NUMS stmtNums;
+    auto itr2 = m_procNameToCallsStmtsMap.find(t_proc);
+    if (itr2 == m_procNameToCallsStmtsMap.end()) {
+      stmtNums.push_back(t_lineNum);
+      m_procNameToCallsStmtsMap.emplace(t_proc, stmtNums);
+    } else {
+      stmtNums = m_procNameToCallsStmtsMap[t_proc];
+      stmtNums.push_back(t_lineNum);
+      m_procNameToCallsStmtsMap[t_proc] = stmtNums;
+    }
+    //insertion to callsStmtMap.
     m_callsStmtMap.emplace(t_lineNum, t_proc);
     return true;
   }
@@ -68,8 +87,10 @@ bool CallsTable::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   if (m_callsMap.find(t_proc1) == m_callsMap.end()) {
     return false;
   } else {
-    LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
-    if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    //LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
+    UNORDERED_SET_OF_NAMES procNamesSet = m_callsSet[t_proc1];
+    //if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    if (procNamesSet.find(t_proc2) != procNamesSet.end()) {
       return true;
     } else {
       return false;
@@ -83,8 +104,10 @@ bool CallsTable::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
     //if proc1 is not present in callsStarMap
     return false;
   } else {
-    LIST_OF_PROC_NAMES procNames = m_callsStarMap[t_proc1];
-    if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    //LIST_OF_PROC_NAMES procNames = m_callsStarMap[t_proc1];
+    UNORDERED_SET_OF_NAMES procNamesSet = m_callsStarSet[t_proc1];
+    //if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
+    if (procNamesSet.find(t_proc2) != procNamesSet.end()) {
       //can be found in the vector
       return true;
     } else {
@@ -206,13 +229,26 @@ PROC_NAME CallsTable::getProcNameFromCallStmtNum(STMT_NUM t_lineNum) {
   }
 }
 
+LIST_OF_STMT_NUMS CallsTable::getStmtNumsFromProcName(PROC_NAME t_procName) {
+  LIST_OF_STMT_NUMS stmtNums;
+  auto itr = m_procNameToCallsStmtsMap.find(t_procName);
+  if (itr == m_procNameToCallsStmtsMap.end()) {
+    return stmtNums;
+  } else {
+    return m_procNameToCallsStmtsMap[t_procName];
+  }
+}
+
 void CallsTable::populateCallsStarMap() {
   //for every key in callsMap
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
     PROC_NAME proc = it->first;
     LIST_OF_PROC_NAMES procNames = it->second;
+    UNORDERED_SET_OF_NAMES procNamesSet(procNames.begin(), procNames.end());
     m_callsStarMap.emplace(proc, procNames);
+    m_callsStarSet.emplace(proc, procNamesSet);
     LIST_OF_PROC_NAMES procNamesStar = procNames;
+    
     for (int i = 0; i < procNamesStar.size(); i++) {
       //for every child, if it can be found as a key in calls map, append all from it's mapped vector to children
       auto iterator = m_callsMap.find(procNamesStar[i]);
@@ -231,6 +267,8 @@ void CallsTable::populateCallsStarMap() {
       }
     }
     m_callsStarMap[proc] = procNamesStar;
+    UNORDERED_SET_OF_NAMES procNamesStarSet(procNamesStar.begin(), procNamesStar.end());
+    m_callsStarSet[proc] = procNamesStarSet;
   }
 }
 
@@ -271,10 +309,13 @@ void CallsTable::populateCalledByStarMap() {
 */
   CallsTable::CallsTable() {
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
+  MAP_OF_NAME_TO_SET_OF_NAMES m_callsSet;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
+  MAP_OF_NAME_TO_SET_OF_NAMES m_callsStarSet;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
   std::unordered_map<STMT_NUM, PROC_NAME> m_callsStmtMap;
+  std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_procNameToCallsStmtsMap;
   std::set<PROC_NAME> m_allCalls;
   std::set<PROC_NAME> m_allCalledBy;
 }
@@ -296,4 +337,8 @@ std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& CallsTable::getCalledByStarMa
 
 std::unordered_map<STMT_NUM, PROC_NAME>& CallsTable::getCallsStmtMap() {
   return m_callsStmtMap;
+}
+
+std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS>& CallsTable::getProcNameToCallsStmtsMap() {
+  return m_procNameToCallsStmtsMap;
 }

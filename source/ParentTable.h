@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include "GlobalTypeDef.h"
 
 /**
 * Represents the parent relationship table, which is a vector of unordered_maps to
@@ -45,10 +46,12 @@ public:
   bool isParentOfAnything(int t_s1);  //parent(2, _)
   bool isChildrenOfStarAnything(int t_s2);  //parent*(_, 2)
   bool isParentOfStarAnything(int t_s1);  //parent*(2, _)
-  
+  void populateParentMatrix(TOTAL_NUMBER_OF_STMTS total);
+  void populateParentStarMap();
 private:
   std::unordered_map<int, int> m_parentMap; //every statement can only have 1 parent.
   std::unordered_map<int, std::vector<int>> m_childMap;
   std::unordered_map<int, std::vector<int>> m_parentStarMap;
   std::unordered_map<int, std::vector<int>> m_parentedByStarMap;
+  BOOLEAN_MATRIX m_parentMatrix;
 };

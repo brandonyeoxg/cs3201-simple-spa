@@ -161,7 +161,7 @@ Select a1 with a2.stmt#=2
 33 - With Stmt# Functionality Test
 call ca1, ca2;
 Select ca1 with ca2.stmt#=6
-none
+5, 7, 8, 10, 12, 13, 15, 21, 22
 5000
 34 - With Stmt# Functionality Test
 while w1, w2;
@@ -320,7 +320,7 @@ true
 5000
 65 - With Integer-Synonym Test Cases
 prog_line pl;
-Select BOOLEAN with pl=1
+Select BOOLEAN with 1=pl
 true
 5000
 66 - With String-String Test Cases

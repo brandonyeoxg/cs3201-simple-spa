@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 #include "GlobalTypeDef.h"
 
 /**
@@ -34,6 +35,7 @@ public:
   bool isCalledByAnything(PROC_NAME t_proc2);
 
   PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
   void populateCallsStarMap();
   void populateCalledByStarMap();
@@ -44,12 +46,16 @@ public:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCallsStarMap();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES>& getCalledByStarMap();
   std::unordered_map<STMT_NUM, PROC_NAME>& getCallsStmtMap();
+  std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS>& getProcNameToCallsStmtsMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
+  MAP_OF_NAME_TO_SET_OF_NAMES m_callsSet;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
+  MAP_OF_NAME_TO_SET_OF_NAMES m_callsStarSet;
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
   std::unordered_map<STMT_NUM, PROC_NAME> m_callsStmtMap;
+  std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_procNameToCallsStmtsMap;
   std::set<PROC_NAME> m_allCalls;
   std::set<PROC_NAME> m_allCalledBy;
 };

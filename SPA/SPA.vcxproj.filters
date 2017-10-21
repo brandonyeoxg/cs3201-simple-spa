@@ -235,6 +235,9 @@
     <ClCompile Include="..\source\WithEvaluator.cpp">
       <Filter>PQL\Withs</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\FollowsExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -507,6 +510,9 @@
     </ClInclude>
     <ClInclude Include="..\source\WithEvaluator.h">
       <Filter>PQL\Withs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowsExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
