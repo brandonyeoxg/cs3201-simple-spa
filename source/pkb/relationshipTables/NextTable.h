@@ -119,7 +119,8 @@ private:
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
-  
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_cacheVisited;
+
   /** Checks if a path exists from line1 to line2, using m_afterGraph.
   *   This function is used to help check for Next*(line1, line2) relationship.
   *   Uses depth first search to traverse graph.
@@ -139,10 +140,17 @@ private:
   std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
   
   template <typename T, typename G>
-  bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in an unordered map. Uses generics. */
+  bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in a map. Uses generics. */
+  template <typename T, typename G>
+  bool isKeyInMap(T key, std::unordered_map<T, G> map);
 };
 
 template <typename T, typename G>
 inline bool NextTable::isKeyInMap(T key, std::map<T, G> map) {
+  return map.count(key) == 1;
+}
+
+template <typename T, typename G>
+inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, G> map) {
   return map.count(key) == 1;
 }
