@@ -2,8 +2,8 @@
 
 NextTable::NextTable() {
   MAX_LINE_NUM = 0;
-  m_afterGraph = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
-  m_beforeGraph = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
+  m_afterGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
+  m_beforeGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
 }
 
 void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
@@ -80,7 +80,9 @@ std::vector<PROG_LINE> NextTable::getAllLinesBefore(PROG_LINE t_line) {
 }
 
 std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNext() {
-  return m_afterGraph;
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map;
+  map.insert(m_afterGraph.begin(), m_afterGraph.end());
+  return map;
 }
 
 std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar() {
@@ -95,19 +97,9 @@ std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar(
 
 std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
   std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
-  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
 
-  for (auto iterator : m_afterGraph) {
-    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph);
-    for (auto line : listOfVisitedLines) {
-      visited.at(line) = true;
-    }
-  }
-
-  for (int i = 0; i < (int)visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
-    }
+  for (auto iter: m_beforeGraph) {
+    list.push_back(iter.first);
   }
 
   return list;
@@ -115,19 +107,9 @@ std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
 
 std::vector<PROG_LINE> NextTable::getAllLinesBeforeAnyLine() {
   std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
-  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
 
-  for (auto iterator : m_beforeGraph) {
-    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_beforeGraph);
-    for (auto line : listOfVisitedLines) {
-      visited.at(line) = true;
-    }
-  }
-
-  for (int i = 0; i < (int)visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
-    }
+  for (auto iter : m_afterGraph) {
+    list.push_back(iter.first);
   }
 
   return list;
@@ -177,7 +159,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
 }
 
 std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, 
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
+  std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
 
   if (!isKeyInMap(t_line, t_graph)) {
     return {};
