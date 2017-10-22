@@ -15,7 +15,7 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
-#include "PatternMatch.h"
+#include "pkb\patternMatch\PatternMatch.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 #include "PkbTablesOnly.h"
