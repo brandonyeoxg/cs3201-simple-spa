@@ -64,7 +64,12 @@ bool ParentTable::isParentStar(int t_s1, int t_s2) {
       return false;
     }
   } */
-  return m_parentMatrix.at(t_s1).at(t_s2);
+  TOTAL_NUMBER_OF_STMTS total = m_parentMatrix.size();
+  if (t_s1 >= total || t_s2 >= total) {
+    return false;
+  } else {
+    return m_parentMatrix.at(t_s1).at(t_s2);
+  }
 }
 
 int ParentTable::getParentOf(int t_s2) {
