@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "pkb\patternMatch\PatternMatch.h"
+#include "pkb/patternMatch/PatternMatch.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
