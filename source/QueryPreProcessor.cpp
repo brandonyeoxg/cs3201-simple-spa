@@ -1199,6 +1199,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   if (synonymOriginal.find('.') != std::string::npos) {
     synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
     synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
+  } else {
+    synonym = synonymOriginal;
   }
   synonym = m_stringUtil.trimString(synonym);
   synonymAttribute = m_stringUtil.trimString(synonymAttribute);
