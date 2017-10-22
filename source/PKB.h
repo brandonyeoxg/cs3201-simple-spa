@@ -25,7 +25,7 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
-#include "NextTable.h"
+#include "pkb/relationshipTables/NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 

@@ -205,9 +205,6 @@
     <ClCompile Include="..\source\IntermediateTable.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\NextTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
       <Filter>test-drivers</Filter>
     </ClCompile>
@@ -237,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp">
       <Filter>PKB\PatternMatch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\NextTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -481,9 +481,6 @@
     <ClInclude Include="..\source\IntermediateTable.h">
       <Filter>PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\NextTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
     </ClInclude>
@@ -513,6 +510,9 @@
     </ClInclude>
     <ClInclude Include="..\source\pkb\patternMatch\PatternMatch.h">
       <Filter>PKB\PatternMatch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\NextTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
