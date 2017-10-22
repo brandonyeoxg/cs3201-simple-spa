@@ -159,7 +159,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
     toVisit.pop_back();
     visited.at(lineToVisit) = true;
 
-    if (lineToVisit == t_line2) {
+    if (lineToVisit == t_line2) { // return true once path is found
       return true;
     }
 

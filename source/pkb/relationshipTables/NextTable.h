@@ -121,7 +121,7 @@ private:
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
   
   /** Checks if a path exists from line1 to line2, using m_afterGraph.
-  *   This function is used to help check for Next(line1, line2) relationship.
+  *   This function is used to help check for Next*(line1, line2) relationship.
   *   Uses depth first search to traverse graph.
   *   @param t_line1 given program line
   *   @param t_line2 given program line
