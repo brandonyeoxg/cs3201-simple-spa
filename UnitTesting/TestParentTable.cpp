@@ -53,7 +53,7 @@ namespace UnitTesting {
       //test isParentStar method (non-existent parentStar relationship).
       Assert::IsFalse(testParentTable->isParentStar(2, 3));
       //test isParentStar method (non-existent s1 and s2, check to avoid infinite loop).
-      Assert::IsFalse(testParentTable->isParentStar(5, 10));
+      Assert::IsFalse(testParentTable->isParentStar(3, 5));
     }
 
     TEST_METHOD(TestGetParentOf) {
