@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <assert.h>
 
-#include ".\GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /** Class that handles Pattern matching in assignment statements for PKB.
 *   Stores each assignment statement's right-hand side expression in postfix notation, along with its
