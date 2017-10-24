@@ -322,8 +322,6 @@ public:
     for (auto iter : map) {
       Assert::IsTrue(iter.second == expected);  // Check lines reachable for each line
     }
-
-    printVector(nextTable.getNextStarOfLine(1));
   }
 
   TEST_METHOD(getAllNextStar_02) {
