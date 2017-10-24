@@ -40,6 +40,10 @@ void NextTable::executeAfterAllNextInserts() {
   for (auto linePair : m_afterGraph) {
     std::sort(linePair.second.begin(), linePair.second.end());
   }
+
+  for (auto linePair : m_beforeGraph) {
+    std::sort(linePair.second.begin(), linePair.second.end());
+  }
 }
 
 bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
