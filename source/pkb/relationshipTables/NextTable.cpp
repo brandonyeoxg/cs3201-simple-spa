@@ -88,14 +88,19 @@ std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNext() {
 std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar() {
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
   
-  for (auto iterator : m_afterGraph) {
-    PROG_LINE progLine = iterator.first;
-    std::vector<PROG_LINE> linesReachable = getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph);
+  m_cacheVisited = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
+
+  for (auto reverseIter = m_afterGraph.rbegin(); reverseIter != m_afterGraph.rend(); reverseIter++) {
+    PROG_LINE progLine = reverseIter->first;
+    std::vector<PROG_LINE> linesReachable = getListOfLinesReachableFromLineInGraph(progLine, m_afterGraph);
     map.insert({ progLine, linesReachable });
+    
     if (!isKeyInMap(progLine, m_cacheVisited)) {
       m_cacheVisited.insert({ progLine, linesReachable });
     }
   }
+
+  m_cacheVisited.clear();
 
   return map;
 }
