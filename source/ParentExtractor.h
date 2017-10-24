@@ -18,5 +18,6 @@ public:
 private:
   void populateParentedByStarMap();
   void populateParentStarMap();
+  void populateParentMatrix();
 };
 

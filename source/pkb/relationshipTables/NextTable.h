@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include ".\GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /** Class to represent Next relationship, Next* relationship in PKB.
 *   Used to evaluate queries with clauses on Next relationships.

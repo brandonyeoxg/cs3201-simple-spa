@@ -48,22 +48,29 @@ void ModifiesTable::insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varNa
   if (iterator != m_modifiesStmtMap.end()) {
     //if have, check if varname exists in vector. if does, return false
     LIST_OF_VAR_NAMES vector = iterator->second;
+    UNORDERED_SET_OF_NAMES varNamesSet(vector.begin(), vector.end());
     if (std::find(vector.begin(), vector.end(), t_varName) == vector.end()) {
       //else, valid insertion. Append varName to vector and replace in the map.
       vector.push_back(t_varName);
+      varNamesSet.insert(t_varName);
       m_modifiesStmtMap[t_lineNum] = vector;
+      m_modifiesStmtSet[t_lineNum] = varNamesSet;
       inserted = true;
     }
   }
   if (inserted == false) {
     //if lineNum does not exist... create new vector and emplace
     LIST_OF_VAR_NAMES newVector;
+    UNORDERED_SET_OF_NAMES newVarNamesSet;
     newVector.push_back(t_varName);
+    newVarNamesSet.insert(t_varName);
     m_modifiesStmtMap.emplace(t_lineNum, newVector);
+    m_modifiesStmtSet.emplace(t_lineNum, newVarNamesSet);
   }
 }
 
 bool ModifiesTable::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+  /*
   //search modifiesStmtMap (reason: int vs string comparison
   auto itr = m_modifiesStmtMap.find(t_lineNum);
   if (itr == m_modifiesStmtMap.end()) {
@@ -72,6 +79,19 @@ bool ModifiesTable::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
     //check if varName appears in vector
     LIST_OF_VAR_NAMES vector = itr->second;
     if (std::find(vector.begin(), vector.end(), t_varName) != vector.end()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  */
+  auto itr = m_modifiesStmtSet.find(t_lineNum);
+  if (itr == m_modifiesStmtSet.end()) {
+    return false;
+  } else {
+    //check if varName appears in vector
+    UNORDERED_SET_OF_NAMES varNamesSet = itr->second;
+    if (varNamesSet.find(t_varName) != varNamesSet.end()) {
       return true;
     } else {
       return false;
@@ -129,6 +149,7 @@ LIST_OF_VAR_NAMES ModifiesTable::getAllModifiesVarNames() {
 //Constructor.
 ModifiesTable::ModifiesTable() {
   std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_modifiesStmtMap;
+  MAP_OF_STMT_NUM_TO_SET_OF_NAMES m_modifiesStmtSet;
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_modifiesVarMap;
   SET_OF_VAR_NAMES m_allVariablesModified;
   SET_OF_STMT_NUMS m_allStmtNumsModified;

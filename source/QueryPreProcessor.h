@@ -133,6 +133,26 @@ public:
   void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
 
   /**
+  * A specialised method that takes in 2 synonyms that only has an attribute on one side and calls other methods to process
+  * @param leftSynonym being the side that does not have an attribute
+  * @param rightSynonym being the side that has an attribute
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A method that takes in 2 synonyms that does not have any attributes and processes it
+  * @param leftSynonym being the synonym that does not have an attribute
+  * @param rightSynonym being the synonym that does not have an attribute
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
   * A method that takes in a string that contains an attribute and processes it
   * @param attribute being the string that contains the attribute
   * @param withGrammar being the Grammar to be formed on the left side

@@ -15,7 +15,7 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
-#include "PatternMatch.h"
+#include "pkb/patternMatch/PatternMatch.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 #include "PkbTablesOnly.h"
@@ -25,7 +25,7 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
-#include "NextTable.h"
+#include "pkb/relationshipTables/NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -251,6 +251,7 @@ public:
   */
   BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////
@@ -415,6 +416,12 @@ public:
   * @return true if insertion is successful, false if otherwise.
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
+
+  /**
+  * Method to return the total number of statements appeared in the source program.
+  * @return the size of statementTypeTable, which equals to total number of lines.
+  */
+  TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
 
   ///////////////////////////////////////////////////////
   //  VarTable methods

@@ -6,9 +6,12 @@
 #include "ModifiesExtractor.h"
 #include "UsesExtractor.h"
 #include "NextExtractor.h"
+#include "FollowsExtractor.h"
 
 Extractor* ExtractorFactory::makeExtractor(DESIGN_TYPE t_type, PkbTablesOnly* t_pkb) {
   switch (t_type) {
+  case DESIGN_TYPE::FOLLOWS:
+    return new FollowsExtractor(t_pkb);
   case DESIGN_TYPE::PARENT:
     return new ParentExtractor(t_pkb);
   case DESIGN_TYPE::CALLS:

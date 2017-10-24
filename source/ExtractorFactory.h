@@ -3,6 +3,7 @@
 
 
 enum DESIGN_TYPE {
+  FOLLOWS,
   PARENT,
   CALLS,
   MODIFIESP,
