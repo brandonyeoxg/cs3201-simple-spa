@@ -52,7 +52,6 @@ Grammar::Grammar(int t_type, std::string t_name) {
     m_type = queryType::GType::BOOLEAN;
   }
   m_name = t_name;
-  m_value = "";
 }
 
 Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type) {
@@ -88,9 +87,19 @@ Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_ty
 }
 
 /**
+* A Setter that sets the name of this Grammar object
+*/
+void Grammar::setName(STRING t_name) { m_name = t_name; }
+
+/**
+* A Setter that sets the name of this Grammar object
+*/
+void Grammar::setGType(queryType::GType t_gType) { m_type = t_gType; }
+
+/**
 * A Setter that sets the attribute of this Grammar object
 */
-void Grammar::setAType(queryType::AType aType ) { m_attr = aType; }
+void Grammar::setAType(queryType::AType t_aType ) { m_attr = t_aType; }
 
 /**
  * A Getter that returns the type of this Grammar object
@@ -121,11 +130,23 @@ std::string Grammar::getName() { return m_name; }
 std::vector<std::string> Grammar::getVector() { return m_vector; }
 
 /**
-* A Getter that returns the value of this Grammar object
-* The returned string is the value of the variable as specified by the query.
-* @return The value of this Grammar object
+* A public function to check whether the grammar object has an attribute.
+* If the grammar object has an attribute, it will return true else return false.
+* @return true if the grammar object has an attribute else return false.
 */
-std::string Grammar::getValue() { return m_value; }
+bool Grammar::hasAttr() {
+  if (Grammar::isProcName(m_attr)) {
+    return true;
+  } else if (Grammar::isVarName(m_attr)) {
+    return true;
+  } else if (Grammar::isStmtNum(m_attr)) {
+    return true;
+  } else if (Grammar::isValue(m_attr)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 /**
 * A public function that prints the content of this Grammar object.

@@ -87,6 +87,16 @@ private:
   std::queue<SET_OF_PATTERN_RESULTS> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
+  std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten;
+
+  /**
+  * A private function to check if the synonym is common with any other clauses.
+  * Check if the synonyn is used more than once in the query.
+  * @param t_synonym the synonym to check if it is used with any other clauses.
+  * @return true if the synonym is used more than once in the query
+  * else return false if the synonym is used only once in the query.
+  */
+  BOOLEAN isSynonymCommon(STRING t_synonym);
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -161,12 +171,6 @@ private:
   * @return A vector of strings as the query result.
   */
   LIST_OF_RESULTS evaluateFinalResult();
-
-  void rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt);
-  void rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr);
-  void rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn);
-  void rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList);
-  void rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList);
 };
 
 #endif QUERYEVALUATOR_H

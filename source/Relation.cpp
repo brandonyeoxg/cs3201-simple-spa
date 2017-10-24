@@ -18,6 +18,12 @@ std::string Relation::AFS_ = "Affects*";
 queryType::RType Relation::getType() { return m_type; }
 Grammar Relation::getG1() { return m_g1; }
 Grammar Relation::getG2() { return m_g2; }
+void Relation::setG1(Grammar t_g1) {
+  m_g1 = t_g1;
+}
+void Relation::setG2(Grammar t_g2) {
+  m_g2 = t_g2;
+}
 
 /**
 * A public function that prints the content of this Relation object.

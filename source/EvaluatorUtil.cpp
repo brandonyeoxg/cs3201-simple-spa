@@ -104,3 +104,17 @@ std::vector<std::string> EvaluatorUtil::getCommonResults(std::vector<std::string
 
   return commonResultVector;
 }
+
+SET_OF_RESULTS EvaluatorUtil::getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine) {
+  SET_OF_RESULTS commonProgLineAndConstant;
+
+  for (auto& constant : t_allConstants) {
+    if (std::stoi(constant) > t_maxProgLine) {
+      LIST_OF_RESULTS constants;
+      constants.push_back(constant);
+      commonProgLineAndConstant[constant] = constants;
+    }
+  }
+  
+  return commonProgLineAndConstant;
+}

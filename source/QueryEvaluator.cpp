@@ -2,6 +2,20 @@
 
 #include "QueryEvaluator.h"
 
+BOOLEAN QueryEvaluator::isSynonymCommon(STRING t_synonym) {
+  std::unordered_map<std::string, int>::const_iterator got;
+  got = m_synonymsUsedInQuery.find(t_synonym);
+  if (got != m_synonymsUsedInQuery.end()) {
+    if (got->second > 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  return false;
+}
+
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
@@ -25,15 +39,38 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   //std::cout << "Getting results from PKB...\n";
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
+  int withSize = m_withs.size();
 
   Grammar grammar = m_selects.front();
   m_selectedSynonym = grammar.getName();
   m_selectedType = grammar.getType();
 
+  //Loop through the With Queue
+  for (int i = 0; i < withSize; ++i) {
+    m_isSelectOnly = false;
+    With with = m_withs.front();
+    BOOLEAN hasResult = getWithResult(with);
+    if (!hasResult) {
+      return false;
+    }
+
+    m_withs.pop();
+  }
+
   //Loop through the Relation Queue
   for (int i = 0; i < relationSize; ++i) {
     m_isSelectOnly = false;
     Relation relation = m_relations.front();
+    std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
+    got = m_synsToBeRewritten.find(relation.getG1().getName());
+    if (got != m_synsToBeRewritten.end()) {
+      relation.setG1(got->second);
+    }
+    got = m_synsToBeRewritten.find(relation.getG2().getName());
+    if (got != m_synsToBeRewritten.end()) {
+      relation.setG2(got->second);
+    }
+
     BOOLEAN hasResult = getRelationResultFromPkb(relation);
     if (!hasResult) {
       return false;
@@ -319,285 +356,332 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
   Grammar left = t_with.getG1();
   Grammar right = t_with.getG2();
 
-  WithEvaluator *eval = new WithEvaluator(m_pkb, left, right, m_synonymsUsedInQuery, m_selectedSynonym);
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS synToInt;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING synToStr;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS synToSyn;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS synToIntList;
-  MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS synToStrList;
-
-  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(left.getType()))) {
-    BOOLEAN isEquals = eval->isEquals();
-    delete eval;
-    return isEquals;
-  } else if (Grammar::isStmtNo(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    synToInt = eval->evaluateSynWithInt();
-    if (synToInt.empty()) {
-      return false;
+  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(right.getType()))) {
+    //Compare left and right (int = int, str = str)
+    return true;
+  } else if (Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
+    //Rewrite syn = syn
+    //With n = n
+    if (left.getName() == right.getName()) {
+      return true;
     }
 
-    if (Grammar::isConst(right.getType())) {
-      if (m_selectedSynonym != right.getName()) {
+    //With n1 = n2 but no other clauses uses n1 and n2
+    if (!isSynonymCommon(left.getName()) && !isSynonymCommon(right.getName())) {
+      return true;
+    }
+
+    //With n1 = n2 with other clauses using n1 or n2
+    if (m_synonymsUsedInQuery[left.getName()] >= m_synonymsUsedInQuery[right.getName()]) {
+      m_synsToBeRewritten[right.getName()] = t_with.getG1();
+    } else {
+      m_synsToBeRewritten[left.getName()] = t_with.getG2();
+    }
+  } else if ((Grammar::isProgLine(left.getType()) || Grammar::isStmtNo(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isProgLine(right.getType()))) {
+    //Rewrite syn = int, int = syn
+    MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
+    INTEGER totalStmts = allStmts.size();
+    
+    if (Grammar::isStmtNo(left.getType())) {
+      if (std::stoi(left.getName()) > totalStmts) {
+        return false;
+      }
+      if (!isSynonymCommon(right.getName())) {
+        return true;
+      }
+      m_synsToBeRewritten[right.getName()] = t_with.getG1();
+    } else {
+      if (std::stoi(right.getName()) > totalStmts) {
+        return false;
+      }
+      if (!isSynonymCommon(left.getName())) {
+        return true;
+      }
+      m_synsToBeRewritten[left.getName()] = t_with.getG2();
+    }
+  } else if (left.hasAttr() && right.hasAttr()) {
+    //Todo: Evaluate attr = attr
+    if (left.getName() == right.getName()) {
+      return true;
+    }
+
+    if (left.getType() == right.getType()) {
+      if (!isSynonymCommon(left.getName()) && !isSynonymCommon(right.getName())) {
+        return true;
+      }
+
+      if (Grammar::isConst(left.getType())) {
+        //Todo: Select <c1, c2>
+      }
+
+      if (m_synonymsUsedInQuery[left.getName()] >= m_synonymsUsedInQuery[right.getName()]) {
+        m_synsToBeRewritten[right.getName()] = t_with.getG1();
         return true;
       } else {
-        //Todo:
-      }
-    }
-
-    rewriteSynAsInt(synToInt);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isStmtNo(right.getType())) {
-    synToInt = eval->evaluateSynWithInt();
-    if (synToInt.empty()) {
-      return false;
-    }
-
-    if (Grammar::isConst(left.getType())) {
-      if (m_selectedSynonym != left.getName()) {
-        return true;
-      } else {
-        //Todo:
-      }
-    }
-
-    rewriteSynAsInt(synToInt);
-  } else if (Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    synToStr = eval->evaluateSynWithStr();
-    if (synToStr.empty()) {
-      return false;
-    }
-    rewriteSynAsStr(synToStr);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && Grammar::isString(right.getType())) {
-    synToStr = eval->evaluateSynWithStr();
-    if (synToStr.empty()) {
-      return false;
-    }
-    rewriteSynAsStr(synToStr);
-  } else if (!Grammar::isStmtNo(left.getType()) && !Grammar::isString(left.getType()) && !Grammar::isStmtNo(right.getType()) && !Grammar::isString(right.getType())) {
-    if (Grammar::isProgLine(left.getType()) && !Grammar::isProgLine(right.getType())) {
-      synToIntList = eval->evaluateIntAttrWithIntAttr();
-      if (synToIntList.empty()) {
-        return false;
-      }
-      rewriteSynAsIntList(synToIntList);
-    } else if (!Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
-      synToIntList = eval->evaluateIntAttrWithIntAttr();
-      if (synToIntList.empty()) {
-        return false;
-      }
-      rewriteSynAsIntList(synToIntList);
-    } else if (Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
-      if (left.getName() == right.getName()) {
+        m_synsToBeRewritten[left.getName()] = t_with.getG2();
         return true;
       }
+    }
 
-      synToSyn = eval->evaluateSynWithSyn();
-      if (synToSyn.empty()) {
-        return false;
-      }
-      rewriteSynAsSyn(synToSyn);
-    } else if (left.getAttr() == right.getAttr()) {
-      if (left.getName() == right.getName()) {
-        return true;
-      }
-
-      synToSyn = eval->evaluateSynWithSyn();
-      if (synToSyn.empty()) {
-        return false;
-      }
-      rewriteSynAsSyn(synToSyn);
-    } else if (left.getAttr() != right.getAttr()) {
-      if (Grammar::isProcName(left.getAttr()) || Grammar::isVarName(left.getAttr())) {
-        synToStrList = eval->evaluateStrAttrWithStrAttr();
-        if (synToStrList.empty()) {
+    if (left.getAttr() == right.getAttr()) {
+      if (Grammar::isStmtNum(left.getAttr())) {
+        if (Grammar::isStmt(left.getType())) {
+          m_synsToBeRewritten[left.getName()] = t_with.getG2();
+        } else if (Grammar::isStmt(right.getType())) {
+          m_synsToBeRewritten[right.getName()] = t_with.getG1();
+        } else {
           return false;
         }
-        rewriteSynAsStrList(synToStrList);
-      } else {
-        synToIntList = eval->evaluateIntAttrWithIntAttr();
-        if (synToIntList.empty()) {
-          return false;
+      } else if (Grammar::isProcName(left.getAttr())) {
+        LIST_OF_PROC_NAMES allProcsCalled = m_pkb->getCalledByAnything();
+        SET_OF_RESULTS results;
+        for (auto& procName : allProcsCalled) {
+          LIST_OF_STMT_NUMS callStmts = m_pkb->getStmtNumsFromProcName(procName);
+          if (callStmts.empty()) {
+            return false;
+          }
+          
+          results[procName] = Formatter::formatVectorIntToVectorStr(callStmts);
         }
-        rewriteSynAsIntList(synToIntList);
+
+        if (Grammar::isProc(left.getType())) {
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else {
+          return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+        }
       }
     }
+
+    if (left.getAttr() != right.getAttr()) {
+      if (Grammar::isStmtNum(left.getAttr()) || Grammar::isStmtNum(right.getAttr())) {
+        if (Grammar::isStmt(left.getType()) || Grammar::isStmt(right.getType())) {
+          MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
+          LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+          SET_OF_RESULTS results = EvaluatorUtil::getCommonProgLineAndConstant(allConstants, allStmts.size());
+          if (results.empty()) {
+            return false;
+          }
+
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else if (Grammar::isAssign(left.getType()) || Grammar::isAssign(right.getType())) {
+          LIST_OF_STMT_NUMS allAssignStmts = m_pkb->getAllAssignStmts();
+          LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+          LIST_OF_RESULTS allAssignStmtsInStr = Formatter::formatVectorIntToVectorStr(allAssignStmts);
+          LIST_OF_RESULTS commonResults = EvaluatorUtil::getCommonResults(allConstants, allAssignStmtsInStr);
+          if (commonResults.empty()) {
+            return false;
+          }
+
+          SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else if (Grammar::isWhile(left.getType()) || Grammar::isWhile(right.getType())) {
+          LIST_OF_STMT_NUMS allWhileStmts = m_pkb->getAllWhileStmts();
+          LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+          LIST_OF_RESULTS allWhileStmtsInStr = Formatter::formatVectorIntToVectorStr(allWhileStmts);
+          LIST_OF_RESULTS commonResults = EvaluatorUtil::getCommonResults(allConstants, allWhileStmtsInStr);
+          if (commonResults.empty()) {
+            return false;
+          }
+
+          SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else if (Grammar::isIf(left.getType()) || Grammar::isIf(right.getType())) {
+          LIST_OF_STMT_NUMS allIfStmts = m_pkb->getAllIfStmts();
+          LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+          LIST_OF_RESULTS allIfStmtsInStr = Formatter::formatVectorIntToVectorStr(allIfStmts);
+          LIST_OF_RESULTS commonResults = EvaluatorUtil::getCommonResults(allConstants, allIfStmtsInStr);
+          if (commonResults.empty()) {
+            return false;
+          }
+
+          SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else if (Grammar::isCall(left.getType()) || Grammar::isStmtNo(right.getType())) {
+          MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS allStmts = m_pkb->getStatementTypeTable();
+          LIST_OF_STMT_NUMS allCallStmts = allStmts[queryType::GType::CALL];
+          LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+          LIST_OF_RESULTS allCallStmtsInStr = Formatter::formatVectorIntToVectorStr(allCallStmts);
+          LIST_OF_RESULTS commonResults = EvaluatorUtil::getCommonResults(allConstants, allCallStmtsInStr);
+          if (commonResults.empty()) {
+            return false;
+          }
+
+          SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        }
+      } else {
+        if (Grammar::isProc(left.getType()) || Grammar::isProc(right.getType())) {
+          LIST_OF_PROC_NAMES allProcNames = m_pkb->getAllProcsName();
+          LIST_OF_VAR_NAMES allVarNames = m_pkb->getAllVarNames();
+          LIST_OF_RESULTS commonNames = EvaluatorUtil::getCommonResults(allProcNames, allVarNames);
+          if (commonNames.empty()) {
+            return false;
+          }
+
+          SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonNames);
+          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+        } else if (Grammar::isCall(left.getType()) || Grammar::isCall(right.getType())) {
+          LIST_OF_PROC_NAMES allProcsCalled = m_pkb->getCalledByAnything();
+          LIST_OF_VAR_NAMES allVarNames = m_pkb->getAllVarNames();
+          LIST_OF_RESULTS commonNames = EvaluatorUtil::getCommonResults(allProcsCalled, allVarNames);
+          SET_OF_RESULTS results;
+          for (auto& procName : commonNames) {
+            LIST_OF_STMT_NUMS callStmts = m_pkb->getStmtNumsFromProcName(procName);
+            if (callStmts.empty()) {
+              return false;
+            }
+
+            results[procName] = Formatter::formatVectorIntToVectorStr(callStmts);
+          }
+
+          if (Grammar::isVar(left.getType())) {
+            return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+          } else {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+        }
+      }
+    }
+  } else if ((left.hasAttr() || Grammar::isProgLine(left.getType())) 
+    && (Grammar::isProgLine(right.getType()) || right.hasAttr())) {
+    //Evaluate attr = syn, syn = attr
+    if (Grammar::isValue(left.getAttr()) || Grammar::isValue(right.getAttr())) {   
+      MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
+      LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+      SET_OF_RESULTS results = EvaluatorUtil::getCommonProgLineAndConstant(allConstants, allStmts.size());
+      if (results.empty()) {
+        return false;
+      }
+
+      return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+    } else if (Grammar::isStmtNum(left.getAttr()) || Grammar::isStmtNum(right.getAttr())) {
+      if (Grammar::isStmt(left.getType()) || Grammar::isStmt(right.getType())) {
+        return true;
+      } else if (Grammar::isAssign(left.getType())) {
+        m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      } else if (Grammar::isAssign(right.getType())) {
+        m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      } else if (Grammar::isWhile(left.getType())) {
+        m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      } else if (Grammar::isWhile(right.getType())) {
+        m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      } else if (Grammar::isIf(left.getType())) {
+        m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      } else if (Grammar::isIf(right.getType())) {
+        m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      } else if (Grammar::isCall(left.getType())) {
+        m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      } else if (Grammar::isCall(right.getType())) {
+        m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      }
+    } else {
+      return false;
+    }
+  } else if ((left.hasAttr() || Grammar::isString(left.getType())) 
+    && (Grammar::isString(right.getType()) || right.hasAttr())) {
+    //Rewrite attr = str, str = attr
+    if (Grammar::isCall(left.getType())) {
+      LIST_OF_STMT_NUMS callStmts = m_pkb->getStmtNumsFromProcName(right.getName());
+      if (callStmts.empty()) {
+        return false;
+      }
+      return m_table->insertOneSynonym(left.getName(), Formatter::formatVectorIntToVectorStr(callStmts));
+    } else if (Grammar::isCall(right.getType())) {
+      LIST_OF_STMT_NUMS callStmts = m_pkb->getStmtNumsFromProcName(left.getName());
+      if (callStmts.empty()) {
+        return false;
+      }
+      return m_table->insertOneSynonym(right.getName(), Formatter::formatVectorIntToVectorStr(callStmts));
+    }
+
+    if (Grammar::isString(left.getType())) {
+      if (Grammar::isProc(right.getType())) {
+        LIST_OF_RESULTS allProcNames = m_pkb->getAllProcsName();
+        if (std::find(allProcNames.begin(), allProcNames.end(), left.getName()) == allProcNames.end()) {
+          return false;
+        }
+      } else if (Grammar::isVar(right.getType())) {
+        LIST_OF_RESULTS allVarNames = m_pkb->getAllVarNames();
+        if (std::find(allVarNames.begin(), allVarNames.end(), left.getName()) == allVarNames.end()) {
+          return false;
+        }
+      }
+
+      if (!isSynonymCommon(right.getName())) {
+        return true;
+      }
+      m_synsToBeRewritten[right.getName()] = t_with.getG1();
+    } else {
+      if (Grammar::isProc(left.getType())) {
+        LIST_OF_RESULTS allProcNames = m_pkb->getAllProcsName();
+        if (std::find(allProcNames.begin(), allProcNames.end(), right.getName()) == allProcNames.end()) {
+          return false;
+        }
+      } else if (Grammar::isVar(left.getType())) {
+        LIST_OF_RESULTS allVarNames = m_pkb->getAllVarNames();
+        if (std::find(allVarNames.begin(), allVarNames.end(), right.getName()) == allVarNames.end()) {
+          return false;
+        }
+      }
+
+      if (!isSynonymCommon(left.getName())) {
+        return true;
+      }
+      m_synsToBeRewritten[left.getName()] = t_with.getG2();
+    }
+  } else if ((left.hasAttr() || Grammar::isStmtNo(left.getType())) 
+    && (Grammar::isStmtNo(right.getType()) || right.hasAttr())) {
+    //Rewrite attr = int, int = attr
+    if (Grammar::isValue(left.getAttr())) {
+      LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+      if (std::find(allConstants.begin(), allConstants.end(), right.getName()) != allConstants.end()) {
+        LIST_OF_RESULTS results;
+        results.push_back(right.getName());
+        return m_table->insertOneSynonym(left.getName(), results);
+      } else {
+        return false;
+      }
+    } else if (Grammar::isValue(right.getAttr())) {
+      LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+      if (std::find(allConstants.begin(), allConstants.end(), left.getName()) != allConstants.end()) {
+        LIST_OF_RESULTS results;
+        results.push_back(left.getName());
+        return m_table->insertOneSynonym(right.getName(), results);
+      } else {
+        return false;
+      }
+    }
+
+    if (Grammar::isStmtNum(left.getAttr())) {
+      MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
+      int maxStmtNo = allStmts.size();
+      if (std::stoi(right.getName()) > maxStmtNo) {
+        return false;
+      }
+
+      if (!isSynonymCommon(left.getName())) {   
+        return true;
+      }
+
+      m_synsToBeRewritten[left.getName()] = t_with.getG2();
+    } else if (Grammar::isStmtNum(right.getAttr())) {
+      MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
+      int maxStmtNo = allStmts.size();
+      if (std::stoi(right.getName()) > maxStmtNo) {
+        return false;
+      }
+
+      if (!isSynonymCommon(right.getName())) {
+        return true;
+      }
+
+      m_synsToBeRewritten[right.getName()] = t_with.getG1();
+    } else {
+      return false;
+    }
+  } else {
+    return false;
   }
 
-  delete eval;
   return true;
-}
-
-void QueryEvaluator::rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt) {
-  int relationSize = m_relations.size();
-  for (int i = 0; i < relationSize; ++i) {
-    Relation relation = m_relations.front();
-    Grammar g1 = relation.getG1();
-    Grammar g2 = relation.getG2();
-    Grammar newGrammar;
-    Relation newRelation;
-
-    std::unordered_map<std::string, int>::const_iterator got;
-    got = t_synToInt.find(g1.getName());
-    if (got != t_synToInt.end()) {
-      newGrammar = Grammar(10, std::to_string(got->second));
-      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
-      m_relations.push(newRelation);
-    }
-
-    got = t_synToInt.find(g2.getName());
-    if (got != t_synToInt.end()) {
-      newGrammar = Grammar(10, std::to_string(got->second));
-      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
-      m_relations.push(newRelation);
-    }
-
-    m_relations.pop();
-  }
-
-  int patternSize = m_patterns.size();
-  for (int i = 0; i < patternSize; ++i) {
-    Pattern pattern = m_patterns.front();
-    Grammar stmt = pattern.getStmt();
-    Grammar left = pattern.getLeft();
-    Grammar right = pattern.getRight();
-    BOOLEAN isSubtree = pattern.isSubtree();
-    Grammar newGrammar;
-    Pattern newPattern;
-
-    std::unordered_map<std::string, int>::const_iterator got;
-    got = t_synToInt.find(stmt.getName());
-    if (got != t_synToInt.end()) {
-      newGrammar = Grammar(10, std::to_string(got->second));
-      newPattern = Pattern(newGrammar, left, right, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    m_patterns.pop();
-  }
-}
-
-void QueryEvaluator::rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr) {
-  int relationSize = m_relations.size();
-  for (int i = 0; i < relationSize; ++i) {
-    Relation relation = m_relations.front();
-    Grammar g1 = relation.getG1();
-    Grammar g2 = relation.getG2();
-    Grammar newGrammar;
-    Relation newRelation;
-
-    std::unordered_map<std::string, std::string>::const_iterator got;
-    got = t_synToStr.find(g1.getName());
-    if (got != t_synToStr.end()) {
-      newGrammar = Grammar(11, got->second);
-      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
-      m_relations.push(newRelation);
-    }
-
-    got = t_synToStr.find(g2.getName());
-    if (got != t_synToStr.end()) {
-      newGrammar = Grammar(11, got->second);
-      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
-      m_relations.push(newRelation);
-    }
-
-    m_relations.pop();
-  }
-
-  int patternSize = m_patterns.size();
-  for (int i = 0; i < patternSize; ++i) {
-    Pattern pattern = m_patterns.front();
-    Grammar stmt = pattern.getStmt();
-    Grammar left = pattern.getLeft();
-    Grammar right = pattern.getRight();
-    BOOLEAN isSubtree = pattern.isSubtree();
-    Grammar newGrammar;
-    Pattern newPattern;
-
-    std::unordered_map<std::string, std::string>::const_iterator got;
-    got = t_synToStr.find(left.getName());
-    if (got != t_synToStr.end()) {
-      newGrammar = Grammar(11, got->second);
-      newPattern = Pattern(stmt, newGrammar, right, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    got = t_synToStr.find(right.getName());
-    if (got != t_synToStr.end()) {
-      newGrammar = Grammar(11, got->second);
-      newPattern = Pattern(stmt, left, newGrammar, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    m_patterns.pop();
-  }
-}
-
-void QueryEvaluator::rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn) {
-  int relationSize = m_relations.size();
-  for (int i = 0; i < relationSize; ++i) {
-    Relation relation = m_relations.front();
-    Grammar g1 = relation.getG1();
-    Grammar g2 = relation.getG2();
-    Grammar newGrammar;
-    Relation newRelation;
-
-    std::unordered_map<std::string, std::string>::const_iterator got;
-    got = t_synToSyn.find(g1.getName());
-    if (got != t_synToSyn.end()) {
-      newGrammar = Grammar(g1.getType(), got->second);
-      newRelation = Relation(relation.getTypeInString(), newGrammar, g2);
-      m_relations.push(newRelation);
-    }
-
-    got = t_synToSyn.find(g2.getName());
-    if (got != t_synToSyn.end()) {
-      newGrammar = Grammar(g2.getType(), got->second);
-      newRelation = Relation(relation.getTypeInString(), g1, newGrammar);
-      m_relations.push(newRelation);
-    }
-
-    m_relations.pop();
-  }
-
-  int patternSize = m_patterns.size();
-  for (int i = 0; i < patternSize; ++i) {
-    Pattern pattern = m_patterns.front();
-    Grammar stmt = pattern.getStmt();
-    Grammar left = pattern.getLeft();
-    Grammar right = pattern.getRight();
-    BOOLEAN isSubtree = pattern.isSubtree();
-    Grammar newGrammar;
-    Pattern newPattern;
-
-    std::unordered_map<std::string, std::string>::const_iterator got;
-    got = t_synToSyn.find(stmt.getName());
-    if (got != t_synToSyn.end()) {
-      newGrammar = Grammar(stmt.getType(), got->second);
-      newPattern = Pattern(newGrammar, left, right, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    got = t_synToSyn.find(left.getName());
-    if (got != t_synToSyn.end()) {
-      newGrammar = Grammar(left.getType(), got->second);
-      newPattern = Pattern(stmt, newGrammar, right, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    got = t_synToSyn.find(right.getName());
-    if (got != t_synToSyn.end()) {
-      newGrammar = Grammar(right.getType(), got->second);
-      newPattern = Pattern(stmt, left, newGrammar, isSubtree);
-      m_patterns.push(newPattern);
-    }
-
-    m_patterns.pop();
-  }
-}
-
-void QueryEvaluator::rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList) {
-
-}
-
-void QueryEvaluator::rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList) {
-
 }
