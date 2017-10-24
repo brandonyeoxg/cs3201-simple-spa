@@ -4,7 +4,6 @@ NextTable::NextTable() {
   MAX_LINE_NUM = 0;
   m_afterGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
   m_beforeGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
-  m_cacheVisited = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
 }
 
 void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
