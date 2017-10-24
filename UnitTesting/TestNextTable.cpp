@@ -291,7 +291,7 @@ public:
     Assert::IsTrue(expected == result);
   }
 
-  TEST_METHOD(getAllNextStar) {
+  TEST_METHOD(getAllNextStar_01) {
     NextTable nextTable = NextTable();
     std::vector<PROG_LINE> expected;
 
@@ -322,6 +322,44 @@ public:
     for (auto iter : map) {
       Assert::IsTrue(iter.second == expected);  // Check lines reachable for each line
     }
+
+    printVector(nextTable.getNextStarOfLine(1));
+  }
+
+  TEST_METHOD(getAllNextStar_02) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         if ...
+        5           stmt
+                  else
+        6           stmt
+        7         if ...
+        8           stmt
+                  else
+        9           stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 1);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(4, 6);
+    nextTable.insertNextRelationship(5, 7);
+    nextTable.insertNextRelationship(6, 7);
+    nextTable.insertNextRelationship(7, 8);
+    nextTable.insertNextRelationship(7, 9);
+    nextTable.insertNextRelationship(9, 3);
+    nextTable.insertNextRelationship(8, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
 
   }
 
