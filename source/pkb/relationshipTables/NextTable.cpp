@@ -35,6 +35,11 @@ void NextTable::executeAfterAllNextInserts() {
       m_isNextTable.at(linePair.first).at(lineAfter) = true;
     }
   }
+
+  // sort each vector mapped to each program line
+  for (auto linePair : m_afterGraph) {
+    std::sort(linePair.second.begin(), linePair.second.end());
+  }
 }
 
 bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
