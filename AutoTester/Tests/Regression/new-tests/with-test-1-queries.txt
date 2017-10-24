@@ -171,7 +171,7 @@ none
 35 - With VarName + Syn Invalid Test
 procedure p1, p2; prog_line n; call c1, c2; stmt s1, s2;
 Select p1 such that Follows(1,2) with s2.stmt#=n
-none
+main, second, third, fourth
 5000
 36 - With VarName + VarName Functionality Test
 procedure p1, p2; prog_line n; call c1, c2; variable v1, v2;
