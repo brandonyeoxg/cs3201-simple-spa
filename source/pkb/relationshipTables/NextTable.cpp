@@ -186,12 +186,21 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LI
   while (!toVisit.empty()) {
     PROG_LINE lineToVisit = toVisit.back(); // remove from stack
     toVisit.pop_back();
+
+    if (visited.at(lineToVisit)) {
+      continue;
+    }
+
     visited.at(lineToVisit) = true;
+    list.push_back(lineToVisit);
 
     if (isKeyInMap(lineToVisit, t_graph)) { // this current line has Next() lines to visit
       if (isKeyInMap(lineToVisit, m_cacheVisited)) {  // has cached visited nodes
         for (auto visitedLine : m_cacheVisited.at(lineToVisit)) {
-          visited.at(visitedLine) = true;
+          if (!visited.at(visitedLine)) {
+            list.push_back(visitedLine);
+            visited.at(visitedLine) = true;
+          }
         }
       } else {  // line not cached
         for (auto nextLine : t_graph.at(lineToVisit)) {
@@ -200,12 +209,6 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LI
           }
         }
       }
-    }
-  }
-
-  for (int i = 0; i < (int) visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
     }
   }
 
