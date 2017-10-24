@@ -274,6 +274,7 @@ namespace IntegrationTesting
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       expectedResult = { "5", "6", "7", "8" };
       actualResult = m_qe->evaluateQuery();
+      std::sort(actualResult.begin(), actualResult.end());
       Assert::IsTrue(actualResult == expectedResult);
     }
   };
