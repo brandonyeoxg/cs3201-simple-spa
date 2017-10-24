@@ -103,7 +103,7 @@ BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   } */
   TOTAL_NUMBER_OF_STMTS total = m_followsMatrix.size();
   if (t_s1 >= total || t_s2 >= total) {
-    return true;
+    return false;
   } else {
     return m_followsMatrix.at(t_s1).at(t_s2);
   }
