@@ -2,8 +2,8 @@
 
 NextTable::NextTable() {
   MAX_LINE_NUM = 0;
-  m_afterGraph = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
-  m_beforeGraph = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
+  m_afterGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
+  m_beforeGraph = std::map<PROG_LINE, std::vector<PROG_LINE>>();
 }
 
 void NextTable::insertNextRelationship(PROG_LINE t_line1, PROG_LINE t_line2) {
@@ -34,6 +34,15 @@ void NextTable::executeAfterAllNextInserts() {
     for (auto lineAfter : linePair.second) {
       m_isNextTable.at(linePair.first).at(lineAfter) = true;
     }
+  }
+
+  // sort each vector mapped to each program line
+  for (auto linePair : m_afterGraph) {
+    std::sort(linePair.second.begin(), linePair.second.end());
+  }
+
+  for (auto linePair : m_beforeGraph) {
+    std::sort(linePair.second.begin(), linePair.second.end());
   }
 }
 
@@ -80,34 +89,36 @@ std::vector<PROG_LINE> NextTable::getAllLinesBefore(PROG_LINE t_line) {
 }
 
 std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNext() {
-  return m_afterGraph;
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map;
+  map.insert(m_afterGraph.begin(), m_afterGraph.end());
+  return map;
 }
 
 std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar() {
   std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
   
-  for (auto iterator : m_afterGraph) {
-    map.insert({ iterator.first, getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph) });
+  m_cacheVisited = std::unordered_map<PROG_LINE, std::vector<PROG_LINE>>();
+
+  for (auto reverseIter = m_afterGraph.rbegin(); reverseIter != m_afterGraph.rend(); reverseIter++) {
+    PROG_LINE progLine = reverseIter->first;
+    std::vector<PROG_LINE> linesReachable = getListOfLinesReachableFromLineInGraph(progLine, m_afterGraph);
+    map.insert({ progLine, linesReachable });
+    
+    if (!isKeyInMap(progLine, m_cacheVisited)) {
+      m_cacheVisited.insert({ progLine, linesReachable });
+    }
   }
+
+  m_cacheVisited.clear();
 
   return map;
 }
 
 std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
   std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
-  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
 
-  for (auto iterator : m_afterGraph) {
-    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_afterGraph);
-    for (auto line : listOfVisitedLines) {
-      visited.at(line) = true;
-    }
-  }
-
-  for (int i = 0; i < (int)visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
-    }
+  for (auto iter: m_beforeGraph) {
+    list.push_back(iter.first);
   }
 
   return list;
@@ -115,19 +126,9 @@ std::vector<PROG_LINE> NextTable::getAllLinesAfterAnyLine() {
 
 std::vector<PROG_LINE> NextTable::getAllLinesBeforeAnyLine() {
   std::vector<PROG_LINE> list = std::vector<PROG_LINE>();
-  std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
 
-  for (auto iterator : m_beforeGraph) {
-    std::vector<PROG_LINE> listOfVisitedLines = getListOfLinesReachableFromLineInGraph(iterator.first, m_beforeGraph);
-    for (auto line : listOfVisitedLines) {
-      visited.at(line) = true;
-    }
-  }
-
-  for (int i = 0; i < (int)visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
-    }
+  for (auto iter : m_afterGraph) {
+    list.push_back(iter.first);
   }
 
   return list;
@@ -159,7 +160,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
     toVisit.pop_back();
     visited.at(lineToVisit) = true;
 
-    if (lineToVisit == t_line2) {
+    if (lineToVisit == t_line2) { // return true once path is found
       return true;
     }
 
@@ -177,7 +178,7 @@ bool NextTable::isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2
 }
 
 std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, 
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
+  std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph) {
 
   if (!isKeyInMap(t_line, t_graph)) {
     return {};
@@ -194,21 +195,29 @@ std::vector<PROG_LINE> NextTable::getListOfLinesReachableFromLineInGraph(PROG_LI
   while (!toVisit.empty()) {
     PROG_LINE lineToVisit = toVisit.back(); // remove from stack
     toVisit.pop_back();
-    visited.at(lineToVisit) = true;
 
-    // has Next() lines to visit
-    if (isKeyInMap(lineToVisit, t_graph)) {
-      for (auto nextLine : t_graph.at(lineToVisit)) {
-        if (!visited.at(nextLine)) { // line not visited yet
-          toVisit.push_back(nextLine);
+    if (visited.at(lineToVisit)) {
+      continue;
+    }
+
+    visited.at(lineToVisit) = true;
+    list.push_back(lineToVisit);
+
+    if (isKeyInMap(lineToVisit, t_graph)) { // this current line has Next() lines to visit
+      if (isKeyInMap(lineToVisit, m_cacheVisited)) {  // has cached visited nodes
+        for (auto visitedLine : m_cacheVisited.at(lineToVisit)) {
+          if (!visited.at(visitedLine)) {
+            list.push_back(visitedLine);
+            visited.at(visitedLine) = true;
+          }
+        }
+      } else {  // line not cached
+        for (auto nextLine : t_graph.at(lineToVisit)) {
+          if (!visited.at(nextLine)) { // line not visited yet
+            toVisit.push_back(nextLine);
+          }
         }
       }
-    }
-  }
-
-  for (int i = 0; i < (int) visited.size(); i++) {
-    if (visited.at(i)) {
-      list.push_back(i);
     }
   }
 
