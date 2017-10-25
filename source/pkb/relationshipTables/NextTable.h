@@ -139,8 +139,6 @@ private:
   *   @return list of the lines (in ascending order)
   */
   std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
-  
-  std::vector<PROG_LINE> traverseGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 
   std::vector<PROG_LINE> traverseGraphDfs(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph, std::vector<bool>& visited);
 
