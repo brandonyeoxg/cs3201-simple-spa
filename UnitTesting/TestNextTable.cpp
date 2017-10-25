@@ -281,7 +281,6 @@ public:
     assertTwoVectorsSame(result, expected);
 
     result = nextTable.getAllLinesBefore(2);
-    printVector(result);
     assertTwoVectorsSame(result, expected);
 
     result = nextTable.getAllLinesBefore(3);
