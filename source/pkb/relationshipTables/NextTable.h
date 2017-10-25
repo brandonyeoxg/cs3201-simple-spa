@@ -140,6 +140,10 @@ private:
   */
   std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
   
+  std::vector<PROG_LINE> traverseGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
+
+  std::vector<PROG_LINE> traverseGraphDfs(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph, std::vector<bool>& visited);
+
   template <typename T, typename G>
   bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in a map. Uses generics. */
   template <typename T, typename G>
