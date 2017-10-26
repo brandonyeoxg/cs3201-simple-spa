@@ -109,7 +109,7 @@ SET_OF_RESULTS EvaluatorUtil::getCommonProgLineAndConstant(std::vector<std::stri
   SET_OF_RESULTS commonProgLineAndConstant;
 
   for (auto& constant : t_allConstants) {
-    if (std::stoi(constant) > t_maxProgLine) {
+    if (std::stoi(constant) <= t_maxProgLine) {
       LIST_OF_RESULTS constants;
       constants.push_back(constant);
       commonProgLineAndConstant[constant] = constants;
