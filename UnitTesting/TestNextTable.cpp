@@ -284,10 +284,10 @@ public:
     assertTwoVectorsSame(result, expected);
 
     result = nextTable.getAllLinesBefore(3);
-    //assertTwoVectorsSame(result, expected);
+    assertTwoVectorsSame(result, expected);
 
     result = nextTable.getAllLinesBefore(4);
-    //assertTwoVectorsSame(result, expected);
+    assertTwoVectorsSame(result, expected);
   }
 
   TEST_METHOD(getAllNextStar_01) {
@@ -319,13 +319,14 @@ public:
     }
 
     for (auto iter : map) {
+      printVector(iter.second);
       assertTwoVectorsSame(iter.second, expected); // Check lines reachable for each line
     }
   }
 
   TEST_METHOD(getAllNextStar_02) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected;
+    std::vector<PROG_LINE> expected, result;
 
     /*  1   while ...
         2     while ...
@@ -358,6 +359,93 @@ public:
 
     std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
 
+    Assert::IsTrue(map.size() == 9);  // 9 keys in total
+
+    expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    result = map.at(1);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(2);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(3);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(4);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(5);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(6);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(7);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(8);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(9);
+    assertTwoVectorsSame(result, expected);
+  }
+
+  TEST_METHOD(getAllNextStar_03) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   stmt 
+        2   stmt 
+        3   if ...
+        4     stmt
+            else
+        5     stmt    
+        6   while
+        7     stmt 
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(3, 5);
+    nextTable.insertNextRelationship(4, 6);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 7);
+    nextTable.insertNextRelationship(7, 6);
+
+    nextTable.executeAfterAllNextInserts();
+
+    std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
+
+    Assert::IsTrue(map.size() == 7);
+
+    expected = { 2, 3, 4, 5, 6, 7 };
+    result = map.at(1);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 3, 4, 5, 6, 7 };
+    result = map.at(2);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 4, 5, 6, 7 };
+    result = map.at(3);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(4);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(5);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(6);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(7);
+    assertTwoVectorsSame(result, expected);
   }
 
   TEST_METHOD(getAllLinesAfterAnyLine_01) {
