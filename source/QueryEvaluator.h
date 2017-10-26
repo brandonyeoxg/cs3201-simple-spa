@@ -90,15 +90,6 @@ private:
   std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten;
 
   /**
-  * A private function to check if the synonym is common with any other clauses.
-  * Check if the synonyn is used more than once in the query.
-  * @param t_synonym the synonym to check if it is used with any other clauses.
-  * @return true if the synonym is used more than once in the query
-  * else return false if the synonym is used only once in the query.
-  */
-  BOOLEAN isSynonymCommon(STRING t_synonym);
-
-  /**
   * A private function to get the results of every clause in the query from the PKB.
   * Loop through the queues and call the API from PKB to get the results of each and every clause in the queues.
   * @return true if all of the clauses have non-empty results

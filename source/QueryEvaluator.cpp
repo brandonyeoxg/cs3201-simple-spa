@@ -2,20 +2,6 @@
 
 #include "QueryEvaluator.h"
 
-BOOLEAN QueryEvaluator::isSynonymCommon(STRING t_synonym) {
-  std::unordered_map<std::string, int>::const_iterator got;
-  got = m_synonymsUsedInQuery.find(t_synonym);
-  if (got != m_synonymsUsedInQuery.end()) {
-    if (got->second > 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  return false;
-}
-
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
@@ -390,7 +376,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     }
 
     //With n1 = n2 but no other clauses uses n1 and n2
-    if (!isSynonymCommon(left.getName()) && !isSynonymCommon(right.getName())) {
+    if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
       return true;
     }
 
@@ -409,7 +395,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       if (std::stoi(left.getName()) > totalStmts) {
         return false;
       }
-      if (!isSynonymCommon(right.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
         return true;
       }
       m_synsToBeRewritten[right.getName()] = t_with.getG1();
@@ -417,7 +403,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       if (std::stoi(right.getName()) > totalStmts) {
         return false;
       }
-      if (!isSynonymCommon(left.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName())) {
         return true;
       }
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
@@ -429,7 +415,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     }
 
     if (left.getType() == right.getType()) {
-      if (!isSynonymCommon(left.getName()) && !isSynonymCommon(right.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
         return true;
       }
 
@@ -632,7 +618,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         }
       }
 
-      if (!isSynonymCommon(right.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
         return true;
       }
       m_synsToBeRewritten[right.getName()] = t_with.getG1();
@@ -649,7 +635,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         }
       }
 
-      if (!isSynonymCommon(left.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName())) {
         return true;
       }
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
@@ -684,7 +670,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return false;
       }
 
-      if (!isSynonymCommon(left.getName())) {   
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName())) {
         return true;
       }
 
@@ -696,7 +682,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return false;
       }
 
-      if (!isSynonymCommon(right.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
         return true;
       }
 
