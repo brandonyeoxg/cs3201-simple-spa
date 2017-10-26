@@ -415,6 +415,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return true;
       }
       m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      LIST_OF_RESULTS results;
+      results.push_back(left.getName());
+      return m_table->insertOneSynonym(right.getName(), results);
     } else {
       if (std::stoi(right.getName()) > totalStmts) {
         return false;
@@ -423,6 +426,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return true;
       }
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      LIST_OF_RESULTS results;
+      results.push_back(right.getName());
+      return m_table->insertOneSynonym(left.getName(), results);
     }
   } else if (left.hasAttr() && right.hasAttr()) {
     //Todo: Evaluate attr = attr
@@ -638,6 +644,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return true;
       }
       m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      LIST_OF_RESULTS results;
+      results.push_back(left.getName());
+      return m_table->insertOneSynonym(right.getName(), results);
     } else {
       if (Grammar::isProc(left.getType())) {
         LIST_OF_RESULTS allProcNames = m_pkb->getAllProcsName();
@@ -655,6 +664,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
         return true;
       }
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      LIST_OF_RESULTS results;
+      results.push_back(right.getName());
+      return m_table->insertOneSynonym(left.getName(), results);
     }
   } else if ((left.hasAttr() || Grammar::isStmtNo(left.getType())) 
     && (Grammar::isStmtNo(right.getType()) || right.hasAttr())) {
@@ -691,6 +703,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       }
 
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
+      LIST_OF_RESULTS results;
+      results.push_back(right.getName());
+      return m_table->insertOneSynonym(left.getName(), results);
     } else if (Grammar::isStmtNum(right.getAttr())) {
       MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
       int maxStmtNo = allStmts.size();
@@ -703,6 +718,9 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       }
 
       m_synsToBeRewritten[right.getName()] = t_with.getG1();
+      LIST_OF_RESULTS results;
+      results.push_back(left.getName());
+      return m_table->insertOneSynonym(right.getName(), results);
     } else {
       return false;
     }
