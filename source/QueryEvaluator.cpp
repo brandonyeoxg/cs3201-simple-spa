@@ -55,15 +55,22 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   for (int i = 0; i < relationSize; ++i) {
     m_isSelectOnly = false;
     Relation relation = m_relations.front();
-    std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
-    got = m_synsToBeRewritten.find(relation.getG1().getName());
-    if (got != m_synsToBeRewritten.end()) {
-      relation.setG1(got->second);
+
+    if (!Grammar::isStmtNo(relation.getG1().getType()) && !Grammar::isString(relation.getG1().getType())) {
+      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
+      got = m_synsToBeRewritten.find(relation.getG1().getName());
+      if (got != m_synsToBeRewritten.end()) {
+        relation.setG1(got->second);
+      }
     }
-    got = m_synsToBeRewritten.find(relation.getG2().getName());
-    if (got != m_synsToBeRewritten.end()) {
-      relation.setG2(got->second);
-    }
+
+    if (!Grammar::isStmtNo(relation.getG2().getType()) && !Grammar::isString(relation.getG2().getType())) {
+      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
+      got = m_synsToBeRewritten.find(relation.getG2().getName());
+      if (got != m_synsToBeRewritten.end()) {
+        relation.setG2(got->second);
+      }
+    }   
 
     BOOLEAN hasResult = getRelationResultFromPkb(relation);
     if (!hasResult) {
@@ -76,7 +83,16 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   //Loop through the Pattern Queue
   for (int i = 0; i < patternSize; ++i) {
     m_isSelectOnly = false;
-    Pattern pattern = m_patterns.front(); 
+    Pattern pattern = m_patterns.front();
+
+    if (!Grammar::isStmtNo(pattern.getLeft().getType()) && !Grammar::isString(pattern.getLeft().getType())) {
+      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
+      got = m_synsToBeRewritten.find(pattern.getLeft().getName());
+      if (got != m_synsToBeRewritten.end()) {
+        pattern.setLeft(got->second);
+      }
+    }
+
     BOOLEAN hasResult = getPatternResultFromPkb(pattern);
     if (!hasResult) {
       return false;
