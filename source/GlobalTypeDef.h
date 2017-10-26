@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 
-const bool isDebugMode = true;
+const bool isDebugMode = false;
 
 const int INVALID_INDEX = -1;
 
