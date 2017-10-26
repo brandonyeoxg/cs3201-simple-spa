@@ -105,12 +105,12 @@ std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> NextTable::getAllNextStar(
     PROG_LINE progLine = reverseIter->first;
     std::vector<PROG_LINE> list;
 
-    std::cout << "Checking: " << progLine << "\n";
+    //std::cout << "Checking: " << progLine << "\n";
 
     list = getListOfLinesReachable(progLine, m_afterGraph);
     
     if (!isKeyInMap(progLine, m_cacheVisited)) {
-      std::cout << "Caching\n";
+      //std::cout << "Caching\n";
       m_cacheVisited.insert({ progLine, list });
     }
 
@@ -218,7 +218,7 @@ std::vector<PROG_LINE> NextTable::traverseGraphDfs(PROG_LINE t_line, std::map<PR
         std::vector<PROG_LINE> result;
 
         if (isCaching && isKeyInMap(t_line, m_cacheVisited)) {
-          std::cout << "Taking from cache\n";
+          //std::cout << "Taking from cache\n";
           std::vector<PROG_LINE> cached = m_cacheVisited.at(t_line);
           for (auto line : cached) {
             if (!visited.at(line)) {
