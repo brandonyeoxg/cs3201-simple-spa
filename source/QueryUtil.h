@@ -157,4 +157,14 @@ public:
   * and the third parameter is false.
   */
   static bool isSynonymWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
+
+  /**
+  * A public function to check if the synonym is common with any other clauses.
+  * Check if the synonyn is used more than once in the query.
+  * @param t_synMap the map to check whether t_synonym is used in other clauses.
+  * @param t_synonym the synonym to check if it is used with any other clauses.
+  * @return true if the synonym is used more than once in the query
+  * else return false if the synonym is used only once in the query.
+  */
+  static bool isSynonymCommon(MAP_OF_SYNONYMS_TO_COUNTS t_synMap, STRING t_synonym);
 };

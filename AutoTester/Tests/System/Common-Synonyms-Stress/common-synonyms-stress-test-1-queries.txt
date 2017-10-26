@@ -25,6 +25,6 @@ true
 5000
 6 - Common Synonyms Stress Test
 assign a1, a2, a3, a4, a5, a6, a7; variable v1, v2, v3; while w; if i;
-Select i pattern a1(v1, "1") pattern a2(v1,"5") and w(v2,_) pattern i(v2,_,_) and a1(v1,_"1"_) pattern a3(v1,"b+c-d") and a4(v3,_"c+2"_) and a4(v3,_) and a6("b", 2) and a7("c","3")
+Select i pattern a1(v1, "1") pattern a2(v1,"5") and w(v2,_) pattern i(v2,_,_) and a1(v1,_"1"_) pattern a3(v1,"b+c-d") and a4(v3,_"c+2"_) and a4(v3,_) and a6("b", "2") and a7("c","3")
 4
 5000
