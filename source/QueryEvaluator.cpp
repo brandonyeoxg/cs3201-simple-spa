@@ -519,7 +519,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
 
           SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
-        } else if (Grammar::isCall(left.getType()) || Grammar::isStmtNo(right.getType())) {
+        } else if (Grammar::isCall(left.getType()) || Grammar::isCall(right.getType())) {
           MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS allStmts = m_pkb->getStatementTypeTable();
           LIST_OF_STMT_NUMS allCallStmts = allStmts[queryType::GType::CALL];
           LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
