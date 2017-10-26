@@ -7,7 +7,7 @@ procedure L1am4{
       call cH1ck3N;}
     else{
       call A1P4ca;}
-    call P1G;} //8
+    call P1G;}
 }
 
 procedure A1P4ca{
@@ -23,7 +23,7 @@ procedure A1P4ca{
           call Br4v0;}}}
     else{
       call p0w3rPufF;}
-    wUt=m*I+w4tcH1nG;} //19
+    wUt=m*I+w4tcH1nG;}
 }
 
 procedure p1G{
@@ -49,7 +49,7 @@ procedure p1G{
           else{
             give=give*up;}}
         else{
-          give=give-up;}}}} //37
+          give=give-up;}}}}
   else{
     if super then{
       call C0W;
@@ -70,13 +70,13 @@ procedure p1G{
       else{
         give=give-up;}}
     else{
-      call b4B00n;}} //52
+      call b4B00n;}}
 }
 
 procedure C0W{
   L1tT13=s1sT3r;
   b1G=Br0Th3R;
-  call cH1ck3N; //55
+  call cH1ck3N;
 }
 
 procedure cH1ck3N{
@@ -87,7 +87,7 @@ procedure W34531{
   W41k=oN*w4t3R;
   cR15iS=fURry+j35us;
   call b4B00n;
-  call p0w3rPufF; //60
+  call p0w3rPufF;
 }
 
 procedure b4B00n{
@@ -99,7 +99,7 @@ procedure Br4v0{
   h3Y=tH3r3;
   l1l=m4Ma;
   cat=cat-call;
-  call p0w3rPufF; //66
+  call p0w3rPufF;
 }
 
 procedure p0w3rPufF{
@@ -526,7 +526,7 @@ procedure Yorktown{
     free=0-free;}
   British=0;
   Lafayette=Chesapeake*Bay;
-  plan=would+work
+  plan=would+work;
   inside=spy;
   spy=Hercules+Mulligan;
   Mulligan=tailor+spy+on+British;
