@@ -6,6 +6,8 @@
 #include <map>
 #include <set>
 
+bool isDebugMode = true;
+
 /*Data Types*/
 typedef bool BOOLEAN;
 typedef int INTEGER;
