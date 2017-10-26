@@ -19,8 +19,13 @@ BOOLEAN QueryEvaluator::isSynonymCommon(STRING t_synonym) {
 /**
 * A function that evaluates the query that has been pre-processed by the QueryPreprocessor.
 */
-LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
-  //std::cout << "Evaluating Query...\n";
+LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {  
+  if (isDebugMode) {
+    std::cout << "Evaluating Query...\n";
+    MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
+    std::cout << "\nNUMBER OF STMTS: " << typeOfStmts.size() << "\n";
+  }
+
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
@@ -36,7 +41,10 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
 * @return true if there are results otherwise false
 */
 BOOLEAN QueryEvaluator::getResultFromPkb() {
-  //std::cout << "Getting results from PKB...\n";
+  if (isDebugMode) {
+    std::cout << "Getting results from PKB...\n";
+  }
+  
   int relationSize = m_relations.size();
   int patternSize = m_patterns.size();
   int withSize = m_withs.size();
@@ -95,6 +103,15 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
 }
 
 BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
+  std::unordered_map<SYNONYM_NAME, Grammar>::iterator got;
+  got = m_synsToBeRewritten.find(t_select.getName());
+  if (got != m_synsToBeRewritten.end()) {
+    std::vector<std::string> results;
+    results.push_back(got->second.getName());
+    storeSelectResultFromPkb(results);
+    return true;
+  }
+
   if (t_select.getType() != queryType::GType::PROC && t_select.getType() != queryType::GType::ST_LST && t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
     // Call the PKB API getStatementTypeTable().
     std::unordered_map<queryType::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
@@ -236,7 +253,10 @@ BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 * @param t_result a vector<string> argument
 */
 void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
-  //std::cout << "Storing the select result from PKB to the select result queue...\n";
+  if (isDebugMode) {
+    std::cout << "Storing the select result from PKB to the select result queue...\n";
+  }
+  
   m_selectResults.push(t_result);
 }
 
@@ -323,7 +343,10 @@ BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATT
 * @return The query results
 */
 LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
-  //std::cout << "Evaluating the final result...\n";
+  if (isDebugMode) {
+    std::cout << "Evaluating the final result...\n";
+  }
+  
   LIST_OF_RESULTS finalResult;
   LIST_OF_SYNONYMS selectedSynonyms;
 
@@ -453,7 +476,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     }
 
     if (left.getAttr() != right.getAttr()) {
-      if (Grammar::isStmtNum(left.getAttr()) || Grammar::isStmtNum(right.getAttr())) {
+      if ((Grammar::isStmtNum(left.getAttr()) && Grammar::isValue(right.getAttr())) || (Grammar::isStmtNum(right.getAttr()) && Grammar::isValue(left.getAttr()))) {
         if (Grammar::isStmt(left.getType()) || Grammar::isStmt(right.getType())) {
           MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
           LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
@@ -509,7 +532,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
           SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         }
-      } else {
+      } else if ((Grammar::isProcName(left.getAttr()) && Grammar::isVarName(right.getAttr())) || (Grammar::isProcName(right.getAttr()) && Grammar::isVarName(left.getAttr()))) {
         if (Grammar::isProc(left.getType()) || Grammar::isProc(right.getType())) {
           LIST_OF_PROC_NAMES allProcNames = m_pkb->getAllProcsName();
           LIST_OF_VAR_NAMES allVarNames = m_pkb->getAllVarNames();
@@ -540,6 +563,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
           }
         }
+      } else {
+        return false;
       }
     }
   } else if ((left.hasAttr() || Grammar::isProgLine(left.getType())) 
