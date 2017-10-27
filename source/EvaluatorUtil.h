@@ -80,4 +80,6 @@ public:
   * @return An unordered map of constants that are less than or equals to the maximum program line.
   */
   static SET_OF_RESULTS getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine);
+
+  static Grammar rewriteSynonyms(Grammar t_grammar, std::unordered_map<SYNONYM_NAME, Grammar> t_rewriteList);
 };
