@@ -52,11 +52,14 @@ Grammar::Grammar(int t_type, std::string t_name) {
     m_type = queryType::GType::BOOLEAN;
   }
   m_name = t_name;
+  m_attr = queryType::AType::NONE;
+  m_vector = {};
 }
 
 Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type) {
   m_vector = t_vector;
   m_name = t_name;
+  m_attr = queryType::AType::NONE;
   if (t_type == PROC) {
     m_type = queryType::GType::PROC;
   } else if (t_type == STLST) {
