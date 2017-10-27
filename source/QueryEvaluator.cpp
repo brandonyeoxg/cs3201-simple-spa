@@ -57,11 +57,11 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     Relation relation = m_relations.front();
 
     if (!Grammar::isStmtNo(relation.getG1().getType()) && !Grammar::isString(relation.getG1().getType())) {
-      relation.setG1(EvaluatorUtil::rewriteSynonyms(relation.getG1(), m_synsToBeRewritten));
+      relation.setG1(EvaluatorUtil::rewriteSynonym(relation.getG1(), m_synsToBeRewritten));
     }
 
     if (!Grammar::isStmtNo(relation.getG2().getType()) && !Grammar::isString(relation.getG2().getType())) {
-      relation.setG2(EvaluatorUtil::rewriteSynonyms(relation.getG2(), m_synsToBeRewritten));
+      relation.setG2(EvaluatorUtil::rewriteSynonym(relation.getG2(), m_synsToBeRewritten));
     }   
 
     BOOLEAN hasResult = getRelationResultFromPkb(relation);
@@ -78,7 +78,7 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     Pattern pattern = m_patterns.front();
 
     if (!Grammar::isStmtNo(pattern.getLeft().getType()) && !Grammar::isString(pattern.getLeft().getType())) {
-      pattern.setLeft(EvaluatorUtil::rewriteSynonyms(pattern.getLeft(), m_synsToBeRewritten));
+      pattern.setLeft(EvaluatorUtil::rewriteSynonym(pattern.getLeft(), m_synsToBeRewritten));
     }
 
     BOOLEAN hasResult = getPatternResultFromPkb(pattern);

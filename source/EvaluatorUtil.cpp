@@ -138,7 +138,7 @@ SET_OF_RESULTS EvaluatorUtil::getCommonProgLineAndConstant(std::vector<std::stri
   return commonProgLineAndConstant;
 }
 
-Grammar EvaluatorUtil::rewriteSynonyms(Grammar t_grammar, std::unordered_map<SYNONYM_NAME, Grammar> t_rewriteList) {
+Grammar EvaluatorUtil::rewriteSynonym(Grammar t_grammar, std::unordered_map<SYNONYM_NAME, Grammar> t_rewriteList) {
   std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
   got = t_rewriteList.find(t_grammar.getName());
   if (got != t_rewriteList.end()) {
