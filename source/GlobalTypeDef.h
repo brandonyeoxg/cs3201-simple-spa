@@ -147,8 +147,9 @@ namespace queryType {
   enum AType {
     PROC_NAME, /**< An enum value representing a procName attribute. */
     VAR_NAME, /**< An enum value representing a varName attribute. */
-    STMT_NUM, /**< An enum value representing a stmt# or prog_line# attribute. */
-    VALUE /**< An enum value representing a value attribute. */
+    STMT_NUM, /**< An enum value representing a stmt# attribute. */
+    VALUE, /**< An enum value representing a value attribute. */
+    NONE /**< An enum value representing no attributes. */
   };
 
   /** Represents the type of Relation.
