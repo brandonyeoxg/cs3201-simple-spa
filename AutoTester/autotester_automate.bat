@@ -38,3 +38,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/commo
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-queries.txt %~dp0/Output/Debug/system-common-synonym-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-queries.txt %~dp0/Output/Debug/system-common-synonym-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-queries.txt %~dp0/Output/Debug/system-common-synonyms-stress-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Tuple/tuple-test-1-prog.txt %~dp0/Tests/System/Tuple/tuple-test-1-queries.txt %~dp0/Output/Debug/system-tuple-out1.xml
