@@ -156,6 +156,24 @@ void Grammar::toString() {
 }
 
 /**
+* A public function to compare the GType.
+* It checks whether the two given GType are same.
+* @return true if the two GTypes are same else return false.
+*/
+bool Grammar::isSameGType(queryType::GType t_type1, queryType::GType t_type2) {
+  return t_type1 == t_type2;
+}
+
+/**
+* A public function to compare the AType.
+* It checks whether the two given AType are same.
+* @return true if the two ATypes are same else return false.
+*/
+bool Grammar::isSameAType(queryType::AType t_type1, queryType::AType t_type2) {
+  return t_type1 == t_type2;
+}
+
+/**
 * A public function to check the GType of the grammar object.
 * It checks whether the grammar object is of GType PROC.
 * @return true if the grammar object is of GType PROC else return false.

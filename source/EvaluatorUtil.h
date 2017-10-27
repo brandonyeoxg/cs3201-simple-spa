@@ -80,4 +80,14 @@ public:
   * @return An unordered map of constants that are less than or equals to the maximum program line.
   */
   static SET_OF_RESULTS getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine);
+
+  /**
+  * A public function to rewrite synonym of the given grammar object.
+  * Checks whether the synonym of the given grammar object is in the rewriteList,
+  * if yes then return the new grammar else return the original grammar.
+  * @param t_grammar A grammar object.
+  * @param t_rewriteList A list with the synonyms to be rewritten.
+  * @return A new grammar object if the synonym is in the rewriteList else return the original grammar object.
+  */
+  static Grammar rewriteSynonym(Grammar t_grammar, std::unordered_map<SYNONYM_NAME, Grammar> t_rewriteList);
 };

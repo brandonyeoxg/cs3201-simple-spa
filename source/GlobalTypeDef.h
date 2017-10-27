@@ -21,6 +21,9 @@ const std::string BRACKET_CLOSE = ")";
 
 const std::string EMPTY_LINE = "";
 
+const std::string TRUE = "true";
+const std::string FALSE = "false";
+
 /*Data Types*/
 typedef bool BOOLEAN;
 typedef int INTEGER;

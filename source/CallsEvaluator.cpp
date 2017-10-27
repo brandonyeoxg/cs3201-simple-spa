@@ -3,7 +3,7 @@
 #include "CallsEvaluator.h"
 
 bool CallsEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (t_g2.getName() == OPERATOR_UNDERSCORE) {
     if (t_pkb->isCallsAnything(t_g1.getName())) {
       //std::cout << "Calls Anything!\n";
       return true;
