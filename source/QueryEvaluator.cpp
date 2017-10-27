@@ -425,7 +425,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       return m_table->insertOneSynonym(left.getName(), results);
     }
   } else if (left.hasAttr() && right.hasAttr()) {
-    //Todo: Evaluate attr = attr
+    //Evaluate attr = attr
     if (left.getName() == right.getName()) {
       return true;
     }
@@ -437,7 +437,16 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       }
 
       if (Grammar::isConst(left.getType())) {
-        //Todo: Select <c1, c2>
+        //Select <c1, c2> or Select c1 or Select c2
+        LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+        SET_OF_RESULTS results;
+        for (auto& constant : allConstants) {
+          LIST_OF_RESULTS constVector;
+          constVector.push_back(constant);
+          results[constant] = constVector;
+        }
+
+        return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
       }
 
       if (m_synonymsUsedInQuery[left.getName()] >= m_synonymsUsedInQuery[right.getName()]) {
