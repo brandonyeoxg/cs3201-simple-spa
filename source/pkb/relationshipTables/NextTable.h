@@ -121,8 +121,8 @@ private:
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_cacheVisited;
-  bool isCaching = false;
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_cacheVisited; /**< Cache map for computing Next*() */
+  bool isCaching = false; /**< Boolean to switch caching mode on and off, to be used in traverseGraphDfs() */
 
   /** Checks if a path exists from line1 to line2, using m_afterGraph.
   *   This function is used to help check for Next*(line1, line2) relationship.
