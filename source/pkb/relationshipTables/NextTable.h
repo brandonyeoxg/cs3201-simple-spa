@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <assert.h>
 #include <algorithm>
 
@@ -120,26 +121,30 @@ private:
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
   std::vector<std::vector<bool>> m_isNextTable; /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_cacheVisited;
+  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> m_cacheVisited; /**< Cache map for computing Next*() */
+  bool isCaching = false; /**< Boolean to switch caching mode on and off, to be used in traverseGraphDfs() */
 
   /** Checks if a path exists from line1 to line2, using m_afterGraph.
   *   This function is used to help check for Next*(line1, line2) relationship.
-  *   Uses depth first search to traverse graph.
+  *   Uses depth first search to traverse graph, terminates once line2 is found
   *   @param t_line1 given program line
   *   @param t_line2 given program line
   *   @return true if line2 is reachable from line1, else false
   */
-  bool isTherePathFromLine1ToLine2(PROG_LINE t_line1, PROG_LINE t_line2);
+  bool isTherePath(PROG_LINE t_line1, PROG_LINE t_line2);
 
   /** Gets a list of all lines that can be reached from given line number in given graph.
-  *   This function is used to help get lines after or before a particular lines.
+  *   This function is used to help get lines after or before a particular line.
   *   Uses depth first search to traverse graph.
   *   @param t_line given program line
   *   @param t_graph given graph to search
   *   @return list of the lines (in ascending order)
   */
-  std::vector<PROG_LINE> getListOfLinesReachableFromLineInGraph(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
-  
+  std::vector<PROG_LINE> getListOfLinesReachable(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
+
+  // recursive dfs
+  std::vector<PROG_LINE> traverseGraphDfs(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph, std::vector<bool>& visited);
+
   template <typename T, typename G>
   bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in a map. Uses generics. */
   template <typename T, typename G>
