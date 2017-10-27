@@ -34,4 +34,4 @@ doxygen doxygenConfig
 > * Regression Tests: autotester_automate_regression.bat
 > * System Tests: autotester_automate_system.bat
 > * Validation Tests: autotester_automate_validate.bat
-3. Navigate to ./AutoTester/Output folder and open the XML files with Firefox to view the results of the test cases
+4. Navigate to ./AutoTester/Output folder and open the XML files with Firefox to view the results of the test cases
