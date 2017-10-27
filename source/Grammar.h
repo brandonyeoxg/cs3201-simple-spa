@@ -93,6 +93,24 @@ public:
   void toString();
 
   /**
+  * A public function to compare the GType.
+  * It checks whether the two given GType are same.
+  * @param t_type1 The first GType to be compared.
+  * @param t_type2 The second GType to be compared.
+  * @return true if the two GTypes are same else return false.
+  */
+  static bool isSameGType(queryType::GType t_type1, queryType::GType t_type2);
+
+  /**
+  * A public function to compare the AType.
+  * It checks whether the two given AType are same.
+  * @param t_type1 The first AType to be compared.
+  * @param t_type2 The second AType to be compared.
+  * @return true if the two ATypes are same else return false.
+  */
+  static bool isSameAType(queryType::AType t_type1, queryType::AType t_type2);
+
+  /**
   * A public function to check the GType of the given GType.
   * It checks whether the given GType is of GType PROC.
   * @param t_type A GType to be checked.

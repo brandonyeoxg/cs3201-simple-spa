@@ -206,12 +206,12 @@ true
 42 - With Attribute-Attribute Test Cases
 procedure p; variable v;
 Select BOOLEAN with p.procName=v.varName
-true
+false
 5000
 43 - With Attribute-Attribute Test Cases
 procedure p; variable v;
 Select BOOLEAN with v.varName=p.procName
-true
+false
 5000
 44 - With Attribute-Attribute Test Cases
 variable v1, v2;

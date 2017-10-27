@@ -275,12 +275,12 @@ true
 5000
 56 - With String-Attribute Test Cases
 procedure p;
-Select BOOLEAN with "A"=p.procName
+Select BOOLEAN with "B0ar"=p.procName
 true
 5000
 57 - With String-Attribute Test Cases
 variable v;
-Select BOOLEAN with "a"=v.varName
+Select BOOLEAN with "C4ed3U5"=v.varName
 true
 5000
 58 - With Integer-Attribute Test Cases
