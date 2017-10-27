@@ -3,8 +3,3 @@ prog_line pl1, pl2;
 Select BOOLEAN such that Next*(pl1,pl2)
 true
 5000
-2 - Next* Functionality Stress Test
-prog_line pl1, pl2;
-Select pl1 such that Next*(pl1,pl2)
-true
-5000

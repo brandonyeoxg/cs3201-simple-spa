@@ -1,1 +1,1 @@
-start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next/next-stress-prog-2.txt %~dp0/Tests/System/Next/next-stress-queries-2.txt %~dp0/Output/system-next-stress.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-2-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-2-queries.txt %~dp0/Output/system-next-stress.xml
