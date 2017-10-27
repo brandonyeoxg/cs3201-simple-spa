@@ -133,3 +133,68 @@ procedure p; stmt s1, s2, s3; assign a; variable v;
 Select <BOOLEAN s3> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
 true 1, true 2, true 3, true 4, true 5, true 6, true 7
 5000
+28 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a1, a2; variable v; 
+Select <BOOLEAN a1> such that Follows(s1,s2) pattern a2(v,"1") with p.procName="A"
+true 2, true 5, true 6, true 7
+5000
+29 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; call ca;
+Select <BOOLEAN ca> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 4
+5000
+30 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; while w;
+Select <BOOLEAN w> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1
+5000
+31 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; if ifs;
+Select <BOOLEAN w> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 3
+5000
+32 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v1, v2;
+Select <BOOLEAN v1> such that Follows(s1,s2) pattern a(v2,"1") with p.procName="A"
+true a, true b, true c, true d
+5000
+33 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; prog_line pl;
+Select <BOOLEAN pl> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 3, true 4, true 5, true 6, true 7
+5000
+34 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; constant co;
+Select <BOOLEAN co> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 3, true 4
+5000
+35 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true true
+5000
+36 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Follows*(s1,s2) pattern a(v,"1") with p.procName="A"
+true true
+5000
+37 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent(s1,s2) pattern a("a","1") with p.procName="A"
+true true
+5000
+38 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent*(s1,s2) pattern a(_,"1") with p.procName="A"
+true true
+5000
+39 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s; assign a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Uses(s,v1) pattern a(v2,_"1"_) with p.procName="A"
+true true
+5000
+40 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s; assign a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Modifies(s,v1) pattern a(v2,_) with p.procName="A"
+true true
+5000
