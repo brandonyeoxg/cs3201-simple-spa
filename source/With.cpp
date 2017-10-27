@@ -15,5 +15,5 @@ Grammar With::getG2() { return m_g2; }
 */
 void With::toString() {
   std::cout << "\n" << getG1().getName() << "." << getG1().getAttr() << " = ";
-  std::cout << getG2().getName() << "." << getG1().getAttr() << "\n";
+  std::cout << getG2().getName() << "." << getG2().getAttr() << "\n";
 }
