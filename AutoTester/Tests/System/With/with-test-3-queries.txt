@@ -160,7 +160,7 @@ Select a1 with a2.stmt#=2
 5000
 33 - With Stmt# Functionality Test
 call ca1, ca2;
-Select ca1 with ca2.stmt#=6
+Select ca1 with ca2.stmt#=5
 5, 7, 8, 10, 12, 13, 15, 21, 22
 5000
 34 - With Stmt# Functionality Test
@@ -275,12 +275,12 @@ true
 5000
 56 - With String-Attribute Test Cases
 procedure p;
-Select BOOLEAN with "A"=p.procName
+Select BOOLEAN with "B0ar"=p.procName
 true
 5000
 57 - With String-Attribute Test Cases
 variable v;
-Select BOOLEAN with "a"=v.varName
+Select BOOLEAN with "C4ed3U5"=v.varName
 true
 5000
 58 - With Integer-Attribute Test Cases

@@ -57,6 +57,12 @@ public:
   bool isSubtree();
 
   /**
+  * A Setter that sets a Grammar object as the left hand side of the Pattern clause.
+  * @param t_left is the Grammar object to set as.
+  */
+  void setLeft(Grammar t_left);
+
+  /**
   * A public function that prints the content of this Pattern object.
   */
   void toString();
@@ -68,12 +74,6 @@ private:
   * @param t_stmt is the Grammar object to set as.
   */
   void setStmt(Grammar t_stmt);
-
-  /**
-  * A Setter that sets a Grammar object as the left hand side of the Pattern clause.
-  * @param t_left is the Grammar object to set as.
-  */
-  void setLeft(Grammar t_left);
 
   /**
   * A Setter that sets a Grammar object as the right hand side of the Pattern clause.

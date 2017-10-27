@@ -9,6 +9,7 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Acceptance/fifth-prog.txt %~
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/uses-test-1-queries.txt %~dp0/Output/regression-uses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/regression-modifies-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/boolean-test-1-queries.txt %~dp0/Output/regression-boolean-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/with-test-1-queries.txt %~dp0/Output/regression-with-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/system-select-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/system-select-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/system-select-out3.xml
@@ -21,6 +22,8 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Calls/calls-test-3-pr
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-1-prog.txt %~dp0/Tests/System/Next/next-test-1-queries.txt %~dp0/Output/system-next-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-prog.txt %~dp0/Tests/System/Next/next-test-2-queries.txt %~dp0/Output/system-next-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/system-next-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-1-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-1-queries.txt %~dp0/Output/system-next-stress-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-2-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-2-queries.txt %~dp0/Output/system-next-stress-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/system-pattern-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-2-prog.txt %~dp0/Tests/System/Pattern/pattern-test-2-queries.txt %~dp0/Output/system-pattern-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-3-prog.txt %~dp0/Tests/System/Pattern/pattern-test-3-queries.txt %~dp0/Output/system-pattern-out3.xml
@@ -34,3 +37,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Multiple-Clauses-Stre
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-1-queries.txt %~dp0/Output/system-common-synonym-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-2-queries.txt %~dp0/Output/system-common-synonym-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-queries.txt %~dp0/Output/system-common-synonym-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-queries.txt %~dp0/Output/system-common-synonyms-stress-out1.xml

@@ -56,7 +56,7 @@ namespace UnitTesting {
       expected = m_testFollowTable->isFollows(4, 5);
       Assert::IsFalse(expected);
       //test isFollowsStar method (non-existing value in existing key).
-      expected = m_testFollowTable->isFollows(2, 5);
+      expected = m_testFollowTable->isFollows(2, 10);
       Assert::IsFalse(expected);
     }
 

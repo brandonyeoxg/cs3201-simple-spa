@@ -15,7 +15,7 @@
 #include "Grammar.h"
 #include "ConstantTable.h"
 #include "GlobalTypeDef.h"
-#include "PatternMatch.h"
+#include "pkb/patternMatch/PatternMatch.h"
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 #include "PkbTablesOnly.h"
@@ -25,7 +25,7 @@
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
-#include "NextTable.h"
+#include "pkb/relationshipTables/NextTable.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 

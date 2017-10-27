@@ -1199,6 +1199,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   if (synonymOriginal.find('.') != std::string::npos) {
     synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
     synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
+  } else {
+    synonym = synonymOriginal;
   }
   synonym = m_stringUtil.trimString(synonym);
   synonymAttribute = m_stringUtil.trimString(synonymAttribute);
@@ -1292,12 +1294,10 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     return false;
   }
 
-  //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
   Grammar selectGrammar = m_selectQueue.front();
   if (selectGrammar.getType() != queryType::GType::BOOLEAN) {
     m_synonymMap.insert({ selectGrammar.getName(), 1 });
   }
-  //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
 
   //if design abstraction object does not exist
   if (m_relationVector.empty()) {
@@ -1321,12 +1321,9 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
       designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
 
-      //std::cout << designAbstractionEntity << std::endl;
       std::vector<std::string> designAbstractionVectorNew;
 
       designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
-
-      //test method to print vector string values
 
       std::string sTName1 = designAbstractionVectorNew.front();
       std::string sTName2 = designAbstractionVectorNew.back();
@@ -1500,6 +1497,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           }
 
+        //Next, Next*
         } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
           || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
           // Number, _
@@ -1510,9 +1508,23 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             m_suchThatQueue.push(DAO);
 
             //_, Number
-          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //Number, Number
+          } else if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
           }
@@ -1529,9 +1541,23 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             m_suchThatQueue.push(DAO);
 
             //_, Number
-          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //Number, Number
+          } else if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
           }
@@ -1594,6 +1620,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               return false;
             }
 
+            //Checks if Affects contains the correct parameters
+            if (designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::IF
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::WHILE
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::CONST
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::CALL) {
+              return false;
+            }
+
+            //Checks if Affects* contains the correct parameters
+            if (designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::IF
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::WHILE
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::CONST
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::CALL) {
+              return false;
+            }
+
             //check is any design abstraction synonyms contains constant c
             if (g1.getType() == queryType::GType::CONST) {
               return false;
@@ -1653,6 +1701,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1687,9 +1757,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1700,6 +1772,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 counterK = 0;
                 moveOn = true;
                 break;
+
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
@@ -1759,10 +1832,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
-                //check is any design abstraction synonyms contains constant c
-                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
                   return false;
                 }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1788,9 +1879,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1801,6 +1894,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 counterK = 0;
                 moveOn = true;
                 break;
+
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
@@ -1812,9 +1906,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             }
           } else if (sTName1.find('"') != std::string::npos) {
 
-            //Checks if Next/Next* contains the correct parameters: no string
+            //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
             if (designAbstractionEntity == "Next"
-              || designAbstractionEntity == "Next*") {
+              || designAbstractionEntity == "Next*"
+              || designAbstractionEntity == "Affects"
+              || designAbstractionEntity == "Affects*") {
               return false;
             }
 
@@ -1897,9 +1993,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1917,6 +2015,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 break;
               }
             }
+
           } else if (sTName1 == OPERATOR_UNDERSCORE) {
             if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
               return false;
@@ -1969,6 +2068,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1997,9 +2118,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -2021,8 +2144,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             }
           }
         }
-        //Relation DAO(designAbstractionEntity, g1, g2);
-        //m_suchThatQueue.push(DAO);
       }
       if (m_suchThatQueue.size() == 0) {
         return false;

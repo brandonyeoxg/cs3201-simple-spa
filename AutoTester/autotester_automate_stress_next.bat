@@ -1,0 +1,1 @@
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-2-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-2-queries.txt %~dp0/Output/system-next-stress-out2.xml

@@ -64,11 +64,20 @@ public:
   static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, std::vector<std::string> t_stmtVector);
 
   /**
-  * A private function to get the common results between two result vectors.
+  * A public function to get the common results between two result vectors.
   * Given two vectors of string, it will compare and return the common results.
   * @param t_resultVector1 A string vector which holds a set of results.
   * @param t_resultVector2 A string vector which holds another set of results.
   * @return A vector of strings as the common results between two result vectors.
   */
   static std::vector<std::string> getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2);
+
+  /**
+  * A public function to get the common program lines and constant values.
+  * Return all the constants that are less than or equals to the maximum program line.
+  * @param t_allConstants A string vector which holds all the constants.
+  * @param t_maxProgLine A number that indicates the maximum program line.
+  * @return An unordered map of constants that are less than or equals to the maximum program line.
+  */
+  static SET_OF_RESULTS getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine);
 };

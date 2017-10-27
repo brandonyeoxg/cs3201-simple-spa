@@ -14,7 +14,7 @@ std::string VarTable::getVarNameFromIdx(VAR_INDEX t_idx) {
 VAR_INDEX VarTable::getVarIdxFromName(VAR_NAME t_name) {
   auto pItr = m_varNameToIdx.find(t_name);
   if (pItr == m_varNameToIdx.end()) {
-    return NULL;
+    return INVALID_INDEX;
   }
   return pItr->second;
 }
