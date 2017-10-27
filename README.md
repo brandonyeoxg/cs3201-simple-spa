@@ -25,10 +25,11 @@ doxygen doxygenConfig
 
 ## Tests
 
-1. Double-click the autotester_automate.bat file in the AutoTester folder to run all the tests for acceptance, regression, system and validation
+1. Build solution in Visual Studio as Release (or Debug depending on which .bat file is used to run)
+2. Double-click the autotester_automate.bat file in the AutoTester folder to run all the tests for acceptance, regression, system and validation
 > * Note: The test cases are in the ./AutoTester/Tests folder
 > * Note: The XML outputs will  be in the ./AutoTester/Output folder
-2. Alternatively, there are other scripts to run just the acceptance/regression/system/validation test cases as listed below:
+3. Alternatively, there are other scripts to run just the acceptance/regression/system/validation test cases as listed below:
 > * Acceptance Tests: autotester_automate_acceptance.bat
 > * Regression Tests: autotester_automate_regression.bat
 > * System Tests: autotester_automate_system.bat
