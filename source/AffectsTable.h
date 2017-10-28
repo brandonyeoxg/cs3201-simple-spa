@@ -34,6 +34,13 @@ public:
   PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
 
 private:
-  PkbTablesOnly *m_pkbTablesOnly;
+  PkbTablesOnly* m_pkbTablesOnly;
+
+  // I need to have the AffectsList and AffectedByStorage
+  MAP_OF_STMT_NUMS affectsList;
+  MAP_OF_STMT_NUMS affectedByList;
+
+  // Need to have LMS
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS LMS;
 };
 
