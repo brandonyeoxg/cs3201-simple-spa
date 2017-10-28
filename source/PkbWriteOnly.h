@@ -69,7 +69,7 @@ public:
   * @param t_exprNode reference to the expr node of the assignment statement.
   * @param t_curLineNum the current line that this assignment is at.
   */
-  virtual void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) = 0;
+  virtual void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens, PROC_INDEX t_procName) = 0;
 
   /**
   * Inserts a call statement into the PKB

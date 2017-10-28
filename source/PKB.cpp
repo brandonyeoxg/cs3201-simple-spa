@@ -13,6 +13,7 @@
 * A constructor.
 * Instantiates one VarTable, FollowTable, ParentTable each.
 */
+
 PKB::PKB() {
   m_followTable = new FollowTable();
   m_parentTable = new ParentTable();
@@ -65,8 +66,7 @@ void PKB::insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS
   insertUsesProc(t_procIdx, t_varName);
 }
 
-void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum,
-    LIST_OF_STMT_NUMS t_nestedStmtLines) {
+void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
   insertModifiesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
   for (auto& containerItr : t_nestedStmtLines) {
@@ -94,39 +94,38 @@ void PKB::insertUsesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
   m_usesP->insertUsesP(t_procIdx, pName, vIdx, t_varName);
 }
 
-void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens) {
-  insertStatementTypeTable(queryType::GType::ASGN, t_lineNum);
-  insertTypeOfStatementTable(t_lineNum, queryType::GType::ASGN);
+void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens, PROC_INDEX t_procIdx) {
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_statementTable->insertStatementIntoStatementTable(t_lineNum, queryType::GType::ASGN, t_procIdx, pName);
   VAR_INDEX vIdx = m_varTable->getVarIdxFromName(t_varName);
   m_assignTable->insertAssignStmt(t_lineNum, vIdx, t_varName);
   m_patternMatch->addAssignStmt(t_lineNum, t_stmtTokens);
 }
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
-  insertStatementTypeTable(queryType::GType::CALL, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::CALL);
   PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_statementTable->insertStatementIntoStatementTable(t_curLineNum, queryType::GType::CALL, t_procIdx, proc1);
   m_callsTable->insertCalls(proc1, t_proc2);
   m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
 STMT_NUM PKB::insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
-  insertStatementTypeTable(queryType::GType::WHILE, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::WHILE);
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_statementTable->insertStatementIntoStatementTable(t_curLineNum, queryType::GType::WHILE, t_procIdx, pName);
   insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertIfStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
-  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_statementTable->insertStatementIntoStatementTable(t_curLineNum, queryType::GType::IF, t_procIdx, pName);
   insertUses(t_procIdx, t_varName, t_nestedStmtLineNum, t_curLineNum);
   return t_curLineNum;
 }
 
 STMT_NUM PKB::insertElseStmt(PROC_INDEX t_procIdx, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {
-  insertStatementTypeTable(queryType::GType::IF, t_curLineNum);
-  insertTypeOfStatementTable(t_curLineNum, queryType::GType::IF);
+  PROC_NAME pName = m_procTable->getProcNameFromIdx(t_procIdx);
+  m_statementTable->insertStatementIntoStatementTable(t_curLineNum, queryType::GType::IF, t_procIdx, pName);
   return t_curLineNum;
 }
 
@@ -828,4 +827,43 @@ bool PKB::hasNextLine(PROG_LINE t_line) {
 
 bool PKB::hasLineBefore(PROG_LINE t_line) {
   return m_nextTable->hasLineBefore(t_line);
+}
+
+///////////////////////////////////////////////////////
+//  Affects Table
+///////////////////////////////////////////////////////
+SET_OF_AFFECTS PKB::getAllAffects() { // affects(a1,a2)
+  return m_designExtractor->extractAllAffects();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffects(STMT_NUM t_modifiesLine) { // affects(2,a)
+  return m_designExtractor->extractAffects(t_modifiesLine);
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedBy(STMT_NUM t_usesLine) { // affects(a,12)
+  return m_designExtractor->extractAffectedBy(t_usesLine);
+}
+
+BOOLEAN PKB::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)
+  return m_designExtractor->extractIsAffects(t_modifiesLine, t_usesLine);
+}
+
+BOOLEAN PKB::hasAffectsRelationship() { // affects(_,_)
+  return m_designExtractor->extractHasAffectsRelationship();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsAnything() {  // affects(a,_)
+  return m_designExtractor->extractAffectsAnything();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByAnything() { // affects(_,a)
+  return m_designExtractor->extractAffectedByAnything();
+}
+
+BOOLEAN PKB::isAffectsAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
+  return m_designExtractor->extractIsAffectsAnything(t_modifiesLine);
+}
+
+BOOLEAN PKB::isAffectedByAnything(STMT_NUM t_usesLines) { // affects(_,12)
+  return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
 }

@@ -117,7 +117,7 @@ void Parser::parseAssignStmt() {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
   LIST_OF_TOKENS tokenisedExpr = parseExpr();
-  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr);
+  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr, m_curProcIdx);
 }
 
 void Parser::parseCallStmt() {

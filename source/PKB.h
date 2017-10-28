@@ -26,6 +26,7 @@
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
 #include "pkb/relationshipTables/NextTable.h"
+#include "DesignExtractor.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -112,7 +113,7 @@ public:
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens, PROC_INDEX t_procName);
 
   /**
   * Inserts a call statement into the PKB
@@ -849,6 +850,19 @@ public:
   */
   BOOLEAN hasLineBefore(PROG_LINE t_line);
 
+  ///////////////////////////////////////////////////////
+  //  Affects Table
+  ///////////////////////////////////////////////////////
+  SET_OF_AFFECTS getAllAffects(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine); // affects(2,a)
+  LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine); // affects(a,12)
+  BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
+  BOOLEAN hasAffectsRelationship(); // affects(_,_)
+  LIST_OF_AFFECTS_STMTS getAffectsAnything();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS getAffectedByAnything(); // affects(_,a)
+  BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine); // affects(1,_)
+  BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -865,4 +879,5 @@ private:
   StmtListTable* m_stmtListTable;
   NextTable* m_nextTable;
   PatternMatch* m_patternMatch;
+  DesignExtractor *m_designExtractor;
 };

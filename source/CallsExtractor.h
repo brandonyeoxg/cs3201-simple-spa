@@ -1,7 +1,7 @@
 #pragma once
 #include "Extractor.h"
 
-/*
+/**
 * Handles extractions for the Calls relation.
 *
 * @author Brandon
