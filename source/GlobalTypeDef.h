@@ -137,7 +137,7 @@ namespace queryType {
     PROG_LINE = 9, /**< An enum value representing a Program Line. */
     STMT_NO = 10, /**< An enum value representing a Statement Number. */
     STR = 11, /**< An enum value representing a String. */
-    BOOLEAN = 12 /**< An enum value representing a Boolean. */
+    BOOLEAN = 12, /**< An enum value representing a Boolean. */
   };
 
   /** Represents the type of Attribute.
@@ -149,7 +149,8 @@ namespace queryType {
     VAR_NAME, /**< An enum value representing a varName attribute. */
     STMT_NUM, /**< An enum value representing a stmt# attribute. */
     VALUE, /**< An enum value representing a value attribute. */
-    NONE /**< An enum value representing no attributes. */
+    NONE, /**< An enum value representing no attributes. */
+    INVALID /**< An enum value representing invalid attributes. */
   };
 
   /** Represents the type of Relation.

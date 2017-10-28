@@ -1188,14 +1188,43 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
   std::cout << "with Vector size: " << m_withVector.size() << std::endl;
 
-  //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
   std::string synonymOriginal = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
   synonymOriginal = m_stringUtil.trimString(synonymOriginal);
 
+  //select clause only contains either '<' or '>'
+  if (synonymOriginal.find('<') == std::string::npos && synonymOriginal.find('>') != std::string::npos
+    || synonymOriginal.find('<') != std::string::npos && synonymOriginal.find('>') == std::string::npos) {
+    return false;
+  }
+
   std::string synonym;
   std::string synonymAttribute;
+  std::vector<std::string> synonymOriginalVector;
+  int synonymCount;
 
+  std::string synonymOriginalTemp = synonymOriginal;
+  char subLeft = '<';
+
+  size_t pos = synonymOriginalTemp.find(subLeft, 0);
+  while (pos != std::string::npos) {
+    //positions.push_back(pos);
+    pos = synonymOriginalTemp.find(subLeft, pos + 1);
+    if (synonymOriginalTemp.find_first_not_of(" \t") == '>') {
+      return false;
+    }
+  }
+
+  //Tuples parsing
+  if (synonymOriginal.find('<') != std::string::npos && synonymOriginal.find('>') != std::string::npos
+    && synonymOriginal.find('<') < synonymOriginal.find('>')) {
+    synonymOriginal = synonymOriginal.substr(synonymOriginal.find('<') + 1, synonymOriginal.find('>') - 1);
+  }
+  synonymOriginalVector = stringVectorTokenizer(" ,", synonymOriginal, synonymOriginalVector);
+
+  //For each synonym in < >, validate and process synonyms
+  //for (auto syn = synonymOriginalVector.begin(); syn != synonymOriginalVector.end(); syn++, synonymCount++) {
   //selecting synonym with attributes
+  
   if (synonymOriginal.find('.') != std::string::npos) {
     synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
     synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
@@ -2485,8 +2514,10 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
         //Case 3: left attribute, right attribute
       } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
-        withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
-
+        isWithTrue = withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
         //Case 4: left attribute, right integer
       } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
         isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
@@ -2668,6 +2699,10 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
   
   //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
   if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
@@ -2731,6 +2766,10 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
 
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
+
   removeCharsFromString(inputString, "\"");
   withRightGrammar = Grammar(queryType::GType::STR, inputString);
 
@@ -2745,11 +2784,21 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
   }
 }
 
-void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
+bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
   withLeftGrammar = withAttributeProcessor(leftAttribute, withLeftGrammar);
   withRightGrammar = withAttributeProcessor(rightAttribute, withRightGrammar);
-  With withObjectCreated(withLeftGrammar, withRightGrammar);
+
+  With withObjectCreated;
+
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID || withRightGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
+
+  withObjectCreated = With(withLeftGrammar, withRightGrammar);
   m_withQueue.push(withObjectCreated);
+
+  return true;
+  
 }
 
 bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
@@ -2767,6 +2816,10 @@ bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string ri
   }
 
   withRightGrammar = withAttributeProcessor(rightSynonym, withRightGrammar);
+
+  if (withRightGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
 
   if (withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
@@ -2865,6 +2918,9 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
         } else {
           m_synonymMap[withSynonym]++;
         }
+      } else {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::INVALID);
       }
     }
   }
