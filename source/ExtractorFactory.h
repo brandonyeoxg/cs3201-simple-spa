@@ -11,7 +11,8 @@ enum DESIGN_TYPE {
   MODIFIES,
   USES,
   NEXT,
-  END_ENUM
+  END_ENUM,
+  AFFECTS
 };
 
 class ExtractorFactory

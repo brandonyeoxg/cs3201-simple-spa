@@ -13,10 +13,10 @@ volatile bool TestWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
-  m_pkb = new PKB();
   m_parser = new Parser(m_pkb);
   m_qProcessor = new QueryProcessor(m_pkb);
   m_designExtractor = new DesignExtractor(m_pkb);
+  m_pkb = new PKB(m_designExtractor);
 }
 
 TestWrapper::~TestWrapper() {

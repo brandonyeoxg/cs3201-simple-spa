@@ -232,6 +232,12 @@
     <ClCompile Include="..\source\pkb\relationshipTables\NextTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\AffectsTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AffectsExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -507,6 +513,12 @@
     </ClInclude>
     <ClInclude Include="..\source\pkb\relationshipTables\NextTable.h">
       <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AffectsTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AffectsExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
