@@ -21,6 +21,9 @@ const std::string BRACKET_CLOSE = ")";
 
 const std::string EMPTY_LINE = "";
 
+const std::string TRUE = "true";
+const std::string FALSE = "false";
+
 /*Data Types*/
 typedef bool BOOLEAN;
 typedef int INTEGER;
@@ -144,8 +147,9 @@ namespace queryType {
   enum AType {
     PROC_NAME, /**< An enum value representing a procName attribute. */
     VAR_NAME, /**< An enum value representing a varName attribute. */
-    STMT_NUM, /**< An enum value representing a stmt# or prog_line# attribute. */
-    VALUE /**< An enum value representing a value attribute. */
+    STMT_NUM, /**< An enum value representing a stmt# attribute. */
+    VALUE, /**< An enum value representing a value attribute. */
+    NONE /**< An enum value representing no attributes. */
   };
 
   /** Represents the type of Relation.

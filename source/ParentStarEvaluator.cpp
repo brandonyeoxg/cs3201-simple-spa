@@ -3,7 +3,7 @@
 #include "ParentStarEvaluator.h"
 
 bool ParentStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (t_g2.getName() == OPERATOR_UNDERSCORE) {
     if (t_pkb->isParentOfAnything(std::stoi(t_g1.getName()))) {
       //std::cout << "Is Parent of Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool ParentStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Gramm
       //std::cout << "Is not Parent of Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
     if (t_pkb->isChildrenOfAnything(std::stoi(t_g2.getName()))) {
       //std::cout << "Is Children of Anything!\n";
       return true;
@@ -51,7 +51,7 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gra
 
     std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
     m_result[t_g2.getName()] = stmtStrVector;
-  } else if (t_g1.getName() == "_") {
+  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
     std::vector<int> stmtIntVector = t_pkb->getChildrenStarOfAnything();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -75,7 +75,7 @@ SET_OF_RESULTS ParentStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gram
 
     std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
     m_result[t_g1.getName()] = stmtStrVector;
-  } else if (t_g2.getName() == "_") {
+  } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
     std::vector<int> stmtIntVector = t_pkb->getParentStarOfAnything();
     if (stmtIntVector.empty()) {
       return m_result;

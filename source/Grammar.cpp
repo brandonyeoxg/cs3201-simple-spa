@@ -52,11 +52,14 @@ Grammar::Grammar(int t_type, std::string t_name) {
     m_type = queryType::GType::BOOLEAN;
   }
   m_name = t_name;
+  m_attr = queryType::AType::NONE;
+  m_vector = {};
 }
 
 Grammar::Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type) {
   m_vector = t_vector;
   m_name = t_name;
+  m_attr = queryType::AType::NONE;
   if (t_type == PROC) {
     m_type = queryType::GType::PROC;
   } else if (t_type == STLST) {
@@ -153,6 +156,24 @@ bool Grammar::hasAttr() {
 */
 void Grammar::toString() {
   std::cout << "\n" << getName() << "\n";
+}
+
+/**
+* A public function to compare the GType.
+* It checks whether the two given GType are same.
+* @return true if the two GTypes are same else return false.
+*/
+bool Grammar::isSameGType(queryType::GType t_type1, queryType::GType t_type2) {
+  return t_type1 == t_type2;
+}
+
+/**
+* A public function to compare the AType.
+* It checks whether the two given AType are same.
+* @return true if the two ATypes are same else return false.
+*/
+bool Grammar::isSameAType(queryType::AType t_type1, queryType::AType t_type2) {
+  return t_type1 == t_type2;
 }
 
 /**

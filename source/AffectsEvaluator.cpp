@@ -3,7 +3,7 @@
 #include "AffectsEvaluator.h"
 
 bool AffectsEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (t_g2.getName() == OPERATOR_UNDERSCORE) {
     if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
       //std::cout << "Followed By Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool AffectsEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar 
       //std::cout << "Does not Follow By Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
     if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
       //std::cout << "Follows Anything!\n";
       return true;
@@ -55,7 +55,7 @@ SET_OF_RESULTS AffectsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramma
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g2);
     m_result[t_g2.getName()] = stmtVector;
-  } else if (t_g1.getName() == "_") {
+  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
     std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -87,7 +87,7 @@ SET_OF_RESULTS AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
     m_result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == "_") {
+  } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
     std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
     if (stmtIntVector.empty()) {
       return m_result;

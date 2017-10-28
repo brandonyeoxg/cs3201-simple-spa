@@ -57,19 +57,11 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     Relation relation = m_relations.front();
 
     if (!Grammar::isStmtNo(relation.getG1().getType()) && !Grammar::isString(relation.getG1().getType())) {
-      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
-      got = m_synsToBeRewritten.find(relation.getG1().getName());
-      if (got != m_synsToBeRewritten.end()) {
-        relation.setG1(got->second);
-      }
+      relation.setG1(EvaluatorUtil::rewriteSynonym(relation.getG1(), m_synsToBeRewritten));
     }
 
     if (!Grammar::isStmtNo(relation.getG2().getType()) && !Grammar::isString(relation.getG2().getType())) {
-      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
-      got = m_synsToBeRewritten.find(relation.getG2().getName());
-      if (got != m_synsToBeRewritten.end()) {
-        relation.setG2(got->second);
-      }
+      relation.setG2(EvaluatorUtil::rewriteSynonym(relation.getG2(), m_synsToBeRewritten));
     }   
 
     BOOLEAN hasResult = getRelationResultFromPkb(relation);
@@ -86,11 +78,7 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     Pattern pattern = m_patterns.front();
 
     if (!Grammar::isStmtNo(pattern.getLeft().getType()) && !Grammar::isString(pattern.getLeft().getType())) {
-      std::unordered_map<SYNONYM_NAME, Grammar>::const_iterator got;
-      got = m_synsToBeRewritten.find(pattern.getLeft().getName());
-      if (got != m_synsToBeRewritten.end()) {
-        pattern.setLeft(got->second);
-      }
+      pattern.setLeft(EvaluatorUtil::rewriteSynonym(pattern.getLeft(), m_synsToBeRewritten));
     }
 
     BOOLEAN hasResult = getPatternResultFromPkb(pattern);
@@ -114,7 +102,8 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     return true;
   }
 
-  if (t_select.getType() != queryType::GType::PROC && t_select.getType() != queryType::GType::ST_LST && t_select.getType() != queryType::GType::VAR && t_select.getType() != queryType::GType::CONST) {
+  if (!Grammar::isProc(t_select.getType()) && !Grammar::isStmtLst(t_select.getType()) 
+    && !Grammar::isVar(t_select.getType()) && !Grammar::isConst(t_select.getType())) {
     // Call the PKB API getStatementTypeTable().
     std::unordered_map<queryType::GType, std::vector<int>> allStmts = m_pkb->getStatementTypeTable();
 
@@ -125,18 +114,18 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 
     // Get all the statements of the type of statements that has been selected.
     std::vector<int> allSelectedStmtsInInt;
-    if (t_select.getType() == queryType::GType::STMT || t_select.getType() == queryType::GType::PROG_LINE) {
+    if (Grammar::isStmt(t_select.getType()) || Grammar::isProgLine(t_select.getType())) {
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::ASGN].begin(), allStmts[queryType::GType::ASGN].end());
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::WHILE].begin(), allStmts[queryType::GType::WHILE].end());
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::IF].begin(), allStmts[queryType::GType::IF].end());
       allSelectedStmtsInInt.insert(allSelectedStmtsInInt.end(), allStmts[queryType::GType::CALL].begin(), allStmts[queryType::GType::CALL].end());
-    } else if (t_select.getType() == queryType::GType::ASGN) {
+    } else if (Grammar::isAssign(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::ASGN];
-    } else if (t_select.getType() == queryType::GType::WHILE) {
+    } else if (Grammar::isWhile(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::WHILE];
-    } else if (t_select.getType() == queryType::GType::IF) {
+    } else if (Grammar::isIf(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::IF];
-    } else if (t_select.getType() == queryType::GType::CALL) {
+    } else if (Grammar::isCall(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::CALL];
     }
 
@@ -145,28 +134,28 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
 
     // Push into the selectResults queue.
     storeSelectResultFromPkb(allSelectedStmts);
-  } else if (t_select.getType() == queryType::GType::VAR) {
+  } else if (Grammar::isVar(t_select.getType())) {
     std::vector<std::string> allVariables = m_pkb->getAllVarNames();
     if (allVariables.empty()) {
       return false;
     }
 
     storeSelectResultFromPkb(allVariables);
-  } else if (t_select.getType() == queryType::GType::CONST) {
+  } else if (Grammar::isConst(t_select.getType())) {
     LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
     if (allConstants.empty()) {
       return false;
     }
 
     storeSelectResultFromPkb(allConstants);
-  } else if (t_select.getType() == queryType::GType::PROC) {
+  } else if (Grammar::isProc(t_select.getType())) {
     std::vector<std::string> allProcedures = m_pkb->getAllProcsName();
     if (allProcedures.empty()) {
       return false;
     }
 
     storeSelectResultFromPkb(allProcedures);
-  } else if (t_select.getType() == queryType::GType::ST_LST) {
+  } else if (Grammar::isStmtLst(t_select.getType())) {
     std::vector<int> allStmtLst = m_pkb->getStmtList();
     if (allStmtLst.empty()) {
       return false;
@@ -264,7 +253,7 @@ void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
 
 BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
-  if ((t_relation.getG1().getType() != queryType::GType::STMT_NO || t_relation.getG1().getType() != queryType::GType::STR) && (t_relation.getG2().getType() == queryType::GType::STMT_NO || t_relation.getG2().getType() == queryType::GType::STR)) {
+  if (QueryUtil::hasOneLeftSynonym(t_relation.getG1(), t_relation.getG2())) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {   
@@ -272,7 +261,7 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
         return m_table->insertOneSynonym(t_relation.getG1().getName(), t_result[t_relation.getG1().getName()]);
       }
     }
-  } else if ((t_relation.getG1().getType() == queryType::GType::STMT_NO || t_relation.getG1().getType() == queryType::GType::STR) && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
+  } else if (QueryUtil::hasOneRightSynonym(t_relation.getG1(), t_relation.getG2())) {
     got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
@@ -280,29 +269,31 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
         return m_table->insertOneSynonym(t_relation.getG2().getName(), t_result[t_relation.getG2().getName()]);
       }
     }
-  } else if (t_relation.getG1().getType() != queryType::GType::STMT_NO && t_relation.getG1().getType() != queryType::GType::STR && t_relation.getG2().getType() != queryType::GType::STMT_NO && t_relation.getG2().getType() != queryType::GType::STR) {
+  } else if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
         m_relations.push(t_relation);
-        if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
+        if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) 
+          && !Grammar::isProc(t_relation.getG1().getType())) {
           return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
         } else {
           return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
         }
-      } else {
-        got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
-        if (got != m_synonymsUsedInQuery.end()) {
-          if (got->second > 1) {
-            m_relations.push(t_relation);
-            if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) && !Grammar::isProc(t_relation.getG1().getType())) {
-              return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
-            } else {
-              return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
-            }        
-          }
-        }
       }
+      
+      got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
+      if (got != m_synonymsUsedInQuery.end()) {
+        if (got->second > 1) {
+          m_relations.push(t_relation);
+          if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType())) 
+            && !Grammar::isProc(t_relation.getG1().getType())) {
+            return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
+          } else {
+            return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
+          }        
+        }
+      }     
     }
   }
 
@@ -311,7 +302,7 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
 
 BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result) {
   std::unordered_map<std::string, int>::const_iterator got;
-  if (t_pattern.getLeft().getType() != queryType::GType::VAR) {
+  if (!Grammar::isVar(t_pattern.getLeft().getType())) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
@@ -319,7 +310,7 @@ BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATT
         return m_table->insertOneSynonym(t_pattern.getStmt().getName(), t_result[t_pattern.getStmt().getName()]);       
       }
     }
-  } else if (t_pattern.getLeft().getType() == queryType::GType::VAR) {
+  } else if (Grammar::isVar(t_pattern.getLeft().getType())) {
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
@@ -353,13 +344,13 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
   LIST_OF_SYNONYMS selectedSynonyms;
 
   selectedSynonyms.push_back(m_selectedSynonym);
-  if (m_selects.front().getType() == queryType::GType::BOOLEAN) {
+  if (Grammar::isBoolean(m_selects.front().getType())) {
     if (m_isSelectOnly) {
-      finalResult.push_back("true");
+      finalResult.push_back(TRUE);
     } else if (m_table->hasSynonyms() && m_table->isEmpty()) {
       finalResult.clear();
     } else {
-      finalResult.push_back("true");
+      finalResult.push_back(TRUE);
     }
   } else {
     finalResult = m_table->getResults(selectedSynonyms);
@@ -381,7 +372,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
   Grammar left = t_with.getG1();
   Grammar right = t_with.getG2();
 
-  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isString(right.getType()))) {
+  if ((Grammar::isStmtNo(left.getType()) || Grammar::isString(left.getType())) 
+    && (Grammar::isStmtNo(right.getType()) || Grammar::isString(right.getType()))) {
     //Compare left and right (int = int, str = str)
     return true;
   } else if (Grammar::isProgLine(left.getType()) && Grammar::isProgLine(right.getType())) {
@@ -392,7 +384,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     }
 
     //With n1 = n2 but no other clauses uses n1 and n2
-    if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
+    if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) 
+      && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
       return true;
     }
 
@@ -402,7 +395,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     } else {
       m_synsToBeRewritten[left.getName()] = t_with.getG2();
     }
-  } else if ((Grammar::isProgLine(left.getType()) || Grammar::isStmtNo(left.getType())) && (Grammar::isStmtNo(right.getType()) || Grammar::isProgLine(right.getType()))) {
+  } else if ((Grammar::isProgLine(left.getType()) || Grammar::isStmtNo(left.getType())) 
+    && (Grammar::isStmtNo(right.getType()) || Grammar::isProgLine(right.getType()))) {
     //Rewrite syn = int, int = syn
     MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
     INTEGER totalStmts = allStmts.size();
@@ -431,18 +425,28 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       return m_table->insertOneSynonym(left.getName(), results);
     }
   } else if (left.hasAttr() && right.hasAttr()) {
-    //Todo: Evaluate attr = attr
+    //Evaluate attr = attr
     if (left.getName() == right.getName()) {
       return true;
     }
 
     if (left.getType() == right.getType()) {
-      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
+      if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName()) 
+        && !QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
         return true;
       }
 
       if (Grammar::isConst(left.getType())) {
-        //Todo: Select <c1, c2>
+        //Select <c1, c2> or Select c1 or Select c2
+        LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
+        SET_OF_RESULTS results;
+        for (auto& constant : allConstants) {
+          LIST_OF_RESULTS constVector;
+          constVector.push_back(constant);
+          results[constant] = constVector;
+        }
+
+        return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
       }
 
       if (m_synonymsUsedInQuery[left.getName()] >= m_synonymsUsedInQuery[right.getName()]) {
@@ -484,7 +488,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     }
 
     if (left.getAttr() != right.getAttr()) {
-      if ((Grammar::isStmtNum(left.getAttr()) && Grammar::isValue(right.getAttr())) || (Grammar::isStmtNum(right.getAttr()) && Grammar::isValue(left.getAttr()))) {
+      if ((Grammar::isStmtNum(left.getAttr()) && Grammar::isValue(right.getAttr())) 
+        || (Grammar::isStmtNum(right.getAttr()) && Grammar::isValue(left.getAttr()))) {
         if (Grammar::isStmt(left.getType()) || Grammar::isStmt(right.getType())) {
           MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
           LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
@@ -540,7 +545,8 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
           SET_OF_RESULTS results = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         }
-      } else if ((Grammar::isProcName(left.getAttr()) && Grammar::isVarName(right.getAttr())) || (Grammar::isProcName(right.getAttr()) && Grammar::isVarName(left.getAttr()))) {
+      } else if ((Grammar::isProcName(left.getAttr()) && Grammar::isVarName(right.getAttr())) 
+        || (Grammar::isProcName(right.getAttr()) && Grammar::isVarName(left.getAttr()))) {
         if (Grammar::isProc(left.getType()) || Grammar::isProc(right.getType())) {
           LIST_OF_PROC_NAMES allProcNames = m_pkb->getAllProcsName();
           LIST_OF_VAR_NAMES allVarNames = m_pkb->getAllVarNames();
