@@ -9,4 +9,5 @@ procedure A{
 
 procedure B{
   c=3;
+  d=4+c;
 }

@@ -11,12 +11,12 @@ A 1,A 2,A 4,A 5,A 6,B 1,B 2,B 4,B 5,B 6
 3 - Tuple-2 Functionality Test
 procedure p; stmt s;
 Select <p s>
-A 1,A 2,A 3,A 4,A 5,A 6,B 1,B 2,B 3,B 4,B 5,B 6
+A 1,A 2,A 3,A 4,A 5,A 6,A 7,B 1,B 2,B 3,B 4,B 5,B 6,B 7
 5000
 4 - Tuple-2 Functionality Test
 procedure p; assign a;
 Select <p a>
-A 2,A 5,A 6,B 2,B 5,B 6
+A 2,A 5,A 6,A 7,B 2,B 5,B 6,B 7
 5000
 5 - Tuple-2 Functionality Test
 procedure p; call ca;
@@ -36,17 +36,17 @@ A 3, B 3
 8 - Tuple-2 Functionality Test
 procedure p; variable v;
 Select <p v>
-A a,A b,A c,A i,A j,B a,B b,B c,B i,B j
+A a,A b,A c,A d,A i,A j,B a,B b,B c,B d,B i,B j
 5000
 9 - Tuple-2 Functionality Test
 procedure p; prog_line pl;
 Select <p pl>
-A 1,A 2,A 3,A 4,A 5,A 6,B 1,B 2,B 3,B 4,B 5,B 6
+A 1,A 2,A 3,A 4,A 5,A 6,A 7,B 1,B 2,B 3,B 4,B 5,B 6,B 7
 5000
 10 - Tuple-2 Functionality Test
 procedure p; constant co;
 Select <p co>
-A 1,A 2,A 3,B 1,B 2,B 3
+A 1,A 2,A 3,A 4,B 1,B 2,B 3,B 4
 5000
 11 - Tuple-2 Functionality Test
 procedure p;
@@ -61,12 +61,12 @@ Select <sl p>
 13 - Tuple-2 Functionality Test
 procedure p; stmt s;
 Select <s p>
-1 A,2 A,3 A,4 A,5 A,6 A,1 B,2 B,3 B,4 B,5 B,6 B
+1 A,2 A,3 A,4 A,5 A,6 A,7 A,1 B,2 B,3 B,4 B,5 B,6 B,7 B
 5000
 14 - Select Functionality Test
 procedure p; assign a;
 Select <a p>
-2 A,5 A,6 A,2 B,5 B,6 B
+2 A,5 A,6 A,7 A,2 B,5 B,6 B,7 B
 5000
 15 - Tuple-2 Functionality Test
 procedure p; call ca;
@@ -86,17 +86,17 @@ Select <ifs p>
 18 - Tuple-2 Functionality Test
 procedure p; variable v;
 Select <v p>
-a A,b A,c A,i A,j A,a B,b B,c B,i B,j B
+a A,b A,c A,d A,i A,j A,a B,b B,c B,d B,i B,j B
 5000
 19 - Tuple-2 Functionality Test
 procedure p; prog_line pl;
 Select <pl p>
-1 A,2 A,3 A,4 A,5 A,6 A,1 B,2 B,3 B,4 B,5 B,6 B
+1 A,2 A,3 A,4 A,5 A,6 A,7 A,1 B,2 B,3 B,4 B,5 B,6 B,7 B
 5000
 20 - Tuple-2 Functionality Test
 procedure p; constant co;
 Select <co p>
-1 A,2 A,3 A,1 B,2 B,3 B
+1 A,2 A,3 A,4 A,1 B,2 B,3 B,4 B
 5000
 21 - Tuple-2 Functionality Test
 procedure p;
@@ -117,4 +117,239 @@ A A A A A, B A A A A, A B A A A, A A B A A, A A A B A, A A A A B, B B A A A, B A
 procedure p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 Select <p1 p2 p3 p4 p5, p6, p7, p8, p9, p10>
 A A A A A A A A A A, A A A A A A A A A B, A A A A A A A A B A, A A A A A A A A B B, A A A A A A A B A A, A A A A A A A B A B, A A A A A A A B B A, A A A A A A A B B B, A A A A A A B A A A, A A A A A A B A A B, A A A A A A B A B A, A A A A A A B A B B, A A A A A A B B A A, A A A A A A B B A B, A A A A A A B B B A, A A A A A A B B B B, A A A A A B A A A A, A A A A A B A A A B, A A A A A B A A B A, A A A A A B A A B B, A A A A A B A B A A, A A A A A B A B A B, A A A A A B A B B A, A A A A A B A B B B, A A A A A B B A A A, A A A A A B B A A B, A A A A A B B A B A, A A A A A B B A B B, A A A A A B B B A A, A A A A A B B B A B, A A A A A B B B B A, A A A A A B B B B B, A A A A B A A A A A, A A A A B A A A A B, A A A A B A A A B A, A A A A B A A A B B, A A A A B A A B A A, A A A A B A A B A B, A A A A B A A B B A, A A A A B A A B B B, A A A A B A B A A A, A A A A B A B A A B, A A A A B A B A B A, A A A A B A B A B B, A A A A B A B B A A, A A A A B A B B A B, A A A A B A B B B A, A A A A B A B B B B, A A A A B B A A A A, A A A A B B A A A B, A A A A B B A A B A, A A A A B B A A B B, A A A A B B A B A A, A A A A B B A B A B, A A A A B B A B B A, A A A A B B A B B B, A A A A B B B A A A, A A A A B B B A A B, A A A A B B B A B A, A A A A B B B A B B, A A A A B B B B A A, A A A A B B B B A B, A A A A B B B B B A, A A A A B B B B B B, A A A B A A A A A A, A A A B A A A A A B, A A A B A A A A B A, A A A B A A A A B B, A A A B A A A B A A, A A A B A A A B A B, A A A B A A A B B A, A A A B A A A B B B, A A A B A A B A A A, A A A B A A B A A B, A A A B A A B A B A, A A A B A A B A B B, A A A B A A B B A A, A A A B A A B B A B, A A A B A A B B B A, A A A B A A B B B B, A A A B A B A A A A, A A A B A B A A A B, A A A B A B A A B A, A A A B A B A A B B, A A A B A B A B A A, A A A B A B A B A B, A A A B A B A B B A, A A A B A B A B B B, A A A B A B B A A A, A A A B A B B A A B, A A A B A B B A B A, A A A B A B B A B B, A A A B A B B B A A, A A A B A B B B A B, A A A B A B B B B A, A A A B A B B B B B, A A A B B A A A A A, A A A B B A A A A B, A A A B B A A A B A, A A A B B A A A B B, A A A B B A A B A A, A A A B B A A B A B, A A A B B A A B B A, A A A B B A A B B B, A A A B B A B A A A, A A A B B A B A A B, A A A B B A B A B A, A A A B B A B A B B, A A A B B A B B A A, A A A B B A B B A B, A A A B B A B B B A, A A A B B A B B B B, A A A B B B A A A A, A A A B B B A A A B, A A A B B B A A B A, A A A B B B A A B B, A A A B B B A B A A, A A A B B B A B A B, A A A B B B A B B A, A A A B B B A B B B, A A A B B B B A A A, A A A B B B B A A B, A A A B B B B A B A, A A A B B B B A B B, A A A B B B B B A A, A A A B B B B B A B, A A A B B B B B B A, A A A B B B B B B B, A A B A A A A A A A, A A B A A A A A A B, A A B A A A A A B A, A A B A A A A A B B, A A B A A A A B A A, A A B A A A A B A B, A A B A A A A B B A, A A B A A A A B B B, A A B A A A B A A A, A A B A A A B A A B, A A B A A A B A B A, A A B A A A B A B B, A A B A A A B B A A, A A B A A A B B A B, A A B A A A B B B A, A A B A A A B B B B, A A B A A B A A A A, A A B A A B A A A B, A A B A A B A A B A, A A B A A B A A B B, A A B A A B A B A A, A A B A A B A B A B, A A B A A B A B B A, A A B A A B A B B B, A A B A A B B A A A, A A B A A B B A A B, A A B A A B B A B A, A A B A A B B A B B, A A B A A B B B A A, A A B A A B B B A B, A A B A A B B B B A, A A B A A B B B B B, A A B A B A A A A A, A A B A B A A A A B, A A B A B A A A B A, A A B A B A A A B B, A A B A B A A B A A, A A B A B A A B A B, A A B A B A A B B A, A A B A B A A B B B, A A B A B A B A A A, A A B A B A B A A B, A A B A B A B A B A, A A B A B A B A B B, A A B A B A B B A A, A A B A B A B B A B, A A B A B A B B B A, A A B A B A B B B B, A A B A B B A A A A, A A B A B B A A A B, A A B A B B A A B A, A A B A B B A A B B, A A B A B B A B A A, A A B A B B A B A B, A A B A B B A B B A, A A B A B B A B B B, A A B A B B B A A A, A A B A B B B A A B, A A B A B B B A B A, A A B A B B B A B B, A A B A B B B B A A, A A B A B B B B A B, A A B A B B B B B A, A A B A B B B B B B, A A B B A A A A A A, A A B B A A A A A B, A A B B A A A A B A, A A B B A A A A B B, A A B B A A A B A A, A A B B A A A B A B, A A B B A A A B B A, A A B B A A A B B B, A A B B A A B A A A, A A B B A A B A A B, A A B B A A B A B A, A A B B A A B A B B, A A B B A A B B A A, A A B B A A B B A B, A A B B A A B B B A, A A B B A A B B B B, A A B B A B A A A A, A A B B A B A A A B, A A B B A B A A B A, A A B B A B A A B B, A A B B A B A B A A, A A B B A B A B A B, A A B B A B A B B A, A A B B A B A B B B, A A B B A B B A A A, A A B B A B B A A B, A A B B A B B A B A, A A B B A B B A B B, A A B B A B B B A A, A A B B A B B B A B, A A B B A B B B B A, A A B B A B B B B B, A A B B B A A A A A, A A B B B A A A A B, A A B B B A A A B A, A A B B B A A A B B, A A B B B A A B A A, A A B B B A A B A B, A A B B B A A B B A, A A B B B A A B B B, A A B B B A B A A A, A A B B B A B A A B, A A B B B A B A B A, A A B B B A B A B B, A A B B B A B B A A, A A B B B A B B A B, A A B B B A B B B A, A A B B B A B B B B, A A B B B B A A A A, A A B B B B A A A B, A A B B B B A A B A, A A B B B B A A B B, A A B B B B A B A A, A A B B B B A B A B, A A B B B B A B B A, A A B B B B A B B B, A A B B B B B A A A, A A B B B B B A A B, A A B B B B B A B A, A A B B B B B A B B, A A B B B B B B A A, A A B B B B B B A B, A A B B B B B B B A, A A B B B B B B B B, A B A A A A A A A A, A B A A A A A A A B, A B A A A A A A B A, A B A A A A A A B B, A B A A A A A B A A, A B A A A A A B A B, A B A A A A A B B A, A B A A A A A B B B, A B A A A A B A A A, A B A A A A B A A B, A B A A A A B A B A, A B A A A A B A B B, A B A A A A B B A A, A B A A A A B B A B, A B A A A A B B B A, A B A A A A B B B B, A B A A A B A A A A, A B A A A B A A A B, A B A A A B A A B A, A B A A A B A A B B, A B A A A B A B A A, A B A A A B A B A B, A B A A A B A B B A, A B A A A B A B B B, A B A A A B B A A A, A B A A A B B A A B, A B A A A B B A B A, A B A A A B B A B B, A B A A A B B B A A, A B A A A B B B A B, A B A A A B B B B A, A B A A A B B B B B, A B A A B A A A A A, A B A A B A A A A B, A B A A B A A A B A, A B A A B A A A B B, A B A A B A A B A A, A B A A B A A B A B, A B A A B A A B B A, A B A A B A A B B B, A B A A B A B A A A, A B A A B A B A A B, A B A A B A B A B A, A B A A B A B A B B, A B A A B A B B A A, A B A A B A B B A B, A B A A B A B B B A, A B A A B A B B B B, A B A A B B A A A A, A B A A B B A A A B, A B A A B B A A B A, A B A A B B A A B B, A B A A B B A B A A, A B A A B B A B A B, A B A A B B A B B A, A B A A B B A B B B, A B A A B B B A A A, A B A A B B B A A B, A B A A B B B A B A, A B A A B B B A B B, A B A A B B B B A A, A B A A B B B B A B, A B A A B B B B B A, A B A A B B B B B B, A B A B A A A A A A, A B A B A A A A A B, A B A B A A A A B A, A B A B A A A A B B, A B A B A A A B A A, A B A B A A A B A B, A B A B A A A B B A, A B A B A A A B B B, A B A B A A B A A A, A B A B A A B A A B, A B A B A A B A B A, A B A B A A B A B B, A B A B A A B B A A, A B A B A A B B A B, A B A B A A B B B A, A B A B A A B B B B, A B A B A B A A A A, A B A B A B A A A B, A B A B A B A A B A, A B A B A B A A B B, A B A B A B A B A A, A B A B A B A B A B, A B A B A B A B B A, A B A B A B A B B B, A B A B A B B A A A, A B A B A B B A A B, A B A B A B B A B A, A B A B A B B A B B, A B A B A B B B A A, A B A B A B B B A B, A B A B A B B B B A, A B A B A B B B B B, A B A B B A A A A A, A B A B B A A A A B, A B A B B A A A B A, A B A B B A A A B B, A B A B B A A B A A, A B A B B A A B A B, A B A B B A A B B A, A B A B B A A B B B, A B A B B A B A A A, A B A B B A B A A B, A B A B B A B A B A, A B A B B A B A B B, A B A B B A B B A A, A B A B B A B B A B, A B A B B A B B B A, A B A B B A B B B B, A B A B B B A A A A, A B A B B B A A A B, A B A B B B A A B A, A B A B B B A A B B, A B A B B B A B A A, A B A B B B A B A B, A B A B B B A B B A, A B A B B B A B B B, A B A B B B B A A A, A B A B B B B A A B, A B A B B B B A B A, A B A B B B B A B B, A B A B B B B B A A, A B A B B B B B A B, A B A B B B B B B A, A B A B B B B B B B, A B B A A A A A A A, A B B A A A A A A B, A B B A A A A A B A, A B B A A A A A B B, A B B A A A A B A A, A B B A A A A B A B, A B B A A A A B B A, A B B A A A A B B B, A B B A A A B A A A, A B B A A A B A A B, A B B A A A B A B A, A B B A A A B A B B, A B B A A A B B A A, A B B A A A B B A B, A B B A A A B B B A, A B B A A A B B B B, A B B A A B A A A A, A B B A A B A A A B, A B B A A B A A B A, A B B A A B A A B B, A B B A A B A B A A, A B B A A B A B A B, A B B A A B A B B A, A B B A A B A B B B, A B B A A B B A A A, A B B A A B B A A B, A B B A A B B A B A, A B B A A B B A B B, A B B A A B B B A A, A B B A A B B B A B, A B B A A B B B B A, A B B A A B B B B B, A B B A B A A A A A, A B B A B A A A A B, A B B A B A A A B A, A B B A B A A A B B, A B B A B A A B A A, A B B A B A A B A B, A B B A B A A B B A, A B B A B A A B B B, A B B A B A B A A A, A B B A B A B A A B, A B B A B A B A B A, A B B A B A B A B B, A B B A B A B B A A, A B B A B A B B A B, A B B A B A B B B A, A B B A B A B B B B, A B B A B B A A A A, A B B A B B A A A B, A B B A B B A A B A, A B B A B B A A B B, A B B A B B A B A A, A B B A B B A B A B, A B B A B B A B B A, A B B A B B A B B B, A B B A B B B A A A, A B B A B B B A A B, A B B A B B B A B A, A B B A B B B A B B, A B B A B B B B A A, A B B A B B B B A B, A B B A B B B B B A, A B B A B B B B B B, A B B B A A A A A A, A B B B A A A A A B, A B B B A A A A B A, A B B B A A A A B B, A B B B A A A B A A, A B B B A A A B A B, A B B B A A A B B A, A B B B A A A B B B, A B B B A A B A A A, A B B B A A B A A B, A B B B A A B A B A, A B B B A A B A B B, A B B B A A B B A A, A B B B A A B B A B, A B B B A A B B B A, A B B B A A B B B B, A B B B A B A A A A, A B B B A B A A A B, A B B B A B A A B A, A B B B A B A A B B, A B B B A B A B A A, A B B B A B A B A B, A B B B A B A B B A, A B B B A B A B B B, A B B B A B B A A A, A B B B A B B A A B, A B B B A B B A B A, A B B B A B B A B B, A B B B A B B B A A, A B B B A B B B A B, A B B B A B B B B A, A B B B A B B B B B, A B B B B A A A A A, A B B B B A A A A B, A B B B B A A A B A, A B B B B A A A B B, A B B B B A A B A A, A B B B B A A B A B, A B B B B A A B B A, A B B B B A A B B B, A B B B B A B A A A, A B B B B A B A A B, A B B B B A B A B A, A B B B B A B A B B, A B B B B A B B A A, A B B B B A B B A B, A B B B B A B B B A, A B B B B A B B B B, A B B B B B A A A A, A B B B B B A A A B, A B B B B B A A B A, A B B B B B A A B B, A B B B B B A B A A, A B B B B B A B A B, A B B B B B A B B A, A B B B B B A B B B, A B B B B B B A A A, A B B B B B B A A B, A B B B B B B A B A, A B B B B B B A B B, A B B B B B B B A A, A B B B B B B B A B, A B B B B B B B B A, A B B B B B B B B B, B A A A A A A A A A, B A A A A A A A A B, B A A A A A A A B A, B A A A A A A A B B, B A A A A A A B A A, B A A A A A A B A B, B A A A A A A B B A, B A A A A A A B B B, B A A A A A B A A A, B A A A A A B A A B, B A A A A A B A B A, B A A A A A B A B B, B A A A A A B B A A, B A A A A A B B A B, B A A A A A B B B A, B A A A A A B B B B, B A A A A B A A A A, B A A A A B A A A B, B A A A A B A A B A, B A A A A B A A B B, B A A A A B A B A A, B A A A A B A B A B, B A A A A B A B B A, B A A A A B A B B B, B A A A A B B A A A, B A A A A B B A A B, B A A A A B B A B A, B A A A A B B A B B, B A A A A B B B A A, B A A A A B B B A B, B A A A A B B B B A, B A A A A B B B B B, B A A A B A A A A A, B A A A B A A A A B, B A A A B A A A B A, B A A A B A A A B B, B A A A B A A B A A, B A A A B A A B A B, B A A A B A A B B A, B A A A B A A B B B, B A A A B A B A A A, B A A A B A B A A B, B A A A B A B A B A, B A A A B A B A B B, B A A A B A B B A A, B A A A B A B B A B, B A A A B A B B B A, B A A A B A B B B B, B A A A B B A A A A, B A A A B B A A A B, B A A A B B A A B A, B A A A B B A A B B, B A A A B B A B A A, B A A A B B A B A B, B A A A B B A B B A, B A A A B B A B B B, B A A A B B B A A A, B A A A B B B A A B, B A A A B B B A B A, B A A A B B B A B B, B A A A B B B B A A, B A A A B B B B A B, B A A A B B B B B A, B A A A B B B B B B, B A A B A A A A A A, B A A B A A A A A B, B A A B A A A A B A, B A A B A A A A B B, B A A B A A A B A A, B A A B A A A B A B, B A A B A A A B B A, B A A B A A A B B B, B A A B A A B A A A, B A A B A A B A A B, B A A B A A B A B A, B A A B A A B A B B, B A A B A A B B A A, B A A B A A B B A B, B A A B A A B B B A, B A A B A A B B B B, B A A B A B A A A A, B A A B A B A A A B, B A A B A B A A B A, B A A B A B A A B B, B A A B A B A B A A, B A A B A B A B A B, B A A B A B A B B A, B A A B A B A B B B, B A A B A B B A A A, B A A B A B B A A B, B A A B A B B A B A, B A A B A B B A B B, B A A B A B B B A A, B A A B A B B B A B, B A A B A B B B B A, B A A B A B B B B B, B A A B B A A A A A, B A A B B A A A A B, B A A B B A A A B A, B A A B B A A A B B, B A A B B A A B A A, B A A B B A A B A B, B A A B B A A B B A, B A A B B A A B B B, B A A B B A B A A A, B A A B B A B A A B, B A A B B A B A B A, B A A B B A B A B B, B A A B B A B B A A, B A A B B A B B A B, B A A B B A B B B A, B A A B B A B B B B, B A A B B B A A A A, B A A B B B A A A B, B A A B B B A A B A, B A A B B B A A B B, B A A B B B A B A A, B A A B B B A B A B, B A A B B B A B B A, B A A B B B A B B B, B A A B B B B A A A, B A A B B B B A A B, B A A B B B B A B A, B A A B B B B A B B, B A A B B B B B A A, B A A B B B B B A B, B A A B B B B B B A, B A A B B B B B B B, B A B A A A A A A A, B A B A A A A A A B, B A B A A A A A B A, B A B A A A A A B B, B A B A A A A B A A, B A B A A A A B A B, B A B A A A A B B A, B A B A A A A B B B, B A B A A A B A A A, B A B A A A B A A B, B A B A A A B A B A, B A B A A A B A B B, B A B A A A B B A A, B A B A A A B B A B, B A B A A A B B B A, B A B A A A B B B B, B A B A A B A A A A, B A B A A B A A A B, B A B A A B A A B A, B A B A A B A A B B, B A B A A B A B A A, B A B A A B A B A B, B A B A A B A B B A, B A B A A B A B B B, B A B A A B B A A A, B A B A A B B A A B, B A B A A B B A B A, B A B A A B B A B B, B A B A A B B B A A, B A B A A B B B A B, B A B A A B B B B A, B A B A A B B B B B, B A B A B A A A A A, B A B A B A A A A B, B A B A B A A A B A, B A B A B A A A B B, B A B A B A A B A A, B A B A B A A B A B, B A B A B A A B B A, B A B A B A A B B B, B A B A B A B A A A, B A B A B A B A A B, B A B A B A B A B A, B A B A B A B A B B, B A B A B A B B A A, B A B A B A B B A B, B A B A B A B B B A, B A B A B A B B B B, B A B A B B A A A A, B A B A B B A A A B, B A B A B B A A B A, B A B A B B A A B B, B A B A B B A B A A, B A B A B B A B A B, B A B A B B A B B A, B A B A B B A B B B, B A B A B B B A A A, B A B A B B B A A B, B A B A B B B A B A, B A B A B B B A B B, B A B A B B B B A A, B A B A B B B B A B, B A B A B B B B B A, B A B A B B B B B B, B A B B A A A A A A, B A B B A A A A A B, B A B B A A A A B A, B A B B A A A A B B, B A B B A A A B A A, B A B B A A A B A B, B A B B A A A B B A, B A B B A A A B B B, B A B B A A B A A A, B A B B A A B A A B, B A B B A A B A B A, B A B B A A B A B B, B A B B A A B B A A, B A B B A A B B A B, B A B B A A B B B A, B A B B A A B B B B, B A B B A B A A A A, B A B B A B A A A B, B A B B A B A A B A, B A B B A B A A B B, B A B B A B A B A A, B A B B A B A B A B, B A B B A B A B B A, B A B B A B A B B B, B A B B A B B A A A, B A B B A B B A A B, B A B B A B B A B A, B A B B A B B A B B, B A B B A B B B A A, B A B B A B B B A B, B A B B A B B B B A, B A B B A B B B B B, B A B B B A A A A A, B A B B B A A A A B, B A B B B A A A B A, B A B B B A A A B B, B A B B B A A B A A, B A B B B A A B A B, B A B B B A A B B A, B A B B B A A B B B, B A B B B A B A A A, B A B B B A B A A B, B A B B B A B A B A, B A B B B A B A B B, B A B B B A B B A A, B A B B B A B B A B, B A B B B A B B B A, B A B B B A B B B B, B A B B B B A A A A, B A B B B B A A A B, B A B B B B A A B A, B A B B B B A A B B, B A B B B B A B A A, B A B B B B A B A B, B A B B B B A B B A, B A B B B B A B B B, B A B B B B B A A A, B A B B B B B A A B, B A B B B B B A B A, B A B B B B B A B B, B A B B B B B B A A, B A B B B B B B A B, B A B B B B B B B A, B A B B B B B B B B, B B A A A A A A A A, B B A A A A A A A B, B B A A A A A A B A, B B A A A A A A B B, B B A A A A A B A A, B B A A A A A B A B, B B A A A A A B B A, B B A A A A A B B B, B B A A A A B A A A, B B A A A A B A A B, B B A A A A B A B A, B B A A A A B A B B, B B A A A A B B A A, B B A A A A B B A B, B B A A A A B B B A, B B A A A A B B B B, B B A A A B A A A A, B B A A A B A A A B, B B A A A B A A B A, B B A A A B A A B B, B B A A A B A B A A, B B A A A B A B A B, B B A A A B A B B A, B B A A A B A B B B, B B A A A B B A A A, B B A A A B B A A B, B B A A A B B A B A, B B A A A B B A B B, B B A A A B B B A A, B B A A A B B B A B, B B A A A B B B B A, B B A A A B B B B B, B B A A B A A A A A, B B A A B A A A A B, B B A A B A A A B A, B B A A B A A A B B, B B A A B A A B A A, B B A A B A A B A B, B B A A B A A B B A, B B A A B A A B B B, B B A A B A B A A A, B B A A B A B A A B, B B A A B A B A B A, B B A A B A B A B B, B B A A B A B B A A, B B A A B A B B A B, B B A A B A B B B A, B B A A B A B B B B, B B A A B B A A A A, B B A A B B A A A B, B B A A B B A A B A, B B A A B B A A B B, B B A A B B A B A A, B B A A B B A B A B, B B A A B B A B B A, B B A A B B A B B B, B B A A B B B A A A, B B A A B B B A A B, B B A A B B B A B A, B B A A B B B A B B, B B A A B B B B A A, B B A A B B B B A B, B B A A B B B B B A, B B A A B B B B B B, B B A B A A A A A A, B B A B A A A A A B, B B A B A A A A B A, B B A B A A A A B B, B B A B A A A B A A, B B A B A A A B A B, B B A B A A A B B A, B B A B A A A B B B, B B A B A A B A A A, B B A B A A B A A B, B B A B A A B A B A, B B A B A A B A B B, B B A B A A B B A A, B B A B A A B B A B, B B A B A A B B B A, B B A B A A B B B B, B B A B A B A A A A, B B A B A B A A A B, B B A B A B A A B A, B B A B A B A A B B, B B A B A B A B A A, B B A B A B A B A B, B B A B A B A B B A, B B A B A B A B B B, B B A B A B B A A A, B B A B A B B A A B, B B A B A B B A B A, B B A B A B B A B B, B B A B A B B B A A, B B A B A B B B A B, B B A B A B B B B A, B B A B A B B B B B, B B A B B A A A A A, B B A B B A A A A B, B B A B B A A A B A, B B A B B A A A B B, B B A B B A A B A A, B B A B B A A B A B, B B A B B A A B B A, B B A B B A A B B B, B B A B B A B A A A, B B A B B A B A A B, B B A B B A B A B A, B B A B B A B A B B, B B A B B A B B A A, B B A B B A B B A B, B B A B B A B B B A, B B A B B A B B B B, B B A B B B A A A A, B B A B B B A A A B, B B A B B B A A B A, B B A B B B A A B B, B B A B B B A B A A, B B A B B B A B A B, B B A B B B A B B A, B B A B B B A B B B, B B A B B B B A A A, B B A B B B B A A B, B B A B B B B A B A, B B A B B B B A B B, B B A B B B B B A A, B B A B B B B B A B, B B A B B B B B B A, B B A B B B B B B B, B B B A A A A A A A, B B B A A A A A A B, B B B A A A A A B A, B B B A A A A A B B, B B B A A A A B A A, B B B A A A A B A B, B B B A A A A B B A, B B B A A A A B B B, B B B A A A B A A A, B B B A A A B A A B, B B B A A A B A B A, B B B A A A B A B B, B B B A A A B B A A, B B B A A A B B A B, B B B A A A B B B A, B B B A A A B B B B, B B B A A B A A A A, B B B A A B A A A B, B B B A A B A A B A, B B B A A B A A B B, B B B A A B A B A A, B B B A A B A B A B, B B B A A B A B B A, B B B A A B A B B B, B B B A A B B A A A, B B B A A B B A A B, B B B A A B B A B A, B B B A A B B A B B, B B B A A B B B A A, B B B A A B B B A B, B B B A A B B B B A, B B B A A B B B B B, B B B A B A A A A A, B B B A B A A A A B, B B B A B A A A B A, B B B A B A A A B B, B B B A B A A B A A, B B B A B A A B A B, B B B A B A A B B A, B B B A B A A B B B, B B B A B A B A A A, B B B A B A B A A B, B B B A B A B A B A, B B B A B A B A B B, B B B A B A B B A A, B B B A B A B B A B, B B B A B A B B B A, B B B A B A B B B B, B B B A B B A A A A, B B B A B B A A A B, B B B A B B A A B A, B B B A B B A A B B, B B B A B B A B A A, B B B A B B A B A B, B B B A B B A B B A, B B B A B B A B B B, B B B A B B B A A A, B B B A B B B A A B, B B B A B B B A B A, B B B A B B B A B B, B B B A B B B B A A, B B B A B B B B A B, B B B A B B B B B A, B B B A B B B B B B, B B B B A A A A A A, B B B B A A A A A B, B B B B A A A A B A, B B B B A A A A B B, B B B B A A A B A A, B B B B A A A B A B, B B B B A A A B B A, B B B B A A A B B B, B B B B A A B A A A, B B B B A A B A A B, B B B B A A B A B A, B B B B A A B A B B, B B B B A A B B A A, B B B B A A B B A B, B B B B A A B B B A, B B B B A A B B B B, B B B B A B A A A A, B B B B A B A A A B, B B B B A B A A B A, B B B B A B A A B B, B B B B A B A B A A, B B B B A B A B A B, B B B B A B A B B A, B B B B A B A B B B, B B B B A B B A A A, B B B B A B B A A B, B B B B A B B A B A, B B B B A B B A B B, B B B B A B B B A A, B B B B A B B B A B, B B B B A B B B B A, B B B B A B B B B B, B B B B B A A A A A, B B B B B A A A A B, B B B B B A A A B A, B B B B B A A A B B, B B B B B A A B A A, B B B B B A A B A B, B B B B B A A B B A, B B B B B A A B B B, B B B B B A B A A A, B B B B B A B A A B, B B B B B A B A B A, B B B B B A B A B B, B B B B B A B B A A, B B B B B A B B A B, B B B B B A B B B A, B B B B B A B B B B, B B B B B B A A A A, B B B B B B A A A B, B B B B B B A A B A, B B B B B B A A B B, B B B B B B A B A A, B B B B B B A B A B, B B B B B B A B B A, B B B B B B A B B B, B B B B B B B A A A, B B B B B B B A A B, B B B B B B B A B A, B B B B B B B A B B, B B B B B B B B A A, B B B B B B B B A B, B B B B B B B B B A, B B B B B B B B B B
+5000
+25 - Tuple-2 Functionality Multiple Clauses Test
+procedure p1, p2; stmt s1, s2; assign a; variable v; 
+Select <BOOLEAN p1> such that Follows(s1,s2) pattern a(v,"1") with p2.procName="A"
+true A, true B
+5000
+26 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; stmtLst sl;
+Select <BOOLEAN sl> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 4, true 5, true 6
+5000
+27 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2, s3; assign a; variable v; 
+Select <BOOLEAN s3> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 3, true 4, true 5, true 6, true 7
+5000
+28 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a1, a2; variable v; 
+Select <BOOLEAN a1> such that Follows(s1,s2) pattern a2(v,"1") with p.procName="A"
+true 2, true 5, true 6, true 7
+5000
+29 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; call ca;
+Select <BOOLEAN ca> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 4
+5000
+30 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; while w;
+Select <BOOLEAN w> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1
+5000
+31 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; if ifs;
+Select <BOOLEAN w> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 3
+5000
+32 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v1, v2;
+Select <BOOLEAN v1> such that Follows(s1,s2) pattern a(v2,"1") with p.procName="A"
+true a, true b, true c, true d
+5000
+33 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; prog_line pl;
+Select <BOOLEAN pl> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 3, true 4, true 5, true 6, true 7
+5000
+34 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v; constant co;
+Select <BOOLEAN co> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true 1, true 2, true 3, true 4
+5000
+35 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Follows(s1,s2) pattern a(v,"1") with p.procName="A"
+true true
+5000
+36 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Follows*(s1,s2) pattern a(v,"1") with p.procName="A"
+true true
+5000
+37 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent(s1,s2) pattern a("a","1") with p.procName="A"
+true true
+5000
+38 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent*(s1,s2) pattern a(_,"1") with p.procName="A"
+true true
+5000
+39 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s; assign a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Uses(s,v1) pattern a(v2,_"1"_) with p.procName="A"
+true true
+5000
+40 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s; assign a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Modifies(s,v1) pattern a(v2,_) with p.procName="A"
+true true
+5000
+41 - Tuple-2 Functionality Multiple Clauses Test
+procedure p1, p2, p3; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Calls(p1,p2) pattern a(v,"2") with p3.procName="A"
+true true
+5000
+42 - Tuple-2 Functionality Multiple Clauses Test
+procedure p1, p2, p3; assign a;
+Select <BOOLEAN BOOLEAN> such that Calls*(p1,p2) pattern a("d","4+c") with p3.procName="B"
+true true
+5000
+43 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; assign a; variable v; prog_line pl1, pl2;
+Select <BOOLEAN BOOLEAN> such that Next(pl1,pl2) pattern a(_,"3") with p.procName="A"
+true true
+5000
+44 - Tuple-2 Functionality Multiple Clauses Test
+procedure p3; assign a; variable v; prog_line p1, p2;
+Select <BOOLEAN BOOLEAN> such that Next*(p1,p2) pattern a(v,_"4"_) with p3.procName="A"
+true true
+5000
+45 - Tuple-2 Functionality Multiple Clauses Test
+procedure p2; assign a; variable v; stmt s1, s2;
+Select <BOOLEAN BOOLEAN> such that Affects(s1,s2) pattern a(v,_) with p2.procName="A"
+true true
+5000
+46 - Tuple-2 Functionality Multiple Clauses Test
+procedure p2; assign a; variable v; stmt s1, s2;
+Select <BOOLEAN BOOLEAN> such that Affects*(s1,s2) pattern a(v,"2") with p2.procName="A"
+true true
+5000
+47 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; while a; variable v;
+Select <BOOLEAN BOOLEAN> such that Follows*(s1,s2) pattern w(v,_) with p.procName="A"
+true true
+5000
+48 - Tuple-2 Functionality Multiple Clauses Test
+procedure p; stmt s1, s2; if a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent(s1,s2) pattern a("a",_) with p.procName="B"
+true true
+5000
+49 - Tuple-2 Functionality Multiple Clauses Test
+stmt s1, s2; assign a; variable v;
+Select <BOOLEAN BOOLEAN> such that Parent*(s1,s2) pattern a(_,"1") with v.varName="a"
+true true
+5000
+50 - Tuple-2 Functionality Multiple Clauses Test
+constant co; stmt s; while a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Uses(s,v1) pattern a(v2,_) with co.value=3
+true true
+5000
+51 - Tuple-2 Functionality Multiple Clauses Test
+stmt s1, s2; if a; variable v1, v2;
+Select <BOOLEAN BOOLEAN> such that Modifies(s1,v1) pattern a(v2,_) with s2.stmt#=2
+true true
+5000
+52 - Tuple-2 Functionality Multiple Clauses Test
+procedure p1, p2; assign a; prog_line pl;
+Select <BOOLEAN BOOLEAN> such that Calls*(p1,p2) pattern a("d","4+c") with pl=1
+true true
+5000
+53 - Tuple-2 Common Synonym in Tuple Test
+procedure p;
+Select <p p>
+A A, B B
+5000
+54 - Tuple-2 Common Synonym in Tuple Test
+stmtLst sl;
+Select <sl sl>
+1 1, 2 2,4 4, 5 5,6 6
+5000
+55 - Tuple-2 Common Synonym in Tuple Test
+stmt s;
+Select <s s>
+1 1, 2 2, 3 3,4 4,5 5, 6 6, 7 7
+5000
+56 - Tuple-2 Common Synonym in Tuple Test
+assign a;
+Select <sl sl>
+2 2, 5 5,6 6,7 7
+5000
+57 - Tuple-2 Common Synonym in Tuple Test
+call s;
+Select <s s>
+4 4
+5000
+58 - Tuple-2 Common Synonym in Tuple Test
+while sl;
+Select <sl sl>
+1 1
+5000
+59 - Tuple-2 Common Synonym in Tuple Test
+if s;
+Select <s s>
+3 3
+5000
+60 - Tuple-2 Common Synonym in Tuple Test
+variable s;
+Select <s s>
+i i, a a,j j,b b, c c, d d
+5000
+61 - Tuple-2 Common Synonym in Tuple Test
+prog_line sl;
+Select <sl sl>
+1 1,2 2,3 3,4 4,5 5, 6 6, 7 7
+5000
+62 - Tuple-2 Common Synonym in Tuple Test
+constant s;
+Select <s s>
+1 1,2 2, 3 3,4 4
+5000
+63 - Tuple-2 Common Synonym in Tuple Test
+
+Select <BOOLEAN BOOLEAN>
+true true
+5000
+64 - Tuple-4 Common Synonym in Tuple Test
+procedure p;
+Select <p p p p>
+A A A A, B B B B
+5000
+65 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p2 p1 p2>
+A A A A, B B B B,A B A B, B A B A
+5000
+66 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p1 p2 p2>
+A A A A,B B B B,A A B B,B B A A
+5000
+67 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p1 p2 p2>
+A A A A, B B B B,A A B B,B B A A
+5000
+68 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p2 p2 p1>
+A A A A,B B B B,A B B A, B A A B
+5000
+69 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p1 p2 p3>
+A A A A, A A A B, A A B A, A A B B, B B A A, B B B A, B B A B, B B B B
+5000
+70 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p2 p2 p3>
+A A A A,A A A B, B A A A,B A A B, A B B A,B B B A, A B B B,B B B B
+5000
+71 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p2 p3 p3>
+A A A A, B A A A,A B A A, B B A A,A A B B, B A B B,A B B B, B B B B
 5000
