@@ -313,3 +313,43 @@ Select <s s>
 Select <BOOLEAN BOOLEAN>
 true true
 5000
+64 - Tuple-4 Common Synonym in Tuple Test
+procedure p;
+Select <p p p p>
+A A A A, B B B B
+5000
+65 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p2 p1 p2>
+A A A A, B B B B,A B A B, B A B A
+5000
+66 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p1 p2 p2>
+A A A A,B B B B,A A B B,B B A A
+5000
+67 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p1 p2 p2>
+A A A A, B B B B,A A B B,B B A A
+5000
+68 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2;
+Select <p1 p2 p2 p1>
+A A A A,B B B B,A B B A, B A A B
+5000
+69 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p1 p2 p3>
+A A A A, A A A B, A A B A, A A B B, B B A A, B B B A, B B A B, B B B B
+5000
+70 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p2 p2 p3>
+A A A A,A A A B, B A A A,B A A B, A B B A,B B B A, A B B B,B B B B
+5000
+71 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
+procedure p1, p2, p3;
+Select <p1 p2 p3 p3>
+A A A A, B A A A,A B A A, B B A A,A A B B, B A B B,A B B B, B B B B
+5000
