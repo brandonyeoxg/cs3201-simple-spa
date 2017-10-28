@@ -4,38 +4,30 @@
 
 bool AffectsEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == OPERATOR_UNDERSCORE) {
-    if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
-      //std::cout << "Followed By Anything!\n";
+    if (t_pkb->isAffectsAnything(std::stoi(t_g1.getName()))) {
       return true;
     } else {
-      //std::cout << "Does not Follow By Anything!\n";
       return false;
     }
   } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
-    if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows Anything!\n";
+    if (t_pkb->isAffectedByAnything(std::stoi(t_g2.getName()))) {
       return true;
     } else {
-      //std::cout << "Does not Follow Anything!\n";
       return false;
     }
   } else {
-    if (t_pkb->isFollows(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
-      //std::cout << "Follows: True\n";
+    if (t_pkb->isAffects(std::stoi(t_g1.getName()), std::stoi(t_g2.getName()))) {
       return true;
     } else {
-      //std::cout << "Follows: False\n";
       return false;
     }
   }
 }
 
 bool AffectsEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasFollowRelationship()) {
-    //std::cout << "Has Follows Relationship!\n";
+  if (t_pkb->hasAffectsRelationship()) {
     return true;
   } else {
-    //std::cout << "No Follows Relationship\n";
     return false;
   }
 }
@@ -44,19 +36,15 @@ SET_OF_RESULTS AffectsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramma
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
-      //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
+    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffects(std::stoi(t_g1.getName()));
+    if (affectsStmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g2);
+    LIST_OF_RESULTS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g2);
     m_result[t_g2.getName()] = stmtVector;
   } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
-    std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
+    LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
@@ -76,19 +64,15 @@ SET_OF_RESULTS AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == queryType::GType::STMT_NO) {
-    int stmtNo;
-    try {
-      stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
-      //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
-      //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
+    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffectedBy(std::stoi(t_g2.getName()));
+    if (affectsStmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
+    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
-    std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
+    std::vector<int> stmtIntVector = t_pkb->getAffectsAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
@@ -107,7 +91,7 @@ SET_OF_RESULTS AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
 SET_OF_RESULTS AffectsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, int> allFollows = t_pkb->getAllFollows();
+  std::unordered_map<int, int> allFollows = t_pkb->getAllAffects();
   if (allFollows.empty()) {
     return m_result;
   }
