@@ -32,7 +32,6 @@ class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
-  PKB(DesignExtractor *t_de);
   ~PKB();
 
   ///////////////////////////////////////////////////////
@@ -114,7 +113,7 @@ public:
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens, PROC_INDEX t_procName);
 
   /**
   * Inserts a call statement into the PKB

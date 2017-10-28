@@ -23,13 +23,13 @@ public:
     std::string varName = "varName";
 
     // simple expression
-    pkbWrite->insertAssignStmt(1, varName, { "x", "+", "y" });
+    pkbWrite->insertAssignStmt(1, varName, { "x", "+", "y" }, 0);
     expected = { 1 };
     result = pkbRead->getAllAssignStmtByExactPattern({ "x", "+", "y" });
     Assert::IsTrue(result == expected);
 
-    pkbWrite->insertAssignStmt(2, varName, { "x", "-", "y" });
-    pkbWrite->insertAssignStmt(3, varName, { "x", "+", "y" });
+    pkbWrite->insertAssignStmt(2, varName, { "x", "-", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, varName, { "x", "+", "y" }, 0);
 
     // more assignment statements, pattern with extra whitespaces
     expected = { 1 , 3 };
@@ -37,7 +37,7 @@ public:
     Assert::IsTrue(result == expected);
 
     // multi-char strings for variables, extra whitespaces, larger integer for statement number
-    pkbWrite->insertAssignStmt(500, varName, { "xMan", "+", "chicken" });
+    pkbWrite->insertAssignStmt(500, varName, { "xMan", "+", "chicken" }, 0);
     expected = { 500 };
     result = pkbRead->getAllAssignStmtByExactPattern({ "  xMan  \t\t", "\t+", "chicken" });
     Assert::IsTrue(result == expected);
@@ -56,9 +56,9 @@ public:
     std::list<STMT_NUM> result, expected;
     std::string varName = "varName";
 
-    pkbWrite->insertAssignStmt(1, varName, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, varName, { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, varName, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(1, varName, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, varName, { "a", "*", "b", "+", "x", "*", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, varName, { "x", "*", "y", "*", "b" }, 0);
     expected = { 1, 2, 3 };
     result = pkbRead->getAllAssignStmtBySubtreePattern({ "x", "*", "y" });
     Assert::IsTrue(result == expected);
@@ -72,9 +72,9 @@ public:
 
     pkb->insertVar("x");
     pkb->insertVar("y");
-    pkbWrite->insertAssignStmt(1, "x", { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, "x", { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(1, "x", { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, "y", { "a", "*", "b", "+", "x", "*", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, "x", { "x", "*", "y", "*", "b" }, 0);
     expected = { 1, 3 };
     result = pkbRead->getAllAssignStmtByVar("x");
     Assert::IsTrue(result == expected);
@@ -90,9 +90,9 @@ public:
 
     pkb->insertVar(varNameA);
     pkb->insertVar(varNameB);
-    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, varNameB, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
 
     expected = { 1 };
     result = pkbRead->getAllAssignStmtByVarAndExactPattern(varNameA, { "x", "*", "y", "+", "a", "+", "b" });
@@ -117,9 +117,9 @@ public:
 
     pkb->insertVar(varNameA);
     pkb->insertVar(varNameB);
-    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, varNameB, { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, varNameB, { "a", "*", "b", "+", "x", "*", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
 
     expected = { 1, 3 };
     result = pkbRead->getAllAssignStmtByVarAndSubtreePattern(varNameA, { "x", "*", "y" });
@@ -142,10 +142,10 @@ public:
     pkbWrite->insertModifies(0, varNameA, {}, 2);
     pkbWrite->insertModifies(0, varNameA, {}, 3);
     pkbWrite->insertModifies(0, varNameB, {}, 4);
-    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
-    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
+    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" }, 0);
     
     expected = std::unordered_map<STMT_NUM, VAR_NAME>();
     result = pkbRead->getAllAssignStmtWithVarByExactPattern({ "x", "*", "y" });
@@ -169,10 +169,10 @@ public:
     pkbWrite->insertModifies(0, varNameA, {}, 2);
     pkbWrite->insertModifies(0, varNameA, {}, 3);
     pkbWrite->insertModifies(0, varNameB, {}, 4);
-    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" });
-    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" });
-    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" });
-    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" });
+    pkbWrite->insertAssignStmt(1, varNameA, { "x", "*", "y", "+", "a", "+", "b" }, 0);
+    pkbWrite->insertAssignStmt(2, varNameA, { "a", "*", "b", "+", "x", "*", "y" }, 0);
+    pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
+    pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" }, 0);
 
     expected = std::unordered_map<STMT_NUM, VAR_NAME>();
     expected.insert({ 1, varNameA });

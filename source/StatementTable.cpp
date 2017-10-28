@@ -21,6 +21,11 @@ std::unordered_map<int, queryType::GType> StatementTable::getTypeOfStatementTabl
   return m_typeOfStatementTable;
 }
 
+void StatementTable::insertStatementIntoStatementTable(STMT_NUM t_lineNum, queryType::GType t_type, PROC_INDEX t_procIdx, PROC_NAME t_procName) {
+  insertStatementTypeTable(t_type, t_lineNum);
+  insertTypeOfStatementTable(t_lineNum, t_type);
+}
+
 bool StatementTable::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
   //if lineNum already exists as key in table, return false.
   if (m_typeOfStatementTable.find(t_lineNum) != m_typeOfStatementTable.end()) {
