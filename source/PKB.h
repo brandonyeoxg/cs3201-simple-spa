@@ -26,11 +26,13 @@
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
 #include "pkb/relationshipTables/NextTable.h"
+#include "DesignExtractor.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
+  PKB(DesignExtractor *t_de);
   ~PKB();
 
   ///////////////////////////////////////////////////////
@@ -878,4 +880,5 @@ private:
   StmtListTable* m_stmtListTable;
   NextTable* m_nextTable;
   PatternMatch* m_patternMatch;
+  DesignExtractor *m_designExtractor;
 };
