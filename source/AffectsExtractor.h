@@ -20,14 +20,15 @@ public:
   void extractDesign();
 
   SET_OF_AFFECTS extractAllAffects(); // affects(a1,a2)
-  LIST_OF_AFFECTS_STMTS extractAffects(STMT_NUM t_modifiesLine); // affects(2,a)
-  LIST_OF_AFFECTS_STMTS extractAffectedBy(STMT_NUM t_usesLine); // affects(a,12)
+  LIST_OF_AFFECTS_STMTS extractAffects(STMT_NUM t_modifiesLine); // affects(a,12)
+  LIST_OF_AFFECTS_STMTS extractAffectedBy(STMT_NUM t_usesLine); // affects(2,a)
   BOOLEAN extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
   BOOLEAN extractHasAffectsRelationship(); // affects(_,_)
-  LIST_OF_AFFECTS_STMTS extractAffectsAnything();  // affects(a,_)
-  LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(_,a)
-  BOOLEAN extractIsAffectsAnything(STMT_NUM t_modifiesLine); // affects(1,_)
-  BOOLEAN extractIsAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
+  LIST_OF_AFFECTS_STMTS extractAffectsAnything();  // affects(_,a)
+  LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(a,_)
+  BOOLEAN extractIsAffectsAnything(STMT_NUM t_modifiesLine); // affects(_,12)
+  BOOLEAN extractIsAffectedByAnything(STMT_NUM t_usesLines); // affects(1,_)
+  void appendAffectsList(std::unordered_map<int, std::vector<int>> toAdd, std::unordered_map<int, std::vector<int>> result);
 
 private:
   AffectsTable *m_affectsTable;
