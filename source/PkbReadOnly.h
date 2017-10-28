@@ -831,4 +831,17 @@ public:
   *   @return true if given line has at least one line that can be executed before it, else false
   */
   virtual BOOLEAN hasLineBefore(PROG_LINE t_line) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Affects Extractor
+  ///////////////////////////////////////////////////////
+  virtual SET_OF_AFFECTS getAllAffects() = 0; // affects(a1,a2)
+  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0; // affects(2,a)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0; // affects(a,12)
+  virtual BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects(1,12)
+  virtual BOOLEAN hasAffectsRelationship() = 0; // affects(_,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsAnything() = 0;  // affects(a,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByAnything() = 0; // affects(_,a)
+  virtual BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine) = 0; // affects(1,_)
+  virtual BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines) = 0; // affects(_,12)
 };

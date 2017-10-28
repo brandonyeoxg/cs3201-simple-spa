@@ -13,7 +13,12 @@
 * A constructor.
 * Instantiates one VarTable, FollowTable, ParentTable each.
 */
+
 PKB::PKB() {
+  PKB(new DesignExtractor(this));
+}
+
+PKB::PKB(DesignExtractor *t_de) : m_designExtractor(t_de) {
   m_followTable = new FollowTable();
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();
@@ -828,4 +833,43 @@ bool PKB::hasNextLine(PROG_LINE t_line) {
 
 bool PKB::hasLineBefore(PROG_LINE t_line) {
   return m_nextTable->hasLineBefore(t_line);
+}
+
+///////////////////////////////////////////////////////
+//  Affects Table
+///////////////////////////////////////////////////////
+SET_OF_AFFECTS PKB::getAllAffects() { // affects(a1,a2)
+  return m_designExtractor->extractAllAffects();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffects(STMT_NUM t_modifiesLine) { // affects(2,a)
+  return m_designExtractor->extractAffects(t_modifiesLine);
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedBy(STMT_NUM t_usesLine) { // affects(a,12)
+  return m_designExtractor->extractAffectedBy(t_usesLine);
+}
+
+BOOLEAN PKB::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)
+  return m_designExtractor->extractIsAffects(t_modifiesLine, t_usesLine);
+}
+
+BOOLEAN PKB::hasAffectsRelationship() { // affects(_,_)
+  return m_designExtractor->extractHasAffectsRelationship();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsAnything() {  // affects(a,_)
+  return m_designExtractor->extractAffectsAnything();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByAnything() { // affects(_,a)
+  return m_designExtractor->extractAffectedByAnything();
+}
+
+BOOLEAN PKB::isAffectsAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
+  return m_designExtractor->extractIsAffectsAnything(t_modifiesLine);
+}
+
+BOOLEAN PKB::isAffectedByAnything(STMT_NUM t_usesLines) { // affects(_,12)
+  return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
 }
