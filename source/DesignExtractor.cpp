@@ -2,18 +2,23 @@
 #include "DesignExtractor.h"
 #include "ExtractorFactory.h"
 
-DesignExtractor::DesignExtractor(PkbTablesOnly* t_pkb) {
-  m_pkb = t_pkb;
+DesignExtractor::DesignExtractor() {}
+
+DesignExtractor::~DesignExtractor() {
+  if (m_affectsExtractor != nullptr) {
+    delete m_affectsExtractor;
+    m_affectsExtractor = nullptr;
+  }
 }
 
-void DesignExtractor::extractRestOfDesignAbstractions() {
+void DesignExtractor::extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb) {
   for (DESIGN_TYPE type = DESIGN_TYPE::FOLLOWS; type != DESIGN_TYPE::END_ENUM; type = DESIGN_TYPE(type + 1)) {
-    Extractor *extractor = ExtractorFactory::makeExtractor(type, m_pkb);
+    Extractor *extractor = ExtractorFactory::makeExtractor(type, t_pkb);
     extractor->extractDesign();
     delete extractor;
   }
 
-  m_affectsExtractor = (AffectsExtractor *)ExtractorFactory::makeExtractor(DESIGN_TYPE::AFFECTS, m_pkb);
+  m_affectsExtractor = (AffectsExtractor *)ExtractorFactory::makeExtractor(DESIGN_TYPE::AFFECTS, t_pkb);
 }
 
 SET_OF_AFFECTS DesignExtractor::extractAllAffects() { // affects(a1,a2)
