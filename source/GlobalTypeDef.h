@@ -142,7 +142,7 @@ namespace queryType {
     PROG_LINE = 9, /**< An enum value representing a Program Line. */
     STMT_NO = 10, /**< An enum value representing a Statement Number. */
     STR = 11, /**< An enum value representing a String. */
-    BOOLEAN = 12, /**< An enum value representing a Boolean. */
+    BOOLEAN = 12 /**< An enum value representing a Boolean. */
   };
 
   /** Represents the type of Attribute.
