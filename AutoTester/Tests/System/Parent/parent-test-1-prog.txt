@@ -1,0 +1,17 @@
+procedure Ariel{
+  a=1;
+  while i{
+    a2=a*2;
+    if j then{
+      c2=c-2;}
+    else{
+      c3=c2*3;}
+    a3=a2+1;}
+  b=2;
+  call Brandon;
+  c=3;
+}
+
+procedure Belle{
+  d=4;
+}
