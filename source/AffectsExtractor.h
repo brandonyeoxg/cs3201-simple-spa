@@ -1,6 +1,7 @@
 #pragma once
 #include "Extractor.h"
 #include "AffectsTable.h"
+#include <algorithm>
 
 /**
 * Handles extractions for the Affects relation.
