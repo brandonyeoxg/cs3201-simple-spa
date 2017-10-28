@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <assert.h>
 
 #include "Grammar.h"
 #include "GlobalTypeDef.h"
@@ -22,7 +23,7 @@ public:
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
   TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
 
-
+  queryType::GType checkStatementType(STMT_NUM t_lineNum);
 private:
   std::unordered_map<STMT_NUM, queryType::GType> m_typeOfStatementTable;
   std::unordered_map<queryType::GType,LIST_OF_STMT_NUMS> m_statementTypeTable;

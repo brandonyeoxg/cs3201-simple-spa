@@ -73,3 +73,8 @@ LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
 TOTAL_NUMBER_OF_STMTS StatementTable::getNumberOfStatements() {
   return m_typeOfStatementTable.size();
 }
+
+queryType::GType StatementTable::checkStatementType(STMT_NUM t_lineNum) {
+  assert(t_lineNum <= m_typeOfStatementTable.size());
+  return m_typeOfStatementTable.find(t_lineNum)->second;
+}
