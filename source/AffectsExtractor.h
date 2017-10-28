@@ -14,5 +14,15 @@ public:
   ~AffectsExtractor() {};
 
   void extractDesign();
+
+  SET_OF_AFFECTS extractAllAffects(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS extractAffects(STMT_NUM t_modifiesLine); // affects(2,a)
+  LIST_OF_AFFECTS_STMTS extractAffectedBy(STMT_NUM t_usesLine); // affects(a,12)
+  BOOLEAN extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
+  BOOLEAN extractHasAffectsRelationship(); // affects(_,_)
+  LIST_OF_AFFECTS_STMTS extractAffectsAnything();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(_,a)
+  BOOLEAN extractIsAffectsAnything(STMT_NUM t_modifiesLine); // affects(1,_)
+  BOOLEAN extractIsAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "PkbTablesOnly.h"
+#include "AffectsExtractor.h"
 /**
  * Represents a wrapper which extracts further complicated design abstractions from the PKB tables.
  * Designs are extracted through the ExtractorFactory.
@@ -30,5 +31,6 @@ public:
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
 
 private:
-  PkbTablesOnly* m_pkb;
+  PkbTablesOnly *m_pkb;
+  AffectsExtractor *m_affectsExtractor;
 };
