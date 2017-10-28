@@ -261,15 +261,55 @@ true true
 53 - Tuple-2 Common Synonym in Tuple Test
 procedure p;
 Select <p p>
-A A
+A A, B B
 5000
 54 - Tuple-2 Common Synonym in Tuple Test
 stmtLst sl;
 Select <sl sl>
 1 1, 2 2,4 4, 5 5,6 6
 5000
-54 - Tuple-2 Common Synonym in Tuple Test
+55 - Tuple-2 Common Synonym in Tuple Test
 stmt s;
 Select <s s>
 1 1, 2 2, 3 3,4 4,5 5, 6 6, 7 7
+5000
+56 - Tuple-2 Common Synonym in Tuple Test
+assign a;
+Select <sl sl>
+2 2, 5 5,6 6,7 7
+5000
+57 - Tuple-2 Common Synonym in Tuple Test
+call s;
+Select <s s>
+4 4
+5000
+58 - Tuple-2 Common Synonym in Tuple Test
+while sl;
+Select <sl sl>
+1 1
+5000
+59 - Tuple-2 Common Synonym in Tuple Test
+if s;
+Select <s s>
+3 3
+5000
+60 - Tuple-2 Common Synonym in Tuple Test
+variable s;
+Select <s s>
+i i, a a,j j,b b, c c, d d
+5000
+61 - Tuple-2 Common Synonym in Tuple Test
+prog_line sl;
+Select <sl sl>
+1 1,2 2,3 3,4 4,5 5, 6 6, 7 7
+5000
+62 - Tuple-2 Common Synonym in Tuple Test
+constant s;
+Select <s s>
+1 1,2 2, 3 3,4 4
+5000
+63 - Tuple-2 Common Synonym in Tuple Test
+
+Select <BOOLEAN BOOLEAN>
+true true
 5000
