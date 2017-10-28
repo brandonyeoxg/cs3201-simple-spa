@@ -833,7 +833,7 @@ public:
   virtual BOOLEAN hasLineBefore(PROG_LINE t_line) = 0;
 
   ///////////////////////////////////////////////////////
-  //  Affects Table
+  //  Affects Extractor
   ///////////////////////////////////////////////////////
   virtual SET_OF_AFFECTS getAllAffects() = 0; // affects(a1,a2)
   virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0; // affects(2,a)
