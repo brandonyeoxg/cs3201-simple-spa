@@ -12,7 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
+    <ClCompile Include="..\source\AffectsExtractor.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
+    <ClCompile Include="..\source\AffectsTable.cpp" />
     <ClCompile Include="..\source\AssignPatternEvaluator.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
@@ -91,7 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsEvaluator.h" />
+    <ClInclude Include="..\source\AffectsExtractor.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
+    <ClInclude Include="..\source\AffectsTable.h" />
     <ClInclude Include="..\source\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\AST.h" />
