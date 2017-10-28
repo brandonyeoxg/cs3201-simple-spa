@@ -14,4 +14,13 @@ procedure Ariel{
 
 procedure Belle{
   d=4;
+  if k then{
+    call Cinderella;}
+  else{
+    while l{
+      f=6;}}
+}
+
+procedure Cinderella{
+  e=5;
 }
