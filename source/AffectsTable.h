@@ -1,5 +1,6 @@
 #pragma once
 #include "GlobalTypeDef.h"
+#include "PkbTablesOnly.h"
 
 /**
 * Represents the affects relationship.
@@ -11,7 +12,7 @@
 class AffectsTable
 {
 public:
-  AffectsTable() {};
+  AffectsTable(PkbTablesOnly *t_pkbTablesOnly) : m_pkbTablesOnly(t_pkbTablesOnly) {};
   ~AffectsTable() {};
 
   /**
@@ -31,5 +32,8 @@ public:
   * getAffectsListFromLMS(INT, INT)
   */
   PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
+
+private:
+  PkbTablesOnly *m_pkbTablesOnly;
 };
 
