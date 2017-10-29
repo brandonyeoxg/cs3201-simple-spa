@@ -17,7 +17,7 @@ SET_OF_AFFECTS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
     PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
     MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMPS.
-    appendAffectsList(affectsList, LMPS);
+    LMPS = appendAffectsList(affectsList, LMPS);
   }
   return{}; //return LMPS as set of affects??
 }
@@ -68,14 +68,16 @@ BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_u
   }
 
   //check if both are assignment statements.
-  if (m_pkb->getStatementTable()->checkStatementType(t_modifiesLine) != queryType::GType::ASGN || m_pkb->getStatementTable()->checkStatementType(t_usesLine) != queryType::GType::ASGN) {
+  if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
     return false;
   }
 
   //check if the two are in same proc.
-  
-  //passes all the above checks, then get affectsList.
+  if (m_pkb->getStatementTable()->getProcNameFromStmtNum(t_modifiesLine) != m_pkb->getStatementTable()->getProcNameFromStmtNum(t_usesLine)) {
+    return false;
+  }
 
+  //passes all the above checks, run the method.
   return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, t_usesLine);
 }
 
@@ -84,42 +86,55 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,a)
-  SET_OF_AFFECTS LMPS = SET_OF_AFFECTS();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
-    //for every procedure, create LMS
-    SET_OF_AFFECTS LMS = SET_OF_AFFECTS();
     //get the bounds (first and last) stmt no from proc
     //pairOfStmtNum = getBoundFromProc(i);
-    int first = 0;//stub
-    int second = 1;//stub
-    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(first, second);
-    MAP_OF_STMT_NUMS affectsList = intermediateResult.first;
+    LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
+    STMT_NUM start = bound[0];
+    STMT_NUM end = bound[bound.size() - 1];
+    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
+    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectedByList = intermediateResult.second;
     //add affectsList to LMPS.
     //run the appendAffectsList method.
+    LMPS = appendAffectsList(affectedByList, LMPS);
   }
-  return{}; //return all the keys affectsList in LMPS
+  LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
+  for (auto itr = LMPS.begin(); itr != LMPS.end(); ++itr) {
+    results.push_back(itr->first);
+  }
+  return results; //return all the keys affectedByList in LMPS
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects(a,_)
-  SET_OF_AFFECTS LMPS = SET_OF_AFFECTS();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
     //for every procedure, create LMS
     SET_OF_AFFECTS LMS = SET_OF_AFFECTS();
     //get the bounds (first and last) stmt no from proc
-    //pairOfStmtNum = getBoundFromProc(i);
-    int first = 0;//stub
-    int second = 1;//stub
-    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(first, second);
-    MAP_OF_STMT_NUMS affectsList = intermediateResult.first;
+    LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
+    STMT_NUM start = bound[0];
+    STMT_NUM end = bound[bound.size() - 1];
+    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
+    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMPS.
     //run the appendAffectsList method.
+    LMPS = appendAffectsList(affectsList, LMPS);
   }
-  return{}; //return all the keys affectedByList in LMPS
+  LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
+  for (auto itr = LMPS.begin(); itr != LMPS.end(); ++itr) {
+    results.push_back(itr->first);
+  }
+  return results; //return all the keys affectsList in LMPS
 }
 
 BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_usesLine) { // affects(_,12)
+  //return empty if t_modifiesLine exceeds number of lines in program.
+  if (m_pkb->getStatementTable()->getNumberOfStatements() > t_usesLine) {
+    return false;
+  }
   //return false if line exceeds number of lines in program.
   TOTAL_NUMBER_OF_STMTS totalLines = m_pkb->getStatementTable()->getNumberOfStatements();
   if (totalLines > t_usesLine) {
@@ -128,21 +143,30 @@ BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_usesLine) { // aff
 
   //pairOfStmtNum = getBoundFromProc(i);
   int first = 1;//stub
+  LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_usesLine);
+  STMT_NUM start = bound[0];
+
   return m_affectsTable->hasAffectsFromBounds(first, t_usesLine);
 }
 
 BOOLEAN AffectsExtractor::extractIsAffectedByAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
+  //return empty if t_modifiesLine exceeds number of lines in program.
+  if (m_pkb->getStatementTable()->getNumberOfStatements() > t_modifiesLine) {
+    return{};
+  }
+
   //return false if line exceeds number of lines in program.
   TOTAL_NUMBER_OF_STMTS totalLines = m_pkb->getStatementTable()->getNumberOfStatements();
   if (totalLines > t_modifiesLine) {
     return false;
   }
-  //pairOfStmtNum = getBoundFromProc(i);
-  int second = 1;//stub
-  return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, second);
+
+  LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_modifiesLine);
+  STMT_NUM end = bound[bound.size() - 1];
+  return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end);
 }
 
-void AffectsExtractor::appendAffectsList(std::unordered_map<int, std::vector<int>> toAdd, std::unordered_map<int, std::vector<int>> result) {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
   //for every key in toAdd
   for (auto itr_toAdd = toAdd.begin(); itr_toAdd != toAdd.end(); ++itr_toAdd) {
     STMT_NUM key = itr_toAdd->first;
@@ -162,7 +186,7 @@ void AffectsExtractor::appendAffectsList(std::unordered_map<int, std::vector<int
     }
   }
 
-  
+  return result;
 }
 
 
