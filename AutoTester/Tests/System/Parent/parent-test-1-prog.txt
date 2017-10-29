@@ -1,0 +1,28 @@
+procedure Ariel{
+  a=1;
+  while i{
+    call Brandon;
+    if j then{
+      c2=c-2;}
+    else{
+      c3=c2*3;}
+    a3=a2+1;}
+  b=2;
+  a2=a*2;
+  c=3;
+  while m{
+    g=7;}
+}
+
+procedure Belle{
+  d=4;
+  if k then{
+    call Cinderella;}
+  else{
+    while l{
+      f=6;}}
+}
+
+procedure Cinderella{
+  e=5;
+}
