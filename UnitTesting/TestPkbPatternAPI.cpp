@@ -134,7 +134,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    MAP_OF_STMT_NUM_TO_VAR_INDEX result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
@@ -147,12 +147,12 @@ public:
     pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
     pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" }, 0);
     
-    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    expected = MAP_OF_STMT_NUM_TO_VAR_INDEX();
     result = pkbRead->getAllAssignStmtWithVarByExactPattern({ "x", "*", "y" });
     Assert::IsTrue(result == expected);
 
-    expected.insert({ 1, varNameA });
-    expected.insert({ 4, varNameB });
+    expected.insert({ 1, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 4, pkbRead->getVarIdxFromName(varNameB) });
     result = pkbRead->getAllAssignStmtWithVarByExactPattern({ "x", "*", "y", "+", "a", "+", "b" });
     Assert::IsTrue(result == expected);
   }
@@ -161,7 +161,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    MAP_OF_STMT_NUM_TO_VAR_INDEX result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
@@ -174,11 +174,11 @@ public:
     pkbWrite->insertAssignStmt(3, varNameA, { "x", "*", "y", "*", "b" }, 0);
     pkbWrite->insertAssignStmt(4, varNameB, { "x", "*", "y", "+", "a", "+", "b" }, 0);
 
-    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
-    expected.insert({ 1, varNameA });
-    expected.insert({ 2, varNameA });
-    expected.insert({ 3, varNameA });
-    expected.insert({ 4, varNameB });
+    expected = MAP_OF_STMT_NUM_TO_VAR_INDEX();
+    expected.insert({ 1, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 2, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 3, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 4, pkbRead->getVarIdxFromName(varNameB) });
     result = pkbRead->getAllAssignStmtWithVarBySubtreePattern({ "x", "*", "y" });
     Assert::IsTrue(result == expected);
   }
@@ -215,11 +215,11 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    MAP_OF_STMT_NUM_TO_VAR_INDEX result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
-    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    expected = MAP_OF_STMT_NUM_TO_VAR_INDEX();
     result = pkbRead->getAllWhileStmtsWithVar();
     Assert::IsTrue(result == expected);
 
@@ -230,16 +230,16 @@ public:
     pkbWrite->insertIfStmt(0, varNameB, {}, 5);
     pkbWrite->insertIfStmt(0, varNameA, {}, 6);
 
-    expected.insert({ 1, varNameA });
-    expected.insert({ 2, varNameA });
-    expected.insert({ 3, varNameB });
-    expected.insert({ 4, varNameA });
+    expected.insert({ 1, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 2, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 3, pkbRead->getVarIdxFromName(varNameB) });
+    expected.insert({ 4, pkbRead->getVarIdxFromName(varNameA) });
 
     result = pkbRead->getAllWhileStmtsWithVar();
     Assert::IsTrue(result == expected);
 
     pkbWrite->insertWhileStmt(0, varNameA, {}, 500);
-    expected.insert({ 500, varNameA });
+    expected.insert({ 500, pkbRead->getVarIdxFromName(varNameA) });
 
     result = pkbRead->getAllWhileStmtsWithVar();
     Assert::IsTrue(result == expected);
@@ -302,11 +302,11 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::unordered_map<STMT_NUM, VAR_NAME> result, expected;
+    MAP_OF_STMT_NUM_TO_VAR_INDEX result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
-    expected = std::unordered_map<STMT_NUM, VAR_NAME>();
+    expected = MAP_OF_STMT_NUM_TO_VAR_INDEX();
     result = pkbRead->getAllIfStmtsWithVar();
     Assert::IsTrue(result == expected);
 
@@ -317,16 +317,16 @@ public:
     pkbWrite->insertWhileStmt(0, varNameB, {}, 5);
     pkbWrite->insertWhileStmt(0, varNameA, {}, 6);
 
-    expected.insert({ 1, varNameA });
-    expected.insert({ 2, varNameA });
-    expected.insert({ 3, varNameB });
-    expected.insert({ 4, varNameA });
+    expected.insert({ 1, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 2, pkbRead->getVarIdxFromName(varNameA) });
+    expected.insert({ 3, pkbRead->getVarIdxFromName(varNameB) });
+    expected.insert({ 4, pkbRead->getVarIdxFromName(varNameA) });
 
     result = pkbRead->getAllIfStmtsWithVar();
     Assert::IsTrue(result == expected);
 
     pkbWrite->insertIfStmt(0, varNameA, {}, 500);
-    expected.insert({ 500, varNameA });
+    expected.insert({ 500, pkbRead->getVarIdxFromName(varNameA) });
 
     result = pkbRead->getAllIfStmtsWithVar();
     Assert::IsTrue(result == expected);
