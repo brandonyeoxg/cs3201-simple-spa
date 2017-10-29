@@ -116,7 +116,7 @@ public:
   //std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
   //PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
 
-  ////////////////// NOTE: changing this to for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(n).
+  ////////////////// NOTE: changing this to get O(1) for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(lgn).
   const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
 
 private:
