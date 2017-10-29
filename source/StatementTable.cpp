@@ -89,6 +89,14 @@ LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
   }
 }
 
+queryType::GType StatementTable::getTypeOfStatement(STMT_NUM t_lineNum) {
+  auto pItr = m_typeOfStatementTable.find(t_lineNum);
+  if (pItr == m_typeOfStatementTable.end()) {
+
+  }
+  return pItr->second;
+}
+
 TOTAL_NUMBER_OF_STMTS StatementTable::getNumberOfStatements() {
   return m_typeOfStatementTable.size();
 }

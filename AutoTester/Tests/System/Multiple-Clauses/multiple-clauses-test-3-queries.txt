@@ -108,16 +108,6 @@ prog_line pl1, pl2; procedure p;
 Select BOOLEAN such that Next* (pl1, pl2) with p.procName="A66eRAt10n"
 true
 5000
-25 - Multiple Clauses Such That With Functionality Test
-stmt s1, s2; procedure p;
-Select BOOLEAN such that Affects (s1, s2) with p.procName="A66eRAt10n"
-true
-5000
-26 - Multiple Clauses Such That With Functionality Test
-stmt s1, s2; procedure p;
-Select BOOLEAN such that Affects* (s1, s2) with p.procName="A66eRAt10n"
-true
-5000
 27 - Multiple Clauses Such That With Functionality Test
 stmt s1, s2; variable v;
 Select BOOLEAN such that Follows (s1, s2) with v.varName="Br0ODlInG"
@@ -221,11 +211,6 @@ true
 47 - Multiple Clauses Such That Pattern With Functionality Test
 prog_line s1, s2; assign a; variable v; procedure p;
 Select BOOLEAN such that Next*(s1,s2) pattern a(v,_) with p.procName="A66eRAt10n"
-true
-5000
-48 - Multiple Clauses Such That Pattern With Functionality Test
-stmt s1, s2; assign a; variable v; procedure p;
-Select BOOLEAN such that Affects(s1,s2) pattern a(v,"1") with p.procName="A66eRAt10n"
 true
 5000
 49 - Multiple Clauses Such That Pattern With Functionality Test

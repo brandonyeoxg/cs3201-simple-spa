@@ -23,6 +23,7 @@ public:
   MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable();
   MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
+  queryType::GType getTypeOfStatement(STMT_NUM t_lineNum);
   TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
 
   LIST_OF_STMT_NUMS getStmtsFromProcIdx(PROC_INDEX t_procIdx);

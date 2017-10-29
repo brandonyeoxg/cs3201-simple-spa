@@ -36,8 +36,8 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   int withSize = m_withs.size();
 
   Grammar grammar = m_selects.front();
-  m_selectedSynonym = grammar.getName();
-  m_selectedType = grammar.getType();
+ /* m_selectedSynonym = grammar.getName();
+  m_selectedType = grammar.getType();*/
 
   //Loop through the With Queue
   for (int i = 0; i < withSize; ++i) {
@@ -98,7 +98,8 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
   if (got != m_synsToBeRewritten.end()) {
     std::vector<std::string> results;
     results.push_back(got->second.getName());
-    storeSelectResultFromPkb(results);
+    m_table->insertOneSynonym(t_select.getName(), results);
+    //storeSelectResultFromPkb(results);
     return true;
   }
 
@@ -133,28 +134,32 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     std::vector<std::string> allSelectedStmts = Formatter::formatVectorIntToVectorStr(allSelectedStmtsInInt);
 
     // Push into the selectResults queue.
-    storeSelectResultFromPkb(allSelectedStmts);
+    //storeSelectResultFromPkb(allSelectedStmts);
+    m_table->insertOneSynonym(t_select.getName(), allSelectedStmts);
   } else if (Grammar::isVar(t_select.getType())) {
     std::vector<std::string> allVariables = m_pkb->getAllVarNames();
     if (allVariables.empty()) {
       return false;
     }
 
-    storeSelectResultFromPkb(allVariables);
+    //storeSelectResultFromPkb(allVariables);
+    m_table->insertOneSynonym(t_select.getName(), allVariables);
   } else if (Grammar::isConst(t_select.getType())) {
     LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
     if (allConstants.empty()) {
       return false;
     }
 
-    storeSelectResultFromPkb(allConstants);
+    //storeSelectResultFromPkb(allConstants);
+    m_table->insertOneSynonym(t_select.getName(), allConstants);
   } else if (Grammar::isProc(t_select.getType())) {
     std::vector<std::string> allProcedures = m_pkb->getAllProcsName();
     if (allProcedures.empty()) {
       return false;
     }
 
-    storeSelectResultFromPkb(allProcedures);
+    //(allProcedures);
+    m_table->insertOneSynonym(t_select.getName(), allProcedures);
   } else if (Grammar::isStmtLst(t_select.getType())) {
     std::vector<int> allStmtLst = m_pkb->getStmtList();
     if (allStmtLst.empty()) {
@@ -162,7 +167,8 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     }
 
     std::vector<std::string> allStmtList = Formatter::formatVectorIntToVectorStr(allStmtLst);
-    storeSelectResultFromPkb(allStmtList);
+    //storeSelectResultFromPkb(allStmtList);
+    m_table->insertOneSynonym(t_select.getName(), allStmtList);
   }
 
   return true;
@@ -343,7 +349,17 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
   LIST_OF_RESULTS finalResult;
   LIST_OF_SYNONYMS selectedSynonyms;
 
-  selectedSynonyms.push_back(m_selectedSynonym);
+  //Loop through the Select Queue
+  int selectSize = m_selects.size();
+  for (int i = 0; i < selectSize; ++i) {
+    Grammar grammar = m_selects.front();
+    selectedSynonyms.push_back(grammar.getName());
+    
+    //Move the item to the back of the queue.
+    m_selects.pop();
+    m_selects.push(grammar);
+  }
+
   if (Grammar::isBoolean(m_selects.front().getType())) {
     if (m_isSelectOnly) {
       finalResult.push_back(TRUE);
@@ -353,14 +369,20 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
       finalResult.push_back(TRUE);
     }
   } else {
+    for (auto& syn : selectedSynonyms) {
+      if (!m_table->hasSynonym(syn)) {
+        BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
+        if (!hasResult) {
+          return finalResult;
+        }
+      }
+
+      m_selects.pop();
+    }
+
     finalResult = m_table->getResults(selectedSynonyms);
     if (finalResult.empty()) {
-      BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
-      if (!hasResult) {
-        return finalResult;
-      } else {
-        finalResult = m_selectResults.front();
-      }   
+      return finalResult;
     }  
   }
 
