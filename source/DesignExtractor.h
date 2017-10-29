@@ -10,12 +10,13 @@
  */
 class DesignExtractor {
 public:
-  DesignExtractor(PkbTablesOnly* t_pkb);
+  DesignExtractor();
+  ~DesignExtractor();
 
   /*
   * Called to extract all design abstractions from the PKB table.
   */
-  void extractRestOfDesignAbstractions();
+  void extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb);
 
   ///////////////////////////////////////////////////////
   //  Affects Extractor
@@ -31,6 +32,5 @@ public:
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
 
 private:
-  PkbTablesOnly *m_pkb;
   AffectsExtractor *m_affectsExtractor;
 };
