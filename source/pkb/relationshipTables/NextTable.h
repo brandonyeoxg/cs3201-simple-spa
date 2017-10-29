@@ -116,6 +116,9 @@ public:
   //std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
   //PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
 
+  ////////////////// NOTE: changing this to for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(n).
+  const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
+
 private:
   PROG_LINE MAX_LINE_NUM; /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;  /**< Graph representation of lines after each program line */
