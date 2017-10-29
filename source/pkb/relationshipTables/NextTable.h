@@ -112,12 +112,12 @@ public:
   */
   bool hasLineBefore(PROG_LINE t_line);
 
+  // Returns a constant pointer to m_afterGraph, for Affects() computation
+  const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
+
   ////////////////// for debugging
   //std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
   //PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
-
-  ////////////////// NOTE: changing this to get O(1) for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(lgn).
-  const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
 
 private:
   PROG_LINE MAX_LINE_NUM; /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
@@ -141,7 +141,7 @@ private:
   *   Uses depth first search to traverse graph.
   *   @param t_line given program line
   *   @param t_graph given graph to search
-  *   @return list of the lines (in ascending order)
+  *   @return list of the lines (can be in unsorted order)
   */
   std::vector<PROG_LINE> getListOfLinesReachable(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 

@@ -155,6 +155,10 @@ bool NextTable::hasLineBefore(PROG_LINE t_line) {
   return isKeyInMap(t_line, m_beforeGraph) && m_beforeGraph.at(t_line).size() != 0;
 }
 
+const std::map<PROG_LINE, std::vector<PROG_LINE>>* NextTable::getAfterGraph() {
+  return &m_afterGraph;
+}
+
 // depth first search
 bool NextTable::isTherePath(PROG_LINE t_line1, PROG_LINE t_line2) {
   std::vector<bool> visited = std::vector<bool>(MAX_LINE_NUM);
@@ -236,9 +240,4 @@ std::vector<PROG_LINE> NextTable::traverseGraphDfs(PROG_LINE t_line, std::map<PR
   }
 
   return linesVisited;
-}
-
-////////////////// NOTE: changing this to get O(1) for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(lgn).
-const std::map<PROG_LINE, std::vector<PROG_LINE>> *NextTable::getAfterGraph() {
-  return &m_afterGraph;
 }
