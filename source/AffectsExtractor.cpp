@@ -4,21 +4,22 @@ void AffectsExtractor::extractDesign() {
 }
 
 SET_OF_AFFECTS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
-  SET_OF_AFFECTS LMPS = SET_OF_AFFECTS();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
     //for every procedure, create LMS
     SET_OF_AFFECTS LMS = SET_OF_AFFECTS();
     //get the bounds (first and last) stmt no from proc
     //pairOfStmtNum = getBoundFromProc(i);
-    int first = 0;//stub
-    int second = 1;//stub
-    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(first, second);
-    MAP_OF_STMT_NUMS affectsList = intermediateResult.first;
+    LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
+    STMT_NUM start = bound[0];
+    STMT_NUM end = bound[bound.size()-1];
+    PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
+    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMPS.
-    //run the appendAffectsList method.
+    appendAffectsList(affectsList, LMPS);
   }
-  return{}; //return LMPS
+  return{}; //return LMPS as set of affects??
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { // affects(a,12)
@@ -26,13 +27,19 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { //
   if (m_pkb->getStatementTable()->getNumberOfStatements() > t_usesLine) {
     return{};
   }
-
+  LIST_OF_AFFECTS_STMTS affectsStmts = LIST_OF_AFFECTS_STMTS();
   //pairOfStmtNum = getBoundFromProc(t_modifiesLine);
-  int first = 1;//stub
-  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(first, t_usesLine);
-  MAP_OF_STMT_NUMS affectsList = intermediateResult.first;
-  //return affectsList.get(t_modifiesLine);
-  return{};
+  LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_usesLine);
+  STMT_NUM start = bound[0];
+
+  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, t_usesLine);
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectedByList = intermediateResult.second;
+
+  auto itr = affectedByList.find(t_usesLine);
+  if (itr != affectedByList.end()) {
+    affectsStmts = itr->second;
+  }
+  return affectsStmts;
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedBy(STMT_NUM t_modifiesLine) { // affects(2,a)
@@ -40,13 +47,17 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedBy(STMT_NUM t_modifiesLin
   if (m_pkb->getStatementTable()->getNumberOfStatements() > t_modifiesLine) {
     return{};
   }
-
-  //pairOfStmtNum = getBoundFromProc(t_modifiesLine);
-  int second = 1;//stub
-  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(t_modifiesLine, second);
-  MAP_OF_STMT_NUMS affectedByList = intermediateResult.second;
+  LIST_OF_AFFECTS_STMTS affectsStmts = LIST_OF_AFFECTS_STMTS();
+  LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_modifiesLine);
+  STMT_NUM end = bound[bound.size() - 1];
+  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(t_modifiesLine, end);
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
   //return affectedByList.get(t_modifiesLine);
-  return{};
+  auto itr = affectsList.find(t_modifiesLine);
+  if (itr != affectsList.end()) {
+    affectsStmts = itr->second;
+  }
+  return affectsStmts;
 }
 
 BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)
@@ -150,4 +161,15 @@ void AffectsExtractor::appendAffectsList(std::unordered_map<int, std::vector<int
       result[key] = affectsInResult;
     }
   }
+
+  
+}
+
+
+LIST_OF_STMT_NUMS AffectsExtractor::getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum) {
+  PROC_NAME procName = m_pkb->getStatementTable()->getProcNameFromStmtNum(t_stmtNum);
+  PROC_INDEX procIdx = m_pkb->getProcTable()->getProcIdxFromName(procName);
+  LIST_OF_STMT_NUMS result = LIST_OF_STMT_NUMS();
+  result = m_pkb->getStatementTable()->getStmtsFromProcIdx(procIdx);
+  return result;
 }

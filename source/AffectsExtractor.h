@@ -31,6 +31,14 @@ public:
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(1,_)
   void appendAffectsList(std::unordered_map<int, std::vector<int>> toAdd, std::unordered_map<int, std::vector<int>> result);
 
+  /**
+  * A helper method to obtain the list of statements of a procedure from a particular statement number that resides in the procedure.
+  * It will return the vector of stmts that belongs to that procedure.
+  * @param t_t_stmtNum a statement number that belongs to the target procedure.
+  * @return a vector of stmts that belongs to the target procedure.
+  */
+  LIST_OF_STMT_NUMS getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum);
+
 private:
   AffectsTable *m_affectsTable;
 };
