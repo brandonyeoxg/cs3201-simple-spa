@@ -154,7 +154,8 @@ namespace queryType {
     VAR_NAME, /**< An enum value representing a varName attribute. */
     STMT_NUM, /**< An enum value representing a stmt# attribute. */
     VALUE, /**< An enum value representing a value attribute. */
-    NONE /**< An enum value representing no attributes. */
+    NONE, /**< An enum value representing no attributes. */
+    INVALID /**< An enum value representing invalid attributes. */
   };
 
   /** Represents the type of Relation.

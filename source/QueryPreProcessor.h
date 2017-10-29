@@ -130,7 +130,7 @@ public:
   * @param withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
 
   /**
   * A specialised method that takes in 2 synonyms that only has an attribute on one side and calls other methods to process
