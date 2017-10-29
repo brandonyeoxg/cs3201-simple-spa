@@ -71,6 +71,11 @@ bool IntermediateTable::hasSynonyms() {
   return !m_synonymRowChecker.empty();
 }
 
+bool IntermediateTable::hasSynonym(SYNONYM_NAME t_synonym) {
+  auto rowItr = m_synonymRowChecker.find(t_synonym);
+  return rowItr != m_synonymRowChecker.end();
+}
+
 bool IntermediateTable::isEmpty() {
   return m_results.empty();
 }
@@ -78,11 +83,6 @@ bool IntermediateTable::isEmpty() {
 void IntermediateTable::clearTable() {
   m_results.clear();
   m_synonymRowChecker.clear();
-}
-
-bool IntermediateTable::hasSynonym(SYNONYM_NAME t_synonym) {
-  auto rowItr = m_synonymRowChecker.find(t_synonym);
-  return rowItr != m_synonymRowChecker.end();
 }
 
 MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_NAME& t_synonym) {
