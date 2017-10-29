@@ -11,6 +11,28 @@ Select BOOLEAN such that Affects* (s1, s2) pattern a (v, "2")
 true
 5000
 
+25 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects (s1, s2) with p.procName="A"
+true
+5000
+26 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects* (s1, s2) with p.procName="A"
+true
+5000
+
+48 - Multiple Clauses Such That Pattern With Functionality Test
+stmt s1, s2; assign a; variable v; procedure p;
+Select BOOLEAN such that Affects(s1,s2) pattern a(v,"1") with p.procName="A"
+true
+5000
+49 - Multiple Clauses Such That Pattern With Functionality Test
+stmt s1, s2; assign a; procedure p;
+Select BOOLEAN such that Affects*(s1,s2) pattern a("a","1") with p.procName="A"
+true
+5000
+
 Test 2
 
 11 - Multiple Clauses Such That Pattern Functionality Test
@@ -21,6 +43,47 @@ true
 12 - Multiple Clauses Such That Pattern Functionality Test
 stmt s1, s2; assign a; variable v;
 Select BOOLEAN such that Affects* (s1, s2) pattern a (v, "2")
+true
+5000
+
+25 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects (s1, s2) with p.procName="A"
+true
+5000
+26 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects* (s1, s2) with p.procName="A"
+true
+5000
+
+48 - Multiple Clauses Such That Pattern With Functionality Test
+stmt s1, s2; assign a; variable v; procedure p;
+Select BOOLEAN such that Affects(s1,s2) pattern a(v,"1") with p.procName="A"
+true
+5000
+49 - Multiple Clauses Such That Pattern With Functionality Test
+stmt s1, s2; assign a; procedure p;
+Select BOOLEAN such that Affects*(s1,s2) pattern a("a","1") with p.procName="A"
+true
+5000
+
+Test 3
+
+25 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects (s1, s2) with p.procName="A66eRAt10n"
+true
+5000
+26 - Multiple Clauses Such That With Functionality Test
+stmt s1, s2; procedure p;
+Select BOOLEAN such that Affects* (s1, s2) with p.procName="A66eRAt10n"
+true
+5000
+
+48 - Multiple Clauses Such That Pattern With Functionality Test
+stmt s1, s2; assign a; variable v; procedure p;
+Select BOOLEAN such that Affects(s1,s2) pattern a(v,"1") with p.procName="A66eRAt10n"
 true
 5000
 49 - Multiple Clauses Such That Pattern With Functionality Test
