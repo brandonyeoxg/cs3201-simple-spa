@@ -1,3 +1,5 @@
+#pragma once
+
 #include "NextTable.h"
 
 NextTable::NextTable() {
