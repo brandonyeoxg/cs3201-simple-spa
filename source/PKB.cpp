@@ -14,7 +14,11 @@
 * Instantiates one VarTable, FollowTable, ParentTable each.
 */
 
-PKB::PKB() {
+PKB::PKB() : PKB(nullptr) {
+}
+
+PKB::PKB(DesignExtractor *t_de) {
+  m_designExtractor = t_de;
   m_followTable = new FollowTable();
   m_parentTable = new ParentTable();
   m_varTable = new VarTable();

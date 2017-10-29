@@ -32,6 +32,7 @@ class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
+  PKB(DesignExtractor *t_de);
   ~PKB();
 
   ///////////////////////////////////////////////////////
