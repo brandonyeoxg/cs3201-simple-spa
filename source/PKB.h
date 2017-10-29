@@ -545,7 +545,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, _"x + y + h"_), where v is a common synonym for all variables.
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -554,7 +554,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable (in the while statement itself, not nested statements).
@@ -568,7 +568,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar();
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -588,7 +588,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar();
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.

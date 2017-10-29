@@ -94,6 +94,7 @@ typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_
 typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
 typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
 typedef std::pair<MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
+typedef  std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;

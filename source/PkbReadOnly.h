@@ -371,7 +371,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, _"x + y + h"_).
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -380,7 +380,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable.
@@ -394,7 +394,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar() = 0;
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -414,7 +414,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar() = 0;
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
