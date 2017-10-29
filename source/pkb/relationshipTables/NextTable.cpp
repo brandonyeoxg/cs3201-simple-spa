@@ -237,3 +237,8 @@ std::vector<PROG_LINE> NextTable::traverseGraphDfs(PROG_LINE t_line, std::map<PR
 
   return linesVisited;
 }
+
+////////////////// NOTE: changing this to get O(1) for Affects, need to expose m_afterGraph >>> not using getAllNext() since it is O(lgn).
+const std::map<PROG_LINE, std::vector<PROG_LINE>> *NextTable::getAfterGraph() {
+  return &m_afterGraph;
+}
