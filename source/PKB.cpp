@@ -1,13 +1,6 @@
 #pragma once
 
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include "PKB.h"
-#include "nodes\TNode.h"
-#include "ASTUtilities.h"
 
 /**
 * A constructor.

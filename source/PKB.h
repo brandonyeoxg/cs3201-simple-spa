@@ -1,9 +1,16 @@
 #pragma once
 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#include "GlobalTypeDef.h"
+
+#include "PkbWriteOnly.h"
+#include "PkbReadOnly.h"
+#include "PkbTablesOnly.h"
 
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -12,13 +19,8 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "StatementTable.h"
-#include "Grammar.h"
 #include "ConstantTable.h"
-#include "GlobalTypeDef.h"
 #include "pkb/patternMatch/PatternMatch.h"
-#include "PkbWriteOnly.h"
-#include "PkbReadOnly.h"
-#include "PkbTablesOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
@@ -27,6 +29,8 @@
 #include "StmtListTable.h"
 #include "pkb/relationshipTables/NextTable.h"
 #include "DesignExtractor.h"
+
+#include "Grammar.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
