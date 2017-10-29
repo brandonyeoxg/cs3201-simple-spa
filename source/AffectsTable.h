@@ -46,10 +46,15 @@ private:
   // Need to have LMS
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS LMS;
 
-  void traverseCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt);
-  void traverseContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt, queryType::GType t_type);
-  void traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt, queryType::GType t_type);
+  void traverseCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
+  void traverseContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+  void traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+
+  void handleAffectsOnIfStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnWhileStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
 
   BOOLEAN isContainerStmt(queryType::GType t_type);
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS mergeLmt(MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS);
 };
 
