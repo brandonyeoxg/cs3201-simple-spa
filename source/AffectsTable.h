@@ -41,12 +41,15 @@ private:
   StatementTable* m_stmtTable;
 
   // I need to have the AffectsList and AffectedByStorage
-  MAP_OF_STMT_NUMS affectsList;
-  MAP_OF_STMT_NUMS affectedByList;
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList;
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectedByList;
   // Need to have LMS
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS LMS;
 
-  void traverseCfg(PROG_LINE m_curProgLine, PROG_LINE m_endBound);
+  void traverseCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt);
+  void traverseContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt, queryType::GType t_type);
+  void traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS t_lmt, queryType::GType t_type);
+
   BOOLEAN isContainerStmt(queryType::GType t_type);
 };
 
