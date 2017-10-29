@@ -506,7 +506,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(_, _"x + y + h"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -514,7 +514,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _""_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -531,7 +531,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _"y + x"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -540,7 +540,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, "x + y + h"), where v is a common synonym for all variables.
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.

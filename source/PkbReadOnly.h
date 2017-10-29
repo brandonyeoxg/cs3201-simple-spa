@@ -328,7 +328,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -336,7 +336,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _""_).
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -353,7 +353,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _"y + x"_).
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -362,7 +362,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, "x + y + h").
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.

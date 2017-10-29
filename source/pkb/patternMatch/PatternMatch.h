@@ -62,13 +62,13 @@ public:
   *   @param t_pattern pattern to be matched, in tokenized form (extra whitespaces will be ignored)
   *   @return list of statement numbers
   */
-  std::list<STMT_NUM> getAllStmtNumWithExactPattern(std::vector<std::string> t_pattern);
+  LIST_OF_STMT_NUMS getAllStmtNumWithExactPattern(std::vector<std::string> t_pattern);
 
   /** Gets all statement numbers with subtree pattern match to assignment expression.
   *   @param t_pattern pattern to be matched, in tokenized form (extra whitespaces will be ignored)
   *   @return list of statement numbers
   */
-  std::list<STMT_NUM> getAllStmtNumWithSubtreePattern(std::vector<std::string> t_pattern);
+  LIST_OF_STMT_NUMS getAllStmtNumWithSubtreePattern(std::vector<std::string> t_pattern);
 
   /** Given a set of tokens representing an expression, converts it to postfix notation as a string.
   *   Tokens meaning: "x + y" is passed in as {"x", "+", "y"}.

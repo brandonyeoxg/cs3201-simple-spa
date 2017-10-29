@@ -19,7 +19,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *) pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *) pkb;
-    std::list<STMT_NUM> result, expected;
+    LIST_OF_STMT_NUMS result, expected;
     std::string varName = "varName";
 
     // simple expression
@@ -53,7 +53,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::list<STMT_NUM> result, expected;
+    LIST_OF_STMT_NUMS result, expected;
     std::string varName = "varName";
 
     pkbWrite->insertAssignStmt(1, varName, { "x", "*", "y", "+", "a", "+", "b" }, 0);
@@ -84,7 +84,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::list<STMT_NUM> result, expected;
+    LIST_OF_STMT_NUMS result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
@@ -111,7 +111,7 @@ public:
     PKB * pkb = new PKB();
     PkbWriteOnly * pkbWrite = (PkbWriteOnly *)pkb;
     PkbReadOnly * pkbRead = (PkbReadOnly *)pkb;
-    std::list<STMT_NUM> result, expected;
+    LIST_OF_STMT_NUMS result, expected;
     std::string varNameA = "varNameA";
     std::string varNameB = "varNameB";
 
