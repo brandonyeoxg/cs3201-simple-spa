@@ -19,17 +19,17 @@ public:
   */
   LIST_OF_RESULTS getResults(LIST_OF_SYNONYMS t_synonyms);
   BOOLEAN hasSynonyms();
+
+  /*
+  * Returns true if the intermediate table contains the synonym.
+  */
+  BOOLEAN hasSynonym(SYNONYM_NAME t_synonym);
   BOOLEAN isEmpty();
   void clearTable();
 
 protected:
   INTERMEDIATE_TABLE m_results;
   MAP_OF_SYNONYM_TO_TABLE_POSITION m_synonymRowChecker;
-
-  /*
-  * Returns true if the intermediate table contains the synonym.
-  */
-  BOOLEAN hasSynonym(SYNONYM_NAME t_synonym);
 
 private:
   /*
