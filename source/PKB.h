@@ -864,6 +864,19 @@ public:
   BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine); // affects(1,_)
   BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
 
+  ///////////////////////////////////////////////////////
+  //  Affects* Extractor
+  ///////////////////////////////////////////////////////
+  SET_OF_AFFECTS getAllAffectsStar(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine); // affects(2,a)
+  LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine); // affects(a,12)
+  BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
+  BOOLEAN hasAffectsRelationshipStar(); // affects(_,_)
+  LIST_OF_AFFECTS_STMTS getAffectsAnythingStar();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS getAffectedByAnythingStar(); // affects(_,a)
+  BOOLEAN isAffectsAnythingStar(STMT_NUM t_modifiesLine); // affects(1,_)
+  BOOLEAN isAffectedByAnythingStar(STMT_NUM t_usesLines); // affects(_,12)
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;

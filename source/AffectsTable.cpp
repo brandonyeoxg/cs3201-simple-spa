@@ -1,6 +1,8 @@
 #include "AffectsTable.h"
 
-
+///////////////////////////////////////////////////////
+//  Affects
+///////////////////////////////////////////////////////
 BOOLEAN AffectsTable::hasAnyAffects() {
   LIST_OF_PROC_NAMES procNames = m_pkbTablesOnly->getProcTable()->getAllProcsName();
   StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
@@ -18,35 +20,15 @@ BOOLEAN AffectsTable::hasAnyAffects() {
 BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
   // Checks if they are with in a while stmt
-  LIST_OF_STMT_NUMS parentsOfStart = m_pkbTablesOnly->getParentTable()->getParentStarOf(t_startBound);
-  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
-  PROG_LINE realStartBound = t_startBound;
-  for (auto& pItr : parentsOfStart) {
-    queryType::GType stmtType = stmtTable->getTypeOfStatement(pItr);
-    if (stmtType == queryType::GType::WHILE) {
-      if (realStartBound > pItr) {
-        realStartBound = pItr;
-      }
-    }
-  }
+  PROG_LINE realStartBound = getRealStartBound(t_startBound);
   return traverseCfgWithBoundEarlyExit(realStartBound, t_endBound, lms);
 }
 
-BOOLEAN AffectsTable::isAffects(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine) {
+BOOLEAN AffectsTable::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-  LIST_OF_STMT_NUMS parentsOfStart = m_pkbTablesOnly->getParentTable()->getParentStarOf(t_modfiesLine);
-  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
-  PROG_LINE realStartBound = t_modfiesLine;
-  for (auto& pItr : parentsOfStart) {
-    queryType::GType stmtType = stmtTable->getTypeOfStatement(pItr);
-    if (stmtType == queryType::GType::WHILE) {
-      if (realStartBound > pItr) {
-        realStartBound = pItr;
-      }
-    }
-  }
+  PROG_LINE realStartBound = getRealStartBound(t_modifiesLine);
   traverseCfgWithBound(realStartBound, t_usesLine, lms);
-  auto aItr = affectsList.find(t_modfiesLine);
+  auto aItr = affectsList.find(t_modifiesLine);
   if (aItr == affectsList.end()) {
     return false;
   }
@@ -66,18 +48,8 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBou
   const std::map<PROG_LINE, std::vector<PROG_LINE>> *readOnlyCFG = m_nextTable->getAfterGraph();
   // Check if the startBound is a container stmt
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-  LIST_OF_STMT_NUMS parentsOfStart = m_pkbTablesOnly->getParentTable()->getParentStarOf(t_startBound);
-  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
-  PROG_LINE realStartBound = t_startBound;
-  for (auto& pItr : parentsOfStart) {
-    queryType::GType stmtType = stmtTable->getTypeOfStatement(pItr);
-    if (stmtType == queryType::GType::WHILE) {
-      if (realStartBound > pItr) {
-        realStartBound = pItr;
-      }
-    }
-  }
-  traverseCfgWithBound(t_startBound, t_endBound, lms);
+  PROG_LINE realStartBound = getRealStartBound(t_startBound);
+  traverseCfgWithBound(realStartBound, t_endBound, lms);
   return {affectsList, affectedByList};
 }
 
@@ -309,6 +281,42 @@ BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine,
   return false;
 }
 
+///////////////////////////////////////////////////////
+//  Affects*
+///////////////////////////////////////////////////////
+/**
+* From verbena's doc on PKB > Affects
+* hasAffectsFromLMS()
+*/
+BOOLEAN AffectsTable::hasAnyAffectsStar() {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* hasAffectsBetween(INT, INT)
+*/
+BOOLEAN AffectsTable::hasAffectsStarFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* isAffectsFromLMS(INT, INT)
+* Affects(4, 12) is true
+*/
+BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine) {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* getAffectsListFromLMS(INT, INT)
+*/
+PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+  return{};
+}
+
 BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {
   return t_type == queryType::GType::IF || t_type == queryType::GType::WHILE;
 }
@@ -326,4 +334,19 @@ MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS AffectsTable::mergeLmt(MAP_OF_VAR_NAME_TO_SE
     }
   }
   return mergedList;
+}
+
+PROG_LINE AffectsTable::getRealStartBound(PROG_LINE t_startBound) {
+  LIST_OF_STMT_NUMS parentsOfStart = m_pkbTablesOnly->getParentTable()->getParentStarOf(t_startBound);
+  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
+  PROG_LINE realStartBound = t_startBound;
+  for (auto& pItr : parentsOfStart) {
+    queryType::GType stmtType = stmtTable->getTypeOfStatement(pItr);
+    if (stmtType == queryType::GType::WHILE) {
+      if (realStartBound > pItr) {
+        realStartBound = pItr;
+      }
+    }
+  }
+  return realStartBound;
 }

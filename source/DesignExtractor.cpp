@@ -21,6 +21,9 @@ void DesignExtractor::extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb) {
   m_affectsExtractor = (AffectsExtractor *)ExtractorFactory::makeExtractor(DESIGN_TYPE::AFFECTS, t_pkb);
 }
 
+///////////////////////////////////////////////////////
+//  Affects Extractor
+///////////////////////////////////////////////////////
 SET_OF_AFFECTS DesignExtractor::extractAllAffects() { // affects(a1,a2)
   return m_affectsExtractor->extractAllAffects();
 }
@@ -55,4 +58,43 @@ BOOLEAN DesignExtractor::extractIsAffectsAnything(STMT_NUM t_modifiesLine) { // 
 
 BOOLEAN DesignExtractor::extractIsAffectedByAnything(STMT_NUM t_usesLines) { // affects(_,12)
   return m_affectsExtractor->extractIsAffectedByAnything(t_usesLines);
+}
+
+///////////////////////////////////////////////////////
+//  Affects* Extractor
+///////////////////////////////////////////////////////
+SET_OF_AFFECTS DesignExtractor::extractAllAffectsStar() { // affects*(a1,a2)
+  return m_affectsExtractor->extractAllAffectsStar();
+}
+
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectsStar(STMT_NUM t_modifiesLine) { // affects*(2,a)
+  return m_affectsExtractor->extractAffectsStar(t_modifiesLine);
+}
+
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByStar(STMT_NUM t_usesLine) { // affects*(a,12)
+  return m_affectsExtractor->extractAffectedByStar(t_usesLine);
+}
+
+BOOLEAN DesignExtractor::extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects*(1,12)
+  return m_affectsExtractor->extractIsAffectsStar(t_modifiesLine, t_usesLine);
+}
+
+BOOLEAN DesignExtractor::extractHasAffectsRelationshipStar() { // affects*(_,_)
+  return m_affectsExtractor->extractHasAffectsRelationshipStar();
+}
+
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectsAnythingStar() {  // affects*(a,_)
+  return m_affectsExtractor->extractAffectsAnythingStar();
+}
+
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByAnythingStar() { // affects*(_,a)
+  return m_affectsExtractor->extractAffectedByAnythingStar();
+}
+
+BOOLEAN DesignExtractor::extractIsAffectsAnythingStar(STMT_NUM t_modifiesLine) { // affects*(1,_)
+  return m_affectsExtractor->extractIsAffectsAnythingStar(t_modifiesLine);
+}
+
+BOOLEAN DesignExtractor::extractIsAffectedByAnythingStar(STMT_NUM t_usesLines) { // affects*(_,12)
+  return m_affectsExtractor->extractIsAffectedByAnythingStar(t_usesLines);
 }
