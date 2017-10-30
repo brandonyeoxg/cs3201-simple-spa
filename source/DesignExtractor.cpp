@@ -21,7 +21,7 @@ void DesignExtractor::extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb) {
   m_affectsExtractor = (AffectsExtractor *)ExtractorFactory::makeExtractor(DESIGN_TYPE::AFFECTS, t_pkb);
 }
 
-SET_OF_AFFECTS DesignExtractor::extractAllAffects() { // affects(a1,a2)
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS DesignExtractor::extractAllAffects() { // affects(a1,a2)
   return m_affectsExtractor->extractAllAffects();
 }
 

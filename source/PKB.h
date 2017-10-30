@@ -854,7 +854,7 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects Table
   ///////////////////////////////////////////////////////
-  SET_OF_AFFECTS getAllAffects(); // affects(a1,a2)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects(); // affects(a1,a2)
   LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine); // affects(2,a)
   LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine); // affects(a,12)
   BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)

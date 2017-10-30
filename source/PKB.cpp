@@ -836,7 +836,7 @@ bool PKB::hasLineBefore(PROG_LINE t_line) {
 ///////////////////////////////////////////////////////
 //  Affects Table
 ///////////////////////////////////////////////////////
-SET_OF_AFFECTS PKB::getAllAffects() { // affects(a1,a2)
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS PKB::getAllAffects() { // affects(a1,a2)
   return m_designExtractor->extractAllAffects();
 }
 
