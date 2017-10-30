@@ -1,0 +1,41 @@
+procedure Aaron{
+  a=1;
+  while i{
+    a2=a*2;
+    a3=a2+1;}
+  b=2;
+  call Brandon;
+  c=3;
+  if j then{
+    c2=c-2;
+    while i{
+      call PC;
+      if p then{
+        c=p;
+        p=c;}
+      else{
+        i=j;}
+      j=i;}
+    a=b;
+    b=c+d*(e-3);}
+  else{
+    c3=c2*3;}
+  e=5;
+  call PC;
+}
+
+procedure Brandon{
+  d=4;
+  call Jaslyn;
+  a=(c*d+e)-(3+2);
+}
+
+procedure Jaslyn{
+  a=e;
+  f=((b+c)-(e))*a;
+  call PC;
+}
+
+procedure PC{
+  p=c;
+}

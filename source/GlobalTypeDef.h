@@ -76,12 +76,14 @@ typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
 typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<STMT_NUM, SET_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS;
 typedef std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES;
 typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_STMT_NUMS> MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, PROC_NAME> MAP_OF_STMT_NUM_TO_PROC_NAME;
 typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<VAR_NAME, SET_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS;
 typedef std::list<std::string> LIST_OF_CONSTANTS;
 typedef std::unordered_map<SYNONYM_NAME, int> MAP_OF_SYNONYMS_TO_COUNTS;
 typedef std::unordered_map<SYNONYM_NAME, INTEGER> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS;
@@ -91,8 +93,8 @@ typedef std::unordered_map<SYNONYM_NAME, LIST_OF_INTEGERS> MAP_OF_SYNONYMS_TO_BE
 typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
 typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
-typedef std::pair<MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
 typedef  std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
+typedef std::pair<MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;

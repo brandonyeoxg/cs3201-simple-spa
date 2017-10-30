@@ -844,4 +844,17 @@ public:
   virtual LIST_OF_AFFECTS_STMTS getAffectedByAnything() = 0; // affects(_,a)
   virtual BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine) = 0; // affects(1,_)
   virtual BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines) = 0; // affects(_,12)
+
+  ///////////////////////////////////////////////////////
+  //  Affects* Extractor
+  ///////////////////////////////////////////////////////
+  virtual SET_OF_AFFECTS getAllAffectsStar() = 0; // affects*(a1,a2)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine) = 0; // affects*(2,a)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine) = 0; // affects*(a,12)
+  virtual BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects*(1,12)
+  virtual BOOLEAN hasAffectsRelationshipStar() = 0; // affects*(_,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsAnythingStar() = 0;  // affects*(a,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByAnythingStar() = 0; // affects*(_,a)
+  virtual BOOLEAN isAffectsAnythingStar(STMT_NUM t_modifiesLine) = 0; // affects*(1,_)
+  virtual BOOLEAN isAffectedByAnythingStar(STMT_NUM t_usesLines) = 0; // affects*(_,12)
 };

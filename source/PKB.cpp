@@ -865,3 +865,42 @@ BOOLEAN PKB::isAffectsAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
 BOOLEAN PKB::isAffectedByAnything(STMT_NUM t_usesLines) { // affects(_,12)
   return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
 }
+
+///////////////////////////////////////////////////////
+//  Affects* Extractor
+///////////////////////////////////////////////////////
+SET_OF_AFFECTS PKB::getAllAffectsStar() { // affects(a1,a2)
+  return m_designExtractor->extractAllAffects();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsStar(STMT_NUM t_modifiesLine) { // affects(2,a)
+  return m_designExtractor->extractAffects(t_modifiesLine);
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByStar(STMT_NUM t_usesLine) { // affects(a,12)
+  return m_designExtractor->extractAffectedBy(t_usesLine);
+}
+
+BOOLEAN PKB::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)
+  return m_designExtractor->extractIsAffects(t_modifiesLine, t_usesLine);
+}
+
+BOOLEAN PKB::hasAffectsRelationshipStar() { // affects(_,_)
+  return m_designExtractor->extractHasAffectsRelationship();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsAnythingStar() {  // affects(a,_)
+  return m_designExtractor->extractAffectsAnything();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByAnythingStar() { // affects(_,a)
+  return m_designExtractor->extractAffectedByAnything();
+}
+
+BOOLEAN PKB::isAffectsAnythingStar(STMT_NUM t_modifiesLine) { // affects(1,_)
+  return m_designExtractor->extractIsAffectsAnything(t_modifiesLine);
+}
+
+BOOLEAN PKB::isAffectedByAnythingStar(STMT_NUM t_usesLines) { // affects(_,12)
+  return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
+}
