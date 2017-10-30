@@ -15,6 +15,9 @@ QueryCache::QueryCache() {
 
   m_stmtUsesAnything = nullptr;
   m_stmtModifiesAnything = nullptr;
+
+  m_allWhileStmtsWithVar = nullptr;
+  m_allIfStmtsWithVar = nullptr;
 }
 
 QueryCache::~QueryCache() {
@@ -26,6 +29,8 @@ QueryCache::~QueryCache() {
   delete m_childrenStarOfAnything;
   delete m_parentStarOfAnything;
   delete m_stmtModifiesAnything;
+  delete m_allWhileStmtsWithVar;
+  delete m_allIfStmtsWithVar;
 }
 
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNextStar() {
@@ -66,6 +71,14 @@ LIST_OF_STMT_NUMS * QueryCache::getStmtUsesAnything() {
 
 LIST_OF_STMT_NUMS * QueryCache::getStmtModifiesAnything() {
   return m_stmtModifiesAnything;
+}
+
+MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllWhileStmtsWithVar() {
+  return m_allWhileStmtsWithVar;
+}
+
+MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
+  return m_allIfStmtsWithVar;
 }
 
 void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar) {

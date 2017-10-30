@@ -39,6 +39,10 @@ public:
 
   LIST_OF_STMT_NUMS * getStmtModifiesAnything();
 
+  MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllWhileStmtsWithVar();
+
+  MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllIfStmtsWithVar();
+
   ///////////////////////////////////////////////////////
   //  Cache Methods
   ///////////////////////////////////////////////////////
@@ -69,8 +73,8 @@ private:
   LIST_OF_STMT_NUMS *m_stmtUsesAnything;                 /**< Uses(s1, _) */
   LIST_OF_STMT_NUMS *m_stmtModifiesAnything;             /**< Modifies(s1, _) */
 
-  //m_allWhileStmtsWithVar; /**< Pattern w(v, _) */
-  //  m_allIfStmtsWithVar;  /**<  Pattern ifs(v, _) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar;  /**< Pattern w(v, _) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar;     /**<  Pattern ifs(v, _) */
 
   // affects
 };
