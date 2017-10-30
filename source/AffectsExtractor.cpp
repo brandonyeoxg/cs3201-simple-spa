@@ -3,8 +3,8 @@
 void AffectsExtractor::extractDesign() {
 }
 
-SET_OF_AFFECTS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
-  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
 
@@ -91,7 +91,7 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,a)
-  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
 
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
@@ -114,7 +114,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects(a,_)
-  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
 
@@ -171,21 +171,24 @@ BOOLEAN AffectsExtractor::extractIsAffectedByAnything(STMT_NUM t_modifiesLine) {
   return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end);
 }
 
-MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS result) {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
   //for every key in toAdd
   for (auto itr_toAdd = toAdd.begin(); itr_toAdd != toAdd.end(); ++itr_toAdd) {
     STMT_NUM key = itr_toAdd->first;
     SET_OF_STMT_NUMS affects = itr_toAdd->second;
     //case 1: if key not found in result
     if (result.find(key) == result.end()) {
-      //just emplace the whole vector into result
-      result.emplace(key, itr_toAdd->second);
+      //just emplace the whole set as vector into result
+      LIST_OF_AFFECTS_STMTS affectsList;
+      affectsList.insert(affectsList.end(), affects.begin(), affects.end());
+      result.emplace(key, affectsList);
     } else {
       //case 2: if key found in result
       auto itr_result = result.find(key);
-      SET_OF_STMT_NUMS affectsInResult = itr_result->second;
+      LIST_OF_AFFECTS_STMTS affectsInResult = itr_result->second;
       //add the values in, sort and put back to the result
-      affectsInResult.insert(affects.begin(), affects.end());
+      affectsInResult.insert(affectsInResult.end(), affects.begin(), affects.end());
+      std::sort(affectsInResult.begin(), affectsInResult.end());
       result[key] = affectsInResult;
     }
   }
