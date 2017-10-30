@@ -835,9 +835,9 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects Extractor
   ///////////////////////////////////////////////////////
-  virtual SET_OF_AFFECTS getAllAffects() = 0; // affects(a1,a2)
-  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0; // affects(2,a)
-  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0; // affects(a,12)
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects() = 0; // affects(a1,a2)
+  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0; // affects(a,12)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0; // affects(2,a)
   virtual BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects(1,12)
   virtual BOOLEAN hasAffectsRelationship() = 0; // affects(_,_)
   virtual LIST_OF_AFFECTS_STMTS getAffectsAnything() = 0;  // affects(a,_)
@@ -848,7 +848,7 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects* Extractor
   ///////////////////////////////////////////////////////
-  virtual SET_OF_AFFECTS getAllAffectsStar() = 0; // affects*(a1,a2)
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffectsStar() = 0; // affects*(a1,a2)
   virtual LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine) = 0; // affects*(2,a)
   virtual LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine) = 0; // affects*(a,12)
   virtual BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects*(1,12)
