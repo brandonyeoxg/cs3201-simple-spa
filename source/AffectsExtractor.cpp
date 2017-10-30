@@ -23,15 +23,16 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // 
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { // affects(a,12)
   //return empty if t_usesLine exceeds number of lines in program.
-  if (m_pkb->getStatementTable()->getNumberOfStatements() > t_usesLine) {
+  if (m_pkb->getStatementTable()->getNumberOfStatements() < t_usesLine) {
     return{};
   }
   LIST_OF_AFFECTS_STMTS affectsStmts = LIST_OF_AFFECTS_STMTS();
   //pairOfStmtNum = getBoundFromProc(t_modifiesLine);
-  LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_usesLine);
+  LIST_OF_STMT_NUMS bound = getListOfStmtsFromStmtNum(t_usesLine);
   STMT_NUM start = bound[0];
+  STMT_NUM end = bound[bound.size() - 1];
 
-  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, t_usesLine);
+  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList = intermediateResult.second;
 
   auto itr = affectedByList.find(t_usesLine);
