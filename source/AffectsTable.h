@@ -41,12 +41,21 @@ private:
   StatementTable* m_stmtTable;
 
   // I need to have the AffectsList and AffectedByStorage
-  MAP_OF_STMT_NUMS affectsList;
-  MAP_OF_STMT_NUMS affectedByList;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList;
   // Need to have LMS
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS LMS;
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS LMS;
 
-  void traverseCfg(PROG_LINE m_curProgLine, PROG_LINE m_endBound);
+  void traverseCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void traverseContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+  void traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+
+  void handleAffectsOnIfStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnWhileStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+
   BOOLEAN isContainerStmt(queryType::GType t_type);
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeLmt(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
 };
 
