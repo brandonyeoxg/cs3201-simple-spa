@@ -19,6 +19,9 @@ public:
 
   void extractDesign();
 
+  ///////////////////////////////////////////////////////
+  //  Affects
+  ///////////////////////////////////////////////////////
   SET_OF_AFFECTS extractAllAffects(); // affects(a1,a2)
   LIST_OF_AFFECTS_STMTS extractAffects(STMT_NUM t_modifiesLine); // affects(2,a)
   LIST_OF_AFFECTS_STMTS extractAffectedBy(STMT_NUM t_usesLine); // affects(a,12)

@@ -1,6 +1,8 @@
 #include "AffectsTable.h"
 
-
+///////////////////////////////////////////////////////
+//  Affects
+///////////////////////////////////////////////////////
 BOOLEAN AffectsTable::hasAnyAffects() {
   LIST_OF_PROC_NAMES procNames = m_pkbTablesOnly->getProcTable()->getAllProcsName();
   StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
@@ -277,6 +279,42 @@ BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine,
   pItr->second.clear();
   pItr->second.insert(t_curProgLine);
   return false;
+}
+
+///////////////////////////////////////////////////////
+//  Affects*
+///////////////////////////////////////////////////////
+/**
+* From verbena's doc on PKB > Affects
+* hasAffectsFromLMS()
+*/
+BOOLEAN AffectsTable::hasAnyAffectsStar() {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* hasAffectsBetween(INT, INT)
+*/
+BOOLEAN AffectsTable::hasAffectsStarFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* isAffectsFromLMS(INT, INT)
+* Affects(4, 12) is true
+*/
+BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine) {
+  return false;
+}
+
+/**
+* From verbena's doc on PKB > Affects
+* getAffectsListFromLMS(INT, INT)
+*/
+PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+  return{};
 }
 
 BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {
