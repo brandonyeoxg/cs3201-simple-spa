@@ -69,31 +69,49 @@ SET_OF_RESULTS IfPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_pkb,
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> ifStmtsWithVarName;
+  for (auto& x : ifStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    ifStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVarName);
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> ifStmtsWithVarName;
+  for (auto& x : ifStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    ifStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVarName);
   return m_result;
 }
 
 SET_OF_RESULTS IfPatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> ifStmtsWithVar = t_pkb->getAllIfStmtsWithVar();
   if (ifStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> ifStmtsWithVarName;
+  for (auto& x : ifStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    ifStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(ifStmtsWithVarName);
   return m_result;
 }

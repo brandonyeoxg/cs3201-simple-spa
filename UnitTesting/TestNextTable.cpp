@@ -319,7 +319,6 @@ public:
     }
 
     for (auto iter : map) {
-      printVector(iter.second);
       assertTwoVectorsSame(iter.second, expected); // Check lines reachable for each line
     }
   }

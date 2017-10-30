@@ -1,13 +1,6 @@
 #pragma once
 
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include "PKB.h"
-#include "nodes\TNode.h"
-#include "ASTUtilities.h"
 
 /**
 * A constructor.
@@ -403,11 +396,11 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
 //  PatternMatch methods
 ///////////////////////////////////////////////////////
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) {
   return m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) {
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) {
   return m_patternMatch->getAllStmtNumWithSubtreePattern(t_patternTokens);
 }
 
@@ -419,8 +412,8 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVar(std::string t_varName) {
   return m_assignTable->getAllAssignStmtListByVar(varIndex);
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
+  LIST_OF_STMT_NUMS list = LIST_OF_STMT_NUMS();
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
@@ -436,8 +429,8 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndExactPattern(std::string t_varN
   return list;
 }
 
-std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> list = std::list<STMT_NUM>();
+LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) {
+  LIST_OF_STMT_NUMS list = LIST_OF_STMT_NUMS();
   VAR_INDEX varIndex = m_varTable->getVarIdxFromName(t_varName);
   if (varIndex == INVALID_INDEX) {
     return list;
@@ -453,29 +446,30 @@ std::list<STMT_NUM> PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_va
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
+  LIST_OF_STMT_NUMS stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
 
   for (auto stmtNum : stmtsWithMatch) {
     assert(getModifies(stmtNum).size() == 1);
     std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) {
-  std::list<STMT_NUM> stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_patternTokens);
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) {
+  LIST_OF_STMT_NUMS stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_patternTokens);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
 
   for (auto stmtNum : stmtsWithMatch) {
     assert(getModifies(stmtNum).size() == 1);
     std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
@@ -499,8 +493,8 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllWhileStmtsWithVar() {
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
   if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
     return mapStmtToVar;
   }
@@ -509,7 +503,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
 
   for (auto stmtNum : whileStmts) {
     std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
@@ -541,8 +535,8 @@ LIST_OF_STMT_NUMS PKB::getIfStmtByVar(STRING t_varName) {
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllIfStmtsWithVar() {
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
   if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
     return mapStmtToVar;
   }
@@ -551,7 +545,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
 
   for (auto stmtNum : ifStmts) {
     std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
@@ -789,35 +783,35 @@ bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   return m_nextTable->isNextStar(t_line1, t_line2);
 }
 
-std::vector<PROG_LINE> PKB::getLinesAfter(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getLinesAfter(PROG_LINE t_line) {
   return m_nextTable->getLinesAfter(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getLinesBefore(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getLinesBefore(PROG_LINE t_line) {
   return m_nextTable->getLinesBefore(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesAfter(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getAllLinesAfter(PROG_LINE t_line) {
   return m_nextTable->getAllLinesAfter(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesBefore(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getAllLinesBefore(PROG_LINE t_line) {
   return m_nextTable->getAllLinesBefore(t_line);
 }
 
-std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNext() {
+MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES PKB::getAllNext() {
   return m_nextTable->getAllNext();
 }
 
-std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
+MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES PKB::getAllNextStar() {
   return m_nextTable->getAllNextStar();
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesAfterAnyLine() {
+LIST_OF_PROG_LINES PKB::getAllLinesAfterAnyLine() {
   return m_nextTable->getAllLinesAfterAnyLine();
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesBeforeAnyLine() {
+LIST_OF_PROG_LINES PKB::getAllLinesBeforeAnyLine() {
   return m_nextTable->getAllLinesBeforeAnyLine();
 }
 
@@ -869,5 +863,44 @@ BOOLEAN PKB::isAffectsAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
 }
 
 BOOLEAN PKB::isAffectedByAnything(STMT_NUM t_usesLines) { // affects(_,12)
+  return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
+}
+
+///////////////////////////////////////////////////////
+//  Affects* Extractor
+///////////////////////////////////////////////////////
+SET_OF_AFFECTS PKB::getAllAffectsStar() { // affects(a1,a2)
+  return m_designExtractor->extractAllAffects();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsStar(STMT_NUM t_modifiesLine) { // affects(2,a)
+  return m_designExtractor->extractAffects(t_modifiesLine);
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByStar(STMT_NUM t_usesLine) { // affects(a,12)
+  return m_designExtractor->extractAffectedBy(t_usesLine);
+}
+
+BOOLEAN PKB::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)
+  return m_designExtractor->extractIsAffects(t_modifiesLine, t_usesLine);
+}
+
+BOOLEAN PKB::hasAffectsRelationshipStar() { // affects(_,_)
+  return m_designExtractor->extractHasAffectsRelationship();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectsAnythingStar() {  // affects(a,_)
+  return m_designExtractor->extractAffectsAnything();
+}
+
+LIST_OF_AFFECTS_STMTS PKB::getAffectedByAnythingStar() { // affects(_,a)
+  return m_designExtractor->extractAffectedByAnything();
+}
+
+BOOLEAN PKB::isAffectsAnythingStar(STMT_NUM t_modifiesLine) { // affects(1,_)
+  return m_designExtractor->extractIsAffectsAnything(t_modifiesLine);
+}
+
+BOOLEAN PKB::isAffectedByAnythingStar(STMT_NUM t_usesLines) { // affects(_,12)
   return m_designExtractor->extractIsAffectedByAnything(t_usesLines);
 }
