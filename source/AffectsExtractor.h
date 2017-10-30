@@ -25,10 +25,10 @@ public:
   LIST_OF_AFFECTS_STMTS extractAffectedBy(STMT_NUM t_modifiesLine); // affects(2,a)
   BOOLEAN extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
   BOOLEAN extractHasAffectsRelationship(); // affects(_,_)
-  LIST_OF_AFFECTS_STMTS extractAffectsAnything();  // affects(_,a)
-  LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(a,_)
-  BOOLEAN extractIsAffectsAnything(STMT_NUM t_usesLine); // affects(_,12)
-  BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(1,_)
+  LIST_OF_AFFECTS_STMTS extractAffectsAnything();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(_,a)
+  BOOLEAN extractIsAffectsAnything(STMT_NUM t_usesLine); // affects(1,_)
+  BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(_,12)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result);
 
   /**
