@@ -1,0 +1,5 @@
+1 - Affects Functionality Test
+procedure p; stmt s1,s2;
+Select p such that Affects(s1,s2)
+
+5000

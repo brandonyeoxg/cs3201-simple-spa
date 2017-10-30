@@ -1,0 +1,10 @@
+procedure Dynames{
+  a=1;
+  b=a+2;
+  call B;
+  a=b-3*a;
+}
+
+procedure Kyrios{
+  c=3;
+}
