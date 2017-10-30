@@ -29,6 +29,10 @@ public:
   */
   BOOLEAN hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
 
+  /**
+  * From verbena's doc on PKB > Affects
+  * isAffectsFromLMS(INT, INT)
+  */
   BOOLEAN isAffects(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine); // Affects(4, 12) is true
 
   /**
@@ -67,5 +71,7 @@ private:
 
   BOOLEAN isContainerStmt(queryType::GType t_type);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeLmt(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
+
+  PROG_LINE getRealStartBound(PROG_LINE t_startBound);
 };
 
