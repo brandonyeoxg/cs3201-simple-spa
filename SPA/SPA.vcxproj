@@ -47,6 +47,7 @@
     <ClCompile Include="..\source\Patterns.cpp" />
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\NextTable.cpp" />
+    <ClCompile Include="..\source\pql\QueryCache.cpp" />
     <ClCompile Include="..\source\QueryUtil.cpp" />
     <ClCompile Include="..\source\Relation.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="..\source\PkbWriteOnly.h" />
     <ClInclude Include="..\source\pkb\patternMatch\PatternMatch.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\NextTable.h" />
+    <ClInclude Include="..\source\pql\QueryCache.h" />
     <ClInclude Include="..\source\QueryUtil.h" />
     <ClInclude Include="..\source\Relation.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />

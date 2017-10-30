@@ -238,6 +238,9 @@
     <ClCompile Include="..\source\AffectsExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pql\QueryCache.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -519,6 +522,9 @@
     </ClInclude>
     <ClInclude Include="..\source\AffectsExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryCache.h">
+      <Filter>PQL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
