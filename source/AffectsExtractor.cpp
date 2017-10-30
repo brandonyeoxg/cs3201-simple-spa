@@ -18,7 +18,7 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // 
     //add affectsList to LMS.
     LMS = appendAffectsList(affectsList, LMS);
   }
-  return{}; //return LMS as set of affects??
+  return LMS;
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { // affects(a,12)
