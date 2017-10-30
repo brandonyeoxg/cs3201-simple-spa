@@ -1,5 +1,7 @@
 #pragma once
 
+#include <assert.h>
+
 #include "../GlobalTypeDef.h"
 
 /** Class for caching results intra-query.
@@ -12,6 +14,10 @@ class QueryCache {
 public:
   QueryCache();
   ~QueryCache();
+
+  ///////////////////////////////////////////////////////
+  //  Getter Methods
+  ///////////////////////////////////////////////////////
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
 
@@ -32,6 +38,20 @@ public:
   LIST_OF_STMT_NUMS * getStmtUsesAnything();
 
   LIST_OF_STMT_NUMS * getStmtModifiesAnything();
+
+  ///////////////////////////////////////////////////////
+  //  Cache Methods
+  ///////////////////////////////////////////////////////
+
+  void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar);
+
+  void cacheAllFollows(MAP_OF_STMT_NUMS t_allFollows);
+
+  void cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything);
+
+  void cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything);
+
+  void cacheChildrenOfAnything(LIST_OF_STMT_NUMS t_childrenOfAnything);
 
 private:
 

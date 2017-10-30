@@ -67,3 +67,23 @@ LIST_OF_STMT_NUMS * QueryCache::getStmtUsesAnything() {
 LIST_OF_STMT_NUMS * QueryCache::getStmtModifiesAnything() {
   return m_stmtModifiesAnything;
 }
+
+void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar) {
+  assert(m_allNextStar == nullptr); // prevent re-insertion
+  m_allNextStar = &t_allNextStar;
+}
+
+void QueryCache::cacheAllFollows(MAP_OF_STMT_NUMS t_allFollows) {
+  assert(m_allFollows == nullptr); // prevent re-insertion
+  m_allFollows = &t_allFollows;
+}
+
+void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything) {
+  assert(m_followsAnything == nullptr); // prevent re-insertion
+  m_followsAnything = &t_followsAnything;
+}
+
+void QueryCache::cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything) {
+  assert(m_followedByAnything == nullptr); // prevent re-insertion
+  m_followedByAnything = &t_followedByAnything;
+}
