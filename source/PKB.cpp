@@ -799,11 +799,11 @@ LIST_OF_PROG_LINES PKB::getAllLinesBefore(PROG_LINE t_line) {
   return m_nextTable->getAllLinesBefore(t_line);
 }
 
-std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNext() {
+MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES PKB::getAllNext() {
   return m_nextTable->getAllNext();
 }
 
-std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
+MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES PKB::getAllNextStar() {
   return m_nextTable->getAllNextStar();
 }
 

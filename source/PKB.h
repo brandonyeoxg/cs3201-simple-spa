@@ -815,13 +815,13 @@ public:
   *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNext();
 
   /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNextStar();
 
   /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed after any particular line.
