@@ -90,7 +90,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestgetAffectsListsFromBounds) {
-      m_affectsTable->getAffectsListsFromBounds(1, 6);
+      m_affectsTable->getAffectsListsFromBounds(1, 9);
     }
   private:
   };
