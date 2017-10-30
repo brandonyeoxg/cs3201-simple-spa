@@ -53,6 +53,7 @@ private:
   void handleAffectsOnIfStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
   void handleAffectsOnWhileStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
   void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
+  void handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt);
 
   BOOLEAN isContainerStmt(queryType::GType t_type);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS mergeLmt(MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS);

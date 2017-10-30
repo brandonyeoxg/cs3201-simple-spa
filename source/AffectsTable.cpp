@@ -44,7 +44,7 @@ void AffectsTable::traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_
   if (t_type == queryType::GType::ASGN) {
     handleAffectsOnAssgnStmt(t_curProgLine, t_lmt);
   } else if (t_type == queryType::GType::CALL) {
-
+    handleAffectsOnCallStmt(t_curProgLine, t_lmt);
   }
   if (m_nextTable->getAfterGraph()->find(t_curProgLine) == m_nextTable->getAfterGraph()->end()) {
     return;
@@ -97,6 +97,20 @@ void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_
     return;
   }
   t_lmt.insert({ modifiesVar, {t_curProgLine} });
+}
+
+void AffectsTable::handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt) {
+  LIST_OF_VAR_NAMES listOfVarModified= m_pkbTablesOnly->getModifiesTable()->getModifies(t_curProgLine);
+  if (t_lmt.empty()) {
+    return;
+  }
+  for (auto& mItr : listOfVarModified) {
+    auto pItr = t_lmt.find(mItr);
+    if (pItr == t_lmt.end()) {
+      continue;
+    }
+    t_lmt.erase(pItr);
+  }
 }
 
 BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {
