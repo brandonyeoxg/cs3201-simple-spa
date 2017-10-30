@@ -1,0 +1,76 @@
+procedure Aaron{
+  a=1;
+  while i{
+    while j{
+      while k{
+        if i then{
+          if j then{
+            if k then{
+              a=b+((((((c*d))))));
+              d=((((((c-b))))*(((a)))));}
+            else{
+              b=(c-d)+e*r;
+              d=((((b+b)*b))-b);}
+            call Ryan;}
+          else{
+            call Verbena;}
+          call Brandon;}
+        else{
+          a=(2+(((((3-4))))))*(5+(((((2)))))*((((2+2))))-(2*2));}
+        call Jaslyn;
+        call Brandon;
+        call Verbena;
+        call Ryan;
+        call PC;}}
+    a2=a*2;
+    a3=a2+1;}
+  b=2;
+  call Brandon;
+  c=3;
+  if j then{
+    c2=c-((((2+3))))-((4+4)*6)-(((((7+1-2)))))*4-3;
+    while  i{
+      call PC;
+      if p then{
+        c=p;
+        p=c;}
+      else{
+        i=j;
+        j=i;}}
+    a=b;
+    b=c+d*(e-3);}
+  else{
+    c3=c2*3;}
+  e=5;
+  call PC;
+}
+
+procedure Brandon{
+  while a{
+    d=4;
+    call Jaslyn;
+    while a2{
+      call Verbena;
+      a=a+(a+a)+(a+a)-a*a-a-((((a*((a*a)))*a)))+1-(((2*3)))+4;}}
+  a=(c*d+e)-(3+2);
+}
+
+procedure Jaslyn{
+  a=e+c*e-f;
+  f=((b+c)-(e))*a;
+  call PC;
+}
+
+procedure PC{
+  call Verbena;
+  p=c;
+  call Ryan;
+}
+
+procedure Ryan{
+  r=1;
+}
+
+procedure Verbena{
+  v=1;
+}
