@@ -258,7 +258,7 @@ stmt s1,s2;
 Select s1 such that Follows*("x",s2)
 none
 5000
-53 - Follows* Nesting Level Invalid Test
+53 - Follows Nesting Level Invalid Test
 
 Select BOOLEAN such that Follows(2,3)
 false

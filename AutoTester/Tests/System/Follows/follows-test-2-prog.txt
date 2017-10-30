@@ -13,7 +13,8 @@ procedure Aaron{
       if p then{
         c=p;
         p=c;}
-      i=j;
+      else{
+        i=j;}
       j=i;}
     a=b;
     b=c+d*(e-3);}
