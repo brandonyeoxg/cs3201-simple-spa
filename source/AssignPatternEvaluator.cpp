@@ -69,22 +69,34 @@ SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarByExactPattern(t_g2.getVector());
+  std::unordered_map<STMT_NUM, VAR_INDEX> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarByExactPattern(t_g2.getVector());
   if (assignStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> assignStmtsWithVarName;
+  for (auto& x : assignStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    assignStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(assignStmtsWithVarName);
   return m_result;
 }
 
 SET_OF_RESULTS AssignPatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarBySubtreePattern(t_g2.getVector());
+  std::unordered_map<STMT_NUM, VAR_INDEX> assignStmtsWithVar = t_pkb->getAllAssignStmtWithVarBySubtreePattern(t_g2.getVector());
   if (assignStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(assignStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> assignStmtsWithVarName;
+  for (auto& x : assignStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    assignStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(assignStmtsWithVarName);
   return m_result;
 }
 
