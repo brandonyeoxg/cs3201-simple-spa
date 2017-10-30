@@ -102,10 +102,16 @@ namespace UnitTesting {
 
     TEST_METHOD(TestHasAffectsFromBounds) {
       Assert::IsTrue(m_affectsTable->hasAffectsFromBounds(3,3));
+      Assert::IsFalse(m_affectsTable->hasAffectsFromBounds(9, 9));
     }
 
     TEST_METHOD(TestIsAffects) {
       Assert::IsTrue(m_affectsTable->isAffects(3, 3));
+      Assert::IsFalse(m_affectsTable->isAffects(3, 4));
+      Assert::IsTrue(m_affectsTable->isAffects(7, 8));
+      Assert::IsTrue(m_affectsTable->isAffects(8, 7));
+      Assert::IsTrue(m_affectsTable->isAffects(6, 5));
+      Assert::IsFalse(m_affectsTable->isAffects(5, 6));
     }
   private:
   };
