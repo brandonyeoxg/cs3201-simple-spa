@@ -446,29 +446,30 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmtByVarAndSubtreePattern(std::string t_varN
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) {
   LIST_OF_STMT_NUMS stmtsWithMatch = m_patternMatch->getAllStmtNumWithExactPattern(t_patternTokens);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
 
   for (auto stmtNum : stmtsWithMatch) {
     assert(getModifies(stmtNum).size() == 1);
     std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) {
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) {
   LIST_OF_STMT_NUMS stmtsWithMatch = m_patternMatch->getAllStmtNumWithSubtreePattern(t_patternTokens);
 
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
 
   for (auto stmtNum : stmtsWithMatch) {
     assert(getModifies(stmtNum).size() == 1);
     std::string varName = getModifies(stmtNum).at(0); // there should only be 1 variable modified for an assignment statement
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
@@ -492,8 +493,8 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllWhileStmtsWithVar() {
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
   if (getStatementTypeTable().count(queryType::GType::WHILE) == 0) {
     return mapStmtToVar;
   }
@@ -502,7 +503,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllWhileStmtsWithVar() {
 
   for (auto stmtNum : whileStmts) {
     std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
@@ -534,8 +535,8 @@ LIST_OF_STMT_NUMS PKB::getIfStmtByVar(STRING t_varName) {
   return list;
 }
 
-std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
-  std::unordered_map<STMT_NUM, VAR_NAME> mapStmtToVar = std::unordered_map<STMT_NUM, VAR_NAME>();
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllIfStmtsWithVar() {
+  MAP_OF_STMT_NUM_TO_VAR_INDEX mapStmtToVar = MAP_OF_STMT_NUM_TO_VAR_INDEX();
   if (getStatementTypeTable().count(queryType::GType::IF) == 0) {
     return mapStmtToVar;
   }
@@ -544,7 +545,7 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllIfStmtsWithVar() {
 
   for (auto stmtNum : ifStmts) {
     std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, varName });
+    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
   }
 
   return mapStmtToVar;
