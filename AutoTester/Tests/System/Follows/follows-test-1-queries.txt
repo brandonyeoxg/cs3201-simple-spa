@@ -8,15 +8,15 @@ stmt s1,s2; assign a;
 Select s1 such that Follows(a,s2)
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
-3 - Follows Invalid Test 0
+3 - Follows Functionality Test
 assign a; stmt s; while w;
 Select a such that Follows(w,s)
-none
+1,10,11,12,3,4,5,7,9
 5000
-4 - Follows  Invalid Test -1
+4 - Follows Functionality Test
 stmtLst sl; stmt s; if ifs;
 Select sl such that Follows(ifs,s)
-none
+1,10,12,3,9
 5000
 5 - Follows Functionality Test
 call c1, c2; stmt s; if ifs;
@@ -36,7 +36,7 @@ Select w such that Follows(1,s)
 8 - Follows Functionality Test
 variable w; stmt s;
 Select w such that Follows(_,s)
-a,a2,a3,b,c,c2,c3,e,d
+a,a2,a3,b,c,c2,c3,e,d,i,j
 5000
 9 - Follows Functionality Test
 stmt s1,s2; assign a;
@@ -71,7 +71,7 @@ Select w such that Follows(s,2)
 15 - Follows Functionality Test
 variable w; stmt s;
 Select w such that Follows(s,_)
-a,a2,a3,b,c,c2,c3,e,d
+a,a2,a3,b,c,c2,c3,e,d,i,j
 5000
 16 - Follows Functionality Test
 
@@ -166,7 +166,7 @@ Select w such that Follows*(1,s)
 34 - Follows* Functionality Test
 variable w; stmt s;
 Select w such that Follows*(_,s)
-a,a2,a3,b,c,c2,c3,e,d
+a,a2,a3,b,c,c2,c3,e,d,i,j
 5000
 35 - Follows* Functionality Test
 stmt s1,s2; assign a;
@@ -201,7 +201,7 @@ Select w such that Follows*(s,5)
 41 - Follows* Functionality Test
 variable w; stmt s;
 Select w such that Follows*(s,_)
-a,a2,a3,b,c,c2,c3,e,d
+a,a2,a3,b,c,c2,c3,e,d,i,j
 5000
 42 - Follows* Functionality Test
 
@@ -338,10 +338,10 @@ prog_line s1,s2;
 Select s1 such that Follows(s2,s2)
 none
 5000
-69 - Follows Recursion Invalid Test
+69 - Follows Recursion Functionality Test
 
 Select BOOLEAN such that Follows(_,_)
-false
+true
 5000
 70 - Follows Recursion Invalid Test
 
@@ -378,10 +378,10 @@ prog_line s1,s2;
 Select s1 such that Follows*(s2,s2)
 none
 5000
-77 - Follows* Recursion Invalid Test
+77 - Follows* Recursion Functionality Test
 
 Select BOOLEAN such that Follows*(_,_)
-false
+true
 5000
 78 - Follows* Recursion Invalid Test
 
