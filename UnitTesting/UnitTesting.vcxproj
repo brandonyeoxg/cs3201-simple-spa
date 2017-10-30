@@ -183,6 +183,7 @@
     <ClCompile Include="TestPKB.cpp" />
     <ClCompile Include="TestPkbPatternAPI.cpp" />
     <ClCompile Include="TestProcTable.cpp" />
+    <ClCompile Include="TestQueryCache.cpp" />
     <ClCompile Include="TestQueryPreProcessor.cpp" />
     <ClCompile Include="TestQueryProcessor.cpp" />
     <ClCompile Include="TestStatementTable.cpp" />

@@ -27,6 +27,7 @@
     <ClCompile Include="TestIntermediateTable.cpp" />
     <ClCompile Include="TestTokeniserUtil.cpp" />
     <ClCompile Include="TestAffectsTable.cpp" />
+    <ClCompile Include="TestQueryCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

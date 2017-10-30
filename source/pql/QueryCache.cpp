@@ -100,3 +100,8 @@ void QueryCache::cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything)
   assert(m_followedByAnything == nullptr); // prevent re-insertion
   m_followedByAnything = &t_followedByAnything;
 }
+
+void QueryCache::cacheChildrenOfAnything(LIST_OF_STMT_NUMS t_childrenOfAnything) {
+  assert(m_childrenOfAnything == nullptr); // prevent re-insertion
+  m_childrenOfAnything = &t_childrenOfAnything;
+}
