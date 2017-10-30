@@ -58,10 +58,10 @@ void AffectsTable::traverseNonContainerCfg(PROG_LINE t_curProgLine, PROG_LINE t_
 
 void AffectsTable::handleAffectsOnIfStmt(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt) {
   LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS ifLmt;
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS ifLmt = t_lmt;
   LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
   traverseCfg(stmts[0], stmtLstBound.back(), ifLmt);
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS elseLmt;
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS elseLmt = t_lmt;
   traverseCfg(stmts[1], stmtLstBound.back(), elseLmt);
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
@@ -85,18 +85,37 @@ void AffectsTable::handleAffectsOnWhileStmt(PROG_LINE t_curProgLine, PROG_LINE t
 
 void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt) {
   VAR_NAME modifiesVar = m_pkbTablesOnly->getModifiesTable()->getModifies(t_curProgLine)[0];
+  LIST_OF_VAR_NAMES usesVars = m_pkbTablesOnly->getUsesTable()->getUses(t_curProgLine);
   // checks the lmt to see is any affects relation
   if (t_lmt.empty()) {
-    t_lmt.insert({ modifiesVar,{ t_curProgLine } });
+    t_lmt.insert({ modifiesVar, { t_curProgLine } });
     return;
   }
   // find affects relation
+  for (auto &uItr : usesVars) {
+    auto pItr = t_lmt.find(uItr);
+    if (pItr == t_lmt.end()) {
+      continue;
+    }
+    // there is a match of modifies and uses
+    for (auto &mItr : pItr->second) {
+      auto aItr = affectsList.find(mItr);
+      if (aItr == affectsList.end()) {
+        affectsList.insert({ mItr, {t_curProgLine} });
+        continue;
+      }
+      aItr->second.push_back(t_curProgLine);
+    }
+  }
+  
+  // update the LMT
   auto pItr = t_lmt.find(modifiesVar);
   if (pItr == t_lmt.end()) {
-    t_lmt.insert({ modifiesVar,{ t_curProgLine } });
+    t_lmt.insert({ modifiesVar, { t_curProgLine } });
     return;
   }
-  t_lmt.insert({ modifiesVar, {t_curProgLine} });
+  pItr->second.clear();
+  pItr->second.push_back(t_curProgLine);
 }
 
 void AffectsTable::handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS &t_lmt) {
