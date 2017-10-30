@@ -61,7 +61,6 @@ typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
 typedef std::vector<STRING> LIST_OF_STRINGS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
 typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
-typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
@@ -86,7 +85,6 @@ typedef std::unordered_map<STMT_NUM, PROC_NAME> MAP_OF_STMT_NUM_TO_PROC_NAME;
 typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<VAR_NAME, SET_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS;
 typedef std::list<std::string> LIST_OF_CONSTANTS;
-typedef std::list<STMT_NUM> LIST_OF_ASSIGN_STMTS_FOR_PATTERN;
 typedef std::unordered_map<SYNONYM_NAME, int> MAP_OF_SYNONYMS_TO_COUNTS;
 typedef std::unordered_map<SYNONYM_NAME, INTEGER> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS;
 typedef std::unordered_map<SYNONYM_NAME, STRING> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING;
@@ -95,6 +93,7 @@ typedef std::unordered_map<SYNONYM_NAME, LIST_OF_INTEGERS> MAP_OF_SYNONYMS_TO_BE
 typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
 typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
+typedef  std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
 typedef std::pair<MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;

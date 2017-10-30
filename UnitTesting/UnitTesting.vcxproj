@@ -171,7 +171,6 @@
     <ClCompile Include="TestAffectsExtractor.cpp" />
     <ClCompile Include="TestAffectsTable.cpp" />
     <ClCompile Include="TestAssignTable.cpp" />
-    <ClCompile Include="TestAST.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />

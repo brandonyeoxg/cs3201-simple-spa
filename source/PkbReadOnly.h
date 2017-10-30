@@ -328,7 +328,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -336,7 +336,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _""_).
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -353,7 +353,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _"y + x"_).
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -362,7 +362,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, "x + y + h").
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -371,7 +371,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, _"x + y + h"_).
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -380,7 +380,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable.
@@ -394,7 +394,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar() = 0;
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -414,7 +414,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar() = 0;
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
@@ -844,4 +844,17 @@ public:
   virtual LIST_OF_AFFECTS_STMTS getAffectedByAnything() = 0; // affects(_,a)
   virtual BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine) = 0; // affects(1,_)
   virtual BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines) = 0; // affects(_,12)
+
+  ///////////////////////////////////////////////////////
+  //  Affects* Extractor
+  ///////////////////////////////////////////////////////
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffectsStar() = 0; // affects*(a1,a2)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine) = 0; // affects*(2,a)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine) = 0; // affects*(a,12)
+  virtual BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects*(1,12)
+  virtual BOOLEAN hasAffectsRelationshipStar() = 0; // affects*(_,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsAnythingStar() = 0;  // affects*(a,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByAnythingStar() = 0; // affects*(_,a)
+  virtual BOOLEAN isAffectsAnythingStar(STMT_NUM t_modifiesLine) = 0; // affects*(1,_)
+  virtual BOOLEAN isAffectedByAnythingStar(STMT_NUM t_usesLines) = 0; // affects*(_,12)
 };
