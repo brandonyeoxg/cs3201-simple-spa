@@ -4,7 +4,7 @@ void AffectsExtractor::extractDesign() {
 }
 
 SET_OF_AFFECTS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
     //for every procedure, create LMS
@@ -15,7 +15,7 @@ SET_OF_AFFECTS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
     STMT_NUM start = bound[0];
     STMT_NUM end = bound[bound.size()-1];
     PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
-    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
+    MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMPS.
     LMPS = appendAffectsList(affectsList, LMPS);
   }
@@ -33,11 +33,13 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { //
   STMT_NUM start = bound[0];
 
   PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, t_usesLine);
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectedByList = intermediateResult.second;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList = intermediateResult.second;
 
   auto itr = affectedByList.find(t_usesLine);
   if (itr != affectedByList.end()) {
-    affectsStmts = itr->second;
+    SET_OF_STMT_NUMS affectsSet = itr->second;
+    //copy set to vector
+    affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
   }
   return affectsStmts;
 }
@@ -51,11 +53,13 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedBy(STMT_NUM t_modifiesLin
   LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(t_modifiesLine);
   STMT_NUM end = bound[bound.size() - 1];
   PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(t_modifiesLine, end);
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList = intermediateResult.first;
   //return affectedByList.get(t_modifiesLine);
   auto itr = affectsList.find(t_modifiesLine);
   if (itr != affectsList.end()) {
-    affectsStmts = itr->second;
+    SET_OF_STMT_NUMS affectsSet = itr->second;
+    //copy set to vector
+    affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
   }
   return affectsStmts;
 }
@@ -86,7 +90,7 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,a)
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
     //get the bounds (first and last) stmt no from proc
@@ -95,7 +99,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,
     STMT_NUM start = bound[0];
     STMT_NUM end = bound[bound.size() - 1];
     PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
-    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectedByList = intermediateResult.second;
+    MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList = intermediateResult.second;
     //add affectsList to LMPS.
     //run the appendAffectsList method.
     LMPS = appendAffectsList(affectedByList, LMPS);
@@ -108,7 +112,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(_,
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects(a,_)
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS LMPS = MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size;
   for (int i = 0; i < numberOfProcedures; i++) {
     //for every procedure, create LMS
@@ -118,7 +122,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects
     STMT_NUM start = bound[0];
     STMT_NUM end = bound[bound.size() - 1];
     PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
-    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS affectsList = intermediateResult.first;
+    MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMPS.
     //run the appendAffectsList method.
     LMPS = appendAffectsList(affectsList, LMPS);
@@ -166,11 +170,11 @@ BOOLEAN AffectsExtractor::extractIsAffectedByAnything(STMT_NUM t_modifiesLine) {
   return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end);
 }
 
-MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
+MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS result) {
   //for every key in toAdd
   for (auto itr_toAdd = toAdd.begin(); itr_toAdd != toAdd.end(); ++itr_toAdd) {
     STMT_NUM key = itr_toAdd->first;
-    LIST_OF_AFFECTS_STMTS affects = itr_toAdd->second;
+    SET_OF_STMT_NUMS affects = itr_toAdd->second;
     //case 1: if key not found in result
     if (result.find(key) == result.end()) {
       //just emplace the whole vector into result
@@ -178,10 +182,9 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_
     } else {
       //case 2: if key found in result
       auto itr_result = result.find(key);
-      LIST_OF_AFFECTS_STMTS affectsInResult = itr_result->second;
+      SET_OF_STMT_NUMS affectsInResult = itr_result->second;
       //add the values in, sort and put back to the result
-      affectsInResult.insert(affectsInResult.end(), affects.begin(), affects.end());
-      std::sort(affectsInResult.begin(), affectsInResult.end());
+      affectsInResult.insert(affects.begin(), affects.end());
       result[key] = affectsInResult;
     }
   }

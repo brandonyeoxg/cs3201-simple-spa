@@ -29,7 +29,7 @@ public:
   LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(a,_)
   BOOLEAN extractIsAffectsAnything(STMT_NUM t_usesLine); // affects(_,12)
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(1,_)
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result);
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS result);
 
   /**
   * A helper method to obtain the list of statements of a procedure from a particular statement number that resides in the procedure.
