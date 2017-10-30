@@ -45,28 +45,28 @@ public:
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesAfter(PROG_LINE t_line);
 
   /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly before given line.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesBefore(PROG_LINE t_line);
 
   /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesAfter(PROG_LINE t_line);
 
   /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesBefore(PROG_LINE t_line);
 
   /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
@@ -84,13 +84,13 @@ public:
   *   Gets list of all lines that can be executed after any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+  LIST_OF_PROG_LINES getAllLinesAfterAnyLine();
 
   /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed before any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
+  LIST_OF_PROG_LINES getAllLinesBeforeAnyLine();
 
   /** For Next(_, _) or Next*(_, _).
   *   Checks if any Next relationship exists.
@@ -114,10 +114,6 @@ public:
 
   // Returns a constant pointer to m_afterGraph, for Affects() computation
   const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
-
-  ////////////////// for debugging
-  //std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAfterGraph() { return m_afterGraph; }
-  //PROG_LINE getMaxLines() { return MAX_LINE_NUM; }
 
 private:
   PROG_LINE MAX_LINE_NUM; /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
@@ -143,10 +139,10 @@ private:
   *   @param t_graph given graph to search
   *   @return list of the lines (can be in unsorted order)
   */
-  std::vector<PROG_LINE> getListOfLinesReachable(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
+  LIST_OF_PROG_LINES getListOfLinesReachable(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph);
 
   // recursive dfs
-  std::vector<PROG_LINE> traverseGraphDfs(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph, std::vector<bool>& visited);
+  LIST_OF_PROG_LINES traverseGraphDfs(PROG_LINE t_line, std::map<PROG_LINE, std::vector<PROG_LINE>> t_graph, std::vector<bool>& visited);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in a map. Uses generics. */

@@ -61,7 +61,6 @@ typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
 typedef std::vector<STRING> LIST_OF_STRINGS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
 typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
-typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;

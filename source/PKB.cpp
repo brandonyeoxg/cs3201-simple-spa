@@ -783,19 +783,19 @@ bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   return m_nextTable->isNextStar(t_line1, t_line2);
 }
 
-std::vector<PROG_LINE> PKB::getLinesAfter(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getLinesAfter(PROG_LINE t_line) {
   return m_nextTable->getLinesAfter(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getLinesBefore(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getLinesBefore(PROG_LINE t_line) {
   return m_nextTable->getLinesBefore(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesAfter(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getAllLinesAfter(PROG_LINE t_line) {
   return m_nextTable->getAllLinesAfter(t_line);
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesBefore(PROG_LINE t_line) {
+LIST_OF_PROG_LINES PKB::getAllLinesBefore(PROG_LINE t_line) {
   return m_nextTable->getAllLinesBefore(t_line);
 }
 
@@ -807,11 +807,11 @@ std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> PKB::getAllNextStar() {
   return m_nextTable->getAllNextStar();
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesAfterAnyLine() {
+LIST_OF_PROG_LINES PKB::getAllLinesAfterAnyLine() {
   return m_nextTable->getAllLinesAfterAnyLine();
 }
 
-std::vector<PROG_LINE> PKB::getAllLinesBeforeAnyLine() {
+LIST_OF_PROG_LINES PKB::getAllLinesBeforeAnyLine() {
   return m_nextTable->getAllLinesBeforeAnyLine();
 }
 
