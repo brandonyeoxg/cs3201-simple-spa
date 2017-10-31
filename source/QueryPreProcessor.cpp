@@ -226,17 +226,25 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int tempSpaceLoc;
 
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
-    tempSpaceLoc = t_queryInput.find(delimiterSpace);
-    std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    selectStatement.append(" ");
-    selectStatement.append(tempSelectStatement);
-    secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
-    //secondStatement = t_queryInput.substr(secondStatement.find_first_not_of(delimiterSpace) + 1, secondStatement.size());
-    secondStatement = m_stringUtil.trimString(secondStatement);
+    //Case 1: no tuples
+    if (t_queryInput.find('<') == std::string::npos && t_queryInput.find('>') == std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
+      t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
+      t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
+      tempSpaceLoc = t_queryInput.find(delimiterSpace);
+      std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
+      selectStatement.append(" ");
+      selectStatement.append(tempSelectStatement);
+      secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
+      secondStatement = m_stringUtil.trimString(secondStatement);
 
+    //Case 2: with tuples
+    } else if (t_queryInput.find('<') != std::string::npos && t_queryInput.find('>') != std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find('>') + 1);
+      t_queryInput = t_queryInput.substr(t_queryInput.find('>') + 1);
+      t_queryInput = m_stringUtil.trimString(t_queryInput);
+      secondStatement = t_queryInput;
+    }
     while (true) {
       //secondStatement = m_stringUtil.trimString(secondStatement);
       secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
@@ -1205,7 +1213,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     size_t pos = synonymOriginalTemp.find(subLeft, 0);
     while (pos != std::string::npos) {
     pos = synonymOriginalTemp.find(subLeft, pos + 1);
-    if (synonymOriginalTemp.find_first_not_of(" \t") == '>') {
+    if (synonymOriginalTemp.find_first_not_of(" ") == '>') {
         return false;
       }
     }
