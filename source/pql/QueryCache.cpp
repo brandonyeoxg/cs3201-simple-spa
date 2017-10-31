@@ -101,7 +101,7 @@ void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNe
   m_allNextStar = &t_allNextStar;
 }
 
-void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES t_allLinesAfterAnyLine) {
+void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAnyLine) {
   assert(m_allLinesAfterAnyLine == nullptr); // prevent re-insertion
   m_allLinesAfterAnyLine = &t_allLinesAfterAnyLine;
 }

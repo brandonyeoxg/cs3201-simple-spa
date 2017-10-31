@@ -28,8 +28,17 @@ public:
     pkb.executeAfterAllNextInserts();
 
     LIST_OF_PROG_LINES expectedLines = {2, 3, 4, 5};
-    cache.cacheAllLinesAfterAnyLine(pkb.getAllLinesAfterAnyLine());
+    LIST_OF_PROG_LINES list = pkb.getAllLinesAfterAnyLine();
+    cache.cacheAllLinesAfterAnyLine(list);
     Assert::IsTrue(*cache.getAllLinesAfterAnyLine() == expectedLines);
+  }
+
+private:
+  void printVector(std::vector<int> vector) {
+    Logger::WriteMessage("Printing vector");
+    for (auto iterator : vector) {
+      Logger::WriteMessage(std::to_string(iterator).c_str());
+    }
   }
   };
 }
