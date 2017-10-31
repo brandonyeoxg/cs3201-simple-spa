@@ -115,9 +115,6 @@ public:
   // Returns a constant pointer to m_afterGraph, for Affects() computation
   const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
 
-  template <typename T, typename G>
-  static bool isKeyInMap(T key, std::unordered_map<T, G> map); /**< Function to test if key exists in a map. Uses generics. */
-
 private:
   PROG_LINE MAX_LINE_NUM;                                     /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;   /**< Graph representation of lines after each program line */
@@ -149,6 +146,8 @@ private:
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::map<T, G> map);  /**< Function to test if key exists in a map. Uses generics. */
+  template <typename T, typename G>
+  bool isKeyInMap(T key, std::unordered_map<T, G> map);
 };
 
 template <typename T, typename G>
@@ -157,6 +156,6 @@ inline bool NextTable::isKeyInMap(T key, std::map<T, G> map) {
 }
 
 template <typename T, typename G>
-static inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, G> map) {
+inline bool NextTable::isKeyInMap(T key, std::unordered_map<T, G> map) {
   return map.count(key) == 1;
 }
