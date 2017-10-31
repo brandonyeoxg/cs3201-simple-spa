@@ -392,6 +392,9 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
   return m_procTable->getAllProcsName();
 }
 
+PROC_NAME PKB::getProcNameFromIdx(PROC_INDEX t_idx) {
+  return m_procTable->getProcNameFromIdx(t_idx);
+}
 ///////////////////////////////////////////////////////
 //  PatternMatch methods
 ///////////////////////////////////////////////////////

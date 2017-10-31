@@ -491,6 +491,9 @@ public:
   * Returns all procedure name in the program
   */
   LIST_OF_RESULTS getAllProcsName();
+
+  PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
+
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
