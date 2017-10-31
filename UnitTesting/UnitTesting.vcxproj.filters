@@ -28,6 +28,7 @@
     <ClCompile Include="TestTokeniserUtil.cpp" />
     <ClCompile Include="TestAffectsTable.cpp" />
     <ClCompile Include="TestQueryCache.cpp" />
+    <ClCompile Include="TestAffectsExtractor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

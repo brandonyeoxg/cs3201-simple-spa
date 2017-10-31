@@ -36,7 +36,7 @@ SET_OF_RESULTS AffectsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gr
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffects(std::stoi(t_g1.getName()));
+    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffectedBy(std::stoi(t_g1.getName()));
     if (affectsStmts.empty()) {
       return m_result;
     }
@@ -64,7 +64,7 @@ SET_OF_RESULTS AffectsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == queryType::GType::STMT_NO) {
-    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffectedBy(std::stoi(t_g2.getName()));
+    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffects(std::stoi(t_g2.getName()));
     if (affectsStmts.empty()) {
       return m_result;
     }
@@ -91,12 +91,12 @@ SET_OF_RESULTS AffectsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
 SET_OF_RESULTS AffectsStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, int> allFollows = t_pkb->getAllAffects();
-  if (allFollows.empty()) {
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS allAffects = t_pkb->getAllAffects();
+  if (allAffects.empty()) {
     return m_result;
   }
 
-  for (auto& x : allFollows) {
+  for (auto& x : allAffects) {
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
     m_result[std::to_string(x.first)] = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
   }

@@ -101,15 +101,14 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
       }
     }
 
-    std::string delimiterSpace = " ";
     std::string tempString;
 
     for (std::size_t j = 0; j != declarationVector.size(); ++j) {
       tempString = declarationVector.at(j);
       tempString = m_stringUtil.trimString(tempString);
 
-      std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
-      std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
+      std::string entity = tempString.substr(0, tempString.find(WHITESPACE));
+      std::string variables = tempString.substr(tempString.find(WHITESPACE) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
 
       entity = m_stringUtil.trimString(entity);
       variables = m_stringUtil.trimString(variables);
@@ -194,7 +193,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string selectStatement;
   std::string suchThatStatement;
   std::string patternStatement;
-  std::string delimiterSpace = " ";
+
   std::string withStatement;
   std::string delimiterSelect = "Select";
   std::string delimiterSuchThat = "such that";
@@ -226,28 +225,36 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int tempSpaceLoc;
 
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
-    tempSpaceLoc = t_queryInput.find(delimiterSpace);
-    std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    selectStatement.append(" ");
-    selectStatement.append(tempSelectStatement);
-    secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
-    //secondStatement = t_queryInput.substr(secondStatement.find_first_not_of(delimiterSpace) + 1, secondStatement.size());
-    secondStatement = m_stringUtil.trimString(secondStatement);
+    //Case 1: no tuples
+    if (t_queryInput.find('<') == std::string::npos && t_queryInput.find('>') == std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(WHITESPACE));
+      t_queryInput = t_queryInput.substr(t_queryInput.find(WHITESPACE));
+      t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(WHITESPACE), t_queryInput.find_last_not_of(WHITESPACE));
+      tempSpaceLoc = t_queryInput.find(WHITESPACE);
+      std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(WHITESPACE));
+      selectStatement.append(WHITESPACE);
+      selectStatement.append(tempSelectStatement);
+      secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
+      secondStatement = m_stringUtil.trimString(secondStatement);
 
+    //Case 2: with tuples
+    } else if (t_queryInput.find('<') != std::string::npos && t_queryInput.find('>') != std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find('>') + 1);
+      t_queryInput = t_queryInput.substr(t_queryInput.find('>') + 1);
+      t_queryInput = m_stringUtil.trimString(t_queryInput);
+      secondStatement = t_queryInput;
+    }
     while (true) {
       //secondStatement = m_stringUtil.trimString(secondStatement);
-      secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+      secondTempStatement = secondStatement.substr(0, secondStatement.find(WHITESPACE));
       if (secondTempStatement == "such") {
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace));
-        secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE));
+        secondTempStatement = secondStatement.substr(0, secondStatement.find(WHITESPACE));
         if (secondTempStatement == "that") {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
 
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
           m_relationVector.push_back(suchThatStatement);
 
@@ -256,15 +263,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             break;
           }
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           prevClause = delimiterSuchThat;
 
         }
 
       } else if (secondTempStatement == "pattern") {
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
 
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
 
         //case 1: where with, such that, pattern still exists and such that is the next token
         if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -689,13 +696,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       } else if (secondTempStatement == "with") {
 
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
         withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
         secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
-        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+        secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
 
-        withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+        withStatementRight = secondStatement.substr(0, secondStatement.find(WHITESPACE));
 
         withStatement.append(withStatementLeft);
         withStatement.append("=");
@@ -704,18 +711,18 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         m_withVector.push_back(withStatement);
         withStatement = "";
         //push with statement into a data structure;
-        if (secondStatement.find(delimiterSpace) == std::string::npos) {
+        if (secondStatement.find(WHITESPACE) == std::string::npos) {
           break;
         }
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
         prevClause = delimiterWith;
 
       } else if (secondTempStatement == "and") {
         if (prevClause.compare(delimiterSuchThat) == 0) {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
 
           m_relationVector.push_back(suchThatStatement);
@@ -724,13 +731,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             break;
           }
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           prevClause = delimiterSuchThat;;
         } else if (prevClause.compare(delimiterPattern) == 0) {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
           //
 
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
 
           //case 1: where with, such that, pattern still exists and such that is the next token
           if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -1155,13 +1162,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           }
         } else if (prevClause.compare(delimiterWith) == 0) {
 
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
           secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
-          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+          secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
 
-          withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+          withStatementRight = secondStatement.substr(0, secondStatement.find(WHITESPACE));
 
           withStatement.append(withStatementLeft);
           withStatement.append("=");
@@ -1170,11 +1177,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_withVector.push_back(withStatement);
           withStatement = "";
           //push with statement into a data structure;
-          if (secondStatement.find(delimiterSpace) == std::string::npos) {
+          if (secondStatement.find(WHITESPACE) == std::string::npos) {
             break;
           }
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+          secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
           prevClause = delimiterWith;
 
         }
@@ -1188,7 +1195,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
   std::cout << "with Vector size: " << m_withVector.size() << std::endl;
 
-  std::string synonymOriginal = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
+  std::string synonymOriginal = selectStatement.substr(selectStatement.find(WHITESPACE), selectStatement.size());
   synonymOriginal = m_stringUtil.trimString(synonymOriginal);
   std::string synonym;
   std::string synonymAttribute;
@@ -1205,16 +1212,22 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     size_t pos = synonymOriginalTemp.find(subLeft, 0);
     while (pos != std::string::npos) {
     pos = synonymOriginalTemp.find(subLeft, pos + 1);
-    if (synonymOriginalTemp.find_first_not_of(" \t") == '>') {
+    if (synonymOriginalTemp.find_first_not_of(WHITESPACE) == '>') {
         return false;
       }
     }
 
-    synonymOriginalVector = stringVectorTokenizer(" ,<>", synonymOriginal, synonymOriginalVector);
+    synonymOriginalVector = stringVectorTokenizer(",<>", synonymOriginal, synonymOriginalVector);
     
     //For each synonym in < >, validate and process synonyms
     for (auto syn = synonymOriginalVector.begin(); syn != synonymOriginalVector.end(); syn++, synonymCount++) {
       synonymOriginal = synonymOriginalVector.at(synonymCount);
+      synonymOriginal = m_stringUtil.trimString(synonymOriginal);
+
+      //if after post trim string, there is still whitespace = " p1 p2 " -> "p1 p2" space in between
+      if (synonymOriginal.find(WHITESPACE) != std::string::npos) {
+        return false;
+      }
       if (synonymOriginal.find('.') != std::string::npos) {
         synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
         synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
@@ -1294,10 +1307,9 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           if (grammarName == synonym) {
             m_selectQueue.push(g1);
             m_synonymMap.insert({ g1.getName(), 1 });
-          } /*else if (synonym == BOOLEAN_QPP) {
-            g1 = Grammar(queryType::GType::BOOLEAN, "BOOLEAN");
-            m_selectQueue.push(g1);
-          }*/
+          } else if (synonym == BOOLEAN_QPP) {
+            return false;
+          }
         }
 
         /*if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
@@ -2283,8 +2295,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int counterC = 0;
     for (auto c = m_patternVector.begin(); c != m_patternVector.end(); c++, counterC++) {
-      //std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
-      //std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
+      //std::string patternEntity = patternStatement.substr(0, patternStatement.find(WHITESPACE));
+      //std::string patternObject = patternStatement.substr(patternStatement.find(WHITESPACE), patternStatement.size());
       std::string patternObject = m_patternVector.at(counterC);
 
       patternObject = m_stringUtil.trimString(patternObject);
@@ -2542,6 +2554,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         } else {
           return false;
         }
+      } else {
+        return false;
       }
 
       //create pattern object
@@ -2560,7 +2574,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     int counterD=0;
     for (auto d = m_withVector.begin(); d != m_withVector.end(); d++, counterD++) {
       //withStatement = m_stringUtil.trimString(withStatement);
-      //std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
+      //std::string withObject = withStatement.substr(withStatement.find(WHITESPACE), withStatement.size());
       std::string withObject = m_withVector.at(counterD);
       withObject = m_stringUtil.trimString(withObject);
 

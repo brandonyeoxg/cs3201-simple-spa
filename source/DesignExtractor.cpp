@@ -24,16 +24,16 @@ void DesignExtractor::extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb) {
 ///////////////////////////////////////////////////////
 //  Affects Extractor
 ///////////////////////////////////////////////////////
-SET_OF_AFFECTS DesignExtractor::extractAllAffects() { // affects(a1,a2)
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS DesignExtractor::extractAllAffects() { // affects(a1,a2)
   return m_affectsExtractor->extractAllAffects();
 }
 
-LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffects(STMT_NUM t_modifiesLine) { // affects(2,a)
-  return m_affectsExtractor->extractAffects(t_modifiesLine);
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedBy(STMT_NUM t_modifiesLine) { // affects(2,a)
+  return m_affectsExtractor->extractAffectedBy(t_modifiesLine);
 }
 
-LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedBy(STMT_NUM t_usesLine) { // affects(a,12)
-  return m_affectsExtractor->extractAffectedBy(t_usesLine);
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffects(STMT_NUM t_usesLine) { // affects(a,12)
+  return m_affectsExtractor->extractAffects(t_usesLine);
 }
 
 BOOLEAN DesignExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects(1,12)

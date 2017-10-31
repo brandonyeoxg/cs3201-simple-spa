@@ -57,3 +57,12 @@ void StringUtil::removeWhiteSpace(STRING &str) {
 void StringUtil::toLower(STRING &str) {
   std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
+
+STRING StringUtil::createStringWithRepeatedChar(STRING t_repeatedChar, INTEGER t_numberOfTimesToRepeat) {
+  STRING synName;
+  for (int i = 0; i <= t_numberOfTimesToRepeat; ++i) {
+    synName.append(t_repeatedChar);
+  }
+
+  return synName;
+}

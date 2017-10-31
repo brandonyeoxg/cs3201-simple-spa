@@ -1,6 +1,12 @@
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/DebugOutput/system-select-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/DebugOutput/system-select-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/DebugOutput/system-select-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Follows/follows-test-1-prog.txt %~dp0/Tests/System/Follows/follows-test-1-queries.txt %~dp0/Output/DebugOutput/system-follows-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Follows/follows-test-2-prog.txt %~dp0/Tests/System/Follows/follows-test-2-queries.txt %~dp0/Output/DebugOutput/system-follows-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Follows/follows-test-3-prog.txt %~dp0/Tests/System/Follows/follows-test-3-queries.txt %~dp0/Output/DebugOutput/system-follows-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Parent/parent-test-1-prog.txt %~dp0/Tests/System/Parent/parent-test-1-queries.txt %~dp0/Output/DebugOutput/system-parent-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Parent/parent-test-2-prog.txt %~dp0/Tests/System/Parent/parent-test-2-queries.txt %~dp0/Output/DebugOutput/system-parent-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Parent/parent-test-3-prog.txt %~dp0/Tests/System/Parent/parent-test-3-queries.txt %~dp0/Output/DebugOutput/system-parent-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-1-queries.txt %~dp0/Output/DebugOutput/system-modifies-uses-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-2-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-2-queries.txt %~dp0/Output/DebugOutput/system-modifies-uses-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-3-prog.txt %~dp0/Tests/System/Modifies-Uses/modifies-uses-test-3-queries.txt %~dp0/Output/DebugOutput/system-modifies-uses-out3.xml
