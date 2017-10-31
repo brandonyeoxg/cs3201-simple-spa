@@ -22,12 +22,6 @@ public:
   ///////////////////////////////////////////////////////
   /**
   * From verbena's doc on PKB > Affects
-  * hasAffectsFromLMS()
-  */
-  BOOLEAN hasAnyAffects();
-
-  /**
-  * From verbena's doc on PKB > Affects
   * hasAffectsBetween(INT, INT)
   */
   BOOLEAN hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
