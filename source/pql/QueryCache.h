@@ -130,8 +130,8 @@ private:
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext;     /**< Next(l1, l2) */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar; /**< Next*(l1, l2) */
-  LIST_OF_STMT_NUMS *m_allLinesAfterAnyLine;             /**< Next(_, l) and Next*(_, l) */
-  LIST_OF_STMT_NUMS *m_allLinesBeforeAnyLine;            /**< Next(l, _) and Next*(l, _) */
+  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine;             /**< Next(_, l) and Next*(_, l) */
+  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine;            /**< Next(l, _) and Next*(l, _) */
 
   LIST_OF_STMT_NUMS *m_followsAnything;                  /**< Follows(_, s1) & Follows*(_, s1) */
   LIST_OF_STMT_NUMS *m_followedByAnything;               /**< Follows(s1, _) & Follows*(s1, _) */
