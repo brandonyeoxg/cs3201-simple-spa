@@ -1,7 +1,7 @@
 procedure Dynames{
   a=1;
   while i{
-    b=a+2;}
+    b=a+2*b;}
   if j then{
     call B;}
   else{
@@ -10,5 +10,5 @@ procedure Dynames{
 }
 
 procedure Kyrios{
-  c=3;
+  a=a+c;
 }
