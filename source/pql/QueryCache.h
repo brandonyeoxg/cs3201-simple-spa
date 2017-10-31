@@ -29,12 +29,6 @@ public:
   */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
 
-  /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
-  *   Returns pointer to empty list if no lines after given line.
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
-
   /** Gets cached result for Next(_, l) and Next*(_, l).
   *   Returns nullptr if no results cached.
   */
@@ -44,6 +38,8 @@ public:
   *   Returns nullptr if no results cached.
   */
   LIST_OF_PROG_LINES * getAllLinesBeforeAnyLine();
+
+  MAP_OF_PROC_NAMES * getAllCalls();
 
   /** Gets cached result for Follows(_, s1) & Follows*(_, s1).
   *   Returns nullptr if no results cached.
@@ -98,6 +94,16 @@ public:
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * getAllAffects();
 
   ///////////////////////////////////////////////////////
+  //  Getter Methods With Parameter
+  ///////////////////////////////////////////////////////
+
+  /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
+  *   Returns pointer to empty list if no lines after given line.
+  *   Returns nullptr if no results cached.
+  */
+  LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
+
+  ///////////////////////////////////////////////////////
   //  Cache Methods
   ///////////////////////////////////////////////////////
 
@@ -108,6 +114,8 @@ public:
   void cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAnyLine);
 
   void cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBeforeAnyLine);
+
+  void cacheAllCalls(MAP_OF_PROC_NAMES &t_allCalls);
 
   void cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything);
 
@@ -133,26 +141,28 @@ public:
 
 private:
 
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext;     /**< Next(l1, l2) */
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar; /**< Next*(l1, l2) */
-  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine;            /**< Next(_, l) and Next*(_, l) */
-  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine;           /**< Next(l, _) and Next*(l, _) */
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext = nullptr;     /**< Next(l1, l2) */
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar = nullptr; /**< Next*(l1, l2) */
+  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine = nullptr;            /**< Next(_, l) and Next*(_, l) */
+  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine = nullptr;           /**< Next(l, _) and Next*(l, _) */
 
-  LIST_OF_STMT_NUMS *m_followsAnything;                  /**< Follows(_, s1) & Follows*(_, s1) */
-  LIST_OF_STMT_NUMS *m_followedByAnything;               /**< Follows(s1, _) & Follows*(s1, _) */
+  MAP_OF_PROC_NAMES *m_allCalls = nullptr;                         /**< Calls(proc1, proc2) */
 
-  LIST_OF_STMT_NUMS *m_childrenOfAnything;               /**< Parent(_, s1) */
-  LIST_OF_STMT_NUMS *m_parentOfAnything;                 /**< Parent(s1, _) */
-  LIST_OF_STMT_NUMS *m_childrenStarOfAnything;           /**< Parent*(_, s1) */
-  LIST_OF_STMT_NUMS *m_parentStarOfAnything;             /**< Parent*(s1, _) */
+  LIST_OF_STMT_NUMS *m_followsAnything = nullptr;                  /**< Follows(_, s1) & Follows*(_, s1) */
+  LIST_OF_STMT_NUMS *m_followedByAnything = nullptr;               /**< Follows(s1, _) & Follows*(s1, _) */
 
-  LIST_OF_STMT_NUMS *m_stmtUsesAnything;                 /**< Uses(s1, _) */
-  LIST_OF_STMT_NUMS *m_stmtModifiesAnything;             /**< Modifies(s1, _) */
+  LIST_OF_STMT_NUMS *m_childrenOfAnything = nullptr;               /**< Parent(_, s1) */
+  LIST_OF_STMT_NUMS *m_parentOfAnything = nullptr;                 /**< Parent(s1, _) */
+  LIST_OF_STMT_NUMS *m_childrenStarOfAnything = nullptr;           /**< Parent*(_, s1) */
+  LIST_OF_STMT_NUMS *m_parentStarOfAnything = nullptr;             /**< Parent*(s1, _) */
 
-  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar;  /**< Pattern w(v, _) */
-  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar;     /**< Pattern ifs(v, _) */
+  LIST_OF_STMT_NUMS *m_stmtUsesAnything = nullptr;                 /**< Uses(s1, _) */
+  LIST_OF_STMT_NUMS *m_stmtModifiesAnything = nullptr;             /**< Modifies(s1, _) */
 
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects;    /**< Affects(a1, a2) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar = nullptr;  /**< Pattern w(v, _) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar = nullptr;     /**< Pattern ifs(v, _) */
+
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects = nullptr;    /**< Affects(a1, a2) */
 
 
   template <typename T, typename G>

@@ -2,28 +2,7 @@
 
 #include "QueryCache.h"
 
-QueryCache::QueryCache() {
-  m_allNext = nullptr;
-  m_allNextStar = nullptr;
-  m_allLinesAfterAnyLine = nullptr;
-  m_allLinesBeforeAnyLine = nullptr;
-
-  m_followsAnything = nullptr;
-  m_followedByAnything = nullptr;
-  
-  m_childrenOfAnything = nullptr;
-  m_parentOfAnything = nullptr;
-  m_childrenStarOfAnything = nullptr;
-  m_parentStarOfAnything = nullptr;
-
-  m_stmtUsesAnything = nullptr;
-  m_stmtModifiesAnything = nullptr;
-
-  m_allWhileStmtsWithVar = nullptr;
-  m_allIfStmtsWithVar = nullptr;
-
-  m_allAffects = nullptr;
-}
+QueryCache::QueryCache() {}
 
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNext() {
   return m_allNext;
@@ -51,6 +30,10 @@ LIST_OF_PROG_LINES * QueryCache::getAllLinesAfterAnyLine() {
 
 LIST_OF_PROG_LINES * QueryCache::getAllLinesBeforeAnyLine() {
   return m_allLinesBeforeAnyLine;
+}
+
+MAP_OF_PROC_NAMES * QueryCache::getAllCalls() {
+  return m_allCalls;
 }
 
 LIST_OF_STMT_NUMS * QueryCache::getFollowsAnything() {
@@ -115,6 +98,11 @@ void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAn
 void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBeforeAnyLine) {
   assert(m_allLinesBeforeAnyLine == nullptr); // prevent re-insertion
   m_allLinesBeforeAnyLine = &t_allLinesBeforeAnyLine;
+}
+
+void QueryCache::cacheAllCalls(MAP_OF_PROC_NAMES & t_allCalls) {
+  assert(m_allCalls == nullptr); // prevent re-insertion
+  m_allCalls = &t_allCalls;
 }
 
 void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything) {
