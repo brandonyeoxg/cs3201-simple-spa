@@ -308,3 +308,23 @@ true
 Select BOOLEAN such that Affects*(_,_)
 true
 5000
+63 - Affects Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects(1,8)
+false
+5000
+64 - Affects* Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects*(1,8)
+false
+5000
+65 - Affects Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects(0,1)
+false
+5000
+66 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(8,9)
+false
+5000
