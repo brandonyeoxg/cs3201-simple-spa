@@ -144,4 +144,13 @@ private:
   MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar;     /**< Pattern ifs(v, _) */
 
   // affects
+
+
+  template <typename T, typename G>
+  bool isKeyInMap(T key, std::unordered_map<T, G> map);
 };
+
+template <typename T, typename G>
+inline bool QueryCache::isKeyInMap(T key, std::unordered_map<T, G> map) {
+  return map.count(key) == 1;
+}
