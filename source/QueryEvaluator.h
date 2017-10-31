@@ -55,7 +55,8 @@ public:
       m_patterns(t_patterns),
       m_withs(t_withs),
       m_synonymsUsedInQuery(t_synonymsList),
-      m_isSelectOnly(true) {
+      m_isSelectOnly(true),
+      m_numOfCustomSynonyms(0) {
     m_table = new IntermediateTable();
   };
 
@@ -85,6 +86,7 @@ private:
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses. */
   std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten; /**< An unordered map. It stores the synonym to be rewritten and the Grammar Object to replace it with. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
+  INTEGER m_numOfCustomSynonyms; /**< An integer. The number of custom synonyms created. */
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
