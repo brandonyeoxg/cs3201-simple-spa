@@ -49,5 +49,13 @@ public:
   * @param t_str is the string that you wish to change to lower case.
   */
   static void toLower(STRING& t_str);
+
+  /**
+  * Create a string with the given character repeated in the given number of times.
+  * @param t_repeatedChar The character to repeat in a string
+  * @param t_numOfTimesToRepeat The number of times to repeat the character in a string
+  * @return a string with the given character repeated in the given number of times.
+  */
+  static STRING createStringWithRepeatedChar(STRING t_repeatedChar, INTEGER t_numOfTimesToRepeat);
 };
 
