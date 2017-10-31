@@ -100,9 +100,24 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
   return m_allIfStmtsWithVar;
 }
 
+void QueryCache::cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNext) {
+  assert(m_allNext == nullptr); // prevent re-insertion
+  m_allNext = &t_allNext;
+}
+
 void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar) {
   assert(m_allNextStar == nullptr); // prevent re-insertion
   m_allNextStar = &t_allNextStar;
+}
+
+void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_STMT_NUMS t_allLinesAfterAnyLine) {
+  assert(m_allLinesAfterAnyLine == nullptr); // prevent re-insertion
+  m_allLinesAfterAnyLine = &t_allLinesAfterAnyLine;
+}
+
+void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_STMT_NUMS t_allLinesBeforeAnyLine) {
+  assert(m_allLinesBeforeAnyLine == nullptr); // prevent re-insertion
+  m_allLinesBeforeAnyLine = &t_allLinesBeforeAnyLine;
 }
 
 void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything) {
@@ -118,4 +133,19 @@ void QueryCache::cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything)
 void QueryCache::cacheChildrenOfAnything(LIST_OF_STMT_NUMS t_childrenOfAnything) {
   assert(m_childrenOfAnything == nullptr); // prevent re-insertion
   m_childrenOfAnything = &t_childrenOfAnything;
+}
+
+void QueryCache::cacheParentOfAnything(LIST_OF_STMT_NUMS t_parentOfAnything) {
+  assert(m_parentOfAnything == nullptr); // prevent re-insertion
+  m_parentOfAnything = &t_parentOfAnything;
+}
+
+void QueryCache::cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS t_childrenStarOfAnything) {
+  assert(m_childrenStarOfAnything == nullptr); // prevent re-insertion
+  m_childrenStarOfAnything = &t_childrenStarOfAnything;
+}
+
+void QueryCache::cacheParentStarOfAnything(LIST_OF_STMT_NUMS t_parentStarOfAnything) {
+  assert(m_parentStarOfAnything == nullptr); // prevent re-insertion
+  m_parentStarOfAnything = &t_parentStarOfAnything;
 }
