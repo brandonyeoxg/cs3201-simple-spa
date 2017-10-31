@@ -98,33 +98,33 @@ public:
   //  Cache Methods
   ///////////////////////////////////////////////////////
 
-  void cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNext);
+  void cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNext);
 
-  void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar);
+  void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNextStar);
 
   void cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAnyLine);
 
-  void cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES t_allLinesBeforeAnyLine);
+  void cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBeforeAnyLine);
 
-  void cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything);
+  void cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything);
 
-  void cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything);
+  void cacheFollowedByAnything(LIST_OF_STMT_NUMS &t_followedByAnything);
 
-  void cacheChildrenOfAnything(LIST_OF_STMT_NUMS t_childrenOfAnything);
+  void cacheChildrenOfAnything(LIST_OF_STMT_NUMS &t_childrenOfAnything);
 
-  void cacheParentOfAnything(LIST_OF_STMT_NUMS t_parentOfAnything);
+  void cacheParentOfAnything(LIST_OF_STMT_NUMS &t_parentOfAnything);
 
-  void cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS t_childrenStarOfAnything);
+  void cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS &t_childrenStarOfAnything);
 
-  void cacheParentStarOfAnything(LIST_OF_STMT_NUMS t_parentStarOfAnything);
+  void cacheParentStarOfAnything(LIST_OF_STMT_NUMS &t_parentStarOfAnything);
 
-  void cacheStmtUsesAnything(LIST_OF_STMT_NUMS t_stmtUsesAnything);
+  void cacheStmtUsesAnything(LIST_OF_STMT_NUMS &t_stmtUsesAnything);
 
-  void cacheStmtModifiesAnything(LIST_OF_STMT_NUMS t_stmtModifiesAnything);
+  void cacheStmtModifiesAnything(LIST_OF_STMT_NUMS &t_stmtModifiesAnything);
 
-  void cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allWhileStmtsWithVar);
+  void cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allWhileStmtsWithVar);
 
-  void cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allIfStmtsWithVar);
+  void cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allIfStmtsWithVar);
 
 private:
 

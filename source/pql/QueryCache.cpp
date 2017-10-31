@@ -91,12 +91,12 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
   return m_allIfStmtsWithVar;
 }
 
-void QueryCache::cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNext) {
+void QueryCache::cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNext) {
   assert(m_allNext == nullptr); // prevent re-insertion
   m_allNext = &t_allNext;
 }
 
-void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar) {
+void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNextStar) {
   assert(m_allNextStar == nullptr); // prevent re-insertion
   m_allNextStar = &t_allNextStar;
 }
@@ -106,57 +106,57 @@ void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAn
   m_allLinesAfterAnyLine = &t_allLinesAfterAnyLine;
 }
 
-void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES t_allLinesBeforeAnyLine) {
+void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBeforeAnyLine) {
   assert(m_allLinesBeforeAnyLine == nullptr); // prevent re-insertion
   m_allLinesBeforeAnyLine = &t_allLinesBeforeAnyLine;
 }
 
-void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything) {
+void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything) {
   assert(m_followsAnything == nullptr); // prevent re-insertion
   m_followsAnything = &t_followsAnything;
 }
 
-void QueryCache::cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything) {
+void QueryCache::cacheFollowedByAnything(LIST_OF_STMT_NUMS &t_followedByAnything) {
   assert(m_followedByAnything == nullptr); // prevent re-insertion
   m_followedByAnything = &t_followedByAnything;
 }
 
-void QueryCache::cacheChildrenOfAnything(LIST_OF_STMT_NUMS t_childrenOfAnything) {
+void QueryCache::cacheChildrenOfAnything(LIST_OF_STMT_NUMS &t_childrenOfAnything) {
   assert(m_childrenOfAnything == nullptr); // prevent re-insertion
   m_childrenOfAnything = &t_childrenOfAnything;
 }
 
-void QueryCache::cacheParentOfAnything(LIST_OF_STMT_NUMS t_parentOfAnything) {
+void QueryCache::cacheParentOfAnything(LIST_OF_STMT_NUMS &t_parentOfAnything) {
   assert(m_parentOfAnything == nullptr); // prevent re-insertion
   m_parentOfAnything = &t_parentOfAnything;
 }
 
-void QueryCache::cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS t_childrenStarOfAnything) {
+void QueryCache::cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS &t_childrenStarOfAnything) {
   assert(m_childrenStarOfAnything == nullptr); // prevent re-insertion
   m_childrenStarOfAnything = &t_childrenStarOfAnything;
 }
 
-void QueryCache::cacheParentStarOfAnything(LIST_OF_STMT_NUMS t_parentStarOfAnything) {
+void QueryCache::cacheParentStarOfAnything(LIST_OF_STMT_NUMS &t_parentStarOfAnything) {
   assert(m_parentStarOfAnything == nullptr); // prevent re-insertion
   m_parentStarOfAnything = &t_parentStarOfAnything;
 }
 
-void QueryCache::cacheStmtUsesAnything(LIST_OF_STMT_NUMS t_stmtUsesAnything) {
+void QueryCache::cacheStmtUsesAnything(LIST_OF_STMT_NUMS &t_stmtUsesAnything) {
   assert(m_stmtUsesAnything == nullptr); // prevent re-insertion
   m_stmtUsesAnything = &t_stmtUsesAnything;
 }
 
-void QueryCache::cacheStmtModifiesAnything(LIST_OF_STMT_NUMS t_stmtModifiesAnything) {
+void QueryCache::cacheStmtModifiesAnything(LIST_OF_STMT_NUMS &t_stmtModifiesAnything) {
   assert(m_stmtModifiesAnything == nullptr); // prevent re-insertion
   m_stmtModifiesAnything = &t_stmtModifiesAnything;
 }
 
-void QueryCache::cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allWhileStmtsWithVar) {
+void QueryCache::cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allWhileStmtsWithVar) {
   assert(m_allWhileStmtsWithVar == nullptr); // prevent re-insertion
   m_allWhileStmtsWithVar = &t_allWhileStmtsWithVar;
 }
 
-void QueryCache::cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allIfStmtsWithVar) {
+void QueryCache::cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allIfStmtsWithVar) {
   assert(m_allIfStmtsWithVar == nullptr); // prevent re-insertion
   m_allIfStmtsWithVar = &t_allIfStmtsWithVar;
 }

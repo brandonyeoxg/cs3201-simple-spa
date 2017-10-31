@@ -31,6 +31,11 @@ public:
     LIST_OF_PROG_LINES list = pkb.getAllLinesAfterAnyLine();
     cache.cacheAllLinesAfterAnyLine(list);
     Assert::IsTrue(*cache.getAllLinesAfterAnyLine() == expectedLines);
+
+    expectedLines = { 1, 2, 3, 4 };
+    list = pkb.getAllLinesBeforeAnyLine();
+    cache.cacheAllLinesBeforeAnyLine(list);
+    Assert::IsTrue(*cache.getAllLinesBeforeAnyLine() == expectedLines);
   }
 
 private:
