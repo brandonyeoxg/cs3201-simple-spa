@@ -37,7 +37,7 @@ LIST_OF_PROG_LINES * QueryCache::getAllLinesAfter(PROG_LINE t_line) {
   }
 
   if (!isKeyInMap(t_line, *m_allNextStar)) {
-    return {};
+    return new LIST_OF_PROG_LINES();
   }
 
   return &m_allNextStar->at(t_line);
