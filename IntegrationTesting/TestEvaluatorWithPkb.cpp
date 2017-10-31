@@ -64,6 +64,8 @@ namespace IntegrationTesting
       m_pkb->insertFollowsRelation(stmtInLst, 4);
       stmtInLst.push_back(4);
       
+      m_pkb->getFollowTable()->populateAllFollowsMap();
+
       //insert parent
       LIST_OF_STMT_NUMS stmtInLst2;
       stmtInLst2.push_back(5);
