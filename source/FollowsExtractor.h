@@ -14,5 +14,6 @@ public:
   void extractDesign();
 private:
   void populateFollowsMatrix();
+  void populateAllFollowsMap();
 };
 
