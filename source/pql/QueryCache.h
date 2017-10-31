@@ -14,7 +14,6 @@
 class QueryCache {
 public:
   QueryCache();
-  ~QueryCache();
 
   ///////////////////////////////////////////////////////
   //  Getter Methods

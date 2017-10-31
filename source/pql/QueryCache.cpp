@@ -23,27 +23,6 @@ QueryCache::QueryCache() {
   m_allIfStmtsWithVar = nullptr;
 }
 
-QueryCache::~QueryCache() {
-  delete m_allNext;
-  delete m_allNextStar;
-  delete m_allLinesAfterAnyLine;
-  delete m_allLinesBeforeAnyLine;
-
-  delete m_followsAnything;
-  delete m_followedByAnything;
-
-  delete m_childrenOfAnything;
-  delete m_parentOfAnything;
-  delete m_childrenStarOfAnything;
-  delete m_parentStarOfAnything;
-
-  delete m_stmtUsesAnything;
-  delete m_stmtModifiesAnything;
-  
-  delete m_allWhileStmtsWithVar;
-  delete m_allIfStmtsWithVar;
-}
-
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNext() {
   return m_allNext;
 }
