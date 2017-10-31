@@ -78,8 +78,9 @@ void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
 }
 
 void PKB::insertUsesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
-  insertUsesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
+  VAR_INDEX varIdx = getVarIdxFromName(t_varName);
+  insertUsesForStmt(t_varName, t_curLineNum);
   for (auto& containerItr : t_nestedStmtLines) {
     insertUsesForStmt(t_varName, containerItr);
   }
