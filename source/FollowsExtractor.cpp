@@ -2,6 +2,7 @@
 
 void FollowsExtractor::extractDesign() {
   populateFollowsMatrix();
+  populateAllFollowsMap();
 }
 
 void FollowsExtractor::populateFollowsMatrix() {
