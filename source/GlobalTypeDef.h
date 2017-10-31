@@ -49,6 +49,7 @@ typedef STRING RESULT;
 /*Data Structs*/
 typedef std::list<RESULT> RESULT_LIST;
 typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
+typedef std::vector<VAR_INDEX> LIST_OF_VAR_INDICES;
 typedef std::vector<INTEGER> LIST_OF_INTEGERS;
 typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
 typedef std::vector<STMT_NUM>& MUTABLE_LIST_OF_STMT_NUMS;
@@ -62,9 +63,11 @@ typedef std::vector<STRING> LIST_OF_STRINGS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
 typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
+typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
 typedef std::unordered_map<STMT_NUM, std::unordered_set<std::string>> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
+typedef std::unordered_map<STMT_NUM, std::unordered_set<VAR_INDEX>> MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES;
 typedef std::unordered_map<std::string, std::unordered_set<std::string>> MAP_OF_NAME_TO_SET_OF_NAMES;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
@@ -83,6 +86,8 @@ typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LI
 typedef std::unordered_map<PROC_INDEX, LIST_OF_STMT_NUMS> MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, PROC_NAME> MAP_OF_STMT_NUM_TO_PROC_NAME;
 typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<VAR_INDEX, LIST_OF_STMT_NUMS> MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS;
+
 typedef std::unordered_map<VAR_NAME, SET_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS;
 typedef std::list<std::string> LIST_OF_CONSTANTS;
 typedef std::unordered_map<SYNONYM_NAME, int> MAP_OF_SYNONYMS_TO_COUNTS;
@@ -95,6 +100,7 @@ typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
 typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
 typedef  std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
 typedef std::pair<MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
+typedef std::unordered_map<STMT_NUM, LIST_OF_VAR_INDICES> MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::unordered_set<int> VAR_HASH_SET;

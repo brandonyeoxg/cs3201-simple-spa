@@ -28,8 +28,16 @@ public:
 
 private:
   std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_usesStmtMap;
+  MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES m_usesStmtByIdxMap;
+
   MAP_OF_STMT_NUM_TO_SET_OF_NAMES m_usesStmtSet;
+  MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES m_usesStmtByIdxSet;
+
   std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_usesVarMap;
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS m_usesVarByIdxMap;
+
   SET_OF_VAR_NAMES m_allVariablesUsed;
+  SET_OF_VAR_INDICES m_allVariablesUsesByIdx;
+
   SET_OF_STMT_NUMS m_allStmtNumsUsed;
 };
