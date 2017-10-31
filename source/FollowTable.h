@@ -136,6 +136,8 @@ public:
 
   void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
 
+  void populateAllFollowsMap();
+
   /**
   * A constructor.
   * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
@@ -145,6 +147,7 @@ public:
 private:
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
+  MAP_OF_STMT_NUMS m_allFollowsMap;
   BOOLEAN_MATRIX m_followsMatrix;
   std::set<int> m_allFollows;
 };

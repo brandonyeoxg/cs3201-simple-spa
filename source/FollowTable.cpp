@@ -151,14 +151,7 @@ LIST_OF_STMT_NUMS FollowTable::getFollowedByStar(STMT_NUM t_s2) {
 }
 
 MAP_OF_STMT_NUMS FollowTable::getAllFollows() {
-  MAP_OF_STMT_NUMS allFollows;
-  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
-    STMT_NUM lineNum = it->first;
-    LIST_OF_STMT_NUMS vect = it->second;
-    allFollows.emplace(lineNum, vect[0]);
-  }
-
-  return allFollows;
+  return m_allFollowsMap;
 }
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS FollowTable::getAllFollowsStar() {
@@ -213,6 +206,14 @@ void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
   }
 }
 
+void FollowTable::populateAllFollowsMap() {
+  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
+    STMT_NUM lineNum = it->first;
+    LIST_OF_STMT_NUMS vect = it->second;
+    m_allFollowsMap.emplace(lineNum, vect[0]);
+  }
+}
+
 /**
 * A constructor.
 * Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
@@ -220,6 +221,7 @@ void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
 FollowTable::FollowTable() {
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
+  MAP_OF_STMT_NUMS m_allFollowsMap;
   BOOLEAN_MATRIX m_followsMatrix;
   std::set<int> m_allFollows;
 }
