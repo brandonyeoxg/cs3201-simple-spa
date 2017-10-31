@@ -30,6 +30,11 @@ public:
   */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
 
+  /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
+  *   Returns nullptr if no results cached.
+  */
+  LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
+
   /** Gets cached result for Next(_, l) and Next*(_, l).
   *   Returns nullptr if no results cached.
   */

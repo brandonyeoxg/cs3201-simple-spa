@@ -52,6 +52,18 @@ MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNextStar() {
   return m_allNextStar;
 }
 
+LIST_OF_PROG_LINES * QueryCache::getAllLinesAfter(PROG_LINE t_line) {
+  if (m_allNextStar == nullptr) {
+    return nullptr;
+  }
+
+  if (!isKeyInMap(t_line, *m_allNextStar)) {
+    return {};
+  }
+
+  return &m_allNextStar->at(t_line);
+}
+
 LIST_OF_PROG_LINES * QueryCache::getAllLinesAfterAnyLine() {
   return m_allLinesAfterAnyLine;
 }
