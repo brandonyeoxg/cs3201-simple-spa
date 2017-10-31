@@ -30,6 +30,7 @@ public:
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
 
   /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
+  *   Returns pointer to empty list if no lines after given line.
   *   Returns nullptr if no results cached.
   */
   LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
@@ -134,8 +135,8 @@ private:
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext;     /**< Next(l1, l2) */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar; /**< Next*(l1, l2) */
-  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine;             /**< Next(_, l) and Next*(_, l) */
-  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine;            /**< Next(l, _) and Next*(l, _) */
+  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine;            /**< Next(_, l) and Next*(_, l) */
+  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine;           /**< Next(l, _) and Next*(l, _) */
 
   LIST_OF_STMT_NUMS *m_followsAnything;                  /**< Follows(_, s1) & Follows*(_, s1) */
   LIST_OF_STMT_NUMS *m_followedByAnything;               /**< Follows(s1, _) & Follows*(s1, _) */
