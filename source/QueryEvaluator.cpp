@@ -98,8 +98,7 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
   if (got != m_synsToBeRewritten.end()) {
     std::vector<std::string> results;
     results.push_back(got->second.getName());
-    m_table->insertOneSynonym(t_select.getName(), results);
-    //storeSelectResultFromPkb(results);
+    storeSelectResultFromPkb(t_select, results);
     return true;
   }
 
@@ -127,39 +126,41 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     } else if (Grammar::isIf(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::IF];
     } else if (Grammar::isCall(t_select.getType())) {
-      allSelectedStmtsInInt = allStmts[queryType::GType::CALL];
+      if (t_select.hasAttr() && Grammar::isProcName(t_select.getAttr())) {
+        LIST_OF_PROC_NAMES allProcNames = m_pkb->getCalledByAnything();
+        storeSelectResultFromPkb(t_select, allProcNames);
+        return true;
+      }
+      
+      allSelectedStmtsInInt = allStmts[queryType::GType::CALL];  
     }
 
     // Change from vector<int> to vector<string>.
     std::vector<std::string> allSelectedStmts = Formatter::formatVectorIntToVectorStr(allSelectedStmtsInInt);
 
     // Push into the selectResults queue.
-    //storeSelectResultFromPkb(allSelectedStmts);
-    m_table->insertOneSynonym(t_select.getName(), allSelectedStmts);
+    storeSelectResultFromPkb(t_select, allSelectedStmts);
   } else if (Grammar::isVar(t_select.getType())) {
     std::vector<std::string> allVariables = m_pkb->getAllVarNames();
     if (allVariables.empty()) {
       return false;
     }
 
-    //storeSelectResultFromPkb(allVariables);
-    m_table->insertOneSynonym(t_select.getName(), allVariables);
+    storeSelectResultFromPkb(t_select, allVariables);
   } else if (Grammar::isConst(t_select.getType())) {
     LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
     if (allConstants.empty()) {
       return false;
     }
 
-    //storeSelectResultFromPkb(allConstants);
-    m_table->insertOneSynonym(t_select.getName(), allConstants);
+    storeSelectResultFromPkb(t_select, allConstants);
   } else if (Grammar::isProc(t_select.getType())) {
     std::vector<std::string> allProcedures = m_pkb->getAllProcsName();
     if (allProcedures.empty()) {
       return false;
     }
 
-    //(allProcedures);
-    m_table->insertOneSynonym(t_select.getName(), allProcedures);
+    storeSelectResultFromPkb(t_select, allProcedures);
   } else if (Grammar::isStmtLst(t_select.getType())) {
     std::vector<int> allStmtLst = m_pkb->getStmtList();
     if (allStmtLst.empty()) {
@@ -167,8 +168,7 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     }
 
     std::vector<std::string> allStmtList = Formatter::formatVectorIntToVectorStr(allStmtLst);
-    //storeSelectResultFromPkb(allStmtList);
-    m_table->insertOneSynonym(t_select.getName(), allStmtList);
+    storeSelectResultFromPkb(t_select, allStmtList);
   }
 
   return true;
@@ -249,12 +249,12 @@ BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern t_pattern) {
 * A function that stores the result in a data structure.
 * @param t_result a vector<string> argument
 */
-void QueryEvaluator::storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result) {
+void QueryEvaluator::storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result) {
   if (isDebugMode) {
     std::cout << "Storing the select result from PKB to the select result queue...\n";
   }
   
-  m_selectResults.push(t_result);
+  m_table->insertOneSynonym(t_select.getName(), t_result);
 }
 
 BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result) {

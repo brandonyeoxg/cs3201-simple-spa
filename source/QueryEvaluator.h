@@ -84,7 +84,6 @@ private:
   std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses. */
   std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten; /**< An unordered map. It stores the synonym to be rewritten and the Grammar Object to replace it with. */
-  std::queue<LIST_OF_SELECT_RESULTS> m_selectResults; /**< A vector queue. It stores the results of the selected synonyms in the query. */ 
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
 
   /**
@@ -136,7 +135,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result);
+  void storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
 
   /**
   * A private function to store the relation result if it is needed.
