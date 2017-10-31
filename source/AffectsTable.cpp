@@ -3,20 +3,6 @@
 ///////////////////////////////////////////////////////
 //  Affects
 ///////////////////////////////////////////////////////
-BOOLEAN AffectsTable::hasAnyAffects() {
-  LIST_OF_PROC_NAMES procNames = m_pkbTablesOnly->getProcTable()->getAllProcsName();
-  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
-  for (auto& name : procNames) {
-    PROC_INDEX procIdx = m_pkbTablesOnly->getProcTable()->getProcIdxFromName(name);
-    LIST_OF_STMT_NUMS stmts = stmtTable->getStmtsFromProcIdx(procIdx);
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-    if (traverseCfgWithBoundEarlyExit(stmts.front(), stmts.back(), lms)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
   // Checks if they are with in a while stmt
@@ -112,6 +98,10 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   traverseCfgWithBound(stmts[0], stmtLstBound.back(), mergedLst);
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
+    queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
+    if (stmtType == queryType::GType::WHILE) {
+      return;
+    }
     // Combine lms with lmt
     traverseCfgWithBound(stmts[1], t_endBound, mergedLst);
   }
@@ -245,6 +235,10 @@ BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLin
   }
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
+    queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
+    if (stmtType == queryType::GType::WHILE) {
+      return false;
+    }
     // Combine lms with lmt
     if (traverseCfgWithBoundEarlyExit(stmts[1], t_endBound, mergedLst)) {
       return true;

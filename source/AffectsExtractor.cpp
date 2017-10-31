@@ -91,7 +91,17 @@ BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_u
 }
 
 BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
-  return m_affectsTable->hasAnyAffects();
+  LIST_OF_PROC_NAMES procNames = m_pkb->getProcTable()->getAllProcsName();
+  StatementTable *stmtTable = m_pkb->getStatementTable();
+  for (auto& name : procNames) {
+    PROC_INDEX procIdx = m_pkb->getProcTable()->getProcIdxFromName(name);
+    LIST_OF_STMT_NUMS stmts = stmtTable->getStmtsFromProcIdx(procIdx);
+    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
+    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back())) {
+      return true;
+    }
+  }
+  return false;
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(a,_)
