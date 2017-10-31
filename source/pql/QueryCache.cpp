@@ -37,10 +37,6 @@ MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNextStar() {
   return m_allNextStar;
 }
 
-MAP_OF_STMT_NUMS * QueryCache::getAllFollows() {
-  return m_allFollows;
-}
-
 LIST_OF_STMT_NUMS * QueryCache::getFollowsAnything() {
   return m_followsAnything;
 }
