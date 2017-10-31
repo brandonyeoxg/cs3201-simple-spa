@@ -151,7 +151,7 @@ private:
   MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar;  /**< Pattern w(v, _) */
   MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar;     /**< Pattern ifs(v, _) */
 
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects;    /**< Affects(a1,a2) */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects;    /**< Affects(a1, a2) */
 
 
   template <typename T, typename G>
