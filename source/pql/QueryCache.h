@@ -39,14 +39,29 @@ public:
   */
   LIST_OF_PROG_LINES * getAllLinesBeforeAnyLine();
 
+  /** Gets cached result for Calls(proc1, proc2).
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_PROC_NAMES * getAllCalls();
 
+  /** Gets cached result for Calls(proc1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROC_NAMES * getCallsAnything();
 
+  /** Gets cached result for Calls*(proc1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROC_NAMES * getCallsStarAnything();
   
+  /** Gets cached result for Calls(_, proc1).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROC_NAMES * getCalledByAnything();
   
+  /** Gets cached result for Calls*(_, proc1).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROC_NAMES * getCalledByStarAnything();
 
   /** Gets cached result for Follows(_, s1) & Follows*(_, s1).
@@ -99,6 +114,9 @@ public:
   */
   MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllIfStmtsWithVar();
 
+  /** Gets cached result for Affects(a1, a2).
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * getAllAffects();
 
   ///////////////////////////////////////////////////////
@@ -107,7 +125,7 @@ public:
 
   /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
   *   Returns pointer to empty list if no lines after given line.
-  *   Returns nullptr if no results cached.
+  *   Returns nullptr if Next*(l1, l2) is not cached.
   */
   LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
 

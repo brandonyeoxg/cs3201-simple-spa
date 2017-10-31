@@ -12,18 +12,6 @@ MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNextStar() {
   return m_allNextStar;
 }
 
-LIST_OF_PROG_LINES * QueryCache::getAllLinesAfter(PROG_LINE t_line) {
-  if (m_allNextStar == nullptr) {
-    return nullptr;
-  }
-
-  if (!isKeyInMap(t_line, *m_allNextStar)) {
-    return new LIST_OF_PROG_LINES();
-  }
-
-  return &m_allNextStar->at(t_line);
-}
-
 LIST_OF_PROG_LINES * QueryCache::getAllLinesAfterAnyLine() {
   return m_allLinesAfterAnyLine;
 }
@@ -94,6 +82,18 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * QueryCache::getAllAffects() {
   return m_allAffects;
+}
+
+LIST_OF_PROG_LINES * QueryCache::getAllLinesAfter(PROG_LINE t_line) {
+  if (m_allNextStar == nullptr) {
+    return nullptr;
+  }
+
+  if (!isKeyInMap(t_line, *m_allNextStar)) {
+    return new LIST_OF_PROG_LINES();
+  }
+
+  return &m_allNextStar->at(t_line);
 }
 
 void QueryCache::cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNext) {
