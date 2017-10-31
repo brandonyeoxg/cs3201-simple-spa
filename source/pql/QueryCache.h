@@ -19,7 +19,13 @@ public:
   //  Getter Methods
   ///////////////////////////////////////////////////////
 
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNext();
+
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
+
+  LIST_OF_PROG_LINES * getAllLinesAfterAnyLine();
+
+  LIST_OF_PROG_LINES * getAllLinesBeforeAnyLine();
 
   LIST_OF_STMT_NUMS * getFollowsAnything();
 
@@ -47,8 +53,6 @@ public:
 
   void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar);
 
-  void cacheAllFollows(MAP_OF_STMT_NUMS t_allFollows);
-
   void cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything);
 
   void cacheFollowedByAnything(LIST_OF_STMT_NUMS t_followedByAnything);
@@ -57,7 +61,10 @@ public:
 
 private:
 
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext;     /**< Next(l1, l2) */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar; /**< Next*(l1, l2) */
+  LIST_OF_STMT_NUMS *m_allLinesAfterAnyLine;             /**< Next(_, l) and Next*(_, l) */
+  LIST_OF_STMT_NUMS *m_allLinesBeforeAnyLine;            /**< Next(l, _) and Next*(l, _) */
 
   LIST_OF_STMT_NUMS *m_followsAnything;                  /**< Follows(_, s1) & Follows*(_, s1) */
   LIST_OF_STMT_NUMS *m_followedByAnything;               /**< Follows(s1, _) & Follows*(s1, _) */

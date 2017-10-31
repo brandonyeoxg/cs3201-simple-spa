@@ -3,7 +3,10 @@
 #include "QueryCache.h"
 
 QueryCache::QueryCache() {
+  m_allNext = nullptr;
   m_allNextStar = nullptr;
+  m_allLinesAfterAnyLine = nullptr;
+  m_allLinesBeforeAnyLine = nullptr;
 
   m_followsAnything = nullptr;
   m_followedByAnything = nullptr;
@@ -21,20 +24,40 @@ QueryCache::QueryCache() {
 }
 
 QueryCache::~QueryCache() {
+  delete m_allNext;
   delete m_allNextStar;
+  delete m_allLinesAfterAnyLine;
+  delete m_allLinesBeforeAnyLine;
+
   delete m_followsAnything;
   delete m_followedByAnything;
+
   delete m_childrenOfAnything;
   delete m_parentOfAnything;
   delete m_childrenStarOfAnything;
   delete m_parentStarOfAnything;
+
+  delete m_stmtUsesAnything;
   delete m_stmtModifiesAnything;
+  
   delete m_allWhileStmtsWithVar;
   delete m_allIfStmtsWithVar;
 }
 
+MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNext() {
+  return m_allNext;
+}
+
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNextStar() {
   return m_allNextStar;
+}
+
+LIST_OF_PROG_LINES * QueryCache::getAllLinesAfterAnyLine() {
+  return m_allLinesAfterAnyLine;
+}
+
+LIST_OF_PROG_LINES * QueryCache::getAllLinesBeforeAnyLine() {
+  return m_allLinesBeforeAnyLine;
 }
 
 LIST_OF_STMT_NUMS * QueryCache::getFollowsAnything() {
@@ -80,11 +103,6 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
 void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar) {
   assert(m_allNextStar == nullptr); // prevent re-insertion
   m_allNextStar = &t_allNextStar;
-}
-
-void QueryCache::cacheAllFollows(MAP_OF_STMT_NUMS t_allFollows) {
-  assert(m_allFollows == nullptr); // prevent re-insertion
-  m_allFollows = &t_allFollows;
 }
 
 void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything) {
