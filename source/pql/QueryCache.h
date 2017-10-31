@@ -20,32 +20,74 @@ public:
   //  Getter Methods
   ///////////////////////////////////////////////////////
 
+  /** Gets cached result for Next(l1, l2). 
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNext();
 
+  /** Gets cached result for Next*(l1, l2).
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
 
+  /** Gets cached result for Next(_, l) and Next*(_, l).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROG_LINES * getAllLinesAfterAnyLine();
 
+  /** Gets cached result for Next(l, _) and Next*(l, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_PROG_LINES * getAllLinesBeforeAnyLine();
 
+  /** Gets cached result for Follows(_, s1) & Follows*(_, s1).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getFollowsAnything();
 
+  /** Gets cached result for Follows(s1, _) & Follows*(s1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getFollowedByAnything();
 
+  /** Gets cached result for Parent(_, s1).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getChildrenOfAnything();
 
+  /** Gets cached result for Parent(s1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getParentOfAnything();
 
+  /** Gets cached result for Parent*(_, s1).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getChildrenStarOfAnything();
 
+  /** Gets cached result for Parent*(s1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getParentStarOfAnything();
 
+  /** Gets cached result for Uses(s1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getStmtUsesAnything();
 
+  /** Gets cached result for Modifies(s1, _).
+  *   Returns nullptr if no results cached.
+  */
   LIST_OF_STMT_NUMS * getStmtModifiesAnything();
 
+  /** Gets cached result for Pattern w(v, _).
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllWhileStmtsWithVar();
 
+  /** Gets cached result for Pattern ifs(v, _).
+  *   Returns nullptr if no results cached.
+  */
   MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllIfStmtsWithVar();
 
   ///////////////////////////////////////////////////////
