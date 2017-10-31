@@ -55,9 +55,9 @@ public:
 
   void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNextStar);
 
-  void cacheAllLinesAfterAnyLine(LIST_OF_STMT_NUMS t_allLinesAfterAnyLine);
+  void cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES t_allLinesAfterAnyLine);
 
-  void cacheAllLinesBeforeAnyLine(LIST_OF_STMT_NUMS t_allLinesBeforeAnyLine);
+  void cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES t_allLinesBeforeAnyLine);
 
   void cacheFollowsAnything(LIST_OF_STMT_NUMS t_followsAnything);
 

@@ -110,12 +110,12 @@ void QueryCache::cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES t_allNe
   m_allNextStar = &t_allNextStar;
 }
 
-void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_STMT_NUMS t_allLinesAfterAnyLine) {
+void QueryCache::cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES t_allLinesAfterAnyLine) {
   assert(m_allLinesAfterAnyLine == nullptr); // prevent re-insertion
   m_allLinesAfterAnyLine = &t_allLinesAfterAnyLine;
 }
 
-void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_STMT_NUMS t_allLinesBeforeAnyLine) {
+void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES t_allLinesBeforeAnyLine) {
   assert(m_allLinesBeforeAnyLine == nullptr); // prevent re-insertion
   m_allLinesBeforeAnyLine = &t_allLinesBeforeAnyLine;
 }
