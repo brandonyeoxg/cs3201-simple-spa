@@ -168,9 +168,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestAffectsExtractor.cpp" />
     <ClCompile Include="TestAffectsTable.cpp" />
     <ClCompile Include="TestAssignTable.cpp" />
-    <ClCompile Include="TestAST.cpp" />
     <ClCompile Include="TestCallsTable.cpp" />
     <ClCompile Include="TestConstantTable.cpp" />
     <ClCompile Include="TestDesignExtractor.cpp" />

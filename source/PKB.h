@@ -1,9 +1,16 @@
 #pragma once
 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#include "GlobalTypeDef.h"
+
+#include "PkbWriteOnly.h"
+#include "PkbReadOnly.h"
+#include "PkbTablesOnly.h"
 
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -12,13 +19,8 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "StatementTable.h"
-#include "Grammar.h"
 #include "ConstantTable.h"
-#include "GlobalTypeDef.h"
 #include "pkb/patternMatch/PatternMatch.h"
-#include "PkbWriteOnly.h"
-#include "PkbReadOnly.h"
-#include "PkbTablesOnly.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
@@ -27,6 +29,8 @@
 #include "StmtListTable.h"
 #include "pkb/relationshipTables/NextTable.h"
 #include "DesignExtractor.h"
+
+#include "Grammar.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -502,7 +506,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(_, _"x + y + h"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -510,7 +514,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _""_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -527,7 +531,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _"y + x"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -536,7 +540,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, "x + y + h"), where v is a common synonym for all variables.
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -545,7 +549,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, _"x + y + h"_), where v is a common synonym for all variables.
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -554,7 +558,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable (in the while statement itself, not nested statements).
@@ -568,7 +572,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar();
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -588,7 +592,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar();
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
@@ -784,52 +788,52 @@ public:
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesAfter(PROG_LINE t_line);
 
   /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly before given line.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesBefore(PROG_LINE t_line);
 
   /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesAfter(PROG_LINE t_line);
 
   /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesBefore(PROG_LINE t_line);
 
   /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNext();
 
   /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNextStar();
 
   /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed after any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+  LIST_OF_PROG_LINES getAllLinesAfterAnyLine();
 
   /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed before any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
+  LIST_OF_PROG_LINES getAllLinesBeforeAnyLine();
 
   /** For Next(_, _) or Next*(_, _).
   *   Checks if any Next relationship exists.
@@ -854,9 +858,9 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects Table
   ///////////////////////////////////////////////////////
-  SET_OF_AFFECTS getAllAffects(); // affects(a1,a2)
-  LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine); // affects(2,a)
-  LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine); // affects(a,12)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine); // affects(a,12)
+  LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine); // affects(2,a)
   BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
   BOOLEAN hasAffectsRelationship(); // affects(_,_)
   LIST_OF_AFFECTS_STMTS getAffectsAnything();  // affects(a,_)
@@ -867,7 +871,7 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects* Extractor
   ///////////////////////////////////////////////////////
-  SET_OF_AFFECTS getAllAffectsStar(); // affects(a1,a2)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffectsStar(); // affects(a1,a2)
   LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine); // affects(2,a)
   LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine); // affects(a,12)
   BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)

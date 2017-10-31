@@ -176,7 +176,7 @@ public:
 
   TEST_METHOD(getAllStmtNumWithExactPattern_01) {
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { "x", "+", "y" });
@@ -203,7 +203,7 @@ public:
   TEST_METHOD(getAllStmtNumWithExactPattern_02) {
     // test with trailing whitespaces, longer variable names
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { " \t chicken  ", "+", "peanut", "-", "duck" });
@@ -216,7 +216,7 @@ public:
 
   TEST_METHOD(getAllStmtNumWithExactPattern_03) {
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { "(", "(", "(", "x", "+", "y", ")", ")", ")" });
@@ -235,7 +235,7 @@ public:
 
   TEST_METHOD(getAllStmtNumWithSubtreePattern_01) {
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { "x", "+", "y", "*", "a" });
@@ -264,7 +264,7 @@ public:
 
   TEST_METHOD(getAllStmtNumWithSubtreePattern_02) {
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { "x", "-", "b", "*", "(", "x", "+", "y", ")", "*", "a" });
@@ -292,7 +292,7 @@ public:
 
   TEST_METHOD(getAllStmtNumWithSubtreePattern_03) {
     PatternMatch patternMatch = PatternMatch();
-    std::list<STMT_NUM> stmtNums, expected;
+    LIST_OF_STMT_NUMS stmtNums, expected;
     std::vector<std::string> pattern;
 
     patternMatch.addAssignStmt(1, { "(", "x", "+", "(", "(", "x", "+", "(", "x", "+", "y", ")",

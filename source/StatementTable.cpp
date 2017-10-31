@@ -89,11 +89,13 @@ LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
   }
 }
 
+/* Method to return the type of the statement.
+*  pre-condition: assumts t_lineNum is valid in the program, i.e. less than or equal to the total number of statements in the source program.
+*  @param t_lineNum a statement number.
+*  @return the GType of the statement.
+*/
 queryType::GType StatementTable::getTypeOfStatement(STMT_NUM t_lineNum) {
   auto pItr = m_typeOfStatementTable.find(t_lineNum);
-  if (pItr == m_typeOfStatementTable.end()) {
-
-  }
   return pItr->second;
 }
 

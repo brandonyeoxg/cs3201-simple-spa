@@ -69,31 +69,49 @@ SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly *t_p
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
+  for (auto& x : whileStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    whileStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVarName);
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
+  for (auto& x : whileStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    whileStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVarName);
   return m_result;
 }
 
 SET_OF_RESULTS WhilePatternEvaluator::getAllStmtsAndVarWithAnyPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2) {
-  std::unordered_map<int, std::string> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
+  std::unordered_map<STMT_NUM, VAR_INDEX> whileStmtsWithVar = t_pkb->getAllWhileStmtsWithVar();
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
 
-  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVar);
+  std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
+  for (auto& x : whileStmtsWithVar) {
+    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
+    whileStmtsWithVarName[x.first] = varName;
+  }
+
+  m_result = Formatter::formatMapIntStrToMapStrVectorStr(whileStmtsWithVarName);
   return m_result;
 }

@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TestAST.cpp" />
     <ClCompile Include="TestFollowTable.cpp" />
     <ClCompile Include="TestParentTable.cpp" />
     <ClCompile Include="TestParser.cpp" />
@@ -28,6 +27,7 @@
     <ClCompile Include="TestIntermediateTable.cpp" />
     <ClCompile Include="TestTokeniserUtil.cpp" />
     <ClCompile Include="TestAffectsTable.cpp" />
+    <ClCompile Include="TestAffectsExtractor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
