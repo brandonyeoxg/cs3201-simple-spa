@@ -41,6 +41,14 @@ public:
 
   MAP_OF_PROC_NAMES * getAllCalls();
 
+  LIST_OF_PROC_NAMES * getCallsAnything();
+
+  LIST_OF_PROC_NAMES * getCallsStarAnything();
+  
+  LIST_OF_PROC_NAMES * getCalledByAnything();
+  
+  LIST_OF_PROC_NAMES * getCalledByStarAnything();
+
   /** Gets cached result for Follows(_, s1) & Follows*(_, s1).
   *   Returns nullptr if no results cached.
   */
@@ -117,6 +125,14 @@ public:
 
   void cacheAllCalls(MAP_OF_PROC_NAMES &t_allCalls);
 
+  void cacheCallsAnything(LIST_OF_PROC_NAMES &t_callsAnything);
+
+  void cacheCallsStarAnything(LIST_OF_PROC_NAMES &t_callsStarAnything);
+
+  void cacheCalledByAnything(LIST_OF_PROC_NAMES &t_calledByAnything);
+
+  void cacheCalledByStarAnything(LIST_OF_PROC_NAMES &t_calledByStarAnything);
+
   void cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything);
 
   void cacheFollowedByAnything(LIST_OF_STMT_NUMS &t_followedByAnything);
@@ -141,28 +157,32 @@ public:
 
 private:
 
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext = nullptr;     /**< Next(l1, l2) */
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar = nullptr; /**< Next*(l1, l2) */
-  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine = nullptr;            /**< Next(_, l) and Next*(_, l) */
-  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine = nullptr;           /**< Next(l, _) and Next*(l, _) */
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext = nullptr;      /**< Next(l1, l2) */
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar = nullptr;  /**< Next*(l1, l2) */
+  LIST_OF_PROG_LINES *m_allLinesAfterAnyLine = nullptr;             /**< Next(_, l) and Next*(_, l) */
+  LIST_OF_PROG_LINES *m_allLinesBeforeAnyLine = nullptr;            /**< Next(l, _) and Next*(l, _) */
 
-  MAP_OF_PROC_NAMES *m_allCalls = nullptr;                         /**< Calls(proc1, proc2) */
+  MAP_OF_PROC_NAMES *m_allCalls = nullptr;                          /**< Calls(proc1, proc2) */
+  LIST_OF_PROC_NAMES *m_callsAnything = nullptr;                    /**< Calls(proc1, _) */
+  LIST_OF_PROC_NAMES *m_callsStarAnything = nullptr;                /**< Calls*(proc1, _) */
+  LIST_OF_PROC_NAMES *m_calledByAnything = nullptr;                 /**< Calls(_, proc1) */
+  LIST_OF_PROC_NAMES *m_calledByStarAnything = nullptr;             /**< Calls*(_, proc1) */
 
-  LIST_OF_STMT_NUMS *m_followsAnything = nullptr;                  /**< Follows(_, s1) & Follows*(_, s1) */
-  LIST_OF_STMT_NUMS *m_followedByAnything = nullptr;               /**< Follows(s1, _) & Follows*(s1, _) */
+  LIST_OF_STMT_NUMS *m_followsAnything = nullptr;                   /**< Follows(_, s1) & Follows*(_, s1) */
+  LIST_OF_STMT_NUMS *m_followedByAnything = nullptr;                /**< Follows(s1, _) & Follows*(s1, _) */
 
-  LIST_OF_STMT_NUMS *m_childrenOfAnything = nullptr;               /**< Parent(_, s1) */
-  LIST_OF_STMT_NUMS *m_parentOfAnything = nullptr;                 /**< Parent(s1, _) */
-  LIST_OF_STMT_NUMS *m_childrenStarOfAnything = nullptr;           /**< Parent*(_, s1) */
-  LIST_OF_STMT_NUMS *m_parentStarOfAnything = nullptr;             /**< Parent*(s1, _) */
+  LIST_OF_STMT_NUMS *m_childrenOfAnything = nullptr;                /**< Parent(_, s1) */
+  LIST_OF_STMT_NUMS *m_parentOfAnything = nullptr;                  /**< Parent(s1, _) */
+  LIST_OF_STMT_NUMS *m_childrenStarOfAnything = nullptr;            /**< Parent*(_, s1) */
+  LIST_OF_STMT_NUMS *m_parentStarOfAnything = nullptr;              /**< Parent*(s1, _) */
 
-  LIST_OF_STMT_NUMS *m_stmtUsesAnything = nullptr;                 /**< Uses(s1, _) */
-  LIST_OF_STMT_NUMS *m_stmtModifiesAnything = nullptr;             /**< Modifies(s1, _) */
+  LIST_OF_STMT_NUMS *m_stmtUsesAnything = nullptr;                  /**< Uses(s1, _) */
+  LIST_OF_STMT_NUMS *m_stmtModifiesAnything = nullptr;              /**< Modifies(s1, _) */
 
-  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar = nullptr;  /**< Pattern w(v, _) */
-  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar = nullptr;     /**< Pattern ifs(v, _) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar = nullptr;   /**< Pattern w(v, _) */
+  MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar = nullptr;      /**< Pattern ifs(v, _) */
 
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects = nullptr;    /**< Affects(a1, a2) */
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects = nullptr;     /**< Affects(a1, a2) */
 
 
   template <typename T, typename G>

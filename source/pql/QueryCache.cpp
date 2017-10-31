@@ -36,6 +36,22 @@ MAP_OF_PROC_NAMES * QueryCache::getAllCalls() {
   return m_allCalls;
 }
 
+LIST_OF_PROC_NAMES * QueryCache::getCallsAnything() {
+  return m_callsAnything;
+}
+
+LIST_OF_PROC_NAMES * QueryCache::getCallsStarAnything() {
+  return m_callsStarAnything;
+}
+
+LIST_OF_PROC_NAMES * QueryCache::getCalledByAnything() {
+  return m_calledByAnything;
+}
+
+LIST_OF_PROC_NAMES * QueryCache::getCalledByStarAnything() {
+  return m_calledByStarAnything;
+}
+
 LIST_OF_STMT_NUMS * QueryCache::getFollowsAnything() {
   return m_followsAnything;
 }
@@ -103,6 +119,26 @@ void QueryCache::cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBefore
 void QueryCache::cacheAllCalls(MAP_OF_PROC_NAMES & t_allCalls) {
   assert(m_allCalls == nullptr); // prevent re-insertion
   m_allCalls = &t_allCalls;
+}
+
+void QueryCache::cacheCallsAnything(LIST_OF_PROC_NAMES & t_callsAnything) {
+  assert(m_callsAnything == nullptr); // prevent re-insertion
+  m_callsAnything = &t_callsAnything;
+}
+
+void QueryCache::cacheCallsStarAnything(LIST_OF_PROC_NAMES & t_callsStarAnything) {
+  assert(m_callsStarAnything == nullptr); // prevent re-insertion
+  m_callsStarAnything = &t_callsStarAnything;
+}
+
+void QueryCache::cacheCalledByAnything(LIST_OF_PROC_NAMES & t_calledByAnything) {
+  assert(m_calledByAnything == nullptr); // prevent re-insertion
+  m_calledByAnything = &t_calledByAnything;
+}
+
+void QueryCache::cacheCalledByStarAnything(LIST_OF_PROC_NAMES & t_calledByStarAnything) {
+  assert(m_calledByStarAnything == nullptr); // prevent re-insertion
+  m_calledByStarAnything = &t_calledByStarAnything;
 }
 
 void QueryCache::cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything) {
