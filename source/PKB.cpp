@@ -80,9 +80,9 @@ void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
 void PKB::insertUsesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
   insertVar(t_varName);
   VAR_INDEX varIdx = getVarIdxFromName(t_varName);
-  insertUsesForStmt(t_varName, t_curLineNum);
+  insertUsesForStmt(t_varName, t_curLineNum, varIdx);
   for (auto& containerItr : t_nestedStmtLines) {
-    insertUsesForStmt(t_varName, containerItr);
+    insertUsesForStmt(t_varName, containerItr, varIdx);
   }
 }
 
@@ -710,8 +710,8 @@ LIST_OF_PROC_NAMES PKB::getUsesPAllProcNames() {
 UsesTable* PKB::getUsesTable() {
   return m_usesTable;
 }
-void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_usesTable->insertUsesForStmt(t_varName, t_lineNum);
+void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
+  return m_usesTable->insertUsesForStmt(t_varName, t_lineNum, t_varIdx);
 }
 bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_usesTable->isUses(t_lineNum, t_varName);

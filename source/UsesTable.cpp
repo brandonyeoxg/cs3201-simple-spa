@@ -11,19 +11,22 @@
 
 #include "UsesTable.h"
 
-void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
+void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
   bool inserted = false;
   //if var name already exists in stmtVarMap, check if vector has lineNum. if so, return index (0).
   auto iterator = m_usesVarMap.find(t_varName);
-  if (iterator != m_usesVarMap.end()) {
+  auto itr = m_usesVarByIdxMap.find(t_varIdx);  //new imp
+  if (itr != m_usesVarByIdxMap.end()) {
     LIST_OF_STMT_NUMS vector = iterator->second;
     if (std::find(vector.begin(), vector.end(), t_lineNum) == vector.end()) {
       //if cannot find in vector, it means it's a valid insertion. Enter to both maps.
       vector.push_back(t_lineNum);
       m_usesVarMap[t_varName] = vector;
+      m_usesVarByIdxMap[t_varIdx] = vector; //new imp
       insertToUsesStmtMap(t_lineNum, t_varName);
       //insert into sets
       m_allVariablesUsed.insert(t_varName);
+      m_allVariablesUsesByIdx.insert(t_varIdx); //new imp
       m_allStmtNumsUsed.insert(t_lineNum);
       inserted = true;
     }
@@ -33,9 +36,11 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
     LIST_OF_STMT_NUMS newVector;
     newVector.push_back(t_lineNum);
     m_usesVarMap.emplace(t_varName, newVector);
+    m_usesVarByIdxMap.emplace(t_varIdx, newVector); //new imp
     insertToUsesStmtMap(t_lineNum, t_varName);
     //insert into sets
     m_allVariablesUsed.insert(t_varName);
+    m_allVariablesUsesByIdx.insert(t_varIdx); //new imp
     m_allStmtNumsUsed.insert(t_lineNum);
   }
 }

@@ -733,7 +733,7 @@ public:
   //  UsesTable methods
   ///////////////////////////////////////////////////////
   UsesTable* getUsesTable();
-  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
