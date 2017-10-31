@@ -94,6 +94,8 @@ public:
   */
   MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllIfStmtsWithVar();
 
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * getAllAffects();
+
   ///////////////////////////////////////////////////////
   //  Cache Methods
   ///////////////////////////////////////////////////////
@@ -126,6 +128,8 @@ public:
 
   void cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allIfStmtsWithVar);
 
+  void cacheAllAffects(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS &t_allAffects);
+
 private:
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext;     /**< Next(l1, l2) */
@@ -147,7 +151,7 @@ private:
   MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allWhileStmtsWithVar;  /**< Pattern w(v, _) */
   MAP_OF_STMT_NUM_TO_VAR_INDEX *m_allIfStmtsWithVar;     /**< Pattern ifs(v, _) */
 
-  // affects
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS *m_allAffects;    /**< Affects(a1,a2) */
 
 
   template <typename T, typename G>

@@ -21,6 +21,8 @@ QueryCache::QueryCache() {
 
   m_allWhileStmtsWithVar = nullptr;
   m_allIfStmtsWithVar = nullptr;
+
+  m_allAffects = nullptr;
 }
 
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * QueryCache::getAllNext() {
@@ -91,6 +93,10 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX * QueryCache::getAllIfStmtsWithVar() {
   return m_allIfStmtsWithVar;
 }
 
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * QueryCache::getAllAffects() {
+  return m_allAffects;
+}
+
 void QueryCache::cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNext) {
   assert(m_allNext == nullptr); // prevent re-insertion
   m_allNext = &t_allNext;
@@ -159,4 +165,9 @@ void QueryCache::cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allWh
 void QueryCache::cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allIfStmtsWithVar) {
   assert(m_allIfStmtsWithVar == nullptr); // prevent re-insertion
   m_allIfStmtsWithVar = &t_allIfStmtsWithVar;
+}
+
+void QueryCache::cacheAllAffects(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS & t_allAffects) {
+  assert(m_allAffects == nullptr); // prevent re-insertion
+  m_allAffects = &t_allAffects;
 }

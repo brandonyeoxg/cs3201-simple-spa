@@ -52,6 +52,8 @@ public:
 
     pkb.executeAfterAllNextInserts();
 
+    Assert::IsTrue(cache.getAllLinesAfter(1) == nullptr);
+
     MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map = pkb.getAllNextStar();
     cache.cacheAllNextStar(map);
 
