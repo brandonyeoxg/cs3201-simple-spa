@@ -6,7 +6,8 @@
 
 /** Class for caching results intra-query.
 *   Currently caches results for Relationships involving 2 common synonyms,
-*   or 1 common synonym and 1 wild card.
+*   or 1 common synonym and 1 wild card. 
+*   Caches results that PKB takes more than O(1) time to deliver.
 *   @author jazlyn
 */
 
@@ -71,6 +72,13 @@ public:
 
   void cacheParentStarOfAnything(LIST_OF_STMT_NUMS t_parentStarOfAnything);
 
+  void cacheStmtUsesAnything(LIST_OF_STMT_NUMS t_stmtUsesAnything);
+
+  void cacheStmtModifiesAnything(LIST_OF_STMT_NUMS t_stmtModifiesAnything);
+
+  void cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allWhileStmtsWithVar);
+
+  void cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allIfStmtsWithVar);
 
 private:
 

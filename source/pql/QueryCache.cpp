@@ -149,3 +149,23 @@ void QueryCache::cacheParentStarOfAnything(LIST_OF_STMT_NUMS t_parentStarOfAnyth
   assert(m_parentStarOfAnything == nullptr); // prevent re-insertion
   m_parentStarOfAnything = &t_parentStarOfAnything;
 }
+
+void QueryCache::cacheStmtUsesAnything(LIST_OF_STMT_NUMS t_stmtUsesAnything) {
+  assert(m_stmtUsesAnything == nullptr); // prevent re-insertion
+  m_stmtUsesAnything = &t_stmtUsesAnything;
+}
+
+void QueryCache::cacheStmtModifiesAnything(LIST_OF_STMT_NUMS t_stmtModifiesAnything) {
+  assert(m_stmtModifiesAnything == nullptr); // prevent re-insertion
+  m_stmtModifiesAnything = &t_stmtModifiesAnything;
+}
+
+void QueryCache::cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allWhileStmtsWithVar) {
+  assert(m_allWhileStmtsWithVar == nullptr); // prevent re-insertion
+  m_allWhileStmtsWithVar = &t_allWhileStmtsWithVar;
+}
+
+void QueryCache::cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX t_allIfStmtsWithVar) {
+  assert(m_allIfStmtsWithVar == nullptr); // prevent re-insertion
+  m_allIfStmtsWithVar = &t_allIfStmtsWithVar;
+}
