@@ -8,6 +8,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestIntermediateTable) {
   public:
+    PkbReadOnly* m_pkb;
     IntermediateTableDriver* m_driver;
 
     TEST_METHOD_INITIALIZE(intialiseIntermediateTable)
@@ -56,26 +57,26 @@ namespace UnitTesting {
       Grammar g6 = Grammar(2, "face");
       Grammar g7 = Grammar(2, "book");
 
-      LIST_OF_RESULTS actual = m_driver->getResults({ g1 });
+      LIST_OF_RESULTS actual = m_driver->getResults({ g1 }, m_pkb);
       LIST_OF_RESULTS expected = { "1", "2", "3" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ g1, g2 });
+      actual = m_driver->getResults({ g1, g2 }, m_pkb);
       expected = { "1 a", "2 b", "3 c" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ g1, g3, g4 });
+      actual = m_driver->getResults({ g1, g3, g4 }, m_pkb);
       expected = { "1 2 3", "2 3 4", "3 4 5" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ g5 });
+      actual = m_driver->getResults({ g5 }, m_pkb);
       expected = {};
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ g6, g7 });
+      actual = m_driver->getResults({ g6, g7 }, m_pkb);
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({});
+      actual = m_driver->getResults({}, m_pkb);
       Assert::IsTrue(actual == expected);
     }
 
