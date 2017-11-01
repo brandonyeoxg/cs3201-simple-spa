@@ -34,7 +34,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { //
   STMT_NUM start = bound[0];
   STMT_NUM end = bound[bound.size() - 1];
 
-  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);
+  PAIR_OF_AFFECTS_LIST intermediateResult = m_affectsTable->getAffectsListsFromBounds(start, end);//m_affectsTable->getAffectsListsFromBounds(start, end);
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList = intermediateResult.second;
 
   auto itr = affectedByList.find(t_usesLine);
