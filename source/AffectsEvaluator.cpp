@@ -92,6 +92,10 @@ SET_OF_RESULTS AffectsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramma
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS allAffects = t_pkb->getAllAffects();
+  if (t_g1.getName() == t_g2.getName()) {
+    allAffects = EvaluatorUtil::filterSameResultsForSameSynonyms(allAffects);
+  }
+
   if (allAffects.empty()) {
     return m_result;
   }

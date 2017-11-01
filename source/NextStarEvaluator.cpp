@@ -92,6 +92,10 @@ SET_OF_RESULTS NextStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramm
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   std::unordered_map<int, std::vector<int>> allNextStar = t_pkb->getAllNextStar();
+  if (t_g1.getName() == t_g2.getName()) {
+    allNextStar = EvaluatorUtil::filterSameResultsForSameSynonyms(allNextStar);
+  }
+
   if (allNextStar.empty()) {
     return m_result;
   }
