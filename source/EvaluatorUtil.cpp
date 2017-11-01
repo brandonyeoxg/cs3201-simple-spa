@@ -147,3 +147,17 @@ Grammar EvaluatorUtil::rewriteSynonym(Grammar t_grammar, std::unordered_map<SYNO
 
   return t_grammar;
 }
+
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS EvaluatorUtil::filterSameResultsForSameSynonyms(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS t_results) {
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS results;
+
+  for (auto& key : t_results) {
+    for (auto& value : key.second) {
+      if (key.first == value) {
+        results[key.first].push_back(value);
+      }
+    }
+  }
+
+  return results;
+}
