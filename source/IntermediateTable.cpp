@@ -45,7 +45,7 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
-LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
+LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn) {
   LIST_OF_RESULTS output;
   if (t_selectedSyn.size() == 0) {
     return {};
@@ -54,12 +54,16 @@ LIST_OF_RESULTS IntermediateTable::getResults(LIST_OF_SYNONYMS t_selectedSyn) {
   for (int i = 0; i < depthOfTable; i++) {
     STRING_TOKEN result = "";
     for (auto& sItr : t_selectedSyn) {
-      auto& synInTable = m_synonymRowChecker.find(sItr);
-      if (synInTable == m_synonymRowChecker.end()) {
-        return {};
+      if (!Grammar::isStmtNo(sItr.getType()) && !Grammar::isString(sItr.getType())) {
+        auto& synInTable = m_synonymRowChecker.find(sItr.getName());
+        if (synInTable == m_synonymRowChecker.end()) {
+          return{};
+        }
+        int synPosInTable = synInTable->second;
+        result += m_results[i][synPosInTable] + " ";
+      } else {
+        result += sItr.getName() + " ";
       }
-      int synPosInTable = synInTable->second;
-      result += m_results[i][synPosInTable] + " ";
     }
     result.pop_back();
     output.push_back(result);
