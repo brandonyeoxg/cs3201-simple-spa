@@ -26,7 +26,7 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
       insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
       //insert into sets
       m_allVariablesUsed.insert(t_varName); //old imp.
-      m_allVariablesUsesByIdx.insert(t_varIdx);
+      m_allVariablesUsedByIdx.insert(t_varIdx);
       m_allStmtNumsUsed.insert(t_lineNum);
       inserted = true;
     }
@@ -40,7 +40,7 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
     insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
     m_allVariablesUsed.insert(t_varName); //old imp.
-    m_allVariablesUsesByIdx.insert(t_varIdx);
+    m_allVariablesUsedByIdx.insert(t_varIdx);
     m_allStmtNumsUsed.insert(t_lineNum);
   }
 }
@@ -130,6 +130,17 @@ LIST_OF_VAR_NAMES UsesTable::getUses(STMT_NUM t_lineNum) {
 
 }
 
+LIST_OF_VAR_INDICES UsesTable::getUsesByIdx(STMT_NUM t_lineNum) {
+  LIST_OF_VAR_INDICES vector;
+  auto itr = m_usesStmtByIdxMap.find(t_lineNum);
+  if (itr == m_usesStmtByIdxMap.end()) {
+    return vector;  //empty, no results
+  } else {
+    vector = itr->second;
+    return vector;
+  }
+}
+
 LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
   LIST_OF_STMT_NUMS vector;
   auto itr = m_usesVarMap.find(t_varName);
@@ -142,6 +153,10 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
 }
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> UsesTable::getAllStmtUses() {
   return m_usesVarMap;
+}
+
+MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUsesByIdx() {
+  return m_usesVarByIdxMap;
 }
 
 bool UsesTable::isUsesAnything(STMT_NUM t_lineNum) {
@@ -162,6 +177,12 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUsesAnything() {
 LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() {
   LIST_OF_VAR_NAMES results;
   results.assign(m_allVariablesUsed.begin(), m_allVariablesUsed.end());
+  return results;
+}
+
+LIST_OF_VAR_INDICES UsesTable::getAllUsesVarNamesByIdx() {
+  LIST_OF_VAR_INDICES results;
+  results.assign(m_allVariablesUsedByIdx.begin(), m_allVariablesUsedByIdx.end());
   return results;
 }
 
