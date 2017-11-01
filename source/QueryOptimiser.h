@@ -6,6 +6,7 @@
 #include "Relation.h"
 #include "Pattern.h"
 #include "With.h"
+#include "QueryUtil.h"
 
 class QueryOptimiser {
 public:
