@@ -53,6 +53,13 @@ public:
     LIST_OF_VAR_NAMES emptyVector;
     Assert::IsTrue(m_usesTable->getUses(4) == emptyVector);
   }
+  TEST_METHOD(TestUsesTable_GetUsesByIdx) {
+    static const int arr[] = { 0, 1 };
+    LIST_OF_VAR_INDICES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    Assert::IsTrue(m_usesTable->getUsesByIdx(2) == expected);
+    LIST_OF_VAR_INDICES emptyVector;
+    Assert::IsTrue(m_usesTable->getUsesByIdx(4) == emptyVector);
+  }
   TEST_METHOD(TestUsesTable_GetStmtUses) {
     static const int arr[] = { 1, 2 };
     LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
