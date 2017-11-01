@@ -90,4 +90,12 @@ public:
   * @return A new grammar object if the synonym is in the rewriteList else return the original grammar object.
   */
   static Grammar rewriteSynonym(Grammar t_grammar, std::unordered_map<SYNONYM_NAME, Grammar> t_rewriteList);
+
+  /**
+  * A public function to filter same results for same synonyms in Next*(s, s), Affects(s, s) and Affects*(s, s) clauses.
+  * Get only results that are the same for both parameters.
+  * @param t_results The results to filter.
+  * @return The filtered results.
+  */
+  static MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS filterSameResultsForSameSynonyms(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS t_results);
 };
