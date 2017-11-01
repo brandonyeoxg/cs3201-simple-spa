@@ -656,6 +656,7 @@ public:
   * @return a vector of variables that satisfy the condition.
   */
   virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of statement numbers that uses variable t_varName.
@@ -671,6 +672,7 @@ public:
   * @return an unordered_map that satisfy the condition.
   */
   virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses() = 0;
+  virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx() = 0;
 
   /**
   * Method that checks if uses(t_lineNum, _) holds.

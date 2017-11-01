@@ -18,7 +18,7 @@ public:
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> getAllStmtUses();
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
   bool isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)

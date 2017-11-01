@@ -736,8 +736,10 @@ public:
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
   BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
 
@@ -745,7 +747,7 @@ public:
   //  ModifiesTable methods
   ///////////////////////////////////////////////////////
   ModifiesTable* getModifiesTable();
-  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);

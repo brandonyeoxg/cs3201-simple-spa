@@ -151,7 +151,7 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
     return vector;
   }
 }
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> UsesTable::getAllStmtUses() {
+MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUses() {
   return m_usesVarMap;
 }
 
