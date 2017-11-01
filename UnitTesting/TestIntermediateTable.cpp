@@ -48,23 +48,31 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetResults)
     {
-      LIST_OF_RESULTS actual = m_driver->getResults({ "a" });
+      Grammar g1 = Grammar(3, "a");
+      Grammar g2 = Grammar(7, "v");
+      Grammar g3 = Grammar(2, "s1");
+      Grammar g4 = Grammar(2, "s2");
+      Grammar g5 = Grammar(2, "KOKOK");
+      Grammar g6 = Grammar(2, "face");
+      Grammar g7 = Grammar(2, "book");
+
+      LIST_OF_RESULTS actual = m_driver->getResults({ g1 });
       LIST_OF_RESULTS expected = { "1", "2", "3" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ "a", "v" });
+      actual = m_driver->getResults({ g1, g2 });
       expected = { "1 a", "2 b", "3 c" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ "a", "s1", "s2" });
+      actual = m_driver->getResults({ g1, g3, g4 });
       expected = { "1 2 3", "2 3 4", "3 4 5" };
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ "KOKOK" });
+      actual = m_driver->getResults({ g5 });
       expected = {};
       Assert::IsTrue(actual == expected);
 
-      actual = m_driver->getResults({ "face", "book" });
+      actual = m_driver->getResults({ g6, g7 });
       Assert::IsTrue(actual == expected);
 
       actual = m_driver->getResults({});
