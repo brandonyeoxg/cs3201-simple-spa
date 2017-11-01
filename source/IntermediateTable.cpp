@@ -45,7 +45,7 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
-LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn) {
+LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn, const PkbReadOnly *t_pkb) {
   LIST_OF_RESULTS output;
   if (t_selectedSyn.size() == 0) {
     return {};

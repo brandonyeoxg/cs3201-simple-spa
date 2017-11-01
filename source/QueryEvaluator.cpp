@@ -394,7 +394,7 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
       m_selects.pop();
     }
 
-    finalResult = m_table->getResults(selectedSynonyms);
+    finalResult = m_table->getResults(selectedSynonyms, m_pkb);
     if (finalResult.empty()) {
       return finalResult;
     }  
