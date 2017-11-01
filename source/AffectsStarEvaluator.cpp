@@ -4,13 +4,13 @@
 
 bool AffectsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   if (t_g2.getName() == OPERATOR_UNDERSCORE) {
-    if (t_pkb->isAffectsAnything(std::stoi(t_g1.getName()))) {
+    if (t_pkb->isAffectsAnythingStar(std::stoi(t_g1.getName()))) {
       return true;
     } else {
       return false;
     }
   } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
-    if (t_pkb->isAffectedByAnything(std::stoi(t_g2.getName()))) {
+    if (t_pkb->isAffectedByAnythingStar(std::stoi(t_g2.getName()))) {
       return true;
     } else {
       return false;
@@ -25,7 +25,7 @@ bool AffectsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Gram
 }
 
 bool AffectsStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_pkb->hasAffectsRelationship()) {
+  if (t_pkb->hasAffectsRelationshipStar()) {
     return true;
   } else {
     return false;
@@ -44,7 +44,7 @@ SET_OF_RESULTS AffectsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gr
     LIST_OF_RESULTS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g2);
     m_result[t_g2.getName()] = stmtVector;
   } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
-    LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnything();
+    LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnythingStar();
     if (stmtIntVector.empty()) {
       return m_result;
     }
@@ -72,7 +72,7 @@ SET_OF_RESULTS AffectsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
   } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
-    std::vector<int> stmtIntVector = t_pkb->getAffectsAnything();
+    std::vector<int> stmtIntVector = t_pkb->getAffectsAnythingStar();
     if (stmtIntVector.empty()) {
       return m_result;
     }
