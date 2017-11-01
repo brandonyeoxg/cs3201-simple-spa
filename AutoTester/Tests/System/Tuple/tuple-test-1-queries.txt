@@ -431,7 +431,7 @@ Select <w, v> pattern w(v,_,_)
 87 - Tuple-2 Common Synonym in Tuple with Clause
 stmt s; prog_line pl;
 Select <s, pl> with s.stmt#=pl
-1 1
+1 1, 2 2, 3 3, 4 4, 5 5, 6 6, 7 7
 5000
 88 - Tuple-2 Common Synonym in Tuple with Clause
 constant s; procedure pl;
