@@ -100,10 +100,10 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     std::unordered_map<SYNONYM_NAME, Grammar>::iterator got;
     got = m_synsToBeRewritten.find(t_select.getName());
     if (got != m_synsToBeRewritten.end()) {
-      std::vector<std::string> results;
+      LIST_OF_RESULTS results;
       PROC_NAME procName = m_pkb->getProcNameFromCallStmtNum(std::stoi(got->second.getName()));
       results.push_back(procName);
-      STRING synName = StringUtil::createStringWithRepeatedChar("*", m_numOfCustomSynonyms);
+      STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms);
       Grammar newGrammar = Grammar(0, synName);
       m_numOfCustomSynonyms = m_numOfCustomSynonyms + 1;
       return storeSelectResultFromPkb(newGrammar, results);
@@ -381,7 +381,7 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
         }
 
         if (Grammar::isCall(m_selects.front().getType()) && Grammar::isProcName(m_selects.front().getAttr())) {
-          STRING synName = StringUtil::createStringWithRepeatedChar("*", m_numOfCustomSynonyms - 1);
+          STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms - 1);
           Grammar newGrammar = Grammar(11, synName);
           selectedSynonyms.push_back(newGrammar);
         } else {
