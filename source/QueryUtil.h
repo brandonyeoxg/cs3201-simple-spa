@@ -6,6 +6,7 @@
 #include <list>
 #include <vector>
 #include <unordered_map>
+#include <queue>
 
 #include "GlobalTypeDef.h"
 #include "Grammar.h"
@@ -167,4 +168,14 @@ public:
   * else return false if the synonym is used only once in the query.
   */
   static bool isSynonymCommon(MAP_OF_SYNONYMS_TO_COUNTS t_synMap, STRING t_synonym);
+
+  /**
+  * A public function to check if the synonym is selected.
+  * Check if the synonyn is a synonym selected in the select clause.
+  * @param t_selects the queue of selected synonyms to check whether t_synonym is a selected synonym.
+  * @param t_synonym the synonym to check if it is selected.
+  * @return true if the synonym is selected in the query
+  * else return false if the synonym is not selected in the query.
+  */
+  static bool isSynonymSelected(std::queue<Grammar> t_selects, STRING t_synonym);
 };
