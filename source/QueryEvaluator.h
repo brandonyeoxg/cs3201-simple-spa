@@ -137,7 +137,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
+  BOOLEAN storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
 
   /**
   * A private function to store the relation result if it is needed.

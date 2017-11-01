@@ -445,7 +445,7 @@ a 3
 5000
 90 - Tuple Common Synonyms Multiple Clauses Functionality Test 1
 while w; if ifs; prog_line pl; assign a; variable v;
-Select <w, ifs, pl, a, v> such that Next(w,ifs) pattern a("a", 1) with v.varName="a" and pl=5
+Select <w, ifs, pl, a, v> such that Next(w,ifs) pattern a("a", "1") with v.varName="a" and pl=5
 1 3 5 2 a
 5000
 91 - Tuple Common Synonyms Multiple Clauses Functionality Test 2
