@@ -49,7 +49,6 @@ public:
   */
   QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
     : m_pkb(t_pkb),
-      m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
       m_patterns(t_patterns),
@@ -76,8 +75,6 @@ public:
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
-  SYNONYM_NAME m_selectedSynonym; /**< A string. The synonym that the query selects. */
-  SYNONYM_TYPE m_selectedType; /**< A string. The type of the synonym that the query selects. */
   MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
