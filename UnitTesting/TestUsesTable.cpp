@@ -22,17 +22,18 @@ public:
       { 2,{ "x", "y" } },
       { 3,{ "y" } }
     };
-
-    m_usesTable->insertUsesForStmt("x", 1);
-    m_usesTable->insertUsesForStmt("x", 2);
-    m_usesTable->insertUsesForStmt("y", 2);
-    m_usesTable->insertUsesForStmt("y", 3);
+    m_usesTable->insertUsesForStmt("x", 1, 0);
+    m_usesTable->insertUsesForStmt("x", 2, 0);
+    m_usesTable->insertUsesForStmt("y", 2, 1);
+    m_usesTable->insertUsesForStmt("y", 3, 1);
+    
   }
   TEST_METHOD(TestUsesTable_InsertUses) {
+
     Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
     Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
     //insert duplicate, expects no change made to the data.
-    m_usesTable->insertUsesForStmt("y", 3);
+    m_usesTable->insertUsesForStmt("y", 3, 1);
     Assert::IsTrue(m_usesTable->getUsesStmtMap() == m_testUsesStmtMap);
     Assert::IsTrue(m_usesTable->getUsesVarMap() == m_testUsesVarMap);
   }

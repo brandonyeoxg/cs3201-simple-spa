@@ -273,7 +273,7 @@ public:
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
+  virtual VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx) = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
@@ -535,7 +535,7 @@ public:
   */
   virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
-  virtual PROC_INDEX getProcIdxFromName(PROC_NAME t_name) = 0;
+  virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////

@@ -66,6 +66,7 @@ typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
 typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
+typedef std::unordered_set<VAR_INDEX> UNORDERED_SET_OF_VAR_INDICES;
 typedef std::unordered_map<STMT_NUM, std::unordered_set<std::string>> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
 typedef std::unordered_map<STMT_NUM, std::unordered_set<VAR_INDEX>> MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES;
 typedef std::unordered_map<std::string, std::unordered_set<std::string>> MAP_OF_NAME_TO_SET_OF_NAMES;
