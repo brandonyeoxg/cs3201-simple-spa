@@ -2,16 +2,17 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-#include "Grammar.h"
 #include <string>
+
 #include "GlobalTypeDef.h"
+#include "Grammar.h"
+#include "Clause.h"
 
 /**A class representing the "Such That" clause of a query.
 *  @author Ryan Tan
 *  @date 26/08/2017
 */
-class Relation
-{
+class Relation : public Clause {
 public:
   /**
   * Default constructor.

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Grammar.h"
+#include "Clause.h"
 
 #ifndef PATTERN_H
 #define PATTERN_H
@@ -14,7 +15,7 @@
 *  @author Verbena Ong
 *  @date 09/09/2017
 */
-class Pattern {
+class Pattern : public Clause {
 public:
 
   /**

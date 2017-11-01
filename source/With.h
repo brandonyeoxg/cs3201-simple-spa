@@ -2,14 +2,15 @@
 #ifndef WITH_H
 #define WITH_H
 
-#include "Grammar.h"
 #include <string>
+
 #include "GlobalTypeDef.h"
+#include "Grammar.h"
+#include "Clause.h"
 
 /**A class representing the "with" clause of a query.
 */
-class With
-{
+class With : public Clause {
 public:
   /**
   * Default constructor.
