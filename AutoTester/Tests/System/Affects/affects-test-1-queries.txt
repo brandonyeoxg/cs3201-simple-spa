@@ -15,7 +15,7 @@ Select a such that Affects(s,pl)
 5000
 4 - Affects Functionality Test
 stmt s;
-Select BOOLEAN such that Affects(s,2)
+Select BOOLEAN such that Affects(s,3)
 true
 5000
 5 - Affects Functionality Test
@@ -145,7 +145,7 @@ Select a such that Affects*(s,pl)
 5000
 30 - Affects* Functionality Test
 stmt s;
-Select BOOLEAN such that Affects*(s,2)
+Select BOOLEAN such that Affects*(s,3)
 true
 5000
 31 - Affects* Functionality Test

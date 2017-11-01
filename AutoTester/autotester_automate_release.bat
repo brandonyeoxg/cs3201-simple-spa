@@ -45,3 +45,4 @@ start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/com
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-common-synonym-out3.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-common-synonyms-stress-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Tuple/tuple-test-1-prog.txt %~dp0/Tests/System/Tuple/tuple-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-tuple-out1.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-1-prog.txt %~dp0/Tests/System/Affects/affects-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-affects-out1.xml
