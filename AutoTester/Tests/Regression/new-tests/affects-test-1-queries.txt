@@ -123,37 +123,37 @@ procedure p;
 Select p such that Affects(_,_)
 main, second, third
 5000
-19 - Affects*: Underscore False
+26 - Affects*: Underscore False
 procedure p;
 Select p such that Affects*(_,21)
 none
 5000
-20 - Affects*: Underscore True
+27 - Affects*: Underscore True
 procedure p;
 Select p such that Affects*(_,26)
 main, second, third
 5000
-21 - Affects*: Underscore False
+28 - Affects*: Underscore False
 procedure p;
 Select p such that Affects*(8,_)
 none
 5000
-22 - Affects*: Underscore True
+29 - Affects*: Underscore True
 procedure p;
 Select p such that Affects*(14,_)
 main, second, third
 5000
-23 - Affects*: Underscore with Right Synonym
+30 - Affects*: Underscore with Right Synonym
 stmt s;
 Select s such that Affects*(_,s)
 2, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 23, 26
 5000
-24 - Affects*: Underscore with Left Synonym
+31 - Affects*: Underscore with Left Synonym
 stmt s;
 Select s such that Affects*(s,_)
 1, 2, 4, 7, 9, 11, 12, 13, 14, 16, 23
 5000
-25 - Affects*: Has Affects
+32 - Affects*: Has Affects
 procedure p;
 Select p such that Affects*(_,_)
 main, second, third
