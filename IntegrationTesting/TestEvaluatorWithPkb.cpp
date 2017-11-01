@@ -73,14 +73,22 @@ namespace IntegrationTesting
       stmtInLst2.push_back(6);
 
       //insert uses
-      
+      m_pkb->insertUsesForStmt("x", 1, 0);
+      m_pkb->insertUsesForStmt("c", 1, 1);
+      m_pkb->insertUsesForStmt("x", 2, 0);
+      m_pkb->insertUsesForStmt("a", 3, 2);
+      m_pkb->insertUsesForStmt("b", 4, 3);
+      m_pkb->insertVar("x");
+      m_pkb->insertVar("c");
+      m_pkb->insertVar("a");
+      m_pkb->insertVar("b");
 
 
       //insert modifies
-      m_pkb->insertModifiesForStmt("y", 1);
-      m_pkb->insertModifiesForStmt("z", 2);
-      m_pkb->insertModifiesForStmt("w", 3);
-      m_pkb->insertModifiesForStmt("z", 4);
+      m_pkb->insertModifiesForStmt("y", 1, 4);
+      m_pkb->insertModifiesForStmt("z", 2, 5);
+      m_pkb->insertModifiesForStmt("w", 3, 6);
+      m_pkb->insertModifiesForStmt("z", 4, 5);
       m_pkb->insertVar("y");
       m_pkb->insertVar("z");
       m_pkb->insertVar("w");
@@ -200,15 +208,6 @@ namespace IntegrationTesting
       m_synonymsUsedInQuery["v"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       std::vector<std::string> expectedResult = { "x", "c" };
-      m_pkb->insertUsesForStmt("x", 1, 0);
-      m_pkb->insertUsesForStmt("c", 1, 1);
-      m_pkb->insertUsesForStmt("x", 2, 0);
-      m_pkb->insertUsesForStmt("a", 3, 2);
-      m_pkb->insertUsesForStmt("b", 4, 3);
-      m_pkb->insertVar("x");
-      m_pkb->insertVar("c");
-      m_pkb->insertVar("a");
-      m_pkb->insertVar("b");
       std::vector<std::string> actualResult = m_qe->evaluateQuery();
       Assert::IsTrue(actualResult == expectedResult);
     }
