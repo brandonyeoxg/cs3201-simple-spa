@@ -21,9 +21,6 @@ def bar(c):
         ncombi.append(ns)
     return ncombi
 
-foo(10, [])
-combi=bar(combi)
-
 def hoo(c):
     s = ''
     for i in c:
@@ -34,4 +31,13 @@ def hoo(c):
     print(s)
     return None
 
+foo(10, [])
+combi=bar(combi)
+hoo(combi)
+
+print("")
+
+combi=[]
+foo(5, [])
+combi=bar(combi)
 hoo(combi)
