@@ -238,6 +238,9 @@
     <ClCompile Include="..\source\pql\QueryCache.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryOptimiser.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -518,6 +521,12 @@
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pql\QueryCache.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Clause.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryOptimiser.h">
       <Filter>PQL</Filter>
     </ClInclude>
   </ItemGroup>
