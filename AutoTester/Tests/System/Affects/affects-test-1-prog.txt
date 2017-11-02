@@ -3,7 +3,7 @@ procedure Dynames{
   while i{
     b=a+2*b;}
   if j then{
-    call B;}
+    call Kyrios;}
   else{
     a=b*1-a*2;}
   a=b-3*a;

@@ -1,0 +1,40 @@
+procedure Dynames{
+  a=1;
+  while i{
+    b=a+2*b;}
+  if j then{
+    b=i2*j2;
+    call Kyrios;}
+  else{
+    c=d;
+    a=b*1-a*2;}
+  a=b-3*a;
+  m=k;
+}
+
+procedure Kyrios{
+  a=a+c;
+  if i2 then{
+    while j2{
+      a2=3-(4)*((5+c));
+      b2=b3-b;
+      a2=(a+2)*c;}
+    i=j-a;}
+  else{
+    a3=a2-a;}
+  while k{
+    if k2 then{
+      call Exia;
+      c=a-c;
+      b3=b2+5-a2;}
+    else{
+      d=5;
+      b=d-c+(3*4)+b3;}
+    k=k2;
+    k2=k+3;}
+  i=a2+(b2-a3)*((d)+(b*(k-k2)));
+}
+
+procedure Exia{
+  i=m+a*gundam;
+}
