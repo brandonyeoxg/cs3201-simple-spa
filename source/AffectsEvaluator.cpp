@@ -3,13 +3,13 @@
 #include "AffectsEvaluator.h"
 
 bool AffectsEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == OPERATOR_UNDERSCORE) {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isAffectsAnything(std::stoi(t_g1.getName()))) {
       return true;
     } else {
       return false;
     }
-  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     if (t_pkb->isAffectedByAnything(std::stoi(t_g2.getName()))) {
       return true;
     } else {
@@ -43,7 +43,7 @@ SET_OF_RESULTS AffectsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramma
 
     LIST_OF_RESULTS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g2);
     m_result[t_g2.getName()] = stmtVector;
-  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnything();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -71,7 +71,7 @@ SET_OF_RESULTS AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getAffectsAnything();
     if (stmtIntVector.empty()) {
       return m_result;

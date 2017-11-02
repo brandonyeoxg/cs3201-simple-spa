@@ -3,7 +3,7 @@
 #include "CallsStarEvaluator.h"
 
 bool CallsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == OPERATOR_UNDERSCORE) {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isCallsAnything(t_g1.getName())) {
       //std::cout << "Calls Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool CallsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Gramma
       //std::cout << "Does not Call Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     if (t_pkb->isCalledByAnything(t_g2.getName())) {
       //std::cout << "Called By Anything!\n";
       return true;
@@ -43,7 +43,7 @@ bool CallsStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Gramm
 SET_OF_RESULTS CallsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g1.getName() == OPERATOR_UNDERSCORE) {
+  if (StringUtil::isUnderscore(t_g1.getName())) {
     std::vector<std::string> procedures = t_pkb->getCalledByStarAnything();
     if (procedures.empty()) {
       return m_result;
@@ -65,7 +65,7 @@ SET_OF_RESULTS CallsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gram
 SET_OF_RESULTS CallsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getName() == "_") {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     std::vector<std::string> procedures = t_pkb->getCallsStarAnything();
     if (procedures.empty()) {
       return m_result;
