@@ -35,8 +35,6 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   int patternSize = m_patterns.size();
   int withSize = m_withs.size();
 
-  Grammar grammar = m_selects.front();
-
   //Loop through the With Queue
   for (int i = 0; i < withSize; ++i) {
     m_isSelectOnly = false;

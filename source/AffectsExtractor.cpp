@@ -87,7 +87,7 @@ BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_u
   }
 
   //passes all the above checks, run the method.
-  return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, t_usesLine);
+  return m_affectsTable->isAffects(t_modifiesLine, t_usesLine);
 }
 
 BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
