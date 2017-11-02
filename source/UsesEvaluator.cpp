@@ -69,7 +69,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
 SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (StringUtil::isUnderscore(t_g2.getName())) {
+  if (!StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
       std::vector<std::string> stmtVector = t_pkb->getUsesPProcNamesWithVarIdx(t_g2.getName());
       if (stmtVector.empty()) {
