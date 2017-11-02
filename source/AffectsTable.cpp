@@ -85,14 +85,17 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS elseLmt = t_lmt;
   traverseCfgWithBound(stmts[1], stmtLstBound.back(), elseLmt);
   // For if both stmts leads to stmt lst
-  t_lmt = mergeLmt(ifLmt, elseLmt);
-
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmtLstBound.back());
+  if (stmtType == queryType::GType::WHILE) {
+    return;
+  }
   auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
   if (nItr == m_nextTable->getAfterGraph()->end()) {
     return;
   }
-  PROG_LINE nextStmt = nItr->second[0];
-  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
+  t_lmt = mergeLmt(ifLmt, elseLmt);
+  PROG_LINE nextStmt = nItr->second.back();
+  stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
   if (stmtType == queryType::GType::WHILE) {
     return;
   }
