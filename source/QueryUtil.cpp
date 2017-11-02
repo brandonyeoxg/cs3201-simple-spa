@@ -67,3 +67,17 @@ bool QueryUtil::isSynonymCommon(MAP_OF_SYNONYMS_TO_COUNTS t_synMap, STRING t_syn
 
   return false;
 }
+
+bool QueryUtil::isSynonymSelected(std::queue<Grammar> t_selects, STRING t_synonym) {
+  int size = t_selects.size();
+  for (int i = 0; i < size; ++i) {
+    Grammar grammar = t_selects.front();
+    if (t_synonym == grammar.getName()) {
+      return true;
+    }
+
+    t_selects.pop();
+  }
+
+  return false;
+}

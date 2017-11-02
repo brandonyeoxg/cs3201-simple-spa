@@ -86,6 +86,18 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   traverseCfgWithBound(stmts[1], stmtLstBound.back(), elseLmt);
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
+
+  auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
+  if (nItr == m_nextTable->getAfterGraph()->end()) {
+    return;
+  }
+  PROG_LINE nextStmt = nItr->second[0];
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
+  if (stmtType == queryType::GType::WHILE) {
+    return;
+  }
+  // Combine lms with lmt
+  traverseCfgWithBound(nextStmt, t_endBound, t_lmt);
 }
 
 void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
@@ -219,6 +231,18 @@ BOOLEAN AffectsTable::traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, 
   }
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
+
+  auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
+  if (nItr == m_nextTable->getAfterGraph()->end()) {
+    return false;
+  }
+  PROG_LINE nextStmt = nItr->second[0];
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
+  if (stmtType == queryType::GType::WHILE) {
+    return false;
+  }
+  // Combine lms with lmt
+  return traverseCfgWithBoundEarlyExit(nextStmt, t_endBound, t_lmt);
 }
 
 BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
@@ -280,35 +304,174 @@ BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine,
 ///////////////////////////////////////////////////////
 /**
 * From verbena's doc on PKB > Affects
-* hasAffectsFromLMS()
-*/
-BOOLEAN AffectsTable::hasAnyAffectsStar() {
-  return false;
-}
-
-/**
-* From verbena's doc on PKB > Affects
-* hasAffectsBetween(INT, INT)
-*/
-BOOLEAN AffectsTable::hasAffectsStarFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
-  return false;
-}
-
-/**
-* From verbena's doc on PKB > Affects
-* isAffectsFromLMS(INT, INT)
-* Affects(4, 12) is true
-*/
-BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine) {
-  return false;
-}
-
-/**
-* From verbena's doc on PKB > Affects
 * getAffectsListFromLMS(INT, INT)
 */
-PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
-  return{};
+PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {   // Checks if the start point type
+  const std::map<PROG_LINE, std::vector<PROG_LINE>> *readOnlyCFG = m_nextTable->getAfterGraph();
+  // Check if the startBound is a container stmt
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, lastUseTable;
+  PROG_LINE realStartBound = getRealStartBound(t_startBound);
+  traverseCfgWithBound(realStartBound, t_endBound, lms, lastUseTable);
+  return{ affectsList, affectedByList };
+}
+
+void AffectsTable::traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  if (t_curProgLine > t_endBound) {
+    return;
+  }
+  // Checks for the current line if it is a container stmt
+  queryType::GType stmtType = m_stmtTable->getTypeOfStatement(t_curProgLine);
+  if (isContainerStmt(stmtType)) {
+    traverseContainerCfgWithBound(t_curProgLine, t_endBound, t_lmt, t_lastUses, stmtType);
+  } else {
+    traverseNonContainerCfgWithBound(t_curProgLine, t_endBound, t_lmt, t_lastUses, stmtType);
+  }
+}
+
+void AffectsTable::traverseContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses, queryType::GType t_type) {
+  // Get the 2 stmts that leads to the container stmts
+  if (t_type == queryType::GType::IF) {
+    traverseIfStmtWithBound(t_curProgLine, t_endBound, t_lmt, t_lastUses);
+  } else if (t_type == queryType::GType::WHILE) {
+    traverseWhileStmtWithBound(t_curProgLine, t_endBound, t_lmt, t_lastUses);
+  }
+}
+
+
+void AffectsTable::traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses, queryType::GType t_type) {
+  if (t_type == queryType::GType::ASGN) {
+    handleAffectsOnAssgnStmt(t_curProgLine, t_lmt, t_lastUses);
+  } else if (t_type == queryType::GType::CALL) {
+    handleAffectsOnCallStmt(t_curProgLine, t_lmt, t_lastUses);
+  }
+  if (m_nextTable->getAfterGraph()->find(t_curProgLine) == m_nextTable->getAfterGraph()->end()) {
+    return;
+  }
+  PROG_LINE nextProgLine = m_nextTable->getAfterGraph()->at(t_curProgLine)[0];
+  if (nextProgLine < t_curProgLine) {
+    return;
+  }
+  traverseCfgWithBound(nextProgLine, t_endBound, t_lmt, t_lastUses);
+}
+
+void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLmt = t_lmt, ifLastUses = t_lastUses;
+  LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
+  traverseCfgWithBound(stmts[0], stmtLstBound.back(), ifLmt, ifLastUses);
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS elseLmt = t_lmt, elseLastUses = t_lastUses;
+  traverseCfgWithBound(stmts[1], stmtLstBound.back(), elseLmt, elseLastUses);
+  // For if both stmts leads to stmt lst
+  t_lmt = mergeLmt(ifLmt, elseLmt);
+  t_lastUses = mergeLmt(ifLastUses, elseLastUses);
+
+  auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
+  if (nItr == m_nextTable->getAfterGraph()->end()) {
+    return;
+  }
+  PROG_LINE nextStmt = nItr->second[0];
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
+  if (stmtType == queryType::GType::WHILE) {
+    return;
+  }
+  // Combine lms with lmt
+  traverseCfgWithBound(nextStmt, t_endBound, t_lmt, t_lastUses);
+}
+
+void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
+  LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
+  // Get the stmts lst of both then and else portion
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS insideStmtLst = t_lmt, insideLastUses = t_lastUses;
+  traverseCfgWithBound(stmts[0], stmtLstBound.back(), insideStmtLst, insideLastUses);
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedLst = mergeLmt(insideStmtLst, t_lmt);
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeUsesTable = mergeLmt(insideLastUses, t_lastUses);
+  traverseCfgWithBound(stmts[0], stmtLstBound.back(), mergedLst, mergeUsesTable);
+  // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
+  if (stmts.size() > 1) {
+    queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
+    if (stmtType == queryType::GType::WHILE) {
+      return;
+    }
+    // Combine lms with lmt
+    traverseCfgWithBound(stmts[1], t_endBound, mergedLst, mergeUsesTable);
+  }
+  t_lmt = mergedLst;
+}
+
+void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  VAR_NAME modifiesVar = m_pkbTablesOnly->getModifiesTable()->getModifies(t_curProgLine)[0];
+  LIST_OF_VAR_NAMES usesVars = m_pkbTablesOnly->getUsesTable()->getUses(t_curProgLine);
+  // checks the lmt to see is any affects relation
+  if (t_lmt.empty()) {
+    t_lmt.insert({ modifiesVar,{ t_curProgLine } });
+    t_lastUses.insert({ modifiesVar, {} });
+  } else {
+    auto pItr = t_lmt.find(modifiesVar);
+    if (pItr == t_lmt.end()) {
+      t_lmt.insert({ modifiesVar,{ t_curProgLine } });
+      t_lastUses.insert({ modifiesVar,{} });
+    } else {
+      pItr->second.clear();
+      pItr->second.insert(t_curProgLine);
+      auto lastUseItr = t_lastUses.find(modifiesVar);
+      lastUseItr->second.clear();
+    }
+  }
+  // updates the last uses table
+  for (auto &uItr : usesVars) {
+    auto pItr = t_lmt.find(uItr);
+    if (pItr == t_lmt.end()) {
+      continue;
+    }
+    // Add via the LMT
+    for (auto &sItr : pItr->second) {
+      t_lastUses.find(modifiesVar)->second.insert(sItr);
+    }
+    auto lastUseItr = t_lastUses.find(uItr);
+    for (auto &sItr : lastUseItr->second) {
+      t_lastUses.find(modifiesVar)->second.insert(sItr);
+    }
+  }
+
+  // Updates affects list (in this case this list represents affects*)
+  auto  pItr = t_lmt.find(modifiesVar);
+  for (auto &mItr : pItr->second) {
+    auto uItr = t_lastUses.find(modifiesVar);
+    if (uItr == t_lastUses.end()) {
+      break;
+    }
+    for (auto &sItr : uItr->second) {
+      auto aItr = affectsList.find(sItr);
+      if (aItr == affectsList.end()) {
+        affectsList.insert({ sItr, {mItr} });
+      } else {
+        aItr->second.insert(mItr);
+      }
+      auto bItr = affectedByList.find(mItr);
+      if (bItr == affectedByList.end()) {
+        affectedByList.insert({ mItr, { sItr} });
+      } else {
+        bItr->second.insert(sItr);
+      }
+    }
+  }
+}
+
+void AffectsTable::handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  LIST_OF_VAR_NAMES listOfVarModified = m_pkbTablesOnly->getModifiesTable()->getModifies(t_curProgLine);
+  if (t_lmt.empty()) {
+    return;
+  }
+  for (auto& mItr : listOfVarModified) {
+    auto pItr = t_lmt.find(mItr);
+    if (pItr == t_lmt.end()) {
+      continue;
+    }
+    t_lmt.erase(pItr);
+    auto lastUseItr = t_lastUses.find(mItr);
+    lastUseItr->second.clear();
+  }
 }
 
 BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {

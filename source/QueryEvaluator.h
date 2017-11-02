@@ -17,6 +17,7 @@
 #include "With.h"
 #include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
+#include "pql\QueryCache.h"
 #include "Relationship.h"
 #include "Patterns.h"
 #include "Evaluator.h"
@@ -49,13 +50,14 @@ public:
   */
   QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
     : m_pkb(t_pkb),
-      m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
       m_patterns(t_patterns),
       m_withs(t_withs),
       m_synonymsUsedInQuery(t_synonymsList),
-      m_isSelectOnly(true) {
+      m_isSelectOnly(true),
+      m_numOfCustomSynonyms(0) {
+    m_cache = new QueryCache();
     m_table = new IntermediateTable();
   };
 
@@ -63,6 +65,7 @@ public:
   * A destructor.
   */
   ~QueryEvaluator() {
+    delete m_cache;
     delete m_table;
   };
 
@@ -75,8 +78,8 @@ public:
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
-  SYNONYM_NAME m_selectedSynonym; /**< A string. The synonym that the query selects. */
-  SYNONYM_TYPE m_selectedType; /**< A string. The type of the synonym that the query selects. */
+  QueryCache *m_cache; /**< A QueryCache pointer. The QueryCache instance to cache and get results. */
+  IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
   MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
   std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
   std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
@@ -84,7 +87,7 @@ private:
   std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses. */
   std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten; /**< An unordered map. It stores the synonym to be rewritten and the Grammar Object to replace it with. */
-  IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
+  INTEGER m_numOfCustomSynonyms; /**< An integer. The number of custom synonyms created. */
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -135,7 +138,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
+  BOOLEAN storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
 
   /**
   * A private function to store the relation result if it is needed.

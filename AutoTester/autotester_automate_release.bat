@@ -10,6 +10,7 @@ start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simpl
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/ReleaseOutput/regression-modifies-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/boolean-test-1-queries.txt %~dp0/Output/ReleaseOutput/regression-boolean-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/with-test-1-queries.txt %~dp0/Output/ReleaseOutput/regression-with-out1.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-2-prog.txt %~dp0/Tests/Regression/new-tests/affects-test-1-queries.txt %~dp0/Output/ReleaseOutput/regression-affects-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-select-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/ReleaseOutput/system-select-out2.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-select-out3.xml
@@ -45,3 +46,4 @@ start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/com
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-prog.txt %~dp0/Tests/System/Common-Synonyms/common-synonym-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-common-synonym-out3.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-common-synonyms-stress-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Tuple/tuple-test-1-prog.txt %~dp0/Tests/System/Tuple/tuple-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-tuple-out1.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-1-prog.txt %~dp0/Tests/System/Affects/affects-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-affects-out1.xml
