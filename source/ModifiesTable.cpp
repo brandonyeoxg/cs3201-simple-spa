@@ -11,7 +11,7 @@
 
 #include "ModifiesTable.h"
 
-void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
+void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
   bool inserted = false;
   //if var name already exists in stmtVarMap, check if vector has lineNum. if so, return index (0).
   auto iterator = m_modifiesVarMap.find(t_varName);

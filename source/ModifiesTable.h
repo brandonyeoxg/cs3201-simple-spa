@@ -11,7 +11,7 @@
 
 class ModifiesTable {
 public:
-  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   void insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName);
   bool isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);

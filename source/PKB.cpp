@@ -64,10 +64,11 @@ void PKB::insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS
 }
 
 void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
-  insertModifiesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
+  VAR_INDEX varIdx = getVarIdxFromName(t_varName);
+  insertModifiesForStmt(t_varName, t_curLineNum, varIdx);
   for (auto& containerItr : t_nestedStmtLines) {
-    insertModifiesForStmt(t_varName, containerItr);
+    insertModifiesForStmt(t_varName, containerItr, varIdx);
   }
 }
 
@@ -719,11 +720,17 @@ bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
 LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
   return m_usesTable->getUses(t_lineNum);
 }
+LIST_OF_VAR_INDICES PKB::getUsesByIdx(STMT_NUM t_lineNum) {
+  return m_usesTable->getUsesByIdx(t_lineNum);
+}
 LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
   return m_usesTable->getStmtUses(t_varName);
 }
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
   return m_usesTable->getAllStmtUses();
+}
+MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtUsesByIdx() {
+  return m_usesTable->getAllStmtUsesByIdx();
 }
 bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
   return m_usesTable->isUsesAnything(t_lineNum);
@@ -738,8 +745,8 @@ LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
 ModifiesTable* PKB::getModifiesTable() {
   return m_modifiesTable;
 }
-void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum);
+void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
+  return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum, t_varIdx);
 }
 bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_modifiesTable->isModifies(t_lineNum, t_varName);
