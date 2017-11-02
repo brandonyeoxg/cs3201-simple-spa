@@ -66,3 +66,7 @@ STRING StringUtil::createStringWithRepeatedChar(STRING t_repeatedChar, INTEGER t
 
   return synName;
 }
+
+BOOLEAN StringUtil::isUnderscore(STRING t_str) {
+  return t_str == OPERATOR_UNDERSCORE;
+}
