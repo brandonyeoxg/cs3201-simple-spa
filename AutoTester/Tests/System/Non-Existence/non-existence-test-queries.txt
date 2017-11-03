@@ -1,50 +1,150 @@
-1 - Non-Existence Functionality Test
+1 - Non-Existence Synonym Functionality Test
 procedure p;
 Select p
 none
 5000
-2 - Non-Existence Functionality Test
+2 - Non-Existence Synonym Functionality Test
 stmtLst sl;
 Select sl
 none
 5000
-3 - Non-Existence Functionality Test
+3 - Non-Existence Synonym Functionality Test
 stmt s;
 Select s
 none
 5000
-4 - Non-Existence Functionality Test
+4 - Non-Existence Synonym Functionality Test
 assign a;
 Select a
 none
 5000
-5 - Non-Existence Functionality Test
+5 - Non-Existence Synonym Functionality Test
 call ca;
 Select ca
 none
 5000
-6 - Non-Existence Functionality Test
+6 - Non-Existence Synonym Functionality Test
 while w;
 Select w
 none
 5000
-7 - Non-Existence Functionality Test
+7 - Non-Existence Synonym Functionality Test
 if ifs;
 Select ifs
 none
 5000
-8 - Non-Existence Functionality Test
+8 - Non-Existence Synonym Functionality Test
 variable v;
 Select v
 none
 5000
-9 - Non-Existence Functionality Test
+9 - Non-Existence Synonym Functionality Test
 prog_line pl;
 Select pl
 none
 5000
-10 - Non-Existence Functionality Test
+10 - Non-Existence Synonym Functionality Test
 constant co;
 Select co
+none
+5000
+11 - Non-Existence Synonym Functionality Test
+stmt s;
+Select s.stmt#
+none
+5000
+12 - Non-Existence Synonym Functionality Test
+variable v;
+Select v.varName
+none
+5000
+13 - Non-Existence Synonym Functionality Test
+procedure p;
+Select p.procName
+none
+5000
+14 - Non-Existence Synonym Functionality Test
+constant co;
+Select co.value
+none
+5000
+15 - Non-Existence Tuple Functionality Test
+stmt s; stmtLst sl; procedure p; variable v; if i; while w;
+Select <s, sl, p, v, i, w>
+none
+5000
+16 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1, s2;
+Select s such that Follows(s1,s2)
+none
+5000
+17 - Non-Existence Such That Relationship Functionality Test
+stmt s, s2;
+Select s such that Follows*(1,s2)
+none
+5000
+18 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1;
+Select s such that Parent(s1,2)
+none
+5000
+19 - Non-Existence Such That Relationship Functionality Test
+stmt s;
+Select s such that Parent*(1,2)
+none
+5000
+20 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1; variable v;
+Select s such that Uses(s1,v)
+none
+5000
+21 - Non-Existence Such That Relationship Functionality Test
+stmt s;
+Select s such that Modifies(3,"a")
+none
+5000
+22 - Non-Existence Such That Relationship Functionality Test
+procedure p, p1, p2;
+Select p such that Calls(p1,p2)
+none
+5000
+23 - Non-Existence Such That Relationship Functionality Test
+stmt s; procedure p1;
+Select s such that Calls*(p1,"Existence")
+none
+5000
+24 - Non-Existence Such That Relationship Functionality Test
+stmt s, s2;
+Select s such that Next(4,s2)
+none
+5000
+25 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1;
+Select s such that Next*(s1,5)
+none
+5000
+26 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1;
+Select s such that Affects(7,8)
+none
+5000
+27 - Non-Existence Such That Relationship Functionality Test
+stmt s, s1;
+Select s such that Affects*(6,9)
+none
+5000
+28 - Non-Existence Pattern Relationship Functionality Test
+stmt s; assign a; variable v;
+Select s pattern a(v,"1")
+none
+5000
+29 - Non-Existence Pattern Relationship Functionality Test
+stmt s; while w;
+Select s pattern w(_,_)
+none
+5000
+30 - Non-Existence Pattern Relationship Functionality Test
+stmt s; if ifs;
+Select s pattern ifs("i",_,_)
 none
 5000
