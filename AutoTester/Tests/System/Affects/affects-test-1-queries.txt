@@ -323,8 +323,18 @@ false
 Select BOOLEAN such that Affects(0,1)
 false
 5000
-66 - Affects* Non-Existence Invalid Test
+66 - Affects Non-Existence Invalid Test
 
-Select BOOLEAN such that Affects*(8,9)
+Select BOOLEAN such that Affects(8,9)
+false
+5000
+67 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(0,3)
+false
+5000
+68 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(8,10)
 false
 5000
