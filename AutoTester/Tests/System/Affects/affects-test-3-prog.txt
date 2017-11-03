@@ -92,4 +92,6 @@ procedure Freedom{
 
 procedure WingZero{
   attack = spin * beam *blast;
+  while empty{
+    attack = melee*attack;}
 }
