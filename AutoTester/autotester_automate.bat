@@ -10,7 +10,7 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/modifies-test-1-queries.txt %~dp0/Output/DebugOutput/regression-modifies-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/boolean-test-1-queries.txt %~dp0/Output/DebugOutput/regression-boolean-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-1-prog.txt %~dp0/Tests/Regression/new-tests/with-test-1-queries.txt %~dp0/Output/DebugOutput/regression-with-out1.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-2-prog.txt %~dp0/Tests/Regression/new-tests/affects-test-1-queries.txt %~dp0/Output/DebugOutput/regression-affects-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Regression/new-tests/simple-test-2-prog.txt %~dp0/Tests/Regression/new-tests/affects-test-2-queries.txt %~dp0/Output/DebugOutput/regression-affects-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-1-prog.txt %~dp0/Tests/System/Select/select-test-1-queries.txt %~dp0/Output/DebugOutput/system-select-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-2-prog.txt %~dp0/Tests/System/Select/select-test-2-queries.txt %~dp0/Output/DebugOutput/system-select-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Select/select-test-3-prog.txt %~dp0/Tests/System/Select/select-test-3-queries.txt %~dp0/Output/DebugOutput/system-select-out3.xml
@@ -49,4 +49,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Tuple/tuple-test-1-pr
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-1-prog.txt %~dp0/Tests/System/Affects/affects-test-1-queries.txt %~dp0/Output/DebugOutput/system-affects-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-2-prog.txt %~dp0/Tests/System/Affects/affects-test-2-queries.txt %~dp0/Output/DebugOutput/system-affects-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-3-prog.txt %~dp0/Tests/System/Affects/affects-test-3-queries.txt %~dp0/Output/DebugOutput/system-affects-out3.xml
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Non-Existence/non-existence-test-prog.txt %~dp0/Tests/System/Non-Existence/non-existence-test-queries.txt %~dp0/Output/DebugOutput/system-non-existence-out3.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Non-Existence/non-existence-test-prog.txt %~dp0/Tests/System/Non-Existence/non-existence-test-queries.txt %~dp0/Output/DebugOutput/system-non-existence-out.xml
