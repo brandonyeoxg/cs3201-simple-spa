@@ -16,8 +16,8 @@ track which line is followed by which lines.
 */
 class CallsTable {
 public:
-  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
-  bool insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc);
+  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2, PROC_INDEX t_proc1Idx, PROC_INDEX t_proc2Idx);
+  bool insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc, PROC_INDEX t_procIdx);
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
@@ -49,13 +49,32 @@ public:
   std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS>& getProcNameToCallsStmtsMap();
 private:
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsMap;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES m_callsMapByIdx;
+
   MAP_OF_NAME_TO_SET_OF_NAMES m_callsSet;
+  MAP_OF_PROC_INDEX_TO_SET_OF_PROC_INDICES m_callsSetByIdx;
+
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByMap;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES m_calledByMapByIdx;
+
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_callsStarMap;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES m_callsStarMapByIdx;
+
   MAP_OF_NAME_TO_SET_OF_NAMES m_callsStarSet;
+  MAP_OF_PROC_INDEX_TO_SET_OF_PROC_INDICES m_callsStarSetByIdx;
+
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_calledByStarMap;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES m_calledByStarMapByIDx;
+
   std::unordered_map<STMT_NUM, PROC_NAME> m_callsStmtMap;
+  MAP_OF_STMT_NUM_TO_PROC_INDEX m_callsStmtMapByIdx;
+
   std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_procNameToCallsStmtsMap;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS m_procNameToCallsStmtMapByIdx;
+
   std::set<PROC_NAME> m_allCalls;
+  SET_OF_PROC_INDICES m_allCallsByIdx;
+
   std::set<PROC_NAME> m_allCalledBy;
+  SET_OF_PROC_INDICES m_allCalledByByIdx;
 };

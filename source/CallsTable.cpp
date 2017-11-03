@@ -11,32 +11,47 @@
 
 #include "CallsTable.h"
 
-bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2, PROC_INDEX t_proc1Idx, PROC_INDEX t_proc2Idx) {
   //insertion to callsMap
   if (m_callsMap.find(t_proc1) == m_callsMap.end()) {
     //if s1 is not present in callsMap
     LIST_OF_PROC_NAMES procNames;
+    LIST_OF_PROC_INDICES procIndices;
     UNORDERED_SET_OF_NAMES procNamesSet;
+    UNORDERED_SET_OF_PROC_INDICES procIdxSet;
     procNames.push_back(t_proc2);
+    procIndices.push_back(t_proc2Idx);
     procNamesSet.insert(t_proc2);
+    procIdxSet.insert(t_proc2Idx);
     m_callsMap.emplace(t_proc1, procNames);
+    m_callsMapByIdx.emplace(t_proc1Idx, procIndices);
     m_callsSet.emplace(t_proc1, procNamesSet);
+    m_callsSetByIdx.emplace(t_proc1Idx, procIdxSet);
     m_allCalls.insert(t_proc1);
+    m_allCallsByIdx.insert(t_proc1Idx);
     m_allCalledBy.insert(t_proc2);
+    m_allCalledByByIdx.insert(t_proc2Idx);
   } else {
     //if not, first check if the existing vector consists s2; if it does, return false
     LIST_OF_PROC_NAMES procNames = m_callsMap[t_proc1];
+    LIST_OF_PROC_INDICES procIndices = m_callsMapByIdx[t_proc1Idx];
     UNORDERED_SET_OF_NAMES procNamesSet = m_callsSet[t_proc1];
+    UNORDERED_SET_OF_PROC_INDICES procIdxSet = m_callsSetByIdx[t_proc1Idx];
    // if (std::find(procNames.begin(), procNames.end(), t_proc2) != procNames.end()) {
     if (procNamesSet.find(t_proc2) != procNamesSet.end()) {
       return false;
     } else {
       //append t_proc 2 to the vector.
       procNames.push_back(t_proc2);
+      procIndices.push_back(t_proc2Idx);
       procNamesSet.insert(t_proc2);
+      procIdxSet.insert(t_proc2Idx);
       m_callsMap[t_proc1] = procNames;
+      m_callsMapByIdx[t_proc1Idx] = procIndices;
       m_callsSet[t_proc1] = procNamesSet;
+      m_callsSetByIdx[t_proc1Idx] = procIdxSet;
       m_allCalledBy.insert(t_proc2);
+      m_allCalledByByIdx.insert(t_proc2Idx);
     }
 
   }
@@ -46,14 +61,22 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   if (m_calledByMap.find(t_proc2) == m_calledByMap.end()) {
     //if it doesn't, simply emplace s1 as key.
     LIST_OF_PROC_NAMES procNames;
+    LIST_OF_PROC_INDICES procIndices;
     procNames.push_back(t_proc1);
+    procIndices.push_back(t_proc1Idx);
     m_calledByMap.emplace(t_proc2, procNames);
+    m_calledByMapByIdx.emplace(t_proc2Idx, procIndices);
   } else {
     LIST_OF_PROC_NAMES procNames;
+    LIST_OF_PROC_INDICES procIndices;
     auto iterator = m_calledByMap.find(t_proc2);
+    auto itr = m_calledByMapByIdx.find(t_proc2Idx);
     procNames = iterator->second;
+    procIndices = itr->second;
     procNames.push_back(t_proc1);
+    procIndices.push_back(t_proc1Idx);
     m_calledByMap[t_proc2] = procNames;
+    m_calledByMapByIdx[t_proc2Idx] = procIndices;
   }
   return true;
 }
@@ -61,24 +84,30 @@ bool CallsTable::insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
 /*
 * Inserts a statement number to procedure name mapping into the callsStmtMap.
 */
-bool CallsTable::insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc) {
-  auto itr = m_callsStmtMap.find(t_lineNum);
-  if (itr != m_callsStmtMap.end()) {
+bool CallsTable::insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc, PROC_INDEX t_procIdx) {
+  auto iterator = m_callsStmtMap.find(t_lineNum);
+  auto itr = m_callsStmtMapByIdx.find(t_lineNum);
+  if (iterator != m_callsStmtMap.end()) {
     return false;
   } else {
     //insertion to procNameToCallsStmtsMap.
     LIST_OF_STMT_NUMS stmtNums;
-    auto itr2 = m_procNameToCallsStmtsMap.find(t_proc);
-    if (itr2 == m_procNameToCallsStmtsMap.end()) {
+    auto iterator2 = m_procNameToCallsStmtsMap.find(t_proc);
+    auto itr2 = m_procNameToCallsStmtMapByIdx.find(t_procIdx);
+    if (iterator2 == m_procNameToCallsStmtsMap.end()) {
       stmtNums.push_back(t_lineNum);
       m_procNameToCallsStmtsMap.emplace(t_proc, stmtNums);
+      m_procNameToCallsStmtMapByIdx.emplace(t_procIdx, stmtNums);
     } else {
       stmtNums = m_procNameToCallsStmtsMap[t_proc];
+      stmtNums = m_procNameToCallsStmtMapByIdx[t_procIdx];
       stmtNums.push_back(t_lineNum);
       m_procNameToCallsStmtsMap[t_proc] = stmtNums;
+      m_procNameToCallsStmtMapByIdx[t_procIdx] = stmtNums;
     }
     //insertion to callsStmtMap.
     m_callsStmtMap.emplace(t_lineNum, t_proc);
+    m_callsStmtMapByIdx.emplace(t_lineNum, t_procIdx);
     return true;
   }
 }
