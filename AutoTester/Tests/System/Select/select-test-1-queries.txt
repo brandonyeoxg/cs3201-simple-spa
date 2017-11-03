@@ -53,3 +53,23 @@ Select co
 Select BOOLEAN
 true
 5000
+12 - Select Functionality Test
+stmt s;
+Select s.stmt#
+1, 2, 3, 4, 5, 6
+5000
+13 - Select Functionality Test
+variable v;
+Select v.varName
+a, b, c, i, j
+5000
+14 - Select Functionality Test
+procedure p;
+Select p.procName
+A, B
+5000
+15 - Select Functionality Test
+constant co;
+Select co.value
+1, 2, 3
+5000
