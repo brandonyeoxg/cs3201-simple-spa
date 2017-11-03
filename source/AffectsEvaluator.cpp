@@ -42,19 +42,19 @@ SET_OF_RESULTS AffectsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramma
     }
 
     LIST_OF_RESULTS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g2);
-    m_result[t_g2.getName()] = stmtVector;
+    if (!stmtVector.empty()) {
+      m_result[t_g2.getName()] = stmtVector;
+    }
   } else if (StringUtil::isUnderscore(t_g1.getName())) {
     LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g2);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    if (!stmtStrVector.empty()) {
+      m_result[t_g2.getName()] = stmtStrVector;
     }
-
-    m_result[t_g2.getName()] = stmtStrVector;
   }
 
   return m_result;
@@ -70,19 +70,19 @@ SET_OF_RESULTS AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
     }
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g1);
-    m_result[t_g1.getName()] = stmtVector;
+    if (!stmtVector.empty()) {
+      m_result[t_g1.getName()] = stmtVector;
+    }
   } else if (StringUtil::isUnderscore(t_g2.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getAffectsAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector;
-    for (auto& x : stmtIntVector) {
-      stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x, t_g1);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    if (!stmtStrVector.empty()) {
+      m_result[t_g1.getName()] = stmtStrVector;
     }
-
-    m_result[t_g1.getName()] = stmtStrVector;
   }
 
   return m_result;
@@ -101,8 +101,13 @@ SET_OF_RESULTS AffectsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramma
   }
 
   for (auto& x : allAffects) {
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
-    m_result[std::to_string(x.first)] = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
+    if (!stmtStrVector.empty()) {
+      std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
+      if (!stmtVector.empty()) {
+        m_result[std::to_string(x.first)] = stmtVector;
+      }
+    }
   }
 
   return m_result;
