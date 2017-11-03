@@ -19,7 +19,7 @@ procedure Ariel{
                 while hot{
                   call Dot;
                   Belle=Cinderella+beast;}}
-              Ariel = Elsa * cousin;}
+              Ariel = Elsa * cousin;}}
           else{
             call Elsa;}
           a3=(a2-1)*(b2-b3);}
@@ -72,7 +72,7 @@ procedure Leia{
   else{
     sw=t+p*m;
     sw=t+c*w;
-    sw=((((r+o))))+((((t))*s));
+    sw=((((r+o))))+((((t))*s));}
   sw=t+f-a;
   sw=t-l*j;
 }
