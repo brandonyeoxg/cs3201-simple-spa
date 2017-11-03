@@ -3,11 +3,11 @@
 ///////////////////////////////////////////////////////
 //  Affects
 ///////////////////////////////////////////////////////
-BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
   // Checks if they are with in a while stmt
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
-  return traverseCfgWithBoundEarlyExit(realStartBound, t_endBound, lms);
+  return traverseCfgWithBoundEarlyExit(realStartBound, t_endBound, lms, t_targetStart, t_targetEnd);
 }
 
 BOOLEAN AffectsTable::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
@@ -182,33 +182,33 @@ void AffectsTable::handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_N
   }
 }
 
-BOOLEAN AffectsTable::traverseCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
+BOOLEAN AffectsTable::traverseCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   if (t_curProgLine > t_endBound) {
     return false;
   }
   // Checks for the current line if it is a container stmt
   queryType::GType stmtType = m_stmtTable->getTypeOfStatement(t_curProgLine);
   if (isContainerStmt(stmtType)) {
-    return traverseContainerCfgWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, stmtType);
+    return traverseContainerCfgWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, stmtType, t_targetStart, t_targetEnd);
   } else {
-    return traverseNonContainerCfgWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, stmtType);
+    return traverseNonContainerCfgWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, stmtType, t_targetStart, t_targetEnd);
   }
   return false;
 }
 
-BOOLEAN AffectsTable::traverseContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type) {
+BOOLEAN AffectsTable::traverseContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   // Get the 2 stmts that leads to the container stmts
   if (t_type == queryType::GType::IF) {
-    return traverseIfStmtWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt);
+    return traverseIfStmtWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, t_targetStart, t_targetEnd);
   } else if (t_type == queryType::GType::WHILE) {
-    return traverseWhileStmtWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt);
+    return traverseWhileStmtWithBoundEarlyExit(t_curProgLine, t_endBound, t_lmt, t_targetStart, t_targetEnd);
   }
   return false;
 }
 
-BOOLEAN AffectsTable::traverseNonContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type) {
+BOOLEAN AffectsTable::traverseNonContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   if (t_type == queryType::GType::ASGN) {
-    if (handleAffectsOnAssgnStmtEarlyExit(t_curProgLine, t_lmt)) {
+    if (handleAffectsOnAssgnStmtEarlyExit(t_curProgLine, t_lmt, t_targetStart, t_targetEnd)) {
       return true;
     }
   } else if (t_type == queryType::GType::CALL) {
@@ -221,46 +221,50 @@ BOOLEAN AffectsTable::traverseNonContainerCfgWithBoundEarlyExit(PROG_LINE t_curP
   if (nextProgLine < t_curProgLine) {
     return false;
   }
-  return traverseCfgWithBoundEarlyExit(nextProgLine, t_endBound, t_lmt);
+  return traverseCfgWithBoundEarlyExit(nextProgLine, t_endBound, t_lmt, t_targetStart, t_targetEnd);
 }
 
-BOOLEAN AffectsTable::traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
+BOOLEAN AffectsTable::traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLmt = t_lmt;
   LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
-  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), ifLmt)) {
+  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), ifLmt, t_targetStart, t_targetEnd)) {
     return true;
   }
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS elseLmt = t_lmt;
-  if (traverseCfgWithBoundEarlyExit(stmts[1], stmtLstBound.back(), elseLmt)) {
+  if (traverseCfgWithBoundEarlyExit(stmts[1], stmtLstBound.back(), elseLmt, t_targetStart, t_targetEnd)) {
     return true;
   }
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
 
   auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmtLstBound.back());
+  if (stmtType == queryType::GType::WHILE && nItr->second.size() < 2) {
+    return false;
+  }
   if (nItr == m_nextTable->getAfterGraph()->end()) {
     return false;
   }
   PROG_LINE nextStmt = nItr->second[0];
-  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
+  stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
   if (stmtType == queryType::GType::WHILE) {
     return false;
   }
   // Combine lms with lmt
-  return traverseCfgWithBoundEarlyExit(nextStmt, t_endBound, t_lmt);
+  return traverseCfgWithBoundEarlyExit(nextStmt, t_endBound, t_lmt, t_targetStart, t_targetEnd);
 }
 
-BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
+BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
   LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
   // Get the stmts lst of both then and else portion
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS insideStmtLst = t_lmt;
-  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), insideStmtLst)) {
+  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), insideStmtLst, t_targetStart, t_targetEnd)) {
     return true;
   }
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedLst = mergeLmt(insideStmtLst, t_lmt);
-  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), mergedLst)) {
+  if (traverseCfgWithBoundEarlyExit(stmts[0], stmtLstBound.back(), mergedLst, t_targetStart, t_targetEnd)) {
     return true;
   }
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
@@ -270,15 +274,20 @@ BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLin
       return false;
     }
     // Combine lms with lmt
-    if (traverseCfgWithBoundEarlyExit(stmts[1], t_endBound, mergedLst)) {
+    // Combine lms with lmt
+    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS nextMergedLst = mergeLmt(t_lmt, mergedLst);
+    traverseCfgWithBound(stmts[1], t_endBound, nextMergedLst);
+    if (traverseCfgWithBoundEarlyExit(stmts[1], t_endBound, mergedLst, t_targetStart, t_targetEnd)) {
       return true;
     }
+    t_lmt = nextMergedLst;
+    return false;
   }
   t_lmt = mergedLst;
   return false;
 }
 
-BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
+BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   VAR_NAME modifiesVar = m_pkbTablesOnly->getModifiesTable()->getModifies(t_curProgLine)[0];
   LIST_OF_VAR_NAMES usesVars = m_pkbTablesOnly->getUsesTable()->getUses(t_curProgLine);
   // checks the lmt to see is any affects relation
@@ -292,7 +301,14 @@ BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine,
     if (pItr == t_lmt.end()) {
       continue;
     }
-    return true;
+    for (auto& mItr : pItr->second) {
+      if (t_targetStart == INVALID_INDEX && t_targetEnd == t_curProgLine) {
+        return true;
+      }
+      if (t_targetEnd == INVALID_INDEX && t_targetStart == mItr) {
+        return true;
+      }
+    }
   }
   // update the LMT
   auto pItr = t_lmt.find(modifiesVar);
