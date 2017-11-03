@@ -63,16 +63,16 @@ BOOLEAN DesignExtractor::extractIsAffectedByAnything(STMT_NUM t_usesLines) { // 
 ///////////////////////////////////////////////////////
 //  Affects* Extractor
 ///////////////////////////////////////////////////////
-SET_OF_AFFECTS DesignExtractor::extractAllAffectsStar() { // affects*(a1,a2)
-  return m_affectsExtractor->extractAllAffectsStar();
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS DesignExtractor::extractAllAffectsStar() { // affects*(a1,a2)
+  return m_affectsExtractor->extractAllAffects();
 }
 
-LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectsStar(STMT_NUM t_modifiesLine) { // affects*(2,a)
-  return m_affectsExtractor->extractAffectsStar(t_modifiesLine);
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByStar(STMT_NUM t_modifiesLine) { // affects*(2,a)
+  return m_affectsExtractor->extractAffectedByStar(t_modifiesLine);
 }
 
-LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByStar(STMT_NUM t_usesLine) { // affects*(a,12)
-  return m_affectsExtractor->extractAffectedByStar(t_usesLine);
+LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectsStar(STMT_NUM t_usesLine) { // affects*(a,12)
+  return m_affectsExtractor->extractAffectsStar(t_usesLine);
 }
 
 BOOLEAN DesignExtractor::extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { // affects*(1,12)
@@ -84,11 +84,11 @@ BOOLEAN DesignExtractor::extractHasAffectsRelationshipStar() { // affects*(_,_)
 }
 
 LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectsAnythingStar() {  // affects*(a,_)
-  return m_affectsExtractor->extractAffectsAnythingStar();
+  return m_affectsExtractor->extractAffectsAnything();
 }
 
 LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByAnythingStar() { // affects*(_,a)
-  return m_affectsExtractor->extractAffectedByAnythingStar();
+  return m_affectsExtractor->extractAffectedByAnything();
 }
 
 BOOLEAN DesignExtractor::extractIsAffectsAnythingStar(STMT_NUM t_modifiesLine) { // affects*(1,_)

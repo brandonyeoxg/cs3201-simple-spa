@@ -35,6 +35,13 @@ public:
 
   /**
   * From verbena's doc on PKB > Affects
+  * isAffectsFromLMS(INT, INT)
+  * Affects*(4, 12) is true
+  */
+  BOOLEAN isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine);
+
+  /**
+  * From verbena's doc on PKB > Affects
   * getAffectsListFromLMS(INT, INT)
   */
   PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
