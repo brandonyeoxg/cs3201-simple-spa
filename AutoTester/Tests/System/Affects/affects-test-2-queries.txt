@@ -175,7 +175,7 @@ Select c such that Affects*(_,s)
 5000
 36 - Affects* Functionality Test
 variable p;
-Select p such that Affects*(1,7)
+Select p such that Affects*(14,28)
 a,i,b,j,i2,j2,c,d,m,k,a2,b2,b3,a3,k2,gundam
 5000
 37 - Affects* Invalid Test 1
