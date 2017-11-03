@@ -34,3 +34,5 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms/commo
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-prog.txt %~dp0/Tests/System/Common-Synonyms-Stress/common-synonyms-stress-test-1-queries.txt %~dp0/Output/DebugOutput/system-common-synonyms-stress-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Tuple/tuple-test-1-prog.txt %~dp0/Tests/System/Tuple/tuple-test-1-queries.txt %~dp0/Output/DebugOutput/system-tuple-out1.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-1-prog.txt %~dp0/Tests/System/Affects/affects-test-1-queries.txt %~dp0/Output/DebugOutput/system-affects-out1.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-2-prog.txt %~dp0/Tests/System/Affects/affects-test-2-queries.txt %~dp0/Output/DebugOutput/system-affects-out2.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-3-prog.txt %~dp0/Tests/System/Affects/affects-test-3-queries.txt %~dp0/Output/DebugOutput/system-affects-out3.xml

@@ -97,7 +97,7 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
     PROC_INDEX procIdx = m_pkb->getProcTable()->getProcIdxFromName(name);
     LIST_OF_STMT_NUMS stmts = stmtTable->getStmtsFromProcIdx(procIdx);
     MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back())) {
+    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back(), stmts.front(), INVALID_INDEX)) {
       return true;
     }
   }
@@ -151,7 +151,7 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects
 
 BOOLEAN AffectsExtractor::extractIsAffectedByAnything(STMT_NUM t_usesLine) { // affects(_,12)
   //return empty if t_modifiesLine exceeds number of lines in program.
-  if (m_pkb->getStatementTable()->getNumberOfStatements() > t_usesLine) {
+  if (m_pkb->getStatementTable()->getNumberOfStatements() < t_usesLine) {
     return false;
   }
   //return false if line exceeds number of lines in program.
@@ -164,13 +164,13 @@ BOOLEAN AffectsExtractor::extractIsAffectedByAnything(STMT_NUM t_usesLine) { // 
   STMT_NUM start = bound[0];
   STMT_NUM end = bound[bound.size() - 1];
 
-  return m_affectsTable->hasAffectsFromBounds(start, t_usesLine);
+  return m_affectsTable->hasAffectsFromBounds(start, t_usesLine, INVALID_INDEX, t_usesLine);
 }
 
 BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_modifiesLine) { // affects(1,_)
   //return empty if t_modifiesLine exceeds number of lines in program.
   if (m_pkb->getStatementTable()->getNumberOfStatements() < t_modifiesLine) {
-    return{};
+    return false;
   }
 
   //return false if line exceeds number of lines in program.
@@ -182,7 +182,7 @@ BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_modifiesLine) { //
   LIST_OF_STMT_NUMS bound = getListOfStmtsFromStmtNum(t_modifiesLine);
   STMT_NUM start = bound[0];
   STMT_NUM end = bound[bound.size() - 1];
-  return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end);
+  return m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end, t_modifiesLine, INVALID_INDEX);
 }
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {

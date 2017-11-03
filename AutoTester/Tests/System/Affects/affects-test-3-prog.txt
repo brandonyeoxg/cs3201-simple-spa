@@ -59,10 +59,10 @@ procedure Banshee{
             if vertical then{
               attack = jump+drag;}
             else{
-              attack = (((((((side+step)))))))*lift;}
+              attack = (((((((side+step)))))))*lift;}}
           attack = takedown + attack;}
         else{
-          boost = dash+away*direction;}}
+          boost = dash+away*direction;}}}
     else{
       if ammo then{
         attack = shoot;}
