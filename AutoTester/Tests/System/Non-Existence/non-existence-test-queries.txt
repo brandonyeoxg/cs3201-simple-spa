@@ -148,3 +148,23 @@ stmt s; if ifs;
 Select s pattern ifs("i",_,_)
 none
 5000
+31 - Non-Existence With Relationship Functionality Test
+stmt s,s1;
+Select s with s1.stmt#=1
+none
+5000
+32 - Non-Existence With Relationship Functionality Test
+stmt s; procedure p;
+Select s with p.procName="A"
+none
+5000
+33 - Non-Existence With Relationship Functionality Test
+stmt s; variable p;
+Select s with p.varName="b"
+none
+5000
+34 - Non-Existence With Relationship Functionality Test
+stmt s; constant p; prog_line pl;
+Select s with p.constant=pl
+none
+5000
