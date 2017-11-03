@@ -165,7 +165,7 @@ Select co such that Affects*(pl,s)
 5000
 34 - Affects* Functionality Test
 stmt s;
-Select BOOLEAN such that Affects*(14,s)
+Select BOOLEAN such that Affects*(15,s)
 true
 5000
 35 - Affects* Functionality Test
@@ -175,7 +175,7 @@ Select c such that Affects*(_,s)
 5000
 36 - Affects* Functionality Test
 variable p;
-Select p such that Affects*(14,28)
+Select p such that Affects*(15,28)
 a,i,b,j,i2,j2,c,d,m,k,a2,b2,b3,a3,k2,gundam
 5000
 37 - Affects* Invalid Test 1
