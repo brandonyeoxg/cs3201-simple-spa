@@ -750,8 +750,10 @@ public:
   void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
   BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 

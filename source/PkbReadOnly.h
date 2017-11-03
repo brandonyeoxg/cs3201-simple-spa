@@ -706,6 +706,7 @@ public:
   * @return a vector of variables that satisfy the condition.
   */
   virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of statement numbers that modifies variable t_varName.
@@ -721,6 +722,7 @@ public:
   * @return an unordered_map that satisfy the condition.
   */
   virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies() = 0;
+  virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx() = 0;
 
   /**
   * Method that checks if modifies(t_lineNum, _) holds.
