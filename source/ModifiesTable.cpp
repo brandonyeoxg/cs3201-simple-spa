@@ -21,7 +21,7 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
       //if cannot find in vector, it means it's a valid insertion. Enter to both maps.
       vector.push_back(t_lineNum);
       m_modifiesVarMap[t_varName] = vector;
-      insertToModifiesStmtMap(t_lineNum, t_varName);
+      insertToModifiesStmtMap(t_lineNum, t_varName, t_varIdx);
       //insert into sets
       m_allVariablesModified.insert(t_varName);
       m_allStmtNumsModified.insert(t_lineNum);
@@ -33,7 +33,7 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
     LIST_OF_STMT_NUMS newVector;
     newVector.push_back(t_lineNum);
     m_modifiesVarMap.emplace(t_varName, newVector);
-    insertToModifiesStmtMap(t_lineNum, t_varName);
+    insertToModifiesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
     m_allVariablesModified.insert(t_varName);
     m_allStmtNumsModified.insert(t_lineNum);
@@ -41,7 +41,7 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
 }
 
 //insertion method to the 2-way map.
-void ModifiesTable::insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+void ModifiesTable::insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName, VAR_INDEX t_varIdx) {
   bool inserted = false;
   //check if lineNum exists as key
   auto iterator = m_modifiesStmtMap.find(t_lineNum);
