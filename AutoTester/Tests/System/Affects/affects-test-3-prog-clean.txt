@@ -73,7 +73,7 @@ procedure Banshee{
     call PsychoZaku;}
   else{
     call Freedom;}
-  attack = bazooka;
+  attack = bazooka-attack;
 }
 //55
 procedure PsychoZaku{
