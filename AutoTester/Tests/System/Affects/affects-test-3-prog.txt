@@ -52,7 +52,7 @@ procedure Banshee{
     if beamSaber then{
       beamSaber = throw;
       while stun{
-        attack = claw*((((slash*(((3+5)))))));
+        attack = claw*((((slash*(((13+18)))))));
         boost = forward;
         if notDown then {
           while takedown{
