@@ -1,0 +1,108 @@
+procedure Dynames{
+  a=1;
+  while i{
+    b=a+2*b;}
+  if j then{
+    b=i2*j2;
+    call Kyrios;}
+  else{
+    c=d;
+    a=b*((((((((((1-a))))))))))*2;}
+  a=b-3*a;
+  m=k;
+}
+
+procedure Kyrios{
+  a=a+c;
+  if i2 then{
+    while j2{
+      a2=3-(4)*((5+c));
+      b2=b3-b;
+      a2=(((a))+2)*((((c))));}
+    i=j-a;}
+  else{
+    a3=a2-a;}
+  while k{
+    if k2 then{
+      call Exia;
+      c=a-((((((((c))))))));
+      d=a-(((((b+3)))));
+      b3=b2+5-a2;}
+    else{
+      d=5;
+      b=d-c+(3*4)+b3;}
+    k=k2;
+    k2=k+3;}
+  i=a2+(b2-a3)*((d)+(b*(k-k2)));
+}
+
+procedure Exia{
+  i=m+a*gundam;
+}
+
+procedure Unicorn{
+  nextGen=Banshee;
+  call Banshee;
+}
+
+procedure Banshee{
+  Banshee = imprint + conditioning;
+  while lowArmour{
+    conditioning = Banshee + mode;
+    if beamSaber then{
+      beamSaber = throw;
+      while stun{
+        attack = claw*((((slash*(((13+18)))))));
+        boost = forward;
+        if notDown then {
+          while takedown{
+            if vertical then{
+              attack = jump+drag;}
+            else{
+              attack = (((((((side+step)))))))*lift;}}
+          attack = takedown + attack;}
+        else{
+          boost = dash+away*direction-boost;}}}
+    else{
+      if ammo then{
+        attack = shoot;}
+      else{
+        attack = beam*wall;}}
+    stay=alive;}
+  if striker then{
+    call PsychoZaku;}
+  else{
+    call Freedom;}
+  attack = bazooka-attack;
+}
+
+procedure PsychoZaku{
+  if empty then{
+    bazooka = reload;}
+  else{
+    attack = beam*rifle;
+      while amputee{
+        division = living*dead*division;}}
+  attack = machineGun + bazooka;
+}
+
+procedure Freedom{
+  attack = shoot;
+  boost = ((((barrel*roll))))+((((shoot)))*((((((((2)))))))));
+  call WingZero;
+}
+
+procedure WingZero{
+  attack = spin * beam *blast;
+  if noSpin then{
+    while noAmmo{
+      while noAim{
+        if desperate then{
+          while empty{
+            attack = melee*attack;}}
+	else{
+	    game=throw;}
+        death = purple*smoke;}}}
+  else{
+    say = rush-in;}
+}

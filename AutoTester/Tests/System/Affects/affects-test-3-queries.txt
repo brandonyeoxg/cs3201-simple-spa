@@ -31,7 +31,7 @@ Select pl such that Affects(s2,a)
 7 - Affects Functionality Test
 constant co; stmt s; prog_line pl;
 Select co such that Affects(pl,s)
-None
+1, 2, 3, 4, 5, 13, 18
 5000
 8 - Affects Functionality Test
 stmt s;
@@ -41,12 +41,12 @@ true
 9 - Affects Functionality Test
 stmtLst c; stmt s;
 Select c such that Affects(_,s)
-None
+1,11,13,14,18,20,21,25,3,30,31,33,35,37,39,42,43,44,45,47,48,49,5,50,53,54,56,57,58,60,62,65,67,68,69,7,70,71,72,74
 5000
 10 - Affects Functionality Test
 variable p;
 Select p such that Affects(65,71)
-None
+Banshee,a,a2,a3,alive,ammo,amputee,attack,away,b,b2,b3,barrel,bazooka,beam,beamSaber,blast,boost,c,claw,conditioning,d,dash,dead,death,desperate,direction,division,drag,empty,forward,game,gundam,i,i2,imprint,in,j,j2,jump,k,k2,lift,living,lowArmour,m,machineGun,melee,mode,nextGen,noAim,noAmmo,noSpin,notDown,purple,reload,rifle,roll,rush,say,shoot,side,slash,smoke,spin,stay,step,striker,stun,takedown,throw,vertical,wall
 5000
 11 - Affects Invalid Test 1
 procedure p; stmt s;
@@ -161,7 +161,7 @@ Select pl such that Affects*(s2,a)
 33 - Affects* Functionality Test
 constant co; stmt s; prog_line pl;
 Select co such that Affects*(pl,s)
-None
+1, 2, 3, 4, 5, 13, 18
 5000
 34 - Affects* Functionality Test
 stmt s;
@@ -171,12 +171,12 @@ true
 35 - Affects* Functionality Test
 stmtLst c; stmt s;
 Select c such that Affects*(_,s)
-None
+1,11,13,14,18,20,21,25,3,30,31,33,35,37,39,42,43,44,45,47,48,49,5,50,53,54,56,57,58,60,62,65,67,68,69,7,70,71,72,74
 5000
 36 - Affects* Functionality Test
 variable p;
-Select p such that Affects*(1,7)
-None
+Select p such that Affects*(39,46)
+Banshee,a,a2,a3,alive,ammo,amputee,attack,away,b,b2,b3,barrel,bazooka,beam,beamSaber,blast,boost,c,claw,conditioning,d,dash,dead,death,desperate,direction,division,drag,empty,forward,game,gundam,i,i2,imprint,in,j,j2,jump,k,k2,lift,living,lowArmour,m,machineGun,melee,mode,nextGen,noAim,noAmmo,noSpin,notDown,purple,reload,rifle,roll,rush,say,shoot,side,slash,smoke,spin,stay,step,striker,stun,takedown,throw,vertical,wall
 5000
 37 - Affects* Invalid Test 1
 procedure p; stmt s;
@@ -261,41 +261,41 @@ none
 53 - Affects Recursive Test
 stmt s;
 Select s such that Affects(s,s)
-None
+3,60,71, there is probably more
 5000
 54 - Affects* Recursive Test
 stmt s;
 Select s such that Affects*(s,s)
-None
+3,60,71, there is probably more
 5000
 55 - Affects Recursive Test
 assign s;
 Select s such that Affects(s,s)
-None
+3,60,71, there is probably more
 5000
 56 - Affects* Recursive Test
 assign s;
 Select s such that Affects*(s,s)
-None
+3,60,71, there is probably more
 5000
 57 - Affects Recursive Test
 prog_line s;
 Select s such that Affects(s,s)
-None
+3,60,71, there is probably more
 5000
 58 - Affects* Recursive Test
 prog_line s;
 Select s such that Affects*(s,s)
-None
+3,60,71, there is probably more
 5000
 59 - Affects Recursive Test
 
-Select BOOLEAN such that Affects(3,3)
+Select BOOLEAN such that Affects(60,60)
 true
 5000
 60 - Affects* Recursive Test
 
-Select BOOLEAN such that Affects*(3,3)
+Select BOOLEAN such that Affects*(46,46)
 true
 5000
 61 - Affects Recursive Test
@@ -353,62 +353,67 @@ false
 Select BOOLEAN such that Affects(50,55)
 false
 5000
-70 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Former)
+70 - Extra Affects* Test Case Invalid Due to Modification in Call Stmt
+
+Select BOOLEAN such that Affects*(50,55)
+false
+5000
+71 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Former)
 
 Select BOOLEAN such that Affects(54,55)
 false
 5000
-71 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Latter)
+72 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Latter)
 
 Select BOOLEAN such that Affects(49,54)
 false
 5000
-72 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Former)
+73 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Former)
 
 Select BOOLEAN such that Affects(54,55)
 false
 5000
-73 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Latter)
+74 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Latter)
 
 Select BOOLEAN such that Affects(49,54)
 false
 5000
-74 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Former)
+75 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Former)
 
 Select BOOLEAN such that Affects(48,49)
 false
 5000
-75 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Latter)
+76 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Latter)
 
 Select BOOLEAN such that Affects(47,48)
 false
 5000
-76 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Former)
+77 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Former)
 
 Select BOOLEAN such that Affects*(48,55)
 false
 5000
-77 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Latter)
+78 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Latter)
 
 Select BOOLEAN such that Affects*(46,52)
 false
 5000
-78 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Former)
+79 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Former)
 
 Select BOOLEAN such that Affects(70,71)
 false
 5000
-79 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Latter)
+80 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Latter)
 
 Select BOOLEAN such that Affects(65,67)
 false
 5000
-80 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Former)
+81 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Former)
 
 Select BOOLEAN such that Affects*(67,72)
 false
 5000
-81 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Latter)
+82 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Latter)
 
 Select BOOLEAN such that Affects*(65,70)
 false
