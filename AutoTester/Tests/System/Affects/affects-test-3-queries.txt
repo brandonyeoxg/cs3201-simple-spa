@@ -1,7 +1,7 @@
 1 - Affects Functionality Test
 procedure p; stmt s1,s2;
 Select p such that Affects(s1,s2)
-Dynames, Kyrios, Exia, Unicorn, Banshee, PsychoZaku, Freedom, WingZero
+Dynames, Kyrios, Exia,Unicorn, Banshee, PsychoZaku,Freedom, WingZero
 5000
 2 - Affects Functionality Test
 stmt s1,s2; assign a;
@@ -31,7 +31,7 @@ Select pl such that Affects(s2,a)
 7 - Affects Functionality Test
 constant co; stmt s; prog_line pl;
 Select co such that Affects(pl,s)
-
+None
 5000
 8 - Affects Functionality Test
 stmt s;
@@ -41,12 +41,12 @@ true
 9 - Affects Functionality Test
 stmtLst c; stmt s;
 Select c such that Affects(_,s)
-
+None
 5000
 10 - Affects Functionality Test
 variable p;
-Select p such that Affects(1,3)
-
+Select p such that Affects(65,71)
+None
 5000
 11 - Affects Invalid Test 1
 procedure p; stmt s;
@@ -131,7 +131,7 @@ none
 27 - Affects* Functionality Test
 procedure p; stmt s1,s2;
 Select p such that Affects*(s1,s2)
-
+Dynames,Kyrios,Exia, Unicorn,Banshee, PsychoZaku, Freedom, WingZero
 5000
 28 - Affects* Functionality Test
 stmt s1,s2; assign a;
