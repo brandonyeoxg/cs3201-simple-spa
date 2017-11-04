@@ -34,7 +34,7 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects* Extractor
   ///////////////////////////////////////////////////////
-  SET_OF_AFFECTS extractAllAffectsStar(); // affects*(a1,a2)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS extractAllAffectsStar(); // affects*(a1,a2)
   LIST_OF_AFFECTS_STMTS extractAffectsStar(STMT_NUM t_modifiesLine); // affects*(2,a)
   LIST_OF_AFFECTS_STMTS extractAffectedByStar(STMT_NUM t_usesLine); // affects*(a,12)
   BOOLEAN extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects*(1,12)
