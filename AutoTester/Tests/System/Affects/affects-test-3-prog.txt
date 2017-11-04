@@ -11,7 +11,7 @@ procedure Dynames{
   a=b-3*a;
   m=k;
 }
-
+//10
 procedure Kyrios{
   a=a+c;
   if i2 then{
@@ -35,16 +35,16 @@ procedure Kyrios{
     k2=k+3;}
   i=a2+(b2-a3)*((d)+(b*(k-k2)));
 }
-
+//29
 procedure Exia{
   i=m+a*gundam;
 }
-
+//30
 procedure Unicorn{
   nextGen=Banshee;
   call Banshee;
 }
-
+//32
 procedure Banshee{
   Banshee = imprint + conditioning;
   while lowArmour{
@@ -62,7 +62,7 @@ procedure Banshee{
               attack = (((((((side+step)))))))*lift;}}
           attack = takedown + attack;}
         else{
-          boost = dash+away*direction;}}}
+          boost = dash+away*direction-boost;}}}
     else{
       if ammo then{
         attack = shoot;}
@@ -75,23 +75,35 @@ procedure Banshee{
     call Freedom;}
   attack = bazooka;
 }
-
+//55
 procedure PsychoZaku{
   if empty then{
     bazooka = reload;}
   else{
-    attack = beam*rifle;}
+    attack = beam*rifle;
+      while amputee{
+        division = living*dead*division;}}
   attack = machineGun + bazooka;
 }
-
+//61
 procedure Freedom{
   attack = shoot;
   boost = ((((barrel*roll))))+((((shoot)))*((((((((2)))))))));
   call WingZero;
 }
-
+//64
 procedure WingZero{
   attack = spin * beam *blast;
-  while empty{
-    attack = melee*attack;}
+  if noSpin then{
+    while noAmmo{
+      while noAim{
+        if desperate then{
+          while empty{
+            attack = melee*attack;}}
+	else{
+	    game=throw;}
+        death = purple*smoke;}}}
+  else{
+    say = rush-in;}
 }
+//74
