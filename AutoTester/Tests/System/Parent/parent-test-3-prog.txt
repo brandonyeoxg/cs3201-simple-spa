@@ -11,10 +11,19 @@ procedure Ariel{
           call Cinderella;}
         while j3{
           if i3 then{
-            call Dot;}
+            while mermaid{
+              call Leia;
+              if cold then{
+                call Elsa;}
+              else{
+                while hot{
+                  call Dot;
+                  Belle=Cinderella+beast;}}
+              Ariel = Elsa * cousin;}}
           else{
             call Elsa;}
-          a3=(a2-1)*(b2-b3);}}
+          a3=(a2-1)*(b2-b3);}
+        Leia = best*princess;}
       else{
         while i2{
           call Belle;}}}
@@ -56,13 +65,34 @@ procedure Elsa{
 }
 
 procedure Leia{
-  sw=new+hope;
-  sw=e*s*b;
-  sw=r-o-t-j;
+  if originalTrilogy then{
+    sw=new+hope;
+    sw=e*s*b;
+    sw=r*((((((((o-t))))))))*j;}
+  else{
+    sw=t+p*m;
+    sw=t+c*w;
+    sw=((((r+o))))+((((t))*s));}
   sw=t+f-a;
   sw=t-l*j;
 }
 
 procedure Vanellope{
-  
+  i=((m))+gonna*(((wreck-it)));
+  if hasRaceCar then{
+    competition = Snowanna + ((((Rancis + Taffyta)) * Adorabeezle)) * (((Candlehead - (((((Crumbelina + Jubileena)))))) * (((Minty * Swizzle))))) - (((((((((((((((KingCandy)))))))))))))));
+    KingCandy = Turbo;}
+  else{
+    while glitch{
+      Vanellope = make-car;
+      while noCar{
+        while noChasis{
+          make = chasis;
+          while undecorated{
+            while undecorated{
+              press = button;
+              chasis = decorated;
+              undecorated = 100000;}}}}}
+    glitch = victory;}
+  game = hacked;
 }

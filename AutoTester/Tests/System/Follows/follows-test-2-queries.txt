@@ -30,7 +30,7 @@ Select w such that Follows(pl,s)
 5000
 7 - Follows Functionality Test
 if w; stmt s;
-Select w such that Follows(1,s)
+Select w such that Follows(9,s)
 8,12
 5000
 8 - Follows Functionality Test
@@ -65,7 +65,7 @@ Select w such that Follows(s,pl)
 5000
 14 - Follows Functionality Test
 if w; stmt s;
-Select w such that Follows(s,2)
+Select w such that Follows(s,5)
 8,12
 5000
 15 - Follows Functionality Test
@@ -160,7 +160,7 @@ Select w such that Follows*(pl,s)
 5000
 33 - Follows* Functionality Test
 if w; stmt s;
-Select w such that Follows*(1,s)
+Select w such that Follows*(9,s)
 8,12
 5000
 34 - Follows* Functionality Test
@@ -205,7 +205,7 @@ a,i,a2,a3,b,c,j,c2,p,d,e,c3,f
 5000
 42 - Follows* Functionality Test
 
-Select BOOLEAN such that Follows*(12,16)
+Select BOOLEAN such that Follows*(11,16)
 true
 5000
 43 - Follows* Invalid Test 1
@@ -260,12 +260,12 @@ none
 5000
 53 - Follows Nesting Level Invalid Test
 
-Select BOOLEAN such that Follows(8,9)
+Select BOOLEAN such that Follows(12,13)
 false
 5000
 54 - Follows* Nesting Level Invalid Test
 
-Select BOOLEAN such that Follows*(7,10)
+Select BOOLEAN such that Follows*(11,13)
 false
 5000
 55 - Follows Different StmtLst Invalid Test
@@ -338,7 +338,7 @@ prog_line s1,s2;
 Select s1 such that Follows(s2,s2)
 none
 5000
-69 - Follows Recursion Invalid Test
+69 - Follows Recursion Extra Test
 
 Select BOOLEAN such that Follows(_,_)
 true
@@ -378,7 +378,7 @@ prog_line s1,s2;
 Select s1 such that Follows*(s2,s2)
 none
 5000
-77 - Follows* Recursion Invalid Test
+77 - Follows* Recursion Extra Test
 
 Select BOOLEAN such that Follows*(_,_)
 true

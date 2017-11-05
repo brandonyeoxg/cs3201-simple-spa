@@ -30,7 +30,7 @@ Select w such that Follows(pl,s)
 5000
 7 - Follows Functionality Test
 if w; stmt s;
-Select w such that Follows(1,s)
+Select w such that Follows(2,s)
 26,30,5,6,7
 5000
 8 - Follows Functionality Test
@@ -65,7 +65,7 @@ Select w such that Follows(s,pl)
 5000
 14 - Follows Functionality Test
 if w; stmt s;
-Select w such that Follows(s,2)
+Select w such that Follows(s,11)
 26,30,5,6,7
 5000
 15 - Follows Functionality Test
@@ -75,7 +75,7 @@ a,a2,a3,b,c,c2,c3,d,e,f,i,j,k,p,r,v
 5000
 16 - Follows Functionality Test
 
-Select BOOLEAN such that Follows(1,2)
+Select BOOLEAN such that Follows(8,9)
 true
 5000
 17 - Follows Invalid Test 1
@@ -160,7 +160,7 @@ Select w such that Follows*(pl,s)
 5000
 33 - Follows* Functionality Test
 if w; stmt s;
-Select w such that Follows*(1,s)
+Select w such that Follows*(7,s)
 26,30,5,6,7
 5000
 34 - Follows* Functionality Test
@@ -195,8 +195,8 @@ Select w such that Follows*(s,pl)
 5000
 40 - Follows* Functionality Test
 if w; stmt s;
-Select w such that Follows*(s,5)
-none
+Select w such that Follows*(s,17)
+5, 6, 7, 26, 30
 5000
 41 - Follows* Functionality Test
 variable w; stmt s;
@@ -205,7 +205,7 @@ a,a2,a3,b,c,c2,c3,d,e,f,i,j,k,p,r,v
 5000
 42 - Follows* Functionality Test
 
-Select BOOLEAN such that Follows*(1,5)
+Select BOOLEAN such that Follows*(6,20)
 false
 5000
 43 - Follows* Invalid Test 1
@@ -260,12 +260,12 @@ none
 5000
 53 - Follows Nesting Level Invalid Test
 
-Select BOOLEAN such that Follows(2,3)
+Select BOOLEAN such that Follows(7,8)
 false
 5000
 54 - Follows* Nesting Level Invalid Test
 
-Select BOOLEAN such that Follows*(2,4)
+Select BOOLEAN such that Follows*(1,8)
 false
 5000
 55 - Follows Different StmtLst Invalid Test
@@ -275,17 +275,17 @@ none
 5000
 56 - Follows* Different StmtLst Invalid Test
 stmt s;
-Select s such that Follows*(4,9)
+Select s such that Follows*(8,11)
 none
 5000
 57 - Follows Different Procedure Invalid Test
 stmt s;
-Select s such that Follows(11,12)
+Select s such that Follows(39,40)
 none
 5000
 58 - Follows* Different Procedure Invalid Test
 stmt s;
-Select s such that Follows*(8,12)
+Select s such that Follows*(38,46)
 none
 5000
 59 - Follows Non-Existence Invalid Test
@@ -295,7 +295,7 @@ none
 5000
 60 - Follows Non-Existence Invalid Test
 stmt s;
-Select s such that Follows(12,13)
+Select s such that Follows(52,55)
 none
 5000
 61 - Follows* Non-Existence Invalid Test
@@ -305,7 +305,7 @@ none
 5000
 62 - Follows* Non-Existence Invalid Test
 stmt s;
-Select s such that Follows*(12,13)
+Select s such that Follows*(50,55)
 none
 5000
 63 - Follows Recursion Invalid Test
@@ -338,7 +338,7 @@ prog_line s1,s2;
 Select s1 such that Follows(s2,s2)
 none
 5000
-69 - Follows Recursion Invalid Test
+69 - Follows Recursion Test
 
 Select BOOLEAN such that Follows(_,_)
 true
@@ -378,7 +378,7 @@ prog_line s1,s2;
 Select s1 such that Follows*(s2,s2)
 none
 5000
-77 - Follows* Recursion Invalid Test
+77 - Follows* Recursion Test
 
 Select BOOLEAN such that Follows*(_,_)
 true

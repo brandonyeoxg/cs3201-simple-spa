@@ -24,7 +24,7 @@ public:
   * From verbena's doc on PKB > Affects
   * hasAffectsBetween(INT, INT)
   */
-  BOOLEAN hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
+  BOOLEAN hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
 
   /**
   * From verbena's doc on PKB > Affects
@@ -32,6 +32,13 @@ public:
   * Affects(4, 12) is true
   */
   BOOLEAN isAffects(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine); 
+
+  /**
+  * From verbena's doc on PKB > Affects
+  * isAffectsFromLMS(INT, INT)
+  * Affects*(4, 12) is true
+  */
+  BOOLEAN isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine);
 
   /**
   * From verbena's doc on PKB > Affects
@@ -52,7 +59,6 @@ private:
   NextTable* m_nextTable;
   StatementTable* m_stmtTable;
 
-
   // I need to have the AffectsList and AffectedByStorage
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList;
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList;
@@ -71,13 +77,13 @@ private:
   void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
   void handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
 
-  BOOLEAN traverseCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  BOOLEAN traverseContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  BOOLEAN traverseNonContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  BOOLEAN traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  BOOLEAN traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  BOOLEAN traverseCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
+  BOOLEAN traverseContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
+  BOOLEAN traverseNonContainerCfgWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
+  BOOLEAN traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
+  BOOLEAN traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
 
-  BOOLEAN handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  BOOLEAN handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
 
   ///////////////////////////////////////////////////////
   //  Affects*
