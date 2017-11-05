@@ -305,6 +305,107 @@ LIST_OF_STMT_NUMS CallsTable::getStmtNumsFromProcName(PROC_NAME t_procName) {
   }
 }
 
+void CallsTable::populateCallsByIdx(ProcTable* procTable) {
+  //populate callsMapByIdx
+  for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    LIST_OF_PROC_NAMES procNames = it->second;
+    LIST_OF_PROC_INDICES procIdx;
+    for (int i = 0; i < procNames.size(); i++) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(procNames[i]);
+      procIdx.push_back(idx);
+    }
+    m_callsMapByIdx.emplace(key, procIdx);
+  }
+
+  //populate callsSetByIdx
+  for (auto it = m_callsSet.begin(); it != m_callsSet.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    UNORDERED_SET_OF_NAMES names = it->second;
+    UNORDERED_SET_OF_PROC_INDICES namesIdx;
+    //for (auto it = names.begin(); it != names.end(); ++it) {
+    for (auto f : names) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(f);
+      namesIdx.insert(idx);
+    }
+    m_callsSetByIdx.emplace(key, namesIdx);
+  }
+
+  //populate calledByMapByIdx
+  for (auto it = m_calledByMap.begin(); it != m_calledByMap.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    LIST_OF_PROC_NAMES procNames = it->second;
+    LIST_OF_PROC_INDICES procIdx;
+    for (int i = 0; i < procNames.size(); i++) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(procNames[i]);
+      procIdx.push_back(idx);
+    }
+    m_calledByMapByIdx.emplace(key, procIdx);
+  }
+
+  //populate callsStarMapByIdx
+  for (auto it = m_callsStarMap.begin(); it != m_callsStarMap.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    LIST_OF_PROC_NAMES procNames = it->second;
+    LIST_OF_PROC_INDICES procIdx;
+    for (int i = 0; i < procNames.size(); i++) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(procNames[i]);
+      procIdx.push_back(idx);
+    }
+    m_callsStarMapByIdx.emplace(key, procIdx);
+  }
+
+  //populate calledByStarMapByIdx
+  for (auto it = m_calledByStarMap.begin(); it != m_calledByStarMap.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    LIST_OF_PROC_NAMES procNames = it->second;
+    LIST_OF_PROC_INDICES procIdx;
+    for (int i = 0; i < procNames.size(); i++) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(procNames[i]);
+      procIdx.push_back(idx);
+    }
+    m_calledByStarMapByIdx.emplace(key, procIdx);
+  }
+
+  //populate callsStarSetByIdx
+  for (auto it = m_callsStarSet.begin(); it != m_callsStarSet.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    UNORDERED_SET_OF_NAMES names = it->second;
+    UNORDERED_SET_OF_PROC_INDICES namesIdx;
+    //for (auto it = names.begin(); it != names.end(); ++it) {
+    for (auto f: names) {
+      PROC_INDEX idx = procTable->getProcIdxFromName(f);
+      namesIdx.insert(idx);
+    }
+    m_callsStarSetByIdx.emplace(key, namesIdx);
+  }
+
+  //populate callsStmtMapByIdx
+  for (auto it = m_callsStmtMap.begin(); it != m_callsStmtMap.end(); ++it) {
+    STMT_NUM key = it->first;
+    PROC_INDEX value = procTable->getProcIdxFromName(it->second);
+    m_callsStmtMapByIdx.emplace(key, value);
+  }
+
+  //populate procNameToCallsStmtsMapByIdx
+  for (auto it = m_procNameToCallsStmtsMap.begin(); it != m_procNameToCallsStmtsMap.end(); ++it) {
+    PROC_INDEX key = procTable->getProcIdxFromName(it->first);
+    m_procNameToCallsStmtMapByIdx.emplace(key, it->second);
+  }
+
+  //populate allCallsByIdx
+  for (auto f : m_allCalls) {
+    PROC_INDEX idx = procTable->getProcIdxFromName(f);
+    m_allCallsByIdx.insert(idx);
+  }
+
+  //populate allCalledBy
+  for (auto f : m_allCalledBy) {
+    PROC_INDEX idx = procTable->getProcIdxFromName(f);
+    m_allCalledByByIdx.insert(idx);
+  }
+}
+
 void CallsTable::populateCallsStarMap() {
   //for every key in callsMap
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {

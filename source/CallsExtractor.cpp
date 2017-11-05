@@ -3,13 +3,19 @@
 void CallsExtractor::extractDesign() {
   populateCallsStarMap();
   populateCalledByStarMap();
+  //Need to populate the calls* relationships first, so that the indices version can be populated in the below method.
+  populateCallsIdx();
+  //
+}
+void CallsExtractor::populateCallsIdx() {
+  CallsTable* callsTable = m_pkb->getCallsTable();
+  ProcTable* procTable = m_pkb->getProcTable();
+  callsTable->populateCallsByIdx(procTable);
 }
 
 void CallsExtractor::populateCallsStarMap() {
   //for every key in callsMap
   CallsTable* callsTable = m_pkb->getCallsTable();
-  VarTable* varTable = m_pkb->getVarTable();
-
   callsTable->populateCallsStarMap();
 }
 

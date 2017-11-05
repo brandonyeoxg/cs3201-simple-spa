@@ -8,7 +8,7 @@
 #include <set>
 #include <unordered_set>
 #include "GlobalTypeDef.h"
-
+#include "ProcTable.h"
 /**
 * Represents the calls relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
 track which line is followed by which lines.
@@ -47,6 +47,7 @@ public:
   PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
+  void populateCallsByIdx(ProcTable* procTable);
   void populateCallsStarMap();
   void populateCalledByStarMap();
 

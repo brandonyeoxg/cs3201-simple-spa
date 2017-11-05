@@ -16,6 +16,7 @@ public:
   void extractDesign();
 
 private:
+  void populateCallsIdx();
   void populateCallsStarMap();
   void populateCalledByStarMap();
 };
