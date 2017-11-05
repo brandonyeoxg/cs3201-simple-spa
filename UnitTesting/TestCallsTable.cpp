@@ -10,10 +10,13 @@ namespace UnitTesting {
   private:
     CallsTable* m_callsTable;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsStarSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
     std::unordered_map<STMT_NUM, PROC_NAME> m_testCallsStmtMap;
+    std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_testProcNameToCallsStmtsMap;
 
   public:
     TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
@@ -46,6 +49,11 @@ namespace UnitTesting {
         {5, "CLEVELAND"},
         {7, "CLEVELAND"}
       };
+
+      m_testProcNameToCallsStmtsMap = {
+        {"BOSTON", {2, 3}},
+        {"CLEVELAND", {5, 7}}
+      };
       m_callsTable->insertCalls("ATLANTA", "BOSTON");
       m_callsTable->insertCallsStmt(2, "BOSTON");
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
@@ -63,6 +71,7 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestInsertCallsStmt) {
       Assert::IsTrue(m_callsTable->getCallsStmtMap() == m_testCallsStmtMap);
+      Assert::IsTrue(m_callsTable->getProcNameToCallsStmtsMap() == m_testProcNameToCallsStmtsMap);
     }
     TEST_METHOD(TestIsCalls) {
       bool expected = m_callsTable->isCalls("ATLANTA", "BOSTON");

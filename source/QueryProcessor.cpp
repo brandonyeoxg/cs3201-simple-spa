@@ -34,7 +34,7 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
   
   std::queue<Grammar> selectQueue2 = qpp.getSelect();
   if (!selectQueue2.empty() && selectQueue2.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()) {
-    evaluatedResults.push_back("false");
+    evaluatedResults.push_back(FALSE);
   }
 
   QueryResultProjector qrp;

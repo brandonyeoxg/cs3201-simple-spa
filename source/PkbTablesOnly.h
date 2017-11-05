@@ -1,4 +1,5 @@
 #pragma once
+#include "FollowTable.h"
 #include "ParentTable.h"
 #include "AssignTable.h"
 #include "VarTable.h"
@@ -9,7 +10,7 @@
 #include "StatementTable.h"
 #include "ModifiesTable.h"
 #include "UsesTable.h"
-#include "NextTable.h"
+#include "pkb/relationshipTables/NextTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor
@@ -19,6 +20,7 @@
 */
 class PkbTablesOnly {
 public:
+  virtual FollowTable* getFollowTable() = 0;
   virtual ParentTable* getParentTable() = 0;
   virtual AssignTable* getAssignTable() = 0;
   virtual ProcTable* getProcTable() = 0;

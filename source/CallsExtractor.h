@@ -1,7 +1,7 @@
 #pragma once
 #include "Extractor.h"
 
-/*
+/**
 * Handles extractions for the Calls relation.
 *
 * @author Brandon
@@ -16,6 +16,7 @@ public:
   void extractDesign();
 
 private:
+  void populateCallsIdx();
   void populateCallsStarMap();
   void populateCalledByStarMap();
 };

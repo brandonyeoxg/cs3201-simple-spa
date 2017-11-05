@@ -13,12 +13,17 @@
 * Instantiates 2 unordered_maps that maps statement number to the type of statement, and vice versa.
 */
 StatementTable::StatementTable() {
-  std::unordered_map<STMT_NUM, queryType::GType> m_typeOfStatementTable;
-  std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> m_statementTypeTable;
 }
 
 std::unordered_map<int, queryType::GType> StatementTable::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
+}
+
+void StatementTable::insertStatementIntoStatementTable(STMT_NUM t_lineNum, queryType::GType t_type, PROC_INDEX t_procIdx, PROC_NAME t_procName) {
+  insertStatementTypeTable(t_type, t_lineNum);
+  insertTypeOfStatementTable(t_lineNum, t_type);
+  insertAsProcToStmt(t_lineNum, t_procIdx);
+  insertAsStmtToProc(t_lineNum, t_procName);
 }
 
 bool StatementTable::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
@@ -29,10 +34,6 @@ bool StatementTable::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::G
     m_typeOfStatementTable.emplace(t_lineNum, t_type);
     return true;
   }
-}
-
-std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> StatementTable::getStatementTypeTable() {
-  return m_statementTypeTable;
 }
 
 bool StatementTable::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) {
@@ -55,6 +56,29 @@ bool StatementTable::insertStatementTypeTable(queryType::GType t_type, STMT_NUM 
   }
 }
 
+void StatementTable::insertAsProcToStmt(STMT_NUM t_lineNum, PROC_INDEX t_procIdx) {
+  auto pItr = m_procIdxToStmts.find(t_procIdx);
+  if (pItr == m_procIdxToStmts.end()) {
+    LIST_OF_STMT_NUMS stmts = { t_lineNum };
+    m_procIdxToStmts.insert({ t_procIdx, stmts });
+    return;
+  }
+  pItr->second.push_back(t_lineNum);
+}
+
+void StatementTable::insertAsStmtToProc(STMT_NUM t_lineNum, PROC_NAME t_procName) {
+  auto pItr = m_stmtToProcName.find(t_lineNum);
+  if (pItr == m_stmtToProcName.end()) {
+    m_stmtToProcName.insert({t_lineNum, t_procName});
+  }
+  return;
+}
+
+
+std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> StatementTable::getStatementTypeTable() {
+  return m_statementTypeTable;
+}
+
 LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
   LIST_OF_STMT_NUMS emptyResult;
   auto itr = m_statementTypeTable.find(t_type);
@@ -63,4 +87,34 @@ LIST_OF_STMT_NUMS StatementTable::getListOfStatements(queryType::GType t_type) {
   } else {
     return emptyResult;
   }
+}
+
+/* Method to return the type of the statement.
+*  pre-condition: assumts t_lineNum is valid in the program, i.e. less than or equal to the total number of statements in the source program.
+*  @param t_lineNum a statement number.
+*  @return the GType of the statement.
+*/
+queryType::GType StatementTable::getTypeOfStatement(STMT_NUM t_lineNum) {
+  auto pItr = m_typeOfStatementTable.find(t_lineNum);
+  return pItr->second;
+}
+
+TOTAL_NUMBER_OF_STMTS StatementTable::getNumberOfStatements() {
+  return m_typeOfStatementTable.size();
+}
+
+LIST_OF_STMT_NUMS StatementTable::getStmtsFromProcIdx(PROC_INDEX t_procIdx) {
+  auto pItr = m_procIdxToStmts.find(t_procIdx);
+  if (pItr == m_procIdxToStmts.end()) {
+    return {};
+  }
+  return m_procIdxToStmts.find(t_procIdx)->second;
+}
+
+PROC_NAME StatementTable::getProcNameFromStmtNum(STMT_NUM t_lineNum) {
+  auto pItr = m_stmtToProcName.find(t_lineNum);
+  if (pItr == m_stmtToProcName.end()) {
+    return "";
+  }
+  return m_stmtToProcName.find(t_lineNum)->second;
 }

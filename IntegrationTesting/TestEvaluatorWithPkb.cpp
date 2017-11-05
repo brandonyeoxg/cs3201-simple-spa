@@ -64,6 +64,8 @@ namespace IntegrationTesting
       m_pkb->insertFollowsRelation(stmtInLst, 4);
       stmtInLst.push_back(4);
       
+      m_pkb->getFollowTable()->populateAllFollowsMap();
+
       //insert parent
       LIST_OF_STMT_NUMS stmtInLst2;
       stmtInLst2.push_back(5);
@@ -71,11 +73,11 @@ namespace IntegrationTesting
       stmtInLst2.push_back(6);
 
       //insert uses
-      m_pkb->insertUsesForStmt("x", 1);
-      m_pkb->insertUsesForStmt("c", 1);
-      m_pkb->insertUsesForStmt("x", 2);
-      m_pkb->insertUsesForStmt("a", 3);
-      m_pkb->insertUsesForStmt("b", 4); 
+      m_pkb->insertUsesForStmt("x", 1, 0);
+      m_pkb->insertUsesForStmt("c", 1, 1);
+      m_pkb->insertUsesForStmt("x", 2, 0);
+      m_pkb->insertUsesForStmt("a", 3, 2);
+      m_pkb->insertUsesForStmt("b", 4, 3);
       m_pkb->insertVar("x");
       m_pkb->insertVar("c");
       m_pkb->insertVar("a");
@@ -83,10 +85,10 @@ namespace IntegrationTesting
 
 
       //insert modifies
-      m_pkb->insertModifiesForStmt("y", 1);
-      m_pkb->insertModifiesForStmt("z", 2);
-      m_pkb->insertModifiesForStmt("w", 3);
-      m_pkb->insertModifiesForStmt("z", 4);
+      m_pkb->insertModifiesForStmt("y", 1, 4);
+      m_pkb->insertModifiesForStmt("z", 2, 5);
+      m_pkb->insertModifiesForStmt("w", 3, 6);
+      m_pkb->insertModifiesForStmt("z", 4, 5);
       m_pkb->insertVar("y");
       m_pkb->insertVar("z");
       m_pkb->insertVar("w");
@@ -274,6 +276,7 @@ namespace IntegrationTesting
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       expectedResult = { "5", "6", "7", "8" };
       actualResult = m_qe->evaluateQuery();
+      std::sort(actualResult.begin(), actualResult.end());
       Assert::IsTrue(actualResult == expectedResult);
     }
   };

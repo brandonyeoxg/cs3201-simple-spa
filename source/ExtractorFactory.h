@@ -3,6 +3,7 @@
 
 
 enum DESIGN_TYPE {
+  FOLLOWS,
   PARENT,
   CALLS,
   MODIFIESP,
@@ -10,7 +11,8 @@ enum DESIGN_TYPE {
   MODIFIES,
   USES,
   NEXT,
-  END_ENUM
+  END_ENUM,
+  AFFECTS
 };
 
 class ExtractorFactory

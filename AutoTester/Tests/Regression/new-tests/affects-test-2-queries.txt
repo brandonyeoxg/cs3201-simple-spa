@@ -1,0 +1,160 @@
+1 - Affects: False
+procedure p;
+Select p such that Affects(12,17)
+none
+5000
+2 - Affects: True
+procedure p;
+Select p such that Affects(4,12)
+main, second, third
+5000
+3 - Affects: Not Assign Stmt
+stmt s1,s2;
+Select s2 such that Affects(3,s2)
+none
+5000
+4 - Affects: No Results
+stmt s1,s2;
+Select <s1, s2> such that Affects(6,s2)
+none
+5000
+5 - Affects: Right Synonym
+stmt s1,s2;
+Select s2 such that Affects(7,s2)
+11, 13
+5000
+6 - Affects: Not Assign Stmt
+stmt s1,s2;
+Select s1 such that Affects(s1,5)
+none
+5000
+7 - Affects: No Results
+stmt s1,s2;
+Select s1 such that Affects(s1,24)
+none
+5000
+8 - Affects: Left Synonym
+stmt s1,s2;
+Select s1 such that Affects(s1,12)
+4, 9, 12
+5000
+9 - Affects: Both Synonyms
+stmt s1,s2;
+Select <s1, s2> such that Affects(s1,s2)
+1 2, 1 4, 1 6, 1 14, 1 16, 2 14, 4 6, 4 8, 4 12, 4 14, 7 11, 7 13, 9 12, 11 7, 11 8, 11 14, 12 4, 12 6, 12 9, 12 16, 12 12, 13 9, 14 17, 16 17, 23 23, 23 26
+5000
+10 - Affects*: False
+procedure p;
+Select p such that Affects(12,13)
+none
+5000
+11 - Affects*: True
+procedure p;
+Select p such that Affects*(4,16)
+main, second, third
+5000
+12 - Affects*: Not Assign Stmt
+stmt s1,s2;
+Select s2 such that Affects*(10,s2)
+none
+5000
+13 - Affects*: No Results
+stmt s1,s2;
+Select <s1, s2> such that Affects*(17,s2)
+none
+5000
+14 - Affects*: Right Synonym
+stmt s1,s2;
+Select s2 such that Affects*(9,s2)
+12, 4, 6, 9, 16, 8, 14, 17
+5000
+15 - Affects*: Not Assign Stmt
+stmt s1,s2;
+Select s1 such that Affects*(s1,15)
+none
+5000
+16 - Affects*: No Results
+stmt s1,s2;
+Select s1 such that Affects*(s1,27)
+none
+5000
+17 - Affects*: Left Synonym
+stmt s1,s2;
+Select s1 such that Affects*(s1,17)
+1, 2, 4, 7, 9, 11, 12, 13, 14, 16
+5000
+18 - Affects*: Both Synonyms
+stmt s1,s2;
+Select <s1, s2> such that Affects*(s1,s2)
+1 2, 1 4, 1 6, 1 14, 1 16, 2 14, 4 6, 4 8, 4 12, 4 14, 7 11, 7 13, 9 12, 11 7, 11 8, 11 14, 12 4, 12 6, 12 9, 12 16, 12 12, 13 9, 14 17, 16 17, 23 23, 23 26, 1 8, 1 12, 1 17, 1 9, 2 17, 4 4, 4 9, 4 16, 4 17, 7 14, 7 7, 7 9, 7 17, 7 12, 7 4, 7 6, 7 16, 7 8, 9 4, 9 6, 9 9, 9 16, 9 8, 9 14, 9 17, 11 17, 11 11, 11 13, 11 9, 11 12, 11 4, 11 6, 11 16, 12 8, 12 14, 12 17, 13 12, 13 4, 13 6, 13 16, 13 8, 13 14, 13 17
+5000
+19 - Affects: Underscore False
+procedure p;
+Select p such that Affects(_,20)
+none
+5000
+20 - Affects: Underscore True
+procedure p;
+Select p such that Affects(_,23)
+main, second, third
+5000
+21 - Affects: Underscore False
+procedure p;
+Select p such that Affects(6,_)
+none
+5000
+22 - Affects: Underscore True
+procedure p;
+Select p such that Affects(11,_)
+main, second, third
+5000
+23 - Affects: Underscore with Right Synonym
+stmt s;
+Select s such that Affects(_,s)
+2, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 23, 26
+5000
+24 - Affects: Underscore with Left Synonym
+stmt s;
+Select s such that Affects(s,_)
+1, 2, 4, 7, 9, 11, 12, 13, 14, 16, 23
+5000
+25 - Affects: Has Affects
+procedure p;
+Select p such that Affects(_,_)
+main, second, third
+5000
+26 - Affects*: Underscore False
+procedure p;
+Select p such that Affects*(_,21)
+none
+5000
+27 - Affects*: Underscore True
+procedure p;
+Select p such that Affects*(_,26)
+main, second, third
+5000
+28 - Affects*: Underscore False
+procedure p;
+Select p such that Affects*(8,_)
+none
+5000
+29 - Affects*: Underscore True
+procedure p;
+Select p such that Affects*(14,_)
+main, second, third
+5000
+30 - Affects*: Underscore with Right Synonym
+stmt s;
+Select s such that Affects*(_,s)
+2, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 23, 26
+5000
+31 - Affects*: Underscore with Left Synonym
+stmt s;
+Select s such that Affects*(s,_)
+1, 2, 4, 7, 9, 11, 12, 13, 14, 16, 23
+5000
+32 - Affects*: Has Affects
+procedure p;
+Select p such that Affects*(_,_)
+main, second, third
+5000

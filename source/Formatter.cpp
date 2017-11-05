@@ -37,3 +37,14 @@ SET_OF_RESULTS Formatter::formatMapIntStrToMapStrVectorStr(std::unordered_map<in
 
   return mapStrVectorStr;
 }
+
+SET_OF_RESULTS Formatter::formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vectorStr) {
+  std::unordered_map<std::string, std::vector<std::string>> mapStrVectorStr;
+  for (auto& x : t_vectorStr) {
+    std::vector<std::string> vectorStr;
+    vectorStr.push_back(x);
+    mapStrVectorStr[x] = vectorStr;
+  }
+
+  return mapStrVectorStr;
+}

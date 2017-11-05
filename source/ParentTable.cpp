@@ -51,6 +51,7 @@ bool ParentTable::isParent(int t_s1, int t_s2) {
 }
 
 bool ParentTable::isParentStar(int t_s1, int t_s2) {
+  /*
   auto pItr = m_parentStarMap.find(t_s1);
   if (pItr == m_parentStarMap.end()) {
     //not found in parent*Map
@@ -62,6 +63,12 @@ bool ParentTable::isParentStar(int t_s1, int t_s2) {
     } else {
       return false;
     }
+  } */
+  TOTAL_NUMBER_OF_STMTS total = m_parentMatrix.size();
+  if (t_s1 >= total || t_s2 >= total) {
+    return false;
+  } else {
+    return m_parentMatrix.at(t_s1).at(t_s2);
   }
 }
 
@@ -250,6 +257,36 @@ std::unordered_map<int, std::vector<int>>& ParentTable::getParentedByStarMap() {
   return m_parentedByStarMap;
 }
 
+void ParentTable::populateParentMatrix(TOTAL_NUMBER_OF_STMTS total) {
+  m_parentMatrix = BOOLEAN_MATRIX(total + 1, std::vector<bool>(total + 1, false));
+  for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
+    STMT_NUM s1 = it->first;
+    LIST_OF_STMT_NUMS numList = it->second;
+    for (int i : numList) {
+      m_parentMatrix.at(s1).at(i) = true;
+    }
+  }
+}
+
+//include here for unit testing purposes.
+void ParentTable::populateParentStarMap() {
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    int parent = it->first;
+    std::vector<int> children = it->second;
+    m_parentStarMap.emplace(parent, children);
+    std::vector<int> childrenStar = children;
+    for (int i = 0; i < childrenStar.size(); i++) {
+      //for every child, if it can be found in the map, append all from it's mapped vector to children
+      auto iterator = m_childMap.find(childrenStar[i]);
+      if (iterator != m_childMap.end()) {
+        std::vector<int> toBeAppended = iterator->second;
+        childrenStar.reserve(childrenStar.size() + toBeAppended.size());
+        childrenStar.insert(childrenStar.end(), toBeAppended.begin(), toBeAppended.end());
+      }
+    }
+    m_parentStarMap[parent] = childrenStar;
+  }
+}
 /**
 * A constructor.
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
@@ -259,4 +296,5 @@ ParentTable::ParentTable() {
   std::unordered_map<int, std::vector<int>> m_childMap;
   std::unordered_map<int, std::vector<std::vector<int>>> m_parentStarMap;
   std::unordered_map<int, std::vector<int>> m_parentedByStarMap;
+  BOOLEAN_MATRIX m_parentMatrix;
 }

@@ -1,0 +1,629 @@
+procedure C4ed3U5{
+  call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+}
+
+procedure D1n0SauR{
+  D1n0SauR=aTt4cC+b4TtL3*cU1L- C4ed3U5;
+  aTt4cC=((((((iNv1nciB1e)))+b4TtL3))*cU1L) - ((C4ed3U5));
+  d41AmaDuR = cU1L- (C4ed3U5 + b4TtL3)*D1n0SauR;
+}
+
+procedure A66eRAt10n{
+  while inF35tOr{
+    a1Ar4K=1;
+    if HyDR4l1Sk then{
+      call bRo0dLoRD;}
+    else{
+      Br0ODlInG=2;}}
+}
+
+procedure bRo0dLoRD{
+  Z3rgLiNg=3;
+  call uLtR4115k;
+  MuT41isk=4;
+}
+
+procedure uLtR4115k{
+  eNt4ro=5;
+}
+
+procedure NyDu5{
+  while Z3rgLiNg{
+    call Ru5H;
+    while HyDR4l1Sk{
+      r04Ch = r04Ch * (((10 + 20)));
+      if Br0ODlInG then{
+        call h1V3;}
+      else{
+        MuT41isk = 2*(((((MuT41isk) + MuT41isk)*MuT41isk)-MuT41isk)*4);
+        call Ru5H;
+        while a1Ar4K{
+          call Ru5H;
+          while inF35tOr{
+            call Ru5H;}}
+        call Ru5H;}
+      call Ru5H;
+      call Ru5H;}}
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call h1V3;
+  call Ru5H;
+}
+
+procedure h1V3{
+  qU3En = qU3En + 2;
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call Ru5H;
+}
+
+procedure Ru5H{
+  while eNt4ro{
+    Z3rgLiNg = Z3rgLiNg * (Z3rgLiNg + Z3rgLiNg) - (Z3rgLiNg + (2-3)*Z3rgLiNg);
+    a1Ar4K = a1Ar4K-1;
+    eNt4ro = eNt4ro-1;
+    Z3rgLiNg = 0;}
+}
+
+procedure Alexander{
+  How = does*a*bas+ard*orphan*son+of+a+wh-re+scotsman;
+  dropped = in*the*middle*of*a;
+  forgotten = spot*in*the+caribbean;
+  By = providence*impoverished+squalor;
+  Grow = up*to*be*a*Hero+Scholar;
+  if tenDollar then{
+    founding = father-father;
+	gotALot = farther;}
+  else{
+	working = a*lot*harder;
+	beingALot= smarter;
+	byBeing = a*selfStarter;
+	By = 14;}
+  They = placed*him*in*charge*of+trading-charter;
+  while slaves{
+    slaves = slaughtered + cartedAway;
+	AcrossTheWaves = struggled+keptHisGuardUp;
+	inside = longing*something+to+be+aPartOf;
+	brother = beg*steal+borrow+barter;}
+  Hurricane = came;
+  Man = Man - devastation;
+  while Hurricane{
+    future = future-1;}
+  temple = pen;
+  brain = pen;
+  testament = 2+pain;
+  while wordGoesAround{
+    kid = insane;
+	bookCollection = to*Mainland;
+	Education = Education +1;
+	World = know*your+name;
+	Whats = your + name;}
+  name = Alexander + Hamilton;
+  myName = Alexander + Hamilton;
+  haventDone = 1000000*things;
+  Just = you *wait;
+  Just = you * wait;
+  while ten{
+    father=split;
+	father = full*of*it;
+	debt=ridden;
+	if twoYears then{
+	  halfDead = Alex + Mother;
+	  sitting = sick;
+	  scent = thick;}
+	else{
+	  Alex = got+better;
+	  Mother = went-quick;}}
+  cousin = movedIn;
+  cousin = su1cId3;
+  Left=ruined*pride;
+  voice=Alex+you*got*to*fend*for*yourself;
+  started = retreating+reading*everything*thats*on*his*shelf;
+  lessAstute = Nothing + Left + To + do;
+  he = dead+destitute-senseOfRestitution;
+  while working{
+    boss = LateMothers+landlord;
+	trading=sugarcane+rum+allTheThings*he*cantAfford;}
+  scammin = every*book*he+can+get+his+hands+on;
+  plannin = for+future;
+  stands = bow+of*aShip;
+  NewYork = you*can*be+a+New*Man;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = NewYork;
+  Just = you * wait;
+  Alexander = Hamilton;
+  wings = waiting*for+you;
+  you = never*back*down;
+  you = never*learnt+2+take+your+time;
+  Alexander = Hamilton;
+  alexander = hamilton;
+  AmericaSings = for*you;
+  will = they *know*what*you*overcame;
+  will=they+know+you+rewrote+the+game;
+  TheWorld= Will - BeTheSame;
+  Ship = harbour+now;
+  see = you*can+spot+him;
+  anotherImmigrant = 0+1;
+  rep = rep - enemies;
+  America = America - him;
+  We = fought*with*him;
+  Me = I+died+for*him;
+  Me = I*trusted*him;
+  Me = I*Loved+him;
+  AndMe = Im*the+damn*fool+that+shot*him;
+  haventDone = 1000000*things;
+  Just = you * wait;
+  Whats = your + name * man;
+  Alexander = Hamilton;
+}
+
+procedure RightHandMan{
+  Howe = British+Admiral;
+  Howe = troops+on+the*water;
+  NewYorkHarbor = 32000*troops;
+  NewYorkHarbor = 32000*troops;
+  When = they+surround+troops;
+  As = they*surround*troops;
+  When = they+surround+troops;
+  As = they*surround*troops;
+  As = kid + in * Caribbean;
+  kid = wish*war;
+  kid = poor;
+  war = only + way + to + rise*up;
+  if tellMyStory then{
+    kid = (die+on+the+battlefield)*(in+glory);}
+  else{
+    kid = rise*up;}
+  kid = fight+for+this*land;
+  oneMan = give+us+the*command;
+  we = rise*up;
+  understand=only*way+rise*up;
+  we=rise*up;
+  Here=he+comes;
+  Here=comes+the*general;
+  and = Ladies + Gentlemen;
+  Here=comes+the*general;
+  moment = you+been+for;
+  Here=comes+the*general;
+  pride= mount*Vernon;
+  Here=comes+the*general;
+  General = George*Washington;
+  WeAre = Outgunned;
+  WeAre = Outmanned;
+  WeAre = Outnumbered;
+  WeAre = Outplanned;
+  We = make+an+all*out*stand;
+  General=need+Right*Hand*Man;
+  while beReal{
+    beReal = second;
+    beReal = millisecond;
+    guard = guard-1;
+    people = how+I+feel+a*second;}
+  General = model+of+the+modern*major*general;
+  General = venerated*Virginian*Veteran;
+  men = lining + up;
+  Pedestal = General;
+  writing = letter*2*relatives;
+  embellishing = General*(elegance+eloquence);
+  room = elephant;
+  face=truth;
+  BritishCannons = BOOM;
+  fleeting=hope*success;
+  while leading{
+    leading=leading-people*retreating;}
+  bleeding = 0;
+  Brooklyn=British;
+  rook=rook-knight;
+  WeAre = Outgunned;
+  WeAre = Outmanned;
+  WeAre = Outnumbered;
+  WeAre = Outplanned;
+  We = make+an+all*out*stand;
+  General=need+Right*Hand*Man;
+  incoming = INCOMING;
+  while batteringBattery{
+    if damages then{
+      We=stop*them;}
+    else{
+      We=rob*them;
+      them=them-advantages;}}
+  We = take+a*stand;
+  stamina=God*granted;
+  Hamilton = 0*abandon*ship;
+  Hamilton = steal*BrittishCannon+shoot;
+  BrittishCannon=BOOM;
+  spray = blood +sh1t;
+  BrittishCannon=BOOM;
+  abandon=Kips*Bay;
+  BrittishCannon=BOOM;
+  goes=another+ship;
+  BrittishCannon=BOOM;
+  lost=SouthernTip;
+  BrittishCannon=BOOM;
+  Harlem=run*quick;
+  slip=cant*afford;
+  giddyUp=guns+horses;
+  General = divvy*forces;
+  forces=skittish;
+  British=cut+city+up;
+  close=giving*up;
+  General=facing+mad*scrutiny;
+  General=scream*in+the*face+of+this*mass*mutiny;
+  men=with+General;
+  men = defend*America;
+  ride = midnight;
+  manhattan = in*the*distance;
+  everywhere=0-at*once;
+  assistance=dire*need;
+}
+
+procedure GunsAndShips{
+  army=ragtag+volunteer+in*need*ofAShower;
+  superpower=global*superpower-army;
+  quagmire=victorious;
+  battlfield=battlefield-army;
+  higher =Betsy*Ross*Flag;
+  secretWeapon=immigrant;
+  immigrant=unafraid+to+step*in;
+  British=British-immigrant*confusing*confounding;
+  Frenchman = favourite*fighting+give*it*up;
+  Frenchman = Lafayette;
+  horse = by*reins;
+  redcoats = redcoats+red*bl00dst41ns;
+  Frenchman = Lafayette;
+  Frenchman = 0*stop;
+  British=British-Frenchman;
+  British=British-Frenchman*100000;
+  Frenchman = Lafayette;
+  Frenchman=engaging*British;
+  Frenchman=escaping*British;
+  Frenchman=enraging*British;
+  Frenchman = Lafayette;
+  France = Frenchman + funds;
+  Frenchman = France + guns + ships;
+  balance = balance + 100;
+  Rochambeau = rendezvouz;
+  consolidate=gifts;
+  Yorktown = war*end;
+  sea=cut*off;
+  succeed=someone*else+we*need;
+  General = i*know;
+  General = Hamilton;
+}
+
+procedure Yorktown{
+  battle=Yorktown*1781;
+  Lafayette=Monsieur*Hamilton;
+  Hamilton=Monsieur*Lafayette;
+  Lafayette=in*command*where*you*belong;
+  Hamilton=how+you+say+no+sweat;
+  finally=onTheField;
+  had=quite*a+run;
+  immigrants=get+the+job+done;
+  if weWin then{
+    Lafayette=back+to+France;}
+  else{
+    people=Lafayette+freedom;}
+  freedom=Hamilton+Lafayette;
+  Hamilton=lead+your+men;
+  otherSide=see*you;
+  Til=we*meet+again;
+  i=not+throwing+away+my*shot;
+  i=not+throwing+away+my*shot;
+  Hamilton=country;
+  country=young+scrappy+hungry;
+  i=not+throwing+away+my*shot;
+  i=not+throwing+away+my*shot;
+  Til=world*upsideDown;
+  Til=world*upsideDown;
+  i=imagine*death*so*much;
+  death=memory;
+  whereItGetsMe=on+my+feet;
+  whereItGetsMe=enemy*ahead*of*me;
+  if endOfMe then{
+    me=me+friend;}
+  else{
+    me=me+weapon+command+men;}
+  Eliza=expecting*Hamilton;
+  Eliza=expecting;
+  we=gotta+go;
+  gotta=get+the+job+done;
+  gotta=start+new+nation;
+  gotta=meet+my+son;
+  gun=gun-bullets;
+  what=WHAT;
+  gun=gun-bullets;
+  what=WHAT;
+  move=under*cover;
+  move=as+1;
+  night=1+shot+2+live*another*day;
+  cannot=stray*gunshot+give*us*away;
+  fight=up+close;
+  seize=moment;
+  stay=in*it;
+  that=meet*the+business+end*of*a*bayonet;
+  codeword=Rochambeau;
+  Rochambeau=ROCHAMBEAU;
+  you=have+your+orders;
+  now=go*man*go;
+  begins=American*Experiment;
+  friends=scattered+to+the*winds;
+  Laurens=South+Carolina;
+  Laurens=redefining+bravery;
+  while slavery{
+    free=0-free;}
+  British=0;
+  Lafayette=Chesapeake*Bay;
+  plan=would+work;
+  inside=spy;
+  spy=Hercules+Mulligan;
+  Mulligan=tailor+spy+on+British;
+  Mulligan=measurements+information;
+  Mulligan=smuggle;
+}
+
+procedure NonStop{
+  war=over;
+  NewYork=i;
+  war=over;
+  NewYork=i;
+  studies=finished;
+  i=practice*law;
+  i=practice*law;
+  Burr=work*next+door;
+  start=very+same+time;
+  Alexander=Hamilton+1;
+  account=rise+to+the+top;
+  Maaaaaan=man+non*stop;
+  nonstop=NONSTOP;
+  jury=Gentlemen;
+  Hamilton=curious;
+  aware=making+history;
+  first=murder+trial;
+  nation=brand*new;
+  liberty=deliberation;
+  nonstop=NONSTOP;
+  prove=shadow+of+a*doubt;
+  with=assitant*council;
+  council=co-council;
+  Hamilton=sit+down;
+  client=Levi+Weeks;
+  client=innocent;
+  call FirstWitness;
+  hamilton=ok;
+  Hamilton=1+more+thing;
+  assume=smartest+in*the*room;
+  assume=smartest+in*the*room;
+  assume=smartest+in*the*room;
+  soon=attitude;
+  attitude=doom;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+}
+
+procedure FirstWitness{
+  First=Witness;
+  Witness=First;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+}
+
+procedure Hamilton{
+  alexander=hamilton;
+  hamilton=alexander;
+  Alexander=Hamilton;
+  Hamilton=Alexander;
+  Alex=Hamilton;
+  Hamilton=Alex;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+  call jjjj;
+}
+
+procedure jjjj{
+call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+  call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+			
+	write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  while i {
+	if d then {
+		b = a;
+	}
+	else {
+		c = z;
+	}
+	a = ff;
+  }
+}

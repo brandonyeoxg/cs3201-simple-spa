@@ -3,7 +3,7 @@
 #include "FollowsStarEvaluator.h"
 
 bool FollowsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isFollowedByAnything(std::stoi(t_g1.getName()))) {
       //std::cout << "Followed By Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool FollowsStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Gram
       //std::cout << "Does not Follow By Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     if (t_pkb->isFollowsAnything(std::stoi(t_g2.getName()))) {
       //std::cout << "Follows Anything!\n";
       return true;
@@ -53,7 +53,7 @@ SET_OF_RESULTS FollowsStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gr
     if (!stmtStrVector.empty()) {
       m_result[t_g2.getName()] = stmtStrVector;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getFollowsAnything();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -79,7 +79,7 @@ SET_OF_RESULTS FollowsStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gra
 
     std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
     m_result[t_g1.getName()] = stmtStrVector;
-  } else if (t_g2.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getFollowedByAnything();
     if (stmtIntVector.empty()) {
       return m_result;

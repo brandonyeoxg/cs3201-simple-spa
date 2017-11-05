@@ -3,7 +3,7 @@
 #include "NextStarEvaluator.h"
 
 bool NextStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->hasNextLine(std::stoi(t_g1.getName()))) {
       //std::cout << "Next* By Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool NextStarEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar
       //std::cout << "Does not Next* By Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     if (t_pkb->hasLineBefore(std::stoi(t_g2.getName()))) {
       //std::cout << "Next* to Anything!\n";
       return true;
@@ -51,7 +51,7 @@ SET_OF_RESULTS NextStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramm
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g2);
     m_result[t_g2.getName()] = stmtVector;
-  } else if (t_g1.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getAllLinesAfterAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -75,7 +75,7 @@ SET_OF_RESULTS NextStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gramma
 
     std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g1);
     m_result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
     std::vector<int> stmtIntVector = t_pkb->getAllLinesBeforeAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
@@ -92,6 +92,10 @@ SET_OF_RESULTS NextStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramm
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   std::unordered_map<int, std::vector<int>> allNextStar = t_pkb->getAllNextStar();
+  if (t_g1.getName() == t_g2.getName()) {
+    allNextStar = EvaluatorUtil::filterSameResultsForSameSynonyms(allNextStar);
+  }
+
   if (allNextStar.empty()) {
     return m_result;
   }

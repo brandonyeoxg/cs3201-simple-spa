@@ -1,9 +1,16 @@
 #pragma once
 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#include "GlobalTypeDef.h"
+
+#include "PkbWriteOnly.h"
+#include "PkbReadOnly.h"
+#include "PkbTablesOnly.h"
 
 #include "FollowTable.h"
 #include "ParentTable.h"
@@ -12,25 +19,24 @@
 #include "VarTable.h"
 #include "AssignTable.h"
 #include "StatementTable.h"
-#include "Grammar.h"
 #include "ConstantTable.h"
-#include "GlobalTypeDef.h"
-#include "PatternMatch.h"
-#include "PkbWriteOnly.h"
-#include "PkbReadOnly.h"
-#include "PkbTablesOnly.h"
+#include "pkb/patternMatch/PatternMatch.h"
 #include "ModifiesP.h"
 #include "UsesP.h"
 #include "CallsTable.h"
 #include "UsesTable.h"
 #include "ModifiesTable.h"
 #include "StmtListTable.h"
-#include "NextTable.h"
+#include "pkb/relationshipTables/NextTable.h"
+#include "DesignExtractor.h"
+
+#include "Grammar.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
 public:
   PKB();
+  PKB(DesignExtractor *t_de);
   ~PKB();
 
   ///////////////////////////////////////////////////////
@@ -112,7 +118,7 @@ public:
   * @param t_lineNum the line number that the assignment statement is at.
   * @param t_tokens tokenised expression for the right side of the "=" operator
   */
-  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens);
+  void insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKENS t_stmtTokens, PROC_INDEX t_procName);
 
   /**
   * Inserts a call statement into the PKB
@@ -251,6 +257,7 @@ public:
   */
   BOOLEAN isFollowedByAnything(STMT_NUM t_s1);
 
+  void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
   ///////////////////////////////////////////////////////
   //  ParentTable methods
   ///////////////////////////////////////////////////////
@@ -416,6 +423,12 @@ public:
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
+  /**
+  * Method to return the total number of statements appeared in the source program.
+  * @return the size of statementTypeTable, which equals to total number of lines.
+  */
+  TOTAL_NUMBER_OF_STMTS getNumberOfStatements();
+
   ///////////////////////////////////////////////////////
   //  VarTable methods
   ///////////////////////////////////////////////////////
@@ -463,12 +476,14 @@ public:
   * The representation is a variable mapped to all statement number under that variable.
   */
   MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt();
+  MAP_OF_VAR_INDEX_TO_STMT_NUMS getAllVarIndicesWithAssignStmt();
 
   /**
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarIndex();
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -478,11 +493,15 @@ public:
   * Returns all procedure name in the program
   */
   LIST_OF_RESULTS getAllProcsName();
+
+  PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
+
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
   LIST_OF_RESULTS getAllConstants();
-
+  LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
+  STRING getConstantFromIdx(int t_constantIdx);
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -493,7 +512,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(_, _"x + y + h"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -501,7 +520,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _""_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -518,7 +537,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a("x", _"y + x"_), where a is a common synonym for all assignment statements.
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -527,7 +546,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  std::list<STMT_NUM> getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
+  LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, "x + y + h"), where v is a common synonym for all variables.
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -536,7 +555,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern a(v, _"x + y + h"_), where v is a common synonym for all variables.
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -545,7 +564,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens);
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable (in the while statement itself, not nested statements).
@@ -559,7 +578,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar();
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -579,7 +598,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar();
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
@@ -594,18 +613,30 @@ public:
   BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx);
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
+  MAP_OF_PROC_INDICES getAllCallsByIdx();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
   LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_INDICES getCallsAnythingByIdx();
   LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+  LIST_OF_PROC_INDICES getCallsStarAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx();
   BOOLEAN hasCallsRelationship();  //calls(_, _)
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
+  PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
+  LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
@@ -636,7 +667,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
-  
+  LIST_OF_VAR_INDICES getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName);
   /**
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
@@ -644,21 +675,21 @@ public:
   * @param t_varName the variable name that is checked.
   */
   LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
-  
+  LIST_OF_PROC_INDICES getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName);
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar();
-
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX getModifiesPAllProcToVarByIdx();
   /**
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
   */
   LIST_OF_PROC_NAMES getModifiesPAllProcNames();
-
+  LIST_OF_PROC_INDICES getModifiesPAllProcIndices();
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
@@ -688,6 +719,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
+  LIST_OF_VAR_INDICES getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName);
 
   /**
   * Returns the list of procedure names that are used by the variable.
@@ -696,30 +728,33 @@ public:
   * @param t_varName the variable name that is checked.
   */
   LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
-
+  LIST_OF_PROC_INDICES getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName);
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
   * Used in the query evaluator for Uses(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getUsesPAllProcToVar();
-
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX getUsesPAllProcToVarByIdx();
   /**
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for  Uses(p, _)
   *
   */
   LIST_OF_PROC_NAMES getUsesPAllProcNames();
+  LIST_OF_PROC_INDICES getUsesPAllProcIndices();
 
   ///////////////////////////////////////////////////////
   //  UsesTable methods
   ///////////////////////////////////////////////////////
   UsesTable* getUsesTable();
-  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
   BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
 
@@ -727,11 +762,13 @@ public:
   //  ModifiesTable methods
   ///////////////////////////////////////////////////////
   ModifiesTable* getModifiesTable();
-  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
   BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 
@@ -749,6 +786,7 @@ public:
   //  NextTable methods
   ///////////////////////////////////////////////////////
   NextTable* getNextTable();
+
   /** To be executed after all Next relationships are added to NextTable.
   *   Populates additional design abstractions.
   */
@@ -773,52 +811,52 @@ public:
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesAfter(PROG_LINE t_line);
 
   /** For Next(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed directly before given line.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getLinesBefore(PROG_LINE t_line);
 
   /** For Next*(line, l) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed after given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfter(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesAfter(PROG_LINE t_line);
 
   /** For Next*(l, line) where line is a given line number, and l is a common synonym for all lines.
   *   Gets all lines that can be executed before given line, either directly or in some execution sequence.
   *   @param t_line given program line
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBefore(PROG_LINE t_line);
+  LIST_OF_PROG_LINES getAllLinesBefore(PROG_LINE t_line);
 
   /** For Next(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed directly after it.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNext();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNext();
 
   /** For Next*(l1, l2) where l1, l2 is a common synonym for all lines.
   *   Gets map of all lines, each with a corresponding list of lines that can be executed after it, either directly or in some execution sequence.
   *   @return map of <program line number, list of lines executed after it>
   */
-  std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> getAllNextStar();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES getAllNextStar();
 
   /** For Next(_, l) and Next*(_, l) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed after any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesAfterAnyLine();
+  LIST_OF_PROG_LINES getAllLinesAfterAnyLine();
 
   /** For Next(l, _) and Next*(l, _) where l is a common synonym for all lines.
   *   Gets list of all lines that can be executed before any particular line.
   *   @return list of program line numbers
   */
-  std::vector<PROG_LINE> getAllLinesBeforeAnyLine();
+  LIST_OF_PROG_LINES getAllLinesBeforeAnyLine();
 
   /** For Next(_, _) or Next*(_, _).
   *   Checks if any Next relationship exists.
@@ -840,6 +878,32 @@ public:
   */
   BOOLEAN hasLineBefore(PROG_LINE t_line);
 
+  ///////////////////////////////////////////////////////
+  //  Affects Table
+  ///////////////////////////////////////////////////////
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_usesLine); // affects(a,12)
+  LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_modifiesLine); // affects(2,a)
+  BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
+  BOOLEAN hasAffectsRelationship(); // affects(_,_)
+  LIST_OF_AFFECTS_STMTS getAffectsAnything();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS getAffectedByAnything(); // affects(_,a)
+  BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine); // affects(1,_)
+  BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines); // affects(_,12)
+
+  ///////////////////////////////////////////////////////
+  //  Affects* Extractor
+  ///////////////////////////////////////////////////////
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffectsStar(); // affects(a1,a2)
+  LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine); // affects(2,a)
+  LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine); // affects(a,12)
+  BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects(1,12)
+  BOOLEAN hasAffectsRelationshipStar(); // affects(_,_)
+  LIST_OF_AFFECTS_STMTS getAffectsAnythingStar();  // affects(a,_)
+  LIST_OF_AFFECTS_STMTS getAffectedByAnythingStar(); // affects(_,a)
+  BOOLEAN isAffectsAnythingStar(STMT_NUM t_modifiesLine); // affects(1,_)
+  BOOLEAN isAffectedByAnythingStar(STMT_NUM t_usesLines); // affects(_,12)
+
 private:
   FollowTable* m_followTable;
   ParentTable* m_parentTable;
@@ -856,4 +920,5 @@ private:
   StmtListTable* m_stmtListTable;
   NextTable* m_nextTable;
   PatternMatch* m_patternMatch;
+  DesignExtractor *m_designExtractor;
 };

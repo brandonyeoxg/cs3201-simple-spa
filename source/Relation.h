@@ -2,16 +2,17 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-#include "Grammar.h"
 #include <string>
+
 #include "GlobalTypeDef.h"
+#include "Grammar.h"
+#include "Clause.h"
 
 /**A class representing the "Such That" clause of a query.
 *  @author Ryan Tan
 *  @date 26/08/2017
 */
-class Relation
-{
+class Relation : public Clause {
 public:
   /**
   * Default constructor.
@@ -22,10 +23,12 @@ public:
   * A constructor.
   * Constructs a new Relation object with a RType corresponding to the specified string and two Grammar objects between which there is a Relation.
   * @param t_type is a string representing the Design Abstraction of the query to be converted to an RType.
-  * @param t_g1 is the first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
-  * @param t_g2 is the second Grammar object of the Dersign Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
+  * @param t_g1 is the first Grammar object of the Design Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
+  * @param t_g2 is the second Grammar object of the Design Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
   */
   Relation(std::string t_type, Grammar t_g1, Grammar t_g2);
+
+  queryType::clauseType getClauseType();
 
   /**
   * A Getter that returns the type of this Relation object.
@@ -42,16 +45,26 @@ public:
   STRING getTypeInString();
 
   /**
-  * A Getter that returns the first Grammar object of the Dersign Abstraction.
-  * @return The first Grammar object of the Dersign Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
+  * A Getter that returns the first Grammar object of the Design Abstraction.
+  * @return The first Grammar object of the Design Abstraction. The returned Grammar object is the first one used by the Design Abstraction. e.g. Follows(m_g1, 2)
   */
   Grammar getG1();
 
   /**
-  * A Getter that returns the second Grammar object of the Dersign Abstraction
-  * @return The second Grammar object of the Dersign Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
+  * A Getter that returns the second Grammar object of the Design Abstraction
+  * @return The second Grammar object of the Design Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
   */
   Grammar getG2();
+
+  /**
+  * A Setter that sets the first Grammar object of the Design Abstraction.
+  */
+  void setG1(Grammar t_newG1);
+
+  /**
+  * A Setter that sets the second Grammar object of the Design Abstraction
+  */
+  void setG2(Grammar t_newG2);
 
   /**
   * A public function that prints the content of this Relation object.

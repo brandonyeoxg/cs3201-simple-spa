@@ -1,0 +1,200 @@
+1 - With Integer Functionality Test
+procedure p;
+Select p such that Follows(1,2) with 23=23
+main, second, third, fourth
+5000
+2 - With Integer Invalid Test
+procedure p;
+Select p such that Follows(1,2) with 23=2
+none
+5000
+3 - With Integer + String Invalid Test
+procedure p;
+Select p such that Follows(1,2) with 23="hello"
+none
+5000
+4 - With String Functionality Test
+procedure p;
+Select p such that Follows(1,2) with "love"="love"
+main, second, third, fourth
+5000
+5 - With String Invalid Test
+procedure p;
+Select p such that Follows(1,2) with "love"="hate"
+none
+5000
+6 - With String + Integer Invalid Test
+procedure p;
+Select p such that Follows(1,2) with "aloha"=24
+none
+5000
+7 - With Syn + Integer Functionality Test
+procedure p; prog_line n;
+Select p such that Follows(1,2) with n=3
+main, second, third, fourth
+5000
+8 - With Syn + String Invalid Test
+procedure p; prog_line n;
+Select p such that Follows(1,2) with n="3"
+none
+5000
+9 - With ProcName + Integer Invalid Test
+procedure p; prog_line n;
+Select p such that Follows(1,2) with p.procName=3
+none
+5000
+10 - With ProcName + String Functionality Test
+procedure p1, p2; prog_line n;
+Select p1 such that Follows(1,2) with p2.procName="second"
+main, second, third, fourth
+5000
+11 - With ProcName + Syn Invalid Test
+procedure p1, p2; prog_line n;
+Select p1 such that Follows(1,2) with p2.procName=n
+none
+5000
+12 - With ProcName + ProcName Functionality Test
+procedure p1, p2; prog_line n;
+Select p1 such that Follows(1,2) with p2.procName=p1.procName
+main, second, third, fourth
+5000
+13 - With ProcName + ProcName Functionality Test
+procedure p1, p2; call c1, c2;
+Select p1 such that Follows(1,2) with p2.procName=c1.procName
+main, second, third, fourth
+5000
+14 - With ProcName + VarName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with p2.procName=v1.varName
+none
+5000
+15 - With ProcName + Stmt# Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2;
+Select p1 such that Follows(1,2) with p2.procName=s1.stmt#
+none
+5000
+16 - With ProcName + Value Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2; constant co1, co2;
+Select p1 such that Follows(1,2) with p2.procName=co1.value#
+none
+5000
+17 - With ProcName + Integer Invalid Test
+procedure p; prog_line n; call c1, c2;
+Select p such that Follows(1,2) with c1.procName=3
+none
+5000
+18 - With ProcName + String Functionality Test
+procedure p1, p2; prog_line n; call c1, c2;
+Select p1 such that Follows(1,2) with c2.procName="second"
+main, second, third, fourth
+5000
+19 - With ProcName + Syn Invalid Test
+procedure p1, p2; prog_line n; call c1, c2;
+Select p1 such that Follows(1,2) with c2.procName=n
+none
+5000
+20 - With ProcName + ProcName Functionality Test
+procedure p1, p2; prog_line n; call c1, c2;
+Select p1 such that Follows(1,2) with c2.procName=c1.procName
+main, second, third, fourth
+5000
+21 - With ProcName + ProcName Functionality Test
+procedure p1, p2; call c1, c2;
+Select p1 such that Follows(1,2) with c1.procName=p2.procName
+main, second, third, fourth
+5000
+22 - With ProcName + VarName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with c2.procName=v1.varName
+none
+5000
+23 - With ProcName + Stmt# Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2;
+Select p1 such that Follows(1,2) with c2.procName=s1.stmt#
+none
+5000
+24 - With ProcName + Value Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2; constant co1, co2;
+Select p1 such that Follows(1,2) with c2.procName=co1.value#
+none
+5000
+25 - With VarName + Integer Invalid Test
+procedure p; prog_line n; call c1, c2; variable v1, v2;
+Select p such that Follows(1,2) with v1.varName=3
+none
+5000
+26 - With VarName + String Functionality Test
+procedure p1, p2; prog_line n; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName="love"
+main, second, third, fourth
+5000
+27 - With VarName + Syn Invalid Test
+procedure p1, p2; prog_line n; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName=n
+none
+5000
+28 - With VarName + VarName Functionality Test
+procedure p1, p2; prog_line n; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName=v1.varName
+main, second, third, fourth
+5000
+29 - With VarName + ProcName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v1.varName=p2.procName
+none
+5000
+30 - With VarName + ProcName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName=c1.procName
+none
+5000
+31 - With VarName + Stmt# Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2;
+Select p1 such that Follows(1,2) with v2.varName=s1.stmt#
+none
+5000
+32 - With VarName + Value Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2; constant co1, co2;
+Select p1 such that Follows(1,2) with v2.varName=co1.value#
+none
+5000
+33 - With Stmt# + Integer Functionality Test
+procedure p; prog_line n; call c1, c2; stmt s1, s2;
+Select p such that Follows(1,2) with s1.stmt#=3
+main, second, third, fourth
+5000
+34 - With VarName + String Invalid Test
+procedure p1, p2; prog_line n; call c1, c2; stmt s1, s2;
+Select p1 such that Follows(1,2) with s2.stmt#="love"
+none
+5000
+35 - With VarName + Syn Invalid Test
+procedure p1, p2; prog_line n; call c1, c2; stmt s1, s2;
+Select p1 such that Follows(1,2) with s2.stmt#=n
+main, second, third, fourth
+5000
+36 - With VarName + VarName Functionality Test
+procedure p1, p2; prog_line n; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName=v1.varName
+main, second, third, fourth
+5000
+37 - With VarName + ProcName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v1.varName=p2.procName
+none
+5000
+38 - With VarName + ProcName Functionality Test
+procedure p1, p2; call c1, c2; variable v1, v2;
+Select p1 such that Follows(1,2) with v2.varName=c1.procName
+none
+5000
+39 - With VarName + Stmt# Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2;
+Select p1 such that Follows(1,2) with v2.varName=s1.stmt#
+none
+5000
+40 - With VarName + Value Invalid Test
+procedure p1, p2; call c1, c2; variable v1, v2; stmt s1, s2; constant co1, co2;
+Select p1 such that Follows(1,2) with v2.varName=co1.value#
+none
+5000

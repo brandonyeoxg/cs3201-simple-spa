@@ -6,6 +6,8 @@
 #include <unordered_map>
 
 #include "GlobalTypeDef.h"
+#include "Grammar.h"
+#include "PkbReadOnly.h"
 
 class IntermediateTable {
 public:
@@ -17,19 +19,19 @@ public:
   * Returns an empty list If no synonyms selected or synonyms selected does not exist in the intermediate table.
   * @param t_synonyms list of synonyms to determine which results is output in the intermediate table.
   */
-  LIST_OF_RESULTS getResults(LIST_OF_SYNONYMS t_synonyms);
+  LIST_OF_RESULTS getResults(std::vector<Grammar> t_synonyms, const PkbReadOnly *t_pkb);
   BOOLEAN hasSynonyms();
+
+  /*
+  * Returns true if the intermediate table contains the synonym.
+  */
+  BOOLEAN hasSynonym(SYNONYM_NAME t_synonym);
   BOOLEAN isEmpty();
   void clearTable();
 
 protected:
   INTERMEDIATE_TABLE m_results;
   MAP_OF_SYNONYM_TO_TABLE_POSITION m_synonymRowChecker;
-
-  /*
-  * Returns true if the intermediate table contains the synonym.
-  */
-  BOOLEAN hasSynonym(SYNONYM_NAME t_synonym);
 
 private:
   /*
