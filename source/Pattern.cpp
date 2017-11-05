@@ -23,6 +23,8 @@ Pattern::Pattern(Grammar t_clause, Grammar t_left, Grammar t_right, bool t_subtr
   setSubtree(t_subtree);
 }
 
+queryType::clauseType Pattern::getClauseType() { return queryType::clauseType::PATTERN; }
+
 /**
 * A Getter that returns the grammar of the pattern clause.
 * Returns the grammar of the pattern clause.

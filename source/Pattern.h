@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "GlobalTypeDef.h"
 #include "Grammar.h"
 #include "Clause.h"
 
@@ -32,6 +33,8 @@ public:
   * @param t_subtree is a boolean determining if the statement can be a sub-expression of or has to be an exact match as m_right
   */
   Pattern(Grammar t_statement, Grammar t_left, Grammar t_right, bool t_subtree);
+
+  queryType::clauseType getClauseType();
 
   /**
   * A Getter that returns the type of statement of the pattern clause as a Grammar object.

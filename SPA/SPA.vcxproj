@@ -23,6 +23,7 @@
     <ClCompile Include="..\source\CallsTable.cpp" />
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
     <ClCompile Include="..\source\CallsStarEvaluator.cpp" />
+    <ClCompile Include="..\source\Clause.cpp" />
     <ClCompile Include="..\source\ConstantTable.cpp" />
     <ClCompile Include="..\source\EvaluatorUtil.cpp" />
     <ClCompile Include="..\source\ExtractorFactory.cpp" />
