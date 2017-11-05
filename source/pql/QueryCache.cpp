@@ -27,11 +27,8 @@ bool QueryCache::isCacheable(Clause t_clause) {
     return isPatternCacheable(*pattern);
   } else if (1) { //isRelation
     Relation *relation = (Relation*)&t_clause;
-  } else {
-    return false;
+    return isRelationCacheable(*relation);
   }
-
-  
 
   return false;
 }
@@ -59,15 +56,20 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
   switch (t_relation.getType()) {
     case queryType::RType::NEXT:
     case queryType::RType::NEXT_:
-    case queryType::RType::FOLLOWS:
-    case queryType::RType::FOLLOWS_:
-    case queryType::RType::PARENT:
-    case queryType::RType::PARENT_:
     case queryType::RType::CALLS:
     case queryType::RType::CALLS_:
     case queryType::RType::AFFECTS:
     case queryType::RType::AFFECTS_:
       break;
+    case queryType::RType::FOLLOWS:
+    case queryType::RType::FOLLOWS_:
+    case queryType::RType::PARENT:
+    case queryType::RType::PARENT_:
+      if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
+        return false;
+      } else {
+        break;
+      }
     case queryType::RType::USES:
     case queryType::RType::MODIFIES:
       return QueryUtil::hasOneLeftSynonym(t_relation.getG1(), t_relation.getG2())
@@ -76,7 +78,15 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
       return false;
   }
 
-
+  if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
+    return true;
+  } else if (QueryUtil::hasOneLeftSynonym(t_relation.getG1(), t_relation.getG2())
+    && QueryUtil::isUnderscore(t_relation.getG2())) {
+    return true;
+  } else if (QueryUtil::hasOneRightSynonym(t_relation.getG1(), t_relation.getG2())
+    && QueryUtil::isUnderscore(t_relation.getG1())) {
+    return true; 
+  }
 
   return false;
 }
