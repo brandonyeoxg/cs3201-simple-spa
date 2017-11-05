@@ -615,6 +615,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
+  virtual LIST_OF_VAR_INDICES getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) = 0;
 
   /*
   * Returns the list of procedure names that are used by the variable.
@@ -623,6 +624,7 @@ public:
   * @param t_varName the variable name that is checked.
   */
   virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
+  virtual LIST_OF_PROC_INDICES getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) = 0;
 
   /*
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
@@ -630,6 +632,7 @@ public:
   *
   */
   virtual MAP_OF_PROC_TO_VAR getUsesPAllProcToVar() = 0;
+  virtual MAP_OF_PROC_INDEX_TO_VAR_INDEX getUsesPAllProcToVarByIdx() = 0;
 
   /*
   * Returns a list of procedures that uses something.
@@ -637,6 +640,7 @@ public:
   *
   */
   virtual LIST_OF_PROC_NAMES getUsesPAllProcNames() = 0;
+  virtual LIST_OF_PROC_INDICES getUsesPAllProcIndices() = 0;
 
   ///////////////////////////////////////////////////////
   //  Uses methods

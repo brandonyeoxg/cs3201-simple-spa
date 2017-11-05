@@ -716,6 +716,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
+  LIST_OF_VAR_INDICES getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName);
 
   /**
   * Returns the list of procedure names that are used by the variable.
@@ -724,20 +725,21 @@ public:
   * @param t_varName the variable name that is checked.
   */
   LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
-
+  LIST_OF_PROC_INDICES getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName);
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
   * Used in the query evaluator for Uses(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getUsesPAllProcToVar();
-
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX getUsesPAllProcToVarByIdx();
   /**
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for  Uses(p, _)
   *
   */
   LIST_OF_PROC_NAMES getUsesPAllProcNames();
+  LIST_OF_PROC_INDICES getUsesPAllProcIndices();
 
   ///////////////////////////////////////////////////////
   //  UsesTable methods

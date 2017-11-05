@@ -714,16 +714,32 @@ LIST_OF_VAR_NAMES PKB::getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) 
   return m_usesP->getVarNamesWithProcIdx(procIdx);
 }
 
+LIST_OF_VAR_INDICES PKB::getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_usesP->getVarIndicesWithProcIdx(procIdx);
+}
+
 LIST_OF_PROC_NAMES PKB::getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_usesP->getProcNamesWithVarIdx(varIdx);
 }
 
+LIST_OF_PROC_INDICES PKB::getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
+  return m_usesP->getProcIndicesWithVarIdx(varIdx);
+}
+
 MAP_OF_PROC_TO_VAR PKB::getUsesPAllProcToVar() {
   return m_usesP->getAllProcToVar();
 }
+MAP_OF_PROC_INDEX_TO_VAR_INDEX PKB::getUsesPAllProcToVarByIdx() {
+  return m_usesP->getAllProcToVarByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getUsesPAllProcNames() {
   return m_usesP->getAllProcNames();
+}
+LIST_OF_PROC_INDICES PKB::getUsesPAllProcIndices() {
+  return m_usesP->getAllProcIndices();
 }
 
 ///////////////////////////////////////////////////////
