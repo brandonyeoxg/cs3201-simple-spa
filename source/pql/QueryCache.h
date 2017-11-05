@@ -3,6 +3,10 @@
 #include <assert.h>
 
 #include "../GlobalTypeDef.h"
+#include "../Clause.h"
+#include "../Pattern.h"
+#include "../Relation.h"
+#include "../QueryUtil.h"
 
 /** Class for caching results intra-query.
 *   Currently caches results for Relationships involving 2 common synonyms,
@@ -15,165 +19,17 @@ class QueryCache {
 public:
   QueryCache();
 
-  ///////////////////////////////////////////////////////
-  //  Getter Methods
-  ///////////////////////////////////////////////////////
+  SET_OF_RESULTS getCache(Clause t_clause);
 
-  /** Gets cached result for Next(l1, l2). 
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNext();
+  void cache(Clause t_clause, SET_OF_RESULTS t_results);
 
-  /** Gets cached result for Next*(l1, l2).
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES * getAllNextStar();
-
-  /** Gets cached result for Next(_, l) and Next*(_, l).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROG_LINES * getAllLinesAfterAnyLine();
-
-  /** Gets cached result for Next(l, _) and Next*(l, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROG_LINES * getAllLinesBeforeAnyLine();
-
-  /** Gets cached result for Calls(proc1, proc2).
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_PROC_NAMES * getAllCalls();
-
-  /** Gets cached result for Calls(proc1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROC_NAMES * getCallsAnything();
-
-  /** Gets cached result for Calls*(proc1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROC_NAMES * getCallsStarAnything();
-  
-  /** Gets cached result for Calls(_, proc1).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROC_NAMES * getCalledByAnything();
-  
-  /** Gets cached result for Calls*(_, proc1).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_PROC_NAMES * getCalledByStarAnything();
-
-  /** Gets cached result for Follows(_, s1) & Follows*(_, s1).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getFollowsAnything();
-
-  /** Gets cached result for Follows(s1, _) & Follows*(s1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getFollowedByAnything();
-
-  /** Gets cached result for Parent(_, s1).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getChildrenOfAnything();
-
-  /** Gets cached result for Parent(s1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getParentOfAnything();
-
-  /** Gets cached result for Parent*(_, s1).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getChildrenStarOfAnything();
-
-  /** Gets cached result for Parent*(s1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getParentStarOfAnything();
-
-  /** Gets cached result for Uses(s1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getStmtUsesAnything();
-
-  /** Gets cached result for Modifies(s1, _).
-  *   Returns nullptr if no results cached.
-  */
-  LIST_OF_STMT_NUMS * getStmtModifiesAnything();
-
-  /** Gets cached result for Pattern w(v, _).
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllWhileStmtsWithVar();
-
-  /** Gets cached result for Pattern ifs(v, _).
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_STMT_NUM_TO_VAR_INDEX * getAllIfStmtsWithVar();
-
-  /** Gets cached result for Affects(a1, a2).
-  *   Returns nullptr if no results cached.
-  */
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS * getAllAffects();
-
-  ///////////////////////////////////////////////////////
-  //  Getter Methods With Parameter
-  ///////////////////////////////////////////////////////
-
-  /** Gets cached result for Next*(line, l). Requires Next*(l1, l2) to be already cached.
-  *   Returns pointer to empty list if no lines after given line.
-  *   Returns nullptr if Next*(l1, l2) is not cached.
-  */
-  LIST_OF_PROG_LINES * getAllLinesAfter(PROG_LINE t_line);
-
-  ///////////////////////////////////////////////////////
-  //  Cache Methods
-  ///////////////////////////////////////////////////////
-
-  void cacheAllNext(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNext);
-
-  void cacheAllNextStar(MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES &t_allNextStar);
-
-  void cacheAllLinesAfterAnyLine(LIST_OF_PROG_LINES &t_allLinesAfterAnyLine);
-
-  void cacheAllLinesBeforeAnyLine(LIST_OF_PROG_LINES &t_allLinesBeforeAnyLine);
-
-  void cacheAllCalls(MAP_OF_PROC_NAMES &t_allCalls);
-
-  void cacheCallsAnything(LIST_OF_PROC_NAMES &t_callsAnything);
-
-  void cacheCallsStarAnything(LIST_OF_PROC_NAMES &t_callsStarAnything);
-
-  void cacheCalledByAnything(LIST_OF_PROC_NAMES &t_calledByAnything);
-
-  void cacheCalledByStarAnything(LIST_OF_PROC_NAMES &t_calledByStarAnything);
-
-  void cacheFollowsAnything(LIST_OF_STMT_NUMS &t_followsAnything);
-
-  void cacheFollowedByAnything(LIST_OF_STMT_NUMS &t_followedByAnything);
-
-  void cacheChildrenOfAnything(LIST_OF_STMT_NUMS &t_childrenOfAnything);
-
-  void cacheParentOfAnything(LIST_OF_STMT_NUMS &t_parentOfAnything);
-
-  void cacheChildrenStarOfAnything(LIST_OF_STMT_NUMS &t_childrenStarOfAnything);
-
-  void cacheParentStarOfAnything(LIST_OF_STMT_NUMS &t_parentStarOfAnything);
-
-  void cacheStmtUsesAnything(LIST_OF_STMT_NUMS &t_stmtUsesAnything);
-
-  void cacheStmtModifiesAnything(LIST_OF_STMT_NUMS &t_stmtModifiesAnything);
-
-  void cacheAllWhileStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allWhileStmtsWithVar);
-
-  void cacheAllIfStmtsWithVar(MAP_OF_STMT_NUM_TO_VAR_INDEX &t_allIfStmtsWithVar);
-
-  void cacheAllAffects(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS &t_allAffects);
+  bool isCacheable(Clause t_clause);
 
 private:
+  std::unordered_map<std::string, SET_OF_RESULTS> m_cache;
+
+  bool isPatternCacheable(Pattern t_pattern);
+  bool isRelationCacheable(Relation t_relation);
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext = nullptr;      /**< Next(l1, l2) */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar = nullptr;  /**< Next*(l1, l2) */

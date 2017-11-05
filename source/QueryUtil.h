@@ -22,6 +22,13 @@ public:
   */
   static bool isAllUnderscores(Grammar t_g1, Grammar t_g2);
 
+  /** Checks if given Grammar object is an underscore.
+  *   @param t_grammar grammar object
+  *   @return true if an underscore, else return false.
+  *   @author jazlyn
+  */
+  static bool isUnderscore(Grammar t_grammar);
+
   /**
   * A public function to check if both parameters are not synonyms.
   * Given two parameters, it will check if both parameters are not synonyms.

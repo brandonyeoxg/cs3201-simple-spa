@@ -4,6 +4,10 @@ bool QueryUtil::isAllUnderscores(Grammar t_g1, Grammar t_g2) {
   return t_g1.getType() == queryType::GType::STR && t_g1.getName() == "_" && t_g2.getType() == queryType::GType::STR && t_g2.getName() == "_";
 }
 
+bool QueryUtil::isUnderscore(Grammar t_grammar) {
+  return t_grammar.getType() == queryType::GType::STR && t_grammar.getName() == "_";
+}
+
 bool QueryUtil::hasNoSynonyms(Grammar t_g1, Grammar t_g2) {
   return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
 }
