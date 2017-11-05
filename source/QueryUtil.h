@@ -29,6 +29,13 @@ public:
   */
   static bool isUnderscore(Grammar t_grammar);
 
+  /** Checks if given Grammar object is a synonym.
+  *   @param t_grammar grammar object
+  *   @return true if a synonym, else return false.
+  *   @author jazlyn
+  */
+  static bool isSynonym(Grammar t_grammar);
+
   /**
   * A public function to check if both parameters are not synonyms.
   * Given two parameters, it will check if both parameters are not synonyms.
