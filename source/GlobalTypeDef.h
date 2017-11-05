@@ -54,6 +54,7 @@ typedef std::list<RESULT> RESULT_LIST;
 typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
 typedef std::vector<VAR_INDEX> LIST_OF_VAR_INDICES;
 typedef std::vector<INTEGER> LIST_OF_INTEGERS;
+typedef std::vector<INTEGER> LIST_OF_CONSTANT_INDICES;
 typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
 typedef std::vector<STMT_NUM>& MUTABLE_LIST_OF_STMT_NUMS;
 typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;

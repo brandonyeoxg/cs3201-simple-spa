@@ -15,8 +15,10 @@ public:
   ConstantTable();
   int insertConstant(std::string t_constant);
   LIST_OF_RESULTS getAllConstants();
-
+  LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
+  STRING getConstantFromIdx(int t_constantIdx);
 private:
   std::set<std::string> m_constantSet;
+  std::set<int> m_constantSetByIdx;
   std::unordered_map<int, std::string> m_constantMap;
 };

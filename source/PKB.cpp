@@ -382,7 +382,12 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
 LIST_OF_RESULTS PKB::getAllConstants() {
   return m_constantTable->getAllConstants();
 }
-
+LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
+  return m_constantTable->getAllConstantsByIdx();
+}
+STRING PKB::getConstantFromIdx(int t_constantIdx) {
+  return m_constantTable->getConstantFromIdx(t_constantIdx);
+}
 ///////////////////////////////////////////////////////
 //  ProcTable methods
 ///////////////////////////////////////////////////////
