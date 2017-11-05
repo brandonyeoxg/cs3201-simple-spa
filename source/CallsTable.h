@@ -16,8 +16,8 @@ track which line is followed by which lines.
 */
 class CallsTable {
 public:
-  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2, PROC_INDEX t_proc1Idx, PROC_INDEX t_proc2Idx);
-  bool insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc, PROC_INDEX t_procIdx);
+  bool insertCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+  bool insertCallsStmt(STMT_NUM t_lineNum, PROC_NAME t_proc);
   bool isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   bool isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);

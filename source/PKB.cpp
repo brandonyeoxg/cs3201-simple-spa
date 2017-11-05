@@ -103,10 +103,9 @@ void PKB::insertAssignStmt(STMT_NUM t_lineNum, VAR_NAME t_varName, LIST_OF_TOKEN
 
 void PKB::insertCallStmt(PROC_INDEX t_procIdx, PROC_NAME t_proc2, STMT_NUM t_curLineNum) {
   PROC_NAME proc1 = m_procTable->getProcNameFromIdx(t_procIdx);
-  PROC_INDEX proc2 = m_procTable->getProcIdxFromName(t_proc2);
   m_statementTable->insertStatementIntoStatementTable(t_curLineNum, queryType::GType::CALL, t_procIdx, proc1);
-  m_callsTable->insertCalls(proc1, t_proc2, t_procIdx, proc2);
-  m_callsTable->insertCallsStmt(t_curLineNum, t_proc2, proc2);
+  m_callsTable->insertCalls(proc1, t_proc2);
+  m_callsTable->insertCallsStmt(t_curLineNum, t_proc2);
 }
 
 STMT_NUM PKB::insertWhileStmt(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLineNum, STMT_NUM t_curLineNum) {

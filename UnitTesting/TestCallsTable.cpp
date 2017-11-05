@@ -54,14 +54,14 @@ namespace UnitTesting {
         {"BOSTON", {2, 3}},
         {"CLEVELAND", {5, 7}}
       };
-      m_callsTable->insertCalls("ATLANTA", "BOSTON", 0, 1);
-      m_callsTable->insertCallsStmt(2, "BOSTON", 1);
-      m_callsTable->insertCalls("CLEVELAND", "BOSTON", 2, 1);
-      m_callsTable->insertCallsStmt(3, "BOSTON", 1);
-      m_callsTable->insertCalls("DENVER", "CLEVELAND", 3, 2);
-      m_callsTable->insertCallsStmt(5, "CLEVELAND", 2);
-      m_callsTable->insertCalls("ATLANTA", "CLEVELAND", 0, 2);
-      m_callsTable->insertCallsStmt(7, "CLEVELAND", 2);
+      m_callsTable->insertCalls("ATLANTA", "BOSTON");
+      m_callsTable->insertCallsStmt(2, "BOSTON");
+      m_callsTable->insertCalls("CLEVELAND", "BOSTON");
+      m_callsTable->insertCallsStmt(3, "BOSTON");
+      m_callsTable->insertCalls("DENVER", "CLEVELAND");
+      m_callsTable->insertCallsStmt(5, "CLEVELAND");
+      m_callsTable->insertCalls("ATLANTA", "CLEVELAND");
+      m_callsTable->insertCallsStmt(7, "CLEVELAND");
       m_callsTable->populateCallsStarMap();
       m_callsTable->populateCalledByStarMap();
     }
