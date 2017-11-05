@@ -115,16 +115,6 @@ namespace UnitTesting {
       Assert::IsTrue(emptyVector == actual);
     }
 
-    TEST_METHOD(TestGetCallsByIdx) {
-      LIST_OF_PROC_INDICES expected = { 1, 2 };
-      LIST_OF_PROC_INDICES actual = m_callsTable->getCallsByIdx(0);
-      Assert::IsTrue(expected == actual);
-
-      LIST_OF_PROC_INDICES emptyVector;
-      actual = m_callsTable->getCallsByIdx(1);
-      Assert::IsTrue(emptyVector == actual);
-    }
-
     TEST_METHOD(TestGetCalledBy) {
       static const std::string arr[] = { "ATLANTA", "CLEVELAND" };
       LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
@@ -133,16 +123,6 @@ namespace UnitTesting {
 
       LIST_OF_PROC_NAMES emptyVector;
       actual = m_callsTable->getCalledBy("DENVER");
-      Assert::IsTrue(emptyVector == actual);
-    }
-
-    TEST_METHOD(TestGetCalledByByIdx) {
-      LIST_OF_PROC_INDICES expected = { 0, 2 };
-      LIST_OF_PROC_INDICES actual = m_callsTable->getCalledByByIdx(1);
-      Assert::IsTrue(expected == actual);
-
-      LIST_OF_PROC_INDICES emptyVector;
-      actual = m_callsTable->getCalledByByIdx(3);
       Assert::IsTrue(emptyVector == actual);
     }
 
