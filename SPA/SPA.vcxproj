@@ -84,7 +84,6 @@
     <ClCompile Include="..\source\UsesP.cpp" />
     <ClCompile Include="..\source\UsesPExtractor.cpp" />
     <ClCompile Include="..\source\UsesTable.cpp" />
-    <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\WhilePatternEvaluator.cpp" />
     <ClCompile Include="..\source\With.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="..\source\UsesP.h" />
     <ClInclude Include="..\source\UsesPExtractor.h" />
     <ClInclude Include="..\source\UsesTable.h" />
-    <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\WhilePatternEvaluator.h" />
     <ClInclude Include="..\source\With.h" />

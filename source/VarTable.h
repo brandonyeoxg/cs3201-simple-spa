@@ -8,7 +8,6 @@
 #include <set>
 
 #include "GlobalTypeDef.h"
-#include "VarRelations.h"
 
 /**
 * Represents the variable table, which is a vector of unordered_maps to 
