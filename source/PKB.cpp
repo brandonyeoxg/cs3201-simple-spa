@@ -678,17 +678,31 @@ LIST_OF_VAR_NAMES PKB::getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procNa
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   return m_modifiesP->getVarNamesWithProcIdx(procIdx);
 }
+LIST_OF_VAR_INDICES PKB::getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_modifiesP->getVarIndicesWithProcIdx(procIdx);
+}
 
 LIST_OF_PROC_NAMES PKB::getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_modifiesP->getProcNamesWithVarIdx(varIdx);
 }
+LIST_OF_PROC_INDICES PKB::getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
+  return m_modifiesP->getProcIndicesWithVarIdx(varIdx);
+}
 
 MAP_OF_PROC_TO_VAR PKB::getModifiesPAllProcToVar() {
   return m_modifiesP->getAllProcToVar();
 }
+MAP_OF_PROC_INDEX_TO_VAR_INDEX PKB::getModifiesPAllProcToVarByIdx() {
+  return m_modifiesP->getAllProcToVarByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getModifiesPAllProcNames() {
   return m_modifiesP->getAllProcNames();
+}
+LIST_OF_PROC_INDICES PKB::getModifiesPAllProcIndices() {
+  return m_modifiesP->getAllProcIndices();
 }
 
 ///////////////////////////////////////////////////////

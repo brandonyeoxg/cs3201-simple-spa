@@ -564,7 +564,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
-
+  virtual LIST_OF_VAR_INDICES getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) = 0;
   /*
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
@@ -572,21 +572,21 @@ public:
   * @param t_varName the variable name that is checked.
   */
   virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
-
+  virtual LIST_OF_PROC_INDICES getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) = 0;
   /*
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   *
   */
   virtual MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar() = 0;
-
+  virtual MAP_OF_PROC_INDEX_TO_VAR_INDEX getModifiesPAllProcToVarByIdx() = 0;
   /*
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
   */
   virtual LIST_OF_PROC_NAMES getModifiesPAllProcNames() = 0;
-
+  virtual LIST_OF_PROC_INDICES getModifiesPAllProcIndices() = 0;
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
