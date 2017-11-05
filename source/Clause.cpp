@@ -3,7 +3,7 @@
 #include "Clause.h"
 
 queryType::clauseType Clause::getClauseType() {
-  return queryType::clauseType::SELECT;
+  return m_clauseType;
 }
 
 bool Clause::isPatternType() {

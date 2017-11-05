@@ -28,8 +28,6 @@ public:
   */
   Relation(std::string t_type, Grammar t_g1, Grammar t_g2);
 
-  queryType::clauseType getClauseType();
-
   /**
   * A Getter that returns the type of this Relation object.
   * The returned RType is an enum type that identifies the Relation as one of the Design Abstractions.

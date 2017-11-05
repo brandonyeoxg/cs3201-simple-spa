@@ -10,7 +10,9 @@
 /**
 * Default Constructor
 */
-Pattern::Pattern() {}
+Pattern::Pattern() {
+  m_clauseType = queryType::clauseType::PATTERN;
+}
 
 /**
 * A constructor.
@@ -21,9 +23,9 @@ Pattern::Pattern(Grammar t_clause, Grammar t_left, Grammar t_right, bool t_subtr
   setLeft(t_left);
   setRight(t_right);
   setSubtree(t_subtree);
-}
 
-queryType::clauseType Pattern::getClauseType() { return queryType::clauseType::PATTERN; }
+  m_clauseType = queryType::clauseType::PATTERN;
+}
 
 /**
 * A Getter that returns the grammar of the pattern clause.

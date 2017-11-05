@@ -4,7 +4,7 @@
 
 class Clause {
 public:
-  virtual queryType::clauseType getClauseType();
+  queryType::clauseType getClauseType();
 
   /** Checks if given Clause is of type Pattern.
   *   @author jazlyn
@@ -15,4 +15,7 @@ public:
   *   @author jazlyn
   */
   bool isRelationType();
+
+protected:
+  queryType::clauseType m_clauseType;
 };
