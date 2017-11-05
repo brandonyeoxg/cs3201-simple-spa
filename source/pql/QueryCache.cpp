@@ -22,22 +22,20 @@ void QueryCache::cache(Clause t_clause, SET_OF_RESULTS t_results) {
   }
 }
 
-bool QueryCache::isCacheable(Clause t_clause) {
+bool QueryCache::isCacheable(Clause *t_clause) {
 
-  if (t_clause.isPatternType()) {  // isPattern
-    Pattern *pattern = (Pattern*)&t_clause;
-    return isPatternCacheable(*pattern);
-  } else if (t_clause.isRelationType()) { // isRelation
-    Relation *relation = (Relation*)&t_clause;
-    return isRelationCacheable(*relation);
+  if (t_clause->isPatternType()) {  // isPattern
+    return isPatternCacheable((Pattern *) t_clause);
+  } else if (t_clause->isRelationType()) { // isRelation
+    return isRelationCacheable((Relation *)t_clause);
   }
 
   return false;
 }
 
-bool QueryCache::isPatternCacheable(Pattern t_pattern) {
+bool QueryCache::isPatternCacheable(Pattern *t_pattern) {
 
-  switch (t_pattern.getStmt().getType()) {
+  switch (t_pattern->getStmt().getType()) {
     case queryType::GType::WHILE: 
     case queryType::GType::IF: 
     case queryType::GType::ASGN:
@@ -46,16 +44,16 @@ bool QueryCache::isPatternCacheable(Pattern t_pattern) {
       return false;
   }
 
-  if (QueryUtil::isSynonymWithAnyPattern(t_pattern.getLeft(), t_pattern.getRight())) {
+  if (QueryUtil::isSynonymWithAnyPattern(t_pattern->getLeft(), t_pattern->getRight())) {
     return true;
   }
 
   return false;
 }
 
-bool QueryCache::isRelationCacheable(Relation t_relation) {
+bool QueryCache::isRelationCacheable(Relation * t_relation) {
 
-  switch (t_relation.getType()) {
+  switch (t_relation->getType()) {
     case queryType::RType::NEXT:
     case queryType::RType::NEXT_:
     case queryType::RType::CALLS:
@@ -67,26 +65,26 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
     case queryType::RType::FOLLOWS_:
     case queryType::RType::PARENT:
     case queryType::RType::PARENT_:
-      if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
+      if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {
         return false;
       } else {
         break;
       }
     case queryType::RType::USES:
     case queryType::RType::MODIFIES:
-      return QueryUtil::hasOneLeftSynonym(t_relation.getG1(), t_relation.getG2())
-        && QueryUtil::isUnderscore(t_relation.getG2());
+      return QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
+        && QueryUtil::isUnderscore(t_relation->getG2());
     default:
       return false;
   }
 
-  if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
+  if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {
     return true;
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation.getG1(), t_relation.getG2())
-    && QueryUtil::isUnderscore(t_relation.getG2())) {
+  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG2())) {
     return true;
-  } else if (QueryUtil::hasOneRightSynonym(t_relation.getG1(), t_relation.getG2())
-    && QueryUtil::isUnderscore(t_relation.getG1())) {
+  } else if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG1())) {
     return true; 
   }
 

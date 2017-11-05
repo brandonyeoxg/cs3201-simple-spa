@@ -23,15 +23,17 @@ public:
 
   void cache(Clause t_clause, SET_OF_RESULTS t_results);
 
-  bool isCacheable(Clause t_clause);
+  bool isCacheable(Clause *t_clause);
+
+  
 
   std::string getKey(Clause &t_clause);
 
 private:
   std::unordered_map<std::string, SET_OF_RESULTS> m_cache;
 
-  bool isPatternCacheable(Pattern t_pattern);
-  bool isRelationCacheable(Relation t_relation);
+  bool isPatternCacheable(Pattern *t_pattern);
+  bool isRelationCacheable(Relation *t_relation);
 
   
   std::string getKeyWithPattern(Pattern t_pattern);
