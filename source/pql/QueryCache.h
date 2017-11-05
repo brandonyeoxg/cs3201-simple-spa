@@ -19,9 +19,9 @@ class QueryCache {
 public:
   QueryCache();
 
-  SET_OF_RESULTS getCache(Clause t_clause);
+  SET_OF_RESULTS getCache(Clause *t_clause);
 
-  void cache(Clause t_clause, SET_OF_RESULTS t_results);
+  void cache(Clause *t_clause, SET_OF_RESULTS t_results);
 
   bool isCacheable(Clause *t_clause);
 

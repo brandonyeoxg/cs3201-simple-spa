@@ -6,20 +6,17 @@ QueryCache::QueryCache() {
   m_cache = std::unordered_map<std::string, SET_OF_RESULTS>();
 }
 
-SET_OF_RESULTS QueryCache::getCache(Clause t_clause) {
+SET_OF_RESULTS QueryCache::getCache(Clause *t_clause) {
 
   return SET_OF_RESULTS();
 }
 
-void QueryCache::cache(Clause t_clause, SET_OF_RESULTS t_results) {
-  assert(t_clause.isPatternType() || t_clause.isRelationType());
+void QueryCache::cache(Clause *t_clause, SET_OF_RESULTS t_results) {
+  assert(t_clause->isPatternType() || t_clause->isRelationType());
+  assert(isCacheable(t_clause));
 
-  if (t_clause.isPatternType()) {  // isPattern
-    Pattern *pattern = (Pattern*) &t_clause;
-
-  } else if (t_clause.isRelationType()) { //isRelation
-    Relation *relation = (Relation*) &t_clause;
-  }
+  std::string key = getKey(*t_clause);
+  m_cache.insert({ key, t_results });
 }
 
 bool QueryCache::isCacheable(Clause *t_clause) {
