@@ -12,20 +12,22 @@ SET_OF_RESULTS QueryCache::getCache(Clause t_clause) {
 }
 
 void QueryCache::cache(Clause t_clause, SET_OF_RESULTS t_results) {
-  if (1) {  // isPattern
+  assert(t_clause.isPatternType() || t_clause.isRelationType());
+
+  if (t_clause.isPatternType()) {  // isPattern
     Pattern *pattern = (Pattern*) &t_clause;
 
-  } else if (1) { //isRelation
+  } else if (t_clause.isRelationType()) { //isRelation
     Relation *relation = (Relation*) &t_clause;
   }
 }
 
 bool QueryCache::isCacheable(Clause t_clause) {
 
-  if (1) {  // isPattern
+  if (t_clause.isPatternType()) {  // isPattern
     Pattern *pattern = (Pattern*)&t_clause;
     return isPatternCacheable(*pattern);
-  } else if (1) { //isRelation
+  } else if (t_clause.isRelationType()) { // isRelation
     Relation *relation = (Relation*)&t_clause;
     return isRelationCacheable(*relation);
   }
@@ -92,15 +94,15 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
 }
 
 std::string QueryCache::getKey(Clause t_clause) {
+  assert(t_clause.isPatternType() || t_clause.isRelationType());
 
-  if (1) {  // isPattern
+  if (t_clause.isPatternType()) {  // isPattern
     Pattern *pattern = (Pattern*)&t_clause;
     return getKeyWithPattern(*pattern);
-  } else if (1) { //isRelation
+  } else if (t_clause.isRelationType()) { //isRelation
     Relation *relation = (Relation*)&t_clause;
+    return getKeyWithRelation(*relation);
   }
-
-  return std::string();
 }
 
 std::string QueryCache::getKeyWithPattern(Pattern t_pattern) {
