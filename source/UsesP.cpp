@@ -16,7 +16,7 @@ void UsesP::insertUsesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varN
     std::vector<VAR_NAME> tempV = { t_varName };
     LIST_OF_VAR_INDICES tempVarIndices = { t_varIdx };
     m_procToVarNames.emplace(t_procIdx, tempV);
-    m_procToVarIndices.emplace(t_procIdx, t_varIdx);
+    m_procToVarIndices.emplace(t_procIdx, tempVarIndices);
     return;
   }
   for (auto& vItr : mItr->second) {
@@ -46,8 +46,8 @@ void UsesP::insertUsesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR_INDEX t
 
 void UsesP::insertUsesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName, PROC_INDEX t_procIdx) {
   auto vItr = m_varToProcNames.find(t_varIdx);
-  auto iterator = m_varToProcIndices.find(t_procIdx);
-  if (vItr == m_varToProcNames.end()) {
+  auto iterator = m_varToProcIndices.find(t_varIdx);
+  if (vItr == m_varToProcNames.end() && iterator == m_varToProcIndices.end()) {
     std::vector<PROC_NAME> tempV = { t_procName };
     LIST_OF_PROC_INDICES tempProcIndices = { t_procIdx };
     m_varToProcNames.emplace(t_varIdx, tempV);
