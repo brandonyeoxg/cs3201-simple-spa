@@ -610,15 +610,25 @@ public:
   BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx);
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
+  MAP_OF_PROC_INDICES getAllCallsByIdx();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
   LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_INDICES getCallsAnythingByIdx();
   LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+  LIST_OF_PROC_INDICES getCallsStarAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx();
   BOOLEAN hasCallsRelationship();  //calls(_, _)
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
