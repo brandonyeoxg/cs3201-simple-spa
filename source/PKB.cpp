@@ -369,9 +369,14 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmts() {
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllVarNameWithAssignStmt() {
   return m_assignTable->getAllAssignVarNameWithStmtNum();
 }
-
+MAP_OF_VAR_INDEX_TO_STMT_NUMS PKB::getAllVarIndicesWithAssignStmt() {
+  return m_assignTable->getAllAssignVarIndexWithStmtNum();
+}
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
   return m_assignTable->getAllAssignStmtWithVar();
+}
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarIndex() {
+  return m_assignTable->getAllAssignStmtWithVarByIdx();
 }
 
 ///////////////////////////////////////////////////////

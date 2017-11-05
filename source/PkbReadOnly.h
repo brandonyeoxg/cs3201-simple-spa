@@ -301,13 +301,14 @@ public:
   * The representation is a variable mapped to all statement number under that variable.
   */
   virtual MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt() = 0;
-
+  virtual MAP_OF_VAR_INDEX_TO_STMT_NUMS getAllVarIndicesWithAssignStmt() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarIndex() = 0;
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
