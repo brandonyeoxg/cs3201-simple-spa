@@ -5,7 +5,6 @@ void CallsExtractor::extractDesign() {
   populateCalledByStarMap();
   //Need to populate the calls* relationships first, so that the indices version can be populated in the below method.
   populateCallsIdx();
-  //
 }
 void CallsExtractor::populateCallsIdx() {
   CallsTable* callsTable = m_pkb->getCallsTable();
