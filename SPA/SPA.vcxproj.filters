@@ -241,6 +241,9 @@
     <ClCompile Include="..\source\QueryOptimiser.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Clause.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">

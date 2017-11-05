@@ -15,6 +15,7 @@ std::string Relation::NXT_ = "Next*";
 std::string Relation::AFS = "Affects";
 std::string Relation::AFS_ = "Affects*";
 
+queryType::clauseType Relation::getClauseType() { return queryType::clauseType::RELATION;  }
 queryType::RType Relation::getType() { return m_type; }
 Grammar Relation::getG1() { return m_g1; }
 Grammar Relation::getG2() { return m_g2; }
