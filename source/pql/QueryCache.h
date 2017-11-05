@@ -25,7 +25,7 @@ public:
 
   bool isCacheable(Clause t_clause);
 
-  std::string getKey(Clause t_clause);
+  std::string getKey(Clause &t_clause);
 
 private:
   std::unordered_map<std::string, SET_OF_RESULTS> m_cache;

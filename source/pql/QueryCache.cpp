@@ -93,11 +93,11 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
   return false;
 }
 
-std::string QueryCache::getKey(Clause t_clause) {
+std::string QueryCache::getKey(Clause &t_clause) {
   assert(t_clause.isPatternType() || t_clause.isRelationType());
 
   if (t_clause.isPatternType()) {  // isPattern
-    Pattern *pattern = (Pattern*)&t_clause;
+    Pattern *pattern = (Pattern*) &t_clause;
     return getKeyWithPattern(*pattern);
   } else if (t_clause.isRelationType()) { //isRelation
     Relation *relation = (Relation*)&t_clause;
