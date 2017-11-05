@@ -66,29 +66,29 @@ Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
 }
 
 STRING Relation::getTypeInString() {
-  if (m_type = queryType::RType::FOLLOWS) {
+  if (m_type == queryType::RType::FOLLOWS) {
     return FLS;
-  } else if (m_type = queryType::RType::FOLLOWS_) {
+  } else if (m_type == queryType::RType::FOLLOWS_) {
     return FLS_;
-  } else if (m_type = queryType::RType::PARENT) {
+  } else if (m_type == queryType::RType::PARENT) {
     return PRT;
-  } else if (m_type = queryType::RType::PARENT_) {
+  } else if (m_type == queryType::RType::PARENT_) {
     return PRT_;
-  } else if (m_type = queryType::RType::USES) {
+  } else if (m_type == queryType::RType::USES) {
     return USE;
-  } else if (m_type = queryType::RType::MODIFIES) {
+  } else if (m_type == queryType::RType::MODIFIES) {
     return MDF;
-  } else if (m_type = queryType::RType::CALLS) {
+  } else if (m_type == queryType::RType::CALLS) {
     return CLS;
-  } else if (m_type = queryType::RType::CALLS_) {
+  } else if (m_type == queryType::RType::CALLS_) {
     return CLS_;
-  } else if (m_type = queryType::RType::NEXT) {
+  } else if (m_type == queryType::RType::NEXT) {
     return NXT;
-  } else if (m_type = queryType::RType::NEXT_) {
+  } else if (m_type == queryType::RType::NEXT_) {
     return NXT_;
-  } else if (m_type = queryType::RType::AFFECTS) {
+  } else if (m_type == queryType::RType::AFFECTS) {
     return AFS;
-  } else if (m_type = queryType::RType::AFFECTS_) {
+  } else if (m_type == queryType::RType::AFFECTS_) {
     return AFS_;
   }
 
