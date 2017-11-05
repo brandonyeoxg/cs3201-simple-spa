@@ -47,7 +47,7 @@ void ModifiesP::insertModifiesWithProcAsKeyWithVarHash(PROC_INDEX t_procIdx, VAR
 void ModifiesP::insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName, PROC_INDEX t_procIdx) {
   auto vItr = m_varToProcNames.find(t_varIdx);
   auto iterator = m_varToProcIndices.find(t_varIdx);
-  if (vItr == m_varToProcNames.end() && iterator == m_varToProcIndices.end()) {
+  if (vItr == m_varToProcNames.end() || iterator == m_varToProcIndices.end()) {
     std::vector<PROC_NAME> tempV = { t_procName };
     LIST_OF_PROC_INDICES tempProcIndices = { t_procIdx };
     m_varToProcNames.emplace(t_varIdx, tempV);
