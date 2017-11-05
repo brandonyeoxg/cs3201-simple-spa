@@ -34,20 +34,12 @@ public:
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(_,12)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result);
 
-  /**
-  * A helper method to obtain the list of statements of a procedure from a particular statement number that resides in the procedure.
-  * It will return the vector of stmts that belongs to that procedure.
-  * @param t_t_stmtNum a statement number that belongs to the target procedure.
-  * @return a vector of stmts that belongs to the target procedure.
-  */
-  LIST_OF_STMT_NUMS getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum);
-
   ///////////////////////////////////////////////////////
   //  Affects* Extractor
   ///////////////////////////////////////////////////////
-  SET_OF_AFFECTS extractAllAffectsStar(); // affects*(a1,a2)
-  LIST_OF_AFFECTS_STMTS extractAffectsStar(STMT_NUM t_modifiesLine); // affects*(2,a)
-  LIST_OF_AFFECTS_STMTS extractAffectedByStar(STMT_NUM t_usesLine); // affects*(a,12)
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS extractAllAffectsStar(); // affects*(a1,a2)
+  LIST_OF_AFFECTS_STMTS extractAffectedByStar(STMT_NUM t_modifiesLine); // affects*(2,a)
+  LIST_OF_AFFECTS_STMTS extractAffectsStar(STMT_NUM t_usesLine); // affects*(a,12)
   BOOLEAN extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine); // affects*(1,12)
   BOOLEAN extractHasAffectsRelationshipStar(); // affects*(_,_)
   LIST_OF_AFFECTS_STMTS extractAffectsAnythingStar();  // affects*(a,_)
@@ -57,5 +49,13 @@ public:
 
 private:
   AffectsTable *m_affectsTable;
+
+  /**
+  * A helper method to obtain the list of statements of a procedure from a particular statement number that resides in the procedure.
+  * It will return the vector of stmts that belongs to that procedure.
+  * @param t_t_stmtNum a statement number that belongs to the target procedure.
+  * @return a vector of stmts that belongs to the target procedure.
+  */
+  LIST_OF_STMT_NUMS getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum);
 };
 

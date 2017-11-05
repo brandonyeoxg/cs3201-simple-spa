@@ -11,7 +11,7 @@ bool ModifiesEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar
       //std::cout << "Does not Modifies Anything!\n";
       return false;
     }
-  } else if (t_g1.getType() == queryType::GType::STR && t_g2.getName() == OPERATOR_UNDERSCORE) {
+  } else if (t_g1.getType() == queryType::GType::STR && StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isModifiesInProc(t_g1.getName())) {
       //std::cout << "Is Modifies Anything!\n";
       return true;
@@ -69,7 +69,7 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramm
 SET_OF_RESULTS ModifiesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getName() != OPERATOR_UNDERSCORE) {
+  if (!StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
       std::vector<std::string> stmtVector = t_pkb->getModifiesPProcNamesWithVarIdx(t_g2.getName());
       if (stmtVector.empty()) {
@@ -88,7 +88,7 @@ SET_OF_RESULTS ModifiesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Gramma
         m_result[t_g1.getName()] = stmtStrVector;
       }
     }
-  } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
       std::vector<std::string> stmtVector = t_pkb->getModifiesPAllProcNames();
       if (stmtVector.empty()) {

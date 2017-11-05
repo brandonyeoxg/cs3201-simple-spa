@@ -5,7 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "GlobalTypeDef.h"
 #include "Grammar.h"
+#include "Clause.h"
 
 #ifndef PATTERN_H
 #define PATTERN_H
@@ -14,7 +16,7 @@
 *  @author Verbena Ong
 *  @date 09/09/2017
 */
-class Pattern {
+class Pattern : public Clause {
 public:
 
   /**
@@ -31,6 +33,8 @@ public:
   * @param t_subtree is a boolean determining if the statement can be a sub-expression of or has to be an exact match as m_right
   */
   Pattern(Grammar t_statement, Grammar t_left, Grammar t_right, bool t_subtree);
+
+  queryType::clauseType getClauseType();
 
   /**
   * A Getter that returns the type of statement of the pattern clause as a Grammar object.

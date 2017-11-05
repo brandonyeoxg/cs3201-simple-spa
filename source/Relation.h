@@ -2,16 +2,17 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-#include "Grammar.h"
 #include <string>
+
 #include "GlobalTypeDef.h"
+#include "Grammar.h"
+#include "Clause.h"
 
 /**A class representing the "Such That" clause of a query.
 *  @author Ryan Tan
 *  @date 26/08/2017
 */
-class Relation
-{
+class Relation : public Clause {
 public:
   /**
   * Default constructor.
@@ -26,6 +27,8 @@ public:
   * @param t_g2 is the second Grammar object of the Design Abstraction. The returned Grammar object is the second one used by the Design Abstraction. e.g. Follows(1, m_g2)
   */
   Relation(std::string t_type, Grammar t_g1, Grammar t_g2);
+
+  queryType::clauseType getClauseType();
 
   /**
   * A Getter that returns the type of this Relation object.

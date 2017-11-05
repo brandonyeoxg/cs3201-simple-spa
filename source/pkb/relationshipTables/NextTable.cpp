@@ -1,3 +1,5 @@
+#pragma once
+
 #include "NextTable.h"
 
 NextTable::NextTable() {
@@ -57,7 +59,7 @@ bool NextTable::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   }
 
   // check Next() relationship first, faster termination if true
-  if (m_isNextTable.at(t_line1).at(t_line2)) {
+  if (isNext(t_line1, t_line2)) {
     return true;
   }
 

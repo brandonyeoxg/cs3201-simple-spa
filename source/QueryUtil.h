@@ -6,6 +6,7 @@
 #include <list>
 #include <vector>
 #include <unordered_map>
+#include <queue>
 
 #include "GlobalTypeDef.h"
 #include "Grammar.h"
@@ -60,7 +61,7 @@ public:
   static bool hasTwoSynonyms(Grammar t_g1, Grammar t_g2);
 
   /**
-  * A public function to check if the pattern clause is anything with any pattern.
+  * A public function to check if the pattern clause is anything with any pattern (_, _).
   * Given the pattern parameters, it will check if both parameters are underscores.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
   * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
@@ -69,7 +70,7 @@ public:
   static bool isAnythingWithAnyPattern(Grammar t_g1, Grammar t_g2);
 
   /**
-  * A public function to check if the pattern clause is anything with an exact pattern.
+  * A public function to check if the pattern clause is anything with an exact pattern (_, "x").
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is true.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -81,7 +82,7 @@ public:
   static bool isAnythingWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
   /**
-  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * A public function to check if the pattern clause is anything with a non-exact pattern (_, _"x"_).
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is false.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -93,7 +94,7 @@ public:
   static bool isAnythingWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
   /**
-  * A public function to check if the pattern clause is anything with any pattern.
+  * A public function to check if the pattern clause is a variable string with any pattern ("x", _).
   * Given the pattern parameters, it will check if both parameters are underscores.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
   * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
@@ -102,7 +103,7 @@ public:
   static bool isVarWithAnyPattern(Grammar t_g1, Grammar t_g2);
 
   /**
-  * A public function to check if the pattern clause is anything with an exact pattern.
+  * A public function to check if the pattern clause is a variable string with an exact pattern ("x", "x").
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is true.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -114,7 +115,7 @@ public:
   static bool isVarWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
   /**
-  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * A public function to check if the pattern clause is a variable string with a non-exact pattern ("x", _"x"_).
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is false.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -126,7 +127,7 @@ public:
   static bool isVarWithSubPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
   /**
-  * A public function to check if the pattern clause is anything with any pattern.
+  * A public function to check if the pattern clause is a variable synonym with any pattern (v, _).
   * Given the pattern parameters, it will check if both parameters are underscores.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
   * @param t_g2 A grammar object which holds the second parameter of a pattern clause.
@@ -135,7 +136,7 @@ public:
   static bool isSynonymWithAnyPattern(Grammar t_g1, Grammar t_g2);
 
   /**
-  * A public function to check if the pattern clause is anything with an exact pattern.
+  * A public function to check if the pattern clause is a variable synonym with an exact pattern (v, "x").
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is true.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -147,7 +148,7 @@ public:
   static bool isSynonymWithExactPattern(Grammar t_g1, Grammar t_g2, bool t_isExact);
 
   /**
-  * A public function to check if the pattern clause is anything with a non-exact pattern.
+  * A public function to check if the pattern clause is a variable synonym with a non-exact pattern (v, _"x"_).
   * Given the pattern parameters, it will check if the first parameter is underscore
   * and the second parameter is a string and the third parameter is false.
   * @param t_g1 A grammar object which holds the first parameter of a pattern clause.
@@ -167,4 +168,14 @@ public:
   * else return false if the synonym is used only once in the query.
   */
   static bool isSynonymCommon(MAP_OF_SYNONYMS_TO_COUNTS t_synMap, STRING t_synonym);
+
+  /**
+  * A public function to check if the synonym is selected.
+  * Check if the synonyn is a synonym selected in the select clause.
+  * @param t_selects the queue of selected synonyms to check whether t_synonym is a selected synonym.
+  * @param t_synonym the synonym to check if it is selected.
+  * @return true if the synonym is selected in the query
+  * else return false if the synonym is not selected in the query.
+  */
+  static bool isSynonymSelected(std::queue<Grammar> t_selects, STRING t_synonym);
 };

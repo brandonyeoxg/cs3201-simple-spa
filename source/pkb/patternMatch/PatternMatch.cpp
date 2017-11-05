@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PatternMatch.h"
 
 PatternMatch::PatternMatch() {

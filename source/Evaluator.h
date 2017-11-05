@@ -8,6 +8,7 @@
 #include "PkbReadOnly.h"
 #include "Grammar.h"
 #include "EvaluatorUtil.h"
+#include "StringUtil.h"
 
 class Evaluator {
 public:

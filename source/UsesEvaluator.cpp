@@ -3,7 +3,7 @@
 #include "UsesEvaluator.h"
 
 bool UsesEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g1.getType() == queryType::GType::STMT_NO && t_g2.getName() == OPERATOR_UNDERSCORE) {
+  if (t_g1.getType() == queryType::GType::STMT_NO && StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isUsesAnything(std::stoi(t_g1.getName()))) {
       //std::cout << "Is Uses Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool UsesEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g
       //std::cout << "Does not Uses Anything!\n";
       return false;
     }
-  } else if (t_g1.getType() == queryType::GType::STR && t_g2.getName() == OPERATOR_UNDERSCORE) {
+  } else if (t_g1.getType() == queryType::GType::STR && StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isUsesInProc(t_g1.getName())) {
       //std::cout << "Is Uses Anything!\n";
       return true;
@@ -69,7 +69,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t
 SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  if (t_g2.getName() != OPERATOR_UNDERSCORE) {
+  if (!StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
       std::vector<std::string> stmtVector = t_pkb->getUsesPProcNamesWithVarIdx(t_g2.getName());
       if (stmtVector.empty()) {
@@ -88,7 +88,7 @@ SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
         m_result[t_g1.getName()] = stmtStrVector;
       }
     }
-  } else if (t_g2.getName() == OPERATOR_UNDERSCORE) {
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
       std::vector<std::string> stmtVector = t_pkb->getUsesPAllProcNames();
       if (stmtVector.empty()) {

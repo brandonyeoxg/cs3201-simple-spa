@@ -15,6 +15,7 @@ const std::string OPERATOR_MINUS = "-";
 const std::string OPERATOR_PLUS = "+";
 const std::string OPERATOR_UNDERSCORE = "_";
 const std::string OPERATOR_EQUAL = "=";
+const std::string WHITESPACE = " ";
 
 const std::string BRACKET_OPEN = "(";
 const std::string BRACKET_CLOSE = ")";
@@ -23,6 +24,8 @@ const std::string EMPTY_LINE = "";
 
 const std::string TRUE = "true";
 const std::string FALSE = "false";
+
+const std::string ASTERISK = "*";
 
 /*Data Types*/
 typedef bool BOOLEAN;
