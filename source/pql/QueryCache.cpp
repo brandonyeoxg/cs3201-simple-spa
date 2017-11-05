@@ -14,7 +14,7 @@ SET_OF_RESULTS QueryCache::getCache(Clause t_clause) {
 void QueryCache::cache(Clause t_clause, SET_OF_RESULTS t_results) {
   if (1) {  // isPattern
     Pattern *pattern = (Pattern*) &t_clause;
-    //pattern->getStmt().getType()
+
   } else if (1) { //isRelation
     Relation *relation = (Relation*) &t_clause;
   }
@@ -89,4 +89,54 @@ bool QueryCache::isRelationCacheable(Relation t_relation) {
   }
 
   return false;
+}
+
+std::string QueryCache::getKey(Clause t_clause) {
+
+  if (1) {  // isPattern
+    Pattern *pattern = (Pattern*)&t_clause;
+    return getKeyWithPattern(*pattern);
+  } else if (1) { //isRelation
+    Relation *relation = (Relation*)&t_clause;
+  }
+
+  return std::string();
+}
+
+std::string QueryCache::getKeyWithPattern(Pattern t_pattern) {
+  std::string key = "Pattern_";
+
+  switch (t_pattern.getStmt().getType()) {
+    case queryType::GType::WHILE:
+      key += "While";
+      break;
+    case queryType::GType::IF:
+      key += "If";
+      break;
+    case queryType::GType::ASGN:
+      key += "Assign";
+      break;
+  }
+
+  return key;
+}
+
+std::string QueryCache::getKeyWithRelation(Relation t_relation) {
+  std::string key = t_relation.getTypeInString();
+
+  key += getKeyWithGrammar(t_relation.getG1());
+  key += getKeyWithGrammar(t_relation.getG2());
+
+  return key;
+}
+
+std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
+
+  if (QueryUtil::isSynonym(t_grammar)) {
+    return "s";
+  } else if (QueryUtil::isUnderscore(t_grammar)) {
+    return "_";
+  } else {
+    assert(false);  // should be either synonym or underscore only
+  }
 }

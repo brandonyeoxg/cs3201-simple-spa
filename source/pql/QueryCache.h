@@ -25,11 +25,18 @@ public:
 
   bool isCacheable(Clause t_clause);
 
+  std::string getKeyWithPattern(Pattern t_pattern);
+  std::string getKeyWithRelation(Relation t_relation);
+
 private:
   std::unordered_map<std::string, SET_OF_RESULTS> m_cache;
 
   bool isPatternCacheable(Pattern t_pattern);
   bool isRelationCacheable(Relation t_relation);
+
+  std::string getKey(Clause t_clause);
+  
+  std::string getKeyWithGrammar(Grammar t_grammar);
 
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNext = nullptr;      /**< Next(l1, l2) */
   MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES *m_allNextStar = nullptr;  /**< Next*(l1, l2) */
