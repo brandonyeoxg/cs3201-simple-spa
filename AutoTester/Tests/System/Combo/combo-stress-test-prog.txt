@@ -1,0 +1,1169 @@
+procedure L1am4{
+  while hg{
+    pressure=max;
+    Phy51c5=SuX+2*m4x;
+    if c4rtto0n then{
+      call C0W;
+      call cH1ck3N;}
+    else{
+      call A1P4ca;}
+    call P1G;}
+}
+
+procedure A1P4ca{
+  while Yzm4{
+    th3P015On=CuzC0;
+    if CuzC0 then{
+      while g4z0rpAZoRp{
+        Las4GnA=v3gEt4r14N;
+        call b4B00n;
+        if b1gM15t4k3 then{
+          call W34531;}
+        else{
+          call Br4v0;}}}
+    else{
+      call p0w3rPufF;}
+    wUt=m*I+w4tcH1nG;}
+}
+
+procedure p1G{
+  I=m+P1gGy;
+  if smart then{
+    if useful then{
+      call W34531;}
+    else{
+      while annoyed{
+        call cH1ck3N;
+        if st111AnN0y3d then{
+          call cH1ck3n;
+          if st111AnN0y3d then{
+            call cH1ck3n;
+            if st111AnN0y3d then{
+              call cH1ck3n;
+              if st111AnN0y3d then{
+                call cH1ck3n;}
+              else{
+                give=up;}}
+            else{
+              give=give+up;}}
+          else{
+            give=give*up;}}
+        else{
+          give=give-up;}}}}
+  else{
+    if super then{
+      call C0W;
+      if st111AnN0y3d then{
+        call C0W;
+        if st111AnN0y3d then{
+          call C0W;
+          if st111AnN0y3d then{
+            call C0W;
+            if st111AnN0y3d then{
+              call C0W;}
+            else{
+              give=up;}}
+          else{
+            give=give+up;}}
+        else{
+          give=give*up;}}
+      else{
+        give=give-up;}}
+    else{
+      call b4B00n;}}
+}
+
+procedure C0W{
+  L1tT13=s1sT3r;
+  b1G=Br0Th3R;
+  call cH1ck3N;
+}
+
+procedure cH1ck3N{
+  c0CK=4+d00d13-D0o;
+}
+
+procedure W34531{
+  W41k=oN*w4t3R;
+  cR15iS=fURry+j35us;
+  call b4B00n;
+  call p0w3rPufF;
+}
+
+procedure b4B00n{
+  m=Not-Monk3y;
+}
+
+procedure Br4v0{
+  Hoo=Ha+Hu;
+  h3Y=tH3r3;
+  l1l=m4Ma;
+  cat=cat-call;
+  call p0w3rPufF;
+}
+
+procedure p0w3rPufF{
+  p3Rf3Ct=L1tT13+g1RLs;
+  p3Rf3Ct=sUg4R*Sp1c3*eV3ryTh1nG+N1Ce;
+}
+
+procedure Llama{
+  while i{
+    if j then{
+      a=a+1;
+      call Alpaca;
+      b=c+2;
+      c=78;}
+    else{
+      d=f-e;
+      f=d*e;}}
+  call Pajama;
+}
+
+procedure Alpaca{
+  call Obama;
+  emperor=emperor-new*groove;
+}
+
+procedure Pajama{
+  President=orange;
+  call Alapaca;
+}
+
+procedure Obama{
+  Bush=9*11;
+}
+
+procedure A1aTr3oN{
+  while iNv1nciB1e{
+    aTt4cC=1;}
+  if JumP then{
+    while d41AmaDuR{
+      call B0ar;
+      if eTh3r then{
+        call C4ed3U5;}
+      else{
+        call D1n0SauR;}}}
+  else{
+    b4TtL3=2;
+    call B0ar;}
+}
+
+procedure B0ar{
+  cU1L=3;
+  call C4ed3U5;
+}
+
+procedure C4ed3U5{
+  call D1n0SauR;
+  if A1aTr3oN then{
+    call D1n0SauR;}
+  else{
+    while B0ar{
+      if D1n0SauR then{
+        C4ed3U5=cU1L+1;}
+      else{
+        while C4ed3U5{
+          while A1aTr3oN{
+            call D1n0SauR;
+            call D1n0SauR;
+            D1n0SauR=aTt4cC+b4TtL3;
+            b4TtL3=cU1L- C4ed3U5;}}}}}
+}
+
+procedure D1n0SauR{
+  D1n0SauR=aTt4cC+b4TtL3*cU1L- C4ed3U5;
+  aTt4cC=((((((iNv1nciB1e)))+b4TtL3))*cU1L) - ((C4ed3U5));
+  d41AmaDuR = cU1L- (C4ed3U5 + b4TtL3)*D1n0SauR;
+}
+
+procedure A66eRAt10n{
+  while inF35tOr{
+    a1Ar4K=1;
+    if HyDR4l1Sk then{
+      call bRo0dLoRD;}
+    else{
+      Br0ODlInG=2;}}
+}
+
+procedure bRo0dLoRD{
+  Z3rgLiNg=3;
+  call uLtR4115k;
+  MuT41isk=4;
+}
+
+procedure uLtR4115k{
+  eNt4ro=5;
+}
+
+procedure NyDu5{
+  while Z3rgLiNg{
+    call Ru5H;
+    while HyDR4l1Sk{
+      r04Ch = r04Ch * (((10 + 20)));
+      if Br0ODlInG then{
+        call h1V3;}
+      else{
+        MuT41isk = 2*(((((MuT41isk) + MuT41isk)*MuT41isk)-MuT41isk)*4);
+        call Ru5H;
+        while a1Ar4K{
+          call Ru5H;
+          while inF35tOr{
+            call Ru5H;}}
+        call Ru5H;}
+      call Ru5H;
+      call Ru5H;}}
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call h1V3;
+  call Ru5H;
+}
+
+procedure h1V3{
+  qU3En = qU3En + 2;
+  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
+  call Ru5H;
+}
+
+procedure Ru5H{
+  while eNt4ro{
+    Z3rgLiNg = Z3rgLiNg * (Z3rgLiNg + Z3rgLiNg) - (Z3rgLiNg + (2-3)*Z3rgLiNg);
+    a1Ar4K = a1Ar4K-1;
+    eNt4ro = eNt4ro-1;
+    Z3rgLiNg = 0;}
+}
+
+procedure Alexander{
+  How = does*a*bas+ard*orphan*son+of+a+wh-re+scotsman;
+  dropped = in*the*middle*of*a;
+  forgotten = spot*in*the+caribbean;
+  By = providence*impoverished+squalor;
+  Grow = up*to*be*a*Hero+Scholar;
+  if tenDollar then{
+    founding = father-father;
+	gotALot = farther;}
+  else{
+	working = a*lot*harder;
+	beingALot= smarter;
+	byBeing = a*selfStarter;
+	By = 14;}
+  They = placed*him*in*charge*of+trading-charter;
+  while slaves{
+    slaves = slaughtered + cartedAway;
+	AcrossTheWaves = struggled+keptHisGuardUp;
+	inside = longing*something+to+be+aPartOf;
+	brother = beg*steal+borrow+barter;}
+  Hurricane = came;
+  Man = Man - devastation;
+  while Hurricane{
+    future = future-1;}
+  temple = pen;
+  brain = pen;
+  testament = 2+pain;
+  while wordGoesAround{
+    kid = insane;
+	bookCollection = to*Mainland;
+	Education = Education +1;
+	World = know*your+name;
+	Whats = your + name;}
+  name = Alexander + Hamilton;
+  myName = Alexander + Hamilton;
+  haventDone = 1000000*things;
+  Just = you *wait;
+  Just = you * wait;
+  while ten{
+    father=split;
+	father = full*of*it;
+	debt=ridden;
+	if twoYears then{
+	  halfDead = Alex + Mother;
+	  sitting = sick;
+	  scent = thick;}
+	else{
+	  Alex = got+better;
+	  Mother = went-quick;}}
+  cousin = movedIn;
+  cousin = su1cId3;
+  Left=ruined*pride;
+  voice=Alex+you*got*to*fend*for*yourself;
+  started = retreating+reading*everything*thats*on*his*shelf;
+  lessAstute = Nothing + Left + To + do;
+  he = dead+destitute-senseOfRestitution;
+  while working{
+    boss = LateMothers+landlord;
+	trading=sugarcane+rum+allTheThings*he*cantAfford;}
+  scammin = every*book*he+can+get+his+hands+on;
+  plannin = for+future;
+  stands = bow+of*aShip;
+  NewYork = you*can*be+a+New*Man;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = you*can*be+a+New*Man;
+  Just = you * wait;
+  NewYork = NewYork;
+  Just = you * wait;
+  Alexander = Hamilton;
+  wings = waiting*for+you;
+  you = never*back*down;
+  you = never*learnt+2+take+your+time;
+  Alexander = Hamilton;
+  alexander = hamilton;
+  AmericaSings = for*you;
+  will = they *know*what*you*overcame;
+  will=they+know+you+rewrote+the+game;
+  TheWorld= Will - BeTheSame;
+  Ship = harbour+now;
+  see = you*can+spot+him;
+  anotherImmigrant = 0+1;
+  rep = rep - enemies;
+  America = America - him;
+  We = fought*with*him;
+  Me = I+died+for*him;
+  Me = I*trusted*him;
+  Me = I*Loved+him;
+  AndMe = Im*the+damn*fool+that+shot*him;
+  haventDone = 1000000*things;
+  Just = you * wait;
+  Whats = your + name * man;
+  Alexander = Hamilton;
+}
+
+procedure RightHandMan{
+  Howe = British+Admiral;
+  Howe = troops+on+the*water;
+  NewYorkHarbor = 32000*troops;
+  NewYorkHarbor = 32000*troops;
+  When = they+surround+troops;
+  As = they*surround*troops;
+  When = they+surround+troops;
+  As = they*surround*troops;
+  As = kid + in * Caribbean;
+  kid = wish*war;
+  kid = poor;
+  war = only + way + to + rise*up;
+  if tellMyStory then{
+    kid = (die+on+the+battlefield)*(in+glory);}
+  else{
+    kid = rise*up;}
+  kid = fight+for+this*land;
+  oneMan = give+us+the*command;
+  we = rise*up;
+  understand=only*way+rise*up;
+  we=rise*up;
+  Here=he+comes;
+  Here=comes+the*general;
+  and = Ladies + Gentlemen;
+  Here=comes+the*general;
+  moment = you+been+for;
+  Here=comes+the*general;
+  pride= mount*Vernon;
+  Here=comes+the*general;
+  General = George*Washington;
+  WeAre = Outgunned;
+  WeAre = Outmanned;
+  WeAre = Outnumbered;
+  WeAre = Outplanned;
+  We = make+an+all*out*stand;
+  General=need+Right*Hand*Man;
+  while beReal{
+    beReal = second;
+    beReal = millisecond;
+    guard = guard-1;
+    people = how+I+feel+a*second;}
+  General = model+of+the+modern*major*general;
+  General = venerated*Virginian*Veteran;
+  men = lining + up;
+  Pedestal = General;
+  writing = letter*2*relatives;
+  embellishing = General*(elegance+eloquence);
+  room = elephant;
+  face=truth;
+  BritishCannons = BOOM;
+  fleeting=hope*success;
+  while leading{
+    leading=leading-people*retreating;}
+  bleeding = 0;
+  Brooklyn=British;
+  rook=rook-knight;
+  WeAre = Outgunned;
+  WeAre = Outmanned;
+  WeAre = Outnumbered;
+  WeAre = Outplanned;
+  We = make+an+all*out*stand;
+  General=need+Right*Hand*Man;
+  incoming = INCOMING;
+  while batteringBattery{
+    if damages then{
+      We=stop*them;}
+    else{
+      We=rob*them;
+      them=them-advantages;}}
+  We = take+a*stand;
+  stamina=God*granted;
+  Hamilton = 0*abandon*ship;
+  Hamilton = steal*BrittishCannon+shoot;
+  BrittishCannon=BOOM;
+  spray = blood +sh1t;
+  BrittishCannon=BOOM;
+  abandon=Kips*Bay;
+  BrittishCannon=BOOM;
+  goes=another+ship;
+  BrittishCannon=BOOM;
+  lost=SouthernTip;
+  BrittishCannon=BOOM;
+  Harlem=run*quick;
+  slip=cant*afford;
+  giddyUp=guns+horses;
+  General = divvy*forces;
+  forces=skittish;
+  British=cut+city+up;
+  close=giving*up;
+  General=facing+mad*scrutiny;
+  General=scream*in+the*face+of+this*mass*mutiny;
+  men=with+General;
+  men = defend*America;
+  ride = midnight;
+  manhattan = in*the*distance;
+  everywhere=0-at*once;
+  assistance=dire*need;
+}
+
+procedure GunsAndShips{
+  army=ragtag+volunteer+in*need*ofAShower;
+  superpower=global*superpower-army;
+  quagmire=victorious;
+  battlfield=battlefield-army;
+  higher =Betsy*Ross*Flag;
+  secretWeapon=immigrant;
+  immigrant=unafraid+to+step*in;
+  British=British-immigrant*confusing*confounding;
+  Frenchman = favourite*fighting+give*it*up;
+  Frenchman = Lafayette;
+  horse = by*reins;
+  redcoats = redcoats+red*bl00dst41ns;
+  Frenchman = Lafayette;
+  Frenchman = 0*stop;
+  British=British-Frenchman;
+  British=British-Frenchman*100000;
+  Frenchman = Lafayette;
+  Frenchman=engaging*British;
+  Frenchman=escaping*British;
+  Frenchman=enraging*British;
+  Frenchman = Lafayette;
+  France = Frenchman + funds;
+  Frenchman = France + guns + ships;
+  balance = balance + 100;
+  Rochambeau = rendezvouz;
+  consolidate=gifts;
+  Yorktown = war*end;
+  sea=cut*off;
+  succeed=someone*else+we*need;
+  General = i*know;
+  General = Hamilton;
+}
+
+procedure Yorktown{
+  battle=Yorktown*1781;
+  Lafayette=Monsieur*Hamilton;
+  Hamilton=Monsieur*Lafayette;
+  Lafayette=in*command*where*you*belong;
+  Hamilton=how+you+say+no+sweat;
+  finally=onTheField;
+  had=quite*a+run;
+  immigrants=get+the+job+done;
+  if weWin then{
+    Lafayette=back+to+France;}
+  else{
+    people=Lafayette+freedom;}
+  freedom=Hamilton+Lafayette;
+  Hamilton=lead+your+men;
+  otherSide=see*you;
+  Til=we*meet+again;
+  i=not+throwing+away+my*shot;
+  i=not+throwing+away+my*shot;
+  Hamilton=country;
+  country=young+scrappy+hungry;
+  i=not+throwing+away+my*shot;
+  i=not+throwing+away+my*shot;
+  Til=world*upsideDown;
+  Til=world*upsideDown;
+  i=imagine*death*so*much;
+  death=memory;
+  whereItGetsMe=on+my+feet;
+  whereItGetsMe=enemy*ahead*of*me;
+  if endOfMe then{
+    me=me+friend;}
+  else{
+    me=me+weapon+command+men;}
+  Eliza=expecting*Hamilton;
+  Eliza=expecting;
+  we=gotta+go;
+  gotta=get+the+job+done;
+  gotta=start+new+nation;
+  gotta=meet+my+son;
+  gun=gun-bullets;
+  what=WHAT;
+  gun=gun-bullets;
+  what=WHAT;
+  move=under*cover;
+  move=as+1;
+  night=1+shot+2+live*another*day;
+  cannot=stray*gunshot+give*us*away;
+  fight=up+close;
+  seize=moment;
+  stay=in*it;
+  that=meet*the+business+end*of*a*bayonet;
+  codeword=Rochambeau;
+  Rochambeau=ROCHAMBEAU;
+  you=have+your+orders;
+  now=go*man*go;
+  begins=American*Experiment;
+  friends=scattered+to+the*winds;
+  Laurens=South+Carolina;
+  Laurens=redefining+bravery;
+  while slavery{
+    free=0-free;}
+  British=0;
+  Lafayette=Chesapeake*Bay;
+  plan=would+work;
+  inside=spy;
+  spy=Hercules+Mulligan;
+  Mulligan=tailor+spy+on+British;
+  Mulligan=measurements+information;
+  Mulligan=smuggle;
+}
+
+procedure NonStop{
+  war=over;
+  NewYork=i;
+  war=over;
+  NewYork=i;
+  studies=finished;
+  i=practice*law;
+  i=practice*law;
+  Burr=work*next+door;
+  start=very+same+time;
+  Alexander=Hamilton+1;
+  account=rise+to+the+top;
+  Maaaaaan=man+non*stop;
+  nonstop=NONSTOP;
+  jury=Gentlemen;
+  Hamilton=curious;
+  aware=making+history;
+  first=murder+trial;
+  nation=brand*new;
+  liberty=deliberation;
+  nonstop=NONSTOP;
+  prove=shadow+of+a*doubt;
+  with=assitant*council;
+  council=co-council;
+  Hamilton=sit+down;
+  client=Levi+Weeks;
+  client=innocent;
+  call FirstWitness;
+  hamilton=ok;
+  Hamilton=1+more+thing;
+  assume=smartest+in*the*room;
+  assume=smartest+in*the*room;
+  assume=smartest+in*the*room;
+  soon=attitude;
+  attitude=doom;
+  write=like+running+out+of+time;
+  write=day*and*night+like+running+out+of+time;
+  everyday=fight+like+running+out+of+time;
+  fighting=keep+on+in+the*mean*time;
+  corruption=such+an*old*song;
+  we=can*sing+along*in*harmony;
+  Albany=corruption*1000000;
+  colony=economy*0;
+  economy=0;
+  Hamilton=public+service;
+  call Hamilton;
+}
+
+procedure FirstWitness{
+  First=Witness;
+  Witness=First;
+}
+
+procedure Hamilton{
+  alexander=hamilton;
+  hamilton=alexander;
+  Alexander=Hamilton;
+  Hamilton=Alexander;
+  Alex=Hamilton;
+  Hamilton=Alex;
+}
+
+procedure Conquest{
+  horse = white;
+  weapon = bow;
+  crown = victor;
+  if popCulture then{
+    name = Pestilence;}
+  else{
+    name = Conquest;}
+  while evil{
+    Conquest = AntiChrist;}
+}
+
+procedure GirlsIDated{
+  one = Cry;
+  two = Jul;
+  three = that+crazy*1;
+  four = W-Yi;
+  five = Jia*M;
+  call GirlsILoved;
+}
+
+procedure Famine{
+  horse = black;
+  weapon = scales;
+  if one then{
+    denarius=wheat;}
+  else{
+    denarius=3*barley;}
+  wheat=3*barley+15;
+}
+
+procedure GirlsILoved{
+  one = Ari;
+  two = Azi;
+  three = Cry;
+  call GirlsWhoWereAMistake;
+}
+
+procedure War{
+  horse = red;
+  weapon = sword;
+  if released then{
+    Romans = dead;
+    blood = spilled;}
+  else{
+    flag = Romans*sword;}
+}
+
+procedure GirlsWhoWereAMistake{
+  one = Cry;
+}
+
+procedure STR355TEST{
+  buffer = stress;
+  stress0 = test1;
+  stress1 = test2;
+  stress2 = test3;
+  stress3 = test4;
+  stress4 = test5;
+  stress5 = test6;
+  stress6 = test7;
+  stress7 = test8;
+  stress8 = test9;
+  stress9 = test10;
+  stress10 = test11;
+  stress11 = test12;
+  stress12 = test13;
+  stress13 = test14;
+  stress14 = test15;
+  stress15 = test16;
+  stress16 = test17;
+  stress17 = test18;
+  test0 = stress-1;
+  test1 = stress0;
+  test2 = stress1;
+  test3 = stress2;
+  test4 = stress3;
+  test5 = stress4;
+  test6 = stress5;
+  test7 = stress6;
+  test8 = stress7;
+  test9 = stress8;
+  test10 = stress9;
+  test11 = stress10;
+  test12 = stress11;
+  test13 = stress12;
+  test14 = stress13;
+  test15 = stress14;
+  test16 = stress15;
+  test17 = stress16;
+  test18 = stress17;
+  test19 = stress18;
+  test20 = stress19;
+  buffer17 = generated-18;
+  buffer16 = generated-17;
+  buffer15 = generated-16;
+  buffer14 = generated-15;
+  buffer13 = generated-14;
+  buffer12 = generated-13;
+  buffer11 = generated-12;
+  buffer10 = generated-11;
+  buffer9 = generated-10;
+  buffer8 = generated-9;
+  buffer7 = generated-8;
+  buffer6 = generated-7;
+  buffer5 = generated-6;
+  buffer4 = generated-5;
+  buffer3 = generated-4;
+  buffer2 = generated-3;
+  buffer1 = generated-2;
+  buffer0 = generated-1;
+  buffer1 = generated0;
+  buffer2 = generated1;
+  buffer3 = generated2;
+  buffer4 = generated3;
+  buffer5 = generated4;
+  buffer6 = generated5;
+  buffer7 = generated6;
+  buffer8 = generated7;
+  buffer9 = generated8;
+  buffer10 = generated9;
+  buffer11 = generated10;
+  buffer12 = generated11;
+  buffer13 = generated12;
+  buffer14 = generated13;
+  buffer15 = generated14;
+  buffer16 = generated15;
+}
+
+procedure ThankYouPython{
+    thankYou112 = Python56;
+  thankYou111 = Python57;
+  thankYou110 = Python58;
+  thankYou109 = Python59;
+  thankYou108 = Python60;
+  thankYou107 = Python61;
+  thankYou106 = Python62;
+  thankYou105 = Python63;
+  thankYou104 = Python64;
+  thankYou103 = Python65;
+  thankYou102 = Python66;
+  thankYou101 = Python67;
+  thankYou100 = Python68;
+  thankYou99 = Python69;
+  thankYou98 = Python70;
+  thankYou97 = Python71;
+  thankYou96 = Python72;
+  thankYou95 = Python73;
+  thankYou94 = Python74;
+  thankYou93 = Python75;
+  thankYou92 = Python76;
+  thankYou91 = Python77;
+  thankYou90 = Python78;
+  thankYou89 = Python79;
+  thankYou88 = Python80;
+  thankYou87 = Python81;
+  thankYou86 = Python82;
+  thankYou85 = Python83;
+  thankYou84 = Python84;
+  thankYou83 = Python85;
+  thankYou82 = Python86;
+  thankYou81 = Python87;
+  thankYou80 = Python88;
+  thankYou79 = Python89;
+  thankYou78 = Python90;
+  thankYou77 = Python91;
+  thankYou76 = Python92;
+  thankYou75 = Python93;
+  thankYou74 = Python94;
+  thankYou73 = Python95;
+  thankYou72 = Python96;
+  thankYou71 = Python97;
+  thankYou70 = Python98;
+  thankYou69 = Python99;
+  thankYou68 = Python100;
+  thankYou67 = Python101;
+  thankYou66 = Python102;
+  thankYou65 = Python103;
+  thankYou64 = Python104;
+  thankYou63 = Python105;
+  thankYou62 = Python106;
+  thankYou61 = Python107;
+  thankYou60 = Python108;
+  thankYou59 = Python109;
+  thankYou58 = Python110;
+  thankYou57 = Python111;
+  thankYou56 = Python112;
+  thankYou55 = Python113;
+  thankYou54 = Python114;
+  thankYou53 = Python115;
+  thankYou52 = Python116;
+  thankYou51 = Python117;
+  thankYou50 = Python118;
+  thankYou49 = Python119;
+  thankYou48 = Python120;
+  thankYou47 = Python121;
+  thankYou46 = Python122;
+  thankYou45 = Python123;
+  thankYou44 = Python124;
+  thankYou43 = Python125;
+  thankYou42 = Python126;
+  thankYou41 = Python127;
+  thankYou40 = Python128;
+  thankYou39 = Python129;
+  thankYou38 = Python130;
+  thankYou37 = Python131;
+  thankYou36 = Python132;
+  thankYou35 = Python133;
+  thankYou34 = Python134;
+  thankYou33 = Python135;
+  thankYou32 = Python136;
+  thankYou31 = Python137;
+  thankYou30 = Python138;
+  thankYou29 = Python139;
+  thankYou28 = Python140;
+  thankYou27 = Python141;
+  thankYou26 = Python142;
+  thankYou25 = Python143;
+  thankYou24 = Python144;
+  thankYou23 = Python145;
+  thankYou22 = Python146;
+  thankYou21 = Python147;
+  thankYou20 = Python148;
+  thankYou19 = Python149;
+  thankYou18 = Python150;
+  thankYou17 = Python151;
+  thankYou16 = Python152;
+  thankYou15 = Python153;
+  thankYou14 = Python154;
+  thankYou13 = Python155;
+  thankYou12 = Python156;
+  thankYou11 = Python157;
+  thankYou10 = Python158;
+  thankYou9 = Python159;
+  thankYou8 = Python160;
+  thankYou7 = Python161;
+  thankYou6 = Python162;
+  thankYou5 = Python163;
+  thankYou4 = Python164;
+  thankYou3 = Python165;
+  thankYou2 = Python166;
+  thankYou1 = Python167;
+  thankYou0 = Python168;
+  thankYou1 = Python169;
+  thankYou2 = Python170;
+  thankYou3 = Python171;
+  thankYou4 = Python172;
+  thankYou5 = Python173;
+  thankYou6 = Python174;
+  thankYou7 = Python175;
+  thankYou8 = Python176;
+  thankYou9 = Python177;
+  thankYou10 = Python178;
+  thankYou11 = Python179;
+  thankYou12 = Python180;
+  thankYou13 = Python181;
+  thankYou14 = Python182;
+  thankYou15 = Python183;
+  thankYou16 = Python184;
+  thankYou17 = Python185;
+  thankYou18 = Python186;
+  thankYou19 = Python187;
+  thankYou20 = Python188;
+  thankYou21 = Python189;
+  thankYou22 = Python190;
+  thankYou23 = Python191;
+  thankYou24 = Python192;
+  thankYou25 = Python193;
+  thankYou26 = Python194;
+  thankYou27 = Python195;
+}
+
+procedure Death{
+  horse = pale;
+  if grim then{
+    weapon = scythe;}
+  else{
+    if canon then{
+      weapon = none;}
+    else{
+      weapon = sword;}}
+  while Death{
+    follower = Hades;}
+}
+
+procedure Repair{
+  time = 6*months;
+  effort = everything;
+  alcohol = 1*whiskey+2*(liquid+buffet)+infinite*beer;
+  vice = too*much;
+  call Now;
+}
+
+procedure Damage{
+  self = excessive+(self*30);
+  heart = 3;
+  psyche = broken;
+  call Repair;
+}
+
+procedure Now{
+  condition = broken;
+  lowest = panic;
+  hope = 0;
+  while Now{
+    if stupid then{
+      miss = her;}
+    else{
+      always = angry;}
+    I = stupid;}
+}
+
+procedure MasterHacker{
+  master3 = Hacka264;
+  master4 = Hacka265;
+  master5 = Hacka266;
+  master6 = Hacka267;
+  master7 = Hacka268;
+  master8 = Hacka269;
+  master9 = Hacka270;
+  master10 = Hacka271;
+  master11 = Hacka272;
+  master12 = Hacka273;
+  master13 = Hacka274;
+  master14 = Hacka275;
+  master15 = Hacka276;
+  master16 = Hacka277;
+  master17 = Hacka278;
+  master18 = Hacka279;
+  master19 = Hacka280;
+  master20 = Hacka281;
+  master21 = Hacka282;
+  master22 = Hacka283;
+  master23 = Hacka284;
+  master24 = Hacka285;
+  master25 = Hacka286;
+  master26 = Hacka287;
+  master27 = Hacka288;
+  master28 = Hacka289;
+  master29 = Hacka290;
+  master30 = Hacka291;
+  master31 = Hacka292;
+  master32 = Hacka293;
+  master33 = Hacka294;
+  master34 = Hacka295;
+  master35 = Hacka296;
+  master36 = Hacka297;
+  master37 = Hacka298;
+  master38 = Hacka299;
+  master39 = Hacka300;
+  master40 = Hacka301;
+  master41 = Hacka302;
+  master42 = Hacka303;
+  master43 = Hacka304;
+  master44 = Hacka305;
+  master45 = Hacka306;
+  master46 = Hacka307;
+  master47 = Hacka308;
+  master48 = Hacka309;
+  master49 = Hacka310;
+  master50 = Hacka311;
+  master51 = Hacka312;
+  master52 = Hacka313;
+  master53 = Hacka314;
+  master54 = Hacka315;
+  master55 = Hacka316;
+  master56 = Hacka317;
+  master57 = Hacka318;
+  master58 = Hacka319;
+  master59 = Hacka320;
+  master60 = Hacka321;
+  master61 = Hacka322;
+  master62 = Hacka323;
+  master63 = Hacka324;
+  master64 = Hacka325;
+  master65 = Hacka326;
+  master66 = Hacka327;
+  master67 = Hacka328;
+  master68 = Hacka329;
+  master69 = Hacka330;
+  master70 = Hacka331;
+  master71 = Hacka332;
+  master72 = Hacka333;
+  master73 = Hacka334;
+  master74 = Hacka335;
+  master75 = Hacka336;
+  master76 = Hacka337;
+  master77 = Hacka338;
+  master78 = Hacka339;
+  master79 = Hacka340;
+  master80 = Hacka341;
+  master81 = Hacka342;
+  master82 = Hacka343;
+  master83 = Hacka344;
+  master84 = Hacka345;
+  master85 = Hacka346;
+  master86 = Hacka347;
+  master87 = Hacka348;
+  master88 = Hacka349;
+  master89 = Hacka350;
+  master90 = Hacka351;
+  master91 = Hacka352;
+  master92 = Hacka353;
+  master93 = Hacka354;
+  master94 = Hacka355;
+  master95 = Hacka356;
+  master96 = Hacka357;
+  master97 = Hacka358;
+  master98 = Hacka359;
+  master99 = Hacka360;
+  master100 = Hacka361;
+  master101 = Hacka362;
+  master102 = Hacka363;
+  master103 = Hacka364;
+  master104 = Hacka365;
+  master105 = Hacka366;
+  master106 = Hacka367;
+  master107 = Hacka368;
+  master108 = Hacka369;
+  master109 = Hacka370;
+  master110 = Hacka371;
+  master111 = Hacka372;
+  master112 = Hacka373;
+  master113 = Hacka374;
+  master114 = Hacka375;
+  master115 = Hacka376;
+  master116 = Hacka377;
+  master117 = Hacka378;
+  master118 = Hacka379;
+  master119 = Hacka380;
+  master120 = Hacka381;
+  master121 = Hacka382;
+  master122 = Hacka383;
+  master123 = Hacka384;
+  master124 = Hacka385;
+  master125 = Hacka386;
+  master126 = Hacka387;
+  master127 = Hacka388;
+  master128 = Hacka389;
+  master129 = Hacka390;
+  master130 = Hacka391;
+  master131 = Hacka392;
+  master132 = Hacka393;
+  master133 = Hacka394;
+  master134 = Hacka395;
+  master135 = Hacka396;
+  master136 = Hacka397;
+  master137 = Hacka398;
+  master138 = Hacka399;
+  master139 = Hacka400;
+  master140 = Hacka401;
+  master141 = Hacka402;
+  master142 = Hacka403;
+  master143 = Hacka404;
+  master144 = Hacka405;
+  master145 = Hacka406;
+  master146 = Hacka407;
+  master147 = Hacka408;
+  master148 = Hacka409;
+  master149 = Hacka410;
+  master150 = Hacka411;
+  master151 = Hacka412;
+  master152 = Hacka413;
+  master153 = Hacka414;
+  master154 = Hacka415;
+  master155 = Hacka416;
+  master156 = Hacka417;
+  master157 = Hacka418;
+  master158 = Hacka419;
+  master159 = Hacka420;
+  master160 = Hacka421;
+  master161 = Hacka422;
+  master162 = Hacka423;
+  master163 = Hacka424;
+  master164 = Hacka425;
+  master165 = Hacka426;
+  master166 = Hacka427;
+  master167 = Hacka428;
+  master168 = Hacka429;
+  master169 = Hacka430;
+  master170 = Hacka431;
+  master171 = Hacka432;
+  master172 = Hacka433;
+  master173 = Hacka434;
+  master174 = Hacka435;
+  master175 = Hacka436;
+  master176 = Hacka437;
+  master177 = Hacka438;
+  master178 = Hacka439;
+  master179 = Hacka440;
+  master180 = Hacka441;
+  master181 = Hacka442;
+  master182 = Hacka443;
+  master183 = Hacka444;
+  master184 = Hacka445;
+  master185 = Hacka446;
+  master186 = Hacka447;
+  master187 = Hacka448;
+  master188 = Hacka449;
+  master189 = Hacka450;
+  master190 = Hacka451;
+  master191 = Hacka452;
+  master192 = Hacka453;
+  master193 = Hacka454;
+  master194 = Hacka455;
+  master195 = Hacka456;
+  master196 = Hacka457;
+  master197 = Hacka458;
+  master198 = Hacka459;
+  master199 = Hacka460;
+  master200 = Hacka461;
+  master201 = Hacka462;
+  master202 = Hacka463;
+  master203 = Hacka464;
+  master204 = Hacka465;
+  master205 = Hacka466;
+  master206 = Hacka467;
+  master207 = Hacka468;
+  master208 = Hacka469;
+  master209 = Hacka470;
+  master210 = Hacka471;
+  master211 = Hacka472;
+  master212 = Hacka473;
+  master213 = Hacka474;
+  master214 = Hacka475;
+  master215 = Hacka476;
+  master216 = Hacka477;
+  master217 = Hacka478;
+  master218 = Hacka479;
+  master219 = Hacka480;
+  master220 = Hacka481;
+  master221 = Hacka482;
+  master222 = Hacka483;
+  master223 = Hacka484;
+  master224 = Hacka485;
+  master225 = Hacka486;
+  master226 = Hacka487;
+  master227 = Hacka488;
+  master228 = Hacka489;
+  master229 = Hacka490;
+  master230 = Hacka491;
+  master231 = Hacka492;
+  master232 = Hacka493;
+  master233 = Hacka494;
+  master234 = Hacka495;
+  master235 = Hacka496;
+  master236 = Hacka497;
+  master237 = Hacka498;
+  master238 = Hacka499;
+  master239 = Hacka500;
+  master240 = Hacka501;
+  master241 = Hacka502;
+  master242 = Hacka503;
+  master243 = Hacka504;
+  master244 = Hacka505;
+  master245 = Hacka506;
+  master246 = Hacka507;
+  master247 = Hacka508;
+  master248 = Hacka509;
+  master249 = Hacka510;
+  master250 = Hacka511;
+  master251 = Hacka512;
+  master252 = Hacka513;
+  master253 = Hacka514;
+  master254 = Hacka515;
+  master255 = Hacka516;
+  master256 = Hacka517;
+  master257 = Hacka518;
+  master258 = Hacka519;
+  master259 = Hacka520;
+}
