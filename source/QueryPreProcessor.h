@@ -189,6 +189,30 @@ public:
   std::queue<With> QueryPreProcessor::getWith(void);
 
   /**
+  * A getter method for the Select vector variables.
+  * @return a Grammar object Queue containing all variables within the Select clause.
+  */
+  std::vector<Grammar> QueryPreProcessor::getSelectVector(void);
+
+  /**
+  * A getter method for the Such That vector variables.
+  * @return a Relation object Queue containing all variables within the Such That clause.
+  */
+  std::vector<Relation> QueryPreProcessor::getSuchThatVector(void);
+
+  /**
+  * A getter method for the Pattern vector variables.
+  * @return a Pattern object Queue containing all variables within the Pattern clause.
+  */
+  std::vector<Pattern> QueryPreProcessor::getPatternVector(void);
+
+  /**
+  * A getter method for the With vector variables.
+  * @return a With object Queue containing all variables within the With clause.
+  */
+  std::vector<With> QueryPreProcessor::getWithVector(void);
+
+  /**
   * A getter method for the Grammar vector variables.
   * @return a Grammar object Vector containing all variables declared within the declaration.
   */
@@ -209,6 +233,10 @@ private:
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
   std::queue<With> m_withQueue;
+  std::vector<Grammar> m_selectVectorQE;
+  std::vector<Relation> m_relationVectorQE;
+  std::vector<Pattern> m_patternVectorQE;
+  std::vector<With> m_withVectorQE;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;
