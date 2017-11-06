@@ -134,8 +134,7 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     } else if (Grammar::isCall(t_select.getType())) {
       if (t_select.hasAttr() && Grammar::isProcName(t_select.getAttr())) {
         LIST_OF_PROC_NAMES allProcNames = m_pkb->getCalledByAnything();
-        storeSelectResultFromPkb(t_select, allProcNames);
-        return true;
+        return storeSelectResultFromPkb(t_select, allProcNames);
       }
       
       allSelectedStmtsInInt = allStmts[queryType::GType::CALL];  
