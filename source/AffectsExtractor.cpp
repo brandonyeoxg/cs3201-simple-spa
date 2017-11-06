@@ -6,8 +6,8 @@ void AffectsExtractor::extractDesign() {
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
-  AffectsTable *affectsTable = new AffectsTable(m_pkb);
   for (int i = 0; i < numberOfProcedures; i++) {
+    AffectsTable *affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -17,8 +17,8 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // 
     MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMS.
     LMS = appendAffectsList(affectsList, LMS);
+    delete affectsTable;
   }
-  delete affectsTable;
   return LMS;
 }
 
@@ -78,7 +78,6 @@ BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_u
   if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
     return false;
   }
-
   //check if the two are in same proc.
   if (m_pkb->getStatementTable()->getProcNameFromStmtNum(t_modifiesLine) != m_pkb->getStatementTable()->getProcNameFromStmtNum(t_usesLine)) {
     return false;
@@ -110,8 +109,8 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(a,_)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
   for (int i = 0; i < numberOfProcedures; i++) {
+    AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -121,20 +120,21 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnything() { // affects(a,
     //add affectsList to LMS.
     //run the appendAffectsList method.
     LMS = appendAffectsList(affectsList, LMS);
+    delete m_affectsTable;
   }
   LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
   for (auto itr = LMS.begin(); itr != LMS.end(); ++itr) {
     results.push_back(itr->first);
   }
-  delete m_affectsTable;
   return results; //return all the keys affectsList in LMS
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects(_,a)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
+  
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
+    AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -144,12 +144,12 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnything() { // affects
     //add affectsList to LMS.
     //run the appendAffectsList method.
     LMS = appendAffectsList(affectedByList, LMS);
+    delete m_affectsTable;
   }
   LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
   for (auto itr = LMS.begin(); itr != LMS.end(); ++itr) {
     results.push_back(itr->first);
   }
-  delete m_affectsTable;
   return results; //return all the keys affectedByList in LMS
 }
 
@@ -190,35 +190,13 @@ BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_modifiesLine) { //
   return isAffectsAnything;
 }
 
-MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
-  //for every key in toAdd
-  for (auto itr_toAdd = toAdd.begin(); itr_toAdd != toAdd.end(); ++itr_toAdd) {
-    STMT_NUM key = itr_toAdd->first;
-    SET_OF_STMT_NUMS affects = itr_toAdd->second;
-    //case 1: if key not found in result
-    if (result.find(key) == result.end()) {
-      //just emplace the whole set as vector into result
-      LIST_OF_AFFECTS_STMTS affectsList;
-      affectsList.insert(affectsList.end(), affects.begin(), affects.end());
-      result.emplace(key, affectsList);
-    } else {
-      //case 2: if key found in result
-      auto itr_result = result.find(key);
-      LIST_OF_AFFECTS_STMTS affectsInResult = itr_result->second;
-      //add the values in, sort and put back to the result
-      affectsInResult.insert(affectsInResult.end(), affects.begin(), affects.end());
-      std::sort(affectsInResult.begin(), affectsInResult.end());
-      result[key] = affectsInResult;
-    }
-  }
-  return result;
-}
+
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffectsStar() { // affects*(a1,a2)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
+    AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -228,8 +206,8 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffectsStar() {
     MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList = intermediateResult.first;
     //add affectsList to LMS.
     LMS = appendAffectsList(affectsList, LMS);
+    delete m_affectsTable;
   }
-  delete m_affectsTable;
   return LMS;
 }
 
@@ -320,9 +298,9 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationshipStar() { // affects*(_,_)
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnythingStar() {  // affects*(a,_)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
+    AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -332,21 +310,21 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnythingStar() {  // affec
     //add affectsList to LMS.
     //run the appendAffectsList method.
     LMS = appendAffectsList(affectsList, LMS);
+    delete m_affectsTable;
   }
   LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
   for (auto itr = LMS.begin(); itr != LMS.end(); ++itr) {
     results.push_back(itr->first);
   }
-  delete m_affectsTable;
   return results; //return all the keys affectsList in LMS
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnythingStar() { // affects*(_,a)
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
+  
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
-
+    AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
     //get the bounds (first and last) stmt no from proc
     LIST_OF_STMT_NUMS bound = m_pkb->getStatementTable()->getStmtsFromProcIdx(i);
     STMT_NUM start = bound[0];
@@ -356,12 +334,12 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnythingStar() { // aff
     //add affectsList to LMS.
     //run the appendAffectsList method.
     LMS = appendAffectsList(affectedByList, LMS);
+    delete m_affectsTable;
   }
   LIST_OF_AFFECTS_STMTS results = LIST_OF_AFFECTS_STMTS();
   for (auto itr = LMS.begin(); itr != LMS.end(); ++itr) {
     results.push_back(itr->first);
   }
-  delete m_affectsTable;
   return results; //return all the keys affectedByList in LMS
 }
 
@@ -401,6 +379,30 @@ BOOLEAN AffectsExtractor::extractIsAffectedByAnythingStar(STMT_NUM t_usesLine) {
   BOOLEAN hasAffectsAnything = m_affectsTable->hasAffectsFromBounds(start, t_usesLine, INVALID_INDEX, t_usesLine);
   delete m_affectsTable;
   return hasAffectsAnything;
+}
+
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
+  //for every key in toAdd
+  for (auto itr_toAdd = toAdd.begin(); itr_toAdd != toAdd.end(); ++itr_toAdd) {
+    STMT_NUM key = itr_toAdd->first;
+    SET_OF_STMT_NUMS affects = itr_toAdd->second;
+    //case 1: if key not found in result
+    if (result.find(key) == result.end()) {
+      //just emplace the whole set as vector into result
+      LIST_OF_AFFECTS_STMTS affectsList;
+      affectsList.insert(affectsList.end(), affects.begin(), affects.end());
+      result.emplace(key, affectsList);
+    } else {
+      //case 2: if key found in result
+      auto itr_result = result.find(key);
+      LIST_OF_AFFECTS_STMTS affectsInResult = itr_result->second;
+      //add the values in, sort and put back to the result
+      affectsInResult.insert(affectsInResult.end(), affects.begin(), affects.end());
+      std::sort(affectsInResult.begin(), affectsInResult.end());
+      result[key] = affectsInResult;
+    }
+  }
+  return result;
 }
 
 LIST_OF_STMT_NUMS AffectsExtractor::getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum) {
