@@ -11,6 +11,7 @@ void UsesExtractor::populateUsesByCallStatements() {
   UsesP* usesP = m_pkb->getUsesP();
   UsesTable* usesTable = m_pkb->getUsesTable();
   ProcTable* procTable = m_pkb->getProcTable();
+  VarTable* varTable = m_pkb->getVarTable();
   
   //get all call statements
   LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL); //unit test covered
@@ -27,13 +28,15 @@ void UsesExtractor::populateUsesByCallStatements() {
 
     //populate the uses for the call stmt itself.
     for (int j = 0; j < listOfUsesVarNames.size(); j++) {
-      usesTable->insertUsesForStmt(listOfUsesVarNames[j], allCallStmts[i]);
+      VAR_INDEX varIdx = varTable->getVarIdxFromName(listOfUsesVarNames[j]);
+      usesTable->insertUsesForStmt(listOfUsesVarNames[j], allCallStmts[i], varIdx);
     }
     for (int k = 0; k < allParentStars.size(); k++) {
       //for every parent* of the statement
       //set all these varNames for parent*
       for (int l = 0; l < listOfUsesVarNames.size(); l++) {
-        usesTable->insertUsesForStmt(listOfUsesVarNames[l], allParentStars[k]);
+        VAR_INDEX varIdx = varTable->getVarIdxFromName(listOfUsesVarNames[l]);
+        usesTable->insertUsesForStmt(listOfUsesVarNames[l], allParentStars[k], varIdx);
       }
     }
   }

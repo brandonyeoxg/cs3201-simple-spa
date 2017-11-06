@@ -263,17 +263,17 @@ false
 Select BOOLEAN such that Uses(1,"h454rd")
 false
 5000
-54 - Uses Non-Existence Invalid Test 1
+54 - Modifies Non-Existence Invalid Test 1
 
 Select BOOLEAN such that Modifies(0,"apql")
 false
 5000
-55 - Uses Non-Existence Invalid Test 2
+55 - Modifies Non-Existence Invalid Test 2
 
 Select BOOLEAN such that Modifies(60,"apql")
 false
 5000
-56 - Uses Non-Existence Invalid Test 3
+56 - Modifies Non-Existence Invalid Test 3
 
 Select BOOLEAN such that Modifies(1,"h454rd")
 false
