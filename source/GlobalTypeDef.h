@@ -25,8 +25,6 @@ const std::string EMPTY_LINE = "";
 const std::string TRUE = "true";
 const std::string FALSE = "false";
 
-const std::string ASTERISK = "*";
-
 /*Data Types*/
 typedef bool BOOLEAN;
 typedef int INTEGER;

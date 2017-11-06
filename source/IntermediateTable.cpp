@@ -45,7 +45,7 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
-LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn, const PkbReadOnly *t_pkb) {
+LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn, PkbReadOnly *t_pkb) {
   LIST_OF_RESULTS output;
   if (t_selectedSyn.size() == 0) {
     return {};
@@ -59,8 +59,16 @@ LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn
         if (synInTable == m_synonymRowChecker.end()) {
           return{};
         }
+
         int synPosInTable = synInTable->second;
-        result += m_results[i][synPosInTable] + " ";
+        
+        if (Grammar::isCall(sItr.getType()) && Grammar::isProcName(sItr.getAttr())) {
+          RESULT callStmt = m_results[i][synPosInTable];
+          PROC_NAME procName = t_pkb->getProcNameFromCallStmtNum(std::stoi(callStmt));
+          result += procName + " ";
+        } else {         
+          result += m_results[i][synPosInTable] + " ";
+        }   
       } else {
         result += sItr.getName() + " ";
       }

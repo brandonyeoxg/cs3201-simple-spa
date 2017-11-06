@@ -99,12 +99,8 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     got = m_synsToBeRewritten.find(t_select.getName());
     if (got != m_synsToBeRewritten.end()) {
       LIST_OF_RESULTS results;
-      PROC_NAME procName = m_pkb->getProcNameFromCallStmtNum(std::stoi(got->second.getName()));
-      results.push_back(procName);
-      STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms);
-      Grammar newGrammar = Grammar(0, synName);
-      m_numOfCustomSynonyms = m_numOfCustomSynonyms + 1;
-      return storeSelectResultFromPkb(newGrammar, results);
+      results.push_back(got->second.getName());
+      return storeSelectResultFromPkb(t_select, results);
     }
   }
 
@@ -131,12 +127,7 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
       allSelectedStmtsInInt = allStmts[queryType::GType::WHILE];
     } else if (Grammar::isIf(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::IF];
-    } else if (Grammar::isCall(t_select.getType())) {
-      if (t_select.hasAttr() && Grammar::isProcName(t_select.getAttr())) {
-        LIST_OF_PROC_NAMES allProcNames = m_pkb->getCalledByAnything();
-        return storeSelectResultFromPkb(t_select, allProcNames);
-      }
-      
+    } else if (Grammar::isCall(t_select.getType())) {  
       allSelectedStmtsInInt = allStmts[queryType::GType::CALL];  
     }
 
@@ -370,24 +361,16 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
         grammar = EvaluatorUtil::rewriteSynonym(grammar, m_synsToBeRewritten);
       }
 
-      if (!m_table->hasSynonym(grammar.getName()) || (Grammar::isCall(m_selects.front().getType())
+      if (!m_table->hasSynonym(grammar.getName()) || (!m_table->hasSynonym(grammar.getName())
+        && Grammar::isCall(m_selects.front().getType())
         && Grammar::isProcName(m_selects.front().getAttr()))) {
         BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
         if (!hasResult) {
           return finalResult;
-        }
-
-        if (Grammar::isCall(m_selects.front().getType()) && Grammar::isProcName(m_selects.front().getAttr())) {
-          STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms - 1);
-          Grammar newGrammar = Grammar(11, synName);
-          selectedSynonyms.push_back(newGrammar);
-        } else {
-          selectedSynonyms.push_back(grammar);
-        }
-      } else {
-        selectedSynonyms.push_back(grammar);
+        }      
       }
 
+      selectedSynonyms.push_back(grammar);
       m_selects.pop();
     }
 
