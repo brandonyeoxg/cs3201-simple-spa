@@ -261,32 +261,32 @@ none
 53 - Affects Recursive Test
 stmt s;
 Select s such that Affects(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 54 - Affects* Recursive Test
 stmt s;
 Select s such that Affects*(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 55 - Affects Recursive Test
 assign s;
 Select s such that Affects(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 56 - Affects* Recursive Test
 assign s;
 Select s such that Affects*(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 57 - Affects Recursive Test
 prog_line s;
 Select s such that Affects(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 58 - Affects* Recursive Test
 prog_line s;
 Select s such that Affects*(s,s)
-3,60,71, there is probably more
+3,60,71,22
 5000
 59 - Affects Recursive Test
 
@@ -296,7 +296,7 @@ true
 60 - Affects* Recursive Test
 
 Select BOOLEAN such that Affects*(46,46)
-true
+false
 5000
 61 - Affects Recursive Test
 
