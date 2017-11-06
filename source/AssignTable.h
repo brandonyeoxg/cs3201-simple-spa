@@ -45,15 +45,19 @@ public:
   * The representation is a statement number mapped to the variable in that statement number, i.e. { {1 -> "x"}, {2 -> "y"}, {3 -> "x" } };
   */
   MAP_OF_STMT_NUM_TO_VAR_NAME& getAllAssignStmtWithVar();
-
+  MAP_OF_STMT_NUM_TO_VAR_INDEX& getAllAssignStmtWithVarByIdx();
   /**
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   MAP_OF_VAR_NAME_TO_STMT_NUMS& getAllAssignVarNameWithStmtNum();
+  MAP_OF_VAR_INDEX_TO_STMT_NUMS& getAllAssignVarIndexWithStmtNum();
 private:
   MAP_OF_VAR_INDEX_TO_STMT_NUMS m_assignVarWithAssignStmtNum;
   MAP_OF_VAR_NAME_TO_STMT_NUMS m_assignVarNameWithAssignStmtNum;
+  MAP_OF_VAR_INDEX_TO_STMT_NUMS m_assignVarIndexWithAssignStmtNum;
+
   MAP_OF_STMT_NUM_TO_VAR_NAME m_assignMapWithVar;
+  MAP_OF_STMT_NUM_TO_VAR_INDEX m_assignMapWithVarIdx;
   LIST_OF_STMT_NUMS m_assignStmts;
 };

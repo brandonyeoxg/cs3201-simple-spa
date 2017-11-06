@@ -11,6 +11,7 @@ void ModifiesExtractor::populateModifiesByCallStatements() {
   ModifiesP* modifiesP = m_pkb->getModifiesP();
   ModifiesTable* modifiesTable = m_pkb->getModifiesTable();
   ProcTable* procTable = m_pkb->getProcTable();
+  VarTable* varTable = m_pkb->getVarTable();
 
   //get all call statements
   LIST_OF_STMT_NUMS allCallStmts = statementTable->getListOfStatements(queryType::GType::CALL); //unit test covered
@@ -27,13 +28,15 @@ void ModifiesExtractor::populateModifiesByCallStatements() {
 
     //populate the modifies for the call stmt itself.
     for (int j = 0; j < listOfModifiesVarNames.size(); j++) {
-      modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[j], allCallStmts[i]);
+      VAR_INDEX varIdx = varTable->getVarIdxFromName(listOfModifiesVarNames[j]);
+      modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[j], allCallStmts[i], varIdx);
     }
     for (int k = 0; k < allParentStars.size(); k++) {
       //for every parent* of the statement
       //set all these varNames for parent*
       for (int l = 0; l < listOfModifiesVarNames.size(); l++) {
-        modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[l], allParentStars[k]);
+        VAR_INDEX varIdx = varTable->getVarIdxFromName(listOfModifiesVarNames[l]);
+        modifiesTable->insertModifiesForStmt(listOfModifiesVarNames[l], allParentStars[k], varIdx);
       }
     }
   }
