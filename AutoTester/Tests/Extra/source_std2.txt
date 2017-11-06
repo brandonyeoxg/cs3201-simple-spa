@@ -1,0 +1,55 @@
+procedure FIRST {
+	call THIRD;
+	bravo = alpha;
+	charlie = 1;
+	alpha = bravo + charlie;
+	echo = alpha - 2;
+	delta = 4 * echo;
+	if foxtrot then {
+		golf = 4;
+	} else {
+		golf = 5;
+		while lima {
+			while mike {
+				golf = golf + 1;
+				call FOURTH;
+			}
+		}
+	}
+	call SECOND;
+}
+
+procedure SECOND {
+	papa = papa * 2 - 1;
+}
+
+procedure THIRD {
+	november = 23;
+	alpha = 22;
+	while alpha {
+		if november then {
+			call SECOND;
+		} else {
+			while lima {
+				oscar = oscar * 2;
+			}
+		}
+	}
+	call SECOND;
+}
+
+procedure FOURTH {
+	quebec = quebec - 1;
+	call THIRD;
+	if romeo then {
+		if sierra then {
+			lima = 1;
+		} else {
+			lima = 1;
+		}
+	} else {
+		while tango {
+			tango = tango + 1;
+		}
+	}
+}
