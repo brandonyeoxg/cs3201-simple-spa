@@ -64,7 +64,7 @@ BOOLEAN DesignExtractor::extractIsAffectedByAnything(STMT_NUM t_usesLines) { // 
 //  Affects* Extractor
 ///////////////////////////////////////////////////////
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS DesignExtractor::extractAllAffectsStar() { // affects*(a1,a2)
-  return m_affectsExtractor->extractAllAffects();
+  return m_affectsExtractor->extractAllAffectsStar();
 }
 
 LIST_OF_AFFECTS_STMTS DesignExtractor::extractAffectedByStar(STMT_NUM t_modifiesLine) { // affects*(2,a)

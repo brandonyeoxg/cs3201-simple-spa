@@ -266,7 +266,7 @@ Select s such that Affects(s,s)
 54 - Affects* Recursive Test
 stmt s;
 Select s such that Affects*(s,s)
-3,60,71,22
+3,60,71,22,27,28
 5000
 55 - Affects Recursive Test
 assign s;
@@ -276,7 +276,7 @@ Select s such that Affects(s,s)
 56 - Affects* Recursive Test
 assign s;
 Select s such that Affects*(s,s)
-3,60,71,22
+3,60,71,22,27,28
 5000
 57 - Affects Recursive Test
 prog_line s;
@@ -286,7 +286,7 @@ Select s such that Affects(s,s)
 58 - Affects* Recursive Test
 prog_line s;
 Select s such that Affects*(s,s)
-3,60,71,22
+3,60,71,22,27,28
 5000
 59 - Affects Recursive Test
 
