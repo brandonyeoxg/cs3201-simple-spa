@@ -717,9 +717,48 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
 
     if (Grammar::isStmtNum(left.getAttr())) {
       MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
-      int maxStmtNo = allStmts.size();
-      if (std::stoi(right.getName()) > maxStmtNo) {
-        return false;
+      std::unordered_map<STMT_NUM, SYNONYM_TYPE>::iterator got;
+      if (Grammar::isStmt(left.getType())) {  
+        int maxStmtNo = allStmts.size();
+        if (std::stoi(right.getName()) > maxStmtNo) {
+          return false;
+        }
+      } else if (Grammar::isAssign(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isAssign(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isWhile(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isWhile(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isIf(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isIf(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isCall(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isCall(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
       }
 
       if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName())) {
@@ -732,9 +771,48 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       return m_table->insertOneSynonym(left.getName(), results);
     } else if (Grammar::isStmtNum(right.getAttr())) {
       MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
-      int maxStmtNo = allStmts.size();
-      if (std::stoi(right.getName()) > maxStmtNo) {
-        return false;
+      std::unordered_map<STMT_NUM, SYNONYM_TYPE>::iterator got;
+      if (Grammar::isStmt(right.getType())) {
+        int maxStmtNo = allStmts.size();
+        if (std::stoi(left.getName()) > maxStmtNo) {
+          return false;
+        }
+      } else if (Grammar::isAssign(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isAssign(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isWhile(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isWhile(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isIf(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isIf(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isCall(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isCall(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
       }
 
       if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {
