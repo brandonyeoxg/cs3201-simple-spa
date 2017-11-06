@@ -79,9 +79,6 @@
     <ClCompile Include="..\source\AssignTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\VarRelations.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
@@ -241,6 +238,9 @@
     <ClCompile Include="..\source\QueryOptimiser.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Clause.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -340,9 +340,6 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\AssignTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\VarRelations.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Relation.h">

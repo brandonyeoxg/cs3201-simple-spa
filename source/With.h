@@ -25,6 +25,8 @@ public:
   */
   With(Grammar t_g1, Grammar t_g2);
 
+  queryType::clauseType getClauseType();
+
   /**
   * A Getter that returns the first Grammar object of the Design Abstraction.
   * @return The first Grammar object of the Design Abstraction.

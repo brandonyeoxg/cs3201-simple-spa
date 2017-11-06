@@ -64,10 +64,11 @@ void PKB::insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS
 }
 
 void PKB::insertModifiesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
-  insertModifiesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
+  VAR_INDEX varIdx = getVarIdxFromName(t_varName);
+  insertModifiesForStmt(t_varName, t_curLineNum, varIdx);
   for (auto& containerItr : t_nestedStmtLines) {
-    insertModifiesForStmt(t_varName, containerItr);
+    insertModifiesForStmt(t_varName, containerItr, varIdx);
   }
 }
 
@@ -78,10 +79,11 @@ void PKB::insertModifiesProc(PROC_INDEX t_procIdx, const VAR_NAME& t_varName) {
 }
 
 void PKB::insertUsesVariable(VAR_NAME t_varName, STMT_NUM t_curLineNum, LIST_OF_STMT_NUMS t_nestedStmtLines) {
-  insertUsesForStmt(t_varName, t_curLineNum);
   insertVar(t_varName);
+  VAR_INDEX varIdx = getVarIdxFromName(t_varName);
+  insertUsesForStmt(t_varName, t_curLineNum, varIdx);
   for (auto& containerItr : t_nestedStmtLines) {
-    insertUsesForStmt(t_varName, containerItr);
+    insertUsesForStmt(t_varName, containerItr, varIdx);
   }
 }
 
@@ -367,9 +369,14 @@ LIST_OF_STMT_NUMS PKB::getAllAssignStmts() {
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllVarNameWithAssignStmt() {
   return m_assignTable->getAllAssignVarNameWithStmtNum();
 }
-
+MAP_OF_VAR_INDEX_TO_STMT_NUMS PKB::getAllVarIndicesWithAssignStmt() {
+  return m_assignTable->getAllAssignVarIndexWithStmtNum();
+}
 std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
   return m_assignTable->getAllAssignStmtWithVar();
+}
+MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllAssignStmtWithVarIndex() {
+  return m_assignTable->getAllAssignStmtWithVarByIdx();
 }
 
 ///////////////////////////////////////////////////////
@@ -380,7 +387,12 @@ std::unordered_map<STMT_NUM, VAR_NAME> PKB::getAllAssignStmtWithVarName() {
 LIST_OF_RESULTS PKB::getAllConstants() {
   return m_constantTable->getAllConstants();
 }
-
+LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
+  return m_constantTable->getAllConstantsByIdx();
+}
+STRING PKB::getConstantFromIdx(int t_constantIdx) {
+  return m_constantTable->getConstantFromIdx(t_constantIdx);
+}
 ///////////////////////////////////////////////////////
 //  ProcTable methods
 ///////////////////////////////////////////////////////
@@ -392,6 +404,9 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
   return m_procTable->getAllProcsName();
 }
 
+PROC_NAME PKB::getProcNameFromIdx(PROC_INDEX t_idx) {
+  return m_procTable->getProcNameFromIdx(t_idx);
+}
 ///////////////////////////////////////////////////////
 //  PatternMatch methods
 ///////////////////////////////////////////////////////
@@ -576,42 +591,63 @@ bool PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
 LIST_OF_PROC_NAMES PKB::getCalls(PROC_NAME t_proc2) {
   return m_callsTable->getCalls(t_proc2);
 }
-
+LIST_OF_PROC_INDICES PKB::getCallsByIdx(PROC_INDEX t_proc2Idx) {
+  return m_callsTable->getCallsByIdx(t_proc2Idx);
+}
 LIST_OF_PROC_NAMES PKB::getCalledBy(PROC_NAME t_proc1) {
   return m_callsTable->getCalledBy(t_proc1);
 }
-
+LIST_OF_PROC_INDICES PKB::getCalledByByIdx(PROC_INDEX t_proc1Idx) {
+  return m_callsTable->getCalledByByIdx(t_proc1Idx);
+}
 LIST_OF_PROC_NAMES PKB::getCallsStar(PROC_NAME t_proc2) {
   return m_callsTable->getCallsStar(t_proc2);
+}
+LIST_OF_PROC_INDICES PKB::getCallsStarByIdx(PROC_INDEX t_proc2Idx) {
+  return m_callsTable->getCallsStarByIdx(t_proc2Idx);
 }
 LIST_OF_PROC_NAMES PKB::getCalledByStar(PROC_NAME t_proc1) {
   return m_callsTable->getCalledByStar(t_proc1);
 }
-
+LIST_OF_PROC_INDICES PKB::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
+  return m_callsTable->getCalledByStarByIdx(t_proc1Idx);
+}
 std::unordered_map<PROC_NAME, PROC_NAME> PKB::getAllCalls() {
   return m_callsTable->getAllCalls();
 }
-
+MAP_OF_PROC_INDICES PKB::getAllCallsByIdx() {
+  return m_callsTable->getAllCallsByIdx();
+}
 std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {
   return m_callsTable->getAllCallsStar();
 }
-
+MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES PKB::getAllCallsStarByIdx() {
+  return m_callsTable->getAllCallsStarByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getCallsAnything() {
   return m_callsTable->getCallsAnything();
 }
-
+LIST_OF_PROC_INDICES PKB::getCallsAnythingByIdx() {
+  return m_callsTable->getCallsAnythingByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getCallsStarAnything() {
   return m_callsTable->getCallsStarAnything();
 }
-
+LIST_OF_PROC_INDICES PKB::getCallsStarAnythingByIdx() {
+  return m_callsTable->getCallsStarAnythingByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getCalledByAnything() {
   return m_callsTable->getCalledByAnything();
 }
-
+LIST_OF_PROC_INDICES PKB::getCalledByAnythingByIdx() {
+  return m_callsTable->getCalledByAnythingByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getCalledByStarAnything() {
   return m_callsTable->getCalledByStarAnything();
 }
-
+LIST_OF_PROC_INDICES PKB::getCalledByStarAnythingByIdx() {
+  return m_callsTable->getCalledByStarAnythingByIdx();
+}
 bool PKB::hasCallsRelationship() {
   return m_callsTable->hasCallsRelationship();
 }
@@ -652,17 +688,31 @@ LIST_OF_VAR_NAMES PKB::getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procNa
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   return m_modifiesP->getVarNamesWithProcIdx(procIdx);
 }
+LIST_OF_VAR_INDICES PKB::getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_modifiesP->getVarIndicesWithProcIdx(procIdx);
+}
 
 LIST_OF_PROC_NAMES PKB::getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_modifiesP->getProcNamesWithVarIdx(varIdx);
 }
+LIST_OF_PROC_INDICES PKB::getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
+  return m_modifiesP->getProcIndicesWithVarIdx(varIdx);
+}
 
 MAP_OF_PROC_TO_VAR PKB::getModifiesPAllProcToVar() {
   return m_modifiesP->getAllProcToVar();
 }
+MAP_OF_PROC_INDEX_TO_VAR_INDEX PKB::getModifiesPAllProcToVarByIdx() {
+  return m_modifiesP->getAllProcToVarByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getModifiesPAllProcNames() {
   return m_modifiesP->getAllProcNames();
+}
+LIST_OF_PROC_INDICES PKB::getModifiesPAllProcIndices() {
+  return m_modifiesP->getAllProcIndices();
 }
 
 ///////////////////////////////////////////////////////
@@ -688,16 +738,32 @@ LIST_OF_VAR_NAMES PKB::getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) 
   return m_usesP->getVarNamesWithProcIdx(procIdx);
 }
 
+LIST_OF_VAR_INDICES PKB::getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) {
+  PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
+  return m_usesP->getVarIndicesWithProcIdx(procIdx);
+}
+
 LIST_OF_PROC_NAMES PKB::getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) {
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_usesP->getProcNamesWithVarIdx(varIdx);
 }
 
+LIST_OF_PROC_INDICES PKB::getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) {
+  VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
+  return m_usesP->getProcIndicesWithVarIdx(varIdx);
+}
+
 MAP_OF_PROC_TO_VAR PKB::getUsesPAllProcToVar() {
   return m_usesP->getAllProcToVar();
 }
+MAP_OF_PROC_INDEX_TO_VAR_INDEX PKB::getUsesPAllProcToVarByIdx() {
+  return m_usesP->getAllProcToVarByIdx();
+}
 LIST_OF_PROC_NAMES PKB::getUsesPAllProcNames() {
   return m_usesP->getAllProcNames();
+}
+LIST_OF_PROC_INDICES PKB::getUsesPAllProcIndices() {
+  return m_usesP->getAllProcIndices();
 }
 
 ///////////////////////////////////////////////////////
@@ -706,8 +772,8 @@ LIST_OF_PROC_NAMES PKB::getUsesPAllProcNames() {
 UsesTable* PKB::getUsesTable() {
   return m_usesTable;
 }
-void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_usesTable->insertUsesForStmt(t_varName, t_lineNum);
+void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
+  return m_usesTable->insertUsesForStmt(t_varName, t_lineNum, t_varIdx);
 }
 bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_usesTable->isUses(t_lineNum, t_varName);
@@ -715,11 +781,17 @@ bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
 LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
   return m_usesTable->getUses(t_lineNum);
 }
+LIST_OF_VAR_INDICES PKB::getUsesByIdx(STMT_NUM t_lineNum) {
+  return m_usesTable->getUsesByIdx(t_lineNum);
+}
 LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
   return m_usesTable->getStmtUses(t_varName);
 }
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
   return m_usesTable->getAllStmtUses();
+}
+MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtUsesByIdx() {
+  return m_usesTable->getAllStmtUsesByIdx();
 }
 bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
   return m_usesTable->isUsesAnything(t_lineNum);
@@ -734,8 +806,8 @@ LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
 ModifiesTable* PKB::getModifiesTable() {
   return m_modifiesTable;
 }
-void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum) {
-  return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum);
+void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
+  return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum, t_varIdx);
 }
 bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_modifiesTable->isModifies(t_lineNum, t_varName);
@@ -743,11 +815,17 @@ bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
 LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
   return m_modifiesTable->getModifies(t_lineNum);
 }
+LIST_OF_VAR_INDICES PKB::getModifiesByIdx(STMT_NUM t_lineNum) {
+  return m_modifiesTable->getModifiesByIdx(t_lineNum);
+}
 LIST_OF_STMT_NUMS PKB::getStmtModifies(VAR_NAME t_varName) {
   return m_modifiesTable->getStmtModifies(t_varName);
 }
 std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
   return m_modifiesTable->getAllStmtModifies();
+}
+MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtModifiesByIdx() {
+  return m_modifiesTable->getAllStmtModifiesByIdx();
 }
 bool PKB::isModifiesAnything(STMT_NUM t_lineNum) {
   return m_modifiesTable->isModifiesAnything(t_lineNum);
