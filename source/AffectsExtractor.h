@@ -13,7 +13,6 @@ class AffectsExtractor : public Extractor
 {
 public:
   AffectsExtractor(PkbTablesOnly* t_pkb) : Extractor(t_pkb) {
-    m_affectsTable = new AffectsTable(t_pkb);
   };
 
   ~AffectsExtractor() {};
@@ -48,8 +47,6 @@ public:
   BOOLEAN extractIsAffectedByAnythingStar(STMT_NUM t_usesLines); // affects*(_,12)
 
 private:
-  AffectsTable *m_affectsTable;
-
   /**
   * A helper method to obtain the list of statements of a procedure from a particular statement number that resides in the procedure.
   * It will return the vector of stmts that belongs to that procedure.

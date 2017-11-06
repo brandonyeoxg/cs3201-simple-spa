@@ -1,5 +1,5 @@
 #include "AffectsTable.h"
-
+#include <algorithm>
 ///////////////////////////////////////////////////////
 //  Affects
 ///////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   t_lmt = mergeLmt(ifLmt, elseLmt);
   PROG_LINE nextStmt = nItr->second.back();
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
-  if (stmtType == queryType::GType::WHILE) {
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(nextStmt, t_curProgLine)) {
     return;
   }
   // Combine lms with lmt
@@ -248,7 +248,7 @@ BOOLEAN AffectsTable::traverseIfStmtWithBoundEarlyExit(PROG_LINE t_curProgLine, 
   }
   PROG_LINE nextStmt = nItr->second[0];
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
-  if (stmtType == queryType::GType::WHILE) {
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(nextStmt, t_curProgLine)) {
     return false;
   }
   // Combine lms with lmt
@@ -416,7 +416,7 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
 
   PROG_LINE nextStmt = nItr->second.back();
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
-  if (stmtType == queryType::GType::WHILE) {
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(nextStmt, t_curProgLine)) {
     return;
   }
 
@@ -432,7 +432,7 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   traverseCfgWithBound(stmts[0], stmtLstBound.back(), insideStmtLst, insideLastUses);
   //MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedLst = mergeLmt(insideStmtLst, t_lmt);
   //MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeUsesTable = mergeLmt(insideLastUses, t_lastUses);
-  int itrCount = stmtLstBound.size() - 1;
+  int itrCount = std::max(unsigned int(1), stmtLstBound.size() - 1);
   for (int i = 0; i < itrCount; ++i) {
     insideStmtLst = mergeLmt(insideStmtLst, t_lmt);
     insideLastUses = mergeLmt(insideLastUses, t_lastUses);
