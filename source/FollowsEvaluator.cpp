@@ -48,7 +48,7 @@ SET_OF_RESULTS FollowsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Gramma
     try {
       stmtNo = t_pkb->getFollows(std::stoi(t_g1.getName()));
       //std::cout << "getFollows - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
+    } catch (InvalidArgumentException ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollows(s1)\n";
       return m_result;
     }
@@ -80,7 +80,7 @@ SET_OF_RESULTS FollowsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar
     try {
       stmtNo = t_pkb->getFollowedBy(std::stoi(t_g2.getName()));
       //std::cout << "getFollowedBy - STMT NO: " << stmtNo << "\n";
-    } catch (const std::invalid_argument& ia) {
+    } catch (InvalidArgumentException ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
       return m_result;
     }
