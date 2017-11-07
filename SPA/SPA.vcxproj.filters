@@ -526,6 +526,12 @@
     <ClInclude Include="..\source\QueryOptimiser.h">
       <Filter>PQL</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxCyclicCalls.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxDuplicateProc.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\InvalidArgumentException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
