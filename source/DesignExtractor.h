@@ -13,7 +13,7 @@ public:
   DesignExtractor();
   ~DesignExtractor();
 
-  /*
+  /**
   * Called to extract all design abstractions from the PKB table.
   */
   void extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb);

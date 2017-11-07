@@ -1,7 +1,6 @@
 #include "AffectsExtractor.h"
 
-void AffectsExtractor::extractDesign() {
-}
+void AffectsExtractor::extractDesign() {}
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffects() { // affects(a1,a2)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
@@ -39,7 +38,6 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffects(STMT_NUM t_usesLine) { //
     SET_OF_STMT_NUMS affectsSet = itr->second;
     //copy set to vector    
     affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
-    std::sort(affectsStmts.begin(), affectsStmts.end());
   }
   delete m_affectsTable;
   return affectsStmts;
@@ -62,7 +60,6 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedBy(STMT_NUM t_modifiesLin
     SET_OF_STMT_NUMS affectsSet = itr->second;
     //copy set to vector
     affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
-    std::sort(affectsStmts.begin(), affectsStmts.end());
   }
   delete m_affectsTable;
   return affectsStmts;
@@ -75,7 +72,8 @@ BOOLEAN AffectsExtractor::extractIsAffects(STMT_NUM t_modifiesLine, STMT_NUM t_u
     return false;
   }
   //check if both are assignment statements.
-  if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
+  if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN 
+      || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
     return false;
   }
   //check if the two are in same proc.
@@ -190,8 +188,6 @@ BOOLEAN AffectsExtractor::extractIsAffectsAnything(STMT_NUM t_modifiesLine) { //
   return isAffectsAnything;
 }
 
-
-
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::extractAllAffectsStar() { // affects*(a1,a2)
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
@@ -228,7 +224,6 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByStar(STMT_NUM t_modifie
     SET_OF_STMT_NUMS affectsSet = itr->second;
     //copy set to vector
     affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
-    std::sort(affectsStmts.begin(), affectsStmts.end());
   }
   delete m_affectsTable;
   return affectsStmts;
@@ -251,7 +246,6 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsStar(STMT_NUM t_usesLine) 
     SET_OF_STMT_NUMS affectsSet = itr->second;
     //copy set to vector
     affectsStmts.insert(affectsStmts.end(), affectsSet.begin(), affectsSet.end());
-    std::sort(affectsStmts.begin(), affectsStmts.end());
   }
   delete m_affectsTable;
   return affectsStmts;
@@ -264,7 +258,8 @@ BOOLEAN AffectsExtractor::extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM
     return false;
   }
   //check if both are assignment statements.
-  if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
+  if (m_pkb->getStatementTable()->getTypeOfStatement(t_modifiesLine) != queryType::GType::ASGN 
+      || m_pkb->getStatementTable()->getTypeOfStatement(t_usesLine) != queryType::GType::ASGN) {
     return false;
   }
   //check if the two are in same proc.
@@ -272,7 +267,6 @@ BOOLEAN AffectsExtractor::extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM
     return false;
   }
   //passes all the above checks, run the method.
-  // Must change to affects* version
   AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
   BOOLEAN isAffectsStar = m_affectsTable->isAffectsStar(t_modifiesLine, t_usesLine);
   delete m_affectsTable;
@@ -280,20 +274,7 @@ BOOLEAN AffectsExtractor::extractIsAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM
 }
 
 BOOLEAN AffectsExtractor::extractHasAffectsRelationshipStar() { // affects*(_,_)
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
-  LIST_OF_PROC_NAMES procNames = m_pkb->getProcTable()->getAllProcsName();
-  StatementTable *stmtTable = m_pkb->getStatementTable();
-  for (auto& name : procNames) {
-    PROC_INDEX procIdx = m_pkb->getProcTable()->getProcIdxFromName(name);
-    LIST_OF_STMT_NUMS stmts = stmtTable->getStmtsFromProcIdx(procIdx);
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back(), stmts.front(), INVALID_INDEX)) {
-      delete m_affectsTable;
-      return true;
-    }
-  }
-  delete m_affectsTable;
-  return false;
+  return extractHasAffectsRelationship();
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnythingStar() {  // affects*(a,_)
@@ -320,7 +301,6 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectsAnythingStar() {  // affec
 }
 
 LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnythingStar() { // affects*(_,a)
-  
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS LMS = MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS();
   int numberOfProcedures = m_pkb->getProcTable()->getAllProcsName().size();
   for (int i = 0; i < numberOfProcedures; i++) {
@@ -344,41 +324,11 @@ LIST_OF_AFFECTS_STMTS AffectsExtractor::extractAffectedByAnythingStar() { // aff
 }
 
 BOOLEAN AffectsExtractor::extractIsAffectsAnythingStar(STMT_NUM t_modifiesLine) { // affects*(1,_)
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
-  //return empty if t_modifiesLine exceeds number of lines in program.
-  if (m_pkb->getStatementTable()->getNumberOfStatements() < t_modifiesLine) {
-    return false;
-  }
-  //return false if line exceeds number of lines in program.
-  TOTAL_NUMBER_OF_STMTS totalLines = m_pkb->getStatementTable()->getNumberOfStatements();
-  if (totalLines < t_modifiesLine) {
-    return false;
-  }
-  LIST_OF_STMT_NUMS bound = getListOfStmtsFromStmtNum(t_modifiesLine);
-  STMT_NUM start = bound[0];
-  STMT_NUM end = bound[bound.size() - 1];
-  BOOLEAN hasAffects = m_affectsTable->hasAffectsFromBounds(t_modifiesLine, end, t_modifiesLine, INVALID_INDEX);
-  delete m_affectsTable;
-  return hasAffects;
+  return extractIsAffectsAnything(t_modifiesLine);
 }
 
 BOOLEAN AffectsExtractor::extractIsAffectedByAnythingStar(STMT_NUM t_usesLine) { // affects*(_,12)
-  //return empty if t_usesLine exceeds number of lines in program.
-  if (m_pkb->getStatementTable()->getNumberOfStatements() < t_usesLine) {
-    return false;
-  }
-  //return false if line exceeds number of lines in program.
-  TOTAL_NUMBER_OF_STMTS totalLines = m_pkb->getStatementTable()->getNumberOfStatements();
-  if (totalLines < t_usesLine) {
-    return false;
-  }
-  AffectsTable *m_affectsTable = new AffectsTable(m_pkb);
-  LIST_OF_STMT_NUMS bound = getListOfStmtsFromStmtNum(t_usesLine);
-  STMT_NUM start = bound[0];
-  STMT_NUM end = bound[bound.size() - 1];
-  BOOLEAN hasAffectsAnything = m_affectsTable->hasAffectsFromBounds(start, t_usesLine, INVALID_INDEX, t_usesLine);
-  delete m_affectsTable;
-  return hasAffectsAnything;
+  return extractIsAffectedByAnything(t_usesLine);
 }
 
 MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result) {
@@ -396,9 +346,8 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS AffectsExtractor::appendAffectsList(MAP_OF_
       //case 2: if key found in result
       auto itr_result = result.find(key);
       LIST_OF_AFFECTS_STMTS affectsInResult = itr_result->second;
-      //add the values in, sort and put back to the result
+      //add the values in
       affectsInResult.insert(affectsInResult.end(), affects.begin(), affects.end());
-      std::sort(affectsInResult.begin(), affectsInResult.end());
       result[key] = affectsInResult;
     }
   }

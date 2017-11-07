@@ -45,6 +45,7 @@ public:
   * getAffectsListFromLMS(INT, INT)
   */
   PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
+ 
   ///////////////////////////////////////////////////////
   //  Affects*
   ///////////////////////////////////////////////////////
@@ -62,8 +63,6 @@ private:
   // I need to have the AffectsList and AffectedByStorage
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList;
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList;
-  // Need to have LMS
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lastUseTable;
 
   ///////////////////////////////////////////////////////
   //  Affects
@@ -101,5 +100,7 @@ private:
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeLmt(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
 
   PROG_LINE getRealStartBound(PROG_LINE t_startBound);
+
+  void insertIntoAffectsLists(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine);
 };
 

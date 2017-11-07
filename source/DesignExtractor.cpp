@@ -17,7 +17,6 @@ void DesignExtractor::extractRestOfDesignAbstractions(PkbTablesOnly *t_pkb) {
     extractor->extractDesign();
     delete extractor;
   }
-
   m_affectsExtractor = (AffectsExtractor *)ExtractorFactory::makeExtractor(DESIGN_TYPE::AFFECTS, t_pkb);
 }
 
