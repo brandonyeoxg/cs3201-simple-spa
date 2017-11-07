@@ -25,6 +25,7 @@
 #include "Formatter.h"
 #include "QueryUtil.h"
 #include "WithEvaluator.h"
+#include "QueryOptimiser.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H

@@ -11,7 +11,13 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
     MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
     std::cout << "\nNUMBER OF STMTS: " << typeOfStmts.size() << "\n";
   }
-  
+
+  std::priority_queue<Clause*> t_noSyns;
+  std::priority_queue<std::priority_queue<Clause*>*> t_withSyns;
+
+  QueryOptimiser opt = QueryOptimiser(m_selects, m_relations, m_patterns, m_withs);
+  opt.divideClausesIntoGroups(t_noSyns, t_withSyns);
+
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
