@@ -29,6 +29,10 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noS
     }
   }
   
+  if (syns.empty()) {
+    return;
+  }
+
   std::vector<Clause*> *newGroup = new std::vector<Clause*>();
   newGroup->push_back(syns.front());
   allGroupsWithSyns.push_back(newGroup);
