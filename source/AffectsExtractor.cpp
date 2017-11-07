@@ -95,7 +95,7 @@ BOOLEAN AffectsExtractor::extractHasAffectsRelationship() { // affects(_,_)
     PROC_INDEX procIdx = m_pkb->getProcTable()->getProcIdxFromName(name);
     LIST_OF_STMT_NUMS stmts = stmtTable->getStmtsFromProcIdx(procIdx);
     MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back(), stmts.front(), INVALID_INDEX)) {
+    if (m_affectsTable->hasAffectsFromBounds(stmts.front(), stmts.back(), INVALID_INDEX, INVALID_INDEX)) {
       delete m_affectsTable;
       return true;
     }

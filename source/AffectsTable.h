@@ -61,8 +61,8 @@ private:
   StatementTable* m_stmtTable;
 
   // I need to have the AffectsList and AffectedByStorage
-  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectsList;
-  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS affectedByList;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS m_affectsList;
+  MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS m_affectedByList;
 
   ///////////////////////////////////////////////////////
   //  Affects
