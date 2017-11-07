@@ -476,12 +476,14 @@ public:
   * The representation is a variable mapped to all statement number under that variable.
   */
   MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt();
+  MAP_OF_VAR_INDEX_TO_STMT_NUMS getAllVarIndicesWithAssignStmt();
 
   /**
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName();
+  MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarIndex();
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -491,11 +493,15 @@ public:
   * Returns all procedure name in the program
   */
   LIST_OF_RESULTS getAllProcsName();
+
+  PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
+
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
   LIST_OF_RESULTS getAllConstants();
-
+  LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
+  STRING getConstantFromIdx(int t_constantIdx);
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -607,15 +613,25 @@ public:
   BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
   BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx);
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
+  LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
+  LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
   std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
+  MAP_OF_PROC_INDICES getAllCallsByIdx();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
   LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_INDICES getCallsAnythingByIdx();
   LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+  LIST_OF_PROC_INDICES getCallsStarAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByAnythingByIdx();
   LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+  LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx();
   BOOLEAN hasCallsRelationship();  //calls(_, _)
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
@@ -651,7 +667,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
-  
+  LIST_OF_VAR_INDICES getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName);
   /**
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
@@ -659,21 +675,21 @@ public:
   * @param t_varName the variable name that is checked.
   */
   LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
-  
+  LIST_OF_PROC_INDICES getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName);
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar();
-
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX getModifiesPAllProcToVarByIdx();
   /**
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
   */
   LIST_OF_PROC_NAMES getModifiesPAllProcNames();
-
+  LIST_OF_PROC_INDICES getModifiesPAllProcIndices();
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
@@ -703,6 +719,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName);
+  LIST_OF_VAR_INDICES getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName);
 
   /**
   * Returns the list of procedure names that are used by the variable.
@@ -711,30 +728,33 @@ public:
   * @param t_varName the variable name that is checked.
   */
   LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName);
-
+  LIST_OF_PROC_INDICES getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName);
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
   * Used in the query evaluator for Uses(p, x);
   *
   */
   MAP_OF_PROC_TO_VAR getUsesPAllProcToVar();
-
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX getUsesPAllProcToVarByIdx();
   /**
   * Returns a list of procedures that uses something.
   * Used in the query evaluator for  Uses(p, _)
   *
   */
   LIST_OF_PROC_NAMES getUsesPAllProcNames();
+  LIST_OF_PROC_INDICES getUsesPAllProcIndices();
 
   ///////////////////////////////////////////////////////
   //  UsesTable methods
   ///////////////////////////////////////////////////////
   UsesTable* getUsesTable();
-  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
   BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
   LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
 
@@ -742,11 +762,13 @@ public:
   //  ModifiesTable methods
   ///////////////////////////////////////////////////////
   ModifiesTable* getModifiesTable();
-  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum);
+  void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
   BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
+  LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum);
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
+  MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
   BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
   LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
 

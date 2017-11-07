@@ -87,7 +87,6 @@
     <ClCompile Include="..\source\UsesP.cpp" />
     <ClCompile Include="..\source\UsesPExtractor.cpp" />
     <ClCompile Include="..\source\UsesTable.cpp" />
-    <ClCompile Include="..\source\VarRelations.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\WhilePatternEvaluator.cpp" />
     <ClCompile Include="..\source\With.cpp" />
@@ -119,6 +118,7 @@
     <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\IntermediateTable.h" />
+    <ClInclude Include="..\source\InvalidArgumentException.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\NextExtractor.h" />
@@ -171,9 +171,11 @@
     <ClInclude Include="..\source\StatementTable.h" />
     <ClInclude Include="..\source\StmtListTable.h" />
     <ClInclude Include="..\source\StringUtil.h" />
+    <ClInclude Include="..\source\SyntaxDuplicateProc.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
     <ClInclude Include="..\source\SyntaxErrorException.h" />
     <ClInclude Include="..\source\SyntaxInvalidTerm.h" />
+    <ClInclude Include="..\source\SyntaxCyclicCalls.h" />
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
@@ -185,7 +187,6 @@
     <ClInclude Include="..\source\UsesP.h" />
     <ClInclude Include="..\source\UsesPExtractor.h" />
     <ClInclude Include="..\source\UsesTable.h" />
-    <ClInclude Include="..\source\VarRelations.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\WhilePatternEvaluator.h" />
     <ClInclude Include="..\source\With.h" />

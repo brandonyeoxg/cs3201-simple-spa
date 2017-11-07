@@ -114,7 +114,7 @@ int FollowTable::getFollows(STMT_NUM t_s1) {
   //we just retrieve the vector mapped to s1 return the .
   if (m_followMap.find(t_s1) == m_followMap.end()) {
     //if s1 is not present in followMap, throw exception
-    throw std::invalid_argument("key s1 does not exist in FollowTable");
+    throw InvalidArgumentException("key s1 does not exist in FollowTable");
   } else {
     LIST_OF_STMT_NUMS lineNums = m_followMap[t_s1];
     return lineNums[0];
@@ -124,7 +124,7 @@ int FollowTable::getFollows(STMT_NUM t_s1) {
 STMT_NUM FollowTable::getFollowedBy(STMT_NUM t_s2) {
   auto iterator = m_followedByMap.find(t_s2);
   if (iterator == m_followedByMap.end()) {
-    throw std::invalid_argument("s2 does not exist in FollowTable");
+    throw InvalidArgumentException("s2 does not exist in FollowTable");
   } else {
     std::vector<int> lineNumsFollowedBy = iterator->second;
     return lineNumsFollowedBy[0];

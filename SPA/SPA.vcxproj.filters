@@ -79,9 +79,6 @@
     <ClCompile Include="..\source\AssignTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\VarRelations.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
@@ -345,9 +342,6 @@
     <ClInclude Include="..\source\AssignTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\VarRelations.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Relation.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
@@ -531,6 +525,15 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryOptimiser.h">
       <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxCyclicCalls.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SyntaxDuplicateProc.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\InvalidArgumentException.h">
+      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
