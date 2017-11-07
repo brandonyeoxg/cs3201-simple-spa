@@ -35,6 +35,9 @@ public:
 
     clause = new Relation("Next*", Grammar(11, "_"), Grammar());
     Assert::IsTrue(cache.isCacheable(clause));
+
+    clause = new Relation("Follows*", Grammar(8, "3"), Grammar());
+    Assert::IsFalse(cache.isCacheable(clause));
   }
 
   TEST_METHOD(isPatternType_isRelationType) {
