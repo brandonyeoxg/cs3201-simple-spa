@@ -34,6 +34,8 @@ public:
   */
   Pattern(Grammar t_statement, Grammar t_left, Grammar t_right, bool t_subtree);
 
+  queryType::clauseType getClauseType();
+
   /**
   * A Getter that returns the type of statement of the pattern clause as a Grammar object.
   * @return The type of statement of the Pattern clause as a Grammar object.

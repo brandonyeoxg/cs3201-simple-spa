@@ -1,8 +1,6 @@
 #include "Relation.h"
 
-Relation::Relation() {
-  m_clauseType = queryType::clauseType::RELATION;
-}
+Relation::Relation() {}
 
 std::string Relation::FLS = "Follows";
 std::string Relation::FLS_ = "Follows*";
@@ -17,6 +15,7 @@ std::string Relation::NXT_ = "Next*";
 std::string Relation::AFS = "Affects";
 std::string Relation::AFS_ = "Affects*";
 
+queryType::clauseType Relation::getClauseType() { return queryType::clauseType::RELATION;  }
 queryType::RType Relation::getType() { return m_type; }
 Grammar Relation::getG1() { return m_g1; }
 Grammar Relation::getG2() { return m_g2; }
@@ -65,8 +64,6 @@ Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
 
   m_g1 = t_g1;
   m_g2 = t_g2;
-
-  m_clauseType = queryType::clauseType::RELATION;
 }
 
 STRING Relation::getTypeInString() {
