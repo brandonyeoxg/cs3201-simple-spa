@@ -593,14 +593,14 @@ public:
   */
   LIST_OF_STMT_NUMS getIfStmtByVar(STRING t_varName);
 
-  /** For Pattern i(v, _), where i is a common synonym for all if statements.
+  /** For Pattern i(v, _, _), where i is a common synonym for all if statements.
   *   Gets map of if statements with the variable name used in each if statement.
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
   MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar();
 
-  /** For Pattern i(_,  _), where i is a common synonym for all if statements.
+  /** For Pattern i(_,  _, _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
   *   @return list of statement numbers
   */
