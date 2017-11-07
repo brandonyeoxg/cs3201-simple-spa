@@ -7,7 +7,6 @@ QueryCache::QueryCache() {
 }
 
 SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
-  assert(t_clause->isPatternType() || t_clause->isRelationType());
   assert(isCacheable(t_clause));
 
   SET_OF_RESULTS *results = nullptr;
@@ -22,7 +21,6 @@ SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
 }
 
 void QueryCache::cache(Clause *t_clause, SET_OF_RESULTS t_results) {
-  assert(t_clause->isPatternType() || t_clause->isRelationType());
   assert(isCacheable(t_clause));
 
   std::string key = getKey(*t_clause);
