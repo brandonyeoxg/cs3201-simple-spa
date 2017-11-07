@@ -70,7 +70,7 @@ namespace UnitTesting {
       bool exceptionThrown = false;
       try {
         int expected = m_testFollowTable->getFollows(5);
-      } catch(std::invalid_argument) {
+      } catch(InvalidArgumentException) {
         Logger::WriteMessage("Exception thrown in getFollows");
         exceptionThrown = true;
       }
@@ -89,7 +89,7 @@ namespace UnitTesting {
       bool exceptionThrown = false;
       try {
         expected = m_testFollowTable->getFollowedBy(5);
-      } catch (std::invalid_argument) {
+      } catch (InvalidArgumentException) {
         Logger::WriteMessage("Exception thrown in getFollowedBy");
         exceptionThrown = true;
       }

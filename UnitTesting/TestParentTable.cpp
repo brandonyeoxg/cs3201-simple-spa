@@ -68,7 +68,7 @@ namespace UnitTesting {
       bool exceptionThrown = false;
       try {
         int expected = testParentTable->getParentOf(5);
-      } catch (std::invalid_argument) {
+      } catch (InvalidArgumentException) {
         Logger::WriteMessage("Exception thrown in getParentOf");
         exceptionThrown = true;
       }
