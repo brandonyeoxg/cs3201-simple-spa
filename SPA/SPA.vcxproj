@@ -118,6 +118,7 @@
     <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\IntermediateTable.h" />
+    <ClInclude Include="..\source\InvalidArgumentException.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\NextExtractor.h" />
