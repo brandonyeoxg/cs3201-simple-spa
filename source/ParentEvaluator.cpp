@@ -71,7 +71,7 @@ SET_OF_RESULTS ParentEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar 
     int stmtNo;
     try {
       stmtNo = t_pkb->getParentOf(std::stoi(t_g2.getName()));
-    } catch (const std::invalid_argument& ia) {
+    } catch (InvalidArgumentException ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
       return m_result;
     }
