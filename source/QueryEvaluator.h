@@ -48,7 +48,7 @@ public:
   * @param t_patterns A queue to store all the pattern clauses in the query.
   * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
-  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
+  QueryEvaluator(PkbReadOnly *t_pkb, std::vector<Grammar> t_selects, std::vector<Relation> t_relations, std::vector<Pattern> t_patterns, std::vector<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
     : m_pkb(t_pkb),
       m_selects(t_selects),
       m_relations(t_relations),
@@ -80,10 +80,10 @@ private:
   QueryCache *m_cache; /**< A QueryCache pointer. The QueryCache instance to cache and get results. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
   MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
-  std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
-  std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
-  std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
-  std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
+  std::vector<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
+  std::vector<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
+  std::vector<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
+  std::vector<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
   BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses. */
   std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten; /**< An unordered map. It stores the synonym to be rewritten and the Grammar Object to replace it with. */
 

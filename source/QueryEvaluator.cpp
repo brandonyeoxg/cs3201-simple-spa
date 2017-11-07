@@ -30,28 +30,19 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
   if (isDebugMode) {
     std::cout << "Getting results from PKB...\n";
   }
-  
-  int relationSize = m_relations.size();
-  int patternSize = m_patterns.size();
-  int withSize = m_withs.size();
 
   //Loop through the With Queue
-  for (int i = 0; i < withSize; ++i) {
+  for (auto& with : m_withs) {
     m_isSelectOnly = false;
-    With with = m_withs.front();
     BOOLEAN hasResult = getWithResult(with);
     if (!hasResult) {
       return false;
     }
-
-    m_withs.pop();
   }
 
   //Loop through the Relation Queue
-  for (int i = 0; i < relationSize; ++i) {
+  for (auto& relation : m_relations) {
     m_isSelectOnly = false;
-    Relation relation = m_relations.front();
-
     if (!Grammar::isStmtNo(relation.getG1().getType()) && !Grammar::isString(relation.getG1().getType())) {
       relation.setG1(EvaluatorUtil::rewriteSynonym(relation.getG1(), m_synsToBeRewritten));
     }
@@ -64,15 +55,11 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     if (!hasResult) {
       return false;
     }
-
-    m_relations.pop();
   }
 
   //Loop through the Pattern Queue
-  for (int i = 0; i < patternSize; ++i) {
+  for (auto& pattern : m_patterns) {
     m_isSelectOnly = false;
-    Pattern pattern = m_patterns.front();
-
     if (!Grammar::isStmtNo(pattern.getLeft().getType()) && !Grammar::isString(pattern.getLeft().getType())) {
       pattern.setLeft(EvaluatorUtil::rewriteSynonym(pattern.getLeft(), m_synsToBeRewritten));
     }
@@ -81,8 +68,6 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     if (!hasResult) {
       return false;
     }
-
-    m_patterns.pop();
   }
 
   return true;
@@ -259,7 +244,6 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {   
-        m_relations.push(t_relation);
         return m_table->insertOneSynonym(t_relation.getG1().getName(), t_result[t_relation.getG1().getName()]);
       }
     }
@@ -267,7 +251,6 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
     got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        m_relations.push(t_relation);
         return m_table->insertOneSynonym(t_relation.getG2().getName(), t_result[t_relation.getG2().getName()]);
       }
     }
@@ -275,19 +258,17 @@ BOOLEAN QueryEvaluator::storeRelationResultFromPkb(Relation t_relation, SET_OF_R
     got = m_synonymsUsedInQuery.find(t_relation.getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-m_relations.push(t_relation);
-if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType()))
-  && !Grammar::isProc(t_relation.getG1().getType())) {
-  return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
-} else {
-  return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
-}
+        if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType()))
+          && !Grammar::isProc(t_relation.getG1().getType())) {
+          return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
+        } else {
+          return m_table->insertTwoSynonym(t_relation.getG1().getName(), t_relation.getG2().getName(), t_result);
+        }
       }
 
       got = m_synonymsUsedInQuery.find(t_relation.getG2().getName());
       if (got != m_synonymsUsedInQuery.end()) {
         if (got->second > 1) {
-          m_relations.push(t_relation);
           if ((Relation::isUses(t_relation.getType()) || Relation::isModifies(t_relation.getType()))
             && !Grammar::isProc(t_relation.getG1().getType())) {
             return m_table->insertTwoSynonym(t_relation.getG2().getName(), t_relation.getG1().getName(), t_result);
@@ -308,7 +289,6 @@ BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATT
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        m_patterns.push(t_pattern);
         return m_table->insertOneSynonym(t_pattern.getStmt().getName(), t_result[t_pattern.getStmt().getName()]);
       }
     }
@@ -316,13 +296,11 @@ BOOLEAN QueryEvaluator::storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATT
     got = m_synonymsUsedInQuery.find(t_pattern.getStmt().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        m_patterns.push(t_pattern);
         return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);
       } else if (got->second == 1) {
         got = m_synonymsUsedInQuery.find(t_pattern.getLeft().getName());
         if (got != m_synonymsUsedInQuery.end()) {
           if (got->second > 1) {
-            m_patterns.push(t_pattern);
             return m_table->insertTwoSynonym(t_pattern.getStmt().getName(), t_pattern.getLeft().getName(), t_result);
           }
         }
@@ -354,24 +332,21 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
       finalResult.push_back(TRUE);
     }
   } else {
-    int selectSize = m_selects.size();
-    for (int i = 0; i < selectSize; ++i) {
-      Grammar grammar = m_selects.front();
+    for (auto& grammar : m_selects) {
       if (!Grammar::isCall(grammar.getType()) && !Grammar::isProcName(grammar.getAttr())) {
         grammar = EvaluatorUtil::rewriteSynonym(grammar, m_synsToBeRewritten);
       }
 
       if (!m_table->hasSynonym(grammar.getName()) || (!m_table->hasSynonym(grammar.getName())
-        && Grammar::isCall(m_selects.front().getType())
-        && Grammar::isProcName(m_selects.front().getAttr()))) {
-        BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
+        && Grammar::isCall(grammar.getType())
+        && Grammar::isProcName(grammar.getAttr()))) {
+        BOOLEAN hasResult = getSelectResultFromPkb(grammar);
         if (!hasResult) {
           return finalResult;
         }      
       }
 
       selectedSynonyms.push_back(grammar);
-      m_selects.pop();
     }
 
     finalResult = m_table->getResults(selectedSynonyms, m_pkb);
