@@ -15,7 +15,7 @@ public:
   ~CallsExtractor() {};
 
   void extractDesign();
-  void hasLoopingCalls();
+  void hasRecursiveCall();
 
 private:
   void populateCallsIdx();
