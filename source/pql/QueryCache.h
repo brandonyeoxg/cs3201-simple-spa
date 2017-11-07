@@ -61,8 +61,6 @@ public:
 
   bool isCacheable(Clause *t_clause);
 
-  
-
   std::string getKey(Clause &t_clause);
 
 private:

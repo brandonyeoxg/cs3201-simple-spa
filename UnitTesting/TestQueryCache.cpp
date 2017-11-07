@@ -9,7 +9,11 @@ namespace UnitTesting {
   TEST_CLASS(TestQueryCache) {
 public:
   TEST_METHOD(testKey) {
-    Pattern pattern = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
+    Logger::WriteMessage("Print out keys for Clauses");
+    Pattern pattern;
+    Relation relation;
+
+    pattern = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
     QueryCache cache = QueryCache();
     std::string key;
 
@@ -17,7 +21,12 @@ public:
 
     Logger::WriteMessage(key.c_str());
 
-    Relation relation = Relation("Next*", Grammar(11, "_"), Grammar());
+    relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
+    key = cache.getKey(relation);
+
+    Logger::WriteMessage(key.c_str());
+
+    relation = Relation("Affects*", Grammar(3, "s1"), Grammar(3, "s2"));
     key = cache.getKey(relation);
 
     Logger::WriteMessage(key.c_str());
@@ -50,6 +59,26 @@ public:
     clause = new Relation("Next*", Grammar(11, "_"), Grammar());
     Assert::IsTrue(clause->isRelationType());
     Assert::IsFalse(clause->isPatternType());
+  }
+
+  TEST_METHOD(cache_getCache) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS *results, expected;
+
+    expected = SET_OF_RESULTS();
+    expected.insert({ "result1", {"1", "2", "3", "4"} });
+    expected.insert({ "result2", { "1", "4" } });
+
+    clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s1"));
+
+    cache.cache(clause, expected);
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
+
+    clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s7"));
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
   }
 
 
