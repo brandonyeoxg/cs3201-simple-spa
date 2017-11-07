@@ -75,7 +75,7 @@ bool ParentTable::isParentStar(int t_s1, int t_s2) {
 int ParentTable::getParentOf(int t_s2) {
   if (m_parentMap.find(t_s2) == m_parentMap.end()) {
     //if s2 is not present in parentMap, throw exception
-    throw std::invalid_argument("key s2 does not exist in ParentTable");
+    throw InvalidArgumentException("key s2 does not exist in ParentTable");
   } else {
     return m_parentMap[t_s2];
   }
