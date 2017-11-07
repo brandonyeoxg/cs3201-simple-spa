@@ -40,7 +40,6 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noS
 
   int numOfGroups = allGroupsWithSyns.size();
   for (int i = 0; i < numOfGroups; ++i) {
-    //std::vector<Clause*> existingGroup = *allGroupsWithSyns[i];
     int numOfClauses = (*allGroupsWithSyns[i]).size();
     for (int j = 0; j < numOfClauses; ++j) {
       Clause *existingClause = (*allGroupsWithSyns[i])[j];
