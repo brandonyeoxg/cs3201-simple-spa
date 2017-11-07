@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "pql/QueryCache.h"
 #include "Pattern.h"
+#include "With.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -46,6 +47,9 @@ public:
     Assert::IsTrue(cache.isCacheable(clause));
 
     clause = new Relation("Follows*", Grammar(8, "3"), Grammar());
+    Assert::IsFalse(cache.isCacheable(clause));
+
+    clause = new With(Grammar(), Grammar());
     Assert::IsFalse(cache.isCacheable(clause));
   }
 
