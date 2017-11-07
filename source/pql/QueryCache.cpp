@@ -6,9 +6,19 @@ QueryCache::QueryCache() {
   m_cache = std::unordered_map<std::string, SET_OF_RESULTS>();
 }
 
-SET_OF_RESULTS QueryCache::getCache(Clause *t_clause) {
+SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
+  assert(t_clause->isPatternType() || t_clause->isRelationType());
+  assert(isCacheable(t_clause));
 
-  return SET_OF_RESULTS();
+  SET_OF_RESULTS *results = nullptr;
+
+  std::string clauseKey = getKey(*t_clause);
+
+  if (isKeyInMap(clauseKey, m_cache)) {
+    results = &m_cache.at(clauseKey);
+  }
+
+  return results;
 }
 
 void QueryCache::cache(Clause *t_clause, SET_OF_RESULTS t_results) {
@@ -62,6 +72,7 @@ bool QueryCache::isRelationCacheable(Relation * t_relation) {
     case queryType::RType::FOLLOWS_:
     case queryType::RType::PARENT:
     case queryType::RType::PARENT_:
+      // PKB has O(1) time retrieval for (s1, s2)
       if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {
         return false;
       } else {
@@ -75,13 +86,13 @@ bool QueryCache::isRelationCacheable(Relation * t_relation) {
       return false;
   }
 
-  if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {
+  if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {  // (s1, s2)
     return true;
   } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {
+    && QueryUtil::isUnderscore(t_relation->getG2())) {  // (s1, _)
     return true;
   } else if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {
+    && QueryUtil::isUnderscore(t_relation->getG1())) {  // (_, s2)
     return true; 
   }
 
