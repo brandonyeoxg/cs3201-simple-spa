@@ -99,12 +99,8 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
     got = m_synsToBeRewritten.find(t_select.getName());
     if (got != m_synsToBeRewritten.end()) {
       LIST_OF_RESULTS results;
-      PROC_NAME procName = m_pkb->getProcNameFromCallStmtNum(std::stoi(got->second.getName()));
-      results.push_back(procName);
-      STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms);
-      Grammar newGrammar = Grammar(0, synName);
-      m_numOfCustomSynonyms = m_numOfCustomSynonyms + 1;
-      return storeSelectResultFromPkb(newGrammar, results);
+      results.push_back(got->second.getName());
+      return storeSelectResultFromPkb(t_select, results);
     }
   }
 
@@ -131,13 +127,7 @@ BOOLEAN QueryEvaluator::getSelectResultFromPkb(Grammar t_select) {
       allSelectedStmtsInInt = allStmts[queryType::GType::WHILE];
     } else if (Grammar::isIf(t_select.getType())) {
       allSelectedStmtsInInt = allStmts[queryType::GType::IF];
-    } else if (Grammar::isCall(t_select.getType())) {
-      if (t_select.hasAttr() && Grammar::isProcName(t_select.getAttr())) {
-        LIST_OF_PROC_NAMES allProcNames = m_pkb->getCalledByAnything();
-        storeSelectResultFromPkb(t_select, allProcNames);
-        return true;
-      }
-      
+    } else if (Grammar::isCall(t_select.getType())) {  
       allSelectedStmtsInInt = allStmts[queryType::GType::CALL];  
     }
 
@@ -371,24 +361,16 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
         grammar = EvaluatorUtil::rewriteSynonym(grammar, m_synsToBeRewritten);
       }
 
-      if (!m_table->hasSynonym(grammar.getName()) || (Grammar::isCall(m_selects.front().getType())
+      if (!m_table->hasSynonym(grammar.getName()) || (!m_table->hasSynonym(grammar.getName())
+        && Grammar::isCall(m_selects.front().getType())
         && Grammar::isProcName(m_selects.front().getAttr()))) {
         BOOLEAN hasResult = getSelectResultFromPkb(m_selects.front());
         if (!hasResult) {
           return finalResult;
-        }
-
-        if (Grammar::isCall(m_selects.front().getType()) && Grammar::isProcName(m_selects.front().getAttr())) {
-          STRING synName = StringUtil::createStringWithRepeatedChar(ASTERISK, m_numOfCustomSynonyms - 1);
-          Grammar newGrammar = Grammar(11, synName);
-          selectedSynonyms.push_back(newGrammar);
-        } else {
-          selectedSynonyms.push_back(grammar);
-        }
-      } else {
-        selectedSynonyms.push_back(grammar);
+        }      
       }
 
+      selectedSynonyms.push_back(grammar);
       m_selects.pop();
     }
 
@@ -735,9 +717,48 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
 
     if (Grammar::isStmtNum(left.getAttr())) {
       MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
-      int maxStmtNo = allStmts.size();
-      if (std::stoi(right.getName()) > maxStmtNo) {
-        return false;
+      std::unordered_map<STMT_NUM, SYNONYM_TYPE>::iterator got;
+      if (Grammar::isStmt(left.getType())) {  
+        int maxStmtNo = allStmts.size();
+        if (std::stoi(right.getName()) > maxStmtNo) {
+          return false;
+        }
+      } else if (Grammar::isAssign(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isAssign(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isWhile(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isWhile(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isIf(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isIf(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isCall(left.getType())) {
+        got = allStmts.find(std::stoi(right.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isCall(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
       }
 
       if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, left.getName())) {
@@ -750,9 +771,48 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       return m_table->insertOneSynonym(left.getName(), results);
     } else if (Grammar::isStmtNum(right.getAttr())) {
       MAP_OF_STMT_NUM_TO_GTYPE allStmts = m_pkb->getTypeOfStatementTable();
-      int maxStmtNo = allStmts.size();
-      if (std::stoi(right.getName()) > maxStmtNo) {
-        return false;
+      std::unordered_map<STMT_NUM, SYNONYM_TYPE>::iterator got;
+      if (Grammar::isStmt(right.getType())) {
+        int maxStmtNo = allStmts.size();
+        if (std::stoi(left.getName()) > maxStmtNo) {
+          return false;
+        }
+      } else if (Grammar::isAssign(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isAssign(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isWhile(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isWhile(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isIf(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isIf(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      } else if (Grammar::isCall(right.getType())) {
+        got = allStmts.find(std::stoi(left.getName()));
+        if (got != allStmts.end()) {
+          if (!Grammar::isCall(got->second)) {
+            return false;
+          }
+        } else {
+          return false;
+        }
       }
 
       if (!QueryUtil::isSynonymCommon(m_synonymsUsedInQuery, right.getName())) {

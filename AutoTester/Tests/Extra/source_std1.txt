@@ -1,0 +1,46 @@
+procedure AFFECTS1 {
+	alpha = beta;
+	beta = gamma;
+	beta = delta;
+	alpha = beta;
+
+	while omega {
+		while omega {
+			if omega then {
+				if omega then {
+					gamma = beta;
+				} else {
+					gamma = alpha;
+				}
+			} else {
+				gamma = beta;
+			}
+			delta = gamma;
+		}
+		alpha = delta;
+
+		if omega then {
+			gamma = alpha;
+			call AFFECTS2;
+		} else {
+			gamma = beta;
+		}
+		delta = gamma;
+		beta = delta;
+	}
+}
+
+procedure AFFECTS2 {
+	if omega then {
+		gamma = 21;
+		while omega {
+			alpha = gamma;
+		}
+	} else {
+		while omega {
+			alpha = beta;
+			delta = alpha;
+			beta = delta;
+		}
+	}
+}
