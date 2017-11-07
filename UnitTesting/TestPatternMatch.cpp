@@ -320,6 +320,30 @@ public:
     Assert::IsTrue(stmtNums == expected);
   }
 
+  TEST_METHOD(getAllStmtNumWithSubtreePattern_04) {
+    PatternMatch patternMatch = PatternMatch();
+    LIST_OF_STMT_NUMS stmtNums, expected;
+    std::vector<std::string> pattern;
+
+    patternMatch.addAssignStmt(1, { "22" });
+    patternMatch.addAssignStmt(2, { "2" });
+    pattern = { "2" };
+    expected = { 2 };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+
+    Assert::IsTrue(stmtNums == expected);
+
+    patternMatch.addAssignStmt(3, { "aaaaaa" });
+    patternMatch.addAssignStmt(4, { "aa" });
+    patternMatch.addAssignStmt(5, { "baa" });
+    patternMatch.addAssignStmt(6, { "aab" });
+    pattern = { "aa" };
+    expected = { 4 };
+    stmtNums = patternMatch.getAllStmtNumWithSubtreePattern(pattern);
+
+    Assert::IsTrue(stmtNums == expected);
+  }
+
 private:
 
   void printMap(std::unordered_map<int, std::string> map) {
@@ -335,7 +359,7 @@ private:
     }
   }
 
-  void printListOfIntegers(std::list<int> list) {
+  void printListOfIntegers(std::vector<int> list) {
     for (auto iterator = list.begin(); iterator != list.end(); iterator++) {
       Logger::WriteMessage(std::to_string((int)*iterator).c_str());
     }
