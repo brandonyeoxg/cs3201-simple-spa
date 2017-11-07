@@ -38,15 +38,15 @@ public:
   }
 
   TEST_METHOD(isPatternType_isRelationType) {
-    Clause clause;
+    Clause *clause;
 
-    clause = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
-    Assert::IsTrue(clause.isPatternType());
-    Assert::IsFalse(clause.isRelationType());
+    clause = new Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
+    Assert::IsTrue(clause->isPatternType());
+    Assert::IsFalse(clause->isRelationType());
 
-    clause = Relation("Next*", Grammar(11, "_"), Grammar());
-    Assert::IsTrue(clause.isRelationType());
-    Assert::IsFalse(clause.isPatternType());
+    clause = new Relation("Next*", Grammar(11, "_"), Grammar());
+    Assert::IsTrue(clause->isRelationType());
+    Assert::IsFalse(clause->isPatternType());
   }
 
 
