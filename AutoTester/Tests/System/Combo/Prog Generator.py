@@ -18,4 +18,3 @@ def gen4(num):
         print("  master"+str(abs(i))+" = Hacka"+str(i+3*num)+";")
     return None
 
-gen4(87)

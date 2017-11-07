@@ -50,3 +50,4 @@ start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-2-prog.txt %~dp0/Tests/System/Affects/affects-test-2-queries.txt %~dp0/Output/DebugOutput/system-affects-out2.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Affects/affects-test-3-prog.txt %~dp0/Tests/System/Affects/affects-test-3-queries.txt %~dp0/Output/DebugOutput/system-affects-out3.xml
 start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Non-Existence/non-existence-test-prog.txt %~dp0/Tests/System/Non-Existence/non-existence-test-queries.txt %~dp0/Output/DebugOutput/system-non-existence-out.xml
+start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/System/Combo/combo-stress-test-prog.txt %~dp0/Tests/System/Combo/combo-stress-test-1-queries.txt %~dp0/Output/DebugOutput/system-combo-stress-out1.xml
