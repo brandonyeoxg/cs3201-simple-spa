@@ -41,7 +41,10 @@ public:
   * Reurns all procedure name in the program
   */
   LIST_OF_PROC_NAMES& getAllProcsName();
+
+  LIST_OF_PROC_INDICES& getAllProcsIndices();
 private:
   LIST_OF_PROC_NAMES m_procIdxToName;
+  LIST_OF_PROC_INDICES m_allProcIndices;
   std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;
 };

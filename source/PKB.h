@@ -454,6 +454,7 @@ public:
   * @return a vector of statement numbers.
   */
   LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_VAR_INDICES& getAllVarIndices();
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
@@ -493,7 +494,7 @@ public:
   * Returns all procedure name in the program
   */
   LIST_OF_RESULTS getAllProcsName();
-
+  LIST_OF_PROC_INDICES getAllProcsIndices();
   PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
 
   PROC_INDEX getProcIdxFromName(PROC_NAME t_name);

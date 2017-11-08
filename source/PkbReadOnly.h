@@ -281,6 +281,7 @@ public:
   */
   virtual LIST_OF_VAR_NAMES& getAllVarNames() = 0;
 
+  virtual LIST_OF_VAR_INDICES& getAllVarIndices() = 0;
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
@@ -537,6 +538,8 @@ public:
   * Returns all procedure name in the program
   */
   virtual LIST_OF_RESULTS getAllProcsName() = 0;
+
+  virtual LIST_OF_PROC_INDICES getAllProcsIndices() = 0;
 
   virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
 
