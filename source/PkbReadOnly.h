@@ -318,6 +318,8 @@ public:
   * @return a list of constants (strings).
   */
   virtual LIST_OF_RESULTS getAllConstants() = 0;
+  virtual LIST_OF_CONSTANT_INDICES getAllConstantsByIdx() = 0;
+  virtual CONSTANT_TERM getConstantFromIdx(int t_constantIdx) = 0;
 
   ///////////////////////////////////////////////////////
   //  Pattern Matching
@@ -537,6 +539,8 @@ public:
   virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
   virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
+
+  virtual PROC_INDEX getProcIdxFromName(PROC_NAME t_name) = 0;
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////

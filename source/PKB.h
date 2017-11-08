@@ -496,6 +496,7 @@ public:
 
   PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
 
+  PROC_INDEX getProcIdxFromName(PROC_NAME t_name);
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
