@@ -24,9 +24,19 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     insertSynonym(t_synonym1);
     insertSynonym(t_synonym2);
     if (m_results.empty()) {
-      m_results = insertTwoIntoEmptyTable(t_results);
+      if (t_synonym1 == t_synonym2) {
+        LIST_OF_RESULTS results = Formatter::formatMapStrVectorStrToVectorStr(t_results);
+        m_results = insertOneIntoEmptyTable(results);
+      } else {
+        m_results = insertTwoIntoEmptyTable(t_results);
+      }    
     } else {
-      m_results = getCartesianProduct(t_results);
+      if (t_synonym1 == t_synonym2) {
+        LIST_OF_RESULTS results = Formatter::formatMapStrVectorStrToVectorStr(t_results);
+        m_results = getCartesianProduct(results);
+      } else {
+        m_results = getCartesianProduct(t_results);
+      }
     }
   } else if (hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym2);
