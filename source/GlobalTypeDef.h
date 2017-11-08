@@ -66,6 +66,7 @@ typedef std::vector<STRING> LIST_OF_STRINGS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
 typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
 typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
+typedef std::set<PROC_NAME> SET_OF_PROC_NAMES;
 typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
 typedef std::set<PROC_INDEX> SET_OF_PROC_INDICES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
@@ -92,6 +93,7 @@ typedef std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> MAP_OF_PROG_LINE_T
 typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_INDEX, PROC_INDEX> MAP_OF_PROC_INDICES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
+typedef std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> MAP_OF_PROC_NAME_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_PROC_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_VAR_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_INDICES;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_STMT_NUMS> MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS;
