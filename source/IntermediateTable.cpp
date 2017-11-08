@@ -45,6 +45,40 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
+BOOLEAN IntermediateTable::mergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables) {
+  for (auto& table : t_tables) {
+    if (m_results.empty()) {
+      m_results = table;
+      continue;
+    }
+
+    INTERMEDIATE_TABLE intermediateResults;
+    int rowNum = 0;
+    for (auto& row : table) {
+      for (auto& r : m_results) {
+        if (intermediateResults.empty()) {
+          intermediateResults.push_back(r);
+          intermediateResults[rowNum].insert(intermediateResults[rowNum].end(), row.begin(), row.end());
+          rowNum++;
+          continue;
+        }
+
+        intermediateResults.push_back(r);
+        intermediateResults[rowNum].insert(intermediateResults[rowNum].end(), row.begin(), row.end());
+        rowNum++;
+      }
+    }
+
+    m_results = intermediateResults;
+  }
+
+  if (m_results.empty()) {
+    return false;
+  }
+
+  return true;
+}
+
 LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn, PkbReadOnly *t_pkb) {
   LIST_OF_RESULTS output;
   if (t_selectedSyn.size() == 0) {

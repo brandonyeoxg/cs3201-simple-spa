@@ -140,5 +140,40 @@ namespace UnitTesting {
       expected = { { "1", "4", "2", "4", "6" },{ "1", "4", "3", "4", "6" } };
       Assert::IsTrue(actual == expected);
     }
+
+    TEST_METHOD(TestMergeTables)
+    {
+      m_driver->clearTable();
+
+      LIST_OF_RESULTS result = { "1", "3", "7" };
+      INTERMEDIATE_TABLE table1 = m_driver->TestInsertOneSynonym("s1", result);
+      m_driver->clearTable();
+
+      result = { "2", "4" };
+      INTERMEDIATE_TABLE table2 = m_driver->TestInsertOneSynonym("s2", result);
+      m_driver->clearTable();
+
+      INTERMEDIATE_TABLE actual = m_driver->TestMergeTables({ table1, table2 });
+      INTERMEDIATE_TABLE expected = { { "1", "2" },{ "3", "2" },{ "7", "2" },{ "1", "4" },{ "3", "4" },{ "7", "4" } };
+      Assert::IsTrue(actual == expected);
+      m_driver->clearTable();
+
+      table1 = { { "1", "2" },{ "3", "2" },{ "7", "2" } };
+      table2 = { { "3", "2", "4" },{ "6", "2", "2" } };
+      actual = m_driver->TestMergeTables({ table1, table2 });
+      expected = { { "1", "2", "3", "2", "4" },{ "3", "2", "3", "2", "4" },{ "7", "2", "3", "2", "4" },{ "1", "2", "6", "2", "2" },{ "3", "2", "6", "2", "2" },{ "7", "2", "6", "2", "2" } };
+      Assert::IsTrue(actual == expected);
+      m_driver->clearTable();
+
+      table1 = { { "1", "2" },{ "3", "2" },{ "7", "2" } };
+      table2 = { { "3", "2", "4" },{ "6", "2", "2" } };
+      INTERMEDIATE_TABLE table3 = { { "1", "8" },{ "8", "9" },{ "2", "5" },{ "3", "4" } };
+      actual = m_driver->TestMergeTables({ table1, table2, table3 });
+      expected = { { "1", "2", "3", "2", "4", "1", "8" },{ "3", "2", "3", "2", "4", "1", "8" },{ "7", "2", "3", "2", "4", "1", "8" },{ "1", "2", "6", "2", "2", "1", "8" },{ "3", "2", "6", "2", "2", "1", "8" },{ "7", "2", "6", "2", "2", "1", "8" },
+      { "1", "2", "3", "2", "4", "8", "9" },{ "3", "2", "3", "2", "4", "8", "9" },{ "7", "2", "3", "2", "4", "8", "9" },{ "1", "2", "6", "2", "2", "8", "9" },{ "3", "2", "6", "2", "2", "8", "9" },{ "7", "2", "6", "2", "2", "8", "9" },
+      { "1", "2", "3", "2", "4", "2", "5" },{ "3", "2", "3", "2", "4", "2", "5" },{ "7", "2", "3", "2", "4", "2", "5" },{ "1", "2", "6", "2", "2", "2", "5" },{ "3", "2", "6", "2", "2", "2", "5" },{ "7", "2", "6", "2", "2", "2", "5" },
+      { "1", "2", "3", "2", "4", "3", "4" },{ "3", "2", "3", "2", "4", "3", "4" },{ "7", "2", "3", "2", "4", "3", "4" },{ "1", "2", "6", "2", "2", "3", "4" },{ "3", "2", "6", "2", "2", "3", "4" },{ "7", "2", "6", "2", "2", "3", "4" } };
+      Assert::IsTrue(actual == expected);
+    }
   };
 }

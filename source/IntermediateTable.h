@@ -13,6 +13,7 @@ class IntermediateTable {
 public:
   BOOLEAN insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
   BOOLEAN insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results);
+  BOOLEAN mergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables);
   
   /*
   * Returns the results based on the synoynms selected.

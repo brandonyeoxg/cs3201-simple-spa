@@ -12,5 +12,6 @@ public:
   bool TestHasSynonym(SYNONYM_NAME t_name);
   INTERMEDIATE_TABLE TestInsertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
   INTERMEDIATE_TABLE TestInsertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results);
+  INTERMEDIATE_TABLE TestMergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables);
 };
 

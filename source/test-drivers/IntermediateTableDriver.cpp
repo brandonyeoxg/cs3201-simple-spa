@@ -33,3 +33,8 @@ INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertTwoSynonym(SYNONYM_NAME t_
   insertTwoSynonym(t_synonym1, t_synonym2, t_results);
   return m_results;
 }
+
+INTERMEDIATE_TABLE IntermediateTableDriver::TestMergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables) {
+  mergeTables(t_tables);
+  return m_results;
+}
