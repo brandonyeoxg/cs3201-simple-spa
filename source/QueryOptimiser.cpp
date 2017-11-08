@@ -2,6 +2,12 @@
 
 #include "QueryOptimiser.h"
 
+struct compareClauses {
+  bool operator()(const std::pair<Clause, int>& clause1, const std::pair<Clause, int>& clause2) {
+    return clause1.second > clause2.second;
+  }
+};
+
 void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noSyns, std::priority_queue<std::priority_queue<Clause*>*> &t_withSyns) {
   std::queue<Clause*> syns;
   std::vector<std::vector<Clause*>*> allGroupsWithSyns;
@@ -209,6 +215,6 @@ void QueryOptimiser::sortBetweenGroups(std::priority_queue<std::priority_queue<C
   }*/
 }
 
-void QueryOptimiser::sortWithinGroups(std::priority_queue<Clause*> &t_clauses) {
-
+void QueryOptimiser::sortWithinGroups(std::priority_queue<Clause*> &t_clauses, PkbReadOnly *t_pkb) {
+  //std::priority_queue<std::pair<Clause, int>, std::vector<std::pair<Clause, int>>, compareClauses>
 }

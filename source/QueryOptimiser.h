@@ -1,12 +1,14 @@
 #pragma once
 
 #include <queue>
+#include <utility>
 
 #include "Clause.h"
 #include "Relation.h"
 #include "Pattern.h"
 #include "With.h"
 #include "QueryUtil.h"
+#include "PkbReadOnly.h"
 
 class QueryOptimiser {
 public:
@@ -18,7 +20,7 @@ public:
 
   void divideClausesIntoGroups(std::priority_queue<Clause*> &t_noSyns, std::priority_queue<std::priority_queue<Clause*>*> &t_withSyns);
   void sortBetweenGroups(std::priority_queue<std::priority_queue<Clause*>*> &t_groups);
-  void sortWithinGroups(std::priority_queue<Clause*> &t_clauses);
+  void sortWithinGroups(std::priority_queue<Clause*> &t_clauses, PkbReadOnly *t_pkb);
 
 private:
   std::vector<Grammar> m_selects;
