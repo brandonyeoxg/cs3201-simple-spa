@@ -13,11 +13,10 @@
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 ConstantTable::ConstantTable() {
-  std::set<int> m_listOfConstants;
-  std::unordered_map<int, std::string> m_constantMap;
+  MAP_OF_CONSTANT_INDEX_TO_CONSTANT_TERM m_constantMap;
 }
 
-int ConstantTable::insertConstant(std::string t_constant) {
+CONSTANT_INDEX ConstantTable::insertConstant(std::string t_constant) {
   int index = m_constantMap.size();
   //check if t_constant exists in the set. If it does, do not add into the map.
   if (m_constantSet.find(t_constant) != m_constantSet.end()) {
@@ -30,7 +29,7 @@ int ConstantTable::insertConstant(std::string t_constant) {
   }
 
 }
-STRING ConstantTable::getConstantFromIdx(int t_constantIdx) {
+CONSTANT_TERM ConstantTable::getConstantFromIdx(int t_constantIdx) {
   if (m_constantMap.find(t_constantIdx) == m_constantMap.end()) {
     //if index is not present in map, throw exception
     throw std::invalid_argument("key constantIdx does not exist in ConstantTable");

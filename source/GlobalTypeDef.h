@@ -33,6 +33,7 @@ typedef char STRING_CHARACTER;
 
 /*Indexes*/
 typedef INTEGER VAR_INDEX;
+typedef INTEGER CONSTANT_INDEX;
 typedef INTEGER PROC_INDEX;
 typedef INTEGER STMT_NUM;
 typedef INTEGER PROG_LINE;
@@ -69,11 +70,14 @@ typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
 typedef std::set<PROC_NAME> SET_OF_PROC_NAMES;
 typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
 typedef std::set<PROC_INDEX> SET_OF_PROC_INDICES;
+typedef std::set<CONSTANT_INDEX> SET_OF_CONSTANT_INDICES;
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
+typedef std::set<CONSTANT_TERM> SET_OF_CONSTANT_TERMS;
 typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
 typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
 typedef std::unordered_set<VAR_INDEX> UNORDERED_SET_OF_VAR_INDICES;
 typedef std::unordered_set<PROC_INDEX> UNORDERED_SET_OF_PROC_INDICES;
+typedef std::unordered_map<CONSTANT_INDEX, CONSTANT_TERM> MAP_OF_CONSTANT_INDEX_TO_CONSTANT_TERM;
 typedef std::unordered_map<STMT_NUM, std::unordered_set<std::string>> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
 typedef std::unordered_map<STMT_NUM, std::unordered_set<VAR_INDEX>> MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES;
 typedef std::unordered_map<std::string, std::unordered_set<std::string>> MAP_OF_NAME_TO_SET_OF_NAMES;
