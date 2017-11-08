@@ -19,6 +19,13 @@ public:
   static std::vector<std::string> formatVectorIntToVectorStr(std::vector<int> t_vectorInt);
 
   /**
+  * A public function to format string vector to int vector.
+  * Given a vector of integers, it will format it into a vector of strings.
+  * @return the contents of a vector of strings in a vector of integers.
+  */
+  static std::vector<int> formatVectorStrToVectorInt(std::vector<std::string> t_vectorStr);
+
+  /**
   * A public function to format string list to string vector.
   * Given a list of strings, it will format it into a vector of strings.
   * @return the contents of a list of strings in a vector of strings.
