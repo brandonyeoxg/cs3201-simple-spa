@@ -13,7 +13,6 @@
 * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
 */
 ConstantTable::ConstantTable() {
-  MAP_OF_CONSTANT_INDEX_TO_CONSTANT_TERM m_constantMap;
 }
 
 CONSTANT_INDEX ConstantTable::insertConstant(std::string t_constant) {

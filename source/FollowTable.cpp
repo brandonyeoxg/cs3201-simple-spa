@@ -219,9 +219,4 @@ void FollowTable::populateAllFollowsMap() {
 * Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
 */
 FollowTable::FollowTable() {
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
-  MAP_OF_STMT_NUMS m_allFollowsMap;
-  BOOLEAN_MATRIX m_followsMatrix;
-  SET_OF_STMT_NUMS m_allFollows;
 }

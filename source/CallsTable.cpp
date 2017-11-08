@@ -472,22 +472,11 @@ void CallsTable::populateCalledByStarMap() {
 }
 /**
 * A constructor.
-* Instantiates unordered maps (hashmap) of procedure names to vector of procedure names associated.
 */
-  CallsTable::CallsTable() {
-  MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES m_callsMap;
-  MAP_OF_NAME_TO_SET_OF_NAMES m_callsSet;
-  MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES m_calledByMap;
-  MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES m_callsStarMap;
-  MAP_OF_NAME_TO_SET_OF_NAMES m_callsStarSet;
-  MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES m_calledByStarMap;
-  MAP_OF_STMT_NUM_TO_PROC_NAME m_callsStmtMap;
-  MAP_OF_PROC_NAME_TO_LIST_OF_STMT_NUMS m_procNameToCallsStmtsMap;
-  SET_OF_PROC_NAMES m_allCalls;
-  SET_OF_PROC_NAMES m_allCalledBy;
+CallsTable::CallsTable() {
 }
 
-  MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES& CallsTable::getCallsMap() {
+MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES& CallsTable::getCallsMap() {
   return m_callsMap;
 }
 MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES& CallsTable::getCallsMapByIdx() {
