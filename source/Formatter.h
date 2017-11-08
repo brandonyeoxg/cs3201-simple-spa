@@ -60,6 +60,14 @@ public:
   * by getting only the keys of the map.
   * @return the contents of a map<str, vector<str>> in a string vector.
   */
-  static LIST_OF_RESULTS formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_vectorStr);
+  static LIST_OF_RESULTS formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_mapStrVectorStr);
+
+  /**
+  * A public function to format map<int, vector<int>> to string vector.
+  * Given a map<int, vector<int>>, it will format it into a string vector
+  * by getting only the keys of the map.
+  * @return the contents of a map<int, vector<int>> in a string vector.
+  */
+  static LIST_OF_RESULTS_INDICES formatMapIntVectorIntToVectorInt(SET_OF_RESULTS_INDICES t_mapIntVectorInt);
 };
 
