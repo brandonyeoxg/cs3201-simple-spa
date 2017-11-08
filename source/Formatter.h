@@ -53,5 +53,13 @@ public:
   * @return the contents of a string vector in a map<str, vector<str>>.
   */
   static SET_OF_RESULTS formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vectorStr);
+
+  /**
+  * A public function to format map<str, vector<str>> to string vector.
+  * Given a map<str, vector<str>>, it will format it into a string vector
+  * by getting only the keys of the map.
+  * @return the contents of a map<str, vector<str>> in a string vector.
+  */
+  static LIST_OF_RESULTS formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_vectorStr);
 };
 
