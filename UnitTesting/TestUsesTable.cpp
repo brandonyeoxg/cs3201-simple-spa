@@ -8,8 +8,8 @@ namespace UnitTesting {
   TEST_CLASS(TestUsesTable) {
 private:
   UsesTable* m_usesTable;
-  std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_testUsesStmtMap;
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_testUsesVarMap;
+  MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES m_testUsesStmtMap;
+  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS m_testUsesVarMap;
 public:
   TEST_METHOD_INITIALIZE(InitialiseUsesTable) {
     m_usesTable = new UsesTable();
