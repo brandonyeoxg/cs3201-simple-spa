@@ -161,3 +161,29 @@ std::string QueryCache::getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_gram
     return "s1s2"; // different synonyms
   }
 }
+
+SET_OF_RESULTS * QueryCache::getCacheFromOtherClauses(Clause * t_clause) {
+  if (t_clause->isRelationType()) { // isRelation
+    return getCacheFromOtherRelations((Relation *)t_clause);
+  }
+
+  return nullptr;
+}
+
+SET_OF_RESULTS * QueryCache::getCacheFromOtherRelations(Relation *t_relation) {
+  SET_OF_RESULTS results;
+
+  switch (t_relation->getType()) {
+    case queryType::RType::NEXT_:
+      // Next*(line, l)
+      if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())) {
+        if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
+          auto list = m_cache.at(KEY_ALL_NEXT_STAR).at(t_relation->getG1().getName());
+          results.insert({ t_relation->getG1().getName(), list });
+          return &results;
+        }
+      }
+  }
+
+  return nullptr;
+}

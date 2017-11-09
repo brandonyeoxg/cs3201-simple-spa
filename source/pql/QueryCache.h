@@ -23,6 +23,7 @@
     Next*(l1, l2)
     Next(_, l) and Next*(_, l)
     Next(l, _) and Next*(l, _)
+    Next*(line, l). Requires Next*(l1, l2) to be already cached.
 
     Calls(proc1, proc2)
     Calls(proc1, _)
@@ -83,6 +84,7 @@ public:
 
 private:
   std::unordered_map<std::string, SET_OF_RESULTS> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
+  const std::string KEY_ALL_NEXT_STAR = "Next*s1s2";
 
   bool isPatternCacheable(Pattern *t_pattern);
   bool isRelationCacheable(Relation *t_relation);
@@ -91,6 +93,9 @@ private:
   std::string getKeyWithRelation(Relation t_relation);
   std::string getKeyWithGrammar(Grammar t_grammar);
   std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
+
+  SET_OF_RESULTS *getCacheFromOtherClauses(Clause *t_clause);
+  SET_OF_RESULTS *getCacheFromOtherRelations(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
