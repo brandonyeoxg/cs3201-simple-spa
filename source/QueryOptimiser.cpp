@@ -2,7 +2,7 @@
 
 #include "QueryOptimiser.h"
 
-void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noSyns, std::priority_queue<std::priority_queue<Clause*>*> &t_withSyns) {
+void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> &t_noSyns, std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> &t_withSyns) {
   std::queue<Clause*> syns;
   std::vector<std::vector<Clause*>*> allGroupsWithSyns;
 
@@ -160,12 +160,14 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noS
   }
 
   for (auto& group : allGroupsWithSyns) {
-    std::priority_queue<Clause*> *grp = new std::priority_queue<Clause*>();
+    int totalWeights = 0;
+    std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *grp = new std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>();
     for (auto& clause : *group) {
       grp->push(clause);
+      totalWeights += clause->getWeights();
     }
 
-    t_withSyns.push(grp);
+    t_withSyns.push(std::make_pair(grp, totalWeights));
   }
 
   for (auto* group : allGroupsWithSyns) {
@@ -173,7 +175,7 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*> &t_noS
   }
 }
 
-void QueryOptimiser::sortBetweenGroups(std::priority_queue<std::priority_queue<Clause*>*> &t_groups) {
+void QueryOptimiser::sortBetweenGroups(std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> &t_groups) {
   /*int numOfGroups = t_groups.size();
   for (int grp = 0; grp < numOfGroups; ++grp) {
     std::priority_queue<Clause*> *existingGroup = t_groups.top;
