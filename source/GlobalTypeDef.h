@@ -122,6 +122,7 @@ typedef std::unordered_set<int> VAR_HASH_SET;
 typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
 
 typedef std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> PAIR_OF_SYNONYM_TO_TABLE_POSITION_AND_INTERMEDIATE_TABLE;
+typedef std::unordered_map<SYNONYM_POSITION, SYNONYM_NAME> MAP_OF_TABLE_POSITION_TO_SYNONYM;
 
 /*Called in QueryPreProcessor.h, by aaron*/
 
