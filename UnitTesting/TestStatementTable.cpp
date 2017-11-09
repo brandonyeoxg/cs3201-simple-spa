@@ -8,8 +8,8 @@ namespace UnitTesting {
   TEST_CLASS(TestStatementTable) {\
   private:
     StatementTable* m_statementTable;
-    std::unordered_map<STMT_NUM, queryType::GType> m_testTypeOfStatementTable;
-    std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> m_testStatementTypeTable;
+    MAP_OF_STMT_NUM_TO_GTYPE m_testTypeOfStatementTable;
+    MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS m_testStatementTypeTable;
   public:
     TEST_METHOD_INITIALIZE(InitialiseStatementTable) {
       m_statementTable = new StatementTable();

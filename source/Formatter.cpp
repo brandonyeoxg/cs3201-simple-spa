@@ -9,6 +9,15 @@ std::vector<std::string> Formatter::formatVectorIntToVectorStr(std::vector<int> 
   return vectorStr;
 }
 
+std::vector<int> Formatter::formatVectorStrToVectorInt(std::vector<std::string> t_vectorStr) {
+  std::vector<int> vectorInt;
+  for (auto& x : t_vectorStr) {
+    vectorInt.push_back(std::stoi(x));
+  }
+
+  return vectorInt;
+}
+
 std::vector<std::string> Formatter::formatListStrToVectorStr(std::list<std::string> t_listStr) {
   std::vector<std::string> vectorStr;
   for (auto& x : t_listStr) {
@@ -47,4 +56,14 @@ SET_OF_RESULTS Formatter::formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vec
   }
 
   return mapStrVectorStr;
+}
+
+LIST_OF_RESULTS Formatter::formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_mapStrVectorStr) {
+  std::vector<std::string> vectorStr;
+  for (auto& x : t_mapStrVectorStr) {
+    std::unordered_map<std::string, std::vector<std::string>> mapStrVectorStr;
+    vectorStr.push_back(x.first);
+  }
+
+  return vectorStr;
 }

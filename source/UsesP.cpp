@@ -93,7 +93,7 @@ void UsesP::insertUsesProcAndVarIndices(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx
   m_allProcIndicesToVarIndices.emplace(t_procIdx, t_varIdx);
 }
 
-bool UsesP::isUsesP(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx) {
+BOOLEAN UsesP::isUsesP(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx) {
   auto pItr = m_procToVarSet.find(t_procIdx);
   if (pItr == m_procToVarSet.end()) {
     return false;
@@ -102,7 +102,7 @@ bool UsesP::isUsesP(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx) {
   return vItr != pItr->second.end();
 }
 
-bool UsesP::isUsesInProc(PROC_INDEX t_idx) {
+BOOLEAN UsesP::isUsesInProc(PROC_INDEX t_idx) {
   return m_procToVarNames.find(t_idx) != m_procToVarNames.end();
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Extractor.h"
+#include <algorithm>
 
 /**
 * Handles extractions for the Calls relation.
@@ -14,6 +15,7 @@ public:
   ~CallsExtractor() {};
 
   void extractDesign();
+  void hasRecursiveCall();
 
 private:
   void populateCallsIdx();

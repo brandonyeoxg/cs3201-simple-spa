@@ -94,8 +94,8 @@ private:
   Grammar m_statement; /**< Grammar of the Pattern clause. */
   Grammar m_left; /**< Left hand side of the pattern clause. */
   Grammar m_right; /**< Right hand side of the pattern clause. */
-  bool m_subtree; /**< true if m_right can be a sub-expression of the expression on the right hand side
-                       false if the expression on the right hand side has to be the exact match as m_right.*/
+  bool m_subtree; /**< true if m_right can be a sub-expression of the expression on the right hand side 
+                  false if the expression on the right hand side has to be the exact match as m_right.*/
 };
 
 #endif PATTERN_H

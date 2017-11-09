@@ -1,67 +1,84 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "pql/QueryCache.h"
-#include "PKB.h"
+#include "Pattern.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
   TEST_CLASS(TestQueryCache) {
 public:
-  TEST_METHOD(cacheQuery) {
+  TEST_METHOD(testKey) {
+    Logger::WriteMessage("Print out keys for Clauses");
+    Pattern pattern;
+    Relation relation;
+
+    pattern = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
     QueryCache cache = QueryCache();
-    PKB pkb = PKB();
-    LIST_OF_PROG_LINES expectedLines, list;
+    std::string key;
 
-    Assert::IsTrue(cache.getAllNext() == nullptr);
-    Assert::IsTrue(cache.getAllNextStar() == nullptr);
-    Assert::IsTrue(cache.getAllLinesAfterAnyLine() == nullptr);
-    Assert::IsTrue(cache.getChildrenOfAnything() == nullptr);
-    Assert::IsTrue(cache.getParentStarOfAnything() == nullptr);
-    Assert::IsTrue(cache.getAllIfStmtsWithVar() == nullptr);
+    key = cache.getKey(pattern);
 
-    pkb.insertNextRelation(1, 2);
-    pkb.insertNextRelation(2, 3);
-    pkb.insertNextRelation(3, 4);
-    pkb.insertNextRelation(4, 2);
-    pkb.insertNextRelation(2, 5);
+    Logger::WriteMessage(key.c_str());
 
-    pkb.executeAfterAllNextInserts();
+    relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
+    key = cache.getKey(relation);
 
-    expectedLines = {2, 3, 4, 5};
-    list = pkb.getAllLinesAfterAnyLine();
-    cache.cacheAllLinesAfterAnyLine(list);
-    Assert::IsTrue(*cache.getAllLinesAfterAnyLine() == expectedLines);
+    Logger::WriteMessage(key.c_str());
 
-    expectedLines = { 1, 2, 3, 4 };
-    list = pkb.getAllLinesBeforeAnyLine();
-    cache.cacheAllLinesBeforeAnyLine(list);
-    Assert::IsTrue(*cache.getAllLinesBeforeAnyLine() == expectedLines);
+    relation = Relation("Affects*", Grammar(3, "s1"), Grammar(3, "s2"));
+    key = cache.getKey(relation);
+
+    Logger::WriteMessage(key.c_str());
   }
 
-  TEST_METHOD(cacheNextStar_getAllLinesAfter) {
+  TEST_METHOD(isCacheable) {
     QueryCache cache = QueryCache();
-    PKB pkb = PKB();
-    LIST_OF_PROG_LINES expected;
+    Clause *clause;
 
-    pkb.insertNextRelation(1, 2);
-    pkb.insertNextRelation(2, 3);
-    pkb.insertNextRelation(3, 4);
-    pkb.insertNextRelation(4, 2);
-    pkb.insertNextRelation(2, 5);
+    clause = new Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
+    Assert::IsFalse(cache.isCacheable(clause));
 
-    pkb.executeAfterAllNextInserts();
+    clause = new Pattern(Grammar(4, "smth"), Grammar(7, "smth"), Grammar(11, "_"), false);
+    Assert::IsTrue(cache.isCacheable(clause));
 
-    Assert::IsTrue(cache.getAllLinesAfter(1) == nullptr);
+    clause = new Relation("Next*", Grammar(11, "_"), Grammar());
+    Assert::IsTrue(cache.isCacheable(clause));
 
-    MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map = pkb.getAllNextStar();
-    cache.cacheAllNextStar(map);
+    clause = new Relation("Follows*", Grammar(8, "3"), Grammar());
+    Assert::IsFalse(cache.isCacheable(clause));
+  }
 
-    expected = { 2, 3, 4, 5 };
-    Assert::IsTrue(*cache.getAllLinesAfter(1) == expected);
+  TEST_METHOD(isPatternType_isRelationType) {
+    Clause *clause;
 
-    expected = {};
-    Assert::IsTrue(*cache.getAllLinesAfter(10) == expected);
+    clause = new Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
+    Assert::IsTrue(clause->isPatternType());
+    Assert::IsFalse(clause->isRelationType());
+
+    clause = new Relation("Next*", Grammar(11, "_"), Grammar());
+    Assert::IsTrue(clause->isRelationType());
+    Assert::IsFalse(clause->isPatternType());
+  }
+
+  TEST_METHOD(cache_getCache) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS *results, expected;
+
+    expected = SET_OF_RESULTS();
+    expected.insert({ "result1", {"1", "2", "3", "4"} });
+    expected.insert({ "result2", { "1", "4" } });
+
+    clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s1"));
+
+    cache.cache(clause, expected);
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
+
+    clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s7"));
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
   }
 
 

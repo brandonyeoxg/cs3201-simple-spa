@@ -109,12 +109,12 @@ BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   }
 }
 
-int FollowTable::getFollows(STMT_NUM t_s1) {
+STMT_NUM FollowTable::getFollows(STMT_NUM t_s1) {
   //in this case, since s1 is known,
   //we just retrieve the vector mapped to s1 return the .
   if (m_followMap.find(t_s1) == m_followMap.end()) {
     //if s1 is not present in followMap, throw exception
-    throw std::invalid_argument("key s1 does not exist in FollowTable");
+    throw InvalidArgumentException("key s1 does not exist in FollowTable");
   } else {
     LIST_OF_STMT_NUMS lineNums = m_followMap[t_s1];
     return lineNums[0];
@@ -124,7 +124,7 @@ int FollowTable::getFollows(STMT_NUM t_s1) {
 STMT_NUM FollowTable::getFollowedBy(STMT_NUM t_s2) {
   auto iterator = m_followedByMap.find(t_s2);
   if (iterator == m_followedByMap.end()) {
-    throw std::invalid_argument("s2 does not exist in FollowTable");
+    throw InvalidArgumentException("s2 does not exist in FollowTable");
   } else {
     std::vector<int> lineNumsFollowedBy = iterator->second;
     return lineNumsFollowedBy[0];
@@ -214,14 +214,5 @@ void FollowTable::populateAllFollowsMap() {
   }
 }
 
-/**
-* A constructor.
-* Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
-*/
-FollowTable::FollowTable() {
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
-  MAP_OF_STMT_NUMS m_allFollowsMap;
-  BOOLEAN_MATRIX m_followsMatrix;
-  std::set<int> m_allFollows;
-}
+
+FollowTable::FollowTable() {}

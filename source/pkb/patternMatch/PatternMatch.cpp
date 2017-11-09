@@ -126,9 +126,10 @@ int PatternMatch::getPrecedenceLevel(std::string t_operator) {
 std::string PatternMatch::convertVectorToStr(std::vector<std::string> t_vector) {
   std::string str = "";
   for (auto iter : t_vector) {
-    str += (iter + "/");  // slash is used as a terminator for each token to prevent false positive matches
-                          // i.e "c" will match "chickenCHICKEN+"
-                          // so now it should look "c/" vs "chicken/CHICKEN/+/"
+    str += ("\\" + iter + "/");  // slash is used as a terminator for each token to prevent false positive matches
+                                 // i.e "c" will match "chickenCHICKEN+"
+                                 // forward slash is used to mark front of each token so that "22" is not mistaken for "2"
+                                 // so now it should look "\c/" vs "\chicken/\CHICKEN/\+/"
   }
   return str;
 }

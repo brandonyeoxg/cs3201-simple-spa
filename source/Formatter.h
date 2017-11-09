@@ -19,6 +19,13 @@ public:
   static std::vector<std::string> formatVectorIntToVectorStr(std::vector<int> t_vectorInt);
 
   /**
+  * A public function to format string vector to int vector.
+  * Given a vector of integers, it will format it into a vector of strings.
+  * @return the contents of a vector of strings in a vector of integers.
+  */
+  static std::vector<int> formatVectorStrToVectorInt(std::vector<std::string> t_vectorStr);
+
+  /**
   * A public function to format string list to string vector.
   * Given a list of strings, it will format it into a vector of strings.
   * @return the contents of a list of strings in a vector of strings.
@@ -46,5 +53,13 @@ public:
   * @return the contents of a string vector in a map<str, vector<str>>.
   */
   static SET_OF_RESULTS formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vectorStr);
+
+  /**
+  * A public function to format map<str, vector<str>> to string vector.
+  * Given a map<str, vector<str>>, it will format it into a string vector
+  * by getting only the keys of the map.
+  * @return the contents of a map<str, vector<str>> in a string vector.
+  */
+  static LIST_OF_RESULTS formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_vectorStr);
 };
 

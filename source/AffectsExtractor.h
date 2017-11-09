@@ -12,13 +12,9 @@
 class AffectsExtractor : public Extractor
 {
 public:
-  AffectsExtractor(PkbTablesOnly* t_pkb) : Extractor(t_pkb) {
-  };
-
+  AffectsExtractor(PkbTablesOnly* t_pkb) : Extractor(t_pkb) {};
   ~AffectsExtractor() {};
-
   void extractDesign();
-
   ///////////////////////////////////////////////////////
   //  Affects
   ///////////////////////////////////////////////////////
@@ -31,7 +27,6 @@ public:
   LIST_OF_AFFECTS_STMTS extractAffectedByAnything(); // affects(_,a)
   BOOLEAN extractIsAffectsAnything(STMT_NUM t_usesLine); // affects(1,_)
   BOOLEAN extractIsAffectedByAnything(STMT_NUM t_modifiesLine); // affects(_,12)
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result);
 
   ///////////////////////////////////////////////////////
   //  Affects* Extractor
@@ -54,5 +49,7 @@ private:
   * @return a vector of stmts that belongs to the target procedure.
   */
   LIST_OF_STMT_NUMS getListOfStmtsFromStmtNum(STMT_NUM t_stmtNum);
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS appendAffectsList(MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS toAdd, MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS result);
+  PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(LIST_OF_STMT_NUMS bound);
 };
 

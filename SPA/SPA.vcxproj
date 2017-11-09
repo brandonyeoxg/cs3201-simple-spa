@@ -118,6 +118,7 @@
     <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\IntermediateTable.h" />
+    <ClInclude Include="..\source\InvalidArgumentException.h" />
     <ClInclude Include="..\source\ModifiesExtractor.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\NextExtractor.h" />
@@ -170,9 +171,11 @@
     <ClInclude Include="..\source\StatementTable.h" />
     <ClInclude Include="..\source\StmtListTable.h" />
     <ClInclude Include="..\source\StringUtil.h" />
+    <ClInclude Include="..\source\SyntaxDuplicateProc.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />
     <ClInclude Include="..\source\SyntaxErrorException.h" />
     <ClInclude Include="..\source\SyntaxInvalidTerm.h" />
+    <ClInclude Include="..\source\SyntaxCyclicCalls.h" />
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />

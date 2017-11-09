@@ -12,21 +12,7 @@ BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_end
 
 BOOLEAN AffectsTable::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
-  PROG_LINE realStartBound = getRealStartBound(t_modifiesLine);
-  traverseCfgWithBound(realStartBound, t_usesLine, lms);
-  auto aItr = affectsList.find(t_modifiesLine);
-  if (aItr == affectsList.end()) {
-    return false;
-  }
-  auto bItr = affectedByList.find(t_usesLine);
-  if (bItr == affectedByList.end()) {
-    return false;
-  }
-  auto uItr = aItr->second.find(t_usesLine);
-  if (uItr == aItr->second.end()) {
-    return false;
-  }
-  return true;
+  return hasAffectsFromBounds(t_modifiesLine, t_usesLine, t_modifiesLine, t_usesLine);
 }
 
 PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
@@ -36,7 +22,7 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBou
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   traverseCfgWithBound(realStartBound, t_endBound, lms);
-  return {affectsList, affectedByList};
+  return {m_affectsList, m_affectedByList};
 }
 
 void AffectsTable::traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
@@ -142,20 +128,7 @@ void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_
     }
     // there is a match of modifies and uses
     for (auto &mItr : pItr->second) {
-      // insert into 'a' list
-      auto aItr = affectsList.find(mItr);
-      if (aItr == affectsList.end()) {
-        affectsList.insert({ mItr, {t_curProgLine} });
-      } else {
-        aItr->second.insert(t_curProgLine);
-      }
-      // insert into 'b' list
-      auto bItr = affectedByList.find(t_curProgLine);
-      if (bItr == affectedByList.end()) {
-        affectedByList.insert({ t_curProgLine, {mItr} });
-      } else {
-        bItr->second.insert(mItr);
-      }
+      insertIntoAffectsLists(mItr, t_curProgLine);
     }
   }
   // update the LMT
@@ -274,7 +247,6 @@ BOOLEAN AffectsTable::traverseWhileStmtWithBoundEarlyExit(PROG_LINE t_curProgLin
       return false;
     }
     // Combine lms with lmt
-    // Combine lms with lmt
     MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS nextMergedLst = mergeLmt(t_lmt, mergedLst);
     traverseCfgWithBound(stmts[1], t_endBound, nextMergedLst);
     if (traverseCfgWithBoundEarlyExit(stmts[1], t_endBound, mergedLst, t_targetStart, t_targetEnd)) {
@@ -308,6 +280,12 @@ BOOLEAN AffectsTable::handleAffectsOnAssgnStmtEarlyExit(PROG_LINE t_curProgLine,
       if (t_targetEnd == INVALID_INDEX && t_targetStart == mItr) {
         return true;
       }
+      if (t_targetStart == mItr && t_targetEnd == t_curProgLine) {
+        return true;
+      }
+      if (t_targetStart == INVALID_INDEX && t_targetEnd == INVALID_INDEX) {
+        return true;
+      }
     }
   }
   // update the LMT
@@ -334,19 +312,19 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_star
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, lastUseTable;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   traverseCfgWithBound(realStartBound, t_endBound, lms, lastUseTable);
-  return{ affectsList, affectedByList };
+  return{ m_affectsList, m_affectedByList };
 }
 
 BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) { //Affects*(1,12)
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, t_lastUsed;
   PROG_LINE realStartBound = getRealStartBound(t_modifiesLine);
   traverseCfgWithBound(realStartBound, t_usesLine, lms, t_lastUsed);
-  auto aItr = affectsList.find(t_modifiesLine);
-  if (aItr == affectsList.end()) {
+  auto aItr = m_affectsList.find(t_modifiesLine);
+  if (aItr == m_affectsList.end()) {
     return false;
   }
-  auto bItr = affectedByList.find(t_usesLine);
-  if (bItr == affectedByList.end()) {
+  auto bItr = m_affectedByList.find(t_usesLine);
+  if (bItr == m_affectedByList.end()) {
     return false;
   }
   auto uItr = aItr->second.find(t_usesLine);
@@ -401,7 +379,6 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   traverseCfgWithBound(stmts[0], stmtLstBound.back(), ifLmt, ifLastUses);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS elseLmt = t_lmt, elseLastUses = t_lastUses;
   traverseCfgWithBound(stmts[1], stmtLstBound.back(), elseLmt, elseLastUses);
-  
   auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
   queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmtLstBound.back());
   if (stmtType == queryType::GType::WHILE && nItr->second.size() < 2) {
@@ -413,13 +390,11 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
   t_lastUses = mergeLmt(ifLastUses, elseLastUses);
-
   PROG_LINE nextStmt = nItr->second.back();
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
   if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(nextStmt, t_curProgLine)) {
     return;
   }
-
   // Combine lms with lmt
   traverseCfgWithBound(nextStmt, t_endBound, t_lmt, t_lastUses);
 }
@@ -430,8 +405,6 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   // Get the stmts lst of both then and else portion
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS insideStmtLst = t_lmt, insideLastUses = t_lastUses;
   traverseCfgWithBound(stmts[0], stmtLstBound.back(), insideStmtLst, insideLastUses);
-  //MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedLst = mergeLmt(insideStmtLst, t_lmt);
-  //MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeUsesTable = mergeLmt(insideLastUses, t_lastUses);
   int itrCount = std::max(unsigned int(1), stmtLstBound.size() - 1);
   for (int i = 0; i < itrCount; ++i) {
     insideStmtLst = mergeLmt(insideStmtLst, t_lmt);
@@ -504,15 +477,15 @@ void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_
   // Update the affects list
   usesTableEntry = t_lastUses.find(modifiesVar);
   for (auto &usesStmt : usesTableEntry->second) {
-    auto affectEntry = affectsList.find(usesStmt);
-    if (affectEntry == affectsList.end()) {
-      affectsList.insert({ usesStmt, {t_curProgLine} });
+    auto affectEntry = m_affectsList.find(usesStmt);
+    if (affectEntry == m_affectsList.end()) {
+      m_affectsList.insert({ usesStmt, {t_curProgLine} });
     } else {
       affectEntry->second.insert(t_curProgLine);
     }
-    auto affectedEntry = affectedByList.find(t_curProgLine);
-    if (affectedEntry == affectedByList.end()) {
-      affectedByList.insert({ t_curProgLine, {usesStmt} });
+    auto affectedEntry = m_affectedByList.find(t_curProgLine);
+    if (affectedEntry == m_affectedByList.end()) {
+      m_affectedByList.insert({ t_curProgLine, {usesStmt} });
     } else {
       affectedEntry->second.insert(usesStmt);
     }
@@ -570,4 +543,21 @@ PROG_LINE AffectsTable::getRealStartBound(PROG_LINE t_startBound) {
     }
   }
   return realStartBound;
+}
+
+void AffectsTable::insertIntoAffectsLists(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
+  // insert into 'a' list
+  auto aItr = m_affectsList.find(t_modifiesLine);
+  if (aItr == m_affectsList.end()) {
+    m_affectsList.insert({ t_modifiesLine,{ t_usesLine } });
+  } else {
+    aItr->second.insert(t_usesLine);
+  }
+  // insert into 'b' list
+  auto bItr = m_affectedByList.find(t_usesLine);
+  if (bItr == m_affectedByList.end()) {
+    m_affectedByList.insert({ t_usesLine,{ t_modifiesLine } });
+  } else {
+    bItr->second.insert(t_modifiesLine);
+  }
 }

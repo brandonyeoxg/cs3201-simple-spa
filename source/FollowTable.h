@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <set>
 #include "GlobalTypeDef.h"
+#include "InvalidArgumentException.h"
 
 /** 
 * Represents the follow relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
@@ -138,16 +139,13 @@ public:
 
   void populateAllFollowsMap();
 
-  /**
-  * A constructor.
-  * Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-  */
   FollowTable();
+  ~FollowTable() {};
 
 private:
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
   MAP_OF_STMT_NUMS m_allFollowsMap;
   BOOLEAN_MATRIX m_followsMatrix;
-  std::set<int> m_allFollows;
+  SET_OF_STMT_NUMS m_allFollows;
 };

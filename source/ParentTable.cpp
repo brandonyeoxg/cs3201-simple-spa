@@ -10,7 +10,7 @@
 
 #include "ParentTable.h"
 
-bool ParentTable::insertParent(int t_s1, int t_s2) {
+BOOLEAN ParentTable::insertParent(int t_s1, int t_s2) {
   if (t_s1 == 0) {
     return false;
   }
@@ -20,12 +20,12 @@ bool ParentTable::insertParent(int t_s1, int t_s2) {
     //if s1 does not exist in childMap,
     //push s2 into a new vector and map to s1.
     if (m_childMap.find(t_s1) == m_childMap.end()) {
-      std::vector<int> lineNums;
+      LIST_OF_STMT_NUMS lineNums;
       lineNums.push_back(t_s2);
       m_childMap.emplace(t_s1, lineNums);
     } else {
       //s1 already exists, push s2 to existing vector
-      std::vector<int> lineNums = m_childMap[t_s1];
+      LIST_OF_STMT_NUMS lineNums = m_childMap[t_s1];
       lineNums.push_back(t_s2);
       m_childMap[t_s1] = lineNums;
     }
@@ -37,7 +37,7 @@ bool ParentTable::insertParent(int t_s1, int t_s2) {
   return true;
 }
 
-bool ParentTable::isParent(int t_s1, int t_s2) {
+BOOLEAN ParentTable::isParent(int t_s1, int t_s2) {
   //return true if s2 exists in parentMap as key and s1 is the value.
   if (m_parentMap.find(t_s2) != m_parentMap.end()) {
     if (m_parentMap[t_s2] == t_s1) {
@@ -50,20 +50,7 @@ bool ParentTable::isParent(int t_s1, int t_s2) {
   }
 }
 
-bool ParentTable::isParentStar(int t_s1, int t_s2) {
-  /*
-  auto pItr = m_parentStarMap.find(t_s1);
-  if (pItr == m_parentStarMap.end()) {
-    //not found in parent*Map
-    return false;
-  } else {
-    std::vector<int> childrenStar = pItr->second;
-    if (std::find(childrenStar.begin(), childrenStar.end(), t_s2) != childrenStar.end()) {
-      return true;
-    } else {
-      return false;
-    }
-  } */
+BOOLEAN ParentTable::isParentStar(int t_s1, int t_s2) {
   TOTAL_NUMBER_OF_STMTS total = m_parentMatrix.size();
   if (t_s1 >= total || t_s2 >= total) {
     return false;
@@ -72,17 +59,17 @@ bool ParentTable::isParentStar(int t_s1, int t_s2) {
   }
 }
 
-int ParentTable::getParentOf(int t_s2) {
+STMT_NUM ParentTable::getParentOf(int t_s2) {
   if (m_parentMap.find(t_s2) == m_parentMap.end()) {
     //if s2 is not present in parentMap, throw exception
-    throw std::invalid_argument("key s2 does not exist in ParentTable");
+    throw InvalidArgumentException("key s2 does not exist in ParentTable");
   } else {
     return m_parentMap[t_s2];
   }
 }
 
-std::vector<int> ParentTable::getChildrenOf(int t_s1) {
-  std::vector<int> emptyVector;
+LIST_OF_STMT_NUMS ParentTable::getChildrenOf(int t_s1) {
+  LIST_OF_STMT_NUMS emptyVector;
   if (m_childMap.find(t_s1) == m_childMap.end()) {
     //if s1 is not present in childMap, throw exception
     return emptyVector;
@@ -91,8 +78,8 @@ std::vector<int> ParentTable::getChildrenOf(int t_s1) {
   }
 }
 
-std::vector<int> ParentTable::getParentStarOf(int t_s2) {
-  std::vector<int> emptyVector;
+LIST_OF_STMT_NUMS ParentTable::getParentStarOf(int t_s2) {
+  LIST_OF_STMT_NUMS emptyVector;
   if (m_parentedByStarMap.find(t_s2) == m_parentedByStarMap.end()) {
     return emptyVector;
   }
@@ -100,8 +87,8 @@ std::vector<int> ParentTable::getParentStarOf(int t_s2) {
   return iterator->second;
 }
 
-std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
-  std::vector<int> emptyVector;
+LIST_OF_STMT_NUMS ParentTable::getChildrenStarOf(int t_s1) {
+  LIST_OF_STMT_NUMS emptyVector;
   //if does not exist in childMap, return empty vector.
   if (m_childMap.find(t_s1) == m_childMap.end()) {
     return emptyVector;
@@ -112,14 +99,14 @@ std::vector<int> ParentTable::getChildrenStarOf(int t_s1) {
   return iterator->second;
 }
 
-std::unordered_map<int, std::vector<int>> ParentTable::getAllParents() {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS ParentTable::getAllParents() {
   return m_childMap;
 }
 
-std::vector<int> ParentTable::getChildrenOfAnything() {
+LIST_OF_STMT_NUMS ParentTable::getChildrenOfAnything() {
   //parent(_,s2) s2 variable
   //return list of children i.e. keys of m_parentMap
-  std::vector<int> result;
+  LIST_OF_STMT_NUMS result;
   for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
     result.push_back(it->first);
   }
@@ -127,9 +114,9 @@ std::vector<int> ParentTable::getChildrenOfAnything() {
   return result;
 }
 
-std::vector<int> ParentTable::getParentOfAnything() {
+LIST_OF_STMT_NUMS ParentTable::getParentOfAnything() {
   //return list of parents i.e. keys of m_childMap
-  std::vector<int> result;
+  LIST_OF_STMT_NUMS result;
   for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
     result.push_back(it->first);
   }
@@ -137,10 +124,10 @@ std::vector<int> ParentTable::getParentOfAnything() {
   return result;
 }
 
-std::vector<int> ParentTable::getChildrenStarOfAnything() {
+LIST_OF_STMT_NUMS ParentTable::getChildrenStarOfAnything() {
   //parent*(_, s2)
   //return list of children* i.e. keys of parentedByStarMap
-  std::vector<int> result;
+  LIST_OF_STMT_NUMS result;
   for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
     result.push_back(it->first);
   }
@@ -148,7 +135,7 @@ std::vector<int> ParentTable::getChildrenStarOfAnything() {
   return result;
 }
 
-std::vector<int> ParentTable::getParentStarOfAnything() {
+LIST_OF_STMT_NUMS ParentTable::getParentStarOfAnything() {
   //parent*(s1, _)
   //return list of parent* i.e. keys of parentStarMap
   std::vector<int> result;
@@ -159,7 +146,7 @@ std::vector<int> ParentTable::getParentStarOfAnything() {
   return result;
 }
 
-bool ParentTable::hasParentRelationship() {
+BOOLEAN ParentTable::hasParentRelationship() {
   //Parent (_, _)
   if (m_parentMap.size() > 0) {
     return true;
@@ -168,7 +155,7 @@ bool ParentTable::hasParentRelationship() {
   }
 }
 
-bool ParentTable::hasParentStarRelationship() {
+BOOLEAN ParentTable::hasParentStarRelationship() {
   //Parent* (_, _)
   if (m_parentStarMap.size() > 0) {
     return true;
@@ -177,7 +164,7 @@ bool ParentTable::hasParentStarRelationship() {
   }
 }
 
-bool ParentTable::isChildrenOfAnything(int t_s2) {
+BOOLEAN ParentTable::isChildrenOfAnything(int t_s2) {
   //parent(_, 2)
   //check if 2 exists as a child (key in parentMap)
   for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
@@ -188,7 +175,7 @@ bool ParentTable::isChildrenOfAnything(int t_s2) {
   return false;
 }
 
-bool ParentTable::isParentOfAnything(int t_s1) {
+BOOLEAN ParentTable::isParentOfAnything(int t_s1) {
   //parent(2, _)
   //check if 2 exists as a parent (key in childMap)
   for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
@@ -199,7 +186,7 @@ bool ParentTable::isParentOfAnything(int t_s1) {
   return false;
 }
 
-bool ParentTable::isChildrenOfStarAnything(int t_s2) {
+BOOLEAN ParentTable::isChildrenOfStarAnything(int t_s2) {
   //parent*(_, 2)
   //check if 2 exists as a key in parentedByStarMap
   for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
@@ -210,7 +197,7 @@ bool ParentTable::isChildrenOfStarAnything(int t_s2) {
   return false;
 }
 
-bool ParentTable::isParentOfStarAnything(int t_s1) {
+BOOLEAN ParentTable::isParentOfStarAnything(int t_s1) {
   //parent*(2, _)
   //check if 2 exists as a key in parentStarMap
   for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
@@ -225,35 +212,27 @@ bool ParentTable::isParentOfStarAnything(int t_s1) {
 
 
 //getter and setters
-void ParentTable::setChildMap(std::unordered_map<int, std::vector<int>> &t_map) {
+void ParentTable::setChildMap(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS &t_map) {
   m_childMap = t_map;
 }
 
-void ParentTable::setParentMap(std::unordered_map<int, int> &t_map) {
+void ParentTable::setParentMap(MAP_OF_STMT_NUMS &t_map) {
   m_parentMap = t_map;
 }
 
-void ParentTable::setParentStarMap(std::unordered_map<int, std::vector<int>> &t_map) {
-  m_parentStarMap = t_map;
-}
-
-void ParentTable::setParentedByStarMap(std::unordered_map<int, std::vector<int>> &t_map) {
-  m_parentedByStarMap = t_map;
-}
-
-std::unordered_map<int, std::vector<int>>& ParentTable::getChildMap() {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS& ParentTable::getChildMap() {
   return m_childMap;
 }
 
-std::unordered_map<int, int>& ParentTable::getParentMap() {
+MAP_OF_STMT_NUMS& ParentTable::getParentMap() {
   return m_parentMap;
 }
 
-std::unordered_map<int, std::vector<int>>& ParentTable::getParentStarMap() {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS& ParentTable::getParentStarMap() {
   return m_parentStarMap;
 }
 
-std::unordered_map<int, std::vector<int>>& ParentTable::getParentedByStarMap() {
+MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS& ParentTable::getParentedByStarMap() {
   return m_parentedByStarMap;
 }
 
@@ -272,14 +251,14 @@ void ParentTable::populateParentMatrix(TOTAL_NUMBER_OF_STMTS total) {
 void ParentTable::populateParentStarMap() {
   for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
     int parent = it->first;
-    std::vector<int> children = it->second;
+    LIST_OF_STMT_NUMS children = it->second;
     m_parentStarMap.emplace(parent, children);
     std::vector<int> childrenStar = children;
     for (int i = 0; i < childrenStar.size(); i++) {
       //for every child, if it can be found in the map, append all from it's mapped vector to children
       auto iterator = m_childMap.find(childrenStar[i]);
       if (iterator != m_childMap.end()) {
-        std::vector<int> toBeAppended = iterator->second;
+        LIST_OF_STMT_NUMS toBeAppended = iterator->second;
         childrenStar.reserve(childrenStar.size() + toBeAppended.size());
         childrenStar.insert(childrenStar.end(), toBeAppended.begin(), toBeAppended.end());
       }
@@ -287,14 +266,5 @@ void ParentTable::populateParentStarMap() {
     m_parentStarMap[parent] = childrenStar;
   }
 }
-/**
-* A constructor.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
-ParentTable::ParentTable() {
-  std::unordered_map<int, int> m_parentMap;
-  std::unordered_map<int, std::vector<int>> m_childMap;
-  std::unordered_map<int, std::vector<std::vector<int>>> m_parentStarMap;
-  std::unordered_map<int, std::vector<int>> m_parentedByStarMap;
-  BOOLEAN_MATRIX m_parentMatrix;
-}
+
+ParentTable::ParentTable() {}

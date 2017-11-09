@@ -43,5 +43,5 @@ public:
   LIST_OF_PROC_NAMES& getAllProcsName();
 private:
   LIST_OF_PROC_NAMES m_procIdxToName;
-  std::unordered_map<PROC_NAME, PROC_INDEX> m_procNameToIdx;
+  MAP_OF_PROC_NAMES_TO_PROC_INDEX m_procNameToIdx;
 };

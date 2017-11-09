@@ -136,7 +136,7 @@ void PKB::insertStmtList(STMT_NUM t_line) {
   m_stmtListTable->insertStmtLst(t_line);
 }
 
-bool PKB::insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) {
+BOOLEAN PKB::insertFollowsRelation(const LIST_OF_STMT_NUMS& t_stmtInStmtList, int t_curLineNum) {
   if (t_stmtInStmtList.empty()) {
     return false;
   }
@@ -148,7 +148,7 @@ void PKB::insertNextRelation(PROG_LINE t_line1, PROG_LINE t_line2) {
   m_nextTable->insertNextRelationship(t_line1, t_line2);
 }
 
-bool PKB::insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum) {
+BOOLEAN PKB::insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum) {
   if (t_nestedStmtInStmtList.empty()) {
     return false;
   }
@@ -162,11 +162,11 @@ FollowTable* PKB::getFollowTable() {
   return m_followTable;
 }
 
-bool PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
+BOOLEAN PKB::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollows(t_s1, t_s2);
 }
 
-bool PKB::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
+BOOLEAN PKB::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_followTable->isFollowsStar(t_s1, t_s2);
 }
 
@@ -202,15 +202,15 @@ LIST_OF_STMT_NUMS PKB::getFollowsAnything() {
   return m_followTable->getFollowsAnything();
 }
 
-bool PKB::hasFollowRelationship() {
+BOOLEAN PKB::hasFollowRelationship() {
   return m_followTable->hasFollowRelationship();
 }
 
-bool PKB::isFollowsAnything(STMT_NUM t_s2) {
+BOOLEAN PKB::isFollowsAnything(STMT_NUM t_s2) {
   return m_followTable->isFollowsAnything(t_s2);
 }
 
-bool PKB::isFollowedByAnything(STMT_NUM t_s1) {
+BOOLEAN PKB::isFollowedByAnything(STMT_NUM t_s1) {
   return m_followTable->isFollowedByAnything(t_s1);
 }
 
@@ -225,11 +225,11 @@ ParentTable* PKB::getParentTable() {
   return m_parentTable;
 }
 
-bool PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
+BOOLEAN PKB::isParent(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParent(t_s1, t_s2);
 }
 
-bool PKB::isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) {
+BOOLEAN PKB::isParentStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   return m_parentTable->isParentStar(t_s1, t_s2);
 }
 
@@ -273,27 +273,27 @@ LIST_OF_STMT_NUMS PKB::getParentStarOfAnything() {
   return m_parentTable->getParentStarOfAnything();
 }
 
-bool PKB::hasParentRelationship() {
+BOOLEAN PKB::hasParentRelationship() {
   return m_parentTable->hasParentRelationship();
 }
 
-bool PKB::hasParentStarRelationship() {
+BOOLEAN PKB::hasParentStarRelationship() {
   return m_parentTable->hasParentStarRelationship();
 }
 
-bool PKB::isChildrenOfAnything(STMT_NUM t_s2) {
+BOOLEAN PKB::isChildrenOfAnything(STMT_NUM t_s2) {
   return m_parentTable->isChildrenOfAnything(t_s2);
 }
 
-bool PKB::isParentOfAnything(STMT_NUM t_s1) {
+BOOLEAN PKB::isParentOfAnything(STMT_NUM t_s1) {
   return m_parentTable->isParentOfAnything(t_s1);
 }
 
-bool PKB::isChildrenOfStarAnything(STMT_NUM t_s2) {
+BOOLEAN PKB::isChildrenOfStarAnything(STMT_NUM t_s2) {
   return m_parentTable->isChildrenOfStarAnything(t_s2);
 }
 
-bool PKB::isParentOfStarAnything(STMT_NUM t_s1) {
+BOOLEAN PKB::isParentOfStarAnything(STMT_NUM t_s1) {
   return m_parentTable->isParentOfStarAnything(t_s1);
 }
 
@@ -309,14 +309,14 @@ MAP_OF_STMT_NUM_TO_GTYPE PKB::getTypeOfStatementTable() {
   return m_statementTable->getTypeOfStatementTable();
 }
 
-bool PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
+BOOLEAN PKB::insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type) {
   return m_statementTable->insertTypeOfStatementTable(t_lineNum, t_type);
 }
 std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> PKB::getStatementTypeTable() {
   return m_statementTable->getStatementTypeTable();
 }
 
-bool PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) {
+BOOLEAN PKB::insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum) {
   return m_statementTable->insertStatementTypeTable(t_type, t_lineNum);
 }
 
@@ -390,7 +390,7 @@ LIST_OF_RESULTS PKB::getAllConstants() {
 LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
   return m_constantTable->getAllConstantsByIdx();
 }
-STRING PKB::getConstantFromIdx(int t_constantIdx) {
+CONSTANT_TERM PKB::getConstantFromIdx(int t_constantIdx) {
   return m_constantTable->getConstantFromIdx(t_constantIdx);
 }
 ///////////////////////////////////////////////////////
@@ -581,11 +581,11 @@ CallsTable* PKB::getCallsTable() {
   return m_callsTable;
 }
 
-bool PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+BOOLEAN PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return m_callsTable->isCalls(t_proc1, t_proc2);
 }
 
-bool PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
+BOOLEAN PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return m_callsTable->isCallsStar(t_proc1, t_proc2);
 }
 LIST_OF_PROC_NAMES PKB::getCalls(PROC_NAME t_proc2) {
@@ -612,7 +612,7 @@ LIST_OF_PROC_NAMES PKB::getCalledByStar(PROC_NAME t_proc1) {
 LIST_OF_PROC_INDICES PKB::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
   return m_callsTable->getCalledByStarByIdx(t_proc1Idx);
 }
-std::unordered_map<PROC_NAME, PROC_NAME> PKB::getAllCalls() {
+MAP_OF_PROC_NAMES PKB::getAllCalls() {
   return m_callsTable->getAllCalls();
 }
 MAP_OF_PROC_INDICES PKB::getAllCallsByIdx() {
@@ -648,15 +648,15 @@ LIST_OF_PROC_NAMES PKB::getCalledByStarAnything() {
 LIST_OF_PROC_INDICES PKB::getCalledByStarAnythingByIdx() {
   return m_callsTable->getCalledByStarAnythingByIdx();
 }
-bool PKB::hasCallsRelationship() {
+BOOLEAN PKB::hasCallsRelationship() {
   return m_callsTable->hasCallsRelationship();
 }
 
-bool PKB::isCallsAnything(PROC_NAME t_proc1) {
+BOOLEAN PKB::isCallsAnything(PROC_NAME t_proc1) {
   return m_callsTable->isCallsAnything(t_proc1);
 }
 
-bool PKB::isCalledByAnything(PROC_NAME t_proc2) {
+BOOLEAN PKB::isCalledByAnything(PROC_NAME t_proc2) {
   return m_callsTable->isCalledByAnything(t_proc2);
 }
 
@@ -673,13 +673,13 @@ ModifiesP* PKB::getModifiesP() {
   return m_modifiesP;
 }
 
-bool PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
+BOOLEAN PKB::isModifiesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_modifiesP->isModifiesP(procIdx, varIdx);
 }
 
-bool PKB::isModifiesInProc(const PROC_NAME& t_procName) {
+BOOLEAN PKB::isModifiesInProc(const PROC_NAME& t_procName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   return m_modifiesP->isModifiesInProc(procIdx);
 }
@@ -722,13 +722,13 @@ UsesP* PKB::getUsesP() {
   return m_usesP;
 }
 
-bool PKB::isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
+BOOLEAN PKB::isUsesP(const PROC_NAME& t_procName, const VAR_NAME& t_varName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   VAR_INDEX varIdx = m_varTable->getVarIdxFromName(t_varName);
   return m_usesP->isUsesP(procIdx, varIdx);
 }
 
-bool PKB::isUsesInProc(const PROC_NAME& t_procName) {
+BOOLEAN PKB::isUsesInProc(const PROC_NAME& t_procName) {
   PROC_INDEX procIdx = m_procTable->getProcIdxFromName(t_procName);
   return m_usesP->isUsesInProc(procIdx);
 }
@@ -775,7 +775,7 @@ UsesTable* PKB::getUsesTable() {
 void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
   return m_usesTable->insertUsesForStmt(t_varName, t_lineNum, t_varIdx);
 }
-bool PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+BOOLEAN PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_usesTable->isUses(t_lineNum, t_varName);
 }
 LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
@@ -793,7 +793,7 @@ std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtUsesByIdx() {
   return m_usesTable->getAllStmtUsesByIdx();
 }
-bool PKB::isUsesAnything(STMT_NUM t_lineNum) {
+BOOLEAN PKB::isUsesAnything(STMT_NUM t_lineNum) {
   return m_usesTable->isUsesAnything(t_lineNum);
 }
 LIST_OF_STMT_NUMS PKB::getStmtUsesAnything() {
@@ -809,7 +809,7 @@ ModifiesTable* PKB::getModifiesTable() {
 void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
   return m_modifiesTable->insertModifiesForStmt(t_varName, t_lineNum, t_varIdx);
 }
-bool PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
+BOOLEAN PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_modifiesTable->isModifies(t_lineNum, t_varName);
 }
 LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
@@ -827,7 +827,7 @@ std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtModifiesByIdx() {
   return m_modifiesTable->getAllStmtModifiesByIdx();
 }
-bool PKB::isModifiesAnything(STMT_NUM t_lineNum) {
+BOOLEAN PKB::isModifiesAnything(STMT_NUM t_lineNum) {
   return m_modifiesTable->isModifiesAnything(t_lineNum);
 }
 LIST_OF_STMT_NUMS PKB::getStmtModifiesAnything() {
@@ -853,11 +853,11 @@ void PKB::executeAfterAllNextInserts() {
   m_nextTable->executeAfterAllNextInserts();
 }
 
-bool PKB::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+BOOLEAN PKB::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
   return m_nextTable->isNext(t_line1, t_line2);
 }
 
-bool PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
+BOOLEAN PKB::isNextStar(PROG_LINE t_line1, PROG_LINE t_line2) {
   return m_nextTable->isNextStar(t_line1, t_line2);
 }
 
@@ -893,15 +893,15 @@ LIST_OF_PROG_LINES PKB::getAllLinesBeforeAnyLine() {
   return m_nextTable->getAllLinesBeforeAnyLine();
 }
 
-bool PKB::hasNextRelationship() {
+BOOLEAN PKB::hasNextRelationship() {
   return m_nextTable->hasNextRelationship();
 }
 
-bool PKB::hasNextLine(PROG_LINE t_line) {
+BOOLEAN PKB::hasNextLine(PROG_LINE t_line) {
   return m_nextTable->hasNextLine(t_line);
 }
 
-bool PKB::hasLineBefore(PROG_LINE t_line) {
+BOOLEAN PKB::hasLineBefore(PROG_LINE t_line) {
   return m_nextTable->hasLineBefore(t_line);
 }
 

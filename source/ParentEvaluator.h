@@ -8,6 +8,7 @@
 #include "Evaluator.h"
 #include "Relation.h"
 #include "PkbReadOnly.h"
+#include "InvalidArgumentException.h"
 
 class ParentEvaluator : public Evaluator {
 public:

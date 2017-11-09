@@ -32,11 +32,11 @@ void TestWrapper::parse(std::string filename) {
   // ...rest of your code...
   try {
     m_parser->parse(filename);
+    m_designExtractor->extractRestOfDesignAbstractions(m_pkb);
   } catch (SyntaxErrorException see) {
     std::cout << see.what() << "\n";
     exit(-1);
   }
-  m_designExtractor->extractRestOfDesignAbstractions(m_pkb);
 }
 
 // method to evaluating a query

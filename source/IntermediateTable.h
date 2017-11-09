@@ -8,6 +8,7 @@
 #include "GlobalTypeDef.h"
 #include "Grammar.h"
 #include "PkbReadOnly.h"
+#include "Formatter.h"
 
 class IntermediateTable {
 public:
@@ -19,7 +20,7 @@ public:
   * Returns an empty list If no synonyms selected or synonyms selected does not exist in the intermediate table.
   * @param t_synonyms list of synonyms to determine which results is output in the intermediate table.
   */
-  LIST_OF_RESULTS getResults(std::vector<Grammar> t_synonyms, const PkbReadOnly *t_pkb);
+  LIST_OF_RESULTS getResults(std::vector<Grammar> t_synonyms, PkbReadOnly *t_pkb);
   BOOLEAN hasSynonyms();
 
   /*
