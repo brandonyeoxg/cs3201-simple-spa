@@ -21,6 +21,28 @@ Pattern::Pattern(Grammar t_clause, Grammar t_left, Grammar t_right, bool t_subtr
   setLeft(t_left);
   setRight(t_right);
   setSubtree(t_subtree);
+  setWeights(0);
+  if (QueryUtil::isAnythingWithAnyPattern(t_left, t_right)) {
+    addWeights(1);
+  } else if (QueryUtil::isAnythingWithExactPattern(t_left, t_right, true)) {
+    addWeights(4);
+  } else if (QueryUtil::isAnythingWithSubPattern(t_left, t_right, false)) {
+    addWeights(4);
+  } else if (QueryUtil::isVarWithAnyPattern(t_left, t_right)) {
+    addWeights(2);
+  } else if (QueryUtil::isSynonymWithAnyPattern(t_left, t_right)) {
+    addWeights(5);
+  } else if (QueryUtil::isVarWithExactPattern(t_left, t_right, true)) {
+    addWeights(3);
+  } else if (QueryUtil::isVarWithSubPattern(t_left, t_right, false)) {
+    addWeights(3);
+  } else if (QueryUtil::isSynonymWithExactPattern(t_left, t_right, true)) {
+    addWeights(6);
+  } else if (QueryUtil::isSynonymWithSubPattern(t_left, t_right, false)) {
+    addWeights(6);
+  } else {
+    addWeights(0);
+  }
 }
 
 queryType::clauseType Pattern::getClauseType() { return queryType::clauseType::PATTERN; }
