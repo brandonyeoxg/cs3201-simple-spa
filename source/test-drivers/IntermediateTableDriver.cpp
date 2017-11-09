@@ -3,6 +3,7 @@
 void IntermediateTableDriver::clearTable() {
   m_results.clear();
   m_synonymRowChecker.clear();
+  m_synonyms.clear();
 }
 
 void IntermediateTableDriver::insertTable(const INTERMEDIATE_TABLE &t_results) {
@@ -15,6 +16,7 @@ void IntermediateTableDriver::insertSynonymRow(std::vector<SYNONYM_NAME> m_synon
     auto itr = m_synonymRowChecker.find(synonym);
     if (itr == m_synonymRowChecker.end()) {
       m_synonymRowChecker.emplace(synonym, i);
+      m_synonyms.emplace(i, synonym);
     }
     i += 1;
   }
@@ -34,7 +36,7 @@ INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertTwoSynonym(SYNONYM_NAME t_
   return m_results;
 }
 
-std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> IntermediateTableDriver::TestMergeTables(std::vector<IntermediateTable> t_tables) {
+std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> IntermediateTableDriver::TestMergeTables(std::vector<IntermediateTable*> t_tables) {
   mergeTables(t_tables);
   std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> pair = std::make_pair(m_synonymRowChecker, m_results);
   return pair;

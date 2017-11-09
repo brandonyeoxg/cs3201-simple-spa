@@ -45,20 +45,27 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
-BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable> t_tables) {
+BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable*> t_tables) {
   for (auto& table : t_tables) {
-    for (auto& syn : table.m_synonymRowChecker) {
-      m_synonymRowChecker[syn.first] = m_synonymRowChecker.size();
+    if (table->m_results.empty()) {
+      continue;
+    }
+
+    for (auto& syn : table->m_synonyms) {
+      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(syn.second);
+      if (got == m_synonymRowChecker.end()) {
+        insertSynonym(syn.second);
+      }  
     }
 
     if (m_results.empty()) {
-      m_results = table.m_results;
+      m_results = table->m_results;
       continue;
     }
-    
+
     INTERMEDIATE_TABLE intermediateResults;
     int rowNum = 0;
-    for (auto& row : table.m_results) {
+    for (auto& row : table->m_results) {
       for (auto& r : m_results) {
         if (intermediateResults.empty()) {
           intermediateResults.push_back(r);
@@ -133,6 +140,7 @@ bool IntermediateTable::isEmpty() {
 void IntermediateTable::clearTable() {
   m_results.clear();
   m_synonymRowChecker.clear();
+  m_synonyms.clear();
 }
 
 MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_NAME& t_synonym) {
@@ -141,6 +149,7 @@ MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_
   }
   int curSize = m_synonymRowChecker.size();
   m_synonymRowChecker.emplace(t_synonym, curSize);
+  m_synonyms.emplace(curSize, t_synonym);
   return m_synonymRowChecker;
 }
 
