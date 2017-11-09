@@ -7,15 +7,19 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestParentTable) {
   public:
-    std::unordered_map<int, std::vector<int>> testChildMap = {
-      { 1,{ 2, 3 } },
-      { 2,{ 4 } }
-    };
-    std::unordered_map<int, int> testParentMap = {
-      {2, 1},
-      {3, 1},
-      {4, 2}
-    };
+    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_testChildMap;
+    MAP_OF_STMT_NUMS m_testParentMap;
+    TEST_METHOD_INITIALIZE(InitialiseParentTable) {
+      m_testChildMap = {
+        { 1,{ 2, 3 } },
+        { 2,{ 4 } }
+      };
+      m_testParentMap = {
+        { 2, 1 },
+        { 3, 1 },
+        { 4, 2 }
+      };
+    }
     TEST_METHOD(TestInsertParent) {
       //test insertFollows method.
       ParentTable *testParentTable = new ParentTable();
@@ -24,12 +28,12 @@ namespace UnitTesting {
       testParentTable->insertParent(2, 4);
       //std::unordered_map<int, int> expected = testParentTable->getParentMap();
       //Assert::IsTrue(expected == testParentMap);
-      Assert::IsTrue(testParentTable->getChildMap() == testChildMap);
+      Assert::IsTrue(testParentTable->getChildMap() == m_testChildMap);
     }
 
     TEST_METHOD(TestIsParent) {
       ParentTable *testParentTable = new ParentTable();
-      testParentTable->setParentMap(testParentMap);
+      testParentTable->setParentMap(m_testParentMap);
       //test isParent method (correct behaviour).
       Assert::IsTrue(testParentTable->isParent(1, 2));
       //test isParent method (non-existent parent relationship).
@@ -42,8 +46,8 @@ namespace UnitTesting {
 
     TEST_METHOD(TestIsParentStar) {
       ParentTable *testParentTable = new ParentTable();
-      testParentTable->setParentMap(testParentMap);
-      testParentTable->setChildMap(testChildMap);
+      testParentTable->setParentMap(m_testParentMap);
+      testParentTable->setChildMap(m_testChildMap);
       testParentTable->populateParentStarMap();
       testParentTable->populateParentMatrix(4);
       //test isParentStar method (correct behaviour as isParent).
@@ -58,7 +62,7 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetParentOf) {
       ParentTable *testParentTable = new ParentTable();
-      testParentTable->setParentMap(testParentMap);
+      testParentTable->setParentMap(m_testParentMap);
       //test getParentOf method (correct behaviour).
       Assert::IsTrue(testParentTable->getParentOf(2) == 1);
       Assert::IsTrue(testParentTable->getParentOf(4) == 2);
@@ -77,7 +81,7 @@ namespace UnitTesting {
 
     TEST_METHOD(TestGetChildrenOf) {
       ParentTable *testParentTable = new ParentTable();
-      testParentTable->setChildMap(testChildMap);
+      testParentTable->setChildMap(m_testChildMap);
       //test getChildrenOf method (correct behaviour).
       static const int arr[] = { 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
