@@ -504,6 +504,7 @@ public:
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
   STRING getConstantFromIdx(int t_constantIdx);
+  CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant);
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////

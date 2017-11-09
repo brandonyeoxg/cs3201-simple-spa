@@ -321,7 +321,7 @@ public:
   virtual LIST_OF_RESULTS getAllConstants() = 0;
   virtual LIST_OF_CONSTANT_INDICES getAllConstantsByIdx() = 0;
   virtual CONSTANT_TERM getConstantFromIdx(int t_constantIdx) = 0;
-
+  virtual CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant) = 0;
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////

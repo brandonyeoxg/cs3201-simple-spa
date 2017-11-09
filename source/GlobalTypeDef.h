@@ -84,7 +84,7 @@ typedef std::unordered_set<INTEGER> VAR_HASH_SET;
 typedef std::unordered_set<STRING> UNORDERED_SET_OF_NAMES;
 typedef std::unordered_set<VAR_INDEX> UNORDERED_SET_OF_VAR_INDICES;
 typedef std::unordered_set<PROC_INDEX> UNORDERED_SET_OF_PROC_INDICES;
-
+typedef std::unordered_map<CONSTANT_TERM, CONSTANT_INDEX> MAP_OF_CONSTANT_TERM_TO_CONSTANT_INDEX;
 typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;

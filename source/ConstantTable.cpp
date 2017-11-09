@@ -26,6 +26,7 @@ int ConstantTable::insertConstant(std::string t_constant) {
     m_constantSet.insert(t_constant);
     m_constantSetByIdx.insert(index);
     m_constantMap.emplace(index, t_constant);
+    m_constantByIdxMap.emplace(t_constant, index);
     return index;
   }
 
@@ -36,6 +37,15 @@ STRING ConstantTable::getConstantFromIdx(int t_constantIdx) {
     throw std::invalid_argument("key constantIdx does not exist in ConstantTable");
   } else {
     return m_constantMap[t_constantIdx];
+  }
+}
+
+CONSTANT_INDEX ConstantTable::getConstantIdxFromConstant(CONSTANT_TERM t_constant) {
+  if (m_constantByIdxMap.find(t_constant) == m_constantByIdxMap.end()) {
+    //if index is not present in map, throw exception
+    throw std::invalid_argument("key constant does not exist in ConstantTable");
+  } else {
+    return m_constantByIdxMap[t_constant];
   }
 }
 

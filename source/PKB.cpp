@@ -397,6 +397,9 @@ LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
 STRING PKB::getConstantFromIdx(int t_constantIdx) {
   return m_constantTable->getConstantFromIdx(t_constantIdx);
 }
+CONSTANT_INDEX PKB::getConstantIdxFromConstant(CONSTANT_TERM t_constant) {
+  return m_constantTable->getConstantIdxFromConstant(t_constant);
+}
 ///////////////////////////////////////////////////////
 //  ProcTable methods
 ///////////////////////////////////////////////////////
