@@ -31,6 +31,7 @@ start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next/next-test-2-pr
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next/next-test-3-prog.txt %~dp0/Tests/System/Next/next-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-next-out3.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-1-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-next-stress-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-2-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-2-queries.txt %~dp0/Output/ReleaseOutput/system-next-stress-out2.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Next-Stress/next-stress-test-3-prog.txt %~dp0/Tests/System/Next-Stress/next-stress-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-next-stress-out3.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-1-prog.txt %~dp0/Tests/System/Pattern/pattern-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-pattern-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-2-prog.txt %~dp0/Tests/System/Pattern/pattern-test-2-queries.txt %~dp0/Output/ReleaseOutput/system-pattern-out2.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Pattern/pattern-test-3-prog.txt %~dp0/Tests/System/Pattern/pattern-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-pattern-out3.xml
