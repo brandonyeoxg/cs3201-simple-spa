@@ -7,5 +7,5 @@ queryType::clauseType Clause::getClauseType() {
 }
 
 INTEGER Clause::getWeights() {
-  return weights;
+  return m_weights;
 }

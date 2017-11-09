@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GlobalTypeDef.h"
+#include "QueryUtil.h"
 
 class Clause {
 public:
@@ -8,5 +9,5 @@ public:
   virtual INTEGER getWeights();
 
 protected:
-  INTEGER weights;
+  INTEGER m_weights;
 };
