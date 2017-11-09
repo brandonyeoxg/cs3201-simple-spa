@@ -517,8 +517,8 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllWhileStmtsWithVar() {
   LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
 
   for (auto stmtNum : whileStmts) {
-    std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
+    int varIndex = getUsesByIdx(stmtNum).at(0);
+    mapStmtToVar.insert({ stmtNum, varIndex });
   }
 
   return mapStmtToVar;
@@ -559,8 +559,8 @@ MAP_OF_STMT_NUM_TO_VAR_INDEX PKB::getAllIfStmtsWithVar() {
   LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
 
   for (auto stmtNum : ifStmts) {
-    std::string varName = getUses(stmtNum).at(0);
-    mapStmtToVar.insert({ stmtNum, getVarIdxFromName(varName) });
+    int varIndex = getUsesByIdx(stmtNum).at(0);
+    mapStmtToVar.insert({ stmtNum, varIndex });
   }
 
   return mapStmtToVar;
