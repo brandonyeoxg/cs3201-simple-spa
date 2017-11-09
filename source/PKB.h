@@ -501,7 +501,7 @@ public:
   ///////////////////////////////////////////////////////
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
-  STRING getConstantFromIdx(int t_constantIdx);
+  CONSTANT_TERM getConstantFromIdx(int t_constantIdx);
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -620,7 +620,7 @@ public:
   LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
-  std::unordered_map<PROC_NAME, PROC_NAME> getAllCalls();
+  MAP_OF_PROC_NAMES getAllCalls();
   MAP_OF_PROC_INDICES getAllCallsByIdx();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
