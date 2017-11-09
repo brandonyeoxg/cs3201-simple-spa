@@ -12,6 +12,12 @@
 
 class QueryOptimiser {
 public:
+  struct compareClauses {
+    bool operator()(Clause& clause1, Clause& clause2) {
+      return clause1.getWeights() > clause2.getWeights();
+    }
+  };
+
   QueryOptimiser(std::vector<Grammar> t_selects, std::vector<Relation> t_relations, std::vector<Pattern> t_patterns, std::vector<With> t_withs)
     : m_selects(t_selects),
       m_relations(t_relations),
