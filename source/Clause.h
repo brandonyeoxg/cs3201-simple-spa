@@ -5,4 +5,8 @@
 class Clause {
 public:
   virtual queryType::clauseType getClauseType();
+  virtual INTEGER getWeights();
+
+protected:
+  INTEGER weights;
 };

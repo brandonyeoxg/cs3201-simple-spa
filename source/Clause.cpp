@@ -5,3 +5,7 @@
 queryType::clauseType Clause::getClauseType() {
   return queryType::clauseType::SELECT;
 }
+
+INTEGER Clause::getWeights() {
+  return weights;
+}
