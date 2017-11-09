@@ -12,11 +12,10 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
     std::cout << "\nNUMBER OF STMTS: " << typeOfStmts.size() << "\n";
   }
 
-  /*std::priority_queue<Clause*> t_noSyns;
-  std::priority_queue<std::priority_queue<Clause*>*> t_withSyns;
-  std::priority_queue<std::pair<Clause, int>, std::vector<std::pair<Clause, int>>, compareClauses> queue;
+  std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> t_noSyns;
+  std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> t_withSyns;
   QueryOptimiser opt = QueryOptimiser(m_selects, m_relations, m_patterns, m_withs);
-  opt.divideClausesIntoGroups(t_noSyns, t_withSyns);*/
+  opt.divideClausesIntoGroups(t_noSyns, t_withSyns);
 
   bool hasResult = getResultFromPkb();
   if (hasResult) {
