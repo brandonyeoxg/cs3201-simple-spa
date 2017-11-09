@@ -501,7 +501,7 @@ public:
   ///////////////////////////////////////////////////////
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
-  STRING getConstantFromIdx(int t_constantIdx);
+  CONSTANT_TERM getConstantFromIdx(int t_constantIdx);
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////

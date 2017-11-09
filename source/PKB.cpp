@@ -390,7 +390,7 @@ LIST_OF_RESULTS PKB::getAllConstants() {
 LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
   return m_constantTable->getAllConstantsByIdx();
 }
-STRING PKB::getConstantFromIdx(int t_constantIdx) {
+CONSTANT_TERM PKB::getConstantFromIdx(int t_constantIdx) {
   return m_constantTable->getConstantFromIdx(t_constantIdx);
 }
 ///////////////////////////////////////////////////////
