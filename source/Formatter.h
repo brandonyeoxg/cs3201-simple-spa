@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "GlobalTypeDef.h"
+#include "PkbReadOnly.h"
 
 class Formatter {
 public:
@@ -45,6 +46,13 @@ public:
   * @return the contents of a map<int, str> in a map<str, vector<str>>.
   */
   static SET_OF_RESULTS formatMapIntStrToMapStrVectorStr(std::unordered_map<int, std::string> t_mapIntStr);
+
+  /**
+  * A public function to format map<int, int> to map<int, vector<int>>.
+  * Given a map<int, int>, it will format it into a map<int, vector<int>>.
+  * @return the contents of a map<int, int> in a map<int, vector<int>>.
+  */
+  static SET_OF_RESULTS_INDICES formatMapIntIntToMapIntVectorInt(std::unordered_map<int, int> t_mapIntInt);
 
   /**
   * A public function to format string vector to map<str, vector<str>>.

@@ -47,6 +47,17 @@ SET_OF_RESULTS Formatter::formatMapIntStrToMapStrVectorStr(std::unordered_map<in
   return mapStrVectorStr;
 }
 
+SET_OF_RESULTS_INDICES Formatter::formatMapIntIntToMapIntVectorInt(std::unordered_map<int, int> t_mapIntInt) {
+  SET_OF_RESULTS_INDICES mapIntVectorInt;
+  for (auto& x : t_mapIntInt) {
+    LIST_OF_RESULTS_INDICES vectorInt;
+    vectorInt.push_back(x.second);
+    mapIntVectorInt[x.first] = vectorInt;
+  }
+
+  return mapIntVectorInt;
+}
+
 SET_OF_RESULTS Formatter::formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vectorStr) {
   std::unordered_map<std::string, std::vector<std::string>> mapStrVectorStr;
   for (auto& x : t_vectorStr) {
