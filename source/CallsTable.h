@@ -53,7 +53,7 @@ public:
   void populateCalledByStarMap();
 
   CallsTable();
-
+  ~CallsTable() {};
   /*
   * Getter methods for unit test purposes.
   */

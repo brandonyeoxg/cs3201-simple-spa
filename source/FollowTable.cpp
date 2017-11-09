@@ -214,9 +214,5 @@ void FollowTable::populateAllFollowsMap() {
   }
 }
 
-/**
-* A constructor.
-* Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
-*/
-FollowTable::FollowTable() {
-}
+
+FollowTable::FollowTable() {}

@@ -13,6 +13,7 @@
 class ConstantTable {
 public:
   ConstantTable();
+  ~ConstantTable() {};
   CONSTANT_INDEX insertConstant(std::string t_constant);
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();

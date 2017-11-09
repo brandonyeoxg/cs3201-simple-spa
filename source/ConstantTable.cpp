@@ -8,12 +8,8 @@
 
 #include "ConstantTable.h"
 
-/**
-* A constructor.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
-ConstantTable::ConstantTable() {
-}
+
+ConstantTable::ConstantTable() {}
 
 CONSTANT_INDEX ConstantTable::insertConstant(std::string t_constant) {
   int index = m_constantMap.size();

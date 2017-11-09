@@ -26,6 +26,7 @@ public:
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS& getParentedByStarMap();
 
   ParentTable();
+  ~ParentTable() {};
 
   BOOLEAN insertParent(int t_s1, int t_s2);
   BOOLEAN isParent(int t_s1, int t_s2);
