@@ -13,7 +13,7 @@ class IntermediateTable {
 public:
   BOOLEAN insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results);
   BOOLEAN insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results);
-  BOOLEAN mergeTables(std::vector<IntermediateTable> t_tables);
+  BOOLEAN mergeTables(std::vector<IntermediateTable*> t_tables);
   
   /*
   * Returns the results based on the synoynms selected.
@@ -33,6 +33,7 @@ public:
 protected:
   INTERMEDIATE_TABLE m_results;
   MAP_OF_SYNONYM_TO_TABLE_POSITION m_synonymRowChecker;
+  MAP_OF_TABLE_POSITION_TO_SYNONYM m_synonyms;
 
 private:
   /*
