@@ -23,17 +23,17 @@ public:
 
     relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
     key = cache.getKey(relation);
-
+    Assert::IsTrue(key == "Next*_s");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Affects*", Grammar(3, "s4"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-
+    Assert::IsTrue(key == "Affects*s1s2");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Parent*", Grammar(3, "s5"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-
+    Assert::IsTrue(key == "Parent*ss");
     Logger::WriteMessage(key.c_str());
   }
 
