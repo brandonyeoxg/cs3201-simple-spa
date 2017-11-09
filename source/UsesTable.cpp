@@ -171,9 +171,7 @@ LIST_OF_VAR_INDICES UsesTable::getAllUsesVarNamesByIdx() {
   return results;
 }
 
-//Constructor.
-UsesTable::UsesTable() {
-}
+UsesTable::UsesTable() {}
 
 MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES UsesTable::getUsesStmtMap() {
   return m_usesStmtMap;

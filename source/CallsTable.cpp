@@ -470,11 +470,8 @@ void CallsTable::populateCalledByStarMap() {
     m_calledByStarMap[proc] = procNamesStar;
   }
 }
-/**
-* A constructor.
-*/
-CallsTable::CallsTable() {
-}
+
+CallsTable::CallsTable() {}
 
 MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES& CallsTable::getCallsMap() {
   return m_callsMap;

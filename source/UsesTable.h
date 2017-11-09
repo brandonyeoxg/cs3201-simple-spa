@@ -26,6 +26,8 @@ public:
   LIST_OF_VAR_INDICES getAllUsesVarNamesByIdx();
 
   UsesTable();
+  ~UsesTable() {};
+
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES getUsesStmtMap();
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getUsesVarMap();
 

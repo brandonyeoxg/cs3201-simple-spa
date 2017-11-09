@@ -266,9 +266,5 @@ void ParentTable::populateParentStarMap() {
     m_parentStarMap[parent] = childrenStar;
   }
 }
-/**
-* A constructor.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
-ParentTable::ParentTable() {
-}
+
+ParentTable::ParentTable() {}

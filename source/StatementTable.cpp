@@ -8,12 +8,8 @@
 
 #include "StatementTable.h"
 
-/**
-* A constructor.
-* Instantiates 2 unordered_maps that maps statement number to the type of statement, and vice versa.
-*/
-StatementTable::StatementTable() {
-}
+
+StatementTable::StatementTable() {}
 
 MAP_OF_STMT_NUM_TO_GTYPE StatementTable::getTypeOfStatementTable() {
   return m_typeOfStatementTable;

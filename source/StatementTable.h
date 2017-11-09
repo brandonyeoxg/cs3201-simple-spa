@@ -12,7 +12,7 @@
 class StatementTable {
 public:
   StatementTable();
-
+  ~StatementTable() {};
   void insertStatementIntoStatementTable(STMT_NUM t_lineNum, queryType::GType t_type, PROC_INDEX t_procIdx, PROC_NAME t_procName);
   BOOLEAN insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
