@@ -7,7 +7,10 @@
 class Clause {
 public:
   virtual queryType::clauseType getClauseType();
-  virtual INTEGER getWeights();
+  INTEGER getWeights();
+  void setWeights(INTEGER t_weights);
+  void addWeights(INTEGER t_weights);
+  void multiplyWeights(INTEGER t_weights);
 
 protected:
   INTEGER m_weights;
