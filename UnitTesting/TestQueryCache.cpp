@@ -13,13 +13,12 @@ public:
     Logger::WriteMessage("Print out keys for Clauses");
     Pattern pattern;
     Relation relation;
-
-    pattern = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
     QueryCache cache = QueryCache();
     std::string key;
 
+    pattern = Pattern(Grammar(4, "smth"), Grammar(), Grammar(), false);
     key = cache.getKey(pattern);
-
+    Assert::IsTrue(key == "Pattern_While");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
