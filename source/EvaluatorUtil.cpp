@@ -54,39 +54,39 @@ std::vector<std::string> EvaluatorUtil::filterValueResults(std::unordered_map<in
   return stmtVector;
 }
 
-std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar) {
-  std::vector<std::string> stmtVector;
+LIST_OF_STMT_NUMS EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar) {
+  LIST_OF_STMT_NUMS stmtVector;
 
   if (Grammar::isStmt(t_grammar.getType()) || Grammar::isProgLine(t_grammar.getType())) {
     if (Grammar::isStmt(t_typeOfStmts[t_stmtNo]) || Grammar::isProgLine(t_typeOfStmts[t_stmtNo]) 
       || Grammar::isAssign(t_typeOfStmts[t_stmtNo]) || Grammar::isWhile(t_typeOfStmts[t_stmtNo]) 
       || Grammar::isIf(t_typeOfStmts[t_stmtNo]) || Grammar::isCall(t_typeOfStmts[t_stmtNo])) {
-      stmtVector.push_back(std::to_string(t_stmtNo));
+      stmtVector.push_back(t_stmtNo);
     }
   } else if (Grammar::isAssign(t_grammar.getType()) || Grammar::isWhile(t_grammar.getType()) 
     || Grammar::isIf(t_grammar.getType()) || Grammar::isCall(t_grammar.getType())) {
     if (Grammar::isSameGType(t_typeOfStmts[t_stmtNo], t_grammar.getType())) {
-      stmtVector.push_back(std::to_string(t_stmtNo));
+      stmtVector.push_back(t_stmtNo);
     }
   }
 
   return stmtVector;
 }
 
-std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::vector<int> t_stmtIntVector, Grammar t_grammar) {
-  std::vector<std::string> stmtVector;
+LIST_OF_STMT_NUMS EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, LIST_OF_STMT_NUMS t_stmtIntVector, Grammar t_grammar) {
+  LIST_OF_STMT_NUMS stmtVector;
 
   for (auto& stmtNo : t_stmtIntVector) {
     if (Grammar::isStmt(t_grammar.getType()) || Grammar::isProgLine(t_grammar.getType())) {
       if (Grammar::isStmt(t_typeOfStmts[stmtNo]) || Grammar::isProgLine(t_typeOfStmts[stmtNo]) 
         || Grammar::isAssign(t_typeOfStmts[stmtNo]) || Grammar::isWhile(t_typeOfStmts[stmtNo]) 
         || Grammar::isIf(t_typeOfStmts[stmtNo]) || Grammar::isCall(t_typeOfStmts[stmtNo])) {
-        stmtVector.push_back(std::to_string(stmtNo));
+        stmtVector.push_back(stmtNo);
       }
     } else if (Grammar::isAssign(t_grammar.getType()) || Grammar::isWhile(t_grammar.getType()) 
       || Grammar::isIf(t_grammar.getType()) || Grammar::isCall(t_grammar.getType())) {
       if (Grammar::isSameGType(t_typeOfStmts[stmtNo], t_grammar.getType())) {
-        stmtVector.push_back(std::to_string(stmtNo));
+        stmtVector.push_back(stmtNo);
       }
     }
   }
@@ -94,8 +94,8 @@ std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, quer
   return stmtVector;
 }
 
-std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, std::vector<std::string> t_stmtVector) {
-  std::vector<std::string> result;
+LIST_OF_STMT_NUMS EvaluatorUtil::filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, LIST_OF_STMT_NUMS t_stmtVector) {
+  LIST_OF_STMT_NUMS result;
 
   if (Grammar::isStmt(t_grammar.getType()) || Grammar::isProgLine(t_grammar.getType())) {
     if (Grammar::isStmt(t_typeOfStmts[t_stmtNo]) || Grammar::isProgLine(t_typeOfStmts[t_stmtNo]) 
@@ -113,8 +113,8 @@ std::vector<std::string> EvaluatorUtil::filterStmts(std::unordered_map<int, quer
   return result;
 }
 
-std::vector<std::string> EvaluatorUtil::getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2) {
-  std::vector<std::string> commonResultVector;
+LIST_OF_RESULTS EvaluatorUtil::getCommonResults(LIST_OF_RESULTS t_resultVector1, LIST_OF_RESULTS t_resultVector2) {
+  LIST_OF_RESULTS commonResultVector;
 
   sort(t_resultVector1.begin(), t_resultVector1.end());
   sort(t_resultVector2.begin(), t_resultVector2.end());
@@ -124,12 +124,13 @@ std::vector<std::string> EvaluatorUtil::getCommonResults(std::vector<std::string
   return commonResultVector;
 }
 
-SET_OF_RESULTS EvaluatorUtil::getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine) {
-  SET_OF_RESULTS commonProgLineAndConstant;
+SET_OF_RESULTS_INDICES EvaluatorUtil::getCommonProgLineAndConstant(LIST_OF_CONSTANT_INDICES t_allConstants, int t_maxProgLine, PkbReadOnly *t_pkb) {
+  SET_OF_RESULTS_INDICES commonProgLineAndConstant;
 
   for (auto& constant : t_allConstants) {
-    if (std::stoi(constant) <= t_maxProgLine) {
-      LIST_OF_RESULTS constants;
+    CONSTANT_TERM constTerm = t_pkb->getConstantFromIdx(constant);
+    if (constant <= t_maxProgLine) {
+      LIST_OF_RESULTS_INDICES constants;
       constants.push_back(constant);
       commonProgLineAndConstant[constant] = constants;
     }
