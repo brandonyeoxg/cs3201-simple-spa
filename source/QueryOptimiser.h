@@ -31,8 +31,7 @@ public:
       m_withs(t_withs) {};
 
   void divideClausesIntoGroups(std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> &t_noSyns, std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> &t_withSyns);
-  void sortBetweenGroups(std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*,int>>, QueryOptimiser::compareGroups> &t_groups);
-  void sortWithinGroups(std::priority_queue<Clause*> &t_clauses, PkbReadOnly *t_pkb);
+  BOOLEAN hasSelectedSynonyms(Clause* t_clause);
 
 private:
   std::vector<Grammar> m_selects;

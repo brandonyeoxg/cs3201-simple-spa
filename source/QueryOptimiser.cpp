@@ -159,12 +159,23 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
     }  
   }
 
+  int numOfNonSelectedGroups = 0;
   for (auto& group : allGroupsWithSyns) {
     int totalWeights = 0;
+    BOOLEAN hasSelectedSyns = false;
     std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *grp = new std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>();
     for (auto& clause : *group) {
       grp->push(clause);
-      totalWeights += clause->getWeights();
+      if (hasSelectedSyns || hasSelectedSynonyms(clause)) {
+        hasSelectedSyns = true;
+        totalWeights += clause->getWeights();   
+      } else {
+        totalWeights += numOfNonSelectedGroups;
+      } 
+    }
+
+    if (!hasSelectedSyns) {
+      numOfNonSelectedGroups++;
     }
 
     t_withSyns.push(std::make_pair(grp, totalWeights));
@@ -175,42 +186,32 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
   }
 }
 
-void QueryOptimiser::sortBetweenGroups(std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> &t_groups) {
-  /*int numOfGroups = t_groups.size();
-  for (int grp = 0; grp < numOfGroups; ++grp) {
-    std::priority_queue<Clause*> *existingGroup = t_groups.top;
-    int numOfClauses = existingGroup->size();
-    bool isSelected = false;
-    for (int cls = 0; cls < numOfClauses; ++cls) {
-      Clause *existingClause = existingGroup->top();
-      if (existingClause->getClauseType() == queryType::clauseType::RELATION) {
-        Relation *existingClause = (Relation*)existingClause;
-        int numOfSelects = m_selects.size();
-        for (int sel = 0; sel < numOfSelects; ++sel) {
-          Grammar select = m_selects.front();
-          if (select.getName() == existingClause->getG1().getName()
-            || select.getName() == existingClause->getG2().getName()) {
-            t_hasSelectSyns.push(existingGroup);
-            isSelected = true;
-            break;
-          }
-
-          m_selects.pop();
-          m_selects.push(select);
-        }
-        
-        if (isSelected) {
-          break;
-        }
+BOOLEAN QueryOptimiser::hasSelectedSynonyms(Clause* t_clause) {
+  if (t_clause->getClauseType() == queryType::clauseType::RELATION) {
+    Relation *clause = (Relation*)t_clause;
+    for (auto& select : m_selects) {
+      if (select.getName() == clause->getG1().getName()
+        || select.getName() == clause->getG2().getName()) {
+        return true;
       }
     }
-    
-    if (!isSelected) {
-      t_noSelectSyns.push(existingGroup);
+  } else if (t_clause->getClauseType() == queryType::clauseType::PATTERN) {
+    Pattern *clause = (Pattern*)t_clause;
+    for (auto& select : m_selects) {
+      if (select.getName() == clause->getStmt().getName()
+        || select.getName() == clause->getLeft().getName()) {
+        return true;
+      }
     }
-  }*/
-}
+  } else if (t_clause->getClauseType() == queryType::clauseType::WITH) {
+    With *clause = (With*)t_clause;
+    for (auto& select : m_selects) {
+      if (select.getName() == clause->getG1().getName()
+        || select.getName() == clause->getG2().getName()) {
+        return true;
+      }
+    }
+  }
 
-void QueryOptimiser::sortWithinGroups(std::priority_queue<Clause*> &t_clauses, PkbReadOnly *t_pkb) {
-  //std::priority_queue<std::pair<Clause, int>, std::vector<std::pair<Clause, int>>, compareClauses>
+  return false;
 }
