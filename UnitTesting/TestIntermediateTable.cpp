@@ -146,34 +146,67 @@ namespace UnitTesting {
       m_driver->clearTable();
 
       LIST_OF_RESULTS result = { "1", "3", "7" };
-      INTERMEDIATE_TABLE table1 = m_driver->TestInsertOneSynonym("s1", result);
-      m_driver->clearTable();
+      IntermediateTableDriver tableDriver1 = IntermediateTableDriver();
+      INTERMEDIATE_TABLE table1 = tableDriver1.TestInsertOneSynonym("s1", result);
 
       result = { "2", "4" };
-      INTERMEDIATE_TABLE table2 = m_driver->TestInsertOneSynonym("s2", result);
-      m_driver->clearTable();
+      IntermediateTableDriver tableDriver2 = IntermediateTableDriver();
+      INTERMEDIATE_TABLE table2 = tableDriver2.TestInsertOneSynonym("s2", result);
 
-      INTERMEDIATE_TABLE actual = m_driver->TestMergeTables({ table1, table2 });
-      INTERMEDIATE_TABLE expected = { { "1", "2" },{ "3", "2" },{ "7", "2" },{ "1", "4" },{ "3", "4" },{ "7", "4" } };
-      Assert::IsTrue(actual == expected);
+      std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> actual = m_driver->TestMergeTables({ tableDriver1, tableDriver2 });
+      MAP_OF_SYNONYM_TO_TABLE_POSITION expectedSynRow = { { "s1", 0 },{ "s2", 1 } };
+      INTERMEDIATE_TABLE expectedTable = { { "1", "2" },{ "3", "2" },{ "7", "2" },{ "1", "4" },
+      { "3", "4" },{ "7", "4" } };
+      Assert::IsTrue(actual.first == expectedSynRow);
+      Assert::IsTrue(actual.second == expectedTable);
       m_driver->clearTable();
+      tableDriver1.clearTable();
+      tableDriver2.clearTable();
 
+      LIST_OF_SYNONYMS synRow1 = { "s1", "s2" };
       table1 = { { "1", "2" },{ "3", "2" },{ "7", "2" } };
-      table2 = { { "3", "2", "4" },{ "6", "2", "2" } };
-      actual = m_driver->TestMergeTables({ table1, table2 });
-      expected = { { "1", "2", "3", "2", "4" },{ "3", "2", "3", "2", "4" },{ "7", "2", "3", "2", "4" },{ "1", "2", "6", "2", "2" },{ "3", "2", "6", "2", "2" },{ "7", "2", "6", "2", "2" } };
-      Assert::IsTrue(actual == expected);
-      m_driver->clearTable();
+      tableDriver1.insertSynonymRow(synRow1);
+      tableDriver1.insertTable(table1);
 
-      table1 = { { "1", "2" },{ "3", "2" },{ "7", "2" } };
+      LIST_OF_SYNONYMS synRow2 = { "s3", "s4", "s5" };
       table2 = { { "3", "2", "4" },{ "6", "2", "2" } };
+      tableDriver2.insertSynonymRow(synRow2);
+      tableDriver2.insertTable(table2);
+
+      actual = m_driver->TestMergeTables({ tableDriver1, tableDriver2 });
+      expectedSynRow = { { "s1", 0 },{ "s2", 1 }, { "s3", 2 }, { "s4", 3 }, { "s5", 4 } };
+      expectedTable = { { "1", "2", "3", "2", "4" },{ "3", "2", "3", "2", "4" },{ "7", "2", "3", "2", "4" },
+      { "1", "2", "6", "2", "2" },{ "3", "2", "6", "2", "2" },{ "7", "2", "6", "2", "2" } };
+      Assert::IsTrue(actual.first == expectedSynRow);
+      Assert::IsTrue(actual.second == expectedTable);
+      m_driver->clearTable();
+      tableDriver1.clearTable();
+      tableDriver2.clearTable();
+
+      synRow1 = { "s1", "s2" };
+      table1 = { { "1", "2" },{ "3", "2" },{ "7", "2" } };
+      tableDriver1.insertSynonymRow(synRow1);
+      tableDriver1.insertTable(table1);
+
+      synRow2 = { "s3", "s4", "s5" };
+      table2 = { { "3", "2", "4" },{ "6", "2", "2" } };
+      tableDriver2.insertSynonymRow(synRow2);
+      tableDriver2.insertTable(table2);
+
+      LIST_OF_SYNONYMS synRow3 = { "s6", "s7" };
       INTERMEDIATE_TABLE table3 = { { "1", "8" },{ "8", "9" },{ "2", "5" },{ "3", "4" } };
-      actual = m_driver->TestMergeTables({ table1, table2, table3 });
-      expected = { { "1", "2", "3", "2", "4", "1", "8" },{ "3", "2", "3", "2", "4", "1", "8" },{ "7", "2", "3", "2", "4", "1", "8" },{ "1", "2", "6", "2", "2", "1", "8" },{ "3", "2", "6", "2", "2", "1", "8" },{ "7", "2", "6", "2", "2", "1", "8" },
+      IntermediateTableDriver tableDriver3 = IntermediateTableDriver();
+      tableDriver3.insertSynonymRow(synRow3);
+      tableDriver3.insertTable(table3);
+
+      actual = m_driver->TestMergeTables({ tableDriver1, tableDriver2, tableDriver3 });
+      expectedSynRow = { { "s1", 0 },{ "s2", 1 },{ "s3", 2 },{ "s4", 3 },{ "s5", 4 },{ "s6", 5 },{ "s7", 6 } };
+      expectedTable = { { "1", "2", "3", "2", "4", "1", "8" },{ "3", "2", "3", "2", "4", "1", "8" },{ "7", "2", "3", "2", "4", "1", "8" },{ "1", "2", "6", "2", "2", "1", "8" },{ "3", "2", "6", "2", "2", "1", "8" },{ "7", "2", "6", "2", "2", "1", "8" },
       { "1", "2", "3", "2", "4", "8", "9" },{ "3", "2", "3", "2", "4", "8", "9" },{ "7", "2", "3", "2", "4", "8", "9" },{ "1", "2", "6", "2", "2", "8", "9" },{ "3", "2", "6", "2", "2", "8", "9" },{ "7", "2", "6", "2", "2", "8", "9" },
       { "1", "2", "3", "2", "4", "2", "5" },{ "3", "2", "3", "2", "4", "2", "5" },{ "7", "2", "3", "2", "4", "2", "5" },{ "1", "2", "6", "2", "2", "2", "5" },{ "3", "2", "6", "2", "2", "2", "5" },{ "7", "2", "6", "2", "2", "2", "5" },
       { "1", "2", "3", "2", "4", "3", "4" },{ "3", "2", "3", "2", "4", "3", "4" },{ "7", "2", "3", "2", "4", "3", "4" },{ "1", "2", "6", "2", "2", "3", "4" },{ "3", "2", "6", "2", "2", "3", "4" },{ "7", "2", "6", "2", "2", "3", "4" } };
-      Assert::IsTrue(actual == expected);
+      Assert::IsTrue(actual.first == expectedSynRow);
+      Assert::IsTrue(actual.second == expectedTable);
     }
   };
 }

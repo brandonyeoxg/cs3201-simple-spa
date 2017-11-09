@@ -34,7 +34,8 @@ INTERMEDIATE_TABLE IntermediateTableDriver::TestInsertTwoSynonym(SYNONYM_NAME t_
   return m_results;
 }
 
-INTERMEDIATE_TABLE IntermediateTableDriver::TestMergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables) {
+std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> IntermediateTableDriver::TestMergeTables(std::vector<IntermediateTable> t_tables) {
   mergeTables(t_tables);
-  return m_results;
+  std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> pair = std::make_pair(m_synonymRowChecker, m_results);
+  return pair;
 }

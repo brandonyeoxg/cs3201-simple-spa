@@ -121,6 +121,8 @@ typedef std::multimap<PROC_INDEX, VAR_INDEX> MAP_OF_PROC_INDEX_TO_VAR_INDEX;
 typedef std::unordered_set<int> VAR_HASH_SET;
 typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
 
+typedef std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> PAIR_OF_SYNONYM_TO_TABLE_POSITION_AND_INTERMEDIATE_TABLE;
+
 /*Called in QueryPreProcessor.h, by aaron*/
 
 /*Called in Parser.h, by brandon*/

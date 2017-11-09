@@ -45,16 +45,20 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
   return true;
 }
 
-BOOLEAN IntermediateTable::mergeTables(LIST_OF_INTERMEDIATE_TABLES t_tables) {
+BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable> t_tables) {
   for (auto& table : t_tables) {
-    if (m_results.empty()) {
-      m_results = table;
-      continue;
+    for (auto& syn : table.m_synonymRowChecker) {
+      m_synonymRowChecker[syn.first] = m_synonymRowChecker.size();
     }
 
+    if (m_results.empty()) {
+      m_results = table.m_results;
+      continue;
+    }
+    
     INTERMEDIATE_TABLE intermediateResults;
     int rowNum = 0;
-    for (auto& row : table) {
+    for (auto& row : table.m_results) {
       for (auto& r : m_results) {
         if (intermediateResults.empty()) {
           intermediateResults.push_back(r);
