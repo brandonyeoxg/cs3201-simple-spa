@@ -194,6 +194,32 @@ public:
     Assert::IsTrue(*results == expected1);
   }
 
+  TEST_METHOD(cache_getCache05) {
+    Clause *clause1, *clause2;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected1, expected2;
+
+    expected1 = SET_OF_RESULTS_INDICES();
+    expected1.insert({ 1,{ 1, 2, 3, 4 } });
+    expected1.insert({ 2,{ 1, 4 } });
+
+    expected2 = SET_OF_RESULTS_INDICES();
+    expected2.insert({ 4,{ 1 } });
+    expected2.insert({ 5,{ 1, 4 } });
+
+    clause1 = new Relation("Calls", Grammar(0, "proc1"), Grammar(11, "s")); // Calls(proc1, "s")
+    clause2 = new Relation("Calls", Grammar(11, "s"), Grammar(0, "proc1")); // Calls("s", proc1)
+
+    cache.cache(clause1, expected1);
+    cache.cache(clause2, expected2);
+
+    results = cache.getCache(clause2);
+    Assert::IsTrue(*results == expected2);
+
+    results = cache.getCache(clause1);
+    Assert::IsTrue(*results == expected1);
+  }
+
   TEST_METHOD(queryUtil_areBothSameSynonyms) {
     Assert::IsTrue(QueryUtil::areBothSameSynonyms(Grammar(2, "s7"), Grammar(2, "s7")));
     Assert::IsFalse(QueryUtil::areBothSameSynonyms(Grammar(2, "s7"), Grammar(2, "123")));
