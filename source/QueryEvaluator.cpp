@@ -576,6 +576,10 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
+          if (Grammar::isStmt(left.getType())) {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         } else if (Grammar::isAssign(left.getType()) || Grammar::isAssign(right.getType())) {
           LIST_OF_STMT_NUMS allAssignStmts = m_pkb->getAllAssignStmts();
@@ -586,7 +590,11 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
-          SET_OF_RESULTS_INDICES results;// = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          SET_OF_RESULTS_INDICES results = Formatter::formatVectorStrToMapIntVectorIntForValues(commonResults, m_pkb);
+          if (Grammar::isAssign(left.getType())) {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+          
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         } else if (Grammar::isWhile(left.getType()) || Grammar::isWhile(right.getType())) {
           LIST_OF_STMT_NUMS allWhileStmts = m_pkb->getAllWhileStmts();
@@ -597,7 +605,11 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
-          SET_OF_RESULTS_INDICES results;// = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          SET_OF_RESULTS_INDICES results = Formatter::formatVectorStrToMapIntVectorIntForValues(commonResults, m_pkb);
+          if (Grammar::isWhile(left.getType())) {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+          
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         } else if (Grammar::isIf(left.getType()) || Grammar::isIf(right.getType())) {
           LIST_OF_STMT_NUMS allIfStmts = m_pkb->getAllIfStmts();
@@ -608,7 +620,11 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
-          SET_OF_RESULTS_INDICES results;// = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          SET_OF_RESULTS_INDICES results = Formatter::formatVectorStrToMapIntVectorIntForValues(commonResults, m_pkb);
+          if (Grammar::isIf(left.getType())) {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         } else if (Grammar::isCall(left.getType()) || Grammar::isCall(right.getType())) {
           MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS allStmts = m_pkb->getStatementTypeTable();
@@ -620,7 +636,11 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
-          SET_OF_RESULTS_INDICES results;// = Formatter::formatVectorStrToMapStrVectorStr(commonResults);
+          SET_OF_RESULTS_INDICES results = Formatter::formatVectorStrToMapIntVectorIntForValues(commonResults, m_pkb);
+          if (Grammar::isCall(left.getType())) {
+            return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
+          }
+
           return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
         }
       } else if ((Grammar::isProcName(left.getAttr()) && Grammar::isVarName(right.getAttr())) 
@@ -633,8 +653,12 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
             return false;
           }
 
-          SET_OF_RESULTS_INDICES results;// = Formatter::formatVectorStrToMapStrVectorStr(commonNames);
-          return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+          SET_OF_RESULTS_INDICES results = Formatter::formatVectorStrToMapIntVectorIntForNames(commonNames, m_pkb);
+          if (Grammar::isProc(left.getType())) {
+            return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
+          }
+
+          return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
         } else if (Grammar::isCall(left.getType()) || Grammar::isCall(right.getType())) {
           LIST_OF_PROC_NAMES allProcsCalled = m_pkb->getCalledByAnything();
           LIST_OF_VAR_NAMES allVarNames = m_pkb->getAllVarNames();
@@ -669,6 +693,10 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
       SET_OF_RESULTS_INDICES results = EvaluatorUtil::getCommonProgLineAndConstant(allConstants, allStmts.size(), m_pkb);
       if (results.empty()) {
         return false;
+      }
+
+      if (Grammar::isProgLine(left.getType())) {
+        return m_table->insertTwoSynonym(right.getName(), left.getName(), results);
       }
 
       return m_table->insertTwoSynonym(left.getName(), right.getName(), results);
@@ -773,7 +801,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     if (Grammar::isValue(left.getAttr())) {
       LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
       if (std::find(allConstants.begin(), allConstants.end(), right.getName()) != allConstants.end()) {
-        CONSTANT_INDEX constantIndex;// = m_pkb->getConstantIdxFromConstant(right.getName());
+        CONSTANT_INDEX constantIndex = m_pkb->getConstantIdxFromConstant(right.getName());
         LIST_OF_RESULTS_INDICES results;
         results.push_back(constantIndex);
         return m_table->insertOneSynonym(left.getName(), results);
@@ -783,7 +811,7 @@ BOOLEAN QueryEvaluator::getWithResult(With t_with) {
     } else if (Grammar::isValue(right.getAttr())) {
       LIST_OF_RESULTS allConstants = m_pkb->getAllConstants();
       if (std::find(allConstants.begin(), allConstants.end(), left.getName()) != allConstants.end()) {
-        CONSTANT_INDEX constantIndex;// = m_pkb->getConstantIdxFromConstant(left.getName());
+        CONSTANT_INDEX constantIndex = m_pkb->getConstantIdxFromConstant(left.getName());
         LIST_OF_RESULTS_INDICES results;
         results.push_back(constantIndex);
         return m_table->insertOneSynonym(right.getName(), results);
