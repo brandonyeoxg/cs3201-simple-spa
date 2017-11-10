@@ -512,7 +512,7 @@ procedure GirlsWhoWereAMistake{
 procedure STR355TEST{
   buffer = stress;
   stress0 = test1;
-    if i0 then{
+  if i0 then{
     if i1 then{
       if i2 then{
         if i3 then{
@@ -523,9 +523,6 @@ procedure STR355TEST{
                   if i8 then{
                     if i9 then{
                       if i10 then{
-                        buffer16 = generated-17;
-                        buffer15 = generated-16;
-                        buffer14 = generated-15;
                         if i11 then{
                           if i12 then{
                             if i13 then{
@@ -573,14 +570,10 @@ procedure STR355TEST{
                                                                                                                 if i55 then{
                                                                                                                   if i56 then{
                                                                                                                     if i57 then{
-                                                                                                                      buffer5 = generated-6;
-                                                                                                                      buffer4 = generated-5;
                                                                                                                       if i58 then{
                                                                                                                         if i59 then{
                                                                                                                           if i60 then{
                                                                                                                             if i61 then{
-                                                                                                                              buffer3 = generated-4;
-                                                                                                                              buffer4 = generated3;
                                                                                                                               if i62 then{
                                                                                                                                 if i63 then{
                                                                                                                                   if i64 then{
@@ -619,306 +612,306 @@ procedure STR355TEST{
                                                                                                                                                                                                     if i97 then{
                                                                                                                                                                                                       if i98 then{
                                                                                                                                                                                                         if i99 then{
-                                                                                                                                                                                                          of = 10- A1aTr3oN + steal - face - Azi * 1 * a1Ar4K + of + Cry - Azi + 100;}
+                                                                                                                                                                                                          on = 3202 * started + step + step * Azi - 3201 * 2 + Cry * 1 * 3201 * 1;}
                                                                                                                                                                                                         else{
-                                                                                                                                                                                                          step = A1aTr3oN* Cry * Z3rgLiNg - 100 - ok;}
-                                                                                                                                                                                                        A1aTr3oN = step+ face * 3201 - oN * Azi - Caribbean;}
+                                                                                                                                                                                                          on = C4ed3U5 * 3201 + steal - Azi * Z3rgLiNg * A1aTr3oN;}
+                                                                                                                                                                                                        ofAShower = Cry;}
                                                                                                                                                                                                       else{
-                                                                                                                                                                                                        C4ed3U5 = stay* A1aTr3oN * C4ed3U5 + off;}
-                                                                                                                                                                                                      of = ofAShower+ 3201;}
+                                                                                                                                                                                                        Caribbean = started - Z3rgLiNg - on;}
+                                                                                                                                                                                                      ok = A1aTr3oN - steal - old + 3201 + oN * a + 4 - 2 + Ari;}
                                                                                                                                                                                                     else{
-                                                                                                                                                                                                      on = starte;}
-                                                                                                                                                                                                    a1Ar4K = C4ed3U5+ Azi - ofAShower + 1;}
+                                                                                                                                                                                                      oN = step - C4ed3U5 + A1aTr3oN * A1aTr3oN * stay * Azi * oN - C4ed3U5 + 3 * steal;}
+                                                                                                                                                                                                    C4ed3U5 = ofAShower + 4243 - 3 + started * Ari + A1aTr3oN - old * A1aTr3oN - 3;}
                                                                                                                                                                                                   else{
-                                                                                                                                                                                                    Azi = 1;}
-                                                                                                                                                                                                  started = 10+ of * a1Ar4K + of + Caribbean + stop;}
+                                                                                                                                                                                                    off = 1 - fURry * A1aTr3oN - 3 * Azi * A1aTr3oN;}
+                                                                                                                                                                                                  stop = ofAShower - oN + of + ok + 4243 - stay - 3 * 4 * Caribbean + stop;}
                                                                                                                                                                                                 else{
-                                                                                                                                                                                                  oN = Azi- face - a1Ar4K + 1 - a1Ar4K + on;}
-                                                                                                                                                                                                old = 3201+ Azi - ok + step;}
+                                                                                                                                                                                                  old = stop - on;}
+                                                                                                                                                                                                Z3rgLiNg = Ari - 3202 - face + on - 4 - a + old + Ari * 1 + off * Z3rgLiNg;}
                                                                                                                                                                                               else{
-                                                                                                                                                                                                C4ed3U5 = a+ Ari - 4 + face + old * Azi - ok + ofAShower + Azi + 1 * fURry;}
-                                                                                                                                                                                              Ari = fURry+ 1 + Azi + Caribbean - stop * a1Ar4K + 3 - started + ofAShower + Ari - step;}
+                                                                                                                                                                                                started = started + fURry * ofAShower * ofAShower + A1aTr3oN;}
+                                                                                                                                                                                              C4ed3U5 = Z3rgLiNg * 4243 * ofAShower * A1aTr3oN - old;}
                                                                                                                                                                                             else{
-                                                                                                                                                                                              stop = C4ed3U5+ step - 1 + Z3rgLiNg - Ari + fURry + off * face;}
-                                                                                                                                                                                            Z3rgLiNg = Caribbean* Ari * step - face - Ari + 10 + fURry + old * stop * a1Ar4K * 4;}
+                                                                                                                                                                                              Ari = steal + 100 + 10 + ofAShower + Ari;}
+                                                                                                                                                                                            of = step - A1aTr3oN - 3201 - 3 * stay - on * ok - ofAShower * started - of + face;}
                                                                                                                                                                                           else{
-                                                                                                                                                                                            step = ofAShower- 3 * Cry + stay * stay * stop + face * Z3rgLiNg * 3;}
-                                                                                                                                                                                          a1Ar4K = 4243* Cry - Cry;}
+                                                                                                                                                                                            C4ed3U5 = steal + C4ed3U5 * C4ed3U5 - a1Ar4K - C4ed3U5;}
+                                                                                                                                                                                          step = Azi * step - off + step * 4243;}
                                                                                                                                                                                         else{
-                                                                                                                                                                                          Azi = 1- stop * 3202 + a * stay + of * of * ofAShower - off * A1aTr3oN + 2;}
-                                                                                                                                                                                        Ari = ofAShower+ step + 4 + Caribbean + 3 * Cry - Ari - of * 10;}
+                                                                                                                                                                                          ok = old * stay + 3 - oN - 1 - a1Ar4K * a1Ar4K + 3 * ok;}
+                                                                                                                                                                                        of = Ari - 2 + Caribbean + ofAShower * Azi + Z3rgLiNg * stay * oN - face - 3;}
                                                                                                                                                                                       else{
-                                                                                                                                                                                        A1aTr3oN = 3202+ 1 * C4ed3U5 + face + Ari - Cry - stay - face - 3201;}
-                                                                                                                                                                                      steal = steal+ C4ed3U5 * Cry + off + off - oN + stay - a * 10 - steal - stop;}
+                                                                                                                                                                                        a1Ar4K = off + 3201 - 100;}
+                                                                                                                                                                                      started = stop - a1Ar4K - of + oN + stay - Azi * face - 2 * Azi - 100;}
                                                                                                                                                                                     else{
-                                                                                                                                                                                      stay = stay+ oN * 1 * started + ok + 3 * 4243 * a - a1Ar4K * 100 + on;}
-                                                                                                                                                                                    steal = Azi- steal * face + 1 * 4 - ofAShower;}
+                                                                                                                                                                                      old = on + C4ed3U5 + a - of + 3202 * 1 * started;}
+                                                                                                                                                                                    a = step;}
                                                                                                                                                                                   else{
-                                                                                                                                                                                    face = 4243+ old * a + 3 - 100 * Cry - 10 + 1 - on;}
-                                                                                                                                                                                  Cry = 4243- A1aTr3oN + 10 + old + 4243 * 4 + 1 + oN * 3;}
+                                                                                                                                                                                    oN = on - 1;}
+                                                                                                                                                                                  started = 1 * 4243 - on * ok - Cry - fURry;}
                                                                                                                                                                                 else{
-                                                                                                                                                                                  old = Az;}
-                                                                                                                                                                                steal = 4243- 3201 + 2 + 3 - ok - 10 * 1 + 3201;}
+                                                                                                                                                                                  face = steal * A1aTr3oN + off + of - Cry - of * 1 * 100 * started;}
+                                                                                                                                                                                of = stay - ok * 3201 + on * C4ed3U5 + fURry * Ari - started;}
                                                                                                                                                                               else{
-                                                                                                                                                                                oN = a+ 4 + Ari * of * oN + 3201 + steal * 3201 + started;}
-                                                                                                                                                                              old = of+ 3202 + ofAShower + 3202 * a1Ar4K - 3202;}
+                                                                                                                                                                                Caribbean = 1 - ofAShower - stop - 1 + Cry * Z3rgLiNg + stay * ofAShower - Caribbean * ofAShower + a1Ar4K;}
+                                                                                                                                                                              off = oN + 3202 - 3201 + Caribbean;}
                                                                                                                                                                             else{
-                                                                                                                                                                              stay = C4ed3U5- stay - step + Z3rgLiNg + 2 * 3 * Z3rgLiNg;}
-                                                                                                                                                                            ok = stay* face * A1aTr3oN - 3202;}
+                                                                                                                                                                              a = old + 4243 + old + a - 4243 - A1aTr3oN * 2 * a;}
+                                                                                                                                                                            oN = steal - 4243 * Z3rgLiNg;}
                                                                                                                                                                           else{
-                                                                                                                                                                            started = Ari* Z3rgLiNg + Ari - 2 * 10 - stop + fURry - a1Ar4K - 4 + 2 * A1aTr3oN;}
-                                                                                                                                                                          stay = C4ed3U5* fURry + A1aTr3oN * 1 + a;}
+                                                                                                                                                                            a = 100 - ok - 3 * C4ed3U5 * old - step + 3 - step * face - 10;}
+                                                                                                                                                                          stop = Caribbean + a1Ar4K + steal + on;}
                                                                                                                                                                         else{
-                                                                                                                                                                          old = ofAShower+ 10 * 3201 * fURry + Z3rgLiNg;}
-                                                                                                                                                                        stay = 3201* 100;}
+                                                                                                                                                                          on = Z3rgLiNg - 2 + a1Ar4K + steal + 3202 - stop;}
+                                                                                                                                                                        fURry = ok + Azi - Azi + 1 + of + 1 * of * 3202 * 3;}
                                                                                                                                                                       else{
-                                                                                                                                                                        Azi = 4243- 1 - steal + Azi + Ari * started + of + old - stay;}
-                                                                                                                                                                      A1aTr3oN = Caribbean* 100 - Z3rgLiNg - a1Ar4K;}
+                                                                                                                                                                        Caribbean = step * old + stop + ofAShower + 4243 + 10 - stop + 3201 * Caribbean + of * old;}
+                                                                                                                                                                      Azi = 100 * a1Ar4K - Caribbean + face + on - off - stay * 3202 - 4243 - step - 10;}
                                                                                                                                                                     else{
-                                                                                                                                                                      Cry = 1+ 1 * 3 + of + 3202 - of - on + Z3rgLiNg * off;}
-                                                                                                                                                                    started = stop- Azi - off * ok + old * on - fURry;}
+                                                                                                                                                                      C4ed3U5 = 3 + of - 3202 - off;}
+                                                                                                                                                                    a = face - off + steal + C4ed3U5 * of;}
                                                                                                                                                                   else{
-                                                                                                                                                                    on = of- on - ofAShower - steal - started - Z3rgLiNg + 4243 + 1 - 3 - ofAShower - a1Ar4K;}
-                                                                                                                                                                  a1Ar4K = oN* 100 - 3201;}
+                                                                                                                                                                    a = started * on * on * of + 3202 * off - ofAShower - 3202 * a + face;}
+                                                                                                                                                                  of = 3202 - stop + ofAShower + ok * a1Ar4K + Azi;}
                                                                                                                                                                 else{
-                                                                                                                                                                  Cry = fURry- step - 10 * Ari;}
-                                                                                                                                                                ok = A1aTr3oN- fURry - on * A1aTr3oN;}
+                                                                                                                                                                  Caribbean = old - on - 4243 + stop - Azi - stop;}
+                                                                                                                                                                face = 100 * stay * Z3rgLiNg * 3 + Cry;}
                                                                                                                                                               else{
-                                                                                                                                                                a = started+ stop * fURry - on * 3 + C4ed3U5 * 3201 + 3 * stop * a1Ar4K * face;}
-                                                                                                                                                              old = fURry* started - steal * face + stop + started - Azi * 10;}
+                                                                                                                                                                oN = step + C4ed3U5 - a1Ar4K - 4 + 1 * of;}
+                                                                                                                                                              on = face * of - a1Ar4K * steal;}
                                                                                                                                                             else{
-                                                                                                                                                              old = fURry+ stay - 1;}
-                                                                                                                                                            old = Azi+ Ari + Z3rgLiNg + 100;}
+                                                                                                                                                              stay = Caribbean * a1Ar4K + Cry - 3202 + step + ofAShower + 100 * C4ed3U5 * 1 * started;}
+                                                                                                                                                            Z3rgLiNg = 2 + 3 * 4 + 3202 + off - C4ed3U5 * 10 - 1 + of - old;}
                                                                                                                                                           else{
-                                                                                                                                                            Ari = oN- C4ed3U5 * 2 - A1aTr3oN + old + 10 * old + on - stop;}
-                                                                                                                                                          step = 3202* A1aTr3oN - 3202 - 4 - Z3rgLiNg * face * A1aTr3oN + step;}
+                                                                                                                                                            on = 3 * on - Ari + stop * 10 - 10 + face * Z3rgLiNg - 3201 + step;}
+                                                                                                                                                          Z3rgLiNg = step + Ari - 10 - steal - stop + 3201 * Cry - 4 - of;}
                                                                                                                                                         else{
-                                                                                                                                                          steal = Cry* started + A1aTr3oN + fURry + Z3rgLiNg - started + stop - a - old;}
-                                                                                                                                                        old = off* step * stay * 1 - oN;}
+                                                                                                                                                          oN = C4ed3U5 * step + stay + old - a1Ar4K + 100 * Z3rgLiNg;}
+                                                                                                                                                        ofAShower = 4243 + 10 * 100 + face + C4ed3U5 - Cry + 3 * fURry + a1Ar4K * 100 + 2;}
                                                                                                                                                       else{
-                                                                                                                                                        ok = steal+ 10 - ok * Caribbean - old * 10 * 3202 * a + steal;}
-                                                                                                                                                      Cry = 10- stay * Z3rgLiNg * oN * 1 + 3;}
+                                                                                                                                                        C4ed3U5 = stop - face + off - Z3rgLiNg;}
+                                                                                                                                                      started = 3201 - Cry * fURry - 10 - Ari + 4243 + Cry + a1Ar4K;}
                                                                                                                                                     else{
-                                                                                                                                                      stop = steal* 100 + off - C4ed3U5 * 3201;}
-                                                                                                                                                    step = oN- 3 * stop;}
+                                                                                                                                                      on = steal;}
+                                                                                                                                                    stay = started * 3202 * Azi + ok - fURry * 4243 + 4243 - oN - step;}
                                                                                                                                                   else{
-                                                                                                                                                    a1Ar4K = fURry- 2 * 2 - Azi - started * 10 - stop;}
-                                                                                                                                                  ofAShower = stay+ step * stop - started;}
+                                                                                                                                                    steal = Ari - 3 * C4ed3U5 + oN + off - 3201 + Z3rgLiNg;}
+                                                                                                                                                  a = Azi * face * steal + fURry - 4 - steal * old;}
                                                                                                                                                 else{
-                                                                                                                                                  C4ed3U5 = Cry- of - old + ofAShower + 3 - 1;}
-                                                                                                                                                ok = 1* 3201 + 1 + of;}
+                                                                                                                                                  face = 1 * 3202 * of - 4 * 4 * fURry + 1;}
+                                                                                                                                                oN = Z3rgLiNg + 10 + old - 1 * ok + started + 4243 * Azi * A1aTr3oN * steal - 10;}
                                                                                                                                               else{
-                                                                                                                                                of = of* Cry - Cry - steal - 3201 * started * stay + Cry * 3201 * 1 * 100;}
-                                                                                                                                              old = Ari* Ari + a * Z3rgLiNg + 3;}
+                                                                                                                                                oN = 1 * C4ed3U5 * off - Z3rgLiNg + Azi + ok + 4 - 4243 * steal;}
+                                                                                                                                              on = 3;}
                                                                                                                                             else{
-                                                                                                                                              started = o;}
-                                                                                                                                            A1aTr3oN = face- 10;}
+                                                                                                                                              stop = on * Azi + 4243 - fURry;}
+                                                                                                                                            off = fURry - a1Ar4K + a1Ar4K * Cry + 4243;}
                                                                                                                                           else{
-                                                                                                                                            ofAShower = stay- a1Ar4K * Caribbean + stay * steal - Azi * stop + 4243 * 2 * oN;}
-                                                                                                                                          Cry = steal- A1aTr3oN + of - 3;}
+                                                                                                                                            step = Azi * Ari - a1Ar4K - a1Ar4K + 3 * 3201 - fURry - 4243 - Ari;}
+                                                                                                                                          stay = 100 + fURry * 100 + a1Ar4K;}
                                                                                                                                         else{
-                                                                                                                                          steal = of- old * step * face * 10 - A1aTr3oN - fURry - a1Ar4K * 100 + of;}
-                                                                                                                                        stay = Ari* a + Caribbean - a - Z3rgLiNg;}
+                                                                                                                                          Azi = Azi - 1 * 4243 + 3;}
+                                                                                                                                        C4ed3U5 = old + on + Cry + 10 - 4243 + Cry;}
                                                                                                                                       else{
-                                                                                                                                        Azi = ok* 3202 - fURry - old * Cry + old - ofAShower;}
-                                                                                                                                      C4ed3U5 = ;}
+                                                                                                                                        Ari = step + 4 - stay + off + ok * ofAShower * of;}
+                                                                                                                                      Cry = ofAShower - 3201 + 1 - a1Ar4K + ok * C4ed3U5 + 2 + 10 * 1 * Z3rgLiNg;}
                                                                                                                                     else{
-                                                                                                                                      stay = 3202+ oN + a1Ar4K + 100 - a + a1Ar4K - stop + Caribbean;}
-                                                                                                                                    Cry = stay+ 3 - started - off - Z3rgLiNg * C4ed3U5 * Cry + Ari * stop;}
+                                                                                                                                      on = on + 2 - Azi - oN * Cry + stop - step;}
+                                                                                                                                    Z3rgLiNg = step * 4243 - ofAShower - Caribbean - ok - oN;}
                                                                                                                                   else{
-                                                                                                                                    A1aTr3oN = off+ 1 * 3201 - started;}
-                                                                                                                                  face = C4ed3U;}
+                                                                                                                                    of = 3201 * old * Cry;}
+                                                                                                                                  a = Cry * Azi + a1Ar4K + 3 - Caribbean;}
                                                                                                                                 else{
-                                                                                                                                  fURry = off+ A1aTr3oN - Z3rgLiNg;}
-                                                                                                                                Z3rgLiNg = steal- 3 * stay - ok * a1Ar4K * Z3rgLiNg - old * oN + a1Ar4K + started - steal;}
+                                                                                                                                  started = A1aTr3oN + oN - 4243 - 4 + 10 + steal * step + 100;}
+                                                                                                                                Cry = oN - stop - ok * of;}
                                                                                                                               else{
-                                                                                                                                face = a- 100 - Ari;}
-                                                                                                                              Cry = oN* steal;}
+                                                                                                                                stay = step + fURry - Z3rgLiNg * 1 - a1Ar4K - Cry * started * stop;}
+                                                                                                                              ofAShower = 2 - 3202 - old * 3202 + Ari * stop;}
                                                                                                                             else{
-                                                                                                                              Z3rgLiNg = 100* Z3rgLiNg * 1 - Z3rgLiNg - Azi * fURry * A1aTr3oN + oN - step + 2;}
-                                                                                                                            off = 100* 10 * Azi - A1aTr3oN + 3 * a1Ar4K - Cry - ofAShower + stop + 3202 - 3;}
+                                                                                                                              Azi = stay * on - Azi - fURry - 1 - Ari + off * Z3rgLiNg * C4ed3U5 * Z3rgLiNg + ok;}
+                                                                                                                            ofAShower = step + old * off - 2 + on - Ari * step * oN * fURry;}
                                                                                                                           else{
-                                                                                                                            a1Ar4K = Ari+ step + Z3rgLiNg * 4 * oN;}
-                                                                                                                          C4ed3U5 = started* ofAShower * stay - 10 + 10 - a * Caribbean - Ari * of - Ari + 2;}
+                                                                                                                            steal = 2 * on + 10 * 100;}
+                                                                                                                          started = face;}
                                                                                                                         else{
-                                                                                                                          Cry = a1Ar4K- of + oN + a1Ar4K - a1Ar4K + a1Ar4K;}
-                                                                                                                        A1aTr3oN = Ari+ 3 + C4ed3U5 + stay;}
+                                                                                                                          a1Ar4K = Azi + 2 + of * 10 + stay * 3201 - Azi + step;}
+                                                                                                                        stop = step * face - started * stop * 100 * 10 + ok * A1aTr3oN * 4 - 3201;}
                                                                                                                       else{
-                                                                                                                        stop = Azi- 4 + ofAShower * stay + 2 + C4ed3U5 + 3 - 10 + 4243 + 100;}
-                                                                                                                      stop = Ar;}
+                                                                                                                        started = 3202 * A1aTr3oN;}
+                                                                                                                      Caribbean = 3 - Caribbean * steal + ok * 3202 + 3202;}
                                                                                                                     else{
-                                                                                                                      started = 4* Cry;}
-                                                                                                                    Z3rgLiNg = ofAShower* 2 + a1Ar4K - fURry - of * step - 4243 + of * old * started;}
+                                                                                                                      a = 10 * 3201 + of + Caribbean + Ari * off - Ari * of - old;}
+                                                                                                                    face = 1 - 100 * off + Azi * 2 + Azi;}
                                                                                                                   else{
-                                                                                                                    stay = face- fURry - Caribbean * step * 2 + ofAShower - off;}
-                                                                                                                  a = Azi+ 2 * fURry - Cry * steal;}
+                                                                                                                    oN = 10 + off * off + started - stop - Ari + Caribbean + 10;}
+                                                                                                                  on = face - stay - a - 2 + on - a1Ar4K - A1aTr3oN;}
                                                                                                                 else{
-                                                                                                                  Z3rgLiNg = 3201- steal - 2 + steal - Azi;}
-                                                                                                                face = fURry- started - 3201 * steal + 3202 + ofAShower + Caribbean + 10 + A1aTr3oN;}
+                                                                                                                  C4ed3U5 = 4243;}
+                                                                                                                off = C4ed3U5 - 3201;}
                                                                                                               else{
-                                                                                                                face = Cr;}
-                                                                                                              step = A1aTr3oN* fURry - Cry + on - Cry * A1aTr3oN - a * Ari + ok + 10 - Cry;}
+                                                                                                                fURry = C4ed3U5 * on + 3201 + fURry;}
+                                                                                                              ofAShower = a + of + C4ed3U5 * of - C4ed3U5 - A1aTr3oN * stop - fURry * Caribbean * 100 - Cry;}
                                                                                                             else{
-                                                                                                              stop = ok- 10 - 3202 + 4243 + ofAShower + stay - steal - steal + stay - of;}
-                                                                                                            fURry = Ari* 3 - steal - A1aTr3oN + Cry - C4ed3U5 - a + started;}
+                                                                                                              step = A1aTr3oN + A1aTr3oN * 100 + ofAShower + face * Z3rgLiNg * face - 1 - Ari + 3202;}
+                                                                                                            Ari = 100 + 3201 + 3;}
                                                                                                           else{
-                                                                                                            step = of- C4ed3U5 - C4ed3U5 + a1Ar4K - Z3rgLiNg;}
-                                                                                                          on = steal+ 1;}
+                                                                                                            ofAShower = face - fURry * step;}
+                                                                                                          Caribbean = started + on + on + ok * 2 * ofAShower;}
                                                                                                         else{
-                                                                                                          old = 2+ stop * Azi + ofAShower - C4ed3U5 * steal + of - C4ed3U5;}
-                                                                                                        step = Z3rgLiNg+ oN + Ari - steal - face * step + 2;}
+                                                                                                          on = 4243 - on - Caribbean - Caribbean;}
+                                                                                                        of = Caribbean * fURry + old * old + Cry * off * 100;}
                                                                                                       else{
-                                                                                                        old = oN+ C4ed3U5 + C4ed3U5 + 100 * Ari + a1Ar4K + off * 4243 + off * 3201;}
-                                                                                                      a1Ar4K = 3202+ ok * 3 + Cry * step;}
+                                                                                                        stop = oN - fURry;}
+                                                                                                      of = step + 10 - 3 + a1Ar4K - off + ok * 1;}
                                                                                                     else{
-                                                                                                      step = Z3rgLiNg* 4243 * 2 * Z3rgLiNg + Caribbean - of + step;}
-                                                                                                    steal = a1Ar4K- 4 * Caribbean + ok - a1Ar4K + 2 * A1aTr3oN + 2 * 3 * 4243;}
+                                                                                                      old = 3201 + A1aTr3oN * 100 * face;}
+                                                                                                    Ari = 2 + off - Azi * 2 - fURry + fURry - 1;}
                                                                                                   else{
-                                                                                                    ok = Azi* a * ofAShower + step - 2 - a + C4ed3U5 - Cry * stay * A1aTr3oN;}
-                                                                                                  Azi = Azi* stop * on;}
+                                                                                                    a1Ar4K = of + fURry + oN - off - C4ed3U5 - off * of - old * steal + a1Ar4K * a;}
+                                                                                                  stop = 3202 * fURry + 4243 - 3202 * Azi * Ari + Azi - 10;}
                                                                                                 else{
-                                                                                                  face = ofAShower- step + 10 - fURry + steal - 4243 + 4 * 3201 - 4243 + 3 * Azi;}
-                                                                                                on = 1* a * Azi - a1Ar4K - A1aTr3oN;}
+                                                                                                  Ari = off + ofAShower * C4ed3U5 - 2 + old * of - Z3rgLiNg + old;}
+                                                                                                ok = 2 * a + 100 + a;}
                                                                                               else{
-                                                                                                Cry = off+ A1aTr3oN + a1Ar4K - fURry + Azi * 2 + old * 4243 - fURry + 10;}
-                                                                                              Azi = 4243* started - off + 1 + Z3rgLiNg - 3202 - face - 3201 * stop + steal;}
+                                                                                                a1Ar4K = off + C4ed3U5 - 100 - step + A1aTr3oN * Z3rgLiNg;}
+                                                                                              Z3rgLiNg = 3202;}
                                                                                             else{
-                                                                                              A1aTr3oN = o;}
-                                                                                            old = 100- stop + ok - Azi;}
+                                                                                              a1Ar4K = 1 + off - Z3rgLiNg * oN - off - 10 + Z3rgLiNg;}
+                                                                                            fURry = stay * a - ofAShower * stop + 4 * Z3rgLiNg - old + 2 + steal - step;}
                                                                                           else{
-                                                                                            Cry = Caribbean- stay - old + started * Azi + a1Ar4K * ofAShower * stop * Caribbean * ok * Ari;}
-                                                                                          step = Azi* Cry * stay * 10 + steal * Caribbean + ok * started * step * 3202 * ok;}
+                                                                                            ofAShower = oN * a * ofAShower + on * Caribbean * oN;}
+                                                                                          Z3rgLiNg = steal;}
                                                                                         else{
-                                                                                          steal = 100- old;}
-                                                                                        off = 3202* stop + 4 * A1aTr3oN + fURry * old * 3202;}
+                                                                                          stay = 3201 * Ari - 3 * started - 4 * face;}
+                                                                                        old = 10 + Z3rgLiNg + off + stop + fURry - 2 * 2 + 3;}
                                                                                       else{
-                                                                                        on = on+ ofAShower + stay * off * stay + 4 + steal - 100;}
-                                                                                      ok = ok* old;}
+                                                                                        stop = 3 * a - 3202 + of - stop;}
+                                                                                      fURry = old - C4ed3U5 * old + stop * 3202;}
                                                                                     else{
-                                                                                      ofAShower = of* oN + Caribbean;}
-                                                                                    off = 2* 3 + 4 + a1Ar4K + Cry - step - oN - started;}
+                                                                                      a = oN;}
+                                                                                    of = stay;}
                                                                                   else{
-                                                                                    ofAShower = o;}
-                                                                                  stop = stop- stop + A1aTr3oN - Ari - on - Caribbean + 3202 + 4243 * Z3rgLiNg - 3;}
+                                                                                    of = a + 10 * Z3rgLiNg * old + A1aTr3oN * face - fURry;}
+                                                                                  ok = 4 + 3201;}
                                                                                 else{
-                                                                                  A1aTr3oN = oN- 4243 + off - C4ed3U5 * 3202 + Caribbean;}
-                                                                                oN = off* fURry - 3202 * of - C4ed3U5;}
+                                                                                  old = off - 4243 + stay - A1aTr3oN - 2 - on + 4 + Azi;}
+                                                                                C4ed3U5 = ofAShower + Ari * Z3rgLiNg - ofAShower;}
                                                                               else{
-                                                                                Ari = a* off - C4ed3U5 - on;}
-                                                                              stay = off* Cry + ofAShower;}
+                                                                                fURry = Cry * 3201 * ok * started - a - Azi * a1Ar4K + started * 3 - 4 * Caribbean;}
+                                                                              Caribbean = steal + 1 + 4243 + 2 + 4243 * 2 - step - Z3rgLiNg * Cry * 4243;}
                                                                             else{
-                                                                              on = a1Ar4K+ 3 + ok * oN + Cry - of * 3201 * oN * 2 + 3201;}
-                                                                            on = off- of + 3201 * of * stay + Ari * 3202 * Azi * oN;}
+                                                                              of = Cry - 4243 + A1aTr3oN + 100 - started - a1Ar4K + ok * 10 + C4ed3U5 * 3202;}
+                                                                            on = 100 * 1 - 3;}
                                                                           else{
-                                                                            a = 1* 10 + stop - a + stay * 4243 - stop * A1aTr3oN * 100;}
-                                                                          face = fURry* steal - 4243 * 4243 - A1aTr3oN - stop * 100 - a * 1 - 3;}
+                                                                            on = ok;}
+                                                                          of = step * 3202 + 10 - face * old * of * started + a + 2 + 1;}
                                                                         else{
-                                                                          Ari = old- a * fURry;}
-                                                                        ok = off- fURry - of;}
+                                                                          on = step * 100 + Cry - old;}
+                                                                        ok = 3202 + C4ed3U5 - Z3rgLiNg * stop + 1 * Z3rgLiNg;}
                                                                       else{
-                                                                        C4ed3U5 = stop- stay - off + 3 * 3 + on - A1aTr3oN + steal - oN - steal - old;}
-                                                                      started = sto;}
+                                                                        Ari = 100 - 4243 * A1aTr3oN + step - fURry * fURry - old;}
+                                                                      a1Ar4K = ofAShower - 4243 * 4243 + of + Caribbean * 2 + 3202;}
                                                                     else{
-                                                                      ofAShower = A1aTr3oN* on * a1Ar4K * 100 - ok - ok - old - of - 10 * face;}
-                                                                    step = Azi+ a - Ari - off;}
+                                                                      a1Ar4K = Z3rgLiNg - face - 2 - 3201 * Ari + ofAShower;}
+                                                                    steal = 3 - 10 - 3202 * 3201 + of;}
                                                                   else{
-                                                                    of = 10+ Cry - face * a - of;}
-                                                                  Z3rgLiNg = off- C4ed3U5 - Z3rgLiNg * 4 * Azi - 3 + off - steal * stay + stop;}
+                                                                    a1Ar4K = step - 3201 * stay + Azi * 4243 - steal - started * 4;}
+                                                                  fURry = a1Ar4K * Cry + fURry - 2 + Caribbean - ofAShower + 1;}
                                                                 else{
-                                                                  ofAShower = started* stay + oN + fURry * Z3rgLiNg * 4243 - old + 10 + 1;}
-                                                                fURry = a1Ar4K* ofAShower - step - a1Ar4K;}
+                                                                  A1aTr3oN = face - 4 - 3202 * a1Ar4K + stop + Z3rgLiNg * Ari + old * old;}
+                                                                steal = oN * ok + Ari - Z3rgLiNg * ok + ok * steal;}
                                                               else{
-                                                                a = old- C4ed3U5 * stop * 10 + oN + stay * 100 * 4 * 3201 * a1Ar4K * 4243;}
-                                                              A1aTr3oN = fURry+ 1 - off - face + 4243 - Cry;}
+                                                                A1aTr3oN = C4ed3U5 * of;}
+                                                              stop = face - on - fURry + 3202;}
                                                             else{
-                                                              fURry = off+ off * 3 + 2 + 2 - 10 - 10 - Azi * off;}
-                                                            stop = old- a1Ar4K + started * fURry + ofAShower;}
+                                                              on = 1 - Ari;}
+                                                            a1Ar4K = 3202 * stop + off - 10 + of * stay - of * face * ok + Cry;}
                                                           else{
-                                                            Z3rgLiNg = off* 4;}
-                                                          started = started+ C4ed3U5 * face - 4;}
+                                                            stop = 2 + 2 * Z3rgLiNg;}
+                                                          Azi = ok - 3 - a * 3201 + 100 + Ari + Caribbean * old * A1aTr3oN - A1aTr3oN;}
                                                         else{
-                                                          face = off* 1 + 4 + 3 * fURry - off * steal * oN * stop * 3 * Z3rgLiNg;}
-                                                        oN = Cry* fURry + 10 * old * old * of + a - step;}
+                                                          Azi = of + of * Ari + ofAShower - off - 3201 + face * C4ed3U5 - a1Ar4K + 100;}
+                                                        oN = of * 100 * A1aTr3oN - 4243 + 10 - Caribbean;}
                                                       else{
-                                                        a1Ar4K = Ar;}
-                                                      steal = old- old - Caribbean;}
+                                                        a1Ar4K = started + of + Ari * 3201;}
+                                                      oN = 3202 + fURry * 4 * 4243 * Caribbean * 1 - Z3rgLiNg + C4ed3U5;}
                                                     else{
-                                                      Caribbean = on+ Azi - on - C4ed3U5 - steal - 3 - steal - 4 - 2;}
-                                                    started = 2- a1Ar4K * Azi;}
+                                                      face = Z3rgLiNg - 3202 - Z3rgLiNg + stay;}
+                                                    Cry = ofAShower - of * Azi + 100 + fURry * 1;}
                                                   else{
-                                                    oN = Caribbean* a1Ar4K * fURry + step + on * A1aTr3oN - fURry + old;}
-                                                  ok = 10- 2 * 10;}
+                                                    stop = Ari + 3202 - old - 1 - 10 - a1Ar4K * started * 3202;}
+                                                  Z3rgLiNg = Cry * Z3rgLiNg + 10 * fURry - stay + 4243 * fURry * 10;}
                                                 else{
-                                                  Ari = Z3rgLiNg- 10 - Caribbean - ofAShower;}
-                                                oN = fURry* ofAShower - 3202 - steal + a1Ar4K;}
+                                                  a1Ar4K = on + Ari - oN * fURry - Ari * 3 * step - 1 + step * Cry;}
+                                                Azi = step - Cry;}
                                               else{
-                                                ofAShower = of;}
-                                              fURry = steal* Cry * Ari * 1 - 1 * Ari + off * 1;}
+                                                oN = step - C4ed3U5 - old + face;}
+                                              step = A1aTr3oN - 100 + steal + 4243 * fURry;}
                                             else{
-                                              steal = of* steal * Z3rgLiNg + a1Ar4K - 4;}
-                                            Azi = Ar;}
+                                              ofAShower = 3201 * Cry + step * 3 + Caribbean - Azi + steal + 3 + 100;}
+                                            Ari = ok + Ari + 1 - a * a * 3202;}
                                           else{
-                                            steal = Azi* C4ed3U5;}
-                                          stay = of+ C4ed3U5 - 10 + Azi * on - Azi - ok * step;}
+                                            ok = step - Cry + 4 + on + on + 4 * 100 * 4243 - Azi * A1aTr3oN + on;}
+                                          of = 2 * face - ofAShower + ok;}
                                         else{
-                                          stop = 4* stop * Cry + ok;}
-                                        a = 3202* Azi - Azi - 4 + 3201 - 3;}
+                                          off = of * 3 + 100 * Ari * oN - 3202 + stop;}
+                                        stay = a1Ar4K - 2 - a1Ar4K - face * Z3rgLiNg - 4 * fURry - old - ok + 3 * step;}
                                       else{
-                                        old = Azi* 2 - Ari - step * 10 - stay - Azi + 10 * 100 + Cry;}
-                                      on = started- Cry * 100 + Azi + 1 + Azi * 100 + off;}
+                                        oN = 100 * step + Ari + Ari * face + face - Caribbean * Caribbean + 3 - off + 3202;}
+                                      fURry = ok + 10 * off + Azi * steal;}
                                     else{
-                                      a = face+ face + a1Ar4K * Z3rgLiNg + ofAShower * Azi + face - face * 3;}
-                                    on = fURry- 4 + started + of;}
+                                      Z3rgLiNg = stop;}
+                                    fURry = a1Ar4K - Azi;}
                                   else{
-                                    on = A1aTr3oN+ Azi * face + 4243 - 100 + face - Caribbean - 4243 - step + Cry;}
-                                  ofAShower = face+ oN * face * 3202 - a * old * A1aTr3oN - on;}
+                                    Azi = 100 + ofAShower - Caribbean + 3201 * Z3rgLiNg * 3202;}
+                                  C4ed3U5 = stay - a1Ar4K + Cry - a1Ar4K * face + oN;}
                                 else{
-                                  ok = 3202* step - Ari + 4243 - of;}
-                                fURry = Caribbean- 4243 + of - stay + old * Cry * 3 * 3;}
+                                  Ari = 10 - fURry - 3202 * of + A1aTr3oN + 3201 + off - face * oN - face;}
+                                face = started * 3 + oN - Ari - 3201;}
                               else{
-                                fURry = fURry+ 3201 + 2 + C4ed3U5 + on + old * a - stop + ok + 3201 + on;}
-                              Caribbean = a- C4ed3U5 + fURry - Azi * Azi + off;}
+                                stop = 3 + Cry - of + stop * 3 - old - 3;}
+                              a = oN * of + ok + Cry + face - stay - 100 + 1;}
                             else{
-                              of = 3202+ Z3rgLiNg + a1Ar4K + 3202 - stop * of + 10 + 4;}
-                            on = ofAShower+ Ari;}
+                              Cry = stay - started + 3;}
+                            of = 3201 + Caribbean * 4 - Cry * steal + step;}
                           else{
-                            a = a- ofAShower * on + ok + face * 4 - 10 - 3201;}
-                          on = 4243- 3202 + Azi * Ari - Ari + 1 - 3202 + off + C4ed3U5 + Z3rgLiNg - Caribbean;}
+                            old = step - Azi * A1aTr3oN * Ari;}
+                          stay = face + 3 * ok * fURry;}
                         else{
-                          a1Ar4K = stop- old + fURry + 4 - Cry - 3 - 3202;}
-                        face = a1Ar4K- 10;}
+                          Azi = stay * 3;}
+                        stay = C4ed3U5;}
                       else{
-                        ok = oN- started * 3201 - old;}
-                      a = started* off + C4ed3U5 - started;}
+                        stop = fURry * 3202 - C4ed3U5 + on - Caribbean - step - 100;}
+                      stop = 1 * a1Ar4K - 4243 + Z3rgLiNg - face * A1aTr3oN;}
                     else{
-                      steal = 3* fURry * off * ok + off - on + off - 2 + face;}
-                    ok = 2+ started;}
+                      ok = 4 + stop - Z3rgLiNg - Cry - 4 - of * a1Ar4K * started * A1aTr3oN - Z3rgLiNg * ofAShower;}
+                    of = oN - fURry + 4243 * 3201 + face;}
                   else{
-                    ok = Cry* of - Z3rgLiNg;}
-                  face = Azi- Cry;}
+                    Ari = Ari * stop * 1 - Cry - ofAShower * 100 * stay - a * Ari - face - 3;}
+                  Caribbean = 4 - steal + step + C4ed3U5;}
                 else{
-                  A1aTr3oN = of* a - 4 - Cry * a1Ar4K * 100 + fURry + started - 3202 * stay * 3202;}
-                Azi = 1;}
+                  started = A1aTr3oN + 3201 - started * stay + 4 - ofAShower + stop;}
+                started = steal * old + 100 - stay;}
               else{
-                off = 1* oN - of + 4243 + A1aTr3oN;}
-              Ari = 3201+ off + stop - a + ofAShower - A1aTr3oN - face + steal - Z3rgLiNg * oN * a1Ar4K;}
+                off = 3201 - fURry + old * steal * ok * C4ed3U5 + 3202 - 3201 + face + a * Azi;}
+              old = C4ed3U5 * step;}
             else{
-              off = 424;}
-            a = ofAShower* 4243;}
+              stop = of * step * 3202 + 10 + 3;}
+            Cry = a1Ar4K * A1aTr3oN + ofAShower * 4 * fURry + stop;}
           else{
-            of = 4243+ 3 - 4 * a - ofAShower - steal;}
-          steal = 4- stay;}
+            stop = ofAShower - 4243 - 3201;}
+          started = stop - old + on;}
         else{
-          stay = ok+ Azi + Z3rgLiNg + 2 * Cry - Ari;}
-        fURry = steal- ofAShower + step - 3202 * on * of * Caribbean - 1 - 1;}
+          Cry = ofAShower - ok * C4ed3U5 + 3201 * step + stay;}
+        step = Cry - 3202 * stop * 1 + of * stop + off - old;}
       else{
-        ok = Azi+ oN * 3 - Azi - a1Ar4K + ok * fURry * ofAShower * steal;}
-      Cry = C4ed3U5* 10 + 10 - 3 + step + step * 4243 - A1aTr3oN - oN - oN - 3;}
+        ok = step + 3 + 1 + 3202 + Caribbean;}
+      oN = of - 3 + stay;}
     else{
-      off = Azi* stay + A1aTr3oN * of * 10 + 4 * 10 - 3202 * started + 10 - 1;}
-    step = off* 3202 - Caribbean;}
+      started = a1Ar4K + 4 - stay - 1 - Cry + Azi + Ari * stop + of + a1Ar4K + C4ed3U5;}
+    Z3rgLiNg = Cry;}
   else{
-    stop = face* Ari * 10 - 100;}
+    started = 1 * face - Caribbean * ok - steal + face * C4ed3U5 - ofAShower + 3202 - 100;}
   test20 = stress19;
   buffer17 = generated-18;
   buffer13 = generated-14;
@@ -958,16 +951,16 @@ procedure STR355TEST{
 procedure ThankYouPython{
   thankYou59 = Python109;
   thankYou58 = Python110;
-   if i0{
-    if i1{
-      if i2{
-        if i3{
-          if i4{
-            if i5{
-              if i6{
-                if i7{
-                  if i8{
-                    if i9{
+  if i0 then{
+    if i1 then{
+      if i2 then{
+        if i3 then{
+          if i4 then{
+            if i5 then{
+              if i6 then{
+                if i7 then{
+                  if i8 then{
+                    if i9 then{
                       thankYou26 = Python142;}
                     else{
                       thankYou25 = Python143;}
@@ -1100,7 +1093,7 @@ procedure ThankYouPython{
                                                                                                                                                                                                     while i97{
                                                                                                                                                                                                       while i98{
                                                                                                                                                                                                         while i99{
-                                                                                                                                                                                                          oN = steal* fURry + off * ok - ofAShower * ofAShower + a + ofAShower * on;}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+                                                                                                                                                                                                          oN = steal* fURry + off * ok - ofAShower * ofAShower + a + ofAShower * on;}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
   thankYou26 = Python194;
   thankYou27 = Python195;
 }
@@ -1162,7 +1155,7 @@ procedure MasterHacker{
     master85 = Hacka346;
     master86 = Hacka347;}
   master87 = Hacka348;
-    if i0 then{
+  if i0 then{
     if i1 then{
       if i2 then{
         if i3 then{
@@ -1212,156 +1205,156 @@ procedure MasterHacker{
                                                                                                 if i47 then{
                                                                                                   if i48 then{
                                                                                                     if i49 then{
-                                                                                                      Caribbean = Z3rgLiNg* off + stay + stop + 4;}
+                                                                                                      Cry = 3201 * Azi - ok + step + steal * old - on * started * 100 * 2;}
                                                                                                     else{
-                                                                                                      ok = fURry* 4243 * 3201 - 100 + oN - 4243;}
-                                                                                                    Azi = 2+ 4 + Ari;}
+                                                                                                      stop = steal - 2 - 1 * a - 2 * oN;}
+                                                                                                    stop = 1 * 1 + on - on - 1 + 4 * stop - 3202;}
                                                                                                   else{
-                                                                                                    fURry = 4243- Azi - Azi - stop * Caribbean * stay + 4243;}
-                                                                                                  Cry = Ari* 100 + oN + a + 3201 * a1Ar4K * A1aTr3oN * step;}
+                                                                                                    A1aTr3oN = 4 - 2;}
+                                                                                                  off = ofAShower * a + C4ed3U5 - 3201 * 1 + Z3rgLiNg + fURry * 3 - of;}
                                                                                                 else{
-                                                                                                  step = 1* stay + 4243 - 2 + Cry * A1aTr3oN * off;}
-                                                                                                face = Ari+ stay * ofAShower * old - Azi - of + 100 + ofAShower * Ari + 3202 - Cry;}
+                                                                                                  Ari = 2 - oN * old + 4243 - old - Caribbean + 10 + 10 + stop;}
+                                                                                                a = Cry - 3202 + Caribbean * stop;}
                                                                                               else{
-                                                                                                Azi = 3+ C4ed3U5 - ok - face * 10;}
-                                                                                              of = ofAShower* Ari - Cry;}
+                                                                                                fURry = 4243 - face;}
+                                                                                              step = on - Z3rgLiNg - fURry + A1aTr3oN + ok + 2;}
                                                                                             else{
-                                                                                              ok = oN* 1;}
-                                                                                            old = 10+ 10 + of - 4 - oN - on + a1Ar4K + ok * Caribbean - a1Ar4K;}
+                                                                                              Cry = on - a1Ar4K * face + stop - off - Azi;}
+                                                                                            face = a1Ar4K + 1 * 10 + face * stop * ofAShower - off - Ari - off * ofAShower;}
                                                                                           else{
-                                                                                            Z3rgLiNg = old* a + Caribbean + 3 * face + 4 * 100;}
-                                                                                          stop = step* Ari - Azi - on * 3201 + Caribbean - C4ed3U5 * 3201 + Azi;}
+                                                                                            on = 4 + 3201 + Z3rgLiNg + face - stop * ok - Caribbean * 4243 * Ari + off * 100;}
+                                                                                          a1Ar4K = old * steal + 3201 * 10 * of * on + started;}
                                                                                         else{
-                                                                                          of = ;}
-                                                                                        started = of+ Caribbean + 4243 + a1Ar4K + Azi + a * A1aTr3oN;}
+                                                                                          ok = step;}
+                                                                                        ok = face - of + on + stay - 3;}
                                                                                       else{
-                                                                                        old = Azi* 3201 + 100 - fURry * stay * 4 + A1aTr3oN + stay - Cry;}
-                                                                                      steal = Ari+ 1 - old * 2 - started - Azi + Caribbean + on * step + 4243;}
+                                                                                        a1Ar4K = a1Ar4K - 10 - Z3rgLiNg - steal + oN + 2 * step;}
+                                                                                      ok = fURry + 1 - stay - a1Ar4K - stay - Caribbean + 4243 * old * oN - stay * of;}
                                                                                     else{
-                                                                                      a1Ar4K = C4ed3U5* 2 + 100 * 4 - step * 4243 * Cry - a1Ar4K;}
-                                                                                    stay = stea;}
+                                                                                      a = started + a + 2 * a1Ar4K + Z3rgLiNg - face * on * 3201;}
+                                                                                    Caribbean = off * steal;}
                                                                                   else{
-                                                                                    stay = off* Azi * off * stay - steal;}
-                                                                                  fURry = 3201+ of * C4ed3U5 - 4243 + Z3rgLiNg * 100 + Ari - stop - step;}
+                                                                                    Cry = stay + steal * 4243 * ok * old * A1aTr3oN - stop * 3201 + on;}
+                                                                                  off = 2 - ok - 100;}
                                                                                 else{
-                                                                                  of = on* of - of * on * 3 - Z3rgLiNg - old - 10 - 3201 + steal * 4;}
-                                                                                a = off- off - Z3rgLiNg * of * Z3rgLiNg;}
+                                                                                  ok = a - ofAShower * started * a1Ar4K * Z3rgLiNg + 4 - Z3rgLiNg - of;}
+                                                                                steal = oN * 2 - oN - 1 + Z3rgLiNg + old * A1aTr3oN + Azi;}
                                                                               else{
-                                                                                a = 10* fURry - ok * off * stay * A1aTr3oN * Azi - 2;}
-                                                                              face = 4243- off - 1 - C4ed3U5 - Ari + steal * oN * 10;}
+                                                                                face = fURry * 4243 * 3201;}
+                                                                              a1Ar4K = 10 + 1 + Z3rgLiNg - steal + Ari + a * of;}
                                                                             else{
-                                                                              on = off* stop + 4;}
-                                                                            old = Azi* ofAShower - ofAShower + 2 * ofAShower + old * steal * A1aTr3oN - stay;}
+                                                                              step = a1Ar4K * Azi + 10 * 10 * 10 * started + Azi;}
+                                                                            on = off - 2 * A1aTr3oN + Ari * Ari + oN + 1;}
                                                                           else{
-                                                                            A1aTr3oN = Az;}
-                                                                          fURry = old* Azi;}
+                                                                            ofAShower = Z3rgLiNg * off;}
+                                                                          off = Ari * 3202 * 2 + Cry - 2 * C4ed3U5 * ofAShower + 3201;}
                                                                         else{
-                                                                          oN = fURr;}
-                                                                        A1aTr3oN = ok+ 3;}
+                                                                          a = 3 + 2 + Azi * 1 + stop + Azi - 100 + stop * face * Cry;}
+                                                                        C4ed3U5 = 3202 + oN * 4 - step - C4ed3U5 - fURry - Z3rgLiNg - Azi * Z3rgLiNg;}
                                                                       else{
-                                                                        Ari = 4+ ofAShower - oN - a1Ar4K + Azi * Ari;}
-                                                                      A1aTr3oN = C4ed3U5* ofAShower + ofAShower;}
+                                                                        Caribbean = A1aTr3oN * ofAShower - ofAShower * on + C4ed3U5 - Z3rgLiNg - a1Ar4K - on;}
+                                                                      old = 4 * C4ed3U5;}
                                                                     else{
-                                                                      ok = Cr;}
-                                                                    ofAShower = Ari* 2 - of * old + off - Azi * Caribbean * step * oN;}
+                                                                      steal = 2 * off - 2 - old + 4;}
+                                                                    Caribbean = 3;}
                                                                   else{
-                                                                    Azi = fURry+ Z3rgLiNg + 3;}
-                                                                  of = off- 4243 + A1aTr3oN + oN * 2 * of - 10 + 2 - A1aTr3oN + a + Caribbean;}
+                                                                    Ari = 3201 - fURry - Ari * 1 + a1Ar4K + 2;}
+                                                                  steal = 4243 + on - A1aTr3oN - on * step * stop * Z3rgLiNg - old;}
                                                                 else{
-                                                                  fURry = 2- 10 * 3202 - Azi + 3201 * Z3rgLiNg * C4ed3U5 - stay - stop;}
-                                                                of = step- ok - a1Ar4K - 4 * 3202 + old * 10 - stop;}
+                                                                  face = 2 - Z3rgLiNg + Ari - 3;}
+                                                                A1aTr3oN = on + A1aTr3oN * Caribbean * fURry + stay * stop * started;}
                                                               else{
-                                                                stay = off* stop * Azi * 100 - stay + off * fURry - 3201 * 3202 * stop * 3201;}
-                                                              Caribbean = a1Ar4K- Z3rgLiNg - ofAShower * 3201 - A1aTr3oN + Cry + A1aTr3oN + 100 + of + steal;}
+                                                                ofAShower = step * ofAShower - a + stop + stop - a * 10 * Azi - Cry + 3 + 100;}
+                                                              Ari = started + 2 + 4243 + started * Z3rgLiNg * fURry * ofAShower - on + 3202 - off * steal;}
                                                             else{
-                                                              a1Ar4K = old+ 1 + a - a1Ar4K + steal - a - 4 + Azi;}
-                                                            a1Ar4K = started* off * 4 + A1aTr3oN + fURry - 1 + 1 * step + 4;}
+                                                              ok = a + 4243 - 4243 + ok - 4 * oN * a * off + Cry + 4243 * C4ed3U5;}
+                                                            fURry = 3 - C4ed3U5 + Z3rgLiNg - 100 + 2 - 10 + 10 + of * 3 - started;}
                                                           else{
-                                                            steal = 3202+ step * steal - 1 + Ari + fURry + Cry;}
-                                                          ok = on+ a1Ar4K;}
+                                                            A1aTr3oN = of + oN * 4243;}
+                                                          stop = a1Ar4K;}
                                                         else{
-                                                          stay = ofAShower+ 3 + 4 * Cry + 3202 * stay * Cry + 10 - ofAShower;}
-                                                        Z3rgLiNg = face+ 3 * 3201 * 1 * step - step - 100 * of;}
+                                                          Azi = of + C4ed3U5 + Cry + 3202;}
+                                                        steal = fURry + of - 4 + 10 - fURry * off + 2 * C4ed3U5 * stay - of;}
                                                       else{
-                                                        Cry = fURry* 1 * 1;}
-                                                      ofAShower = Z3rgLiNg- stop * fURry - 3 + fURry + on * off - of * 4243 + 10 + ofAShower;}
+                                                        a1Ar4K = 4243 - 2 + off - 100 + fURry + Azi + A1aTr3oN + ofAShower;}
+                                                      of = old * Ari * 3201 - 4;}
                                                     else{
-                                                      a1Ar4K = on+ ok - Azi * 3201 * 4;}
-                                                    Ari = step+ Azi * on * on + 4 - old + of + fURry + Caribbean * stay;}
+                                                      Ari = steal - ok * Azi + 3 - fURry;}
+                                                    Cry = ok - oN - oN - on * 10 * Z3rgLiNg * Ari - ok - 10 - stay * off;}
                                                   else{
-                                                    of = Azi- Z3rgLiNg + step * step - a1Ar4K * Azi + Z3rgLiNg - stop + 3 * of;}
-                                                  steal = of- 2 * started * 1 * step + 4243 + oN - 2 * steal - on - a;}
+                                                    off = 2;}
+                                                  a = steal;}
                                                 else{
-                                                  steal = on- 100 - off + a1Ar4K - C4ed3U5;}
-                                                ok = steal- 3201 + off - started + 4 + off + 10 - a + Azi;}
+                                                  Caribbean = Caribbean + 3201 * Ari;}
+                                                ok = 3201 - fURry + stay * 100 - a1Ar4K;}
                                               else{
-                                                steal = old* a1Ar4K - 4243 * Ari + Z3rgLiNg - A1aTr3oN - Caribbean * a + Ari;}
-                                              fURry = fURry* steal * 3 - 2 * 100 * a * 3201 * Caribbean * oN + 10;}
+                                                Azi = 1 + oN * 2 - 1 - Azi - Cry + step;}
+                                              fURry = stay + a1Ar4K;}
                                             else{
-                                              ok = started- stay * Z3rgLiNg * off - on * A1aTr3oN - 2;}
-                                            face = a* Ari;}
+                                              of = Azi * on + 10 * face + Cry + C4ed3U5 * 3201 - stay + 10 * Ari - a1Ar4K;}
+                                            fURry = ofAShower + A1aTr3oN - of + off * Ari * ofAShower;}
                                           else{
-                                            old = ofAShower* stay + 100;}
-                                          face = on+ 4 * step + stay + Ari - oN + 3;}
+                                            old = Ari + stay - 3 - 1;}
+                                          ofAShower = fURry * stay * off + 3202 + stop * 100;}
                                         else{
-                                          of = stop+ Ari;}
-                                        ok = 4+ 3201 - stay * Caribbean * oN + C4ed3U5 - Ari * A1aTr3oN - step - 3;}
+                                          Ari = 3201 + 3201;}
+                                        ofAShower = 3201 * stop - step + Caribbean * 1 - 1 + 4 + stop * ofAShower + Ari * ofAShower;}
                                       else{
-                                        oN = 3201- 3 - Caribbean * 1 + 3 - off + step * Z3rgLiNg + old - Caribbean;}
-                                      face = ofAShower+ 4 + started * a1Ar4K - 10 + stop;}
+                                        Z3rgLiNg = oN * step + 2 + started;}
+                                      Cry = ofAShower - ok;}
                                     else{
-                                      a = 3202+ a1Ar4K + A1aTr3oN * Z3rgLiNg;}
-                                    steal = 2- Ari;}
+                                      steal = fURry + 3202 - Ari - 2;}
+                                    Caribbean = fURry;}
                                   else{
-                                    Caribbean = steal+ a1Ar4K + Azi - Cry - 4 * Caribbean - stay * ok * 3201;}
-                                  Cry = a+ fURry - Z3rgLiNg;}
+                                    C4ed3U5 = started * of + step + Azi - A1aTr3oN;}
+                                  Azi = A1aTr3oN - C4ed3U5 + step * step;}
                                 else{
-                                  stay = stay+ steal - on * face + Z3rgLiNg * face * a1Ar4K - off + 1 * face - 4;}
-                                Cry = starte;}
+                                  fURry = old + 2 * steal * 4 * 100;}
+                                step = 2 - a1Ar4K - ok - 3201 - of * Ari * face * face * a1Ar4K;}
                               else{
-                                Cry = 3* stay + old - 3 * off - on - Azi;}
-                              Ari = Caribbean* 3202 + 100 - Caribbean;}
+                                A1aTr3oN = 4243 + Z3rgLiNg - stop + a + on;}
+                              A1aTr3oN = 3202 + 4243;}
                             else{
-                              Z3rgLiNg = steal* stop + 1 + Z3rgLiNg + 3202 - a1Ar4K;}
-                            Z3rgLiNg = face- of + oN + steal + 3202 + A1aTr3oN + 100 - ok - Caribbean;}
+                              on = Caribbean + 1 * Cry;}
+                            on = started + Cry - 3 * off + on + of + face - step;}
                           else{
-                            Cry = steal- Azi * face - 1 + Cry - stay + 3 - oN + 1 + Ari - stop;}
-                          started = of- steal * 3201 - step + fURry * Cry - a - fURry;}
+                            Ari = Azi - ok + ok * face;}
+                          steal = a1Ar4K * Cry;}
                         else{
-                          Azi = ok* stay * ofAShower - Azi * fURry + 3201 - Caribbean + on;}
-                        on = face+ stop - face - a1Ar4K - started * ofAShower + 100;}
+                          Z3rgLiNg = steal * stay + stop - oN * a;}
+                        a = a1Ar4K - 3202 - steal - 10 + step + a - face - Z3rgLiNg;}
                       else{
-                        steal = started+ step * 4243 - 100 - ok + 4243;}
-                      fURry = Ari+ stop;}
+                        ok = 2 + stay - of * on * a1Ar4K * fURry * ok + a - 100;}
+                      face = 4243 - A1aTr3oN * ofAShower - of + 3202 * on + C4ed3U5;}
                     else{
-                      step = old+ a - step - Caribbean - 4243 - 100 * A1aTr3oN - 4 - face - stop;}
-                    off = fURry+ 1 * old * of + C4ed3U5 + of + steal;}
+                      old = Caribbean + oN + started - Azi - Z3rgLiNg - fURry + steal + face * face + ofAShower * Caribbean;}
+                    of = 2 - ofAShower - steal - A1aTr3oN + stop - fURry - 3 + ok;}
                   else{
-                    fURry = ok* ok + stop * 4243 - 10 + a - step + 10;}
-                  face = stay* 100 + ok * Cry * ok;}
+                    Caribbean = ok + C4ed3U5 + C4ed3U5;}
+                  of = a * steal - on + 10 - old;}
                 else{
-                  stay = a- steal + 1 - started * oN + Caribbean + 4243 - 3201 + a1Ar4K - face + on;}
-                stay = Z3rgLiNg- off + on - 4 + Cry - 3201 * off - 1 * oN;}
+                  steal = steal + on - Caribbean * oN + 10;}
+                Caribbean = 1 + 10 * face - a1Ar4K - 4 + 3201;}
               else{
-                oN = on* C4ed3U5 * A1aTr3oN + on;}
-              C4ed3U5 = 1- face - 100 + stay - 3 - 3201 - oN;}
+                Z3rgLiNg = fURry;}
+              step = Azi * 100 + of - Ari - Cry;}
             else{
-              step = Caribbean* a * stop;}
-            Caribbean = face- a1Ar4K + 100 - oN * step;}
+              a1Ar4K = Cry - 3201;}
+            Azi = 1 * 10 * face - ok * C4ed3U5 + oN * fURry - 1 - of;}
           else{
-            step = off- Ari * face * Z3rgLiNg + on;}
-          C4ed3U5 = of* Z3rgLiNg * a1Ar4K * 100 * Azi + C4ed3U5 + face - 3 + ok;}
+            off = C4ed3U5 + 3201 - 3201 * 3202 + fURry - of - a - Z3rgLiNg;}
+          steal = steal;}
         else{
-          a1Ar4K = ofAShower+ Azi - face - 4 * ok - Z3rgLiNg - oN * a * a1Ar4K * stay;}
-        Ari = 2* 3 - Azi - A1aTr3oN - 1 - 4;}
+          old = 10 * a1Ar4K + face * 2;}
+        old = on - a1Ar4K + started + old - face - 2 * Cry;}
       else{
-        step = 3+ 3 + off + 2 * 2 * stay * 100 * stop + face * 3201 - ofAShower;}
-      stay = Azi* Azi * of * Z3rgLiNg - step * a1Ar4K;}
+        stay = a * Azi + 10 + 2;}
+      old = 1 - stay - Azi - 1 + 2 * Caribbean - of * off;}
     else{
-      Cry = C4ed3U5* off - 1 * C4ed3U5 + a1Ar4K - 3202 * 2;}
-    stay = a1Ar4;}
+      oN = 4 - stay + stay * 3202;}
+    ok = 3201 * step - started + 1 - Ari - face + 4243 * off - ofAShower;}
   else{
-    C4ed3U5 = Cry- a1Ar4K + on + stop;}
+    Azi = 100 * started + 3202 * Cry * 100 * stay;}
   master114 = Hacka375;
   while i0{
     while i1{
@@ -1413,55 +1406,55 @@ procedure MasterHacker{
                                                                                                 while i47{
                                                                                                   while i48{
                                                                                                     while i49{
-                                                                                                      Caribbean = 100* 3 + 10 * Ari * 2 - A1aTr3oN * of + steal - 1 * ofAShower;}
-                                                                                                    Ari = ;}
-                                                                                                  A1aTr3oN = ofAShower+ a1Ar4K * 2;}
-                                                                                                fURry = 3202* Ari - steal;}
-                                                                                              Cry = started- off * 100 * 3201 - a1Ar4K + a1Ar4K * Z3rgLiNg;}
-                                                                                            Caribbean = old* ofAShower + 2 + 3 - Ari * Z3rgLiNg - a1Ar4K;}
-                                                                                          stay = steal- Azi - ok - step + oN * ofAShower - Z3rgLiNg * A1aTr3oN * 2 + 10;}
-                                                                                        oN = 3201- a1Ar4K * a * stop * started - started - step;}
-                                                                                      ofAShower = Az;}
-                                                                                    Azi = face* 10 * A1aTr3oN * stop * oN * ofAShower - a1Ar4K - a1Ar4K + on + 3201 - face;}
-                                                                                  ofAShower = Z3rgLiNg- 2 * of * 1 - step + Z3rgLiNg;}
-                                                                                Z3rgLiNg = 100+ on * Cry * on + steal + 10 - a1Ar4K - Azi + Ari * old;}
-                                                                              on = ofAShower- of;}
-                                                                            started = 2* 4243 * 1 * stay + Ari - Cry - step - ofAShower + 3;}
-                                                                          Cry = 1- step - stay + on * oN * ofAShower - 4243 * Z3rgLiNg;}
-                                                                        a = 3- C4ed3U5;}
-                                                                      face = stop* of - steal * 4243 * Azi + a1Ar4K - 3;}
-                                                                    ofAShower = off- 100 - 10 + Cry * a - a1Ar4K - a + 10;}
-                                                                  ofAShower = stea;}
-                                                                face = stea;}
-                                                              Ari = of- on;}
-                                                            Cry = Caribbean- 3 + A1aTr3oN + 3201 + a1Ar4K * face + on - ofAShower * face;}
-                                                          fURry = on+ 10 - stay - 4243 * oN + started * of + ok * a1Ar4K + 10 * oN;}
-                                                        steal = ok* Ari * Ari;}
-                                                      Z3rgLiNg = Caribbean* fURry + stop;}
-                                                    A1aTr3oN = step+ steal + Ari - 3202;}
-                                                  stay = C4ed3U5+ started;}
-                                                ok = stay+ Z3rgLiNg + fURry * a * ok;}
-                                              started = C4ed3U5* 10 * a + old + 4243 - face;}
-                                            Z3rgLiNg = fURry- 1 + started - 10 * A1aTr3oN - old * Azi + on;}
-                                          off = a1Ar4K+ started - 1;}
-                                        off = off- a1Ar4K + 2 - old + old + stop + step + Z3rgLiNg;}
-                                      a = step+ a - on + fURry - steal * old * Caribbean * ok + Ari * 4243 * 3202;}
-                                    stay = C4ed3U;}
-                                  A1aTr3oN = 4243* 10 + 100 * Caribbean * 4243 - Z3rgLiNg * fURry * face * old * C4ed3U5;}
-                                fURry = face* of - Z3rgLiNg * ok + ok + step - steal;}
-                              step = on+ 2 + ofAShower * oN + 100 * Ari + 1;}
-                            Ari = 10+ 4243 * 100 - oN - ok + of + C4ed3U5;}
-                          steal = fURry- 2 * step + ofAShower * Azi;}
-                        of = 4+ off * 4 + a1Ar4K - steal - steal;}
-                      oN = step* off + oN - on * on + of;}
-                    stay = 2+ 3202 + Z3rgLiNg - stay + on;}
-                  fURry = Azi+ 1 - C4ed3U5 + ok + step + off * fURry * 3201 * C4ed3U5;}
-                Z3rgLiNg = Z3rgLiN;}
-              face = A1aTr3o;}
-            on = a- 3;}
-          stop = steal+ fURry - ofAShower + a1Ar4K + started + C4ed3U5 * 100 * ofAShower + a;}
-        of = 4243- off * started * face * old + Ari - on * A1aTr3oN + ok - C4ed3U5 * 3202;}
-      off = Azi+ Azi * a - A1aTr3oN - on * Ari;}
-    A1aTr3oN = step+ face;}
+                                                                                                      old = started + steal + 4243 + 3 + Z3rgLiNg * fURry + 3202 - oN;}
+                                                                                                    on = 10 + fURry - 3201 - on * 10 + Cry * of + 1 - step;}
+                                                                                                  started = face * oN * 3202 + 4 - steal * a + 100;}
+                                                                                                started = on * Caribbean - face * stay;}
+                                                                                              steal = 10 - stay;}
+                                                                                            ok = stop;}
+                                                                                          steal = started * 3201 + 4 * fURry * 3202 + ok + 2 + Azi + on;}
+                                                                                        of = off + fURry * ok * 4243 - 2 - 2 + fURry - a1Ar4K + 3202 - A1aTr3oN;}
+                                                                                      fURry = 3 * stop * 4243 * 3202 * face + 1 * C4ed3U5;}
+                                                                                    stop = 1 * ok * 10 * 3201 * ofAShower * 3201 - Azi - 1;}
+                                                                                  Ari = 3202 * step * 1 * Caribbean * 3201 - stay;}
+                                                                                of = started + A1aTr3oN;}
+                                                                              Ari = 10 + on * 100 + step + stop + fURry;}
+                                                                            A1aTr3oN = Z3rgLiNg - face - ofAShower * 100 + a1Ar4K - on * 10 - a1Ar4K * 4 * a1Ar4K;}
+                                                                          steal = started * Cry + old + C4ed3U5 - Ari + a1Ar4K - off + Azi * 3202 - 3201;}
+                                                                        off = started - 100;}
+                                                                      face = started + started - Z3rgLiNg * Ari + Z3rgLiNg + A1aTr3oN - 10 - Azi - 3 - Z3rgLiNg;}
+                                                                    of = 2 - 4 - ofAShower + stop * of * stop * old - face - ofAShower;}
+                                                                  steal = A1aTr3oN + 4243 - old + 10;}
+                                                                Azi = of * Ari + Azi * ok * step;}
+                                                              Azi = 100 - Azi;}
+                                                            a1Ar4K = 3201 + off + face * A1aTr3oN - Cry - off + ofAShower * 3202;}
+                                                          Z3rgLiNg = 4 - 3202 + 3201 - ok + oN - Azi * Caribbean + 10 + Cry;}
+                                                        Z3rgLiNg = ofAShower * old * step * 4243 + Z3rgLiNg;}
+                                                      stay = 100 - step * face - 4243;}
+                                                    a = step - 3201 * 10 + on - 100 * ofAShower;}
+                                                  A1aTr3oN = of * 1 + 4 + old;}
+                                                old = A1aTr3oN * Ari - fURry * a - 3202 - 100 * 2 * of;}
+                                              C4ed3U5 = 4243 * Caribbean - 3201 * steal * oN + 2 * stay - 3202 + 3 + 100;}
+                                            Z3rgLiNg = on;}
+                                          on = 3201 - 1 * 4 - stop * oN + 3 - Caribbean * started;}
+                                        stay = Cry * Cry * Azi + 10 + 100 - on + a1Ar4K - 1;}
+                                      of = a1Ar4K * face - 10 * Z3rgLiNg - 3 + Caribbean - started - 4 - 4243 * A1aTr3oN;}
+                                    oN = on + 3201 * Cry * 10 * steal;}
+                                  oN = stay * a * 3202 - Cry - 3 - a - 3202 + oN;}
+                                old = on - C4ed3U5 - ofAShower * started;}
+                              C4ed3U5 = 4243 * a1Ar4K + face - Caribbean * steal * 4243 + 4243;}
+                            A1aTr3oN = A1aTr3oN + A1aTr3oN * Cry - 100 + 10 * started * on - fURry + 2;}
+                          of = started - Caribbean * 3202 * 4 - 10 * step;}
+                        A1aTr3oN = of;}
+                      stop = 2 * 1 + step * oN - 1 * Azi * steal * of;}
+                    C4ed3U5 = old - face * face;}
+                  Cry = Caribbean + old * 4243 * ok * Caribbean - Caribbean - 2 * ofAShower * Cry + ofAShower;}
+                ok = step + fURry * started - fURry - ofAShower - a1Ar4K + on - ok * a1Ar4K * 2;}
+              Z3rgLiNg = off + Cry * oN * Z3rgLiNg + C4ed3U5 - 100 - Caribbean - 4243 - 100 + Caribbean;}
+            Cry = a * C4ed3U5 + 4243 * 3 * Caribbean * old * ofAShower;}
+          Azi = 2 * Cry;}
+        A1aTr3oN = 2 + 2 + of + on * a - 10 - started + Z3rgLiNg + A1aTr3oN - 2 + started;}
+      stay = Cry - face - step + 100;}
+    ofAShower = 3 - off * 4 * old + Z3rgLiNg;}
   master259 = Hacka520;
 }

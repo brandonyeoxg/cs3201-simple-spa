@@ -22,7 +22,7 @@ def gen4(num):
 def genRandAsgn():
     lst=["A1aTr3oN","Ari","Azi","Cry","C4ed3U5","Caribbean","Z3rgLiNg","a","a1Ar4K","fURry","started","oN","of","ofAShower","off","ok","old","on","stay","steal","step","stop","face","1","10","100","2","3","4","3201","3202","4243"]
     operators = randint(0,10)
-    string = lst[randint(0,len(lst)-10)]+" = "+lst[randint(0,len(lst)-1)]
+    string = lst[randint(0,len(lst)-10)]+" = "+lst[randint(0,len(lst)-1)]+" "
     for i in range(operators):
         oprt=randint(0,2)
         v=lst[randint(0,len(lst)-1)]
@@ -42,9 +42,9 @@ def genWhile(nest,string,depth):
     else:
         a = randint(1,5)
         if (a==1):
-            return string+"\n"+(nest * "  ")+genRandAsgn()+((nest+1) * "}")
+            return string+"\n"+(nest * "  ")+genRandAsgn()+((nest) * "}")
         elif (a==2):
-            return string+((nest+1) * "  ")+genRandAsgn()+((nest+1) * "}")
+            return string+((nest+1) * "  ")+genRandAsgn()+((nest) * "}")
         elif (a==3):
             i=nest+1
             while not(i==1):
@@ -71,5 +71,5 @@ def genIf(nest,string,depth):
         return string
 
 #print(genRandAsgn())
-print(genIf(0,"",100))
+print(genWhile(0,"",50))
 
