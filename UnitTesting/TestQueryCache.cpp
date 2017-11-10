@@ -39,7 +39,7 @@ public:
     // Uses(a5, "s2")
     relation = Relation("Uses", Grammar(3, "a5"), Grammar(11, "s2"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Uses/s/s2");
+    Assert::IsTrue(key == "Uses/s/+s2");
     Logger::WriteMessage(key.c_str());
 
     // 2 common synonyms
@@ -51,7 +51,17 @@ public:
     // Uses("s1", a5)
     relation = Relation("Uses", Grammar(11, "s1"), Grammar(3, "a5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Uses/s1/s");
+    Assert::IsTrue(key == "Uses/+s1/s");
+    Logger::WriteMessage(key.c_str());
+
+    relation = Relation("Calls", Grammar(0, "proc1"), Grammar(11, "s"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Calls/s/+s");
+    Logger::WriteMessage(key.c_str());
+
+    relation = Relation("Calls", Grammar(11, "s"), Grammar(0, "proc1"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Calls/+s/s");
     Logger::WriteMessage(key.c_str());
   }
 
@@ -155,6 +165,32 @@ public:
 
     results = cache.getCache(clause);
     Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(cache_getCache04) {
+    Clause *clause1, *clause2;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected1, expected2;
+
+    expected1 = SET_OF_RESULTS_INDICES();
+    expected1.insert({ 1, { 1, 2, 3, 4 } });
+    expected1.insert({ 2, { 1, 4 } });
+
+    expected2 = SET_OF_RESULTS_INDICES();
+    expected2.insert({ 4, { 1 } });
+    expected2.insert({ 5, { 1, 4 } });
+
+    clause1 = new Relation("Uses", Grammar(3, "a5"), Grammar(7, "s2")); // 2 common synonyms
+    clause2 = new Relation("Uses", Grammar(3, "a5"), Grammar(11, "s2")); // 1 common synonym, 1 varName
+
+    cache.cache(clause1, expected1);
+    cache.cache(clause2, expected2);
+
+    results = cache.getCache(clause2);
+    Assert::IsTrue(*results == expected2);
+
+    results = cache.getCache(clause1);
+    Assert::IsTrue(*results == expected1);
   }
 
   TEST_METHOD(queryUtil_areBothSameSynonyms) {
