@@ -72,8 +72,22 @@ public:
   */
   BOOLEAN insertParentRelation(const LIST_OF_STMT_NUMS& t_nestedStmtInStmtList, int t_curLineNum);
 
+  /**
+  * Inserts a modifies relation in the PKB.
+  * @param t_procIdx the index of the procedure where the stmt is at.
+  * @param t_varName the variable being modified.
+  * @param t_nestedStmtLines the stmtLst where the stmt is at.
+  * @param t_curLineNum the stmt#.
+  */
   void insertModifies(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
 
+  /**
+  * Inserts a uses relation in the PKB.
+  * @param t_procIdx the index of the procedure where the stmt is at.
+  * @param t_varName the variable being uses.
+  * @param t_nestedStmtLines the stmtLst where the stmt is at.
+  * @param t_curLineNum the stmt#.
+  */
   void insertUses(PROC_INDEX t_procIdx, VAR_NAME t_varName, LIST_OF_STMT_NUMS t_nestedStmtLines, STMT_NUM t_curLineNum);
   
   /**
@@ -122,6 +136,9 @@ public:
 
   /**
   * Inserts a call statement into the PKB
+  * @param t_proc1 the procedure that calls the other procedure.
+  * @param t_proc2 the procedure being called.
+  * @param t_lineNum the stmt# of the call statement.
   */
   void insertCallStmt(PROC_INDEX t_proc1, PROC_NAME t_proc2, STMT_NUM t_lineNum);
 
@@ -156,10 +173,13 @@ public:
   * Inserts a constant into the PKB.
   * @param t_constVal the constant to be added in string form.
   * @param t_curLineNum the current line of the constant.
-  * @return a reference to the constant node.
   */
   void insertConstant(CONSTANT_TERM t_constVal);
 
+  /**
+  * Inserts a statement list into the PKB.
+  * @param t_line the first stmt# of the statement list.
+  */
   void insertStmtList(STMT_NUM t_line);
   ///////////////////////////////////////////////////////
   //  FollowTable methods
@@ -455,6 +475,12 @@ public:
   */
   LIST_OF_VAR_NAMES& getAllVarNames();
   LIST_OF_VAR_INDICES& getAllVarIndices();
+
+  /**
+  * Get the list of statements that are of the same type as the parameter.
+  * @param t_type the type of statement.
+  * @return the list of stmt#.
+  */
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
@@ -491,19 +517,48 @@ public:
   ProcTable* getProcTable();
 
   /**
-  * Returns all procedure name in the program
+  * Gets all procedure name in the source program.
+  * @return the list of procedures.
   */
   LIST_OF_RESULTS getAllProcsName();
   LIST_OF_PROC_INDICES getAllProcsIndices();
+
+  /**
+  * Gets the procedure given its index in the procedure table.
+  * @param t_idx the procedure's index.
+  * @return the name of the procedure.
+  */
   PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
 
+  /**
+  * Gets the procedure index given its name in the procedure table.
+  * @param t_name the procedure's name.
+  * @return the index of the procedure.
+  */
   PROC_INDEX getProcIdxFromName(PROC_NAME t_name);
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
+
+  /**
+  * Gets all the constants in the source program.
+  * @return the list of all constants.
+  */
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
+
+  /**
+  * Gets the constant index given its string in the Constant table.
+  * @param t_constant the constant string.
+  * @return the index of the constant.
+  */
   CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant);
+
+  /**
+  * Gets the constant string given its index in the Constant table.
+  * @param t_constantIdx the index of the constant.
+  * @return the constant string.
+  */
   CONSTANT_TERM getConstantFromIdx(int t_constantIdx);
 
   ///////////////////////////////////////////////////////
@@ -614,32 +669,135 @@ public:
   //  CallsTable methods
   ///////////////////////////////////////////////////////
   CallsTable* getCallsTable();
+
+  /**
+  * Check if calls(p1, p2) is true.
+  * @param t_proc1 a procedure name
+  * @param t_proc2 a procedure name
+  * @return true if calls(p1, p2) is true.
+  */
   BOOLEAN isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2);
+
+  /**
+  * Check if calls*(p1, p2) is true.
+  * @param t_proc1 a procedure name
+  * @param t_proc2 a procedure name
+  * @return true if calls*(p1, p2) is true.
+  */
   BOOLEAN isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2);
+
+  /**
+  * Get the list of procedures that calls proc2.
+  * i.e. calls(p, p2) where p2 is a known procedure
+  * @param t_proc2 the procedure being called
+  * @return the list of procedures that call t_proc2.
+  */
   LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
   LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx);
+
+  /**
+  * Get the list of procedures that are called by proc1.
+  * i.e. calls(p1, p) where p1 is a known procedure
+  * @param t_proc1 the procedure that calls other procedures
+  * @return the list of procedures that are called by t_proc1.
+  */
   LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx);
+
+  /**
+  * Get the list of procedures that directly/indirectly calls proc2.
+  * i.e. calls*(p, p2) where p2 is a known procedure
+  * @param t_proc2 the procedure being called directly/indirectly
+  * @return the list of procedures that call* t_proc2.
+  */
   LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
   LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
+
+  /**
+  * Get the list of procedures that are directly/indirectly called by proc1.
+  * i.e. calls*(p1, p) where p1 is a known procedure
+  * @param t_proc1 the procedure that directly/indirectly calls other procedures
+  * @return the list of procedures that are called by t_proc1.
+  */
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
+
+  /**
+  * Get the map of calls relationship i.e. for calls(p1, p2) where p1, p2 are synonyms.
+  * @return the map that contains all calls relationship.
+  */
   MAP_OF_PROC_NAMES getAllCalls();
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx();
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
+
+  /**
+  * Get the map of calls* relationship i.e. for calls*(p1, p2) where p1, p2 are synonyms.
+  * @return the map that contains all calls* relationship.
+  */
+  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar();
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
-  LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+
+  /**
+  * Get the list of procedures that calls any other procedures i.e. calls(p1, _).
+  * @return the list of procedures.
+  */
+  LIST_OF_PROC_NAMES getCallsAnything();
   LIST_OF_PROC_INDICES getCallsAnythingByIdx();
-  LIST_OF_PROC_NAMES getCallsStarAnything();  //calls*(proc1, _)
+
+  /**
+  * Get the list of procedures that call* any other procedures i.e. calls*(p1, _).
+  * @return the list of procedures.
+  */
+  LIST_OF_PROC_NAMES getCallsStarAnything();
   LIST_OF_PROC_INDICES getCallsStarAnythingByIdx();
-  LIST_OF_PROC_NAMES getCalledByAnything(); //calls(_, proc2)
+
+  /**
+  * Get the list of procedures that called by any other procedures i.e. calls(_, p2).
+  * @return the list of procedures.
+  */
+  LIST_OF_PROC_NAMES getCalledByAnything();
   LIST_OF_PROC_INDICES getCalledByAnythingByIdx();
-  LIST_OF_PROC_NAMES getCalledByStarAnything(); //calls*(_, proc2)
+
+  /**
+  * Get the list of procedures that called by* any other procedures i.e. calls*(_, p2).
+  * @return the list of procedures.
+  */
+  LIST_OF_PROC_NAMES getCalledByStarAnything();
   LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx();
-  BOOLEAN hasCallsRelationship();  //calls(_, _)
+
+  /**
+  * Check if there exists any calls relationship in the PKB.
+  * @return true if there exists.
+  */
+  BOOLEAN hasCallsRelationship();
+
+  /**
+  * Checks if there exist any procedures that are called by proc1.
+  * i.e. calls(p1, _) where p1 is a known procedure
+  * @param t_proc1 the procedure that calls other procedures
+  * @return true if there exists.
+  */
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
+
+  /**
+  * Checks if there exist any procedures that calls proc2.
+  * i.e. calls(_, p2) where p2 is a known procedure
+  * @param t_proc2 the procedure that are called by other procedures
+  * @return true if there exists
+  */
   BOOLEAN isCalledByAnything(PROC_NAME t_proc2);
+
+  /**
+  * Method that returns the procedure name given the stmt# of the call statement.
+  * @param t_lineNum the stmt#
+  * @return the procedure being called in the stmt#.
+  */
   PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that calls a particular procedure.
+  * @param t_procName the procedure being called.
+  * @return the list of stmt#.
+  */
   LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName);
 
   ///////////////////////////////////////////////////////
@@ -752,29 +910,116 @@ public:
   //  UsesTable methods
   ///////////////////////////////////////////////////////
   UsesTable* getUsesTable();
+
+  /**
+  * Establish the uses(lineNum, varName) relationship.
+  * @param t_varName the variable being used
+  * @param t_lineNum the stmt#
+  * @param t_varIdx the index of the t_varName
+  */
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
+
+  /**
+  * Checks if uses(lineNum, varName) is true.
+  * @param t_lineNum the stmt#
+  * @param t_varName the variable being used
+  * @return true if the relationship holds.
+  */
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+
+  /**
+  * Get the list of variables that are being used in stmt# lineNum.
+  * @param t_lineNum the stmt#
+  * @return the list of variables.
+  */
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that use the variable varName.
+  * @param t_varName the variable
+  * @return the list of stmt#.
+  */
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+
+  /**
+  * Get the map of all uses relationship i.e. for uses(s, v) where s and v are synonyms.
+  * @return the map that contains all uses relationship.
+  */
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
-  BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
-  LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+
+
+  /**
+  * Checks if the stmt# uses any variables.
+  * i.e. uses(2, _)
+  * @param t_lineNum the stmt#
+  * @return true if uses(2, _) hold.
+  */
+  BOOLEAN isUsesAnything(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that use any variables i.e. uses(s, _).
+  * @return the list of stmt#
+  */
+  LIST_OF_STMT_NUMS getStmtUsesAnything();
 
   ///////////////////////////////////////////////////////
   //  ModifiesTable methods
   ///////////////////////////////////////////////////////
   ModifiesTable* getModifiesTable();
+
+  /**
+  * Establish the modifies(lineNum, varName) relationship.
+  * @param t_varName the variable being modified
+  * @param t_lineNum the stmt#
+  * @param t_varIdx the index of the t_varName
+  */
   void insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
+
+  /**
+  * Checks if modifies(lineNum, varName) is true.
+  * @param t_lineNum the stmt#
+  * @param t_varName the variable being modified
+  * @return true if the relationship holds.
+  */
   BOOLEAN isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName);
+
+  /**
+  * Get the list of variables that are being modified in stmt# lineNum.
+  * @param t_lineNum the stmt#
+  * @return the list of variables.
+  */
   LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that modifies the variable varName.
+  * @param t_varName the variable
+  * @return the list of stmt#.
+  */
   LIST_OF_STMT_NUMS getStmtModifies(VAR_NAME t_varName);
+
+  /**
+  * Get the map of all modifies relationship i.e. for modifies(s, v) where s and v are synonyms.
+  * @return the map that contains all uses relationship.
+  */
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
-  BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);  //modifies(2, _)
-  LIST_OF_STMT_NUMS getStmtModifiesAnything(); //modifies(s, _)
+
+  /**
+  * Checks if the stmt# modifies any variables.
+  * i.e. modifies(2, _)
+  * @param t_lineNum the stmt#
+  * @return true if modifies(2, _) hold.
+  */
+  BOOLEAN isModifiesAnything(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that modifies any variables i.e. modifies(s, _).
+  * @return the list of stmt#
+  */
+  LIST_OF_STMT_NUMS getStmtModifiesAnything();
 
   ///////////////////////////////////////////////////////
   //  StmtListTable
