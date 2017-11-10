@@ -86,14 +86,17 @@ LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn
           CONSTANT_TERM constantTerm = t_pkb->getConstantFromIdx(m_results[i][synPosInTable]);
           result += constantTerm + " ";
         } else {
-          result += m_results[i][synPosInTable] + " ";
+          result += std::to_string(m_results[i][synPosInTable]) + " ";
         }   
       } else {
         result += sItr.getName() + " ";
       }
     }
-    result.pop_back();
-    output.push_back(result);
+
+    if (!result.empty()) {
+      result.pop_back();
+      output.push_back(result);
+    }   
   }
   return output;
 }
