@@ -300,11 +300,6 @@ procedure Alexander{
   NewYork = you*can*be+a+New*Man;
   Just = you * wait;
   NewYork = you*can*be+a+New*Man;
-  Just = you * wait;
-  NewYork = NewYork;
-  Just = you * wait;
-  Alexander = Hamilton;
-  wings = waiting*for+you;
   you = never*back*down;
   you = never*learnt+2+take+your+time;
   Alexander = Hamilton;
@@ -327,140 +322,6 @@ procedure Alexander{
   Just = you * wait;
   Whats = your + name * man;
   Alexander = Hamilton;
-}
-
-procedure RightHandMan{
-  Howe = British+Admiral;
-  Howe = troops+on+the*water;
-  NewYorkHarbor = 32000*troops;
-  NewYorkHarbor = 32000*troops;
-  When = they+surround+troops;
-  As = they*surround*troops;
-  When = they+surround+troops;
-  As = they*surround*troops;
-  As = kid + in * Caribbean;
-  kid = wish*war;
-  kid = poor;
-  war = only + way + to + rise*up;
-  if tellMyStory then{
-    kid = (die+on+the+battlefield)*(in+glory);}
-  else{
-    kid = rise*up;}
-  kid = fight+for+this*land;
-  oneMan = give+us+the*command;
-  we = rise*up;
-  understand=only*way+rise*up;
-  we=rise*up;
-  Here=he+comes;
-  Here=comes+the*general;
-  and = Ladies + Gentlemen;
-  Here=comes+the*general;
-  moment = you+been+for;
-  Here=comes+the*general;
-  pride= mount*Vernon;
-  Here=comes+the*general;
-  General = George*Washington;
-  WeAre = Outgunned;
-  WeAre = Outmanned;
-  WeAre = Outnumbered;
-  WeAre = Outplanned;
-  We = make+an+all*out*stand;
-  General=need+Right*Hand*Man;
-  while beReal{
-    beReal = second;
-    beReal = millisecond;
-    guard = guard-1;
-    people = how+I+feel+a*second;}
-  General = model+of+the+modern*major*general;
-  General = venerated*Virginian*Veteran;
-  men = lining + up;
-  Pedestal = General;
-  writing = letter*2*relatives;
-  embellishing = General*(elegance+eloquence);
-  room = elephant;
-  face=truth;
-  BritishCannons = BOOM;
-  fleeting=hope*success;
-  while leading{
-    leading=leading-people*retreating;}
-  bleeding = 0;
-  Brooklyn=British;
-  rook=rook-knight;
-  WeAre = Outgunned;
-  WeAre = Outmanned;
-  WeAre = Outnumbered;
-  WeAre = Outplanned;
-  We = make+an+all*out*stand;
-  General=need+Right*Hand*Man;
-  incoming = INCOMING;
-  while batteringBattery{
-    if damages then{
-      We=stop*them;}
-    else{
-      We=rob*them;
-      them=them-advantages;}}
-  We = take+a*stand;
-  stamina=God*granted;
-  Hamilton = 0*abandon*ship;
-  Hamilton = steal*BrittishCannon+shoot;
-  BrittishCannon=BOOM;
-  spray = blood +sh1t;
-  BrittishCannon=BOOM;
-  abandon=Kips*Bay;
-  BrittishCannon=BOOM;
-  goes=another+ship;
-  BrittishCannon=BOOM;
-  lost=SouthernTip;
-  BrittishCannon=BOOM;
-  Harlem=run*quick;
-  slip=cant*afford;
-  giddyUp=guns+horses;
-  General = divvy*forces;
-  forces=skittish;
-  British=cut+city+up;
-  close=giving*up;
-  General=facing+mad*scrutiny;
-  General=scream*in+the*face+of+this*mass*mutiny;
-  men=with+General;
-  men = defend*America;
-  ride = midnight;
-  manhattan = in*the*distance;
-  everywhere=0-at*once;
-  assistance=dire*need;
-}
-
-procedure GunsAndShips{
-  army=ragtag+volunteer+in*need*ofAShower;
-  superpower=global*superpower-army;
-  quagmire=victorious;
-  battlfield=battlefield-army;
-  higher =Betsy*Ross*Flag;
-  secretWeapon=immigrant;
-  immigrant=unafraid+to+step*in;
-  British=British-immigrant*confusing*confounding;
-  Frenchman = favourite*fighting+give*it*up;
-  Frenchman = Lafayette;
-  horse = by*reins;
-  redcoats = redcoats+red*bl00dst41ns;
-  Frenchman = Lafayette;
-  Frenchman = 0*stop;
-  British=British-Frenchman;
-  British=British-Frenchman*100000;
-  Frenchman = Lafayette;
-  Frenchman=engaging*British;
-  Frenchman=escaping*British;
-  Frenchman=enraging*British;
-  Frenchman = Lafayette;
-  France = Frenchman + funds;
-  Frenchman = France + guns + ships;
-  balance = balance + 100;
-  Rochambeau = rendezvouz;
-  consolidate=gifts;
-  Yorktown = war*end;
-  sea=cut*off;
-  succeed=someone*else+we*need;
-  General = i*know;
-  General = Hamilton;
 }
 
 procedure Yorktown{
@@ -651,18 +512,515 @@ procedure GirlsWhoWereAMistake{
 procedure STR355TEST{
   buffer = stress;
   stress0 = test1;
-  stress1 = test2;
-  stress2 = test3;
-  stress3 = test4;
-  test16 = stress15;
-  test17 = stress16;
-  test18 = stress17;
-  test19 = stress18;
+  if i0 then{
+    if i1 then{
+      if i2 then{
+        if i3 then{
+          if i4 then{
+            if i5 then{
+              if i6 then{
+                if i7 then{
+                  if i8 then{
+                    if i9 then{
+                      if i10 then{
+                        buffer16 = generated-17;
+                        buffer15 = generated-16;
+                        buffer14 = generated-15;
+                        if i11 then{
+                          if i12 then{
+                            if i13 then{
+                              if i14 then{
+                                if i15 then{
+                                  if i16 then{
+                                    if i17 then{
+                                      if i18 then{
+                                        if i19 then{
+                                          if i20 then{
+                                            if i21 then{
+                                              if i22 then{
+                                                if i23 then{
+                                                  if i24 then{
+                                                    if i25 then{
+                                                      if i26 then{
+                                                        if i27 then{
+                                                          if i28 then{
+                                                            if i29 then{
+                                                              if i30 then{
+                                                                if i31 then{
+                                                                  if i32 then{
+                                                                    if i33 then{
+                                                                      if i34 then{
+                                                                        if i35 then{
+                                                                          if i36 then{
+                                                                            if i37 then{
+                                                                              if i38 then{
+                                                                                if i39 then{
+                                                                                  if i40 then{
+                                                                                    if i41 then{
+                                                                                      if i42 then{
+                                                                                        if i43 then{
+                                                                                          if i44 then{
+                                                                                            if i45 then{
+                                                                                              if i46 then{
+                                                                                                if i47 then{
+                                                                                                  if i48 then{
+                                                                                                    if i49 then{
+                                                                                                      if i50 then{
+                                                                                                        if i51 then{
+                                                                                                          if i52 then{
+                                                                                                            if i53 then{
+                                                                                                              if i54 then{
+                                                                                                                if i55 then{
+                                                                                                                  if i56 then{
+                                                                                                                    if i57 then{
+                                                                                                                     buffer5 = generated-6;
+                                                                                                                     buffer4 = generated-5;
+                                                                                                                      if i58 then{
+                                                                                                                        if i59 then{
+                                                                                                                          if i60 then{
+                                                                                                                            if i61 then{
+                                                                                                                              buffer3 = generated-4;
+                                                                                                                              buffer4 = generated3;
+                                                                                                                              if i62 then{
+                                                                                                                                if i63 then{
+                                                                                                                                  if i64 then{
+                                                                                                                                    if i65 then{
+                                                                                                                                      if i66 then{
+                                                                                                                                        if i67 then{
+                                                                                                                                          if i68 then{
+                                                                                                                                            if i69 then{
+                                                                                                                                              if i70 then{
+                                                                                                                                                if i71 then{
+                                                                                                                                                  if i72 then{
+                                                                                                                                                    if i73 then{
+                                                                                                                                                      if i74 then{
+                                                                                                                                                        if i75 then{
+                                                                                                                                                          if i76 then{
+                                                                                                                                                            if i77 then{
+                                                                                                                                                              if i78 then{
+                                                                                                                                                                if i79 then{
+                                                                                                                                                                  if i80 then{
+                                                                                                                                                                    if i81 then{
+                                                                                                                                                                      if i82 then{
+                                                                                                                                                                        if i83 then{
+                                                                                                                                                                          if i84 then{
+                                                                                                                                                                            if i85 then{
+                                                                                                                                                                              if i86 then{
+                                                                                                                                                                                if i87 then{
+                                                                                                                                                                                  if i88 then{
+                                                                                                                                                                                    if i89 then{
+                                                                                                                                                                                      if i90 then{
+                                                                                                                                                                                        if i91 then{
+                                                                                                                                                                                          if i92 then{
+                                                                                                                                                                                            if i93 then{
+                                                                                                                                                                                              if i94 then{
+                                                                                                                                                                                                if i95 then{
+                                                                                                                                                                                                  if i96 then{
+                                                                                                                                                                                                    if i97 then{
+                                                                                                                                                                                                      if i98 then{
+                                                                                                                                                                                                        if i99 then{
+                                                                                                                                                                                                          off = 1+ Azi + 1 * 2 + stop * stop - of - steal - a1Ar4K * 3202;
+                                                                                                                                                                                                        }else{
+                                                                                                                                                                                                          ok = A1aTr3oN+ steal - step + 10 - step;
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                        steal = ofAShower- face * Cry * oN + Z3rgLiNg + stop + a + steal * 2 * ofAShower;
+                                                                                                                                                                                                      }else{
+                                                                                                                                                                                                        step = fURry- 1 + step;
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                      of = a1Ar4K+ 4 + Ari;
+                                                                                                                                                                                                    }else{
+                                                                                                                                                                                                      ofAShower = face+ a1Ar4K - Z3rgLiNg - steal + 3202 + started - 4243 + 4243 * a;
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                    Azi = 4+ off - stop;
+                                                                                                                                                                                                  }else{
+                                                                                                                                                                                                    oN = Ari* Cry - started - Ari * 3 + 3201 * a1Ar4K - 4 * old;
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                  Z3rgLiNg = Caribbean+ 1 - 2 - old - Caribbean * ok + stop - A1aTr3oN;
+                                                                                                                                                                                                }else{
+                                                                                                                                                                                                  a = on* ofAShower - stop * 3201 + C4ed3U5 - Cry + 3201;
+                                                                                                                                                                                                }
+                                                                                                                                                                                                Cry = stay- on * Ari + step - 4 - step - 100;
+                                                                                                                                                                                              }else{
+                                                                                                                                                                                                Ari = 3* 10 * 4 - on * off + 3 - Cry * oN + oN * 3201 - 100;
+                                                                                                                                                                                              }
+                                                                                                                                                                                              A1aTr3oN = stop- fURry;
+                                                                                                                                                                                            }else{
+                                                                                                                                                                                              stay = 100- face * 4 + Cry * steal - 1 + 3 - 1 - a;
+                                                                                                                                                                                            }
+                                                                                                                                                                                            C4ed3U5 = ofAShower- old + off - 4 + oN * 100 + 3 + fURry;
+                                                                                                                                                                                          }else{
+                                                                                                                                                                                            face = off* Caribbean + C4ed3U5 - 10 + old;
+                                                                                                                                                                                          }
+                                                                                                                                                                                          Z3rgLiNg = ofAShower+ 10 - 2 * Cry - 4243 + of * 3202 + started * oN * 3201;
+                                                                                                                                                                                        }else{
+                                                                                                                                                                                          started = Azi+ 10 - stop * Caribbean;
+                                                                                                                                                                                        }
+                                                                                                                                                                                        oN = Azi+ 4 - C4ed3U5 * on * Cry * Z3rgLiNg + old - stop - C4ed3U5;
+                                                                                                                                                                                      }else{
+                                                                                                                                                                                        a1Ar4K = Cry* 1 + A1aTr3oN + Caribbean - 1 * stop * Z3rgLiNg;
+                                                                                                                                                                                      }
+                                                                                                                                                                                      stay = 4243- stay + Ari - stay + a - fURry - 3201 + Caribbean;
+                                                                                                                                                                                    }else{
+                                                                                                                                                                                      face = old+ Z3rgLiNg + Azi;
+                                                                                                                                                                                    }
+                                                                                                                                                                                    stop = 3202* stop * old - Azi;
+                                                                                                                                                                                  }else{
+                                                                                                                                                                                    step = a* A1aTr3oN + Azi - Ari - stay;
+                                                                                                                                                                                  }
+                                                                                                                                                                                  Cry = old- ok * stop + a - 3202;
+                                                                                                                                                                                }else{
+                                                                                                                                                                                  off = 10+ 4243;
+                                                                                                                                                                                }
+                                                                                                                                                                                Azi = oN+ A1aTr3oN + 3202 * step - steal - steal + started * old;
+                                                                                                                                                                              }else{
+                                                                                                                                                                                step = 3201- stop * started - oN + face * Z3rgLiNg - Azi;
+                                                                                                                                                                              }
+                                                                                                                                                                              oN = Cry+ Caribbean + fURry + 3201 * stop - 10;
+                                                                                                                                                                            }else{
+                                                                                                                                                                              off = 4243- of;
+                                                                                                                                                                            }
+                                                                                                                                                                            of = Azi+ off - step - 100 - of - 1 + 100;
+                                                                                                                                                                          }else{
+                                                                                                                                                                            Ari = Caribbean* a1Ar4K - on - Z3rgLiNg + face * 1 + Z3rgLiNg * A1aTr3oN;
+                                                                                                                                                                          }
+                                                                                                                                                                          fURry = Ari- 4243 - stay * oN - 3202 - stay;
+                                                                                                                                                                        }else{
+                                                                                                                                                                          off = a+ ofAShower + C4ed3U5 - started * Ari - A1aTr3oN - a1Ar4K * 1 + 3201;
+                                                                                                                                                                        }
+                                                                                                                                                                        Azi = Ari* 3 - stay * 10 - 4 * on * ok + of + 3 - steal;
+                                                                                                                                                                      }else{
+                                                                                                                                                                        ok = ofAShower* Azi;
+                                                                                                                                                                      }
+                                                                                                                                                                      C4ed3U5 = a- 3202;
+                                                                                                                                                                    }else{
+                                                                                                                                                                      off = steal* fURry - a * stop * started - 4243 * 4243 * old;
+                                                                                                                                                                    }
+                                                                                                                                                                    ok = a1Ar4K- on + Azi - stay;
+                                                                                                                                                                  }else{
+                                                                                                                                                                    ofAShower = stay- C4ed3U5 * C4ed3U5 + Cry - Ari + 3202 * stop + stay;
+                                                                                                                                                                  }
+                                                                                                                                                                  step = ;
+                                                                                                                                                                }else{
+                                                                                                                                                                  Caribbean = Cr;
+                                                                                                                                                                }
+                                                                                                                                                                step = of+ off * 4;
+                                                                                                                                                              }else{
+                                                                                                                                                                Z3rgLiNg = Azi+ C4ed3U5 * a1Ar4K + Z3rgLiNg + stay + ok - 1 - face - Cry;
+                                                                                                                                                              }
+                                                                                                                                                              Cry = ofAShower* 4 * 2 - on * steal * fURry;
+                                                                                                                                                            }else{
+                                                                                                                                                              oN = fURry- fURry - step;
+                                                                                                                                                            }
+                                                                                                                                                            Z3rgLiNg = a- ofAShower * 2 + fURry;
+                                                                                                                                                          }else{
+                                                                                                                                                            Cry = 1* 4 * oN;
+                                                                                                                                                          }
+                                                                                                                                                          stop = Cry- a * Azi + 4 - Z3rgLiNg - 3;
+                                                                                                                                                        }else{
+                                                                                                                                                          ok = 100+ started + oN - of * oN;
+                                                                                                                                                        }
+                                                                                                                                                        old = stay- stay * Caribbean + started;
+                                                                                                                                                      }else{
+                                                                                                                                                        ok = 3+ 4243;
+                                                                                                                                                      }
+                                                                                                                                                      old = 2* 10 + face - Cry + ok - 10 * 3 + 3 * ok * 10 * oN;
+                                                                                                                                                    }else{
+                                                                                                                                                      Azi = steal+ started - Cry - a1Ar4K + face - fURry - 10 - Ari + of;
+                                                                                                                                                    }
+                                                                                                                                                    A1aTr3oN = C4ed3U5- face - stop * 2 - 1;
+                                                                                                                                                  }else{
+                                                                                                                                                    off = steal- a1Ar4K - steal - Z3rgLiNg + off + of * 4243;
+                                                                                                                                                  }
+                                                                                                                                                  Caribbean = ofAShower+ on + a - ofAShower + A1aTr3oN * Cry * 3;
+                                                                                                                                                }else{
+                                                                                                                                                  Cry = a1Ar4K* oN * 3 * of + step - C4ed3U5 + 3201 * steal - 10 - Z3rgLiNg * fURry;
+                                                                                                                                                }
+                                                                                                                                                Azi = 10+ old + step + 3201 + 3 * 4 - old;
+                                                                                                                                              }else{
+                                                                                                                                                fURry = 2+ oN * a1Ar4K * of - C4ed3U5 - Z3rgLiNg - 1;
+                                                                                                                                              }
+                                                                                                                                              off = Cr;
+                                                                                                                                            }else{
+                                                                                                                                              steal = ok+ of + of - Caribbean;
+                                                                                                                                            }
+                                                                                                                                            off = started- Caribbean - Cry - Z3rgLiNg - face;
+                                                                                                                                          }else{
+                                                                                                                                            old = 3202- 4243 + ofAShower * ok - ofAShower + stop;
+                                                                                                                                          }
+                                                                                                                                          off = Ari* 4 * Caribbean - stop;
+                                                                                                                                        }else{
+                                                                                                                                          Ari = Cry- a * Z3rgLiNg * 10 - 3201 * Caribbean * Caribbean + of - oN * oN - on;
+                                                                                                                                        }
+                                                                                                                                        old = 4243- Z3rgLiNg * oN;
+                                                                                                                                      }else{
+                                                                                                                                        Z3rgLiNg = of- A1aTr3oN * steal + stay - 3201 - Z3rgLiNg - face + off - face;
+                                                                                                                                      }
+                                                                                                                                      stop = fURry* a1Ar4K + started + Caribbean + 3 - old * ofAShower + 4 + fURry * off;
+                                                                                                                                    }else{
+                                                                                                                                      fURry = 3201- Z3rgLiNg + stop;
+                                                                                                                                    }
+                                                                                                                                    Ari = C4ed3U;
+                                                                                                                                  }else{
+                                                                                                                                    A1aTr3oN = 3* step - 1 - 3;
+                                                                                                                                  }
+                                                                                                                                  oN = 100* stop - 3 - Ari * on + old + 3202 - A1aTr3oN - stay * ofAShower;
+                                                                                                                                }else{
+                                                                                                                                  ofAShower = steal+ Caribbean * 4243 * on * steal;
+                                                                                                                                }
+                                                                                                                                face = of* 1 * Ari * step - C4ed3U5 + Ari + C4ed3U5 + 2;
+                                                                                                                              }else{
+                                                                                                                                oN = 1- old - face * Z3rgLiNg * of + stay * 4 + 100 * on * Cry;
+                                                                                                                              }
+                                                                                                                              C4ed3U5 = 2* Azi;
+                                                                                                                            }else{
+                                                                                                                              ofAShower = Cry+ stop - Cry + step - Azi + 1 + Caribbean + on;
+                                                                                                                            }
+                                                                                                                            ok = Caribbean+ on - Z3rgLiNg * 1 + ok + A1aTr3oN * 4 * C4ed3U5 * of - 3202;
+                                                                                                                          }else{
+                                                                                                                            A1aTr3oN = off+ of + on * a1Ar4K * 1 + old;
+                                                                                                                          }
+                                                                                                                          A1aTr3oN = on* ofAShower * of + step * C4ed3U5 + ok - Caribbean - a;
+                                                                                                                        }else{
+                                                                                                                          stop = a+ 10 - face - fURry - 3202 + 1 + 3202 * step * steal + steal - Azi;
+                                                                                                                        }
+                                                                                                                        C4ed3U5 = started+ stay * 3 + 2 + 4243 + 3201 + Z3rgLiNg;
+                                                                                                                      }else{
+                                                                                                                        of = fURry+ Z3rgLiNg - 2 - C4ed3U5 * Cry - oN - Azi + stay + 3;
+                                                                                                                      }
+                                                                                                                      ofAShower = on- fURry * stop * stop - stop - 100 * 2 - Z3rgLiNg * 3201 - steal * A1aTr3oN;
+                                                                                                                    }else{
+                                                                                                                      a1Ar4K = 10+ 1 - oN * of * steal + ofAShower - 1 + started;
+                                                                                                                    }
+                                                                                                                    started = 10* Azi - 3202 - stop + 3 + 2 - oN - on;
+                                                                                                                  }else{
+                                                                                                                    Z3rgLiNg = a+ ok + 2 * face + Cry - a * on - Azi * a1Ar4K - stop;
+                                                                                                                  }
+                                                                                                                  on = 4* started - Z3rgLiNg - on * on;
+                                                                                                                }else{
+                                                                                                                  oN = 320;
+                                                                                                                }
+                                                                                                                C4ed3U5 = Caribbean+ 3201 - old + Z3rgLiNg + 3201 + stop - step - Z3rgLiNg;
+                                                                                                              }else{
+                                                                                                                a = 2- A1aTr3oN - old - Ari - Azi;
+                                                                                                              }
+                                                                                                              a1Ar4K = 3202+ Azi + 3 * steal - 3202 + steal - ofAShower;
+                                                                                                            }else{
+                                                                                                              Z3rgLiNg = 4243- 1 * steal + A1aTr3oN * 3 - 100 * 1 - A1aTr3oN;
+                                                                                                            }
+                                                                                                            Ari = ok- started - off * Caribbean - Ari + stay + 3;
+                                                                                                          }else{
+                                                                                                            step = 2- step + C4ed3U5 + ok + face - C4ed3U5 * stay + started + 3 - A1aTr3oN * Z3rgLiNg;
+                                                                                                          }
+                                                                                                          old = face+ steal + Azi + 4243;
+                                                                                                        }else{
+                                                                                                          stop = oN* 3201 - ok - old - steal - C4ed3U5 * off;
+                                                                                                        }
+                                                                                                        stay = 2* Azi + A1aTr3oN * Cry * on * 4 * fURry * 4243 - stop - 1 + ofAShower;
+                                                                                                      }else{
+                                                                                                        steal = old- 10 - 3202 + 3202 * 2 * started - off;
+                                                                                                      }
+                                                                                                      fURry = Cr;
+                                                                                                    }else{
+                                                                                                      old = of+ 3201 - ok * on + off - Cry;
+                                                                                                    }
+                                                                                                    stop = Z3rgLiNg* on * stay * on;
+                                                                                                  }else{
+                                                                                                    old = Caribbean* Cry - of * A1aTr3oN + 3201 * oN * 3202 - Azi;
+                                                                                                  }
+                                                                                                  Z3rgLiNg = steal+ Cry * A1aTr3oN - old - step - 100 + off - 1 + off * 10 * Azi;
+                                                                                                }else{
+                                                                                                  Azi = Ari- step + Azi - oN;
+                                                                                                }
+                                                                                                off = 2- stay + Z3rgLiNg * old - oN - a1Ar4K * a + stop * 4243 + Ari - a;
+                                                                                              }else{
+                                                                                                face = 100- ok;
+                                                                                              }
+                                                                                              ok = ok- 3202 - 3 - 3201 + 2 + ofAShower - old;
+                                                                                            }else{
+                                                                                              oN = face- of * Azi + a * Ari + fURry - C4ed3U5 * off - a * 10;
+                                                                                            }
+                                                                                            Caribbean = 3- 3 + 2 * of + Azi * oN + stay - 2 - started + old - 1;
+                                                                                          }else{
+                                                                                            stay = stop* A1aTr3oN - Z3rgLiNg * old - Azi * Z3rgLiNg - A1aTr3oN;
+                                                                                          }
+                                                                                          ok = o;
+                                                                                        }else{
+                                                                                          of = 3201+ a1Ar4K * face * face * ofAShower + face - 100 - Caribbean;
+                                                                                        }
+                                                                                        steal = steal* face * 4243 + oN * old + steal;
+                                                                                      }else{
+                                                                                        steal = stay- ofAShower - of * Caribbean - of - ofAShower - on + Azi;
+                                                                                      }
+                                                                                      step = ofAShower* Cry - Azi;
+                                                                                    }else{
+                                                                                      step = oN- stay - fURry - a * stay;
+                                                                                    }
+                                                                                    stay = stop* ok + step - Caribbean - ofAShower * 3202 * fURry + 3;
+                                                                                  }else{
+                                                                                    on = fURry+ Caribbean * stay + oN * 3 - started + stay;
+                                                                                  }
+                                                                                  on = 3201+ A1aTr3oN + ofAShower + 4243 + ofAShower + 2;
+                                                                                }else{
+                                                                                  ofAShower = a1Ar4K+ of * on;
+                                                                                }
+                                                                                C4ed3U5 = Ari* 3201 - Cry - fURry;
+                                                                              }else{
+                                                                                Ari = o;
+                                                                              }
+                                                                              Z3rgLiNg = starte;
+                                                                            }else{
+                                                                              Caribbean = 100* Ari * Z3rgLiNg - 1 + Z3rgLiNg - on - old * a - face * oN - stop;
+                                                                            }
+                                                                            old = fURry- step - started - of + a1Ar4K + of * started + ofAShower * old - stay;
+                                                                          }else{
+                                                                            Z3rgLiNg = face- oN + 1 + on + a + fURry - stay - 3201 - 100;
+                                                                          }
+                                                                          step = old* started * Caribbean * fURry + a1Ar4K - ofAShower;
+                                                                        }else{
+                                                                          fURry = 2+ 4 - old * oN;
+                                                                        }
+                                                                        Z3rgLiNg = A1aTr3oN* Azi + 4243 + a;
+                                                                      }else{
+                                                                        of = of* 4243 - 3202 * 10 + stop + Azi;
+                                                                      }
+                                                                      a = 100+ steal * 4243;
+                                                                    }else{
+                                                                      steal = 3202- 100 * 4243 * 10 - oN * a + stay + ok - Caribbean + ofAShower;
+                                                                    }
+                                                                    A1aTr3oN = off* stop - 100 - step - 1 - Ari - Azi - 3;
+                                                                  }else{
+                                                                    C4ed3U5 = steal* steal * ofAShower;
+                                                                  }
+                                                                  a = 3+ fURry + oN * 4243 + a - Ari + stay;
+                                                                }else{
+                                                                  oN = off+ stay + fURry - C4ed3U5 * 1;
+                                                                }
+                                                                fURry = Z3rgLiNg- started * started - stay + Z3rgLiNg - Z3rgLiNg * 2 - 10 - 4243 * Z3rgLiNg + face;
+                                                              }else{
+                                                                Caribbean = 2+ C4ed3U5;
+                                                              }
+                                                              Ari = Ari- on * C4ed3U5 + face - stay;
+                                                            }else{
+                                                              off = Z3rgLiNg- off * 3;
+                                                            }
+                                                            Caribbean = fURry+ 2 * on + oN * 4243 * steal;
+                                                          }else{
+                                                            of = 4- C4ed3U5 * C4ed3U5 - on - on * 3201 - step * 4 + ofAShower + face;
+                                                          }
+                                                          C4ed3U5 = of+ old - A1aTr3oN + stay - stay - Ari - Z3rgLiNg - 2 * 4243;
+                                                        }else{
+                                                          stop = 320;
+                                                        }
+                                                        ok = stay+ ok + step + steal;
+                                                      }else{
+                                                        a = Azi- Cry * C4ed3U5 + C4ed3U5 * old + Caribbean + fURry * a1Ar4K * Cry - face;
+                                                      }
+                                                      Z3rgLiNg = step+ 10 * 3202 - stop + 4243;
+                                                    }else{
+                                                      Caribbean = Ari- Azi + step * Cry * 4;
+                                                    }
+                                                    stay = 1;
+                                                  }else{
+                                                    C4ed3U5 = ofAShower+ C4ed3U5 - 3 * Caribbean * stay * ofAShower * 4243 + 100 - a;
+                                                  }
+                                                  Z3rgLiNg = step- fURry * 2 * off - a - 4243;
+                                                }else{
+                                                  oN = Caribbean+ 4243 * Cry * 4 * stay;
+                                                }
+                                                a = stay- stay - steal - a + a1Ar4K * of - on;
+                                              }else{
+                                                started = 2* on + oN * 2 * started * a1Ar4K + of;
+                                              }
+                                              C4ed3U5 = C4ed3U5+ a + step * ok - 100 - 1 + step - on * started + stop + Z3rgLiNg;
+                                            }else{
+                                              Cry = fURry- ofAShower;
+                                            }
+                                            A1aTr3oN = C4ed3U;
+                                          }else{
+                                            face = 3- Caribbean * A1aTr3oN * Ari - stay;
+                                          }
+                                          Ari = 3202- on - 4243 * 3202 - 1 + step + A1aTr3oN + started;
+                                        }else{
+                                          A1aTr3oN = 1+ face * A1aTr3oN - steal - Z3rgLiNg * 3 + Cry * a;
+                                        }
+                                        steal = A1aTr3oN* stop - step * old * started - fURry * A1aTr3oN + steal;
+                                      }else{
+                                        Ari = ofAShower* oN - oN + stay + 2 * a * ok - face + fURry;
+                                      }
+                                      Z3rgLiNg = stay- stay + 3202 - 3 - 3201 - a1Ar4K - 10 - 1 + Caribbean + a1Ar4K * step;
+                                    }else{
+                                      face = Azi* 3 + old * oN * oN - Azi * a1Ar4K * Ari * steal;
+                                    }
+                                    ok = 3+ A1aTr3oN - face * fURry - Z3rgLiNg + old - old - face;
+                                  }else{
+                                    started = stay+ 1 * 100 + step - on + 3202 - Ari * stay + face - of * Caribbean;
+                                  }
+                                  ok = ofAShower- Z3rgLiNg + fURry - Ari * C4ed3U5;
+                                }else{
+                                  started = 4243+ Azi + fURry - of - Z3rgLiNg * 4 * a1Ar4K + old + 3202 + old;
+                                }
+                                step = oN* a1Ar4K * Z3rgLiNg;
+                              }else{
+                                Cry = o;
+                              }
+                              Z3rgLiNg = 2* on * stop + face + step + of * on + face * oN - ofAShower * face;
+                            }else{
+                              of = of- of * stop;
+                            }
+                            ofAShower = 100+ face + on;
+                          }else{
+                            a = Ari* old - a1Ar4K + on + old + fURry * oN * ok + fURry + oN + a;
+                          }
+                          Cry = stop* A1aTr3oN + ok + ofAShower;
+                        }else{
+                          of = ofAShower- on * a * 3202 + step * 100 + Ari * ofAShower - off - C4ed3U5;
+                        }
+                        of = old+ fURry;
+                      }else{
+                        step = Ari* 10;
+                      }
+                      fURry = Caribbean+ Z3rgLiNg - fURry - oN - Caribbean + on + 3201 + a * 1;
+                    }else{
+                      Caribbean = 4243* started - ok - ok + Caribbean * a * 4;
+                    }
+                    step = 4243+ step - fURry + stop - face * fURry;
+                  }else{
+                    ofAShower = old+ on - 10 - fURry * stop * face - 3202;
+                  }
+                  stay = face+ 10 + C4ed3U5 + 10;
+                }else{
+                  Cry = started+ of - on + 4243;
+                }
+                ofAShower = Ari+ on - ok - a + 3201 + started + a;
+              }else{
+                ok = Caribbean- of + fURry + off + on + 3201 * 3 + oN - 1;
+              }
+              ofAShower = step* 3201 - 3202 - 100 + oN - 10 - on;
+            }else{
+              Z3rgLiNg = fac;
+            }
+            Z3rgLiNg = 2* steal;
+          }else{
+            fURry = a1Ar4K- on - ok - 4 + 4 * face;
+          }
+          Z3rgLiNg = step- started + a1Ar4K - ofAShower * on + a * face;
+        }else{
+          ofAShower = fURry+ Caribbean - 3201;
+        }
+        off = Azi* 4243 - started - 10 + ok + a * a - step;
+      }else{
+        steal = steal+ 3201 + C4ed3U5 + A1aTr3oN - Z3rgLiNg * Caribbean * a1Ar4K - 10;
+      }
+      Ari = face- 3201 + 4;
+    }else{
+      Ari = 100+ stop - stop;
+    }
+    A1aTr3oN = Cry* steal * ofAShower * A1aTr3oN - Azi * 3201 - 3202;
+  }else{
+    of = ofAShower* 4 * a1Ar4K * Cry + of - Cry + of;
+  }
   test20 = stress19;
   buffer17 = generated-18;
-  buffer16 = generated-17;
-  buffer15 = generated-16;
-  buffer14 = generated-15;
   buffer13 = generated-14;
   buffer12 = generated-13;
   buffer11 = generated-12;
@@ -671,16 +1029,28 @@ procedure STR355TEST{
   buffer8 = generated-9;
   buffer7 = generated-8;
   buffer6 = generated-7;
-  buffer5 = generated-6;
-  buffer4 = generated-5;
-  buffer3 = generated-4;
-  buffer4 = generated3;
   buffer5 = generated4;
   buffer6 = generated5;
-  buffer7 = generated6;
-  buffer8 = generated7;
-  buffer13 = generated12;
-  buffer14 = generated13;
+  while i0{
+    while i1{
+      while i2{
+        while i3{
+          while i4{
+            while i5{
+              while i6{
+                while i7{
+                  while i8{
+                    while i9{
+                      old = sto;}
+                    A1aTr3oN = 4+ 4 * stay * 100 - Azi;}
+                  ok = face+ old + Cry - Z3rgLiNg + face - 3201 - Azi;}
+                Ari = a1Ar4K* 2;}
+              stay = on- 4243 * started + on + 10 + a1Ar4K + fURry * ofAShower + old - steal;}
+            step = steal* on + 4 + C4ed3U5 + 3202 * Ari;}
+          stay = 3201* 4 + a1Ar4K + 1;}
+        off = fURry+ 1 + 3202 + 3201 - Z3rgLiNg - ofAShower + C4ed3U5 - Azi - face - Ari - stop;}
+      Cry = Cry* 1 * face - Azi + 3 * Azi * 3201 * Z3rgLiNg * a1Ar4K - 1 - 3201;}
+    off = 4243+ 4243 + Cry - 4243 + off * C4ed3U5 - 3202;}
   buffer15 = generated14;
   buffer16 = generated15;
 }
@@ -688,89 +1058,149 @@ procedure STR355TEST{
 procedure ThankYouPython{
   thankYou59 = Python109;
   thankYou58 = Python110;
-  thankYou57 = Python111;
-  thankYou56 = Python112;
-  thankYou55 = Python113;
-  thankYou54 = Python114;
-  thankYou53 = Python115;
-  thankYou52 = Python116;
-  thankYou51 = Python117;
-  thankYou50 = Python118;
-  thankYou49 = Python119;
-  thankYou48 = Python120;
-  thankYou47 = Python121;
-  thankYou46 = Python122;
-  thankYou45 = Python123;
-  thankYou44 = Python124;
-  thankYou43 = Python125;
-  thankYou42 = Python126;
-  thankYou41 = Python127;
-  thankYou40 = Python128;
-  thankYou39 = Python129;
-  thankYou38 = Python130;
-  thankYou37 = Python131;
-  thankYou36 = Python132;
-  thankYou35 = Python133;
-  thankYou34 = Python134;
-  thankYou33 = Python135;
-  thankYou32 = Python136;
-  thankYou31 = Python137;
-  thankYou30 = Python138;
-  thankYou29 = Python139;
-  thankYou28 = Python140;
-  thankYou27 = Python141;
-  thankYou26 = Python142;
-  thankYou25 = Python143;
-  thankYou24 = Python144;
-  thankYou23 = Python145;
-  thankYou22 = Python146;
-  thankYou21 = Python147;
-  thankYou20 = Python148;
-  thankYou19 = Python149;
-  thankYou18 = Python150;
-  thankYou17 = Python151;
-  thankYou16 = Python152;
-  thankYou15 = Python153;
-  thankYou14 = Python154;
-  thankYou13 = Python155;
-  thankYou12 = Python156;
-  thankYou11 = Python157;
-  thankYou10 = Python158;
-  thankYou9 = Python159;
-  thankYou8 = Python160;
-  thankYou7 = Python161;
+   if i0{
+    if i1{
+      if i2{
+        if i3{
+          if i4{
+            if i5{
+              if i6{
+                if i7{
+                  if i8{
+                    if i9{
+                      thankYou26 = Python142;}
+                    else{
+                      thankYou25 = Python143;}
+                    thankYou24 = Python144;}
+                  else{
+                    thankYou23 = Python145;}
+                  thankYou22 = Python146;}
+                else{
+                  thankYou21 = Python147;}
+                thankYou19 = Python149;}
+              else{
+                thankYou20 = Python148;}
+              thankYou18 = Python150;}
+            else{
+              thankYou17 = Python151;}
+            thankYou16 = Python152;}
+          else{
+            thankYou15 = Python153;}
+        thankYou14 = Python154;}
+        else{
+          thankYou13 = Python155;}
+        thankYou12 = Python156;}
+      else{
+        thankYou11 = Python157;}
+      thankYou10 = Python158;}
+    else{
+      thankYou9 = Python159;}
+    thankYou8 = Python160;}
+  else{
+    thankYou7 = Python161;}
   thankYou6 = Python162;
   thankYou5 = Python163;
-  thankYou4 = Python164;
-  thankYou3 = Python165;
-  thankYou2 = Python166;
-  thankYou1 = Python167;
-  thankYou0 = Python168;
-  thankYou1 = Python169;
-  thankYou2 = Python170;
-  thankYou3 = Python171;
-  thankYou4 = Python172;
-  thankYou5 = Python173;
-  thankYou6 = Python174;
-  thankYou7 = Python175;
-  thankYou8 = Python176;
-  thankYou9 = Python177;
-  thankYou10 = Python178;
-  thankYou11 = Python179;
-  thankYou12 = Python180;
-  thankYou13 = Python181;
-  thankYou14 = Python182;
-  thankYou15 = Python183;
-  thankYou16 = Python184;
-  thankYou17 = Python185;
-  thankYou18 = Python186;
-  thankYou19 = Python187;
-  thankYou20 = Python188;
-  thankYou21 = Python189;
-  thankYou22 = Python190;
-  thankYou23 = Python191;
-  thankYou24 = Python192;
-  thankYou25 = Python193;
+  while i0{
+    while i1{
+      while i2{
+        while i3{
+          while i4{
+            while i5{
+              while i6{
+                while i7{
+                  while i8{
+                    while i9{
+                      while i10{
+                        while i11{
+                          while i12{
+                            while i13{
+                              while i14{
+                                while i15{
+                                  while i16{
+                                    while i17{
+                                      while i18{
+                                        while i19{
+                                          while i20{
+                                            while i21{
+                                              while i22{
+                                                while i23{
+                                                  while i24{
+                                                    while i25{
+                                                      while i26{
+                                                        while i27{
+                                                          while i28{
+                                                            while i29{
+                                                              while i30{
+                                                                while i31{
+                                                                  while i32{
+                                                                    while i33{
+                                                                      while i34{
+                                                                        while i35{
+                                                                          while i36{
+                                                                            while i37{
+                                                                              while i38{
+                                                                                while i39{
+                                                                                  while i40{
+                                                                                    while i41{
+                                                                                      while i42{
+                                                                                        while i43{
+                                                                                          while i44{
+                                                                                            while i45{
+                                                                                              while i46{
+                                                                                                while i47{
+                                                                                                  while i48{
+                                                                                                    while i49{
+                                                                                                      while i50{
+                                                                                                        while i51{
+                                                                                                          while i52{
+                                                                                                            while i53{
+                                                                                                              while i54{
+                                                                                                                while i55{
+                                                                                                                  while i56{
+                                                                                                                    while i57{
+                                                                                                                      while i58{
+                                                                                                                        while i59{
+                                                                                                                          while i60{
+                                                                                                                            while i61{
+                                                                                                                              while i62{
+                                                                                                                                while i63{
+                                                                                                                                  while i64{
+                                                                                                                                    while i65{
+                                                                                                                                      while i66{
+                                                                                                                                        while i67{
+                                                                                                                                          while i68{
+                                                                                                                                            while i69{
+                                                                                                                                              while i70{
+                                                                                                                                                while i71{
+                                                                                                                                                  while i72{
+                                                                                                                                                    while i73{
+                                                                                                                                                      while i74{
+                                                                                                                                                        while i75{
+                                                                                                                                                          while i76{
+                                                                                                                                                            while i77{
+                                                                                                                                                              while i78{
+                                                                                                                                                                while i79{
+                                                                                                                                                                  while i80{
+                                                                                                                                                                    while i81{
+                                                                                                                                                                      while i82{
+                                                                                                                                                                        while i83{
+                                                                                                                                                                          while i84{
+                                                                                                                                                                            while i85{
+                                                                                                                                                                              while i86{
+                                                                                                                                                                                while i87{
+                                                                                                                                                                                  while i88{
+                                                                                                                                                                                    while i89{
+                                                                                                                                                                                      while i90{
+                                                                                                                                                                                        while i91{
+                                                                                                                                                                                          while i92{
+                                                                                                                                                                                            while i93{
+                                                                                                                                                                                              while i94{
+                                                                                                                                                                                                while i95{
+                                                                                                                                                                                                  while i96{
+                                                                                                                                                                                                    while i97{
+                                                                                                                                                                                                      while i98{
+                                                                                                                                                                                                        while i99{
+                                                                                                                                                                                                          oN = steal* fURry + off * ok - ofAShower * ofAShower + a + ofAShower * on;}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
   thankYou26 = Python194;
   thankYou27 = Python195;
 }
@@ -832,23 +1262,306 @@ procedure MasterHacker{
     master85 = Hacka346;
     master86 = Hacka347;}
   master87 = Hacka348;
-  master88 = Hacka349;
-  master89 = Hacka350;
-  master90 = Hacka351;
-  master91 = Hacka352;
-  master112 = Hacka373;
-  master113 = Hacka374;
+    if i0 then{
+    if i1 then{
+      if i2 then{
+        if i3 then{
+          if i4 then{
+            if i5 then{
+              if i6 then{
+                if i7 then{
+                  if i8 then{
+                    if i9 then{
+                      if i10 then{
+                        if i11 then{
+                          if i12 then{
+                            if i13 then{
+                              if i14 then{
+                                if i15 then{
+                                  if i16 then{
+                                    if i17 then{
+                                      if i18 then{
+                                        if i19 then{
+                                          if i20 then{
+                                            if i21 then{
+                                              if i22 then{
+                                                if i23 then{
+                                                  if i24 then{
+                                                    if i25 then{
+                                                      if i26 then{
+                                                        if i27 then{
+                                                          if i28 then{
+                                                            if i29 then{
+                                                              if i30 then{
+                                                                if i31 then{
+                                                                  if i32 then{
+                                                                    if i33 then{
+                                                                      if i34 then{
+                                                                        if i35 then{
+                                                                          if i36 then{
+                                                                            if i37 then{
+                                                                              if i38 then{
+                                                                                if i39 then{
+                                                                                  if i40 then{
+                                                                                    if i41 then{
+                                                                                      if i42 then{
+                                                                                        if i43 then{
+                                                                                          if i44 then{
+                                                                                            if i45 then{
+                                                                                              if i46 then{
+                                                                                                if i47 then{
+                                                                                                  if i48 then{
+                                                                                                    if i49 then{
+                                                                                                      Caribbean = Z3rgLiNg* off + stay + stop + 4;}
+                                                                                                    else{
+                                                                                                      ok = fURry* 4243 * 3201 - 100 + oN - 4243;}
+                                                                                                    Azi = 2+ 4 + Ari;}
+                                                                                                  else{
+                                                                                                    fURry = 4243- Azi - Azi - stop * Caribbean * stay + 4243;}
+                                                                                                  Cry = Ari* 100 + oN + a + 3201 * a1Ar4K * A1aTr3oN * step;}
+                                                                                                else{
+                                                                                                  step = 1* stay + 4243 - 2 + Cry * A1aTr3oN * off;}
+                                                                                                face = Ari+ stay * ofAShower * old - Azi - of + 100 + ofAShower * Ari + 3202 - Cry;}
+                                                                                              else{
+                                                                                                Azi = 3+ C4ed3U5 - ok - face * 10;}
+                                                                                              of = ofAShower* Ari - Cry;}
+                                                                                            else{
+                                                                                              ok = oN* 1;}
+                                                                                            old = 10+ 10 + of - 4 - oN - on + a1Ar4K + ok * Caribbean - a1Ar4K;}
+                                                                                          else{
+                                                                                            Z3rgLiNg = old* a + Caribbean + 3 * face + 4 * 100;}
+                                                                                          stop = step* Ari - Azi - on * 3201 + Caribbean - C4ed3U5 * 3201 + Azi;}
+                                                                                        else{
+                                                                                          of = ;}
+                                                                                        started = of+ Caribbean + 4243 + a1Ar4K + Azi + a * A1aTr3oN;}
+                                                                                      else{
+                                                                                        old = Azi* 3201 + 100 - fURry * stay * 4 + A1aTr3oN + stay - Cry;}
+                                                                                      steal = Ari+ 1 - old * 2 - started - Azi + Caribbean + on * step + 4243;}
+                                                                                    else{
+                                                                                      a1Ar4K = C4ed3U5* 2 + 100 * 4 - step * 4243 * Cry - a1Ar4K;}
+                                                                                    stay = stea;}
+                                                                                  else{
+                                                                                    stay = off* Azi * off * stay - steal;}
+                                                                                  fURry = 3201+ of * C4ed3U5 - 4243 + Z3rgLiNg * 100 + Ari - stop - step;}
+                                                                                else{
+                                                                                  of = on* of - of * on * 3 - Z3rgLiNg - old - 10 - 3201 + steal * 4;}
+                                                                                a = off- off - Z3rgLiNg * of * Z3rgLiNg;}
+                                                                              else{
+                                                                                a = 10* fURry - ok * off * stay * A1aTr3oN * Azi - 2;}
+                                                                              face = 4243- off - 1 - C4ed3U5 - Ari + steal * oN * 10;}
+                                                                            else{
+                                                                              on = off* stop + 4;}
+                                                                            old = Azi* ofAShower - ofAShower + 2 * ofAShower + old * steal * A1aTr3oN - stay;}
+                                                                          else{
+                                                                            A1aTr3oN = Az;}
+                                                                          fURry = old* Azi;}
+                                                                        else{
+                                                                          oN = fURr;}
+                                                                        A1aTr3oN = ok+ 3;}
+                                                                      else{
+                                                                        Ari = 4+ ofAShower - oN - a1Ar4K + Azi * Ari;}
+                                                                      A1aTr3oN = C4ed3U5* ofAShower + ofAShower;}
+                                                                    else{
+                                                                      ok = Cr;}
+                                                                    ofAShower = Ari* 2 - of * old + off - Azi * Caribbean * step * oN;}
+                                                                  else{
+                                                                    Azi = fURry+ Z3rgLiNg + 3;}
+                                                                  of = off- 4243 + A1aTr3oN + oN * 2 * of - 10 + 2 - A1aTr3oN + a + Caribbean;}
+                                                                else{
+                                                                  fURry = 2- 10 * 3202 - Azi + 3201 * Z3rgLiNg * C4ed3U5 - stay - stop;}
+                                                                of = step- ok - a1Ar4K - 4 * 3202 + old * 10 - stop;}
+                                                              else{
+                                                                stay = off* stop * Azi * 100 - stay + off * fURry - 3201 * 3202 * stop * 3201;}
+                                                              Caribbean = a1Ar4K- Z3rgLiNg - ofAShower * 3201 - A1aTr3oN + Cry + A1aTr3oN + 100 + of + steal;}
+                                                            else{
+                                                              a1Ar4K = old+ 1 + a - a1Ar4K + steal - a - 4 + Azi;}
+                                                            a1Ar4K = started* off * 4 + A1aTr3oN + fURry - 1 + 1 * step + 4;}
+                                                          else{
+                                                            steal = 3202+ step * steal - 1 + Ari + fURry + Cry;}
+                                                          ok = on+ a1Ar4K;}
+                                                        else{
+                                                          stay = ofAShower+ 3 + 4 * Cry + 3202 * stay * Cry + 10 - ofAShower;}
+                                                        Z3rgLiNg = face+ 3 * 3201 * 1 * step - step - 100 * of;}
+                                                      else{
+                                                        Cry = fURry* 1 * 1;}
+                                                      ofAShower = Z3rgLiNg- stop * fURry - 3 + fURry + on * off - of * 4243 + 10 + ofAShower;}
+                                                    else{
+                                                      a1Ar4K = on+ ok - Azi * 3201 * 4;}
+                                                    Ari = step+ Azi * on * on + 4 - old + of + fURry + Caribbean * stay;}
+                                                  else{
+                                                    of = Azi- Z3rgLiNg + step * step - a1Ar4K * Azi + Z3rgLiNg - stop + 3 * of;}
+                                                  steal = of- 2 * started * 1 * step + 4243 + oN - 2 * steal - on - a;}
+                                                else{
+                                                  steal = on- 100 - off + a1Ar4K - C4ed3U5;}
+                                                ok = steal- 3201 + off - started + 4 + off + 10 - a + Azi;}
+                                              else{
+                                                steal = old* a1Ar4K - 4243 * Ari + Z3rgLiNg - A1aTr3oN - Caribbean * a + Ari;}
+                                              fURry = fURry* steal * 3 - 2 * 100 * a * 3201 * Caribbean * oN + 10;}
+                                            else{
+                                              ok = started- stay * Z3rgLiNg * off - on * A1aTr3oN - 2;}
+                                            face = a* Ari;}
+                                          else{
+                                            old = ofAShower* stay + 100;}
+                                          face = on+ 4 * step + stay + Ari - oN + 3;}
+                                        else{
+                                          of = stop+ Ari;}
+                                        ok = 4+ 3201 - stay * Caribbean * oN + C4ed3U5 - Ari * A1aTr3oN - step - 3;}
+                                      else{
+                                        oN = 3201- 3 - Caribbean * 1 + 3 - off + step * Z3rgLiNg + old - Caribbean;}
+                                      face = ofAShower+ 4 + started * a1Ar4K - 10 + stop;}
+                                    else{
+                                      a = 3202+ a1Ar4K + A1aTr3oN * Z3rgLiNg;}
+                                    steal = 2- Ari;}
+                                  else{
+                                    Caribbean = steal+ a1Ar4K + Azi - Cry - 4 * Caribbean - stay * ok * 3201;}
+                                  Cry = a+ fURry - Z3rgLiNg;}
+                                else{
+                                  stay = stay+ steal - on * face + Z3rgLiNg * face * a1Ar4K - off + 1 * face - 4;}
+                                Cry = starte;}
+                              else{
+                                Cry = 3* stay + old - 3 * off - on - Azi;}
+                              Ari = Caribbean* 3202 + 100 - Caribbean;}
+                            else{
+                              Z3rgLiNg = steal* stop + 1 + Z3rgLiNg + 3202 - a1Ar4K;}
+                            Z3rgLiNg = face- of + oN + steal + 3202 + A1aTr3oN + 100 - ok - Caribbean;}
+                          else{
+                            Cry = steal- Azi * face - 1 + Cry - stay + 3 - oN + 1 + Ari - stop;}
+                          started = of- steal * 3201 - step + fURry * Cry - a - fURry;}
+                        else{
+                          Azi = ok* stay * ofAShower - Azi * fURry + 3201 - Caribbean + on;}
+                        on = face+ stop - face - a1Ar4K - started * ofAShower + 100;}
+                      else{
+                        steal = started+ step * 4243 - 100 - ok + 4243;}
+                      fURry = Ari+ stop;}
+                    else{
+                      step = old+ a - step - Caribbean - 4243 - 100 * A1aTr3oN - 4 - face - stop;}
+                    off = fURry+ 1 * old * of + C4ed3U5 + of + steal;}
+                  else{
+                    fURry = ok* ok + stop * 4243 - 10 + a - step + 10;}
+                  face = stay* 100 + ok * Cry * ok;}
+                else{
+                  stay = a- steal + 1 - started * oN + Caribbean + 4243 - 3201 + a1Ar4K - face + on;}
+                stay = Z3rgLiNg- off + on - 4 + Cry - 3201 * off - 1 * oN;}
+              else{
+                oN = on* C4ed3U5 * A1aTr3oN + on;}
+              C4ed3U5 = 1- face - 100 + stay - 3 - 3201 - oN;}
+            else{
+              step = Caribbean* a * stop;}
+            Caribbean = face- a1Ar4K + 100 - oN * step;}
+          else{
+            step = off- Ari * face * Z3rgLiNg + on;}
+          C4ed3U5 = of* Z3rgLiNg * a1Ar4K * 100 * Azi + C4ed3U5 + face - 3 + ok;}
+        else{
+          a1Ar4K = ofAShower+ Azi - face - 4 * ok - Z3rgLiNg - oN * a * a1Ar4K * stay;}
+        Ari = 2* 3 - Azi - A1aTr3oN - 1 - 4;}
+      else{
+        step = 3+ 3 + off + 2 * 2 * stay * 100 * stop + face * 3201 - ofAShower;}
+      stay = Azi* Azi * of * Z3rgLiNg - step * a1Ar4K;}
+    else{
+      Cry = C4ed3U5* off - 1 * C4ed3U5 + a1Ar4K - 3202 * 2;}
+    stay = a1Ar4;}
+  else{
+    C4ed3U5 = Cry- a1Ar4K + on + stop;}
   master114 = Hacka375;
-  master115 = Hacka376;
-  master148 = Hacka409;
-  master149 = Hacka410;
-  master150 = Hacka411;
-  master151 = Hacka412;;
-  master155 = Hacka416;
-  master156 = Hacka417;
-  master157 = Hacka418;
-  master164 = Hacka425;
-  master257 = Hacka518;
-  master258 = Hacka519;
+  while i0{
+    while i1{
+      while i2{
+        while i3{
+          while i4{
+            while i5{
+              while i6{
+                while i7{
+                  while i8{
+                    while i9{
+                      while i10{
+                        while i11{
+                          while i12{
+                            while i13{
+                              while i14{
+                                while i15{
+                                  while i16{
+                                    while i17{
+                                      while i18{
+                                        while i19{
+                                          while i20{
+                                            while i21{
+                                              while i22{
+                                                while i23{
+                                                  while i24{
+                                                    while i25{
+                                                      while i26{
+                                                        while i27{
+                                                          while i28{
+                                                            while i29{
+                                                              while i30{
+                                                                while i31{
+                                                                  while i32{
+                                                                    while i33{
+                                                                      while i34{
+                                                                        while i35{
+                                                                          while i36{
+                                                                            while i37{
+                                                                              while i38{
+                                                                                while i39{
+                                                                                  while i40{
+                                                                                    while i41{
+                                                                                      while i42{
+                                                                                        while i43{
+                                                                                          while i44{
+                                                                                            while i45{
+                                                                                              while i46{
+                                                                                                while i47{
+                                                                                                  while i48{
+                                                                                                    while i49{
+                                                                                                      Caribbean = 100* 3 + 10 * Ari * 2 - A1aTr3oN * of + steal - 1 * ofAShower;}
+                                                                                                    Ari = ;}
+                                                                                                  A1aTr3oN = ofAShower+ a1Ar4K * 2;}
+                                                                                                fURry = 3202* Ari - steal;}
+                                                                                              Cry = started- off * 100 * 3201 - a1Ar4K + a1Ar4K * Z3rgLiNg;}
+                                                                                            Caribbean = old* ofAShower + 2 + 3 - Ari * Z3rgLiNg - a1Ar4K;}
+                                                                                          stay = steal- Azi - ok - step + oN * ofAShower - Z3rgLiNg * A1aTr3oN * 2 + 10;}
+                                                                                        oN = 3201- a1Ar4K * a * stop * started - started - step;}
+                                                                                      ofAShower = Az;}
+                                                                                    Azi = face* 10 * A1aTr3oN * stop * oN * ofAShower - a1Ar4K - a1Ar4K + on + 3201 - face;}
+                                                                                  ofAShower = Z3rgLiNg- 2 * of * 1 - step + Z3rgLiNg;}
+                                                                                Z3rgLiNg = 100+ on * Cry * on + steal + 10 - a1Ar4K - Azi + Ari * old;}
+                                                                              on = ofAShower- of;}
+                                                                            started = 2* 4243 * 1 * stay + Ari - Cry - step - ofAShower + 3;}
+                                                                          Cry = 1- step - stay + on * oN * ofAShower - 4243 * Z3rgLiNg;}
+                                                                        a = 3- C4ed3U5;}
+                                                                      face = stop* of - steal * 4243 * Azi + a1Ar4K - 3;}
+                                                                    ofAShower = off- 100 - 10 + Cry * a - a1Ar4K - a + 10;}
+                                                                  ofAShower = stea;}
+                                                                face = stea;}
+                                                              Ari = of- on;}
+                                                            Cry = Caribbean- 3 + A1aTr3oN + 3201 + a1Ar4K * face + on - ofAShower * face;}
+                                                          fURry = on+ 10 - stay - 4243 * oN + started * of + ok * a1Ar4K + 10 * oN;}
+                                                        steal = ok* Ari * Ari;}
+                                                      Z3rgLiNg = Caribbean* fURry + stop;}
+                                                    A1aTr3oN = step+ steal + Ari - 3202;}
+                                                  stay = C4ed3U5+ started;}
+                                                ok = stay+ Z3rgLiNg + fURry * a * ok;}
+                                              started = C4ed3U5* 10 * a + old + 4243 - face;}
+                                            Z3rgLiNg = fURry- 1 + started - 10 * A1aTr3oN - old * Azi + on;}
+                                          off = a1Ar4K+ started - 1;}
+                                        off = off- a1Ar4K + 2 - old + old + stop + step + Z3rgLiNg;}
+                                      a = step+ a - on + fURry - steal * old * Caribbean * ok + Ari * 4243 * 3202;}
+                                    stay = C4ed3U;}
+                                  A1aTr3oN = 4243* 10 + 100 * Caribbean * 4243 - Z3rgLiNg * fURry * face * old * C4ed3U5;}
+                                fURry = face* of - Z3rgLiNg * ok + ok + step - steal;}
+                              step = on+ 2 + ofAShower * oN + 100 * Ari + 1;}
+                            Ari = 10+ 4243 * 100 - oN - ok + of + C4ed3U5;}
+                          steal = fURry- 2 * step + ofAShower * Azi;}
+                        of = 4+ off * 4 + a1Ar4K - steal - steal;}
+                      oN = step* off + oN - on * on + of;}
+                    stay = 2+ 3202 + Z3rgLiNg - stay + on;}
+                  fURry = Azi+ 1 - C4ed3U5 + ok + step + off * fURry * 3201 * C4ed3U5;}
+                Z3rgLiNg = Z3rgLiN;}
+              face = A1aTr3o;}
+            on = a- 3;}
+          stop = steal+ fURry - ofAShower + a1Ar4K + started + C4ed3U5 * 100 * ofAShower + a;}
+        of = 4243- off * started * face * old + Ari - on * A1aTr3oN + ok - C4ed3U5 * 3202;}
+      off = Azi+ Azi * a - A1aTr3oN - on * Ari;}
+    A1aTr3oN = step+ face;}
   master259 = Hacka520;
 }
