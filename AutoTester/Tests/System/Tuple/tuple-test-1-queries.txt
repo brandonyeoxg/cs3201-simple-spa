@@ -340,7 +340,7 @@ A A A A,B B B B,A B B A, B A A B
 5000
 69 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
 procedure p1, p2, p3;
-Select <p1, p1, p2, p3,>
+Select <p1, p1, p2, p3>
 A A A A, A A A B, A A B A, A A B B, B B A A, B B B A, B B A B, B B B B
 5000
 70 - Tuple-4 Common Synonym in Tuple Test (Positional Test)
