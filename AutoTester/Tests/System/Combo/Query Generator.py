@@ -413,4 +413,9 @@ def ranGenAffects(n,idx):
     print(5000)
     return None
 
-ranGenAffects(5,16)
+def MultiRGA(n):
+    for i in range(1,n+1):
+        ranGenAffects(i,15+i)
+    return None
+
+MultiRGA(50)
