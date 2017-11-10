@@ -91,6 +91,7 @@ typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_STMT_
 typedef std::unordered_map<VAR_NAME, VAR_INDEX> MAP_OF_VAR_NAME_TO_VAR_INDEX;
 typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
 typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
+typedef std::vector<INTERMEDIATE_TABLE> LIST_OF_INTERMEDIATE_TABLES;
 typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
 typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
 typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
@@ -132,6 +133,9 @@ typedef std::multimap<PROC_INDEX, VAR_INDEX> MAP_OF_PROC_INDEX_TO_VAR_INDEX;
 
 
 typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
+
+typedef std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> PAIR_OF_SYNONYM_TO_TABLE_POSITION_AND_INTERMEDIATE_TABLE;
+typedef std::unordered_map<SYNONYM_POSITION, SYNONYM_NAME> MAP_OF_TABLE_POSITION_TO_SYNONYM;
 
 /*Called in QueryPreProcessor.h, by aaron*/
 

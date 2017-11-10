@@ -38,32 +38,63 @@ void Relation::toString() {
 Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   if (t_type.compare(FLS) == 0) {
     m_type = queryType::RType::FOLLOWS;
+    setWeights(6);
   } else if (t_type.compare(FLS_) == 0) {
     m_type = queryType::RType::FOLLOWS_;
+    setWeights(7);
   } else if (t_type.compare(PRT) == 0) {
     m_type = queryType::RType::PARENT;
+    setWeights(4);
   } else if (t_type.compare(PRT_) == 0) {
     m_type = queryType::RType::PARENT_;
+    setWeights(5);
   } else if (t_type.compare(USE) == 0) {
     m_type = queryType::RType::USES;
+    setWeights(8);
   } else if (t_type.compare(MDF) == 0) {
     m_type = queryType::RType::MODIFIES;
+    setWeights(3);
   } else if (t_type.compare(CLS) == 0) {
     m_type = queryType::RType::CALLS;
+    setWeights(1);
   } else if (t_type.compare(CLS_) == 0) {
     m_type = queryType::RType::CALLS_;
+    setWeights(2);
   } else if (t_type.compare(NXT) == 0) {
     m_type = queryType::RType::NEXT;
+    setWeights(9);
   } else if (t_type.compare(NXT_) == 0) {
     m_type = queryType::RType::NEXT_;
+    setWeights(10);
   } else if (t_type.compare(AFS) == 0) {
     m_type = queryType::RType::AFFECTS;
+    setWeights(11);
   } else if (t_type.compare(AFS_) == 0) {
     m_type = queryType::RType::AFFECTS_;
+    setWeights(12);
   }
 
   m_g1 = t_g1;
   m_g2 = t_g2;
+
+  if (QueryUtil::isAllUnderscores(t_g1, t_g2)) {
+    addWeights(1);
+  } else if ((StringUtil::isUnderscore(t_g1.getName()) && Grammar::isStmtNo(t_g2.getType()))
+    || (Grammar::isStmtNo(t_g1.getType()) && StringUtil::isUnderscore(t_g2.getName()))) {
+    addWeights(2);
+  } else if (QueryUtil::hasNoSynonyms(t_g1, t_g2)) {
+    addWeights(3);
+  } else if (QueryUtil::hasOneLeftSynonym(t_g1, t_g2) || QueryUtil::hasOneRightSynonym(t_g1, t_g2)) {
+    if (Grammar::isStmtNo(t_g1.getType()) || Grammar::isStmtNo(t_g2.getType())) {
+      addWeights(4);
+    } else {
+      addWeights(5);
+    }
+  } else if (QueryUtil::hasTwoSynonyms(t_g1, t_g2)) {
+    addWeights(6);
+  } else {
+    addWeights(0);
+  } 
 }
 
 STRING Relation::getTypeInString() {
