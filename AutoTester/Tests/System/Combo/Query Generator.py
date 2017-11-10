@@ -308,13 +308,109 @@ def genMultipleMultiClause(num,idx,mult):
         ranGenMultiClause(randint(1,mult),idx+i)
     return None
 
-genMultipleMultiClause(9,3002,10)
-genMultipleMultiClause(10,3011,25)
-genMultipleMultiClause(10,3021,50)
-genMultipleMultiClause(10,3031,100)
-genMultipleMultiClause(10,3041,250)
-genMultipleMultiClause(10,3051,300)
-genMultipleMultiClause(10,3061,350)
-genMultipleMultiClause(10,3071,400)
-genMultipleMultiClause(10,3081,500)
-genMultipleMultiClause(10,3091,600)
+def genAffects(num,idx):
+    for i in range(num+1):
+        string = str(i+idx)+" - Combo Stress Test "+str(i+idx)+"\n"
+        a=randint(0,6)
+        if (a==0):
+            string+="procedure p;\n"
+        elif (a==1):
+            string+="stmt p;\n"
+        elif (a==2):
+            string+="stmtLst p;\n"
+        elif (a==3):
+            string+="call p;\n"
+        elif (a==4):
+            string+="while p;\n"
+        elif (a==5):
+            string+="if p;\n"
+        else:
+            string+="variable p;\n"
+        string+="Select p such that"
+        for j in range(1,i+2):
+            string+=" Affects("+str(j)+","+str(j+1)+") and"
+        string = string[:-4]+"\nnone\n"
+        string+="5000"
+        print(string)
+    return string
+
+def ranGenAffects(n,idx):
+    print(str(idx)+" - Combo Stress Test "+str(idx))
+    stmt=0
+    asgn=0
+    
+    line3="such that "
+    for i in range(n):
+        a=randint(1,4)
+        if (a==1):
+            stmt+=2
+            line3+="Affects(s"+str(stmt-1)+",s"+str(stmt)+") "
+        elif (a==2):
+            asgn+=2
+            line3+="Affects(a"+str(asgn-1)+",a"+str(asgn)+") "
+        elif (a==3):
+            asgn+=1
+            stmt+=1
+            line3+="Affects(s"+str(stmt)+",a"+str(asgn)+") "
+        else:
+            asgn+=1
+            stmt+=1
+            line3+="Affects(a"+str(asgn)+",s"+str(stmt)+") "
+
+        a=randint(0,1)
+        if a:
+            line3+="and "
+        else:
+            line3+="such that "
+    if a:
+        line3=line3[:-4]
+    else:
+        line3=line3[:-10]
+
+    a=randint(1,5)
+    if (a==1):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+" " + line3
+        else:
+            line3 = "a"+str(asgn)+" " + line3
+    elif (a==2):
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+" " + line3
+        else:
+            line3 = "s"+str(stmt)+" " + line3
+    elif (a==3):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+".stmt# " + line3
+        else:
+            line3 = "a"+str(asgn)+".stmt#  " + line3
+    else:
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+".stmt# " + line3
+        else:
+            line3 = "s"+str(stmt)+".stmt#  " + line3
+    line3 = "Select " + line3
+
+    declarations = [stmt,asgn]
+    line2=""
+    for d in range(len(declarations)):
+        if (d==0):
+            if not(declarations[d]==0):
+                line2 += "stmt "
+                for i in range(1,declarations[d]+1):
+                    line2 += "s"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+        else:
+            if not(declarations[d]==0):
+                line2 += "assign "
+                for i in range(1,declarations[d]+1):
+                    line2 += "a"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+    print(line2)
+    print(line3)
+    print()
+    print(5000)
+    return None
+
+ranGenAffects(5,16)
