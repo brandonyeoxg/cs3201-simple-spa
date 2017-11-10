@@ -79,8 +79,7 @@ bool QueryCache::isRelationCacheable(Relation * t_relation) {
       }
     case queryType::RType::USES:
     case queryType::RType::MODIFIES:
-      return ( QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-        && QueryUtil::isUnderscore(t_relation->getG2()) ) // (a1, _)
+      return QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2()) // (a1, _) or (a1, "x")
         || QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2()); // (a1, v)
     default:
       return false;
