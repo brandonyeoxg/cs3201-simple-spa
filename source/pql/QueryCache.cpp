@@ -79,19 +79,20 @@ bool QueryCache::isRelationCacheable(Relation * t_relation) {
       }
     case queryType::RType::USES:
     case queryType::RType::MODIFIES:
-      return QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-        && QueryUtil::isUnderscore(t_relation->getG2());
+      return ( QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
+        && QueryUtil::isUnderscore(t_relation->getG2()) ) // (a1, _)
+        || QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2()); // (a1, v)
     default:
       return false;
   }
 
   if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {  // (s1, s2)
     return true;
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {  // (s1, _)
+  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())) {  
+    // (s1, _) or (s1, "x") or (s1, 500)
     return true;
-  } else if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {  // (_, s2)
+  } else if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())) {  
+    // (_, s2) or ("x", s2) or (500, s2)
     return true; 
   }
 
@@ -141,15 +142,15 @@ std::string QueryCache::getKeyWithRelation(Relation t_relation) {
   return key;
 }
 
+// to be used if only 1 grammar is synonyms
 std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
 
   if (QueryUtil::isSynonym(t_grammar)) {
-    return "s";
+    return "/s";
   } else if (QueryUtil::isUnderscore(t_grammar)) {
-    return "_";
+    return "/_";
   } else {
-    //assert(false);  // should be either synonym or underscore only
-    return t_grammar.getName();
+    return "/" + t_grammar.getName();
   }
 }
 
@@ -158,9 +159,9 @@ std::string QueryCache::getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_gram
   assert(QueryUtil::hasTwoSynonyms(t_grammar1, t_grammar2));
 
   if (QueryUtil::areBothSameSynonyms(t_grammar1, t_grammar2)) {
-    return "ss";
+    return "/s/s";
   } else {
-    return "s1s2"; // different synonyms
+    return "/s1/s2"; // different synonyms
   }
 }
 

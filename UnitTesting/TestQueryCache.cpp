@@ -23,17 +23,17 @@ public:
 
     relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Next*_s");
+    Assert::IsTrue(key == "Next*/_/s");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Affects*", Grammar(3, "s4"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Affects*s1s2");
+    Assert::IsTrue(key == "Affects*/s1/s2");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Parent*", Grammar(3, "s5"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Parent*ss");
+    Assert::IsTrue(key == "Parent*/s/s");
     Logger::WriteMessage(key.c_str());
   }
 
@@ -107,6 +107,36 @@ public:
     results = cache.getCache(clause);
     Assert::IsTrue(*results == expected);
 
+    clause = new Relation("Affects*", Grammar(11, "55"), Grammar(3, "chicken"));
+
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
+
+    clause = new Relation("Affects*", Grammar(11, "5"), Grammar(3, "chicken"));
+
+    results = cache.getCache(clause);
+    Assert::IsTrue(results == nullptr);
+  }
+
+  TEST_METHOD(cache_getCache03) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected;
+
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 1,{ 1, 2, 3, 4 } });
+    expected.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Calls*", Grammar(3, "s1"), Grammar(11, "100"));
+
+    cache.cache(clause, expected);
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
+
+    clause = new Relation("Calls*", Grammar(3, "s4"), Grammar(11, "100"));
+
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
   }
 
   TEST_METHOD(queryUtil_areBothSameSynonyms) {
