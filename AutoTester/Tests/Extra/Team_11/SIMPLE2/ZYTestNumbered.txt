@@ -1,0 +1,59 @@
+procedure One {
+1	while a {
+2		call Two; }
+3	call Three; }
+	
+procedure Three {
+4	b = c + d;
+5	if e then {
+6		call Four; }
+	else {
+7		call Five; }
+8	call Six; }
+	
+procedure Four {
+9	while f {
+10		g = 2 * h + (3 * 5) - 14 + 100 * a; } }
+
+procedure Five {
+11	while i {
+12		j = 10 + (3 * 5) + 100 * a - 2 * h;
+13		if j then {
+14			call Six; }
+		else {
+15			call Seven; }
+16		k = j + g * (100 * a); } }
+		
+procedure Six {
+17	l = 22 + m - 3 * 9 + a;
+18	if m then {
+19		call Seven; }
+	else {
+20		while n {
+21			m = 2 * h; } }
+22	p = 2 * h; }
+	
+procedure Two {
+23	o = o + i - 100 + a * 2;
+24	call Eight;
+25	q = 10 - r; }
+	
+procedure Seven {
+26	while s {
+27		s = q + 2 - t; }
+28	call Nine;
+29	while u {
+30		if q then {
+31			t = s; }
+		else {
+32			u = 10 + 2 - t; } } }
+			
+procedure Eight {
+33	call Nine;
+34	v = w + 3 - 2 * h; }
+
+procedure Nine {
+35	x = y;
+36	y = x;
+37	z = x;
+38	z = q; }

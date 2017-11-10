@@ -1,0 +1,34 @@
+procedure Sequential {
+	a =     1;
+	b = a 		+ b;
+	c = c 	* 	2;
+	d    =   2    +  (  20   * a)  +  5  -   10;
+	a 	= 	4 + 	e ;
+	e = c * a   + 		9 -  	20	 +   6   ;
+	f = e *      (f + 3 	+ 2 + (		a + e)	 ) + d * (	(	(c * b + 2) - 	5) * 20) - 10;
+	g =		 (		b	);
+	h = (2		) ;
+	i = (		((	((f    ))  ) )  )   ;
+	j = ((	 ((	( g)	+3  )  * 4	)- 	6)+b);
+	k = (a  +	(b    +(c 	*(  d -  (8		)))));}
+
+procedure TestJumpOverLoop {
+	l 	  =	 1 	+		 2;
+	while 		a 			{
+		  m  	  = 3 +  	1		;}
+	n 	= 		1   ;
+	o =         b;}
+
+procedure TestJumpOverIf {
+	l = 1 		+			 2			;
+	if    	 	a		   then {
+		m 	=    3 + 	1;}
+	else  	{
+			a   = 5;}
+	n = 	1;
+	o = b  ;		}
+	
+procedure TestJumpOverCall {
+p = 1;
+		call 			TestJumpOverLoop;
+	q = 	5 + 2    ;}

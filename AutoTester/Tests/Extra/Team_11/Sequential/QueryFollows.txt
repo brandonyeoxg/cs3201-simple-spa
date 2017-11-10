@@ -1,0 +1,285 @@
+1 - Follows Int Int
+
+Select BOOLEAN such that Follows(1,2)
+true
+5000
+2 - Follows Underscore Int NoResult
+
+Select BOOLEAN such that Follows(_,1)
+false
+5000
+3 - Follows Underscore Int
+
+Select BOOLEAN such that Follows(_, 2)
+true
+5000
+4 - Follows Int Underscore
+
+Select BOOLEAN such that Follows(1,_)
+true
+5000
+5 - Follows Underscore Underscore
+
+Select BOOLEAN such that Follows(_,_)
+true
+5000
+6 - Follows Int Stmt
+stmt s;
+Select s such that Follows (1, s)
+2
+5000
+7 - Follows Int Assign
+assign a;
+Select a such that Follows(1, a)
+2
+5000
+8 - Follows Int While
+while w;
+Select w such that Follows(13, w)
+14
+5000
+9 - Follows Int If
+if if;
+Select if such that Follows(18, if)
+19
+5000
+10 - Follows Int ProgLine
+prog_line pl;
+Select pl such that Follows(3, pl)
+4
+5000
+11 - Follows Int Call
+call cl;
+Select cl such that Follows(24, cl)
+25
+5000
+12 - Follows Int Procedure NoResult
+procedure p;
+Select p such that Follows(24, p)
+none
+5000
+13 - Follows Int Variable NoResult
+variable v;
+Select v such that Follows(1, v)
+none
+5000
+14 - Follows Int Constant NoResult
+constant c;
+Select c such that Follows(1, c)
+none
+5000
+15 - Follows Underscore Stmt
+stmt s;
+Select s such that Follows(_, s)
+2,3,4,5,6,7,8,9,10,11,12,14,16,17,19,22,23,25,26
+5000
+16 - Follows Underscore Assign
+assign a;
+Select a such that Follows(_, a)
+2,3,4,5,6,7,8,9,10,11,12,16,17,22,23,26
+5000
+17 - Follows Underscore While
+while w;
+Select w such that Follows(_, w)
+14
+5000
+18 - Follows Underscore If
+if if;
+Select if such that Follows(_, if)
+19
+5000
+19 - Follows Underscore ProgLine
+prog_line pl;
+Select pl such that Follows(_, pl)
+2,3,4,5,6,7,8,9,10,11,12,14,16,17,19,22,23,25,26
+5000
+20 - Follows Underscore Call
+call cl;
+Select cl such that Follows(_, cl)
+25
+5000
+21 - Follows Stmt Int 
+stmt s;
+Select s such that Follows(s, 2)
+1
+5000
+22 - Follows Assign Int
+assign a;
+Select a such that Follows(a, 2)
+1
+5000
+23 - Follows While Int
+while w;
+Select w such that Follows (w, 16)
+14
+5000
+24 - Follows While Int NoResult
+while w;
+Select w such that Follows(w, 15)
+none
+5000
+25 - Follows If Int
+if if;
+Select if such that Follows(if, 22)
+19
+5000
+26 - Follows If Int
+if if;
+Select if such that Follows(if, 20)
+none
+5000
+27 - Follows If Int
+if if;
+Select if such that Follows(if, 21)
+none
+5000
+28 - Follows ProgLine Int
+prog_line pl;
+Select pl such that Follows(pl, 2)
+1
+5000
+29 - Follows Call Int
+call cl;
+Select cl such that Follows(cl, 26)
+25
+5000
+30 - Follows Stmt Underscore
+stmt s;
+Select s such that Follows(s, _)
+1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19,22,24,25
+5000
+31 - Follows Assign Underscore
+assign a;
+Select a such that Follows(a, _)
+1,2,3,4,5,6,7,8,9,10,11,13,16,18,22,24
+5000
+32 - Follows While Underscore
+while w;
+Select w such that Follows(w, _)
+14
+5000
+33 - Follows If Underscore
+if if;
+Select if such that Follows(if, _)
+19
+5000
+34 - Follows ProgLine Underscore
+prog_line pl;
+Select pl such that Follows(pl, _)
+1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19,22,24,25
+5000
+35 - Follows Call Underscore
+call cl;
+Select cl such that Follows(cl, _)
+25
+5000
+36 - Follows Stmt Stmt SameSynonym
+stmt s;
+Select s such that Follows(s, s)
+none
+5000
+37 - Follows Stmt Stmt DiffSynonym
+stmt s1, s2;
+Select s1 such that Follows(s1, s2)
+1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19,22,24,25
+5000
+38 - Follows Stmt Assign
+stmt s; assign a;
+Select s such that Follows(s, a)
+1,2,3,4,5,6,7,8,9,10,11,14,16,19,22,25
+5000
+39 - Follows Stmt While
+stmt s; while w;
+Select s such that Follows(s, w)
+13
+5000
+40 - Follows Stmt If
+stmt s; if if; 
+Select s such that Follows (s, if)
+18
+5000
+41 - Follows Stmt ProgLine
+stmt s; prog_line pl;
+Select s such that Follows(s, pl)
+1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19,22,24,25
+5000
+42 - Follows Stmt Call
+stmt s; call cl;
+Select s such that Follows(s, cl)
+24
+5000
+43 - Follows Assign Assign SameSynonym
+assign a;
+Select a such that Follows(a, a)
+none
+5000
+44 - Follows Assign Assign DiffSynonym
+assign a1, a2;
+Select a1 such that Follows(a1, a2)
+1,2,3,4,5,6,7,8,9,10,11,16,22
+5000
+45 - Follows Assign While
+assign a; while w;
+Select a such that Follows(a, w)
+13
+5000
+46 - Follows Assign If
+assign a; if if;
+Select a such that Follows(a, if)
+18
+5000
+47 - Follows Assign ProgLine
+assign a; prog_line pl;
+Select a such that Follows(a, pl)
+1,2,3,4,5,6,7,8,9,10,11,13,16,18,22,24
+5000
+48 - Follows Assign Call
+assign a; call cl;
+Select a such that Follows(a, cl)
+24
+5000
+49 - Follows While While SameSynonym
+while w;
+Select w such that Follows(w, w)
+none
+5000
+50 - Follows While While DiffSynonym
+while w1, w2;
+Select w1 such that Follows(w1, w2)
+none
+5000
+51 - Follows While If
+while w; if if;
+Select w such that Follows(w, if)
+none
+5000
+52 - Follows While ProgLine
+while w; prog_line pl;
+Select w such that Follows(w, pl)
+14
+5000
+53 - Follows While Call
+while w; call cl;
+Select w such that Follows(w, cl)
+none
+5000
+54 - Follows If If SameSynonym
+if if;
+Select if such that Follows(if, if)
+none
+5000
+55 - Follows If If DiffSynonym
+if i1, i2;
+Select i1 such that Follows(i1, i2)
+none
+5000
+56 - Follows If ProgLine
+if if; prog_line pl;
+Select if such that Follows(if, pl)
+19
+5000
+57 - Follows If Call
+if if; call cl;
+Select if such that Follows(if, cl)
+none
+5000
