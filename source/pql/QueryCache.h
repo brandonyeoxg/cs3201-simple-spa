@@ -8,13 +8,20 @@
 #include "../Relation.h"
 #include "../QueryUtil.h"
 
-/** Class for caching results intra-query.
+/** 
+*   Class for caching results intra-query.
+*
 *   Currently caches results for: 
 *     Relationships involving 2 common synonyms
 *     Relationships involving 1 common synonym and 1 wildcard
 *     Relationships involving 1 common synonym and 1 given parameter (number or string)
 *     Patterns involving 1 common synonym
+*
 *   Caches results that PKB takes more than O(1) time to deliver.
+*   
+*   Can return result from another cached clause if given clause has no cached result. 
+*   Refer to getCacheFromOtherClauses().
+*
 *   @author jazlyn
 */
 
