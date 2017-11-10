@@ -11,6 +11,7 @@
 
 #include "GlobalTypeDef.h"
 #include "Grammar.h"
+#include "PkbReadOnly.h"
 
 class EvaluatorUtil {
 public:
@@ -40,7 +41,7 @@ public:
   * @param t_grammar A grammar object with the specific stmt type.
   * @return a vector of the stmt if it matches a specific stmt type else returns an empty vector.
   */
-  static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar);
+  static LIST_OF_STMT_NUMS filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar);
   
   /**
   * A public function to filter the statements in a vector by the statement type.
@@ -50,7 +51,7 @@ public:
   * @param t_grammar A grammar object with the specific stmt type.
   * @return a vector of stmts that matches a specific stmt type.
   */
-  static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, std::vector<int> t_stmtIntVector, Grammar t_grammar);
+  static LIST_OF_STMT_NUMS filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, LIST_OF_STMT_NUMS t_stmtIntVector, Grammar t_grammar);
   
   /**
   * A public function to filter a statement by the statement type.
@@ -61,7 +62,7 @@ public:
   * @param t_stmtIntVector The vector of stmts to be stored.
   * @return the given vector if the stmt matches a specific stmt type else returns an empty vector.
   */
-  static std::vector<std::string> filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, std::vector<std::string> t_stmtVector);
+  static LIST_OF_STMT_NUMS filterStmts(std::unordered_map<int, queryType::GType> t_typeOfStmts, int t_stmtNo, Grammar t_grammar, LIST_OF_STMT_NUMS t_stmtVector);
 
   /**
   * A public function to get the common results between two result vectors.
@@ -70,7 +71,7 @@ public:
   * @param t_resultVector2 A string vector which holds another set of results.
   * @return A vector of strings as the common results between two result vectors.
   */
-  static std::vector<std::string> getCommonResults(std::vector<std::string> t_resultVector1, std::vector<std::string> t_resultVector2);
+  static LIST_OF_RESULTS getCommonResults(LIST_OF_RESULTS t_resultVector1, LIST_OF_RESULTS t_resultVector2);
 
   /**
   * A public function to get the common program lines and constant values.
@@ -79,7 +80,7 @@ public:
   * @param t_maxProgLine A number that indicates the maximum program line.
   * @return An unordered map of constants that are less than or equals to the maximum program line.
   */
-  static SET_OF_RESULTS getCommonProgLineAndConstant(std::vector<std::string> t_allConstants, int t_maxProgLine);
+  static SET_OF_RESULTS_INDICES getCommonProgLineAndConstant(LIST_OF_CONSTANT_INDICES t_allConstants, int t_maxProgLine, PkbReadOnly *t_pkb);
 
   /**
   * A public function to rewrite synonym of the given grammar object.

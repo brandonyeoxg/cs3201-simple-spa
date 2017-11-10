@@ -32,110 +32,116 @@ typedef std::string STRING;
 typedef char STRING_CHARACTER;
 
 /*Indexes*/
-typedef INTEGER VAR_INDEX;
-typedef INTEGER CONSTANT_INDEX;
-typedef INTEGER PROC_INDEX;
 typedef INTEGER STMT_NUM;
 typedef INTEGER PROG_LINE;
+typedef INTEGER VAR_INDEX;
+typedef INTEGER PROC_INDEX;
+typedef INTEGER CONSTANT_INDEX;
 typedef INTEGER CONSTANT;
 typedef INTEGER SYNONYM_POSITION;
 typedef INTEGER TOTAL_NUMBER_OF_STMTS;
+typedef INTEGER RESULT_INDEX;
+typedef STRING STRING_TOKEN;
 typedef STRING NAME;
 typedef STRING VAR_NAME;
 typedef STRING PROC_NAME;
 typedef STRING CONSTANT_TERM;
-typedef STRING STRING_TOKEN;
 typedef STRING SYNONYM_NAME;
 typedef STRING RESULT;
 
 /*Data Structs*/
-typedef std::unordered_set<int> VAR_HASH_SET;
 typedef std::list<RESULT> RESULT_LIST;
-typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
-typedef std::vector<VAR_INDEX> LIST_OF_VAR_INDICES;
+
 typedef std::vector<INTEGER> LIST_OF_INTEGERS;
-typedef std::vector<INTEGER> LIST_OF_CONSTANT_INDICES;
+typedef std::vector<STRING> LIST_OF_STRINGS;
+typedef std::vector<SYNONYM_NAME> LIST_OF_SYNONYMS;
 typedef std::vector<STMT_NUM> LIST_OF_STMT_NUMS;
 typedef std::vector<STMT_NUM>& MUTABLE_LIST_OF_STMT_NUMS;
 typedef std::vector<PROG_LINE> LIST_OF_PROG_LINES;
 typedef std::vector<PROG_LINE>& MUTABLE_LIST_OF_PROG_LINES;
+typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
 typedef std::vector<VAR_NAME> LIST_OF_VAR_NAMES;
+typedef std::vector<VAR_INDEX> LIST_OF_VAR_INDICES;
 typedef std::vector<PROC_NAME> LIST_OF_PROC_NAMES;
 typedef std::vector<PROC_INDEX> LIST_OF_PROC_INDICES;
+typedef std::vector<CONSTANT_TERM> LIST_OF_CONSTANT_TERMS;
+typedef std::vector<CONSTANT_INDEX> LIST_OF_CONSTANT_INDICES;
 typedef std::vector<RESULT> LIST_OF_RESULTS;
-typedef std::vector<std::string> LIST_OF_SELECT_RESULTS;
-typedef std::vector<STRING> LIST_OF_STRINGS;
+typedef std::vector<RESULT_INDEX> LIST_OF_RESULTS_INDICES;
+typedef std::vector<STRING> LIST_OF_SELECT_RESULTS;
 typedef std::vector<STRING_TOKEN> LIST_OF_TOKENS;
 typedef std::vector<STRING_TOKEN>& MUTABLE_LIST_OF_TOKENS;
-typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
-typedef std::set<PROC_NAME> SET_OF_PROC_NAMES;
-typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
-typedef std::set<PROC_INDEX> SET_OF_PROC_INDICES;
-typedef std::set<CONSTANT_INDEX> SET_OF_CONSTANT_INDICES;
+
+typedef std::vector<std::vector<BOOLEAN>> BOOLEAN_MATRIX;
+typedef std::vector<std::vector<INTEGER>> INTERMEDIATE_TABLE;
+
+typedef std::vector<INTERMEDIATE_TABLE> LIST_OF_INTERMEDIATE_TABLES;
+
 typedef std::set<STMT_NUM> SET_OF_STMT_NUMS;
+typedef std::set<VAR_NAME> SET_OF_VAR_NAMES;
+typedef std::set<VAR_INDEX> SET_OF_VAR_INDICES;
+typedef std::set<PROC_NAME> SET_OF_PROC_NAMES;
+typedef std::set<PROC_INDEX> SET_OF_PROC_INDICES;
 typedef std::set<CONSTANT_TERM> SET_OF_CONSTANT_TERMS;
-typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTS;
-typedef std::unordered_set<std::string> UNORDERED_SET_OF_NAMES;
+typedef std::set<CONSTANT_INDEX> SET_OF_CONSTANT_INDICES;
+
+typedef std::unordered_set<INTEGER> VAR_HASH_SET;
+typedef std::unordered_set<STRING> UNORDERED_SET_OF_NAMES;
 typedef std::unordered_set<VAR_INDEX> UNORDERED_SET_OF_VAR_INDICES;
 typedef std::unordered_set<PROC_INDEX> UNORDERED_SET_OF_PROC_INDICES;
+
+typedef std::unordered_map<CONSTANT_TERM, CONSTANT_INDEX> MAP_OF_CONSTANT_TERM_TO_CONSTANT_INDEX;
 typedef std::unordered_map<CONSTANT_INDEX, CONSTANT_TERM> MAP_OF_CONSTANT_INDEX_TO_CONSTANT_TERM;
-typedef std::unordered_map<STMT_NUM, std::unordered_set<std::string>> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
-typedef std::unordered_map<STMT_NUM, std::unordered_set<VAR_INDEX>> MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES;
-typedef std::unordered_map<std::string, std::unordered_set<std::string>> MAP_OF_NAME_TO_SET_OF_NAMES;
-typedef std::unordered_map<PROC_INDEX, UNORDERED_SET_OF_PROC_INDICES> MAP_OF_PROC_INDEX_TO_SET_OF_PROC_INDICES;
-typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RESULTSMAP_OF_PROC_INDEX_TO_SET_OF_PROC_INDICES;
-typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_RELATION_RESULTS;
-typedef std::unordered_map<std::string, std::vector<std::string>> SET_OF_PATTERN_RESULTS;
-typedef std::unordered_map<VAR_INDEX, LIST_OF_STMT_NUMS> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
-typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_STMT_NUMS;
-typedef std::unordered_map<VAR_NAME, VAR_INDEX> MAP_OF_VAR_NAME_TO_VAR_INDEX;
-typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
-typedef std::vector<std::vector<std::string>> INTERMEDIATE_TABLE;
-typedef std::vector<INTERMEDIATE_TABLE> LIST_OF_INTERMEDIATE_TABLES;
-typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
+
 typedef std::unordered_map<STMT_NUM, STMT_NUM> MAP_OF_STMT_NUMS;
-typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
-typedef std::unordered_map<STMT_NUM, SET_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS;
-typedef std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES;
+typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
+typedef std::unordered_map<STMT_NUM, VAR_NAME> MAP_OF_STMT_NUM_TO_VAR_NAME;
+typedef std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
+typedef std::unordered_map<STMT_NUM, PROC_NAME> MAP_OF_STMT_NUM_TO_PROC_NAME;
+typedef std::unordered_map<STMT_NUM, PROC_INDEX> MAP_OF_STMT_NUM_TO_PROC_INDEX;
 typedef std::unordered_map<PROC_NAME, PROC_NAME> MAP_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_NAME, PROC_INDEX> MAP_OF_PROC_NAMES_TO_PROC_INDEX;
 typedef std::unordered_map<PROC_INDEX, PROC_INDEX> MAP_OF_PROC_INDICES;
+typedef std::unordered_map<VAR_NAME, VAR_INDEX> MAP_OF_VAR_NAME_TO_VAR_INDEX;
+typedef std::unordered_map<SYNONYM_NAME, INTEGER> MAP_OF_SYNONYMS_TO_COUNTS;
+typedef std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION> MAP_OF_SYNONYM_TO_TABLE_POSITION;
+typedef std::unordered_map<SYNONYM_POSITION, SYNONYM_NAME> MAP_OF_TABLE_POSITION_TO_SYNONYM;
+
+typedef std::unordered_map<STRING, LIST_OF_STRINGS> SET_OF_RESULTS;
+typedef std::unordered_map<INTEGER, LIST_OF_INTEGERS> SET_OF_RESULTS_INDICES;
+typedef std::unordered_map<STRING, LIST_OF_STRINGS> SET_OF_RELATION_RESULTS;
+typedef std::unordered_map<STRING, LIST_OF_STRINGS> SET_OF_PATTERN_RESULTS;
+typedef std::unordered_map<STMT_NUM, LIST_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES;
+typedef std::unordered_map<STMT_NUM, LIST_OF_VAR_INDICES> MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES;
+typedef std::unordered_map<PROG_LINE, LIST_OF_PROG_LINES> MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES;
 typedef std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> MAP_OF_PROC_NAME_TO_LIST_OF_STMT_NUMS;
-typedef std::unordered_map<PROC_INDEX, LIST_OF_PROC_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES;
-typedef std::unordered_map<PROC_INDEX, LIST_OF_VAR_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_INDICES;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_STMT_NUMS> MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS;
 typedef std::unordered_map<PROC_INDEX, LIST_OF_VAR_NAMES> MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_NAMES;
-typedef std::unordered_map<PROC_INDEX, VAR_HASH_SET> MAP_OF_PROC_INDEX_TO_VAR_HASH_SET;
-typedef std::unordered_map<STMT_NUM, PROC_NAME> MAP_OF_STMT_NUM_TO_PROC_NAME;
-typedef std::unordered_map<STMT_NUM, PROC_INDEX> MAP_OF_STMT_NUM_TO_PROC_INDEX;
+typedef std::unordered_map<PROC_INDEX, LIST_OF_VAR_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_INDICES;
+typedef std::unordered_map<PROC_INDEX, LIST_OF_PROC_INDICES> MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES;
+typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_STMT_NUMS;
 typedef std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS;
+typedef std::unordered_map<VAR_INDEX, LIST_OF_STMT_NUMS> MAP_OF_VAR_INDEX_TO_STMT_NUMS;
 typedef std::unordered_map<VAR_INDEX, LIST_OF_STMT_NUMS> MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS;
-typedef std::unordered_map<VAR_INDEX, LIST_OF_PROC_INDICES> MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_INDICES;
 typedef std::unordered_map<VAR_INDEX, LIST_OF_PROC_NAMES> MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_NAMES;
+typedef std::unordered_map<VAR_INDEX, LIST_OF_PROC_INDICES> MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_INDICES;
+
+typedef std::unordered_map<STMT_NUM, SET_OF_STMT_NUMS> MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS;
 typedef std::unordered_map<VAR_NAME, SET_OF_STMT_NUMS> MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS;
-typedef std::list<std::string> LIST_OF_CONSTANTS;
-typedef std::unordered_map<SYNONYM_NAME, int> MAP_OF_SYNONYMS_TO_COUNTS;
-typedef std::unordered_map<SYNONYM_NAME, INTEGER> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS;
-typedef std::unordered_map<SYNONYM_NAME, STRING> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING;
-typedef std::unordered_map<SYNONYM_NAME, SYNONYM_NAME> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS;
-typedef std::unordered_map<SYNONYM_NAME, LIST_OF_INTEGERS> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS;
-typedef std::unordered_map<SYNONYM_NAME, LIST_OF_STRINGS> MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS;
-typedef std::unordered_map<STMT_NUM, STMT_NUM> SET_OF_AFFECTS;
-typedef std::vector<STMT_NUM> LIST_OF_AFFECTS_STMTS;
-typedef  std::unordered_map<STMT_NUM, VAR_INDEX> MAP_OF_STMT_NUM_TO_VAR_INDEX;
-typedef std::pair<MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
-typedef std::unordered_map<STMT_NUM, LIST_OF_VAR_INDICES> MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES;
-typedef std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES;
+
+typedef std::unordered_map<STMT_NUM, UNORDERED_SET_OF_NAMES> MAP_OF_STMT_NUM_TO_SET_OF_NAMES;
+typedef std::unordered_map<STMT_NUM, UNORDERED_SET_OF_VAR_INDICES> MAP_OF_STMT_NUM_TO_SET_OF_VAR_INDICES;
+typedef std::unordered_map<NAME, UNORDERED_SET_OF_NAMES> MAP_OF_NAME_TO_SET_OF_NAMES;
+typedef std::unordered_map<PROC_INDEX, UNORDERED_SET_OF_PROC_INDICES> MAP_OF_PROC_INDEX_TO_SET_OF_PROC_INDICES;
+typedef std::unordered_map<PROC_INDEX, VAR_HASH_SET> MAP_OF_PROC_INDEX_TO_VAR_HASH_SET;
 
 typedef std::multimap<PROC_NAME, VAR_NAME> MAP_OF_PROC_TO_VAR;
 typedef std::multimap<PROC_INDEX, VAR_INDEX> MAP_OF_PROC_INDEX_TO_VAR_INDEX;
 
-
-typedef std::vector < std::vector<BOOLEAN>> BOOLEAN_MATRIX;
-
+typedef std::pair<MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS, MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS> PAIR_OF_AFFECTS_LIST;
 typedef std::pair<MAP_OF_SYNONYM_TO_TABLE_POSITION, INTERMEDIATE_TABLE> PAIR_OF_SYNONYM_TO_TABLE_POSITION_AND_INTERMEDIATE_TABLE;
-typedef std::unordered_map<SYNONYM_POSITION, SYNONYM_NAME> MAP_OF_TABLE_POSITION_TO_SYNONYM;
 
 /*Called in QueryPreProcessor.h, by aaron*/
 

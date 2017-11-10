@@ -147,7 +147,7 @@ private:
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  BOOLEAN storeSelectResultFromPkb(Grammar t_select, LIST_OF_SELECT_RESULTS t_result);
+  BOOLEAN storeSelectResultFromPkb(Grammar t_select, LIST_OF_RESULTS_INDICES t_result);
 
   /**
   * A private function to store the relation result if it is needed.
@@ -156,7 +156,7 @@ private:
   * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to store the results.
   * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
   */
-  BOOLEAN storeRelationResultFromPkb(Relation *t_relation, SET_OF_RELATION_RESULTS t_result, INTEGER t_tableIdx);
+  BOOLEAN storeRelationResultFromPkb(Relation *t_relation, SET_OF_RESULTS_INDICES t_result, INTEGER t_tableIdx);
   
   /**
   * A private function to store the pattern result if it is needed.
@@ -165,7 +165,7 @@ private:
   * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to store the results.
   * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
   */
-  BOOLEAN storePatternResultFromPkb(Pattern *t_pattern, SET_OF_PATTERN_RESULTS t_result, INTEGER t_tableIdx);
+  BOOLEAN storePatternResultFromPkb(Pattern *t_pattern, SET_OF_RESULTS_INDICES t_result, INTEGER t_tableIdx);
 
   /**
   * A private function to evaluate the final result of the query.
