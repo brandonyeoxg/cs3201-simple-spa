@@ -7,7 +7,6 @@ QueryCache::QueryCache() {
 }
 
 SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
-  assert(isCacheable(t_clause));
 
   SET_OF_RESULTS *results = nullptr;
 
@@ -15,6 +14,8 @@ SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
 
   if (isKeyInMap(clauseKey, m_cache)) {
     results = &m_cache.at(clauseKey);
+  } else {
+    results = getCacheFromOtherClauses(t_clause);
   }
 
   return results;
@@ -147,7 +148,8 @@ std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
   } else if (QueryUtil::isUnderscore(t_grammar)) {
     return "_";
   } else {
-    assert(false);  // should be either synonym or underscore only
+    //assert(false);  // should be either synonym or underscore only
+    return t_grammar.getName();
   }
 }
 
@@ -171,7 +173,7 @@ SET_OF_RESULTS * QueryCache::getCacheFromOtherClauses(Clause * t_clause) {
 }
 
 SET_OF_RESULTS * QueryCache::getCacheFromOtherRelations(Relation *t_relation) {
-  SET_OF_RESULTS results;
+  SET_OF_RESULTS *results = new SET_OF_RESULTS();
 
   switch (t_relation->getType()) {
     case queryType::RType::NEXT_:
@@ -179,8 +181,8 @@ SET_OF_RESULTS * QueryCache::getCacheFromOtherRelations(Relation *t_relation) {
       if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())) {
         if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
           auto list = m_cache.at(KEY_ALL_NEXT_STAR).at(t_relation->getG1().getName());
-          results.insert({ t_relation->getG1().getName(), list });
-          return &results;
+          results->insert({ t_relation->getG1().getName(), list });
+          return results;
         }
       }
   }
