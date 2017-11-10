@@ -109,7 +109,7 @@ BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
   }
 }
 
-int FollowTable::getFollows(STMT_NUM t_s1) {
+STMT_NUM FollowTable::getFollows(STMT_NUM t_s1) {
   //in this case, since s1 is known,
   //we just retrieve the vector mapped to s1 return the .
   if (m_followMap.find(t_s1) == m_followMap.end()) {
@@ -214,14 +214,5 @@ void FollowTable::populateAllFollowsMap() {
   }
 }
 
-/**
-* A constructor.
-* Instantiates unordered maps (hashmap) of line numbers to vector of line numbers associated.
-*/
-FollowTable::FollowTable() {
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
-  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
-  MAP_OF_STMT_NUMS m_allFollowsMap;
-  BOOLEAN_MATRIX m_followsMatrix;
-  std::set<int> m_allFollows;
-}
+
+FollowTable::FollowTable() {}

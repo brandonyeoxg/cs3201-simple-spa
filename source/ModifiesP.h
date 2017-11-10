@@ -76,10 +76,10 @@ public:
   LIST_OF_PROC_NAMES getAllProcNames(); 
   LIST_OF_PROC_INDICES& getAllProcIndices();
 private:
-  std::unordered_map<PROC_INDEX, LIST_OF_VAR_NAMES> m_procToVarNames;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_NAMES m_procToVarNames;
   MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_INDICES m_procToVarIndices;
-  std::unordered_map<PROC_INDEX, VAR_HASH_SET> m_procToVarSet;
-  std::unordered_map<VAR_INDEX, LIST_OF_PROC_NAMES> m_varToProcNames;
+  MAP_OF_PROC_INDEX_TO_VAR_HASH_SET m_procToVarSet;
+  MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_NAMES m_varToProcNames;
   MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_INDICES m_varToProcIndices;
   MAP_OF_PROC_TO_VAR m_allProcNamesToVarNames;
   MAP_OF_PROC_INDEX_TO_VAR_INDEX m_allProcIndicesToVarIndices;

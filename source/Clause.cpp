@@ -21,3 +21,11 @@ void Clause::addWeights(INTEGER t_weights) {
 void Clause::multiplyWeights(INTEGER t_weights) {
   m_weights *= t_weights;
 }
+
+bool Clause::isPatternType() {
+  return getClauseType() == queryType::clauseType::PATTERN;
+}
+
+bool Clause::isRelationType() {
+  return getClauseType() == queryType::clauseType::RELATION;
+}

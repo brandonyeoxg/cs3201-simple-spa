@@ -9,7 +9,7 @@ namespace UnitTesting {
   TEST_CLASS(TestFollowTable) {
   private:
     FollowTable* m_testFollowTable;
-    std::unordered_map<int, std::vector<int>> testFollowTableResult;
+    MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS testFollowTableResult;
   public:
     TEST_METHOD_INITIALIZE(InitialiseFollowsTable) {
       m_testFollowTable = new FollowTable();
@@ -29,13 +29,13 @@ namespace UnitTesting {
       Assert::IsTrue(m_testFollowTable->getFollowTable() == testFollowTableResult);
       //test insertFollows method (duplicate key/value).
       //m_testFollowTable->setFollowTable(test);
-      bool expected = m_testFollowTable->insertFollows(2, 3);
+      BOOLEAN expected = m_testFollowTable->insertFollows(2, 3);
       Assert::IsFalse(expected);
     }
     TEST_METHOD(TestIsFollows) {
       Logger::WriteMessage("Running follow table test isFollows");
       //test isFollows method (correct behaviour).
-      bool expected = m_testFollowTable->isFollows(1, 2);
+      BOOLEAN expected = m_testFollowTable->isFollows(1, 2);
       Assert::IsTrue(expected);
       //test isFollows method (existing in vector but not first element).
       expected = m_testFollowTable->isFollows(1, 3);
@@ -51,7 +51,7 @@ namespace UnitTesting {
     TEST_METHOD(TestIsFollowsStar) {
       Logger::WriteMessage("Running follow table test isFollowsStar");
       //test isFollowsStar method (correct behaviour).
-      bool expected = m_testFollowTable->isFollowsStar(1, 4);
+      BOOLEAN expected = m_testFollowTable->isFollowsStar(1, 4);
       Assert::IsTrue(expected);
       //test isFollowsStar method (non-existing key).
       expected = m_testFollowTable->isFollows(4, 5);
@@ -67,7 +67,7 @@ namespace UnitTesting {
       int expected = m_testFollowTable->getFollows(1);
       Assert::IsTrue(expected == 2);
       //test getFollows method (non-existing s1, expects exception)
-      bool exceptionThrown = false;
+      BOOLEAN exceptionThrown = false;
       try {
         int expected = m_testFollowTable->getFollows(5);
       } catch(InvalidArgumentException) {
@@ -86,7 +86,7 @@ namespace UnitTesting {
       expected = m_testFollowTable->getFollowedBy(2);
       Assert::IsTrue(expected == 1);
       //test getFollowed method (non-existing s2, expects exception)
-      bool exceptionThrown = false;
+      BOOLEAN exceptionThrown = false;
       try {
         expected = m_testFollowTable->getFollowedBy(5);
       } catch (InvalidArgumentException) {

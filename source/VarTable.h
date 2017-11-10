@@ -25,6 +25,6 @@ public:
   LIST_OF_VAR_NAMES& getAllVarNames();
 
 private:
-  std::vector<VAR_NAME> m_varIdxToName;
-  std::unordered_map<VAR_NAME, VAR_INDEX> m_varNameToIdx;
+  LIST_OF_VAR_NAMES m_varIdxToName;
+  MAP_OF_VAR_NAME_TO_VAR_INDEX m_varNameToIdx;
 };

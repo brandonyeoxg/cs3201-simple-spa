@@ -22,6 +22,28 @@ public:
   */
   static bool isAllUnderscores(Grammar t_g1, Grammar t_g2);
 
+  /** Checks if given Grammar object is an underscore.
+  *   @param t_grammar grammar object
+  *   @return true if an underscore, else return false.
+  *   @author jazlyn
+  */
+  static bool isUnderscore(Grammar t_grammar);
+
+  /** Checks if given Grammar object is a synonym.
+  *   @param t_grammar grammar object
+  *   @return true if a synonym, else return false.
+  *   @author jazlyn
+  */
+  static bool isSynonym(Grammar t_grammar);
+
+  /** Checks if two given Grammar objects contain the same synonym.
+  *   @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  *   @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  *   @return true if both are the same synonym, else return false.
+  *   @author jazlyn
+  */
+  static bool areBothSameSynonyms(Grammar t_g1, Grammar t_g2);
+
   /**
   * A public function to check if both parameters are not synonyms.
   * Given two parameters, it will check if both parameters are not synonyms.
