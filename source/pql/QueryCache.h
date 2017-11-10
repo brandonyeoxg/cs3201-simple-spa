@@ -19,25 +19,42 @@
 
 /** List of cacheable Clauses:
 
-    Next(l1, l2)
-    Next*(l1, l2)
-    Next(_, l) and Next*(_, l)
-    Next(l, _) and Next*(l, _)
-    Next*(line, l). Requires Next*(l1, l2) to be already cached.
+    NOTE: 0 represents a given input for that parameter. i.e. Next(0, l1) indicates Next(3, l1), Next(500, l1) etc.
+
+    Next(p1, p2)
+    Next*(p1, p2)
+    Next(_, p2) and Next*(_, p2)
+    Next(p1, _) and Next*(p1, _)
+    Next(0, p2)
+    Next*(0, p2)
+    Next(p1, 0)
+    Next*(p1, 0)
 
     Calls(proc1, proc2)
     Calls(proc1, _)
     Calls*(proc1, _)
-    Calls(_, proc1)
-    Calls*(_, proc1)
+    Calls(_, proc2)
+    Calls*(_, proc2)
+    Calls(proc1, 0)
+    Calls*(proc1, 0)
+    Calls(0, proc2)
+    Calls*(0, proc2)
 
     Follows(_, s1) & Follows*(_, s1)
     Follows(s1, _) & Follows*(s1, _)
+    Follows(0, s1)
+    Follows*(0, s1)
+    Follows(s1, 0)
+    Follows*(s1, 0)
 
     Parent(_, s1)
     Parent(s1, _)
     Parent*(_, s1)
     Parent*(s1, _)
+    Parent(0, s1)
+    Parent(s1, 0)
+    Parent*(0, s1)
+    Parent*(s1, 0)
 
     Affects(a1, a2)
     Affects*(a1, a2)
@@ -45,9 +62,17 @@
     Affects(_, a2)
     Affects*(a1, _)
     Affects*(_, a2)
+    Affects(a1, 0)
+    Affects(0, a2)
+    Affects*(a1, 0)
+    Affects*(0, a2)
 
     Uses(s1, _)
     Modifies(s1, _)
+    Uses(s1, v)
+    Modifies(s1, v)
+    Uses(s1, 0)
+    Modifies(s1, 0)
 
     Pattern w(v, _) - while statements
     Pattern ifs(v, _, _) - if statements

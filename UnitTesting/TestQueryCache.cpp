@@ -54,6 +54,7 @@ public:
     Assert::IsTrue(key == "Uses/+s1/s");
     Logger::WriteMessage(key.c_str());
 
+    // given name with same format as internal representation "s"
     relation = Relation("Calls", Grammar(0, "proc1"), Grammar(11, "s"));
     key = cache.getKey(relation);
     Assert::IsTrue(key == "Calls/s/+s");
