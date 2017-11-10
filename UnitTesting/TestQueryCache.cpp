@@ -35,6 +35,24 @@ public:
     key = cache.getKey(relation);
     Assert::IsTrue(key == "Parent*/s/s");
     Logger::WriteMessage(key.c_str());
+
+    // Uses(a5, "s2")
+    relation = Relation("Uses", Grammar(3, "a5"), Grammar(11, "s2"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Uses/s/s2");
+    Logger::WriteMessage(key.c_str());
+
+    // 2 common synonyms
+    relation = Relation("Uses", Grammar(3, "a5"), Grammar(7, "s2"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Uses/s1/s2");
+    Logger::WriteMessage(key.c_str());
+
+    // Uses("s1", a5)
+    relation = Relation("Uses", Grammar(11, "s1"), Grammar(3, "a5"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Uses/s1/s");
+    Logger::WriteMessage(key.c_str());
   }
 
   TEST_METHOD(isCacheable) {
