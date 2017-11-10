@@ -109,7 +109,7 @@ namespace UnitTesting {
       //Test the inserting of two synonyms when the table is empty
       SET_OF_RESULTS_INDICES result = { { 1, { 4 } },{ 3, { 4 } },{ 7, { 4 } } };
       INTERMEDIATE_TABLE actual = m_driver->TestInsertTwoSynonym("s1", "s2", result);
-      INTERMEDIATE_TABLE expected = { { "1", "4" },{ "3", "4" },{ "7", "4" } };
+      INTERMEDIATE_TABLE expected = { { 1, 4 },{ 3, 4 },{ 7, 4 } };
       Assert::IsTrue(actual == expected);
 
       //Test the inserting of two synonyms when both synonyms are not inside the non-empty table
