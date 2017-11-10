@@ -852,10 +852,41 @@ public:
   ///////////////////////////////////////////////////////
   //  Affects Extractor
   ///////////////////////////////////////////////////////
-  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects() = 0; // affects(a1,a2)
-  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0; // affects(a,12)
-  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0; // affects(2,a)
-  virtual BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects(1,12)
+
+  /**
+  * Get the map of all affects relationships in the source program i.e. affects(a1, a2) where 
+  * both a1 and a2 are synonyms.
+  * @return the map of all affects.
+  */
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects() = 0;
+
+  /**
+  * Get the list of stmt# that affects the stmt# in the parameter.
+  * e.g. affects(a, 12)
+  * @param t_modifiesLine the stmt# input
+  * @return the list of affects stmt#.
+  */
+  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0;
+
+  /**
+  * Get the list of stmt# that affected by the stmt# in the parameter.
+  * e.g. affects(2, a)
+  * @param t_usesLine the stmt# input
+  * @return the list of stmt#.
+  */
+  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0;
+
+  /**
+  * Checks if affects(a1, a2) is true, where a1 and a2 are known stmt#.
+  * @param t_modifiesLine the stmt# that affects
+  * @param t_usesLine the stmt# that is affected by t_modifiesLine
+  * @return true if the relationship holds.
+  */
+  virtual BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0;
+
+  /**
+  * 
+  */
   virtual BOOLEAN hasAffectsRelationship() = 0; // affects(_,_)
   virtual LIST_OF_AFFECTS_STMTS getAffectsAnything() = 0;  // affects(a,_)
   virtual LIST_OF_AFFECTS_STMTS getAffectedByAnything() = 0; // affects(_,a)
