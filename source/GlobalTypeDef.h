@@ -9,6 +9,7 @@
 const bool isDebugMode = false;
 
 const int INVALID_INDEX = -1;
+const int INVALID_PROG_LINE = -1;
 
 const std::string OPERATOR_MULTIPLY = "*";
 const std::string OPERATOR_MINUS = "-";

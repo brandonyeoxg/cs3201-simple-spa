@@ -67,11 +67,11 @@ private:
   ///////////////////////////////////////////////////////
   //  Affects
   ///////////////////////////////////////////////////////
-  void traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  void traverseContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  void traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  void traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  void traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE& t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void traverseContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE& t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+  void traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE& t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
+  void traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE& t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
+  void traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE& t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
 
   void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
   void handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
