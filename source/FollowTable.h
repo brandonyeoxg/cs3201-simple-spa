@@ -6,6 +6,8 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <algorithm>
+#include <stdexcept>
 #include "GlobalTypeDef.h"
 #include "InvalidArgumentException.h"
 
@@ -39,7 +41,7 @@ public:
 
   /**
   * Method that checks if follows*(s1, s2) holds.
-  * Checks if s2 exists within the vector mapped to key s1.
+  * Checks if (s1, s2) is true in the 2D matrix.
   * @param s1 an integer argument.
   * @param s2 an integer argument.
   * @return true if the relationship holds, false if otherwise.

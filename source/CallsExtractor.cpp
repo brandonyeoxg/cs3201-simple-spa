@@ -9,10 +9,12 @@ void CallsExtractor::extractDesign() {
   populateCallsIdx();
   hasCyclicCall();
   hasNonExistantCall();
+  populateAllCallsLists();
+  populateAllCallsMap();
 }
 
 /*A mechanism to check if there exists a situation where procedure A calls B,
-* and B calls A (or transitive closure of such situation). 
+* and B calls A (or transitive closure of such situation).
 */
 void CallsExtractor::hasCyclicCall() {
   CallsTable* callsTable = m_pkb->getCallsTable();
@@ -56,5 +58,15 @@ void CallsExtractor::populateCalledByStarMap() {
   //for every key in callsMap
   CallsTable* callsTable = m_pkb->getCallsTable();
   callsTable->populateCalledByStarMap();
-  
+
+}
+
+void CallsExtractor::populateAllCallsLists() {
+  CallsTable* callsTable = m_pkb->getCallsTable();
+  callsTable->populateAllCallsLists();
+}
+
+void CallsExtractor::populateAllCallsMap() {
+  CallsTable* callsTable = m_pkb->getCallsTable();
+  callsTable->populateAllCallsMap();
 }
