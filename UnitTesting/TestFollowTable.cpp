@@ -114,6 +114,7 @@ namespace UnitTesting {
       Logger::WriteMessage("Running follow table test getFollowedByStar");
       //test getFollowedByStar method (correct behaviour)
       std::vector<int> expected = m_testFollowTable->getFollowedByStar(4);
+      std::sort(expected.begin(), expected.end());
       static const int arr[] = { 1, 2, 3 };
       std::vector<int> actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
