@@ -178,7 +178,8 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
   switch (t_relation->getType()) {
     case queryType::RType::NEXT_:
       // Next*(given_line, l)
-      if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())) {
+      if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+        && !QueryUtil::isUnderscore(t_relation->getG1())) {
         if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
           int g1Name = std::stoi(t_relation->getG1().getName());
           auto list = m_cache.at(KEY_ALL_NEXT_STAR).at(g1Name);
