@@ -131,7 +131,7 @@ SET_OF_RESULTS_INDICES EvaluatorUtil::getCommonProgLineAndConstant(LIST_OF_CONST
     CONSTANT_TERM constTerm = t_pkb->getConstantFromIdx(constant);
     if (constant <= t_maxProgLine) {
       LIST_OF_RESULTS_INDICES constants;
-      constants.push_back(constant);
+      constants.push_back(std::stoi(constTerm));
       commonProgLineAndConstant[constant] = constants;
     }
   }
