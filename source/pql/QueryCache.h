@@ -147,6 +147,7 @@ private:
   SET_OF_RESULTS_INDICES *getCacheForNextStar(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForNext(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollows(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForFollowsStar(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);

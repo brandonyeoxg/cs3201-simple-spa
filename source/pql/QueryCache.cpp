@@ -250,3 +250,20 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollows(Relation * t_relation) {
   }
   return nullptr;
 }
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relation) {
+  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG1())) {
+    // Follows*(_, s2)
+    if (isKeyInMap(KEY_FOLLOWS_RIGHT_SYN, m_cache)) {
+      return &m_cache.at(KEY_FOLLOWS_RIGHT_SYN);  // use Follows(_, s2)
+    }
+  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG2())) {
+    // Follows*(s1, _)
+    if (isKeyInMap(KEY_FOLLOWS_LEFT_SYN, m_cache)) {
+      return &m_cache.at(KEY_FOLLOWS_LEFT_SYN); // use Follows(s1, _)
+    }
+  }
+  return nullptr;
+}
