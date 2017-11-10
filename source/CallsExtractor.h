@@ -15,7 +15,8 @@ public:
   ~CallsExtractor() {};
 
   void extractDesign();
-  void hasRecursiveCall();
+  void hasCyclicCall();
+  void hasNonExistantCall();
 
 private:
   void populateCallsIdx();

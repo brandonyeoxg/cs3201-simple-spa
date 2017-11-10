@@ -177,6 +177,7 @@
     <ClInclude Include="..\source\SyntaxInvalidTerm.h" />
     <ClInclude Include="..\source\SyntaxCyclicCalls.h" />
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h" />
+    <ClInclude Include="..\source\SyntaxNonExistantProcedure.h" />
     <ClInclude Include="..\source\SyntaxOpenBraceException.h" />
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h" />
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h" />
