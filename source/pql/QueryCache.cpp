@@ -182,6 +182,8 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
       return getCacheForNextStar(t_relation);
     case queryType::RType::FOLLOWS:
       return getCacheForFollows(t_relation);
+    case queryType::RType::FOLLOWS_:
+      return getCacheForFollowsStar(t_relation);
   }
 
   return nullptr;
