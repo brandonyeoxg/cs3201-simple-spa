@@ -69,6 +69,31 @@ SET_OF_RESULTS Formatter::formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vec
   return mapStrVectorStr;
 }
 
+SET_OF_RESULTS_INDICES Formatter::formatVectorStrToMapIntVectorIntForValues(LIST_OF_RESULTS t_vectorStr, PkbReadOnly *t_pkb) {
+  SET_OF_RESULTS_INDICES mapIntVectorInt;
+  for (auto& x : t_vectorStr) {
+    CONSTANT_INDEX constantIdx = t_pkb->getConstantIdxFromConstant(x);
+    LIST_OF_RESULTS_INDICES vectorInt;
+    vectorInt.push_back(std::stoi(x));
+    mapIntVectorInt[constantIdx] = vectorInt;
+  }
+  
+  return mapIntVectorInt;
+}
+
+SET_OF_RESULTS_INDICES Formatter::formatVectorStrToMapIntVectorIntForNames(LIST_OF_RESULTS t_vectorStr, PkbReadOnly *t_pkb) {
+  SET_OF_RESULTS_INDICES mapIntVectorInt;
+  for (auto& x : t_vectorStr) {
+    PROC_INDEX procIdx = t_pkb->getProcIdxFromName(x);
+    VAR_INDEX varIdx = t_pkb->getVarIdxFromName(x);
+    LIST_OF_RESULTS_INDICES vectorInt;
+    vectorInt.push_back(varIdx);
+    mapIntVectorInt[procIdx] = vectorInt;
+  }
+
+  return mapIntVectorInt;
+}
+
 LIST_OF_RESULTS Formatter::formatMapStrVectorStrToVectorStr(SET_OF_RESULTS t_mapStrVectorStr) {
   std::vector<std::string> vectorStr;
   for (auto& x : t_mapStrVectorStr) {

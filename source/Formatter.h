@@ -63,6 +63,22 @@ public:
   static SET_OF_RESULTS formatVectorStrToMapStrVectorStr(LIST_OF_RESULTS t_vectorStr);
 
   /**
+  * A public function to format string vector to map<int, vector<int>>.
+  * Given a string vector, it will format it into a map<int, vector<int>>
+  * by duplicating the string vector for the key and value.
+  * @return the contents of a string vector in a map<int, vector<int>>.
+  */
+  static SET_OF_RESULTS_INDICES formatVectorStrToMapIntVectorIntForValues(LIST_OF_RESULTS t_vectorStr, PkbReadOnly* t_pkb);
+
+  /**
+  * A public function to format string vector to map<int, vector<int>>.
+  * Given a string vector, it will format it into a map<int, vector<int>>
+  * by duplicating the string vector for the key and value.
+  * @return the contents of a string vector in a map<int, vector<int>>.
+  */
+  static SET_OF_RESULTS_INDICES formatVectorStrToMapIntVectorIntForNames(LIST_OF_RESULTS t_vectorStr, PkbReadOnly* t_pkb);
+
+  /**
   * A public function to format map<str, vector<str>> to string vector.
   * Given a map<str, vector<str>>, it will format it into a string vector
   * by getting only the keys of the map.
