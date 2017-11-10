@@ -150,7 +150,7 @@ std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
   } else if (QueryUtil::isUnderscore(t_grammar)) {
     return "/_";
   } else {
-    return "/" + t_grammar.getName();
+    return "/+" + t_grammar.getName();
   }
 }
 
