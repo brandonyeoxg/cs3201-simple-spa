@@ -88,6 +88,7 @@ private:
   std::string getKeyWithPattern(Pattern t_pattern);
   std::string getKeyWithRelation(Relation t_relation);
   std::string getKeyWithGrammar(Grammar t_grammar);
+  std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);

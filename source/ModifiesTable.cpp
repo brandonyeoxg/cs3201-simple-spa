@@ -12,7 +12,7 @@
 #include "ModifiesTable.h"
 
 void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
-  bool inserted = false;
+  BOOLEAN inserted = false;
   //if var name already exists in stmtVarMap, check if vector has lineNum. if so, return index (0).
   auto iterator = m_modifiesVarMap.find(t_varName);
   auto itr = m_modifiesVarByIdxMap.find(t_varIdx);
@@ -47,7 +47,7 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
 
 //insertion method to the 2-way map.
 void ModifiesTable::insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName, VAR_INDEX t_varIdx) {
-  bool inserted = false;
+  BOOLEAN inserted = false;
   //check if lineNum exists as key
   auto iterator = m_modifiesStmtMap.find(t_lineNum);
   auto itr = m_modifiesStmtByIdxMap.find(t_lineNum);
@@ -88,21 +88,6 @@ void ModifiesTable::insertToModifiesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varNa
 }
 
 bool ModifiesTable::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
-  /*
-  //search modifiesStmtMap (reason: int vs string comparison
-  auto itr = m_modifiesStmtMap.find(t_lineNum);
-  if (itr == m_modifiesStmtMap.end()) {
-    return false;
-  } else {
-    //check if varName appears in vector
-    LIST_OF_VAR_NAMES vector = itr->second;
-    if (std::find(vector.begin(), vector.end(), t_varName) != vector.end()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  */
   auto itr = m_modifiesStmtSet.find(t_lineNum);
   if (itr == m_modifiesStmtSet.end()) {
     return false;
@@ -187,17 +172,12 @@ LIST_OF_VAR_INDICES ModifiesTable::getAllModifiesVarNamesByIdx() {
 
 //Constructor.
 ModifiesTable::ModifiesTable() {
-  std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> m_modifiesStmtMap;
-  MAP_OF_STMT_NUM_TO_SET_OF_NAMES m_modifiesStmtSet;
-  std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> m_modifiesVarMap;
-  SET_OF_VAR_NAMES m_allVariablesModified;
-  SET_OF_STMT_NUMS m_allStmtNumsModified;
 }
 
-std::unordered_map<STMT_NUM, LIST_OF_VAR_NAMES> ModifiesTable::getModifiesStmtMap() {
+MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES ModifiesTable::getModifiesStmtMap() {
   return m_modifiesStmtMap;
 }
 
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> ModifiesTable::getModifiesVarMap() {
+MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS ModifiesTable::getModifiesVarMap() {
   return m_modifiesVarMap;
 }

@@ -40,58 +40,58 @@ bool NextStarEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Gramma
   }
 }
 
-SET_OF_RESULTS NextStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES NextStarEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    std::vector<int> stmts = t_pkb->getAllLinesAfter(std::stoi(t_g1.getName()));
+    LIST_OF_STMT_NUMS stmts = t_pkb->getAllLinesAfter(std::stoi(t_g1.getName()));
     if (stmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g2);
-    m_result[t_g2.getName()] = stmtVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g2);
+    m_result[0] = stmtVector;
   } else if (StringUtil::isUnderscore(t_g1.getName())) {
-    std::vector<int> stmtIntVector = t_pkb->getAllLinesAfterAnyLine();
+    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getAllLinesAfterAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    m_result[t_g2.getName()] = stmtStrVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    m_result[0] = stmtVector;
   }
 
   return m_result;
 }
 
-SET_OF_RESULTS NextStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES NextStarEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == queryType::GType::STMT_NO) {
-    std::vector<int> stmts = t_pkb->getAllLinesBefore(std::stoi(t_g2.getName()));
+    LIST_OF_STMT_NUMS stmts = t_pkb->getAllLinesBefore(std::stoi(t_g2.getName()));
     if (stmts.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g1);
-    m_result[t_g1.getName()] = stmtVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmts, t_g1);
+    m_result[0] = stmtVector;
   } else if (StringUtil::isUnderscore(t_g2.getName())) {
-    std::vector<int> stmtIntVector = t_pkb->getAllLinesBeforeAnyLine();
+    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getAllLinesBeforeAnyLine();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
-    m_result[t_g1.getName()] = stmtStrVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    m_result[0] = stmtVector;
   }
 
   return m_result;
 }
 
-SET_OF_RESULTS NextStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES NextStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, std::vector<int>> allNextStar = t_pkb->getAllNextStar();
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES allNextStar = t_pkb->getAllNextStar();
   if (t_g1.getName() == t_g2.getName()) {
     allNextStar = EvaluatorUtil::filterSameResultsForSameSynonyms(allNextStar);
   }
@@ -101,8 +101,8 @@ SET_OF_RESULTS NextStarEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Gramm
   }
 
   for (auto& x : allNextStar) {
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
-    m_result[std::to_string(x.first)] = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
+    m_result[x.first] = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
   }
 
   return m_result;

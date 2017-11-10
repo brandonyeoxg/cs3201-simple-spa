@@ -9,6 +9,7 @@ PROC_INDEX ProcTable::insertProc(PROC_NAME t_name) {
   
   PROC_INDEX idx = m_procIdxToName.size();
   m_procIdxToName.push_back(t_name);
+  m_allProcIndices.push_back(idx);
   m_procNameToIdx.emplace(t_name, idx);
   return idx;
 }
@@ -30,4 +31,8 @@ PROC_INDEX ProcTable::getProcIdxFromName(PROC_NAME t_name) {
 
 LIST_OF_PROC_NAMES& ProcTable::getAllProcsName() {
   return m_procIdxToName;
+}
+
+LIST_OF_PROC_INDICES& ProcTable::getAllProcsIndices() {
+  return m_allProcIndices;
 }
