@@ -535,6 +535,9 @@
     <ClInclude Include="..\source\InvalidArgumentException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\SyntaxNonExistantProcedure.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
