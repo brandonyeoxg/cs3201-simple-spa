@@ -7,7 +7,7 @@ procedure L1am4{
       call cH1ck3N;}
     else{
       call A1P4ca;}
-    call P1G;}
+    call p1G;}
 }
 
 procedure A1P4ca{
@@ -98,7 +98,6 @@ procedure Br4v0{
   Hoo=Ha+Hu;
   h3Y=tH3r3;
   l1l=m4Ma;
-  cat=cat-call;
   call p0w3rPufF;
 }
 
