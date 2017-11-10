@@ -141,7 +141,7 @@ std::string QueryCache::getKeyWithRelation(Relation t_relation) {
   return key;
 }
 
-// to be used if only 1 grammar is synonyms
+// to be used if only 1 grammar is synonym
 std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
 
   if (QueryUtil::isSynonym(t_grammar)) {
@@ -177,7 +177,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
 
   switch (t_relation->getType()) {
     case queryType::RType::NEXT_:
-      // Next*(line, l)
+      // Next*(given_line, l)
       if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())) {
         if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
           int g1Name = std::stoi(t_relation->getG1().getName());

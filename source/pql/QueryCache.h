@@ -112,7 +112,7 @@ public:
 
 private:
   std::unordered_map<std::string, SET_OF_RESULTS_INDICES> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
-  const std::string KEY_ALL_NEXT_STAR = "Next*/s1/s2";
+  const std::string KEY_ALL_NEXT_STAR = "Next*/s1/s2";  /**< Key for Next*(s1, s2) */
 
   bool isPatternCacheable(Pattern *t_pattern);
   bool isRelationCacheable(Relation *t_relation);
