@@ -94,12 +94,58 @@ public:
     Assert::IsFalse(QueryUtil::areBothSameSynonyms(Grammar(2, "s7"), Grammar(2, "123")));
   }
 
+  TEST_METHOD(getCacheFromOtherClauses) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS();
+    toCache.insert({ "1", { "1", "2", "3", "4" } });
+    toCache.insert({ "2", { "1", "4" } });
+
+    clause = new Relation("Next*", Grammar(9, "line1"), Grammar(9, "line2"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Next*(line1, line2)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    printMap(*results);
+
+    expected = SET_OF_RESULTS();
+    expected.insert({ "1",{ "1", "2", "3", "4" } });
+
+    clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));
+
+    Logger::WriteMessage("Getting cache");
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    printMap(*results);
+    Assert::IsTrue(*results == expected);
+  }
+
 private:
-  void printVector(std::vector<int> vector) {
+  void printVectorOfInt(std::vector<int> vector) {
     Logger::WriteMessage("Printing vector");
     for (auto iterator : vector) {
       Logger::WriteMessage(std::to_string(iterator).c_str());
     }
   }
+
+  void printVectorOfStr(std::vector<std::string> vector) {
+    Logger::WriteMessage("Printing vector");
+    for (auto iterator : vector) {
+      Logger::WriteMessage(iterator.c_str());
+    }
+  }
+
+  void printMap(std::unordered_map<std::string, std::vector<std::string>> map) {
+    for (auto iter : map) {
+      Logger::WriteMessage(("Key: " + iter.first).c_str());
+      printVectorOfStr(iter.second);
+    }
+  }
+
   };
 }
