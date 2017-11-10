@@ -135,7 +135,7 @@ public:
   * Checks if there exist any procedures that are called by proc1.
   * i.e. calls(p1, _) where p1 is a known procedure
   * @param t_proc1 the procedure that calls other procedures
-  * @return true if there exists
+  * @return true if calls(p1, _) holds.
   */
   BOOLEAN isCallsAnything(PROC_NAME t_proc1);
 
