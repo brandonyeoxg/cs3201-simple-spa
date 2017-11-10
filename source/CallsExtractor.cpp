@@ -1,18 +1,20 @@
 #include "CallsExtractor.h"
 #include "CallsTable.h"
 #include "SyntaxCyclicCalls.h"
+#include "SyntaxNonExistantProcedure.h"
 void CallsExtractor::extractDesign() {
   populateCallsStarMap();
   populateCalledByStarMap();
   //Need to populate the calls* relationships first, so that the indices version can be populated in the below method.
   populateCallsIdx();
-  hasRecursiveCall();
+  hasCyclicCall();
+  hasNonExistantCall();
 }
 
 /*A mechanism to check if there exists a situation where procedure A calls B,
 * and B calls A (or transitive closure of such situation). 
 */
-void CallsExtractor::hasRecursiveCall() {
+void CallsExtractor::hasCyclicCall() {
   CallsTable* callsTable = m_pkb->getCallsTable();
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES callsStarMap = callsTable->getCalledByStarMapByIdx();
   //for every key in calls* map,
@@ -23,6 +25,14 @@ void CallsExtractor::hasRecursiveCall() {
     if (std::find(list.begin(), list.end(), key) != list.end()) {
       throw SyntaxCyclicCalls();
     }
+  }
+}
+
+void CallsExtractor::hasNonExistantCall() {
+  CallsTable *callTable = m_pkb->getCallsTable();
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES calledByMap = callTable->getCalledByMapByIdx();
+  if (calledByMap.find(INVALID_INDEX) != calledByMap.end()) {
+    throw SyntaxNonExistantProcedure();
   }
 }
 
