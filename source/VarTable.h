@@ -23,8 +23,10 @@ public:
   VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx);
   VAR_INDEX getVarIdxFromName(VAR_NAME t_varName);
   LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_VAR_INDICES& getAllVarIndices();
 
 private:
+  LIST_OF_VAR_INDICES m_allVarIndices;
   LIST_OF_VAR_NAMES m_varIdxToName;
   MAP_OF_VAR_NAME_TO_VAR_INDEX m_varNameToIdx;
 };

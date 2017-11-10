@@ -12,6 +12,10 @@ bool QueryUtil::isSynonym(Grammar t_grammar) {
   return t_grammar.getType() != queryType::GType::STMT_NO && t_grammar.getType() != queryType::GType::STR;
 }
 
+bool QueryUtil::areBothSameSynonyms(Grammar t_g1, Grammar t_g2) {
+  return isSynonym(t_g1) && isSynonym(t_g2) && t_g1.getName() == t_g2.getName();
+}
+
 bool QueryUtil::hasNoSynonyms(Grammar t_g1, Grammar t_g2) {
   return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
 }

@@ -33,10 +33,10 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
     if (isTokenized == true) {
       //Grammar testGrammar = selectQueue.front();
       //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
-      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, withQueue, unorderedMap);
+      //QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, withQueue, unorderedMap);
       
       //New QueryEvaluator Constructor
-      //QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectVector, suchThatVector, patternVector, withVector, unorderedMap);
+      QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectVector, suchThatVector, patternVector, withVector, unorderedMap);
       evaluatedResults = qe->evaluateQuery();
       delete qe;
 

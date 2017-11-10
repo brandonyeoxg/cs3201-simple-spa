@@ -36,6 +36,14 @@ public:
   */
   static bool isSynonym(Grammar t_grammar);
 
+  /** Checks if two given Grammar objects contain the same synonym.
+  *   @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  *   @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  *   @return true if both are the same synonym, else return false.
+  *   @author jazlyn
+  */
+  static bool areBothSameSynonyms(Grammar t_g1, Grammar t_g2);
+
   /**
   * A public function to check if both parameters are not synonyms.
   * Given two parameters, it will check if both parameters are not synonyms.

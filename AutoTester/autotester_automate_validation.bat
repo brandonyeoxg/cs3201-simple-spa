@@ -1,1 +1,0 @@
-start "" "%~dp0../Debug/AutoTester.exe" %~dp0/Tests/Validation/validation-prog.txt %~dp0/Tests/Validation/validation-queries.txt %~dp0/Output/DebugOutput/validiation-out.xml

@@ -454,6 +454,7 @@ public:
   * @return a vector of statement numbers.
   */
   LIST_OF_VAR_NAMES& getAllVarNames();
+  LIST_OF_VAR_INDICES& getAllVarIndices();
   LIST_OF_STMT_NUMS getListOfStatements(queryType::GType t_type);
 
   ///////////////////////////////////////////////////////
@@ -493,15 +494,18 @@ public:
   * Returns all procedure name in the program
   */
   LIST_OF_RESULTS getAllProcsName();
-
+  LIST_OF_PROC_INDICES getAllProcsIndices();
   PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx);
 
+  PROC_INDEX getProcIdxFromName(PROC_NAME t_name);
   ///////////////////////////////////////////////////////
   //  ConstantTable methods
   ///////////////////////////////////////////////////////
   LIST_OF_RESULTS getAllConstants();
   LIST_OF_CONSTANT_INDICES getAllConstantsByIdx();
+  CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant);
   CONSTANT_TERM getConstantFromIdx(int t_constantIdx);
+
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -621,7 +625,7 @@ public:
   LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
   MAP_OF_PROC_NAMES getAllCalls();
-  MAP_OF_PROC_INDICES getAllCallsByIdx();
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx();
   std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar(); //calls*(proc1, proc2)
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
   LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)

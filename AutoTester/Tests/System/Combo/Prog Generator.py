@@ -63,21 +63,12 @@ def genIf(nest,string,depth):
         string += ((nest+1) * "  ") + "if i" + str(nest)+" then{\n"
         return genIf(nest+1,string,depth)
     else:
-        a = randint(1,2)
-        if (a==1):
-            i=nest+1
-            while not(i==1):
-                string += (i*"  ")+genRandAsgn()+"}\n"
-                i=i-1
-                string += (i*"  ") + "else{\n" + ((i+1)*"  ") + genRandAsgn() + "}\n"
-            return string
-        else:
-            i=nest+1
-            while not(i==1):
-                string += "\n"+(i*"  ")+genRandAsgn()
-                i=i-1
-                string += "\n"+(i*"  ")+"}else{\n"+((i+1)*"  ")+genRandAsgn()+"\n"+(i*"  ")+"}"
-            return string
+        i=nest+1
+        while not(i==1):
+            string += (i*"  ")+genRandAsgn()+"}\n"
+            i=i-1
+            string += (i*"  ") + "else{\n" + ((i+1)*"  ") + genRandAsgn() + "}\n"
+        return string
 
 #print(genRandAsgn())
 print(genIf(0,"",100))

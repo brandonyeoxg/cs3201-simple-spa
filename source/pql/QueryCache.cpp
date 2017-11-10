@@ -104,7 +104,7 @@ std::string QueryCache::getKey(Clause &t_clause) {
     Pattern *pattern = (Pattern*) &t_clause;
     return getKeyWithPattern(*pattern);
   } else if (t_clause.isRelationType()) { //isRelation
-    Relation *relation = (Relation*)&t_clause;
+    Relation *relation = (Relation*) &t_clause;
     return getKeyWithRelation(*relation);
   }
 }
@@ -130,8 +130,12 @@ std::string QueryCache::getKeyWithPattern(Pattern t_pattern) {
 std::string QueryCache::getKeyWithRelation(Relation t_relation) {
   std::string key = t_relation.getTypeInString();
 
-  key += getKeyWithGrammar(t_relation.getG1());
-  key += getKeyWithGrammar(t_relation.getG2());
+  if (QueryUtil::hasTwoSynonyms(t_relation.getG1(), t_relation.getG2())) {
+    key += getKeyWithPairGrammar(t_relation.getG1(), t_relation.getG2());
+  } else {
+    key += getKeyWithGrammar(t_relation.getG1());
+    key += getKeyWithGrammar(t_relation.getG2());
+  }
 
   return key;
 }
@@ -144,5 +148,16 @@ std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
     return "_";
   } else {
     assert(false);  // should be either synonym or underscore only
+  }
+}
+
+// to be used if both grammar are synonyms
+std::string QueryCache::getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2) {
+  assert(QueryUtil::hasTwoSynonyms(t_grammar1, t_grammar2));
+
+  if (QueryUtil::areBothSameSynonyms(t_grammar1, t_grammar2)) {
+    return "ss";
+  } else {
+    return "s1s2"; // different synonyms
   }
 }

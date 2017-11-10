@@ -281,6 +281,7 @@ public:
   */
   virtual LIST_OF_VAR_NAMES& getAllVarNames() = 0;
 
+  virtual LIST_OF_VAR_INDICES& getAllVarIndices() = 0;
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
@@ -318,7 +319,9 @@ public:
   * @return a list of constants (strings).
   */
   virtual LIST_OF_RESULTS getAllConstants() = 0;
-
+  virtual LIST_OF_CONSTANT_INDICES getAllConstantsByIdx() = 0;
+  virtual CONSTANT_TERM getConstantFromIdx(int t_constantIdx) = 0;
+  virtual CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant) = 0;
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -476,7 +479,7 @@ public:
   * @return the entire map that keep tracks of the calls relationship.
   */
   virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
-  virtual MAP_OF_PROC_INDICES getAllCallsByIdx() = 0; 
+  virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx() = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls* relationship.
   * @return the entire map that keep tracks of the calls* relationship.
@@ -536,7 +539,11 @@ public:
   */
   virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
+  virtual LIST_OF_PROC_INDICES getAllProcsIndices() = 0;
+
   virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
+
+  virtual PROC_INDEX getProcIdxFromName(PROC_NAME t_name) = 0;
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////

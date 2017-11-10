@@ -44,67 +44,67 @@ bool UsesEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_
   return false;
 }
 
-SET_OF_RESULTS UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES UsesEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    std::vector<std::string> varUsedByStmt = t_pkb->getUses(std::stoi(t_g1.getName()));
+    LIST_OF_VAR_INDICES varUsedByStmt = t_pkb->getUsesByIdx(std::stoi(t_g1.getName()));
     if (varUsedByStmt.empty()) {
       return m_result;
     }
 
-    m_result[t_g2.getName()] = varUsedByStmt;
+    m_result[0] = varUsedByStmt;
   } else if (t_g1.getType() == queryType::GType::STR) {
-    std::vector<std::string> varUsedByStmt = t_pkb->getUsesPVarNamesWithProcIdx(t_g1.getName());
+    LIST_OF_VAR_INDICES varUsedByStmt = t_pkb->getUsesPVarIndicesWithProcIdx(t_g1.getName());
     if (varUsedByStmt.empty()) {
       return m_result;
     }
 
-    m_result[t_g2.getName()] = varUsedByStmt;
+    m_result[0] = varUsedByStmt;
   }
 
   return m_result;
 }
 
-SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (!StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
-      std::vector<std::string> stmtVector = t_pkb->getUsesPProcNamesWithVarIdx(t_g2.getName());
-      if (stmtVector.empty()) {
+      LIST_OF_PROC_INDICES procIndices = t_pkb->getUsesPProcIndicesWithVarIdx(t_g2.getName());
+      if (procIndices.empty()) {
         return m_result;
       }
 
-      m_result[t_g1.getName()] = stmtVector;
+      m_result[0] = procIndices;
     } else {
-      std::vector<int> stmtIntVector = t_pkb->getStmtUses(t_g2.getName());
+      LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getStmtUses(t_g2.getName());
       if (stmtIntVector.empty()) {
         return m_result;
       }
 
-      std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
-      if (!stmtStrVector.empty()) {
-        m_result[t_g1.getName()] = stmtStrVector;
+      LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
+      if (!stmtVector.empty()) {
+        m_result[0] = stmtVector;
       }
     }
   } else if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_g1.getType() == queryType::GType::PROC) {
-      std::vector<std::string> stmtVector = t_pkb->getUsesPAllProcNames();
-      if (stmtVector.empty()) {
+      LIST_OF_PROC_INDICES procIndices = t_pkb->getUsesPAllProcIndices();
+      if (procIndices.empty()) {
         return m_result;
       }
 
-      m_result[t_g1.getName()] = stmtVector;
+      m_result[0] = procIndices;
     } else {
-      std::vector<int> stmtIntVector = t_pkb->getStmtUsesAnything();
+      LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getStmtUsesAnything();
       if (stmtIntVector.empty()) {
         return m_result;
       }
 
-      std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
-      if (!stmtStrVector.empty()) {
-        m_result[t_g1.getName()] = stmtStrVector;
+      LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
+      if (!stmtVector.empty()) {
+        m_result[0] = stmtVector;
       }
     }
   }
@@ -112,29 +112,27 @@ SET_OF_RESULTS UsesEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_
   return m_result;
 }
 
-SET_OF_RESULTS UsesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES UsesEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::PROC) {
-    std::multimap<std::string, std::string> procsAndVar = t_pkb->getUsesPAllProcToVar();
+    MAP_OF_PROC_INDEX_TO_VAR_INDEX procsAndVar = t_pkb->getUsesPAllProcToVarByIdx();
     if (procsAndVar.empty()) {
       return m_result;
     }
 
     for (auto& x : procsAndVar) {
-      if (!x.second.empty()) {
-        m_result[x.first].push_back(x.second);
-      }
+      m_result[x.first].push_back(x.second);
     }
   } else {
-    std::unordered_map<std::string, std::vector<int>> stmtsAndVar = t_pkb->getAllStmtUses();
+    MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS stmtsAndVar = t_pkb->getAllStmtUsesByIdx();
     if (stmtsAndVar.empty()) {
       return m_result;
     }
 
     for (auto& x : stmtsAndVar) {
       if (!x.second.empty()) {
-        std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g1);
+        LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g1);
         if (!stmtVector.empty()) {
           m_result[x.first] = stmtVector;
         }
