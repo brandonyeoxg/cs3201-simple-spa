@@ -1,14 +1,5 @@
 #pragma once
 
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <set>
-#include <stdexcept>
-#include <algorithm>
-
 #include "FollowTable.h"
 
 void FollowTable::setFollowTable(MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS &t_table) {
@@ -75,7 +66,7 @@ BOOLEAN FollowTable::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
     //if s1 is not present in followMap
     return false;
   } else {
-    std::vector<int> lineNums = m_followMap[t_s1];
+    LIST_OF_STMT_NUMS lineNums = m_followMap[t_s1];
     if (lineNums[0] == t_s2) {
       //is the first element in vector
       return true;
@@ -86,21 +77,6 @@ BOOLEAN FollowTable::isFollows(STMT_NUM t_s1, STMT_NUM t_s2) {
 }
 
 BOOLEAN FollowTable::isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2) {
-  /*
-  //in this case, since s1 is known,
-  //we just retrieve the vector mapped to s1 and check if s2 exists.
-  if (m_followMap.find(t_s1) == m_followMap.end()) {
-    //if s1 is not present in followMap
-    return false;
-  } else {
-    std::vector<int> lineNums = m_followMap[t_s1];
-    if (std::find(lineNums.begin(), lineNums.end(), t_s2) != lineNums.end()) {
-      //can be found in the vector
-      return true;
-    } else {
-      return false;
-    }
-  } */
   TOTAL_NUMBER_OF_STMTS total = m_followsMatrix.size();
   if (t_s1 >= total || t_s2 >= total) {
     return false;
@@ -126,7 +102,7 @@ STMT_NUM FollowTable::getFollowedBy(STMT_NUM t_s2) {
   if (iterator == m_followedByMap.end()) {
     throw InvalidArgumentException("s2 does not exist in FollowTable");
   } else {
-    std::vector<int> lineNumsFollowedBy = iterator->second;
+    LIST_OF_STMT_NUMS lineNumsFollowedBy = iterator->second;
     return lineNumsFollowedBy[0];
   }
 
@@ -146,7 +122,7 @@ LIST_OF_STMT_NUMS FollowTable::getFollowedByStar(STMT_NUM t_s2) {
   if (iterator != m_followedByMap.end()) {
     result = iterator->second;
   }
-  std::sort(result.begin(), result.end());
+  //std::sort(result.begin(), result.end());
   return result;
 }
 
@@ -161,7 +137,7 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS FollowTable::getAllFollowsStar() {
 LIST_OF_STMT_NUMS FollowTable::getFollowedByAnything() {
   LIST_OF_STMT_NUMS keys;
   for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
-    int lineNum = it->first;
+    STMT_NUM lineNum = it->first;
     keys.push_back(lineNum);
   }
   return keys;
