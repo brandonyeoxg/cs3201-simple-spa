@@ -82,6 +82,9 @@ public:
   // Converts a Clause object of Pattern or Relation type to a string to be used as a key
   std::string getKey(Clause &t_clause);
 
+  ///////////////// for debugging
+  //std::unordered_map<std::string, SET_OF_RESULTS> getEntireCache() { return m_cache; }
+
 private:
   std::unordered_map<std::string, SET_OF_RESULTS> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
   const std::string KEY_ALL_NEXT_STAR = "Next*s1s2";
@@ -94,6 +97,7 @@ private:
   std::string getKeyWithGrammar(Grammar t_grammar);
   std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
 
+  // optimization method to check if result for given clause can be extracted from other cached clauses
   SET_OF_RESULTS *getCacheFromOtherClauses(Clause *t_clause);
   SET_OF_RESULTS *getCacheFromOtherRelations(Relation *t_relation);
 

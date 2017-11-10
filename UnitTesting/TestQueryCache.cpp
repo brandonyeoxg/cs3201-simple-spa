@@ -110,18 +110,14 @@ public:
     cache.cache(clause, toCache); // cache Next*(line1, line2)
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
-    printMap(*results);
 
     expected = SET_OF_RESULTS();
     expected.insert({ "1",{ "1", "2", "3", "4" } });
 
     clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));
 
-    Logger::WriteMessage("Getting cache");
-
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
-    printMap(*results);
     Assert::IsTrue(*results == expected);
   }
 
