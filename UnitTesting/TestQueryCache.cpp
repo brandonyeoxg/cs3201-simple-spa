@@ -9,7 +9,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
   TEST_CLASS(TestQueryCache) {
 public:
-  TEST_METHOD(testKey) {
+  TEST_METHOD(checkKey) {
     Logger::WriteMessage("Print out keys for Clauses");
     Pattern pattern;
     Relation relation;
@@ -225,7 +225,7 @@ public:
     Assert::IsFalse(QueryUtil::areBothSameSynonyms(Grammar(2, "s7"), Grammar(2, "123")));
   }
 
-  TEST_METHOD(getCacheFromOtherClauses) {
+  TEST_METHOD(getCacheFromOtherClauses01) {
     Clause *clause;
     QueryCache cache = QueryCache();
     SET_OF_RESULTS_INDICES *results, expected, toCache;
@@ -250,6 +250,33 @@ public:
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
     Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(getCacheFromOtherClauses02) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS_INDICES();
+    toCache.insert({ 1,{ 1, 2, 3, 4 } });
+    toCache.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next", Grammar(9, "line1"), Grammar(11, "_"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Next(line1, _)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == toCache);
+
+    expected = toCache;
+
+    clause = new Relation("Next*", Grammar(9, "line5"), Grammar(11, "_"));
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    //Assert::IsTrue(*results == toCache);
   }
 
 private:
