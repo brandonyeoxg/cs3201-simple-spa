@@ -124,7 +124,10 @@ namespace IntegrationTesting
       * calls Third; }
       */
     }
-
+    TEST_METHOD_CLEANUP(cleanUpIntegrationTest) {
+      delete m_pkb;
+      delete m_qe;
+    }
     TEST_METHOD(TestEvaluatorAndPkbForFollows)
     {
       //Select s such that follow(s1, s2)
