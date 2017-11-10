@@ -89,13 +89,13 @@ SET_OF_RESULTS_INDICES CallsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, G
 SET_OF_RESULTS_INDICES CallsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  MAP_OF_PROC_INDICES allCalls = t_pkb->getAllCallsByIdx();
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES allCalls = t_pkb->getAllCallsByIdx();
   if (allCalls.empty()) {
     return m_result;
   }
 
   for (auto& x : allCalls) {
-    m_result[x.first].push_back(x.second);
+    m_result[x.first] = x.second;
   }
 
   return m_result;

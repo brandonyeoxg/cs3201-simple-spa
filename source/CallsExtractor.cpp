@@ -6,6 +6,8 @@ void CallsExtractor::extractDesign() {
   populateCalledByStarMap();
   //Need to populate the calls* relationships first, so that the indices version can be populated in the below method.
   populateCallsIdx();
+  populateAllCallsLists();
+  populateAllCallsMap();
   hasRecursiveCall();
 }
 
@@ -47,4 +49,14 @@ void CallsExtractor::populateCalledByStarMap() {
   CallsTable* callsTable = m_pkb->getCallsTable();
   callsTable->populateCalledByStarMap();
   
+}
+
+void CallsExtractor::populateAllCallsLists() {
+  CallsTable* callsTable = m_pkb->getCallsTable();
+  callsTable->populateAllCallsLists();
+}
+
+void CallsExtractor::populateAllCallsMap() {
+  CallsTable* callsTable = m_pkb->getCallsTable();
+  callsTable->populateAllCallsMap();
 }

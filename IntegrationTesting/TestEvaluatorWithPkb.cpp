@@ -98,6 +98,9 @@ namespace IntegrationTesting
       m_pkb->insertCallStmt(idx, "Second", 7);
       m_pkb->insertProcedure("Third");
       m_pkb->insertCallStmt(idx, "Third", 8);
+      m_pkb->getCallsTable()->populateCallsByIdx(m_pkb->getProcTable());
+      m_pkb->getCallsTable()->populateAllCallsLists();
+      m_pkb->getCallsTable()->populateAllCallsMap();
 
       //insert next
       m_pkb->insertNextRelation(1, 2);
