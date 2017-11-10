@@ -58,7 +58,7 @@ namespace UnitTesting {
     TEST_METHOD(TestGetResults)
     {
       Grammar g1 = Grammar(3, "a");
-      Grammar g2 = Grammar(7, "v");
+      Grammar g2 = Grammar(3, "v");
       Grammar g3 = Grammar(2, "s1");
       Grammar g4 = Grammar(2, "s2");
       Grammar g5 = Grammar(2, "KOKOK");
@@ -70,7 +70,7 @@ namespace UnitTesting {
       Assert::IsTrue(actual == expected);
 
       actual = m_driver->getResults({ g1, g2 }, m_pkb);
-      expected = { "1 a", "2 b", "3 c" };
+      expected = { "1 1", "2 2", "3 3" };
       Assert::IsTrue(actual == expected);
 
       actual = m_driver->getResults({ g1, g3, g4 }, m_pkb);
