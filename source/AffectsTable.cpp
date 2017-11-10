@@ -101,21 +101,18 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedLst = mergeLmt(insideStmtLst, t_lmt);
   traverseCfgWithBound(stmts[0], stmtLstBound.back(), t_nextLine, mergedLst);
   mergedLst = mergeLmt(t_lmt, mergedLst);
+  t_lmt = mergedLst;
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
     queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
     if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(stmts[1], t_curProgLine)) {
-      t_lmt = mergedLst;
       return;
     }
     // Combine lms with lmt
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS nextMergedLst = mergeLmt(t_lmt, mergedLst);
-    traverseCfgWithBound(stmts[1], t_endBound, stmts[1], nextMergedLst);
-    t_lmt = nextMergedLst;
+    traverseCfgWithBound(stmts[1], t_endBound, stmts[1], t_lmt);
     t_nextLine = stmts[1];
     return;
   }
-  t_lmt = mergedLst;
 }
 
 void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt) {
@@ -341,16 +338,17 @@ BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine
   return true;
 }
 
-void AffectsTable::traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextStmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+void AffectsTable::traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+  t_nextLine = t_curProgLine;
   if (t_curProgLine > t_endBound) {
     return;
   }
   // Checks for the current line if it is a container stmt
   queryType::GType stmtType = m_stmtTable->getTypeOfStatement(t_curProgLine);
   if (isContainerStmt(stmtType)) {
-    traverseContainerCfgWithBound(t_curProgLine, t_endBound, t_nextStmt, t_lmt, t_lastUses, stmtType);
+    traverseContainerCfgWithBound(t_curProgLine, t_endBound, t_nextLine, t_lmt, t_lastUses, stmtType);
   } else {
-    traverseNonContainerCfgWithBound(t_curProgLine, t_endBound, t_nextStmt, t_lmt, t_lastUses, stmtType);
+    traverseNonContainerCfgWithBound(t_curProgLine, t_endBound, t_nextLine, t_lmt, t_lastUses, stmtType);
   }
 }
 
@@ -363,47 +361,47 @@ void AffectsTable::traverseContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_L
   }
 }
 
-void AffectsTable::traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextStmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses, queryType::GType t_type) {
+void AffectsTable::traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses, queryType::GType t_type) {
   if (t_type == queryType::GType::ASGN) {
     handleAffectsOnAssgnStmt(t_curProgLine, t_lmt, t_lastUses);
   } else if (t_type == queryType::GType::CALL) {
     handleAffectsOnCallStmt(t_curProgLine, t_lmt, t_lastUses);
   }
   if (m_nextTable->getAfterGraph()->find(t_curProgLine) == m_nextTable->getAfterGraph()->end()) {
+    t_nextLine = INVALID_PROG_LINE;
     return;
   }
   PROG_LINE nextProgLine = m_nextTable->getAfterGraph()->at(t_curProgLine)[0];
   if (nextProgLine < t_curProgLine) {
     return;
   }
-  traverseCfgWithBound(nextProgLine, t_endBound, t_nextStmt, t_lmt, t_lastUses);
+  traverseCfgWithBound(nextProgLine, t_endBound, t_nextLine, t_lmt, t_lastUses);
 }
 
-void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextStmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
+void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
   LIST_OF_STMT_NUMS stmts = m_nextTable->getAfterGraph()->at(t_curProgLine);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLmt = t_lmt, ifLastUses = t_lastUses;
   LIST_OF_STMT_NUMS stmtLstBound = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_curProgLine);
-  traverseCfgWithBound(stmts[0], stmtLstBound.back(), t_nextStmt, ifLmt, ifLastUses);
+  traverseCfgWithBound(stmts[0], stmtLstBound.back(), t_nextLine, ifLmt, ifLastUses);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS elseLmt = t_lmt, elseLastUses = t_lastUses;
-  traverseCfgWithBound(stmts[1], stmtLstBound.back(), t_nextStmt, elseLmt, elseLastUses);
+  traverseCfgWithBound(stmts[1], stmtLstBound.back(), t_nextLine, elseLmt, elseLastUses);
   auto nItr = m_nextTable->getAfterGraph()->find(stmtLstBound.back());
   queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmtLstBound.back());
   if (stmtType == queryType::GType::WHILE && nItr->second.size() < 2) {
     return;
   }
-  if (nItr == m_nextTable->getAfterGraph()->end()) {
+  if (t_nextLine == INVALID_PROG_LINE) {
     return;
   }
   // For if both stmts leads to stmt lst
   t_lmt = mergeLmt(ifLmt, elseLmt);
   t_lastUses = mergeLmt(ifLastUses, elseLastUses);
-  PROG_LINE nextStmt = nItr->second.back();
-  stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(nextStmt);
-  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(nextStmt, t_curProgLine)) {
+  stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(t_nextLine);
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(t_nextLine, t_curProgLine)) {
     return;
   }
   // Combine lms with lmt
-  traverseCfgWithBound(nextStmt, t_endBound, t_nextStmt, t_lmt, t_lastUses);
+  traverseCfgWithBound(t_nextLine, t_endBound, t_nextLine, t_lmt, t_lastUses);
 }
 
 void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextStmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
@@ -418,22 +416,20 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
     insideLastUses = mergeLmt(insideLastUses, t_lastUses);
     traverseCfgWithBound(stmts[0], stmtLstBound.back(), t_nextStmt, insideStmtLst, insideLastUses);
   }
+  insideStmtLst = mergeLmt(insideStmtLst, t_lmt);
+  insideLastUses = mergeLmt(insideLastUses, t_lastUses);
+  t_lmt = insideStmtLst;
+  t_lastUses = insideLastUses;
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
     queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
-    if (stmtType == queryType::GType::WHILE) {
+    if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(stmts[1], t_curProgLine)) {
       return;
     }
-    // Combine lms with lmt
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS nextMergedLst = mergeLmt(t_lmt, insideStmtLst);
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS nextUsesTable = mergeLmt(t_lastUses, insideLastUses);
-    traverseCfgWithBound(stmts[1], t_endBound, t_nextStmt, nextMergedLst, nextUsesTable);
-    t_lmt = nextMergedLst;
-    t_lastUses = nextUsesTable;
+    traverseCfgWithBound(stmts[1], t_endBound, stmts[1], t_lmt, t_lastUses);
+    t_nextStmt = stmts[1];
     return;
   }
-  t_lmt = insideStmtLst;
-  t_lastUses = insideLastUses;
 }
 
 void AffectsTable::handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lastUses) {
