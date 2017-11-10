@@ -55,6 +55,9 @@ public:
 
     clause = new With(Grammar(), Grammar());
     Assert::IsFalse(cache.isCacheable(clause));
+
+    clause = new Relation("Next*", Grammar(11, "12"), Grammar(2, "s1"));
+    Assert::IsTrue(cache.isCacheable(clause));
   }
 
   TEST_METHOD(isPatternType_isRelationType) {
@@ -69,7 +72,7 @@ public:
     Assert::IsFalse(clause->isPatternType());
   }
 
-  TEST_METHOD(cache_getCache) {
+  TEST_METHOD(cache_getCache01) {
     Clause *clause;
     QueryCache cache = QueryCache();
     SET_OF_RESULTS_INDICES *results, expected;
@@ -87,6 +90,23 @@ public:
     clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s7"));
     results = cache.getCache(clause);
     Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(cache_getCache02) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected;
+
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 1, { 1, 2, 3, 4 } });
+    expected.insert({ 2, { 1, 4 } });
+
+    clause = new Relation("Affects*", Grammar(11, "55"), Grammar(3, "s1"));
+
+    cache.cache(clause, expected);
+    results = cache.getCache(clause);
+    Assert::IsTrue(*results == expected);
+
   }
 
   TEST_METHOD(queryUtil_areBothSameSynonyms) {
