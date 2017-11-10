@@ -95,9 +95,9 @@ namespace IntegrationTesting
       
       //insert calls
       m_pkb->insertProcedure("Second");
-      m_pkb->insertCallStmt(idx, "Second", 7);
+      m_pkb->insertCallStmt(0, "Second", 7);
       m_pkb->insertProcedure("Third");
-      m_pkb->insertCallStmt(idx, "Third", 8);
+      m_pkb->insertCallStmt(0, "Third", 8);
       m_pkb->getCallsTable()->populateCallsByIdx(m_pkb->getProcTable());
       m_pkb->getCallsTable()->populateAllCallsLists();
       m_pkb->getCallsTable()->populateAllCallsMap();
@@ -249,8 +249,13 @@ namespace IntegrationTesting
       m_synonymsUsedInQuery["p"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       std::vector<std::string> expectedResult = { "First" };
+      SET_OF_PROC_NAMES expectedSet;
+      expectedSet.insert("First");
       std::vector<std::string> actualResult = m_qe->evaluateQuery();
-      Assert::IsTrue(actualResult == expectedResult);
+      //Autotester allows duplicate, and order does not matter.
+      SET_OF_PROC_NAMES actualSet;
+      actualSet.insert(actualResult.begin(), actualResult.end());
+      Assert::IsTrue(actualSet == expectedSet);
     }
 
     TEST_METHOD(TestEvaluatorAndPkbForNext)
