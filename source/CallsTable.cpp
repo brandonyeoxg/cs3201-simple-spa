@@ -208,9 +208,9 @@ MAP_OF_PROC_NAMES CallsTable::getAllCalls() { //obsolete
   return allCalls;
 }
 
-MAP_OF_PROC_INDICES CallsTable::getAllCallsByIdx() {
+MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES CallsTable::getAllCallsByIdx() {
 
-  return m_allCallsMapByIdx;
+  return m_callsMapByIdx;
 }
 
 MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES CallsTable::getAllCallsStar() {

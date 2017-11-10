@@ -479,7 +479,7 @@ public:
   * @return the entire map that keep tracks of the calls relationship.
   */
   virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
-  virtual MAP_OF_PROC_INDICES getAllCallsByIdx() = 0; 
+  virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx() = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls* relationship.
   * @return the entire map that keep tracks of the calls* relationship.

@@ -88,7 +88,7 @@ public:
   * @return the map that contains all calls relationship.
   */
   MAP_OF_PROC_NAMES getAllCalls();
-  MAP_OF_PROC_INDICES getAllCallsByIdx();
+  MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx();
 
   /**
   * Get the map of calls* relationship i.e. for calls*(p1, p2) where p1, p2 are synonyms.

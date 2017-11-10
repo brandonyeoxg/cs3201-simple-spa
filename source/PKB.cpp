@@ -630,7 +630,7 @@ LIST_OF_PROC_INDICES PKB::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
 MAP_OF_PROC_NAMES PKB::getAllCalls() {
   return m_callsTable->getAllCalls();
 }
-MAP_OF_PROC_INDICES PKB::getAllCallsByIdx() {
+MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES PKB::getAllCallsByIdx() {
   return m_callsTable->getAllCallsByIdx();
 }
 std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {
