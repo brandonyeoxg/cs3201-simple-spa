@@ -12,6 +12,7 @@
 *   Currently caches results for: 
 *     Relationships involving 2 common synonyms
 *     Relationships involving 1 common synonym and 1 wildcard
+*     Relationships involving 1 common synonym and 1 given parameter (number or string)
 *     Patterns involving 1 common synonym
 *   Caches results that PKB takes more than O(1) time to deliver.
 *   @author jazlyn
@@ -40,10 +41,10 @@
     Calls(0, proc2)
     Calls*(0, proc2)
 
-    Follows(_, s1) & Follows*(_, s1)
+    Follows(_, s2) & Follows*(_, s2)
     Follows(s1, _) & Follows*(s1, _)
-    Follows(0, s1)
-    Follows*(0, s1)
+    Follows(0, s2)
+    Follows*(0, s2)
     Follows(s1, 0)
     Follows*(s1, 0)
 
@@ -112,6 +113,9 @@ public:
 
 private:
   std::unordered_map<std::string, SET_OF_RESULTS_INDICES> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
+  
+  ////////// Keys for Clauses in the Cache map /////////////////
+  //  To be used for optimizing cache retrieval
   const std::string KEY_ALL_NEXT_STAR = "Next*/s1/s2";  /**< Key for Next*(s1, s2) */
   const std::string KEY_NEXT_STAR_RIGHT_SYN = "Next*/_/s";
   const std::string KEY_NEXT_STAR_LEFT_SYN = "Next*/s/_";
@@ -119,12 +123,22 @@ private:
   const std::string KEY_NEXT_RIGHT_SYN = "Next/_/s";
   const std::string KEY_NEXT_LEFT_SYN = "Next/s/_";
 
+  const std::string KEY_FOLLOWS_RIGHT_SYN = "Follows/_/s";
+  const std::string KEY_FOLLOWS_LEFT_SYN = "Follows/s/_";
+
+  const std::string KEY_FOLLOWS_STAR_RIGHT_SYN = "Follows*/_/s";
+  const std::string KEY_FOLLOWS_STAR_LEFT_SYN = "Follows*/s/_";
+
   bool isPatternCacheable(Pattern *t_pattern);
   bool isRelationCacheable(Relation *t_relation);
 
   std::string getKeyWithPattern(Pattern t_pattern);
   std::string getKeyWithRelation(Relation t_relation);
+
+  // for clauses with only 1 common synonym
   std::string getKeyWithGrammar(Grammar t_grammar);
+
+  // for clauses with 2 common synonyms
   std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
 
   // optimization method to check if result for given clause can be extracted from other cached clauses
@@ -132,6 +146,7 @@ private:
   SET_OF_RESULTS_INDICES *getCacheFromOtherRelations(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForNextStar(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForNext(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForFollows(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
