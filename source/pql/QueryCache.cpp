@@ -3,13 +3,13 @@
 #include "QueryCache.h"
 
 QueryCache::QueryCache() {
-  m_cache = std::unordered_map<std::string, SET_OF_RESULTS>();
+  m_cache = std::unordered_map<std::string, SET_OF_RESULTS_INDICES>();
 }
 
-SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
+SET_OF_RESULTS_INDICES *QueryCache::getCache(Clause *t_clause) {
   assert(isCacheable(t_clause));
 
-  SET_OF_RESULTS *results = nullptr;
+  SET_OF_RESULTS_INDICES *results = nullptr;
 
   std::string clauseKey = getKey(*t_clause);
 
@@ -20,7 +20,7 @@ SET_OF_RESULTS *QueryCache::getCache(Clause *t_clause) {
   return results;
 }
 
-void QueryCache::cache(Clause *t_clause, SET_OF_RESULTS t_results) {
+void QueryCache::cache(Clause *t_clause, SET_OF_RESULTS_INDICES t_results) {
   assert(isCacheable(t_clause));
 
   std::string key = getKey(*t_clause);
