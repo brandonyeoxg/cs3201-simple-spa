@@ -1,6 +1,6 @@
 #include "IntermediateTable.h"
 
-bool IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
+bool IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS_INDICES t_results) {
   if (!hasSynonym(t_synonym)) {
     insertSynonym(t_synonym);
     if (m_results.empty()) {
@@ -19,20 +19,20 @@ bool IntermediateTable::insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS
   return true;
 }
 
-bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS t_results) {
+bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS_INDICES t_results) {
   if (!hasSynonym(t_synonym1) && !hasSynonym(t_synonym2)) {
     insertSynonym(t_synonym1);
     insertSynonym(t_synonym2);
     if (m_results.empty()) {
       if (t_synonym1 == t_synonym2) {
-        LIST_OF_RESULTS results = Formatter::formatMapStrVectorStrToVectorStr(t_results);
+        LIST_OF_RESULTS_INDICES results = Formatter::formatMapIntVectorIntToVectorInt(t_results);
         m_results = insertOneIntoEmptyTable(results);
       } else {
         m_results = insertTwoIntoEmptyTable(t_results);
       }    
     } else {
       if (t_synonym1 == t_synonym2) {
-        LIST_OF_RESULTS results = Formatter::formatMapStrVectorStrToVectorStr(t_results);
+        LIST_OF_RESULTS_INDICES results = Formatter::formatMapIntVectorIntToVectorInt(t_results);
         m_results = getCartesianProduct(results);
       } else {
         m_results = getCartesianProduct(t_results);
@@ -46,6 +46,51 @@ bool IntermediateTable::insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t
     m_results = getCartesianProductOfCommonResultsWithRight(t_synonym2, t_results);
   } else if (hasSynonym(t_synonym1) && hasSynonym(t_synonym2)) {
     m_results = getCommonResults(t_synonym1, t_synonym2, t_results);
+  }
+
+  if (m_results.empty()) {
+    return false;
+  }
+
+  return true;
+}
+
+BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable*> t_tables) {
+  for (auto& table : t_tables) {
+    if (table->m_results.empty()) {
+      continue;
+    }
+
+    for (auto& syn : table->m_synonyms) {
+      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(syn.second);
+      if (got == m_synonymRowChecker.end()) {
+        insertSynonym(syn.second);
+      }  
+    }
+
+    if (m_results.empty()) {
+      m_results = table->m_results;
+      continue;
+    }
+
+    INTERMEDIATE_TABLE intermediateResults;
+    int rowNum = 0;
+    for (auto& row : table->m_results) {
+      for (auto& r : m_results) {
+        if (intermediateResults.empty()) {
+          intermediateResults.push_back(r);
+          intermediateResults[rowNum].insert(intermediateResults[rowNum].end(), row.begin(), row.end());
+          rowNum++;
+          continue;
+        }
+
+        intermediateResults.push_back(r);
+        intermediateResults[rowNum].insert(intermediateResults[rowNum].end(), row.begin(), row.end());
+        rowNum++;
+      }
+    }
+
+    m_results = intermediateResults;
   }
 
   if (m_results.empty()) {
@@ -71,20 +116,32 @@ LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn
         }
 
         int synPosInTable = synInTable->second;
-        
+
         if (Grammar::isCall(sItr.getType()) && Grammar::isProcName(sItr.getAttr())) {
-          RESULT callStmt = m_results[i][synPosInTable];
-          PROC_NAME procName = t_pkb->getProcNameFromCallStmtNum(std::stoi(callStmt));
+          STMT_NUM callStmt = m_results[i][synPosInTable];
+          PROC_NAME procName = t_pkb->getProcNameFromCallStmtNum(callStmt);
           result += procName + " ";
-        } else {         
-          result += m_results[i][synPosInTable] + " ";
+        } else if (Grammar::isProc(sItr.getType())) {
+          PROC_NAME procName = t_pkb->getProcNameFromIdx(m_results[i][synPosInTable]);
+          result += procName + " ";
+        } else if (Grammar::isVar(sItr.getType())) {
+          VAR_NAME varName = t_pkb->getVarNameFromIdx(m_results[i][synPosInTable]);
+          result += varName + " ";
+        } else if (Grammar::isConst(sItr.getType())) {
+          CONSTANT_TERM constantTerm = t_pkb->getConstantFromIdx(m_results[i][synPosInTable]);
+          result += constantTerm + " ";
+        } else {
+          result += std::to_string(m_results[i][synPosInTable]) + " ";
         }   
       } else {
         result += sItr.getName() + " ";
       }
     }
-    result.pop_back();
-    output.push_back(result);
+
+    if (!result.empty()) {
+      result.pop_back();
+      output.push_back(result);
+    }   
   }
   return output;
 }
@@ -105,6 +162,7 @@ bool IntermediateTable::isEmpty() {
 void IntermediateTable::clearTable() {
   m_results.clear();
   m_synonymRowChecker.clear();
+  m_synonyms.clear();
 }
 
 MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_NAME& t_synonym) {
@@ -113,6 +171,7 @@ MAP_OF_SYNONYM_TO_TABLE_POSITION IntermediateTable::insertSynonym(const SYNONYM_
   }
   int curSize = m_synonymRowChecker.size();
   m_synonymRowChecker.emplace(t_synonym, curSize);
+  m_synonyms.emplace(curSize, t_synonym);
   return m_synonymRowChecker;
 }
 
@@ -125,7 +184,7 @@ SYNONYM_POSITION IntermediateTable::getIndexOfSynonym(SYNONYM_NAME t_synonym) {
   return -1;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::insertOneIntoEmptyTable(LIST_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::insertOneIntoEmptyTable(LIST_OF_RESULTS_INDICES t_results) {
   for (int i = 0; i < t_results.size(); ++i) {
     m_results.push_back({});
     m_results[i].push_back(t_results[i]);
@@ -134,7 +193,7 @@ INTERMEDIATE_TABLE IntermediateTable::insertOneIntoEmptyTable(LIST_OF_RESULTS t_
   return m_results;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::insertTwoIntoEmptyTable(SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::insertTwoIntoEmptyTable(SET_OF_RESULTS_INDICES t_results) {
   int i = 0;
   for (auto& x : t_results) {
     for (auto& y : x.second) {
@@ -148,7 +207,7 @@ INTERMEDIATE_TABLE IntermediateTable::insertTwoIntoEmptyTable(SET_OF_RESULTS t_r
   return m_results;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
 
   int i = 0;
@@ -163,7 +222,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(LIST_OF_RESULTS t_resu
   return newResults;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
   int i = 0;
   for (auto& x : t_results) {
@@ -180,7 +239,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProduct(SET_OF_RESULTS t_resul
   return newResults;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME t_synonym, LIST_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
 
@@ -197,7 +256,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME t_synonym, L
 }
 
 // Both synoynm inside the the intermediate table
-INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1, SYNONYM_NAME& t_synonym2, SET_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION syn1Pos = getIndexOfSynonym(t_synonym1);
   SYNONYM_POSITION syn2Pos = getIndexOfSynonym(t_synonym2);
@@ -219,7 +278,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCommonResults(SYNONYM_NAME& t_synonym1,
   return newResults;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithLeft(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithLeft(SYNONYM_NAME& t_synonym, SET_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
 
@@ -240,7 +299,7 @@ INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithLeft
   return newResults;
 }
 
-INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithRight(SYNONYM_NAME& t_synonym, SET_OF_RESULTS t_results) {
+INTERMEDIATE_TABLE IntermediateTable::getCartesianProductOfCommonResultsWithRight(SYNONYM_NAME& t_synonym, SET_OF_RESULTS_INDICES t_results) {
   INTERMEDIATE_TABLE newResults;
   SYNONYM_POSITION synPos = getIndexOfSynonym(t_synonym);
 

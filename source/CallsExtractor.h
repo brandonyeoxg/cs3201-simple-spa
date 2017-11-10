@@ -15,11 +15,14 @@ public:
   ~CallsExtractor() {};
 
   void extractDesign();
-  void hasRecursiveCall();
+  void hasCyclicCall();
+  void hasNonExistantCall();
 
 private:
   void populateCallsIdx();
   void populateCallsStarMap();
   void populateCalledByStarMap();
+  void populateAllCallsLists();
+  void populateAllCallsMap();
 };
 

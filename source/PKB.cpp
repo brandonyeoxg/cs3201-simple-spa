@@ -347,6 +347,10 @@ LIST_OF_VAR_NAMES& PKB::getAllVarNames() {
   return m_varTable->getAllVarNames();
 }
 
+LIST_OF_VAR_INDICES& PKB::getAllVarIndices() {
+  return m_varTable->getAllVarIndices();
+}
+
 ///////////////////////////////////////////////////////
 //  AssignTable methods
 ///////////////////////////////////////////////////////
@@ -393,6 +397,9 @@ LIST_OF_CONSTANT_INDICES PKB::getAllConstantsByIdx() {
 CONSTANT_TERM PKB::getConstantFromIdx(int t_constantIdx) {
   return m_constantTable->getConstantFromIdx(t_constantIdx);
 }
+CONSTANT_INDEX PKB::getConstantIdxFromConstant(CONSTANT_TERM t_constant) {
+  return m_constantTable->getConstantIdxFromConstant(t_constant);
+}
 ///////////////////////////////////////////////////////
 //  ProcTable methods
 ///////////////////////////////////////////////////////
@@ -404,8 +411,16 @@ LIST_OF_RESULTS PKB::getAllProcsName() {
   return m_procTable->getAllProcsName();
 }
 
+LIST_OF_PROC_INDICES PKB::getAllProcsIndices() {
+  return m_procTable->getAllProcsIndices();
+}
+
 PROC_NAME PKB::getProcNameFromIdx(PROC_INDEX t_idx) {
   return m_procTable->getProcNameFromIdx(t_idx);
+}
+
+PROC_INDEX PKB::getProcIdxFromName(PROC_NAME t_name) {
+  return m_procTable->getProcIdxFromName(t_name);
 }
 ///////////////////////////////////////////////////////
 //  PatternMatch methods
@@ -615,7 +630,7 @@ LIST_OF_PROC_INDICES PKB::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
 MAP_OF_PROC_NAMES PKB::getAllCalls() {
   return m_callsTable->getAllCalls();
 }
-MAP_OF_PROC_INDICES PKB::getAllCallsByIdx() {
+MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES PKB::getAllCallsByIdx() {
   return m_callsTable->getAllCallsByIdx();
 }
 std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {

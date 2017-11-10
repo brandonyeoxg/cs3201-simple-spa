@@ -160,6 +160,14 @@ public:
   */
   Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
 
+  /**
+  * A method that takes in the query that contains multiple clauses and processes it 
+  * @param attribute being the string that contains the attribute
+  * @param withGrammar being the Grammar to be formed on the left side
+  * @return string that has been parsed and substringed.
+  */
+  std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause);
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //--------------------------------Getter Methods------------------------------------------//
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,6 +241,7 @@ private:
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
   std::queue<With> m_withQueue;
+  std::string m_prevClause;
   std::vector<Grammar> m_selectVectorQE;
   std::vector<Relation> m_relationVectorQE;
   std::vector<Pattern> m_patternVectorQE;

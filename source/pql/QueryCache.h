@@ -63,14 +63,14 @@ public:
   *   @param t_clause clause, assumes it is a cacheable clause
   *   @return pointer to set of results, will return nullptr if no results cached
   */
-  SET_OF_RESULTS *getCache(Clause *t_clause);
+  SET_OF_RESULTS_INDICES *getCache(Clause *t_clause);
 
   /** Caches given result with given clause.
   *   Given clause must be cacheable (will be checked with assert), use isCacheable() to check.
   *   @param t_clause clause, assumes it is a cacheable clause
   *   @param t_results set of results
   */
-  void cache(Clause *t_clause, SET_OF_RESULTS t_results);
+  void cache(Clause *t_clause, SET_OF_RESULTS_INDICES t_results);
 
   /** Checks if given clause is cacheable.
   *   @param t_clause clause
@@ -86,7 +86,7 @@ public:
   //std::unordered_map<std::string, SET_OF_RESULTS> getEntireCache() { return m_cache; }
 
 private:
-  std::unordered_map<std::string, SET_OF_RESULTS> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
+  std::unordered_map<std::string, SET_OF_RESULTS_INDICES> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
   const std::string KEY_ALL_NEXT_STAR = "Next*s1s2";
 
   bool isPatternCacheable(Pattern *t_pattern);
@@ -98,8 +98,8 @@ private:
   std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
 
   // optimization method to check if result for given clause can be extracted from other cached clauses
-  SET_OF_RESULTS *getCacheFromOtherClauses(Clause *t_clause);
-  SET_OF_RESULTS *getCacheFromOtherRelations(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheFromOtherClauses(Clause *t_clause);
+  SET_OF_RESULTS_INDICES *getCacheFromOtherRelations(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);

@@ -72,11 +72,11 @@ public:
   TEST_METHOD(cache_getCache) {
     Clause *clause;
     QueryCache cache = QueryCache();
-    SET_OF_RESULTS *results, expected;
+    SET_OF_RESULTS_INDICES *results, expected;
 
-    expected = SET_OF_RESULTS();
-    expected.insert({ "result1", {"1", "2", "3", "4"} });
-    expected.insert({ "result2", { "1", "4" } });
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 1, { 1, 2, 3, 4 } });
+    expected.insert({ 2, { 1, 4 } });
 
     clause = new Relation("Parent*", Grammar(11, "_"), Grammar(2, "s1"));
 
