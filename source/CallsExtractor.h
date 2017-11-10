@@ -22,5 +22,6 @@ private:
   void populateCallsStarMap();
   void populateCalledByStarMap();
   void populateAllCallsLists();
+  void populateAllCallsMap();
 };
 

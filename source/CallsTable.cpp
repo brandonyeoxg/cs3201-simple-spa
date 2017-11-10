@@ -197,7 +197,7 @@ LIST_OF_PROC_INDICES CallsTable::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
   }
 }
 
-MAP_OF_PROC_NAMES CallsTable::getAllCalls() {
+MAP_OF_PROC_NAMES CallsTable::getAllCalls() { //obsolete
   std::unordered_map<PROC_NAME, PROC_NAME> allCalls;
   for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
     LIST_OF_PROC_NAMES procNames = it->second;
@@ -209,14 +209,8 @@ MAP_OF_PROC_NAMES CallsTable::getAllCalls() {
 }
 
 MAP_OF_PROC_INDICES CallsTable::getAllCallsByIdx() {
-  MAP_OF_PROC_INDICES allCallsByIdx;
-  for (auto it = m_callsMapByIdx.begin(); it != m_callsMapByIdx.end(); ++it) {
-    LIST_OF_PROC_INDICES procIndices = it->second;
-    for (int i = 0; i < procIndices.size(); i++) {
-      allCallsByIdx.emplace(it->first, procIndices[i]);
-    }
-  }
-  return allCallsByIdx;
+
+  return m_allCallsMapByIdx;
 }
 
 MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES CallsTable::getAllCallsStar() {
@@ -246,7 +240,7 @@ LIST_OF_PROC_INDICES CallsTable:: getCallsStarAnythingByIdx() {
   return getCallsAnythingByIdx(); //same result
 }
 
-LIST_OF_PROC_NAMES CallsTable::getCalledByAnything() {
+LIST_OF_PROC_NAMES CallsTable::getCalledByAnything() {  //obsolete.
   LIST_OF_PROC_NAMES procNames;
   //copy the m_allFollows set to values vector.
   procNames.assign(m_allCalledBy.begin(), m_allCalledBy.end());
@@ -469,6 +463,15 @@ void CallsTable::populateCalledByStarMap() {
 void CallsTable::populateAllCallsLists() {
   m_allCallsByIdxList.assign(m_allCallsByIdx.begin(), m_allCallsByIdx.end());
   m_allCalledByByIdxList.assign(m_allCalledByByIdx.begin(), m_allCalledByByIdx.end());
+}
+
+void CallsTable::populateAllCallsMap() {
+  for (auto it = m_callsMapByIdx.begin(); it != m_callsMapByIdx.end(); ++it) {
+    LIST_OF_PROC_INDICES procIndices = it->second;
+    for (int i = 0; i < procIndices.size(); i++) {
+      m_allCallsMapByIdx.emplace(it->first, procIndices[i]);
+    }
+  }
 }
 
 CallsTable::CallsTable() {}
