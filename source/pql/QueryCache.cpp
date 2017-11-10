@@ -178,6 +178,8 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
   switch (t_relation->getType()) {
     case queryType::RType::NEXT_:
       return getCacheForNextStar(t_relation);
+    case queryType::RType::NEXT:
+      return getCacheForNext(t_relation);
   }
 
   return nullptr;
@@ -206,6 +208,24 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
     // Next*(p1, _)
     if (isKeyInMap(KEY_NEXT_LEFT_SYN, m_cache)) {
       return &m_cache.at(KEY_NEXT_LEFT_SYN); // use Next(p1, _)
+    }
+  }
+
+  return nullptr;
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
+  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG1())) {
+    // Next(_, p2)
+    if (isKeyInMap(KEY_NEXT_STAR_RIGHT_SYN, m_cache)) {
+      return &m_cache.at(KEY_NEXT_STAR_RIGHT_SYN);  // use Next*(_, p2)
+    }
+  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
+    && QueryUtil::isUnderscore(t_relation->getG2())) {
+    // Next(p1, _)
+    if (isKeyInMap(KEY_NEXT_STAR_LEFT_SYN, m_cache)) {
+      return &m_cache.at(KEY_NEXT_STAR_LEFT_SYN); // use Next*(p1, _)
     }
   }
 

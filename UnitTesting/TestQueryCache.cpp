@@ -272,11 +272,38 @@ public:
 
     expected = toCache;
 
-    clause = new Relation("Next*", Grammar(9, "line5"), Grammar(11, "_"));
+    clause = new Relation("Next*", Grammar(9, "line5"), Grammar(11, "_"));  // Next*(line5, _)
 
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
-    //Assert::IsTrue(*results == toCache);
+    Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(getCacheFromOtherClauses03) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS_INDICES();
+    toCache.insert({ 1,{ 1, 2, 3, 4 } });
+    toCache.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next*", Grammar(9, "line1"), Grammar(11, "_"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Next*(line1, _)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == toCache);
+
+    expected = toCache;
+
+    clause = new Relation("Next", Grammar(9, "line5"), Grammar(11, "_"));  // Next(line5, _)
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == expected);
   }
 
 private:
