@@ -18,13 +18,13 @@ namespace IntegrationTesting
     PKB* m_pkb;
     QueryEvaluator* m_qe;
     std::unordered_map<std::string, int> m_synonymsUsedInQuery; 
-    std::queue<Grammar> m_selects;
-    std::queue<Relation> m_relations;
-    std::queue<Pattern> m_patterns;
-    std::queue<With> m_withs;
-    std::queue<Grammar> m_emptySelects;
-    std::queue<Relation> m_emptyRelations;
-    std::queue<Pattern> m_emptyPatterns;
+    std::vector<Grammar> m_selects;
+    std::vector<Relation> m_relations;
+    std::vector<Pattern> m_patterns;
+    std::vector<With> m_withs;
+    std::vector<Grammar> m_emptySelects;
+    std::vector<Relation> m_emptyRelations;
+    std::vector<Pattern> m_emptyPatterns;
 
   public:
     TEST_METHOD_INITIALIZE(InitialisePkbAndEvaluator)
@@ -129,8 +129,8 @@ namespace IntegrationTesting
       Grammar* g2 = new Grammar(2, "s1");
       Grammar* g3 = new Grammar(2, "s2");
       Relation* r1 = new Relation("Follows", *g2, *g3);
-      m_selects.push(*g1);
-      m_relations.push(*r1);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery["s"] = 1;
       m_synonymsUsedInQuery["s1"] = 1;
       m_synonymsUsedInQuery["s2"] = 1;
@@ -144,8 +144,8 @@ namespace IntegrationTesting
       std::swap(m_relations, m_emptyRelations);
       Grammar* g4 = new Grammar(10, "2");
       Relation* r2 = new Relation("Follows*", *g4, *g1);
-      m_selects.push(*g1);
-      m_relations.push(*r2);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r2);
       
       m_synonymsUsedInQuery.clear(); 
       m_synonymsUsedInQuery["s"] = 2;
@@ -169,8 +169,8 @@ namespace IntegrationTesting
       std::swap(m_patterns, m_emptyPatterns);
 
       //Select s such that parent(s1, s2)
-      m_selects.push(*g1);
-      m_relations.push(*r1);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery["s"] = 1;
       m_synonymsUsedInQuery["s1"] = 1;
       m_synonymsUsedInQuery["s2"] = 1;
@@ -186,7 +186,7 @@ namespace IntegrationTesting
       std::swap(m_relations, m_emptyRelations);
       Grammar* g4 = new Grammar(10, "5");
       Relation* r2 = new Relation("Parent", *g4, *g1);
-      m_relations.push(*r2);
+      m_relations.push_back(*r2);
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       expectedResult = { "6" };
       actualResult = m_qe->evaluateQuery();
@@ -203,8 +203,8 @@ namespace IntegrationTesting
       //clear the queues
       std::swap(m_selects, m_emptySelects);
       std::swap(m_relations, m_emptyRelations);
-      m_selects.push(*g1);
-      m_relations.push(*r1);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery["v"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       std::vector<std::string> expectedResult = { "x", "c" };
@@ -222,8 +222,8 @@ namespace IntegrationTesting
       //clear the queues
       std::swap(m_selects, m_emptySelects);
       std::swap(m_relations, m_emptyRelations);
-      m_selects.push(*g1);
-      m_relations.push(*r1);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery["v"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       std::vector<std::string> expectedResult = { "w" };
@@ -241,8 +241,8 @@ namespace IntegrationTesting
       //clear the queues
       std::swap(m_selects, m_emptySelects);
       std::swap(m_relations, m_emptyRelations);
-      m_selects.push(*g2);
-      m_relations.push(*r1);
+      m_selects.push_back(*g2);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery["p"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       std::vector<std::string> expectedResult = { "First" };
@@ -259,8 +259,8 @@ namespace IntegrationTesting
       //clear the queues
       std::swap(m_selects, m_emptySelects);
       std::swap(m_relations, m_emptyRelations);
-      m_selects.push(*g1);
-      m_relations.push(*r1);
+      m_selects.push_back(*g1);
+      m_relations.push_back(*r1);
       m_synonymsUsedInQuery.clear();
       m_synonymsUsedInQuery["n"] = 2;
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
@@ -272,7 +272,7 @@ namespace IntegrationTesting
       Relation* r2 = new Relation("Next*", *g2, *g1);
       //clear the queues
       std::swap(m_relations, m_emptyRelations);
-      m_relations.push(*r2);
+      m_relations.push_back(*r2);
       m_qe = new QueryEvaluator(m_pkb, m_selects, m_relations, m_patterns, m_withs, m_synonymsUsedInQuery);
       expectedResult = { "5", "6", "7", "8" };
       actualResult = m_qe->evaluateQuery();

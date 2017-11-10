@@ -8,14 +8,10 @@
 
 #include "StatementTable.h"
 
-/**
-* A constructor.
-* Instantiates 2 unordered_maps that maps statement number to the type of statement, and vice versa.
-*/
-StatementTable::StatementTable() {
-}
 
-std::unordered_map<int, queryType::GType> StatementTable::getTypeOfStatementTable() {
+StatementTable::StatementTable() {}
+
+MAP_OF_STMT_NUM_TO_GTYPE StatementTable::getTypeOfStatementTable() {
   return m_typeOfStatementTable;
 }
 
@@ -75,7 +71,7 @@ void StatementTable::insertAsStmtToProc(STMT_NUM t_lineNum, PROC_NAME t_procName
 }
 
 
-std::unordered_map<queryType::GType, LIST_OF_STMT_NUMS> StatementTable::getStatementTypeTable() {
+MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS StatementTable::getStatementTypeTable() {
   return m_statementTypeTable;
 }
 

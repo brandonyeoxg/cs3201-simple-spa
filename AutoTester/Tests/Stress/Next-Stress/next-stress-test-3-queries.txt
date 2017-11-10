@@ -1,0 +1,10 @@
+1 - Next* Functionality Stress Test
+stmt s1, s2; while w; assign a;
+Select <w, a> such that Next*(s1,s2) and Next*(a, w)
+2 1,2 3,2 4,2 6,5 1,5 3,5 4,5 6,9 1,9 10,9 11,9 3,9 4,9 6,9 7,9 8
+5000
+2 - Next* Functionality Stress Test
+stmt s1, s2; while w; assign a;
+Select <w, a> such that Next*(s1,s1) and Next*(a, w)
+2 1,2 3,2 4,2 6,5 1,5 3,5 4,5 6,9 1,9 10,9 11,9 3,9 4,9 6,9 7,9 8
+5000

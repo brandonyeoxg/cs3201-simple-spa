@@ -8,7 +8,7 @@ VAR_INDEX VarTable::insertVar(VAR_NAME t_name) {
   return idx;
 }
 
-std::string VarTable::getVarNameFromIdx(VAR_INDEX t_idx) {
+VAR_NAME VarTable::getVarNameFromIdx(VAR_INDEX t_idx) {
   return m_varIdxToName[t_idx];
 }
 
