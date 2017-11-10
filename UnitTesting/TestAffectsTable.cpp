@@ -66,7 +66,6 @@ namespace UnitTesting {
       << "}\n"
       << "procedure Pajama{ \n"
       << "President = orange;\n"
-      << "call Alapaca;\n"
       << "}\n"
       << "procedure Obama{\n"
       << "Bush = 9 * 11;\n"
