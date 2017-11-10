@@ -113,6 +113,11 @@ public:
 private:
   std::unordered_map<std::string, SET_OF_RESULTS_INDICES> m_cache;  /**< Cache that maps each Clause (in string form) to its set of results */
   const std::string KEY_ALL_NEXT_STAR = "Next*/s1/s2";  /**< Key for Next*(s1, s2) */
+  const std::string KEY_NEXT_STAR_RIGHT_SYN = "Next*/_/s";
+  const std::string KEY_NEXT_STAR_LEFT_SYN = "Next*/s/_";
+
+  const std::string KEY_NEXT_RIGHT_SYN = "Next/_/s";
+  const std::string KEY_NEXT_LEFT_SYN = "Next/s/_";
 
   bool isPatternCacheable(Pattern *t_pattern);
   bool isRelationCacheable(Relation *t_relation);
@@ -125,6 +130,7 @@ private:
   // optimization method to check if result for given clause can be extracted from other cached clauses
   SET_OF_RESULTS_INDICES *getCacheFromOtherClauses(Clause *t_clause);
   SET_OF_RESULTS_INDICES *getCacheFromOtherRelations(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForNextStar(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
