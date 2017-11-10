@@ -227,7 +227,7 @@ MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES CallsTable::getAllCallsStarByIdx() {
   return m_callsStarMapByIdx;
 }
 
-LIST_OF_PROC_NAMES CallsTable::getCallsAnything() {
+LIST_OF_PROC_NAMES CallsTable::getCallsAnything() { //obselete
   LIST_OF_PROC_NAMES procNames;
   //copy the m_allFollows set to values vector.
   procNames.assign(m_allCalls.begin(), m_allCalls.end());
@@ -235,13 +235,11 @@ LIST_OF_PROC_NAMES CallsTable::getCallsAnything() {
 }
 
 LIST_OF_PROC_INDICES CallsTable::getCallsAnythingByIdx() {
-  LIST_OF_PROC_INDICES procIndices;
-  procIndices.assign(m_allCallsByIdx.begin(), m_allCallsByIdx.end());
-  return procIndices;
+  return m_allCallsByIdxList;
 }
 
 LIST_OF_PROC_NAMES CallsTable::getCallsStarAnything() {
-  return getCallsAnything();
+  return getCallsAnything();  //same result
 }
 
 LIST_OF_PROC_INDICES CallsTable:: getCallsStarAnythingByIdx() {
@@ -256,10 +254,7 @@ LIST_OF_PROC_NAMES CallsTable::getCalledByAnything() {
 }
 
 LIST_OF_PROC_INDICES CallsTable::getCalledByAnythingByIdx() {
-  LIST_OF_PROC_INDICES procIndices;
-  //copy the m_allFollows set to values vector.
-  procIndices.assign(m_allCalledByByIdx.begin(), m_allCalledByByIdx.end());
-  return procIndices;
+  return m_allCalledByByIdxList;
 }
 
 LIST_OF_PROC_NAMES CallsTable::getCalledByStarAnything() {
@@ -469,6 +464,11 @@ void CallsTable::populateCalledByStarMap() {
     }
     m_calledByStarMap[proc] = procNamesStar;
   }
+}
+
+void CallsTable::populateAllCallsLists() {
+  m_allCallsByIdxList.assign(m_allCallsByIdx.begin(), m_allCallsByIdx.end());
+  m_allCalledByByIdxList.assign(m_allCalledByByIdx.begin(), m_allCalledByByIdx.end());
 }
 
 CallsTable::CallsTable() {}

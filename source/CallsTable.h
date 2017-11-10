@@ -51,6 +51,7 @@ public:
   void populateCallsByIdx(ProcTable* procTable);
   void populateCallsStarMap();
   void populateCalledByStarMap();
+  void populateAllCallsLists();
 
   CallsTable();
   ~CallsTable() {};
@@ -94,8 +95,13 @@ private:
   MAP_OF_PROC_INDEX_TO_LIST_OF_STMT_NUMS m_procNameToCallsStmtMapByIdx;
 
   SET_OF_PROC_NAMES m_allCalls;
+  /*
+  * stores all p that calls(p, _)
+  */
   SET_OF_PROC_INDICES m_allCallsByIdx;
+  LIST_OF_PROC_INDICES m_allCallsByIdxList;
 
   SET_OF_PROC_NAMES m_allCalledBy;
   SET_OF_PROC_INDICES m_allCalledByByIdx;
+  LIST_OF_PROC_INDICES m_allCalledByByIdxList;
 };
