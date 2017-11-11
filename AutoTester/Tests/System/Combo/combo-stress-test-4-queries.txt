@@ -1,0 +1,325 @@
+1 - Combo Stress Test 1
+procedure p;
+Select p
+
+5000
+2 - Combo Stress Test 2
+stmtLst sl;
+Select sl
+
+5000
+3 - Combo Stress Test 3
+stmt s;
+Select s
+
+5000
+4 - Combo Stress Test 4
+assign a;
+Select a
+
+5000
+5 - Combo Stress Test 5
+call ca;
+Select ca
+
+5000
+6 - Combo Stress Test 6
+while w;
+Select w
+
+5000
+7 - Combo Stress Test 7
+if ifs;
+Select ifs
+
+5000
+8 - Combo Stress Test 8
+variable v;
+Select v
+
+5000
+9 - Combo Stress Test 9
+prog_line pl;
+Select pl
+
+5000
+10 - Combo Stress Test 10
+constant co;
+Select co
+
+5000
+11 - Combo Stress Test 11
+
+Select BOOLEAN
+true
+5000
+12 - Combo Stress Test 12
+stmt s;
+Select s.stmt#
+
+5000
+13 - Combo Stress Test 13
+variable v;
+Select v.varName
+
+5000
+14 - Combo Stress Test 14
+procedure p;
+Select p.procName
+
+5000
+15 - Combo Stress Test 15
+constant co;
+Select co.value
+
+5000
+16 - Combo Stress Test 16
+prog_line a1,a2; 
+Select a1.stmt# such that Next*(a1,a2) 
+
+5000
+17 - Combo Stress Test 17
+stmt s1; prog_line a1,a2,a3; 
+Select s1 such that Next*(s1,a1) and Next*(a2,a3) 
+
+5000
+18 - Combo Stress Test 18
+stmt s1,s2,s3; prog_line a1,a2,a3; 
+Select s1.stmt# such that Next*(s1,s2) and Next*(a1,s3) and Next*(a2,a3) 
+
+5000
+19 - Combo Stress Test 19
+stmt s1,s2,s3; prog_line a1,a2,a3,a4,a5; 
+Select s3 such that Next*(a1,s1) and Next*(a2,s2) and Next*(a3,a4) such that Next*(s3,a5) 
+
+5000
+20 - Combo Stress Test 20
+stmt s1,s2,s3,s4,s5,s6,s7; prog_line a1,a2,a3; 
+Select a2 such that Next*(a1,s1) and Next*(a2,s2) such that Next*(s3,s4) and Next*(s5,a3) such that Next*(s6,s7) 
+
+5000
+21 - Combo Stress Test 21
+stmt s1,s2,s3; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9; 
+Select s3.stmt# such that Next*(s1,a1) such that Next*(a2,a3) such that Next*(a4,a5) such that Next*(a6,a7) and Next*(s2,a8) and Next*(s3,a9) 
+
+5000
+22 - Combo Stress Test 22
+stmt s1,s2,s3,s4,s5; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9; 
+Select a3.stmt# such that Next*(a1,s1) such that Next*(s2,a2) and Next*(a3,a4) such that Next*(a5,a6) such that Next*(a7,s3) and Next*(s4,s5) and Next*(a8,a9) 
+
+5000
+23 - Combo Stress Test 23
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12; prog_line a1,a2,a3,a4; 
+Select a4.stmt# such that Next*(s1,s2) and Next*(s3,s4) and Next*(a1,s5) and Next*(s6,s7) such that Next*(a2,s8) such that Next*(a3,s9) such that Next*(s10,a4) and Next*(s11,s12) 
+
+5000
+24 - Combo Stress Test 24
+stmt s1,s2,s3; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15; 
+Select a12.stmt# such that Next*(a1,a2) such that Next*(a3,a4) and Next*(a5,a6) and Next*(s1,a7) and Next*(a8,s2) such that Next*(s3,a9) and Next*(a10,a11) such that Next*(a12,a13) and Next*(a14,a15) 
+
+5000
+25 - Combo Stress Test 25
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10; 
+Select s9 such that Next*(s1,s2) and Next*(a1,a2) such that Next*(s3,s4) such that Next*(a3,s5) and Next*(s6,a4) and Next*(s7,s8) such that Next*(a5,a6) and Next*(s9,a7) and Next*(s10,a8) such that Next*(a9,a10) 
+
+5000
+26 - Combo Stress Test 26
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11; 
+Select s3 such that Next*(a1,s1) and Next*(a2,s2) such that Next*(a3,s3) such that Next*(s4,s5) such that Next*(s6,a4) and Next*(a5,a6) such that Next*(s7,s8) such that Next*(s9,a7) and Next*(a8,a9) such that Next*(s10,a10) and Next*(s11,a11) 
+
+5000
+27 - Combo Stress Test 27
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14; 
+Select s9.stmt# such that Next*(a1,a2) and Next*(s1,s2) and Next*(a3,a4) and Next*(s3,a5) such that Next*(s4,a6) and Next*(s5,a7) such that Next*(a8,s6) and Next*(s7,s8) and Next*(a9,a10) and Next*(a11,s9) and Next*(a12,a13) and Next*(a14,s10) 
+
+5000
+28 - Combo Stress Test 28
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13; 
+Select s13.stmt# such that Next*(a1,s1) and Next*(s2,s3) such that Next*(s4,s5) such that Next*(a2,a3) and Next*(a4,a5) and Next*(s6,s7) and Next*(a6,a7) such that Next*(a8,s8) such that Next*(s9,s10) such that Next*(a9,s11) and Next*(s12,a10) and Next*(a11,s13) and Next*(a12,a13) 
+
+5000
+29 - Combo Stress Test 29
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11; 
+Select a10.stmt# such that Next*(s1,s2) such that Next*(s3,s4) such that Next*(a1,s5) and Next*(a2,a3) and Next*(a4,a5) and Next*(a6,s6) such that Next*(s7,s8) and Next*(s9,s10) and Next*(a7,s11) and Next*(a8,s12) and Next*(s13,s14) and Next*(a9,s15) and Next*(a10,s16) and Next*(a11,s17) 
+
+5000
+30 - Combo Stress Test 30
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16; 
+Select a4.stmt# such that Next*(s1,s2) and Next*(s3,a1) such that Next*(a2,a3) and Next*(s4,s5) such that Next*(a4,s6) and Next*(s7,s8) such that Next*(a5,a6) and Next*(a7,a8) and Next*(a9,s9) such that Next*(s10,s11) and Next*(a10,a11) such that Next*(a12,a13) such that Next*(a14,a15) such that Next*(s12,s13) and Next*(a16,s14) 
+
+5000
+31 - Combo Stress Test 31
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16; 
+Select s7.stmt# such that Next*(s1,s2) and Next*(a1,a2) and Next*(a3,a4) and Next*(a5,a6) and Next*(a7,s3) such that Next*(s4,a8) such that Next*(a9,a10) such that Next*(s5,s6) and Next*(a11,s7) and Next*(a12,s8) and Next*(s9,s10) and Next*(a13,s11) and Next*(s12,s13) such that Next*(a14,s14) such that Next*(a15,s15) and Next*(s16,a16) 
+
+5000
+32 - Combo Stress Test 32
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13; 
+Select s13.stmt# such that Next*(a1,s1) and Next*(a2,a3) such that Next*(s2,a4) such that Next*(a5,s3) such that Next*(s4,s5) and Next*(a6,a7) such that Next*(s6,s7) such that Next*(a8,s8) such that Next*(a9,s9) and Next*(s10,a10) such that Next*(s11,s12) such that Next*(s13,a11) such that Next*(a12,s14) such that Next*(s15,s16) and Next*(a13,s17) such that Next*(s18,s19) such that Next*(s20,s21) 
+
+5000
+33 - Combo Stress Test 33
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22; 
+Select a1.stmt# such that Next*(a1,s1) and Next*(a2,s2) such that Next*(s3,a3) such that Next*(a4,a5) such that Next*(a6,a7) and Next*(s4,a8) such that Next*(s5,s6) and Next*(a9,s7) and Next*(s8,a10) and Next*(a11,a12) and Next*(a13,s9) such that Next*(a14,a15) such that Next*(a16,s10) such that Next*(a17,s11) such that Next*(s12,a18) such that Next*(a19,s13) such that Next*(a20,a21) and Next*(s14,a22) 
+
+5000
+34 - Combo Stress Test 34
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15; 
+Select a11.stmt# such that Next*(s1,a1) and Next*(s2,s3) and Next*(s4,a2) and Next*(s5,s6) such that Next*(s7,s8) and Next*(a3,s9) such that Next*(s10,a4) such that Next*(a5,s11) such that Next*(s12,a6) and Next*(s13,a7) such that Next*(a8,a9) such that Next*(a10,s14) and Next*(s15,s16) such that Next*(a11,a12) and Next*(a13,a14) such that Next*(a15,s17) such that Next*(s18,s19) and Next*(s20,s21) such that Next*(s22,s23) 
+
+5000
+35 - Combo Stress Test 35
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17; 
+Select s15 such that Next*(s1,s2) such that Next*(s3,a1) such that Next*(a2,a3) and Next*(a4,a5) and Next*(a6,s4) such that Next*(s5,a7) and Next*(s6,a8) and Next*(a9,s7) such that Next*(s8,s9) such that Next*(s10,a10) and Next*(s11,a11) and Next*(s12,a12) such that Next*(s13,s14) and Next*(s15,a13) such that Next*(s16,s17) such that Next*(a14,a15) and Next*(s18,a16) such that Next*(s19,s20) and Next*(a17,s21) such that Next*(s22,s23) 
+
+5000
+36 - Combo Stress Test 36
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15; 
+Select a4.stmt# such that Next*(s1,s2) and Next*(s3,a1) such that Next*(s4,s5) such that Next*(s6,s7) such that Next*(s8,a2) and Next*(s9,s10) and Next*(s11,s12) such that Next*(a3,s13) such that Next*(s14,s15) such that Next*(s16,s17) such that Next*(s18,a4) such that Next*(a5,s19) such that Next*(a6,s20) such that Next*(s21,a7) such that Next*(a8,a9) such that Next*(s22,a10) and Next*(s23,s24) and Next*(s25,s26) and Next*(a11,s27) such that Next*(a12,a13) and Next*(a14,a15) 
+
+5000
+37 - Combo Stress Test 37
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28; 
+Select a1.stmt# such that Next*(a1,s1) such that Next*(a2,s2) and Next*(a3,a4) such that Next*(a5,s3) such that Next*(a6,a7) such that Next*(a8,a9) and Next*(s4,a10) such that Next*(a11,a12) such that Next*(a13,s5) and Next*(s6,a14) and Next*(s7,s8) such that Next*(a15,s9) such that Next*(a16,a17) and Next*(s10,a18) such that Next*(a19,s11) and Next*(a20,a21) and Next*(s12,a22) such that Next*(a23,a24) and Next*(s13,s14) and Next*(a25,s15) such that Next*(s16,a26) and Next*(a27,a28) 
+
+5000
+38 - Combo Stress Test 38
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17; 
+Select a14.stmt# such that Next*(s1,a1) and Next*(s2,s3) and Next*(s4,s5) and Next*(a2,s6) and Next*(a3,s7) and Next*(s8,s9) and Next*(s10,s11) such that Next*(s12,a4) and Next*(s13,a5) and Next*(s14,s15) and Next*(s16,a6) such that Next*(a7,s17) and Next*(s18,a8) and Next*(a9,a10) and Next*(a11,s19) and Next*(s20,a12) and Next*(s21,s22) and Next*(a13,s23) and Next*(s24,s25) and Next*(a14,s26) and Next*(a15,s27) and Next*(s28,a16) such that Next*(s29,a17) 
+
+5000
+39 - Combo Stress Test 39
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27; 
+Select a19.stmt# such that Next*(s1,s2) such that Next*(a1,s3) and Next*(a2,a3) such that Next*(a4,s4) and Next*(s5,s6) such that Next*(a5,a6) such that Next*(s7,s8) such that Next*(a7,s9) such that Next*(s10,a8) such that Next*(s11,a9) such that Next*(s12,a10) such that Next*(s13,s14) such that Next*(a11,a12) and Next*(a13,a14) such that Next*(s15,a15) and Next*(a16,a17) such that Next*(a18,s16) and Next*(a19,s17) such that Next*(a20,a21) and Next*(a22,s18) and Next*(a23,s19) such that Next*(a24,s20) and Next*(a25,s21) and Next*(a26,a27) 
+
+5000
+40 - Combo Stress Test 40
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15; 
+Select s31.stmt# such that Next*(s1,s2) such that Next*(s3,s4) such that Next*(a1,s5) and Next*(s6,s7) such that Next*(s8,s9) and Next*(s10,s11) and Next*(s12,a2) such that Next*(s13,a3) and Next*(s14,s15) and Next*(s16,s17) such that Next*(s18,a4) and Next*(a5,a6) and Next*(s19,s20) and Next*(s21,a7) and Next*(s22,s23) such that Next*(s24,a8) such that Next*(s25,a9) and Next*(s26,a10) and Next*(s27,a11) and Next*(s28,s29) and Next*(s30,a12) and Next*(a13,s31) and Next*(s32,a14) and Next*(s33,a15) and Next*(s34,s35) 
+
+5000
+41 - Combo Stress Test 41
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26; 
+Select s1.stmt# such that Next*(a1,s1) such that Next*(a2,a3) such that Next*(s2,a4) and Next*(s3,a5) such that Next*(a6,s4) such that Next*(s5,s6) such that Next*(a7,a8) such that Next*(a9,s7) such that Next*(s8,s9) and Next*(s10,s11) and Next*(s12,s13) and Next*(a10,a11) such that Next*(s14,a12) such that Next*(a13,a14) and Next*(a15,a16) and Next*(a17,a18) and Next*(s15,s16) such that Next*(a19,s17) such that Next*(a20,s18) and Next*(s19,s20) and Next*(a21,s21) such that Next*(s22,a22) such that Next*(a23,s23) and Next*(s24,s25) such that Next*(a24,a25) such that Next*(s26,a26) 
+
+5000
+42 - Combo Stress Test 42
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20; 
+Select s3 such that Next*(s1,s2) and Next*(s3,s4) and Next*(s5,a1) such that Next*(a2,a3) such that Next*(s6,s7) such that Next*(a4,s8) such that Next*(s9,a5) and Next*(a6,s10) and Next*(a7,s11) and Next*(a8,s12) such that Next*(a9,s13) and Next*(a10,s14) such that Next*(a11,a12) such that Next*(s15,s16) and Next*(s17,s18) such that Next*(a13,a14) such that Next*(s19,s20) and Next*(s21,s22) and Next*(s23,a15) such that Next*(a16,s24) such that Next*(s25,s26) such that Next*(a17,s27) and Next*(s28,s29) and Next*(s30,s31) and Next*(a18,a19) such that Next*(s32,a20) such that Next*(s33,s34) 
+
+5000
+43 - Combo Stress Test 43
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34; 
+Select a26.stmt# such that Next*(a1,s1) and Next*(s2,a2) such that Next*(a3,a4) and Next*(a5,s3) and Next*(a6,a7) such that Next*(a8,s4) such that Next*(a9,a10) such that Next*(a11,s5) and Next*(a12,s6) such that Next*(s7,s8) such that Next*(s9,a13) and Next*(s10,s11) and Next*(a14,a15) and Next*(s12,a16) such that Next*(a17,s13) and Next*(a18,s14) such that Next*(a19,a20) such that Next*(s15,a21) and Next*(a22,s16) such that Next*(s17,s18) and Next*(a23,s19) such that Next*(a24,a25) and Next*(a26,a27) and Next*(a28,a29) such that Next*(a30,s20) and Next*(s21,a31) such that Next*(s22,a32) and Next*(a33,a34) 
+
+5000
+44 - Combo Stress Test 44
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32; 
+Select a28.stmt# such that Next*(a1,a2) and Next*(s1,s2) such that Next*(s3,s4) such that Next*(a3,s5) and Next*(a4,a5) and Next*(a6,a7) and Next*(a8,a9) and Next*(s6,a10) and Next*(s7,s8) and Next*(a11,a12) and Next*(a13,a14) such that Next*(a15,a16) such that Next*(s9,a17) and Next*(a18,s10) and Next*(a19,a20) and Next*(a21,a22) and Next*(s11,s12) and Next*(a23,a24) such that Next*(s13,s14) and Next*(a25,a26) such that Next*(s15,s16) such that Next*(a27,s17) such that Next*(s18,s19) and Next*(a28,a29) and Next*(s20,s21) and Next*(s22,a30) such that Next*(s23,s24) and Next*(s25,a31) and Next*(s26,a32) 
+
+5000
+45 - Combo Stress Test 45
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28; 
+Select a6.stmt# such that Next*(a1,a2) such that Next*(s1,s2) such that Next*(s3,a3) and Next*(s4,a4) such that Next*(a5,s5) and Next*(a6,s6) and Next*(a7,s7) such that Next*(s8,a8) such that Next*(s9,s10) such that Next*(s11,a9) such that Next*(s12,a10) such that Next*(s13,s14) and Next*(s15,s16) and Next*(a11,s17) and Next*(s18,a12) and Next*(s19,s20) such that Next*(s21,a13) such that Next*(a14,a15) and Next*(s22,a16) such that Next*(a17,s23) such that Next*(s24,s25) and Next*(a18,a19) and Next*(a20,a21) such that Next*(s26,s27) such that Next*(a22,a23) and Next*(s28,s29) such that Next*(s30,a24) such that Next*(a25,s31) such that Next*(a26,a27) such that Next*(s32,a28) 
+
+5000
+46 - Combo Stress Test 46
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30; 
+Select a13.stmt# such that Next*(a1,s1) and Next*(s2,a2) and Next*(s3,a3) such that Next*(s4,s5) and Next*(s6,a4) and Next*(s7,a5) such that Next*(s8,s9) such that Next*(a6,s10) and Next*(s11,s12) and Next*(a7,a8) and Next*(s13,a9) such that Next*(s14,a10) and Next*(s15,s16) and Next*(a11,a12) such that Next*(a13,a14) such that Next*(a15,s17) such that Next*(a16,s18) and Next*(s19,a17) such that Next*(s20,a18) and Next*(a19,a20) and Next*(a21,s21) such that Next*(s22,a22) such that Next*(s23,a23) and Next*(a24,a25) such that Next*(s24,a26) such that Next*(s25,a27) and Next*(s26,s27) and Next*(a28,s28) and Next*(s29,s30) such that Next*(s31,a29) such that Next*(s32,a30) 
+
+5000
+47 - Combo Stress Test 47
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29; 
+Select a19.stmt# such that Next*(a1,s1) and Next*(a2,a3) and Next*(s2,s3) and Next*(s4,s5) such that Next*(s6,a4) and Next*(a5,a6) such that Next*(s7,s8) such that Next*(s9,a7) such that Next*(a8,s10) and Next*(s11,s12) such that Next*(a9,a10) and Next*(s13,s14) and Next*(s15,a11) such that Next*(s16,a12) and Next*(a13,s17) such that Next*(a14,s18) such that Next*(s19,s20) such that Next*(a15,a16) and Next*(s21,a17) such that Next*(a18,a19) such that Next*(a20,a21) such that Next*(s22,a22) such that Next*(a23,s23) and Next*(a24,a25) and Next*(s24,s25) such that Next*(s26,s27) and Next*(s28,s29) and Next*(s30,a26) and Next*(s31,a27) and Next*(s32,s33) and Next*(a28,a29) and Next*(s34,s35) 
+
+5000
+48 - Combo Stress Test 48
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35; 
+Select s21.stmt# such that Next*(a1,s1) and Next*(s2,a2) such that Next*(a3,a4) and Next*(s3,a5) and Next*(s4,a6) such that Next*(s5,s6) such that Next*(a7,a8) such that Next*(s7,a9) and Next*(a10,a11) and Next*(s8,s9) and Next*(s10,s11) and Next*(a12,s12) and Next*(s13,a13) and Next*(s14,s15) and Next*(s16,a14) such that Next*(s17,s18) such that Next*(a15,s19) and Next*(s20,a16) such that Next*(s21,a17) such that Next*(s22,a18) such that Next*(a19,s23) and Next*(s24,a20) such that Next*(a21,a22) and Next*(a23,s25) such that Next*(s26,a24) and Next*(a25,a26) such that Next*(s27,a27) such that Next*(s28,a28) and Next*(a29,a30) such that Next*(a31,a32) and Next*(a33,s29) and Next*(a34,a35) such that Next*(s30,s31) 
+
+5000
+49 - Combo Stress Test 49
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27; 
+Select s27.stmt# such that Next*(s1,a1) such that Next*(s2,s3) such that Next*(a2,s4) and Next*(a3,a4) such that Next*(s5,a5) and Next*(s6,s7) and Next*(s8,s9) and Next*(a6,s10) such that Next*(s11,a7) and Next*(s12,s13) and Next*(s14,a8) such that Next*(a9,s15) and Next*(s16,s17) such that Next*(a10,s18) such that Next*(s19,s20) such that Next*(s21,a11) such that Next*(s22,s23) such that Next*(a12,s24) and Next*(s25,s26) and Next*(s27,s28) such that Next*(a13,a14) and Next*(a15,s29) such that Next*(a16,s30) such that Next*(a17,a18) such that Next*(s31,a19) and Next*(s32,s33) such that Next*(s34,s35) and Next*(a20,a21) and Next*(s36,a22) such that Next*(s37,s38) and Next*(a23,s39) and Next*(a24,s40) such that Next*(a25,a26) such that Next*(s41,a27) 
+
+5000
+50 - Combo Stress Test 50
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36; 
+Select a13.stmt# such that Next*(a1,s1) such that Next*(a2,s2) and Next*(a3,a4) and Next*(s3,a5) and Next*(a6,s4) and Next*(s5,s6) and Next*(s7,s8) such that Next*(a7,s9) such that Next*(a8,s10) and Next*(s11,a9) and Next*(a10,a11) and Next*(s12,s13) such that Next*(s14,a12) such that Next*(s15,a13) and Next*(s16,s17) and Next*(a14,s18) such that Next*(a15,a16) and Next*(a17,a18) and Next*(a19,a20) and Next*(s19,a21) such that Next*(s20,s21) such that Next*(s22,s23) such that Next*(a22,a23) and Next*(s24,a24) such that Next*(a25,s25) and Next*(s26,s27) such that Next*(a26,a27) such that Next*(a28,a29) such that Next*(s28,a30) and Next*(s29,s30) and Next*(s31,a31) such that Next*(a32,a33) and Next*(s32,a34) such that Next*(s33,a35) such that Next*(s34,a36) 
+
+5000
+51 - Combo Stress Test 51
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40; 
+Select s4.stmt# such that Next*(a1,a2) and Next*(a3,s1) and Next*(a4,a5) and Next*(a6,a7) and Next*(a8,a9) such that Next*(a10,s2) such that Next*(s3,s4) such that Next*(a11,a12) and Next*(a13,a14) such that Next*(s5,a15) and Next*(s6,a16) and Next*(s7,a17) and Next*(a18,s8) such that Next*(a19,s9) and Next*(s10,s11) such that Next*(a20,s12) such that Next*(s13,a21) and Next*(s14,s15) and Next*(a22,a23) such that Next*(a24,s16) and Next*(s17,s18) and Next*(a25,a26) and Next*(s19,s20) and Next*(a27,a28) such that Next*(a29,a30) such that Next*(s21,a31) such that Next*(s22,s23) and Next*(s24,a32) such that Next*(a33,s25) such that Next*(s26,s27) such that Next*(s28,a34) such that Next*(a35,a36) and Next*(s29,a37) such that Next*(s30,a38) and Next*(s31,a39) such that Next*(s32,a40) 
+
+5000
+52 - Combo Stress Test 52
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32; 
+Select a10.stmt# such that Next*(a1,s1) such that Next*(a2,s2) such that Next*(s3,a3) such that Next*(a4,a5) such that Next*(s4,s5) and Next*(s6,s7) and Next*(s8,s9) such that Next*(s10,a6) such that Next*(s11,s12) such that Next*(s13,a7) and Next*(a8,s14) and Next*(a9,s15) such that Next*(a10,s16) and Next*(a11,s17) and Next*(a12,s18) such that Next*(s19,s20) such that Next*(a13,s21) such that Next*(a14,a15) such that Next*(s22,s23) and Next*(s24,a16) such that Next*(s25,s26) and Next*(a17,s27) such that Next*(s28,s29) and Next*(s30,s31) such that Next*(s32,a18) such that Next*(s33,a19) and Next*(s34,a20) such that Next*(s35,a21) and Next*(a22,a23) and Next*(a24,s36) and Next*(s37,a25) such that Next*(a26,a27) such that Next*(a28,s38) and Next*(s39,s40) such that Next*(s41,s42) and Next*(a29,a30) such that Next*(a31,a32) 
+
+5000
+53 - Combo Stress Test 53
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38; 
+Select a3.stmt# such that Next*(a1,s1) such that Next*(a2,s2) such that Next*(s3,s4) such that Next*(a3,s5) and Next*(s6,s7) such that Next*(s8,s9) such that Next*(s10,s11) and Next*(a4,a5) such that Next*(a6,s12) and Next*(a7,a8) such that Next*(a9,s13) and Next*(s14,s15) such that Next*(s16,s17) and Next*(a10,a11) and Next*(s18,s19) and Next*(a12,a13) such that Next*(a14,s20) such that Next*(a15,s21) and Next*(a16,s22) and Next*(a17,a18) such that Next*(s23,s24) and Next*(s25,s26) and Next*(a19,a20) and Next*(a21,a22) and Next*(a23,a24) such that Next*(a25,s27) and Next*(s28,a26) and Next*(a27,a28) such that Next*(s29,a29) and Next*(a30,s30) such that Next*(s31,a31) and Next*(a32,a33) and Next*(a34,a35) and Next*(s32,s33) such that Next*(s34,a36) and Next*(s35,s36) and Next*(a37,a38) such that Next*(s37,s38) 
+
+5000
+54 - Combo Stress Test 54
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41; 
+Select s31.stmt# such that Next*(a1,a2) such that Next*(a3,s1) such that Next*(s2,s3) and Next*(a4,a5) and Next*(a6,a7) and Next*(a8,s4) such that Next*(a9,s5) such that Next*(s6,a10) such that Next*(a11,a12) such that Next*(s7,s8) and Next*(s9,s10) such that Next*(a13,a14) such that Next*(a15,a16) such that Next*(a17,a18) and Next*(s11,a19) such that Next*(a20,a21) such that Next*(s12,s13) such that Next*(s14,s15) and Next*(a22,a23) and Next*(s16,a24) such that Next*(s17,a25) and Next*(a26,s18) such that Next*(a27,a28) and Next*(a29,s19) and Next*(a30,a31) such that Next*(s20,a32) and Next*(s21,s22) such that Next*(a33,a34) such that Next*(s23,a35) such that Next*(s24,a36) such that Next*(s25,s26) such that Next*(a37,s27) such that Next*(s28,a38) such that Next*(s29,s30) such that Next*(s31,s32) and Next*(a39,a40) such that Next*(s33,a41) and Next*(s34,s35) such that Next*(s36,s37) 
+
+5000
+55 - Combo Stress Test 55
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41; 
+Select s23 such that Next*(a1,a2) and Next*(s1,s2) and Next*(s3,s4) such that Next*(s5,a3) and Next*(a4,a5) such that Next*(s6,a6) and Next*(a7,s7) and Next*(s8,s9) and Next*(s10,a8) such that Next*(s11,s12) such that Next*(s13,a9) such that Next*(a10,s14) and Next*(s15,a11) such that Next*(a12,s16) and Next*(a13,a14) such that Next*(a15,a16) such that Next*(s17,a17) and Next*(s18,a18) such that Next*(s19,a19) and Next*(s20,s21) such that Next*(a20,a21) such that Next*(s22,a22) and Next*(a23,s23) and Next*(s24,s25) and Next*(a24,s26) such that Next*(s27,a25) such that Next*(a26,a27) such that Next*(a28,s28) and Next*(a29,a30) and Next*(a31,a32) and Next*(s29,s30) and Next*(a33,a34) such that Next*(s31,s32) and Next*(s33,a35) such that Next*(a36,s34) and Next*(a37,a38) such that Next*(s35,a39) and Next*(a40,s36) and Next*(s37,s38) such that Next*(s39,a41) 
+
+5000
+56 - Combo Stress Test 56
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41; 
+Select s2.stmt# such that Next*(a1,a2) such that Next*(s1,s2) such that Next*(a3,s3) and Next*(a4,s4) and Next*(a5,s5) such that Next*(s6,a6) such that Next*(s7,s8) such that Next*(s9,a7) and Next*(a8,a9) such that Next*(s10,a10) and Next*(a11,s11) and Next*(a12,s12) and Next*(a13,a14) and Next*(a15,a16) and Next*(s13,a17) and Next*(s14,s15) such that Next*(a18,a19) and Next*(s16,s17) such that Next*(a20,s18) such that Next*(s19,s20) such that Next*(a21,a22) and Next*(a23,s21) such that Next*(s22,a24) and Next*(a25,s23) and Next*(a26,a27) such that Next*(s24,a28) such that Next*(s25,s26) such that Next*(a29,a30) such that Next*(s27,a31) such that Next*(a32,a33) and Next*(a34,s28) such that Next*(s29,s30) and Next*(s31,s32) such that Next*(a35,s33) and Next*(a36,s34) such that Next*(a37,s35) such that Next*(s36,a38) and Next*(a39,a40) and Next*(s37,s38) such that Next*(a41,s39) such that Next*(s40,s41) 
+
+5000
+57 - Combo Stress Test 57
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44; 
+Select a25.stmt# such that Next*(s1,a1) such that Next*(s2,s3) and Next*(s4,a2) and Next*(a3,a4) and Next*(a5,s5) such that Next*(s6,s7) and Next*(a6,a7) such that Next*(a8,s8) such that Next*(s9,s10) and Next*(a9,s11) and Next*(a10,a11) such that Next*(a12,s12) and Next*(s13,s14) such that Next*(s15,a13) such that Next*(a14,a15) and Next*(s16,a16) such that Next*(s17,s18) such that Next*(a17,s19) and Next*(s20,a18) such that Next*(a19,s21) such that Next*(s22,s23) and Next*(a20,s24) and Next*(a21,a22) such that Next*(a23,a24) such that Next*(s25,a25) such that Next*(s26,s27) such that Next*(a26,a27) such that Next*(s28,a28) such that Next*(s29,a29) and Next*(a30,a31) and Next*(s30,s31) such that Next*(s32,a32) and Next*(s33,a33) such that Next*(a34,a35) such that Next*(s34,s35) and Next*(s36,a36) and Next*(a37,a38) such that Next*(s37,a39) and Next*(s38,a40) and Next*(a41,s39) and Next*(a42,a43) such that Next*(a44,s40) 
+
+5000
+58 - Combo Stress Test 58
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35; 
+Select s44 such that Next*(s1,a1) such that Next*(s2,a2) and Next*(s3,s4) such that Next*(s5,a3) such that Next*(s6,a4) such that Next*(s7,s8) and Next*(s9,a5) such that Next*(s10,a6) such that Next*(a7,s11) such that Next*(a8,a9) such that Next*(s12,s13) and Next*(s14,s15) and Next*(s16,s17) such that Next*(s18,s19) such that Next*(s20,s21) and Next*(a10,s22) and Next*(a11,a12) and Next*(s23,s24) such that Next*(s25,s26) such that Next*(a13,s27) such that Next*(a14,s28) such that Next*(s29,a15) such that Next*(s30,a16) such that Next*(s31,s32) such that Next*(s33,s34) and Next*(a17,a18) and Next*(a19,a20) such that Next*(a21,s35) such that Next*(s36,a22) and Next*(a23,a24) such that Next*(s37,a25) such that Next*(s38,s39) such that Next*(a26,a27) and Next*(s40,s41) such that Next*(a28,s42) and Next*(a29,a30) and Next*(a31,s43) such that Next*(s44,s45) and Next*(s46,a32) such that Next*(a33,s47) such that Next*(s48,s49) and Next*(a34,a35) and Next*(s50,s51) 
+
+5000
+59 - Combo Stress Test 59
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45; 
+Select s26.stmt# such that Next*(s1,s2) and Next*(a1,s3) such that Next*(a2,s4) and Next*(s5,s6) and Next*(a3,a4) such that Next*(a5,s7) and Next*(a6,a7) and Next*(a8,s8) and Next*(a9,a10) such that Next*(a11,s9) such that Next*(s10,a12) such that Next*(s11,a13) such that Next*(s12,s13) such that Next*(a14,a15) and Next*(s14,s15) and Next*(a16,a17) such that Next*(a18,s16) such that Next*(a19,a20) and Next*(a21,s17) such that Next*(a22,s18) such that Next*(s19,s20) and Next*(a23,s21) such that Next*(s22,a24) such that Next*(s23,a25) such that Next*(a26,s24) such that Next*(a27,a28) such that Next*(a29,s25) and Next*(a30,s26) such that Next*(a31,s27) such that Next*(a32,s28) such that Next*(a33,a34) such that Next*(a35,s29) and Next*(s30,a36) such that Next*(s31,a37) and Next*(a38,s32) such that Next*(s33,s34) and Next*(s35,a39) such that Next*(s36,s37) such that Next*(s38,a40) and Next*(a41,s39) and Next*(s40,s41) such that Next*(a42,a43) and Next*(a44,s42) such that Next*(a45,s43) 
+
+5000
+60 - Combo Stress Test 60
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43; 
+Select a36.stmt# such that Next*(s1,a1) and Next*(s2,s3) and Next*(s4,s5) such that Next*(a2,a3) and Next*(a4,s6) and Next*(a5,s7) such that Next*(s8,a6) such that Next*(s9,a7) and Next*(s10,a8) such that Next*(s11,s12) and Next*(a9,a10) and Next*(s13,s14) such that Next*(a11,s15) and Next*(a12,s16) such that Next*(a13,a14) and Next*(a15,s17) such that Next*(s18,a16) and Next*(s19,s20) and Next*(s21,s22) such that Next*(s23,a17) such that Next*(a18,s24) such that Next*(s25,a19) and Next*(s26,a20) such that Next*(s27,s28) and Next*(s29,s30) and Next*(s31,s32) such that Next*(a21,a22) and Next*(s33,a23) such that Next*(s34,s35) such that Next*(s36,a24) and Next*(s37,a25) and Next*(s38,s39) and Next*(s40,a26) and Next*(a27,a28) such that Next*(a29,s41) and Next*(a30,a31) and Next*(a32,a33) such that Next*(a34,s42) such that Next*(a35,a36) such that Next*(a37,s43) such that Next*(a38,a39) and Next*(s44,a40) such that Next*(s45,s46) such that Next*(a41,a42) and Next*(a43,s47) 
+
+5000
+61 - Combo Stress Test 61
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44; 
+Select a26.stmt# such that Next*(s1,s2) such that Next*(s3,s4) such that Next*(a1,s5) and Next*(s6,s7) such that Next*(a2,s8) and Next*(s9,a3) such that Next*(a4,a5) and Next*(s10,s11) and Next*(a6,s12) and Next*(s13,s14) and Next*(s15,s16) such that Next*(s17,s18) such that Next*(a7,a8) such that Next*(a9,a10) such that Next*(s19,a11) and Next*(s20,a12) such that Next*(a13,s21) such that Next*(s22,a14) such that Next*(s23,a15) such that Next*(s24,a16) and Next*(s25,a17) and Next*(s26,s27) and Next*(a18,s28) and Next*(s29,s30) and Next*(a19,s31) such that Next*(a20,s32) such that Next*(s33,a21) and Next*(a22,s34) and Next*(s35,s36) and Next*(s37,s38) such that Next*(a23,s39) such that Next*(a24,a25) such that Next*(a26,s40) and Next*(a27,a28) and Next*(a29,a30) and Next*(a31,a32) and Next*(a33,a34) and Next*(a35,a36) such that Next*(a37,s41) and Next*(s42,s43) such that Next*(s44,a38) such that Next*(a39,a40) and Next*(a41,s45) and Next*(a42,a43) such that Next*(s46,a44) such that Next*(s47,s48) 
+
+5000
+62 - Combo Stress Test 62
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42; 
+Select a30 such that Next*(a1,s1) and Next*(a2,a3) and Next*(s2,a4) such that Next*(s3,s4) and Next*(a5,a6) such that Next*(a7,s5) and Next*(s6,a8) such that Next*(a9,s7) such that Next*(s8,a10) and Next*(s9,a11) and Next*(s10,s11) such that Next*(s12,s13) and Next*(a12,s14) such that Next*(s15,a13) and Next*(s16,s17) and Next*(a14,s18) and Next*(a15,a16) such that Next*(a17,a18) and Next*(a19,a20) such that Next*(s19,s20) and Next*(s21,s22) and Next*(s23,a21) such that Next*(a22,s24) such that Next*(a23,s25) such that Next*(s26,a24) and Next*(s27,s28) and Next*(s29,s30) and Next*(s31,a25) and Next*(s32,s33) and Next*(s34,a26) and Next*(s35,a27) such that Next*(a28,s36) and Next*(s37,s38) such that Next*(s39,s40) and Next*(a29,a30) and Next*(s41,a31) such that Next*(s42,a32) and Next*(s43,s44) such that Next*(s45,s46) and Next*(a33,a34) and Next*(s47,a35) such that Next*(a36,a37) and Next*(s48,a38) such that Next*(s49,a39) and Next*(s50,s51) such that Next*(s52,a40) and Next*(a41,a42) 
+
+5000
+63 - Combo Stress Test 63
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51; 
+Select s27.stmt# such that Next*(a1,s1) and Next*(a2,a3) such that Next*(s2,a4) and Next*(a5,s3) and Next*(a6,s4) such that Next*(s5,s6) such that Next*(a7,s7) such that Next*(a8,a9) such that Next*(s8,s9) and Next*(a10,s10) and Next*(s11,a11) and Next*(s12,s13) such that Next*(a12,s14) and Next*(a13,s15) such that Next*(s16,s17) such that Next*(a14,s18) such that Next*(a15,a16) such that Next*(s19,a17) and Next*(a18,s20) and Next*(a19,a20) and Next*(a21,s21) and Next*(a22,s22) such that Next*(s23,s24) such that Next*(s25,s26) such that Next*(a23,a24) such that Next*(s27,a25) and Next*(s28,s29) and Next*(s30,s31) such that Next*(a26,a27) such that Next*(a28,s32) and Next*(a29,s33) and Next*(a30,s34) and Next*(a31,a32) such that Next*(a33,a34) such that Next*(s35,s36) and Next*(a35,s37) and Next*(s38,s39) such that Next*(a36,a37) such that Next*(a38,s40) such that Next*(s41,a39) such that Next*(s42,a40) such that Next*(a41,a42) such that Next*(a43,a44) such that Next*(a45,a46) and Next*(a47,s43) such that Next*(a48,s44) such that Next*(a49,a50) such that Next*(a51,s45) 
+
+5000
+64 - Combo Stress Test 64
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45; 
+Select a20 such that Next*(s1,s2) such that Next*(a1,s3) such that Next*(s4,s5) and Next*(s6,s7) such that Next*(a2,s8) and Next*(s9,s10) and Next*(s11,a3) and Next*(s12,a4) and Next*(a5,s13) such that Next*(s14,s15) such that Next*(s16,a6) and Next*(s17,s18) such that Next*(a7,a8) and Next*(a9,a10) such that Next*(a11,a12) and Next*(a13,s19) and Next*(a14,s20) and Next*(s21,a15) and Next*(s22,a16) and Next*(s23,a17) and Next*(a18,s24) such that Next*(s25,s26) such that Next*(a19,a20) and Next*(a21,a22) such that Next*(a23,a24) and Next*(s27,s28) and Next*(a25,a26) such that Next*(s29,s30) and Next*(a27,a28) such that Next*(s31,a29) and Next*(a30,s32) and Next*(s33,s34) such that Next*(a31,s35) such that Next*(a32,s36) such that Next*(s37,s38) and Next*(s39,a33) such that Next*(a34,s40) and Next*(a35,s41) such that Next*(s42,a36) such that Next*(s43,a37) such that Next*(a38,s44) such that Next*(s45,a39) and Next*(s46,s47) such that Next*(a40,s48) such that Next*(a41,s49) and Next*(s50,s51) and Next*(s52,a42) such that Next*(s53,a43) and Next*(a44,a45) 
+
+5000
+65 - Combo Stress Test 65
+stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51; prog_line a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49; 
+Select a36 such that Next*(s1,s2) such that Next*(s3,s4) such that Next*(s5,a1) and Next*(s6,a2) such that Next*(a3,s7) such that Next*(s8,a4) such that Next*(a5,s9) such that Next*(s10,a6) and Next*(s11,a7) such that Next*(s12,a8) such that Next*(a9,a10) such that Next*(a11,a12) and Next*(a13,a14) such that Next*(a15,s13) and Next*(s14,s15) such that Next*(a16,s16) such that Next*(s17,s18) and Next*(a17,a18) and Next*(s19,a19) and Next*(s20,s21) and Next*(s22,s23) and Next*(s24,a20) such that Next*(s25,a21) and Next*(s26,s27) such that Next*(s28,a22) and Next*(s29,a23) such that Next*(a24,a25) such that Next*(s30,a26) and Next*(a27,s31) and Next*(a28,a29) such that Next*(a30,s32) such that Next*(a31,s33) such that Next*(s34,s35) and Next*(a32,s36) such that Next*(s37,s38) such that Next*(s39,s40) and Next*(a33,a34) and Next*(s41,s42) such that Next*(s43,a35) such that Next*(a36,s44) such that Next*(a37,s45) such that Next*(a38,s46) and Next*(s47,a39) such that Next*(a40,a41) such that Next*(a42,s48) such that Next*(a43,a44) such that Next*(a45,s49) and Next*(a46,s50) such that Next*(s51,a47) such that Next*(a48,a49) 
+
+5000

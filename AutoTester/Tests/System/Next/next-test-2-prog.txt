@@ -18,7 +18,7 @@ procedure Alpaca{
 
 procedure Pajama{
   President=orange;
-  call Alapaca;
+  call Alpaca;
 }
 
 procedure Obama{
