@@ -135,19 +135,11 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS FollowTable::getAllFollowsStar() {
 }
 
 LIST_OF_STMT_NUMS FollowTable::getFollowedByAnything() {
-  LIST_OF_STMT_NUMS keys;
-  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
-    STMT_NUM lineNum = it->first;
-    keys.push_back(lineNum);
-  }
-  return keys;
+  return m_allFollowedByList;
 }
 
 LIST_OF_STMT_NUMS FollowTable::getFollowsAnything() {
-  LIST_OF_STMT_NUMS values;
-  //copy the m_allFollows set to values vector.
-  values.assign(m_allFollows.begin(), m_allFollows.end());
-  return values;
+  return m_allFollowsList;
 }
 
 BOOLEAN FollowTable::hasFollowRelationship() {
@@ -190,5 +182,13 @@ void FollowTable::populateAllFollowsMap() {
   }
 }
 
+void FollowTable::populateFollowsAnythingRelationships() {
+  for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
+    STMT_NUM lineNum = it->first;
+    m_allFollowedByList.push_back(lineNum);
+  }
+
+  m_allFollowsList.assign(m_allFollows.begin(), m_allFollows.end());
+}
 
 FollowTable::FollowTable() {}

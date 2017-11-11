@@ -3,6 +3,7 @@
 void FollowsExtractor::extractDesign() {
   populateFollowsMatrix();
   populateAllFollowsMap();
+  populateFollowsAnythingRelationships();
 }
 
 void FollowsExtractor::populateFollowsMatrix() {
@@ -15,4 +16,9 @@ void FollowsExtractor::populateFollowsMatrix() {
 void FollowsExtractor::populateAllFollowsMap() {
   FollowTable* followTable = m_pkb->getFollowTable();
   followTable->populateAllFollowsMap();
+}
+
+void FollowsExtractor::populateFollowsAnythingRelationships() {
+  FollowTable* followTable = m_pkb->getFollowTable();
+  followTable->populateFollowsAnythingRelationships();
 }
