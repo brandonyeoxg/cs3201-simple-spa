@@ -41,20 +41,14 @@ SET_OF_RESULTS_INDICES AffectsEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb
       return m_result;
     }
 
-    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g2);
-    if (!stmtVector.empty()) {
-      m_result[0] = stmtVector;
-    }
+    m_result[0] = affectsStmts;
   } else if (StringUtil::isUnderscore(t_g1.getName())) {
-    LIST_OF_AFFECTS_STMTS stmtIntVector = t_pkb->getAffectedByAnything();
-    if (stmtIntVector.empty()) {
+    LIST_OF_AFFECTS_STMTS affectsStmts = t_pkb->getAffectedByAnything();
+    if (affectsStmts.empty()) {
       return m_result;
     }
 
-    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    if (!stmtVector.empty()) {
-      m_result[0] = stmtVector;
-    }
+    m_result[0] = affectsStmts;
   }
 
   return m_result;
@@ -69,20 +63,14 @@ SET_OF_RESULTS_INDICES AffectsEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb,
       return m_result;
     }
 
-    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, affectsStmts, t_g1);
-    if (!stmtVector.empty()) {
-      m_result[0] = stmtVector;
-    }
+    m_result[0] = affectsStmts;
   } else if (StringUtil::isUnderscore(t_g2.getName())) {
-    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getAffectsAnything();
-    if (stmtIntVector.empty()) {
+    LIST_OF_STMT_NUMS affectsStmts = t_pkb->getAffectsAnything();
+    if (affectsStmts.empty()) {
       return m_result;
     }
 
-    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
-    if (!stmtVector.empty()) {
-      m_result[0] = stmtVector;
-    }
+    m_result[0] = affectsStmts;
   }
 
   return m_result;
@@ -100,15 +88,5 @@ SET_OF_RESULTS_INDICES AffectsEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb
     return m_result;
   }
 
-  for (auto& x : allAffects) {
-    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
-    if (!stmtVector.empty()) {
-      LIST_OF_STMT_NUMS stmts = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
-      if (!stmts.empty()) {
-        m_result[x.first] = stmts;
-      }
-    }
-  }
-
-  return m_result;
+  return allAffects;
 }
