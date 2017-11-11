@@ -319,8 +319,9 @@ MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
     got = m_synonymsUsedInQuery.find(t_relation->getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {   
-        if (!Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
-          && !Grammar::isProc(t_relation->getG1().getType()) && !Grammar::isVar(t_relation->getG2().getType())) {
+        if (!Relation::isAffects(t_relation->getType()) && !Relation::isAffectsStar(t_relation->getType())
+          && !Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
+          && !Grammar::isProc(t_relation->getG1().getType())) {
           t_result[0] = EvaluatorUtil::filterStmts(typeOfStmts, t_result[0], t_relation->getG1());
           if (t_result.empty()) {
             return false;
@@ -334,8 +335,9 @@ MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
     got = m_synonymsUsedInQuery.find(t_relation->getG2().getName());
     if (got != m_synonymsUsedInQuery.end()) {
       if (got->second > 1) {
-        if (!Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
-          && !Grammar::isProc(t_relation->getG2().getType()) && !Grammar::isVar(t_relation->getG2().getType())) {
+        if (!Relation::isAffects(t_relation->getType()) && !Relation::isAffectsStar(t_relation->getType())
+          && !Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
+          && !Grammar::isVar(t_relation->getG2().getType())) {
           t_result[0] = EvaluatorUtil::filterStmts(typeOfStmts, t_result[0], t_relation->getG2());
           if (t_result.empty()) {
             return false;
@@ -345,8 +347,9 @@ MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
       }
     }
   } else if (QueryUtil::hasTwoSynonyms(t_relation->getG1(), t_relation->getG2())) {
-    if (!Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
-      && !Grammar::isProc(t_relation->getG1().getType()) && !Grammar::isVar(t_relation->getG2().getType())) {
+    if (!Relation::isAffects(t_relation->getType()) && !Relation::isAffectsStar(t_relation->getType())
+      && !Relation::isCalls(t_relation->getType()) && !Relation::isCallsStar(t_relation->getType())
+      && !Relation::isUses(t_relation->getType()) && !Relation::isModifies(t_relation->getType())) {
       SET_OF_RESULTS_INDICES results;
       for (auto& x : t_result) {
         LIST_OF_STMT_NUMS stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_relation->getG2());
@@ -364,6 +367,26 @@ MAP_OF_STMT_NUM_TO_GTYPE typeOfStmts = m_pkb->getTypeOfStatementTable();
         t_result = results;
       }
     }
+
+    if ((Relation::isUses(t_relation->getType()) || Relation::isModifies(t_relation->getType()))
+      && !Grammar::isProc(t_relation->getG1().getType())) {
+      SET_OF_RESULTS_INDICES results;
+      for (auto& x : t_result) {
+        if (!x.second.empty()) {
+          LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_relation->getG1());
+          if (!stmtVector.empty()) {
+            results[x.first] = stmtVector;
+          }
+        }
+      }
+
+      if (results.empty()) {
+        return false;
+      } else {
+        t_result = results;
+      }
+    }
+
 
     got = m_synonymsUsedInQuery.find(t_relation->getG1().getName());
     if (got != m_synonymsUsedInQuery.end()) {
@@ -435,9 +458,6 @@ LIST_OF_RESULTS QueryEvaluator::evaluateFinalResult() {
 
   if (!m_isSelectOnly && !m_tables.empty()) {
     BOOLEAN hasResult = m_table->mergeTables(m_tables);
-    /*if (!hasResult) {
-      return finalResult;
-    }*/
   } 
 
   if (Grammar::isBoolean(m_selects.front().getType())) {
