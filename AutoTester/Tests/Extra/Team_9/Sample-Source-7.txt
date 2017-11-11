@@ -1,0 +1,227 @@
+procedure weather {
+	sleep = good + 1;
+	sleep = sleep + more;
+	while sleep {
+		timeToSleep = sleep + more;
+		sleep = good + timeToSleep;
+		call rain;
+		if good then {
+			sleep = sleep + timeToSleep;
+			if cold then {
+				sleep = sleep + rain;
+				bed = sleep + blanket;
+				blanket = blanket + good;
+			}
+			else {
+				rain = sleep - timeToSleep;
+			}
+			timeToSleep = sleep + 1;
+			sleep = rain + sleep;
+		}
+		else {
+			call warm;
+		}
+		sleep = sleep + rain;
+		call cold;
+	}
+	sleep = cold + wind;
+	windy = wind + cold + sleep;
+	while windy {
+		call windy;
+	}
+	sleep = sleep4eva;
+}
+procedure hot {
+	if hot then {
+		go = swim + now;
+		if cannotSwim then {
+			if gotFloat then {
+				go = swim + now;
+			} 
+			else {
+				while noFloat {
+					go = buy + float;
+				}
+				swim = go + float;
+				if gotFloat then{
+					go = swim + swim + now;
+					gotFloat = slack + swim + now;
+				} 
+				else {
+					go = swim + slack;
+				}
+					slack = swim;
+			}
+			gotFloat = swim + slack;
+			noMoney = noMoney + 10;
+		}
+		else {
+			go = swimmingClass + swim;
+			swim = swim + cold;	
+		} 
+	}
+	else {
+		go = shoppingMall - hot - 8;
+	}
+}
+procedure warm {
+	if warm then {
+		on = aircon + 1;
+		while warm {
+			aircon = aircon + 1;
+			if warm then {
+				aircon = aircon + full;
+				warm = aircon + 3;
+			} 
+			else {
+				aircon = aircon - 1;
+			}
+			while aircon {
+				if airconNotGood then {
+					repair = aircon*aircon + 1;
+					while airconNotGood {
+						while repairMore {
+							airconNotGood = airconNotGood +1;
+						}
+					}
+					aircon = airconNotGood;
+					repairMore = repairMore + airconNotGood - warm;
+					jobs = repairMore - jobs *10;
+				} 
+				else {
+					aircon = aircon -4;
+				}
+				aircon = spoiling + airconNotGood;
+				aircon = aircon + warm;
+			}
+		}
+	} 
+	else {
+		drink = more + water;
+		if tooHot then {
+			call dry;
+		} 
+		else {
+			if stillTooHot then {
+				call hot;
+			} else {
+				giveup = airconNotGood;
+			}
+		}
+	}
+	giveup = warm + 10;
+	giveup = timeToGoShoppingMall;
+	timeToGoShoppingMall = go + shoppingMall;
+}
+procedure cold {
+	heater = buy + heater;
+	timeToGoShoppingMall = shoppingMall + heater;
+	while cold {
+		if stillCold then {
+			go = on + heater;
+		} 
+		else {
+			if heater then {
+				temperature = heater + increase*(warm) -(dry);
+				temperature = stillCold + go * warm - (heater*sleep);
+			} 
+			else {
+				stillCold = heater + (noMoney*lottery-(jobs*rainy + (cloudy- heater)));
+				temperature = heater + decrease;
+			}
+		}
+		heater = heater + 1;
+		temperature = temperature + increase;
+	}
+	sleep = temperature + increase;
+}
+procedure dry {
+	dry = buy + humidifier;
+	go = shoppingMall + humidifier;
+	while noHumidifier {
+		while dry {
+			while gotMoney {
+				go = buy + shoppingMall + humidifier;
+			}
+			while noMoney {
+				if noMoney then {
+					dry = noMoney + go;
+					go = get + jobs;
+				} 
+				else {
+					go = buy + lottery;
+				}
+				noMoney = noMoney + (3 - lottery);
+			}
+			shoppingMall = (shoppingMall) + humidifer - (cloudy*noHumdifier);
+			shoppingMall = shoppingMall + (2*cloudy) - 5*jobs;
+			lottery = lottery + shoppingMall*(rainy)*cloudy;
+		}
+	}
+}
+procedure cloudy {
+	call rain;
+	while cloudy {
+		go = turn + on + lights;
+		if dark then {
+			lights = brighter + (lights) - dark;
+		}
+		else {
+			lights = dimmer + ((lights - dark));
+		}
+		while noMoney {
+			lights = (turn + off) * lights;
+		}
+		lights = lights + (1-dry*off-rainy);
+	}
+	if brighthen then {
+		lights = turn + (off);
+	} else {
+		lights = turn + on;
+		brighten = ((brighten)) + off;
+	}
+	if noMoney then {
+		lights = turn + off;
+		noMoney = ((noMoney) + (lights)* lottery);
+	} else {
+		go = get + jobs;
+	}
+	money = money + 2;
+	noMoney = noMoney*5;
+}
+procedure windy {
+	windy = wind + grey + clouds;
+	call rain;
+	call cloudy;
+	if rainy then{
+		call cold;
+	} 
+	else {
+		while cold {
+			call cold;
+		}
+		call rain;
+	}
+	if freezing then {
+		cold = windy + cold;
+		cold = cold + (blanket + more);
+	} 
+	else {
+		call dry;
+	}
+	rainy = freezing + cold * rainy;
+	freezing = cold + windy + dry;
+}
+procedure rain {
+	rain = rain + clouds + wind - hot;
+	rain = rain * rain + wind - hot;
+	rain = (rain)* rain + wind - warm;
+	rain = (rain)* rain + (wind)* warm;
+	rain = (rain)* rain + (warm)*(rain);
+	rainy = (rain)* rainy + (warm)*((cloudy)- dry);
+	rainy = (rain)- rainy + (warm)*((cloudy)- dry*rainy);
+	cloudy = (cloudy) + rainy - rainy*(cloudy)- dry*((rainy));
+	cloudy = ((jobs) + cloudy *(shoppingMall)- lottery *rainy)-(rainy*lottery);
+	go = (rainy*lottery-(cloudy*blanket-cold)*(clouds-lottery)*(off-(noMoney)*cold));
+	go = (temperature*lottery-(temperature*noMoney-noMoney+ brighter + lights - noMoney) *(sleep * noHumdifier));
+}

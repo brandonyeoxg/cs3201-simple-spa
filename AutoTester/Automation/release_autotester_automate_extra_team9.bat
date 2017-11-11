@@ -1,0 +1,1 @@
+start "" "%~dp0../../Release/AutoTester.exe" %~dp0../Tests/Extra/Team_9/Sample-Source-7.txt %~dp0../Tests/Extra/Team_9/Sample-Queries-7.txt %~dp0../Output/ReleaseOutput/extra-team9-sample-out.xml
