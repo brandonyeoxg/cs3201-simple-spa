@@ -1,7 +1,7 @@
 procedure a1pha{
   call B3ta;
   if gR33K then{
-    call Om3G4;}
+    call Om3g4;}
   else{
     while Tr0Y{
       if C435aR then {
