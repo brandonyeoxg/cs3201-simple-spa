@@ -343,7 +343,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relatio
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
-
+  
   SET_OF_RESULTS_INDICES *results;
 
   // Affects(given_line, l)
