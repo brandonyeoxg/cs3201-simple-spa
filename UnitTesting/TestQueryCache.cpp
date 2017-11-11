@@ -245,7 +245,7 @@ public:
     expected = SET_OF_RESULTS_INDICES();
     expected.insert({ 1,{ 1, 2, 3, 4 } });
 
-    clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));
+    clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));  // get Next*(1, line3)
 
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
@@ -300,6 +300,33 @@ public:
     expected = toCache;
 
     clause = new Relation("Next", Grammar(9, "line5"), Grammar(11, "_"));  // Next(line5, _)
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(getCacheFromOtherClauses04) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS_INDICES();
+    toCache.insert({ 1,{ 1, 2, 3, 4 } });
+    toCache.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next", Grammar(9, "line1"), Grammar(9, "line2"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Next(line1, line2)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next", Grammar(11, "2"), Grammar(9, "line3"));  // get Next(2, line3)
 
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
