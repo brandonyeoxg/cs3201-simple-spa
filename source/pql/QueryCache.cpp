@@ -213,6 +213,11 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
       return getCacheForFollows(t_relation);
     case queryType::RType::FOLLOWS_:
       return getCacheForFollowsStar(t_relation);
+    case queryType::RType::AFFECTS:
+      return getCacheForAffects(t_relation);
+    //case queryType::RType::AFFECTS_:
+    //case queryType::RType::PARENT:
+    //case queryType::RType::PARENT_:
   }
 
   return nullptr;
@@ -324,4 +329,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relatio
   }
 
   return nullptr;
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
+  // Affects(given, s1)
+  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && !QueryUtil::isUnderscore(t_relation->getG1())) {
+    SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+
+    if (isKeyInMap(KEY_ALL_AFFECTS, m_cache)) { // retrieve from Affects(s1, s2)
+
+      int g1Name = std::stoi(t_relation->getG1().getName());
+      auto list = m_cache.at(KEY_ALL_AFFECTS).at(g1Name);
+      results->insert({ g1Name, list });
+      return results;
+    } else {
+      return nullptr;
+    }
+  }
 }

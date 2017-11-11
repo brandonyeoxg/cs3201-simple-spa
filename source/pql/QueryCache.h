@@ -138,6 +138,8 @@ private:
   const std::string KEY_ALL_NEXT = "Next/s1<progLine>/s2<progLine>";
   const std::string KEY_ALL_NEXT_STAR_STMT = "Next*/s1<stmt>/s2<stmt>";
   const std::string KEY_ALL_NEXT_STMT = "Next/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_AFFECTS_STAR = "Affects*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_AFFECTS = "Affects/s1<stmt>/s2<stmt>";
   
   const std::string KEY_NEXT_STAR = "Next*";
   const std::string KEY_NEXT = "Next";
@@ -165,6 +167,7 @@ private:
   SET_OF_RESULTS_INDICES *getCacheForNext(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollows(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollowsStar(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForAffects(Relation *t_relation);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
