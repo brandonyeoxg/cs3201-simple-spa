@@ -12,7 +12,7 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
     std::cout << "\nNUMBER OF STMTS: " << typeOfStmts.size() << "\n";
   }
 
-  QueryOptimiser opt = QueryOptimiser(m_selects, m_relations, m_patterns, m_withs);
+  QueryOptimiser opt = QueryOptimiser(m_pkb, m_selects, m_relations, m_patterns, m_withs);
   opt.divideClausesIntoGroups(m_noSyns, m_withSyns);
 
   bool hasResult = getResultFromPkb();
