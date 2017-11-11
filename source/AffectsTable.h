@@ -15,7 +15,7 @@ public:
   AffectsTable(PkbTablesOnly *t_pkbTablesOnly) : m_pkbTablesOnly(t_pkbTablesOnly),
                                                  m_nextTable(t_pkbTablesOnly->getNextTable()),
                                                  m_stmtTable(t_pkbTablesOnly->getStatementTable()){
-    m_earlyExit = m_isAffectsStar = false;
+    m_isEarlyExit = m_isAffectsStar = false;
     m_targetStart = INVALID_PROG_LINE;
     m_targetEnd = INVALID_PROG_LINE;
 
@@ -64,7 +64,7 @@ private:
   PkbTablesOnly* m_pkbTablesOnly;
   NextTable* m_nextTable;
   StatementTable* m_stmtTable;
-  BOOLEAN m_earlyExit, m_isAffectsStar;
+  BOOLEAN m_isEarlyExit, m_isAffectsStar;
   PROG_LINE m_targetStart, m_targetEnd;
 
   // I need to have the AffectsList and AffectedByStorage
@@ -92,7 +92,8 @@ private:
   BOOLEAN isContainerStmt(queryType::GType t_type);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeTable(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
   PROG_LINE getRealStartBound(PROG_LINE t_startBound);
+  void handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars);
+  void handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars);
   void insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine);
-  void insertINtoAffectsStarLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine);
 };
 

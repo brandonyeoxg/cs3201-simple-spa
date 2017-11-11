@@ -13,12 +13,12 @@ BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_end
 }
 
 BOOLEAN AffectsTable::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
-  m_earlyExit = true; m_isAffectsStar = false;
+  m_isEarlyExit = true; m_isAffectsStar = false;
   return hasAffectsFromBounds(t_modifiesLine, t_usesLine, t_modifiesLine, t_usesLine);
 }
 
 BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
-  m_earlyExit = m_isAffectsStar = true;
+  m_isEarlyExit = m_isAffectsStar = true;
   return hasAffectsFromBounds(t_modifiesLine, t_usesLine, t_modifiesLine, t_usesLine);
 }
 
@@ -49,7 +49,7 @@ BOOLEAN AffectsTable::traverseCfgWithinBound(PROG_LINE &t_nextLine, PROG_LINE t_
   switch (stmtType) {
   case queryType::GType::ASGN:
     if (handleAssignStmt(t_nextLine, t_lmt, t_lut) 
-        && m_earlyExit == true) {
+        && m_isEarlyExit == true) {
       return true;
     }
     break;
@@ -69,12 +69,120 @@ BOOLEAN AffectsTable::traverseCfgWithinBound(PROG_LINE &t_nextLine, PROG_LINE t_
 }
 
 BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
+  VarTable *varTable = m_pkbTablesOnly->getVarTable();
+  StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
+  ModifiesTable *modifiesTable = m_pkbTablesOnly->getModifiesTable();
+  UsesTable *usesTable = m_pkbTablesOnly->getUsesTable();
+  VAR_NAME modifiesVar = modifiesTable->getModifies(t_nextLine).front();
+  LIST_OF_VAR_NAMES usesVars = usesTable->getUses(t_nextLine);
+  auto *cfg= m_pkbTablesOnly->getNextTable()->getAfterGraph();
+  if (t_lmt.empty()) {
+    t_lmt.insert({ modifiesVar , {t_nextLine} });
+    if (m_isAffectsStar) {
+      t_lut.insert({ modifiesVar, {} });
+    }
+  } else {
+    // Update lut
+    auto lutEntry = t_lut.find(modifiesVar);
+    if (lutEntry == t_lut.end()) {
+      t_lut.insert({ modifiesVar,{} });
+    }
+    for (auto &usesVar : usesVars) {
+      // query lmt if they have uses
+      auto &usesFromLmt = t_lmt.find(usesVar);
+      if (usesFromLmt == t_lmt.end()) {
+        continue;
+      }
+      // populate lut
+      auto &stmtsFromLut = t_lut.find(usesVar)->second;
+      if (m_isAffectsStar == false) {
+        lutEntry->second.clear();
+      } else {
+        for (auto &usesToBeAdded : stmtsFromLut) {
+          lutEntry->second.insert(usesToBeAdded);
+        }
+      }
+      for (auto &stmtFromLmt : usesFromLmt->second) {
+        lutEntry->second.insert(stmtFromLmt);
+      }
+    }
+    // Update lmt
+    auto &lmtEntry = t_lmt.find(modifiesVar);
+    if (lmtEntry == t_lut.end()) {
+      t_lmt.insert({ modifiesVar,{} });
+    }
+    lmtEntry->second.clear();
+    lmtEntry->second.insert(t_nextLine);
+
+    // Update affects list
+    for (auto &useStmt : lutEntry->second) {
+      if (m_isEarlyExit) {
+        if (m_targetStart == INVALID_PROG_LINE && m_targetEnd == INVALID_PROG_LINE) {
+          return true;
+        } else if (m_targetStart == INVALID_PROG_LINE && m_targetEnd == t_nextLine) {
+          return true;
+        } else if (m_targetEnd == INVALID_PROG_LINE && m_targetStart == useStmt) {
+          return true;
+        } else if (m_targetStart == useStmt && m_targetEnd == t_nextLine) {
+          return true;
+        }
+      } else {
+        insertIntoAffectsLists(useStmt, t_nextLine);
+      }
+    }
+  }
+
+  auto &hasNextLine = cfg->find(t_nextLine);
+  if (hasNextLine == cfg->end()) {
+    t_nextLine = INVALID_PROG_LINE;
+    return false;
+  }
+  t_nextLine = hasNextLine->second[0];
+  //traversing part of the algo
   return false;
 }
 BOOLEAN AffectsTable::handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
+  if (t_lmt.empty()) {
+    return false;
+  }
+  VAR_NAME modifiesVar = m_pkbTablesOnly->getModifiesTable()->getModifies(t_nextLine)[0];
+  auto pItr = t_lmt.find(modifiesVar);
+  if (pItr == t_lmt.end()) {
+    return false;
+  }
+  t_lmt.erase(pItr);
+  auto lastUseItr = t_lut.find(modifiesVar);
+  if (lastUseItr == t_lut.end()) {
+    return false;
+  }
+  t_lut.erase(lastUseItr);
   return false;
 }
 BOOLEAN AffectsTable::handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLmt = t_lmt, elseLmt = t_lut;
+  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLut = t_lmt, elseLut = t_lut;
+  PROG_LINE curLine = t_nextLine;
+  LIST_OF_STMT_NUMS stmtLst = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_nextLine);
+  if (traverseCfgWithinBound(t_nextLine, stmtLst.back(), ifLmt, ifLut) 
+      && m_isEarlyExit) {
+    return true;
+  }
+
+  if (traverseCfgWithinBound(t_nextLine, stmtLst.back(), elseLmt, elseLut)
+    && m_isEarlyExit) {
+    return true;
+  }
+
+  t_lmt = mergeTable(ifLmt, elseLmt);
+  t_lut = mergeTable(ifLut, elseLut);
+
+  if (t_nextLine == INVALID_PROG_LINE) {
+    return false;
+  }
+  queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(t_nextLine);
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(t_nextLine, curLine)) {
+    return false;
+  }
   return false;
 }
 BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
@@ -245,6 +353,10 @@ PROG_LINE AffectsTable::getRealStartBound(PROG_LINE t_startBound) {
     }
   }
   return realStartBound;
+}
+
+void AffectsTable::handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars) {
+
 }
 
 void AffectsTable::insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine) {
