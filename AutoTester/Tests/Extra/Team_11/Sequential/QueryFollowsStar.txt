@@ -39,8 +39,8 @@ Select w such that Follows*(13, w)
 14
 5000
 9 - Int If
-if if;
-Select if such that Follows*(18, if)
+if ifs;
+Select ifs such that Follows*(18, ifs)
 19
 5000
 10 - Int ProgLine
@@ -69,8 +69,8 @@ Select w such that Follows*(_, w)
 14
 5000
 15 - Underscore If
-if if;
-Select if such that Follows*(_, if)
+if ifs;
+Select ifs such that Follows*(_, ifs)
 19
 5000
 16 - Underscore ProgLine
@@ -104,18 +104,18 @@ Select w such that Follows*(w, 15)
 none
 5000
 22 - If Int
-if if;
-Select if such that Follows*(if, 23)
+if ifs;
+Select ifs such that Follows*(ifs, 23)
 19
 5000
 23 - If Int
-if if;
-Select if such that Follows*(if, 20)
+if ifs;
+Select ifs such that Follows*(ifs, 20)
 none
 5000
 24 - If Int
-if if;
-Select if such that Follows*(if, 21)
+if ifs;
+Select ifs such that Follows*(ifs, 21)
 none
 5000
 25 - Prog Int
@@ -144,8 +144,8 @@ Select w such that Follows*(w, _)
 14
 5000
 30 - If Underscore
-if if;
-Select if such that Follows*(if, _)
+if ifs;
+Select ifs such that Follows*(ifs, _)
 19
 5000
 31 - ProgLine Underscore
@@ -174,8 +174,8 @@ Select s such that Follows*(s, w)
 13
 5000
 36 - Stmt If
-stmt s; if if;
-Select s such that Follows* (s, if)
+stmt s; if ifs;
+Select s such that Follows* (s, ifs)
 18
 5000
 37 - Stmt ProgLine
@@ -199,8 +199,8 @@ Select a such that Follows*(a, w)
 13
 5000
 41 - Assign If
-assign a; if if;
-Select a such that Follows*(a, if)
+assign a; if ifs;
+Select a such that Follows*(a, ifs)
 18
 5000
 42 - Assign ProgLine

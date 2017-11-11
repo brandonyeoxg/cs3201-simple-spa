@@ -39,8 +39,8 @@ Select w such that Follows(13, w)
 14
 5000
 9 - Follows Int If
-if if;
-Select if such that Follows(18, if)
+if ifs;
+Select ifs such that Follows(18, ifs)
 19
 5000
 10 - Follows Int ProgLine
@@ -84,8 +84,8 @@ Select w such that Follows(_, w)
 14
 5000
 18 - Follows Underscore If
-if if;
-Select if such that Follows(_, if)
+if ifs;
+Select ifs such that Follows(_, ifs)
 19
 5000
 19 - Follows Underscore ProgLine
@@ -119,18 +119,18 @@ Select w such that Follows(w, 15)
 none
 5000
 25 - Follows If Int
-if if;
-Select if such that Follows(if, 22)
+if ifs;
+Select ifs such that Follows(ifs, 22)
 19
 5000
 26 - Follows If Int
-if if;
-Select if such that Follows(if, 20)
+if ifs;
+Select ifs such that Follows(ifs, 20)
 none
 5000
 27 - Follows If Int
-if if;
-Select if such that Follows(if, 21)
+if ifs;
+Select ifs such that Follows(ifs, 21)
 none
 5000
 28 - Follows ProgLine Int
@@ -159,8 +159,8 @@ Select w such that Follows(w, _)
 14
 5000
 33 - Follows If Underscore
-if if;
-Select if such that Follows(if, _)
+if ifs;
+Select ifs such that Follows(ifs, _)
 19
 5000
 34 - Follows ProgLine Underscore
@@ -194,8 +194,8 @@ Select s such that Follows(s, w)
 13
 5000
 40 - Follows Stmt If
-stmt s; if if; 
-Select s such that Follows (s, if)
+stmt s; if ifs; 
+Select s such that Follows (s, ifs)
 18
 5000
 41 - Follows Stmt ProgLine
@@ -224,8 +224,8 @@ Select a such that Follows(a, w)
 13
 5000
 46 - Follows Assign If
-assign a; if if;
-Select a such that Follows(a, if)
+assign a; if ifs;
+Select a such that Follows(a, ifs)
 18
 5000
 47 - Follows Assign ProgLine
@@ -249,8 +249,8 @@ Select w1 such that Follows(w1, w2)
 none
 5000
 51 - Follows While If
-while w; if if;
-Select w such that Follows(w, if)
+while w; if ifs;
+Select w such that Follows(w, ifs)
 none
 5000
 52 - Follows While ProgLine
@@ -264,22 +264,22 @@ Select w such that Follows(w, cl)
 none
 5000
 54 - Follows If If SameSynonym
-if if;
-Select if such that Follows(if, if)
+if ifs;
+Select ifs such that Follows(ifs, ifs)
 none
 5000
 55 - Follows If If DiffSynonym
-if i1, i2;
+ifs i1, i2;
 Select i1 such that Follows(i1, i2)
 none
 5000
 56 - Follows If ProgLine
-if if; prog_line pl;
-Select if such that Follows(if, pl)
+if ifs; prog_line pl;
+Select ifs such that Follows(ifs, pl)
 19
 5000
 57 - Follows If Call
-if if; call cl;
-Select if such that Follows(if, cl)
+if ifs; call cl;
+Select ifs such that Follows(ifs, cl)
 none
 5000

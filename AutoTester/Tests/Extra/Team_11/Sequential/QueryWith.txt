@@ -39,8 +39,8 @@ Select BOOLEAN with 14 = w.stmt#
 true
 5000
 9 - Int If Attr
-if if;
-Select BOOLEAN with 19 = if.stmt#
+if ifs;
+Select BOOLEAN with 19 = ifs.stmt#
 true
 5000
 10 - Int ProgLine Attr
@@ -104,8 +104,8 @@ Select w with w.stmt#=14
 14
 5000
 22 - If Int
-if if;
-Select if with if.stmt# = 19
+if ifs;
+Select ifs with ifs.stmt# = 19
 19
 5000
 23 - ProgLine int
