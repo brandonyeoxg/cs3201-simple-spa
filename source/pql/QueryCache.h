@@ -134,8 +134,10 @@ private:
   
   ////////// Keys for Clauses in the Cache map /////////////////
   //  To be used for optimizing cache retrieval
-  const std::string KEY_ALL_NEXT_STAR = "Next*/s1<progLine>/s2<progLine>";  /**< Key for Next*(s1, s2) */
+  const std::string KEY_ALL_NEXT_STAR = "Next*/s1<progLine>/s2<progLine>";
   const std::string KEY_ALL_NEXT = "Next/s1<progLine>/s2<progLine>";
+  const std::string KEY_ALL_NEXT_STAR_STMT = "Next*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_NEXT_STMT = "Next/s1<stmt>/s2<stmt>";
   
   const std::string KEY_NEXT_STAR = "Next*";
   const std::string KEY_NEXT = "Next";

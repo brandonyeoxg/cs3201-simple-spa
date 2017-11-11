@@ -223,12 +223,18 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
   // Next*(given_line, l)
   if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
     && !QueryUtil::isUnderscore(t_relation->getG1())) {
+    SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
 
-    // retrieve from Next*(s1, s2)
-    if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
-      SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+    if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) { // retrieve from Next*(pl1, pl2)
+      
       int g1Name = std::stoi(t_relation->getG1().getName());
       auto list = m_cache.at(KEY_ALL_NEXT_STAR).at(g1Name);
+      results->insert({ g1Name, list });
+      return results;
+    } else if (isKeyInMap(KEY_ALL_NEXT_STAR_STMT, m_cache)) { // retrieve from Next*(s1, s2)
+
+      int g1Name = std::stoi(t_relation->getG1().getName());
+      auto list = m_cache.at(KEY_ALL_NEXT_STAR_STMT).at(g1Name);
       results->insert({ g1Name, list });
       return results;
     } else {
@@ -251,16 +257,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
 
   // Next(given_line, l)
   if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
     && !QueryUtil::isUnderscore(t_relation->getG1())) {
 
-    // retrieve from Next(s1, s2)
-    if (isKeyInMap(KEY_ALL_NEXT, m_cache)) {
-      SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+    if (isKeyInMap(KEY_ALL_NEXT, m_cache)) {  // retrieve from Next(pl1, pl2)
+      
       int g1Name = std::stoi(t_relation->getG1().getName());
       auto list = m_cache.at(KEY_ALL_NEXT).at(g1Name);
+      results->insert({ g1Name, list });
+      return results;
+    } else if (isKeyInMap(KEY_ALL_NEXT_STMT, m_cache)) { // retrieve from Next(s1, s2)
+
+      int g1Name = std::stoi(t_relation->getG1().getName());
+      auto list = m_cache.at(KEY_ALL_NEXT_STMT).at(g1Name);
       results->insert({ g1Name, list });
       return results;
     } else {
