@@ -350,11 +350,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
   // retrieve from Affects(s1, s2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_AFFECTS);
 
-  if (results != nullptr) {
-    return results;
-  }
-
-  return nullptr;
+  return results;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffectsStar(Relation * t_relation) {
@@ -364,11 +360,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffectsStar(Relation * t_relatio
   // retrieve from Affects*(s1, s2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_AFFECTS_STAR);
 
-  if (results != nullptr) {
-    return results;
-  }
-
-  return nullptr;
+  return results;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForParent(Relation * t_relation) {
@@ -378,11 +370,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForParent(Relation * t_relation) {
   // retrieve from Parent(pl1, pl2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_PARENT);
 
-  if (results != nullptr) {
-    return results;
-  }
-
-  return nullptr;
+  return results;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForParentStar(Relation * t_relation) {
@@ -392,11 +380,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForParentStar(Relation * t_relation
   // retrieve from Parent*(pl1, pl2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_PARENT_STAR);
 
-  if (results != nullptr) {
-    return results;
-  }
-
-  return nullptr;
+  return results;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getResultFromTwoSynonyms(Relation * t_relation, std::string t_key) {
