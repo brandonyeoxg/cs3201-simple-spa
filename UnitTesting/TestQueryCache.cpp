@@ -36,6 +36,11 @@ public:
     Assert::IsTrue(key == "Parent*/s<assign>/s<assign>");
     Logger::WriteMessage(key.c_str());
 
+    relation = Relation("Parent*", Grammar(3, "s5"), Grammar(11, "s"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Parent*/s<assign>/+s");
+    Logger::WriteMessage(key.c_str());
+
     // Uses(a5, "s2")
     relation = Relation("Uses", Grammar(3, "a5"), Grammar(11, "s2"));
     key = cache.getKey(relation);
