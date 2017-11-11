@@ -223,6 +223,8 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
   // Next*(given_line, l)
   if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
     && !QueryUtil::isUnderscore(t_relation->getG1())) {
+
+    // retrieve from Next*(s1, s2)
     if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) {
       SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
       int g1Name = std::stoi(t_relation->getG1().getName());
@@ -249,6 +251,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
+
+  // Next(given_line, l)
+  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && !QueryUtil::isUnderscore(t_relation->getG1())) {
+
+    // retrieve from Next(s1, s2)
+    if (isKeyInMap(KEY_ALL_NEXT, m_cache)) {
+      SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+      int g1Name = std::stoi(t_relation->getG1().getName());
+      auto list = m_cache.at(KEY_ALL_NEXT).at(g1Name);
+      results->insert({ g1Name, list });
+      return results;
+    } else {
+      return nullptr;
+    }
+  }
 
   // Next(_, p2) or Next(p1, _)
   if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
