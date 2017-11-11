@@ -1,0 +1,204 @@
+procedure Aaron {
+1.		kindness = love + exercise;
+2.		love = exercise * stress;
+3.		stress = stress + 5;
+4.		stress = love * 100;
+5.		call Ben;
+}
+
+procedure Ben {
+6.		call Colin;
+7.		call Damith;
+8.		call Hugh;
+9.		call Steven;
+}
+
+procedure Colin {
+10.		while laugh {
+11.			call Damith;
+12.			difficulty = exam + love - happy;
+		}
+13.		exam = stress + difficulty * 200;
+14.		call Thilina;
+}
+
+procedure Cristina {
+15.		while love {
+16.			lecture = kindness + love;
+		}
+17.		call Parvathy;
+18.		if stress then {
+19.			happy = exercise + lecture - stress;
+		}
+		else {
+20.			love = exercise * happy - difficulty;
+		}
+21.		call Wynne;
+22.		call Thilina;
+}
+
+procedure Damith {
+23.		call EeChien;
+24.		exam = easy + laugh - 2;
+}
+
+procedure EeChien {
+25.		if tired then {
+26.			lecture = skip + cancel * 10;
+27.			call Hugh;
+		}
+		else {
+28.			call Gary;
+		}
+29.		skip = 100 * 10;
+}
+
+procedure Gary {
+30.		call Wynne;
+31.		while exercise {
+32.			kindness = exam - 100 + 2 * 5 * love;
+		}
+33.		call Steven;
+}
+
+procedure Hugh {
+34.		call UncleSoo;
+35.		if difficulty then {
+36.			cancel = stress * difficulty;
+		}
+		else {
+37.			stress = cancel + 10;
+		}
+38.		call Ian;
+}
+
+procedure Ian {
+39.		laugh = exam * difficulty + 2;
+40.		call Jin;
+41.		stress = tired + easy - laugh;
+}
+
+procedure Jin {
+42.		call Cristina;
+}
+
+procedure MinYen {
+43.		lecture = kindness * love - tired;
+44.		if lecture then {
+45.			lecture = cancel * skip + laugh * difficulty;
+		}
+		else {
+46.			call UncleSoo;
+		}
+}
+
+procedure Parvathy {
+47.		call Wynne;
+48.		if exam then {
+49.			laugh = stress * tired;
+		}
+		else {
+50.			tutorial = cancel * skip + easy;
+51.			cancel = tutorial * skip - easy;
+52.			skip = tutorial * easy;
+53.			easy = cancel - easy;
+		}
+54.		call Thilina;
+55.		while tired {
+56.			exercise = difficulty * skip + tutorial * cancel - exercise;
+		}
+}
+
+procedure RayYan {
+57.		kindness = love * exam - difficulty - tutorial - lecture * tired * 5 + 3;
+58.		happy = love * exam;
+59.		tutorial = love * tired;
+60.		exam = 1 * 1 * easy;
+61.		tired = exam * stress;
+}
+
+procedure Steven {
+62.		exercise = love - exam * lecture;
+63.		call WeeSun;
+64.		if cancel then {
+65.			difficulty = easy * 5 + 20;
+		}
+		else { 
+66.			love = lecture + skip;
+		}
+}
+
+procedure Thilina {
+67.		if happy then {
+68.			call MinYen;
+69.			lecture = skip + cancel;
+70.			call RayYan;
+71.			exercise = lecture * easy + kindness;
+72.			lecture = lecture - exercise;
+73.			easy = lecture + cancel + 100;
+74.			laugh = easy - 5;
+		}
+		else {
+75.			tutorial = cancel - 5 * laugh + 3;
+76.			easy = tutorial + cancel;
+		}
+}
+
+procedure UncleSoo {
+77.		exam = difficulty * 100 * stress;
+78.		call Wynne;
+79.		while laugh {
+80.			stress = 100 * exam * difficulty;
+		}
+}
+
+procedure WeeSun {
+81.		easy = kindness * love;
+82.		tutorial = easy * love;
+83.		while love {
+84.			if difficulty then {
+85.				love = tutorial * easy;
+			}
+			else {
+86.				tutorial = tutorial * 5;
+			}
+87.			call Thilina;
+		}
+88.		while tutorial {
+89.			cancel = lecture * kindness - love;
+		}
+90.		if skip then {
+91.			lecture = happy * tired;
+		}
+		else {
+92.			love = tutorial + happy;
+		}
+93.		while easy {
+94.			laugh = lecture - cancel;
+		}
+95.		while lecture {
+96.			happy = lecture + 100;
+		}
+}
+
+procedure Wynne {
+97.		happy = love * kindness + 5;
+98.		stress = happy - 100 * 20 + lecture * skip;
+99.		tutorial = difficulty * easy + stress;
+100.	stress = stress * love;
+101.	stress = 100 - (20 * 5 + (kindness - happy)) * stress * skip * 5 - 20 + 100;
+102.	kindness = tutorial + cancel;
+103.	happy = kindness - stress * tutorial;
+104.	lecture = difficulty + 100;
+105.	while lecture {
+106.		kindess = kindness - happy + tutorial;
+		}
+107.	tutorial = lecture - stress;
+108.	if love then {
+109.		skip = stress + happy - difficulty * tutorial;
+		}
+		else {
+110.		cancel = kindness * lecture - easy + 5 - 100;
+		}
+111.	stress = tutorial + 5 + lecture;
+}
