@@ -52,3 +52,5 @@ start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Affects/affects-tes
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Non-Existence/non-existence-test-prog.txt %~dp0/Tests/System/Non-Existence/non-existence-test-queries.txt %~dp0/Output/ReleaseOutput/system-non-existence-out.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Combo/combo-stress-test-prog.txt %~dp0/Tests/System/Combo/combo-stress-test-1-queries.txt %~dp0/Output/ReleaseOutput/system-combo-stress-out1.xml
 start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Combo/combo-stress-test-prog.txt %~dp0/Tests/System/Combo/combo-stress-test-2-queries.txt %~dp0/Output/ReleaseOutput/system-combo-stress-out2.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Combo/combo-stress-test-prog.txt %~dp0/Tests/System/Combo/combo-stress-test-3-queries.txt %~dp0/Output/ReleaseOutput/system-combo-stress-out3.xml
+start "" "%~dp0../Release/AutoTester.exe" %~dp0/Tests/System/Combo/combo-stress-test-prog.txt %~dp0/Tests/System/Combo/combo-stress-test-4-queries.txt %~dp0/Output/ReleaseOutput/system-combo-stress-out4.xml
