@@ -137,17 +137,34 @@ public:
   */
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getFollowTable();
 
+  /**
+  * Method that is called by the DesignExtractor to populate the 2D follows* matrix.
+  */
   void populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total);
 
+  /**
+  * Method that is called by the DesignExtractor to populate the allFollowsMap.
+  */
   void populateAllFollowsMap();
+
+  /**
+  * Method that is called by the DesignExtractor to populate the allFollowsList and allFollowedByList.
+  * Such that results of getFollowsAnything() and getFollowedByAnything() will be O(1) upon retrieval.
+  */
+  void populateFollowsAnythingRelationships();
 
   FollowTable();
   ~FollowTable() {};
 
 private:
+
+  //duality hashmaps
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_followedByMap;
+
   MAP_OF_STMT_NUMS m_allFollowsMap;
-  BOOLEAN_MATRIX m_followsMatrix;
-  SET_OF_STMT_NUMS m_allFollows;
+  BOOLEAN_MATRIX m_followsMatrix; //2D representation of the follows* relationship.
+  SET_OF_STMT_NUMS m_allFollows;  //all stmt# that follows (in a set)
+  LIST_OF_STMT_NUMS m_allFollowsList; //all stmt# that follows (in a vector)
+  LIST_OF_STMT_NUMS m_allFollowedByList;  //all stmt# that followed by a stmt (in a vector)
 };
