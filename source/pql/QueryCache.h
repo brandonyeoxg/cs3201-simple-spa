@@ -148,6 +148,8 @@ private:
   // for clauses with 2 common synonyms
   std::string getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_grammar2);
 
+  std::string getTypeWithSynonym(Grammar t_grammar);
+
   // optimization method to check if result for given clause can be extracted from other cached clauses
   SET_OF_RESULTS_INDICES *getCacheFromOtherClauses(Clause *t_clause);
   SET_OF_RESULTS_INDICES *getCacheFromOtherRelations(Relation *t_relation);

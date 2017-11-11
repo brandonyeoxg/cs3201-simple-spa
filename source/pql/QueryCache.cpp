@@ -145,7 +145,7 @@ std::string QueryCache::getKeyWithRelation(Relation t_relation) {
 std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
 
   if (QueryUtil::isSynonym(t_grammar)) {
-    return "/s";
+    return "/s" + getTypeWithSynonym(t_grammar);
   } else if (QueryUtil::isUnderscore(t_grammar)) {
     return "/_";
   } else {
@@ -158,9 +158,38 @@ std::string QueryCache::getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_gram
   assert(QueryUtil::hasTwoSynonyms(t_grammar1, t_grammar2));
 
   if (QueryUtil::areBothSameSynonyms(t_grammar1, t_grammar2)) {
-    return "/s/s";
-  } else {
-    return "/s1/s2"; // different synonyms
+    return "/s" + getTypeWithSynonym(t_grammar1) + "/s" + getTypeWithSynonym(t_grammar2);
+  } else {  // different synonyms
+    return "/s1" + getTypeWithSynonym(t_grammar1) + "/s2" + getTypeWithSynonym(t_grammar2); 
+  }
+}
+
+std::string QueryCache::getTypeWithSynonym(Grammar t_grammar) {
+  assert(QueryUtil::isSynonym(t_grammar));
+
+  switch (t_grammar.getType()) {
+    case queryType::GType::PROC:
+      return "<proc>";
+    case queryType::GType::ST_LST:
+      return "<stmtList>";
+    case queryType::GType::STMT:
+      return "<stmt>";
+    case queryType::GType::ASGN:
+      return "<assign>";
+    case queryType::GType::WHILE:
+      return "<while>";
+    case queryType::GType::IF:
+      return "<if>";
+    case queryType::GType::CALL:
+      return "<call>";
+    case queryType::GType::VAR:
+      return "<var>";
+    case queryType::GType::CONST:
+      return "<const>";
+    case queryType::GType::PROG_LINE:
+      return "<progLine>";
+    default:
+      assert(false);  // not supposed to happen
   }
 }
 
