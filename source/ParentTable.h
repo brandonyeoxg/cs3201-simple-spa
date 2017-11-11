@@ -46,12 +46,22 @@ public:
   BOOLEAN isParentOfAnything(int t_s1);  //parent(2, _)
   BOOLEAN isChildrenOfStarAnything(int t_s2);  //parent*(_, 2)
   BOOLEAN isParentOfStarAnything(int t_s1);  //parent*(2, _)
+
+  //Methods to be called by the DesignExtractor
   void populateParentMatrix(TOTAL_NUMBER_OF_STMTS total);
   void populateParentStarMap();
+  void populateParentedByStarMap();
+  void populateParentAnythingRelationships();
+
 private:
   MAP_OF_STMT_NUMS m_parentMap; //every statement can only have 1 parent.
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_childMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_parentStarMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS m_parentedByStarMap;
   BOOLEAN_MATRIX m_parentMatrix;
+
+  LIST_OF_STMT_NUMS m_allParents;
+  LIST_OF_STMT_NUMS m_allChildren;
+  LIST_OF_STMT_NUMS m_allParentStar;
+  LIST_OF_STMT_NUMS m_allChildrenStar;
 };

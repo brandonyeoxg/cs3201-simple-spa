@@ -76,20 +76,14 @@ namespace IntegrationTesting
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       ParentTable* parentTable = m_pkb->getParentTable();
-      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(0));
-
-      editSimpleProgramFile("while i { \nx=y;}");
-      m_parser->parseStmt(dummyStmtList, dummyProgLines);
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(1));
 
       editSimpleProgramFile("while i {\n while j { \n x=y;}}");
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(3));
+      parentTable->populateParentAnythingRelationships();
+      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(2));
       actual = parentTable->getChildrenOfAnything();
-      Assert::AreEqual(actual.size(), size_t(3));
+      Assert::AreEqual(actual.size(), size_t(2));
     }
 
     TEST_METHOD(TestParserAndPKBModifiesP) 
