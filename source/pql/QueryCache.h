@@ -31,14 +31,15 @@
 
     Next(p1, p2)
     Next*(p1, p2)
-    Next(_, p2) and Next*(_, p2)
-    Next(p1, _) and Next*(p1, _)
-    Next(0, p2)
-    Next*(0, p2)
+    Next(_, p2) and Next*(_, p2) [has optimization]
+    Next(p1, _) and Next*(p1, _) [has optimization]
+    Next(0, p2) [has optimization]
+    Next*(0, p2) [has optimization]
     Next(p1, 0)
     Next*(p1, 0)
 
     Calls(proc1, proc2)
+    Calls*(proc1, proc2)
     Calls(proc1, _)
     Calls*(proc1, _)
     Calls(_, proc2)
@@ -48,10 +49,10 @@
     Calls(0, proc2)
     Calls*(0, proc2)
 
-    Follows(_, s2) & Follows*(_, s2)
-    Follows(s1, _) & Follows*(s1, _)
-    Follows(0, s2)
-    Follows*(0, s2)
+    Follows(_, s2) & Follows*(_, s2) [has optimization]
+    Follows(s1, _) & Follows*(s1, _) [has optimization]
+    Follows(0, s2) [has optimization]
+    Follows*(0, s2) [has optimization]
     Follows(s1, 0)
     Follows*(s1, 0)
 
@@ -59,9 +60,9 @@
     Parent(s1, _)
     Parent*(_, s1)
     Parent*(s1, _)
-    Parent(0, s1)
+    Parent(0, s1) [has optimization]
     Parent(s1, 0)
-    Parent*(0, s1)
+    Parent*(0, s1) [has optimization]
     Parent*(s1, 0)
 
     Affects(a1, a2)
@@ -71,9 +72,9 @@
     Affects*(a1, _)
     Affects*(_, a2)
     Affects(a1, 0)
-    Affects(0, a2)
+    Affects(0, a2) [has optimization]
     Affects*(a1, 0)
-    Affects*(0, a2)
+    Affects*(0, a2) [has optimization]
 
     Uses(s1, _)
     Modifies(s1, _)
@@ -133,7 +134,17 @@ private:
   
   ////////// Keys for Clauses in the Cache map /////////////////
   //  To be used for optimizing cache retrieval
-  const std::string KEY_ALL_NEXT_STAR = "Next*/s1<progLine>/s2<progLine>";  /**< Key for Next*(s1, s2) */
+  const std::string KEY_ALL_NEXT_STAR = "Next*/s1<progLine>/s2<progLine>";
+  const std::string KEY_ALL_NEXT = "Next/s1<progLine>/s2<progLine>";
+  const std::string KEY_ALL_NEXT_STAR_STMT = "Next*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_NEXT_STMT = "Next/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_AFFECTS_STAR = "Affects*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_AFFECTS = "Affects/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_FOLLOWS_STAR = "Follows*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_FOLLOWS = "Follows/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_PARENT_STAR = "Parent*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_PARENT = "Parent/s1<stmt>/s2<stmt>";
+
   const std::string KEY_NEXT_STAR = "Next*";
   const std::string KEY_NEXT = "Next";
   const std::string KEY_FOLLOWS = "Follows";
@@ -160,6 +171,14 @@ private:
   SET_OF_RESULTS_INDICES *getCacheForNext(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollows(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollowsStar(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForAffects(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForAffectsStar(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForParent(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForParentStar(Relation *t_relation);
+
+  // for relationships with (given_parameter, common synonym)
+  // extract result from cached (common synonym, common synonym) if present
+  SET_OF_RESULTS_INDICES *getResultFromTwoSynonyms(Relation *t_relation, std::string t_key);
 
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
