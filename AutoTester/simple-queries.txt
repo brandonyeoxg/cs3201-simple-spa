@@ -1,325 +1,1049 @@
-1 - Combo Stress Test 1
-procedure p;
-Select p
-
-5000
-2 - Combo Stress Test 2
-stmtLst sl;
-Select sl
-
-5000
-3 - Combo Stress Test 3
+1 - Select statements only
 stmt s;
 Select s
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
-4 - Combo Stress Test 4
+2 - Select assign statements only
 assign a;
 Select a
-
+1, 3, 4, 6, 7, 8, 10, 11
 5000
-5 - Combo Stress Test 5
-call ca;
-Select ca
-
-5000
-6 - Combo Stress Test 6
+3 - Select while statements only
 while w;
 Select w
-
+2, 5, 9
 5000
-7 - Combo Stress Test 7
-if ifs;
-Select ifs
-
+4 - Select with Follows and no synonyms - True
+stmt s;
+Select s such that Follows(2,7)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
-8 - Combo Stress Test 8
-variable v;
-Select v
-
+5 - Select with Follows and no synonyms - False
+stmt s;
+Select s such that Follows(2,3)
+none
 5000
-9 - Combo Stress Test 9
+6 - Select with Follows and 1 right synonym with no common - True
+stmt s1, s2;
+Select s1 such that Follows(2,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+7 - Select with Follows and 1 right synonym with no common - False
+stmt s1, s2;
+Select s1 such that Follows(5,s2)
+none
+5000
+8 - Select with Follows and 1 left synonym with no common - True
+stmt s1, s2;
+Select s2 such that Follows(s1,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+9 - Select with Follows and 1 left synonym with no common - False
+stmt s1, s2;
+Select s2 such that Follows(s1,3)
+none
+5000
+10 - Select with Follows and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Follows(2,s2)
+7
+5000
+11 - Select with Follows and 1 right synonym with 1 common - False
+stmt s1, s2;
+Select s2 such that Follows(6,s2)
+none
+5000
+12 - Select with Follows and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Follows(s1,4)
+3
+5000
+13 - Select with Follows and 1 left synonym with 1 common - False
+stmt s1, s2;
+Select s1 such that Follows(s1,1)
+none
+5000
+14 - Select with Follows and 2 synonyms with no common - True
+stmt s, s1, s2;
+Select s such that Follows(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+15 - Select with Follows and 2 synonyms with 1 common - True
+stmt s, s1, s2;
+Select s1 such that Follows(s1,s2)
+1, 2, 3, 4, 7, 8, 10
+5000
+16 - Select with Follows and 2 synonyms with 1 common - True
+stmt s, s1, s2;
+Select s2 such that Follows(s1,s2)
+2, 4, 5, 7, 8, 9, 11
+5000
+17 - Select with Follows* and no synonyms - True
+while w;
+Select w such that Follows*(1,7)
+2, 5, 9
+5000
+18 - Select with Follows* and no synonyms - False
+while w;
+Select w such that Follows*(1,3)
+none
+5000
+19 - Select with Follows* and 1 right synonym with no common - True
+stmt s1, s2;
+Select s1 such that Follows*(2,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+20 - Select with Follows* and 1 right synonym with no common - False
+stmt s1, s2;
+Select s1 such that Follows*(5,s2)
+none
+5000
+21 - Select with Follows* and 1 left synonym with no common - True
+stmt s1, s2;
+Select s2 such that Follows*(s1,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+22 - Select with Follows* and 1 left synonym with no common - False
+stmt s1, s2;
+Select s2 such that Follows*(s1,3)
+none
+5000
+23 - Select with Follows* and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Follows*(2,s2)
+7, 8, 9
+5000
+24 - Select with Follows* and 1 right synonym with 1 common - False
+stmt s1, s2;
+Select s2 such that Follows*(6,s2)
+none
+5000
+25 - Select with Follows* and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Follows*(s1,5)
+3, 4
+5000
+26 - Select with Follows* and 1 left synonym with 1 common - False
+stmt s1, s2;
+Select s1 such that Follows*(s1,1)
+none
+5000
+27 - Select with Follows* and 2 synonyms with no common - True
+stmt s, s1, s2;
+Select s such that Follows*(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+28 - Select with Follows* and 2 synonyms with 1 common - True
+stmt s, s1, s2;
+Select s1 such that Follows*(s1,s2)
+1, 2, 3, 4, 7, 8, 10
+5000
+29 - Select with Follows* and 2 synonyms with 1 common - True
+stmt s, s1, s2;
+Select s2 such that Follows*(s1,s2)
+2, 4, 5, 7, 8, 9, 11
+5000
+30 - Select with Parent and no synonyms - True
+stmt s;
+Select s such that Parent(2,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+31 - Select with Parent and no synonyms - False
+stmt s;
+Select s such that Parent(3,4)
+none
+5000
+32 - Select with Parent and 1 right synonym with no common - True
+stmt s1, s2;
+Select s1 such that Parent(2,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+33 - Select with Parent and 1 left synonym with no common - True
+stmt s1, s2;
+Select s2 such that Parent(s1,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+34 - Select with Parent and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent(2,s2)
+3, 4, 5
+5000
+35 - Select with Parent and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent(s1,4)
+2
+5000
+36 - Select with Parent and 2 synonyms with no common - True
+stmt s, s1, s2;
+Select s such that Parent(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+37 - Select with Parent and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent(s1,s2)
+2, 5, 9
+5000
+38 - Select with Parent and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent(s1,s2)
+3, 4, 5, 6, 10, 11
+5000
+39 - Select with Parent* and no synonyms - True
+stmt s;
+Select s such that Parent*(2,6)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+40 - Select with Parent* and no synonyms - False
+stmt s;
+Select s such that Parent*(3,5)
+none
+5000
+41 - Select with Parent* and 1 right synonym with no common - True
+stmt s1, s2;
+Select s1 such that Parent*(2,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+42 - Select with Parent* and 1 left synonym with no common - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+43 - Select with Parent* and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(2,s2)
+3, 4, 5, 6
+5000
+44 - Select with Parent* and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,6)
+2, 5
+5000
+45 - Select with Parent* and 2 synonyms with no common - True
+stmt s, s1, s2;
+Select s such that Parent*(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+46 - Select with Parent* and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,s2)
+2, 5, 9
+5000
+47 - Select with Parent* and 2 synonyms with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,s2)
+3, 4, 5, 6, 10, 11
+5000
+48 - Select with Uses and no synonyms - True
+stmt s;
+Select s such that Uses(3,"y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+49 - Select with Uses and no synonyms - False
+stmt s;
+Select s such that Uses(3,"x")
+none
+5000
+50 - Select with Uses and no synonyms - True for control variable in a container statement
+stmt s;
+Select s such that Uses(2,"i")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+51 - Select with Uses and no synonyms - True for assign variable in a container statement
+stmt s;
+Select s such that Uses(2,"y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+52 - Select with Uses and no synonyms - False for container statement
+stmt s;
+Select s such that Uses(2,"x")
+none
+5000
+53 - Select with Uses and no synonyms - True for control variable in nested while loops
+stmt s;
+Select s such that Uses(2,"j")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+54 - Select with Uses and no synonyms - True for assign variable in nested while loops
+stmt s;
+Select s such that Uses(2,"b")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+55 - Select with Uses and no synonyms - False for nested while loops
+stmt s;
+Select s such that Uses(2,"a")
+none
+5000
+56 - Select with Uses and 1 right synonym with no common - True
+stmt s; variable v;
+Select s such that Uses(3,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+57 - Select with Uses and 1 right synonym with no common - True for container statement
+stmt s; variable v;
+Select s such that Uses(2,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+58 - Select with Uses and 1 left synonym with no common - True
+stmt s; variable v;
+Select v such that Uses(s,"x")
+x, y, z, i, I, am, awesome, j, a, b, c, v, can, do, it
+5000
+59 - Select with Uses and 1 left synonym with no common - False
+stmt s; variable v;
+Select v such that Uses(s,"c")
+none
+5000
+60 - Select with Uses and 1 right synonym with 1 common - True
+stmt s; variable v;
+Select v such that Uses(3,v)
+y
+5000
+61 - Select with Uses and 1 right synonym with 1 common - True for container statement
+stmt s; variable v;
+Select v such that Uses(2,v)
+i, y, am, awesome, j, b
+5000
+62 - Select with Uses and 1 left synonym with 1 common - True
+stmt s; variable v;
+Select s such that Uses(s,"x")
+1
+5000
+63 - Select with Uses and 1 left synonym with 1 common - False
+stmt s; variable v;
+Select s such that Uses(s,"c")
+none
+5000
+64 - Select with Uses and 2 synonyms with 0 common - True
+stmt s; while w; variable v;
+Select w such that Uses(s,v)
+2, 5, 9
+5000
+65 - Select with Uses and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select s such that Uses(s,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+66 - Select with Uses and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select v such that Uses(s,v)
+x, y, z, i, am, awesome, j, b, v, can, do, it
+5000
+67 - Select with Modifies and no synonyms - True
+stmt s;
+Select s such that Modifies(3,"x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+68 - Select with Modifies and no synonyms - False
+stmt s;
+Select s such that Modifies(3,"y")
+none
+5000
+69 - Select with Modifies and no synonyms - True for container statement
+stmt s;
+Select s such that Modifies(2,"x")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+70 - Select with Modifies and no synonyms - False for container statement
+stmt s;
+Select s such that Modifies(2,"y")
+none
+5000
+71 - Select with Modifies and no synonyms - True for nested while loops
+stmt s;
+Select s such that Modifies(2,"a")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+72 - Select with Modifies and no synonyms - False for nested while loops
+stmt s;
+Select s such that Modifies(2,"b")
+none
+5000
+73 - Select with Modifies and 1 right synonym with no common - True
+stmt s; variable v;
+Select s such that Modifies(3,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+74 - Select with Modifies and 1 right synonym with no common - True for container statement
+stmt s; variable v;
+Select s such that Modifies(2,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+75 - Select with Modifies and 1 left synonym with no common - True
+stmt s; variable v;
+Select v such that Modifies(s,"x")
+x, y, z, i, I, am, awesome, j, a, b, c, v, can, do, it
+5000
+76 - Select with Modifies and 1 left synonym with no common - False
+stmt s; variable v;
+Select v such that Modifies(s,"v")
+none
+5000
+77 - Select with Modifies and 1 right synonym with 1 common - True
+stmt s; variable v;
+Select v such that Modifies(3,v)
+x
+5000
+78 - Select with Modifies and 1 right synonym with 1 common - True for container statement
+stmt s; variable v;
+Select v such that Modifies(2,v)
+x, I, a
+5000
+79 - Select with Modifies and 1 left synonym with 1 common - True
+stmt s; variable v;
+Select s such that Modifies(s,"x")
+1, 2, 3, 9, 10
+5000
+80 - Select with Modifies and 1 left synonym with 1 common - False
+stmt s; variable v;
+Select s such that Modifies(s,"v")
+none
+5000
+81 - Select with Modifies and 2 synonyms with 0 common - True
+stmt s; while w; variable v;
+Select w such that Modifies(s,v)
+2, 5, 9
+5000
+82 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select s such that Modifies(s,v)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+83 - Select with Modifies and 2 synonyms with 1 common - True
+stmt s; variable v;
+Select v such that Modifies(s,v)
+x, I, a, z, c
+5000
+84 - Select with Pattern and 1 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s pattern a("a", "b")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+85 - Select with Pattern and 1 synonym with no common (Exact) - False
+stmt s; assign a; variable v;
+Select s pattern a("x", "c")
+none
+5000
+86 - Select with Pattern and 1 synonym with no common (Subtree) - True
+stmt s; assign a; variable v;
+Select s pattern a("x", _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+87 - Select with Pattern and 1 synonym with no common (Subtree) - False
+stmt s; assign a; variable v;
+Select s pattern a("x", _"c"_)
+none
+5000
+88 - Select with Pattern and 1 synonym with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a pattern a("x", "y")
+3, 10
+5000
+89 - Select with Pattern and 1 synonym with 1 common (Exact) - False
+stmt s; assign a; variable v;
+Select a pattern a("x", "c")
+none
+5000
+90 - Select with Pattern and 1 synonym with 1 common (Subtree) - True
+stmt s; assign a; variable v;
+Select a pattern a("x", _"y"_)
+1, 3, 10
+5000
+91 - Select with Pattern and 1 synonym with 1 common (Subtree) - False
+stmt s; assign a; variable v;
+Select a pattern a("x", _"c"_)
+none
+5000
+92 - Select with Pattern and 2 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s pattern a(v, "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+93 - Select with Pattern and 2 synonym with no common (Exact) - False
+stmt s; assign a; variable v;
+Select s pattern a(v, "c")
+none
+5000
+94 - Select with Pattern and 2 synonym with no common (Subtree) - True
+stmt s; assign a; variable v;
+Select s pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+95 - Select with Pattern and 2 synonym with no common (Subtree) - False
+stmt s; assign a; variable v;
+Select s pattern a(v, _"c"_)
+none
+5000
+96 - Select with Pattern and 2 synonym with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a pattern a(v, "y")
+3, 7, 10
+5000
+97 - Select with Pattern and 2 synonym with 1 common (Exact) - False
+stmt s; assign a; variable v;
+Select a pattern a(v, "c")
+none
+5000
+98 - Select with Pattern and 2 synonym with 1 common (Subtree) - True
+stmt s; assign a; variable v;
+Select v pattern a(v, _"y"_)
+x, z
+5000
+99 - Select with Pattern and 2 synonym with 1 common (Subtree) - False
+stmt s; assign a; variable v;
+Select v pattern a(v, _"c"_)
+none
+5000
+100 - Select with Follows and 1 left underscore - True
+stmt s;
+Select s such that Follows(_,7)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+101 - Select with Follows and 1 left underscore - False
+stmt s;
+Select s such that Follows(_,1)
+none
+5000
+102 - Select with Follows and 1 right underscore - True
+assign a;
+Select a such that Follows(2,_)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+103 - Select with Follows and 1 right underscore - False
+assign a;
+Select a such that Follows(11,_)
+none
+5000
+104 - Select with Follows and 1 left underscore and 1 right synonym - True
+stmt s; assign a;
+Select a such that Follows(_,s)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+105 - Select with Follows and 1 right underscore and 1 left synonym - True
+stmt s; assign a;
+Select a such that Follows(s,_)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+106 - Select with Follows and 1 left underscore and 1 right synonym with 1 common - True
+stmt s; assign a;
+Select s such that Follows(_,s)
+2, 4, 5, 7, 8, 9, 11
+5000
+107 - Select with Follows and 1 right underscore and 1 left synonym with 1 common - True
+stmt s; assign a;
+Select s such that Follows(s,_)
+1, 2, 3, 4, 7, 8, 10
+5000
+108 - Select with Follows and 2 underscores - True
+while w;
+Select w such that Follows(_,_)
+2, 5, 9
+5000
+109 - Select with Follows* and 1 left underscore - True
+stmt s;
+Select s such that Follows*(_,7)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+110 - Select with Follows* and 1 left underscore - False
+stmt s;
+Select s such that Follows*(_,6)
+none
+5000
+111 - Select with Follows* and 1 right underscore - True
+assign a;
+Select a such that Follows*(2,_)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+112 - Select with Follows* and 1 right underscore - False
+assign a;
+Select a such that Follows*(6,_)
+none
+5000
+113 - Select with Follows* and 1 left underscore and 1 right synonym - True
+stmt s; assign a;
+Select a such that Follows*(_,s)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+114 - Select with Follows* and 1 right underscore and 1 left synonym - True
+stmt s; assign a;
+Select a such that Follows*(s,_)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+115 - Select with Follows* and 1 left underscore and 1 right synonym with 1 common - True
+stmt s; assign a;
+Select s such that Follows*(_,s)
+2, 4, 5, 7, 8, 9, 11
+5000
+116 - Select with Follows* and 1 right underscore and 1 left synonym with 1 common - True
+stmt s; assign a;
+Select s such that Follows*(s,_)
+1, 2, 3, 4, 7, 8, 10
+5000
+117 - Select with Follows* and 2 underscores - True
+while w;
+Select w such that Follows*(_,_)
+2, 5, 9
+5000
+118 - Select with Parent and 1 left underscore - True
+stmt s;
+Select s such that Parent(_,4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+119 - Select with Parent and 1 left underscore - False
+stmt s;
+Select s such that Parent(_,2)
+none
+5000
+120 - Select with Parent and 1 right underscore - True
+stmt s1, s2;
+Select s1 such that Parent(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+121 - Select with Parent and 1 right underscore - False
+stmt s1, s2;
+Select s2 such that Parent(1,_)
+none
+5000
+122 - Select with Parent and 1 left underscore and 1 right synonym - True
+stmt s1, s2;
+Select s1 such that Parent(_,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+123 - Select with Parent and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Parent(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+124 - Select with Parent and 1 left underscore and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent(_,s2)
+3, 4, 5, 6, 10, 11
+5000
+125 - Select with Parent and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent(s1,_)
+2, 5, 9
+5000
+126 - Select with Parent and 2 underscores - True
+stmt s1, s2; while w;
+Select w such that Parent(_,_)
+2, 5, 9
+5000
+127 - Select with Parent* and 1 left underscore - True
+stmt s;
+Select s such that Parent*(_,6)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+128 - Select with Parent* and 1 left underscore - False
+stmt s;
+Select s such that Parent*(_,9)
+none
+5000
+129 - Select with Parent* and 1 right underscore - True
+stmt s1, s2;
+Select s1 such that Parent*(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+130 - Select with Parent* and 1 right underscore - False
+stmt s1, s2;
+Select s2 such that Parent*(6,_)
+none
+5000
+131 - Select with Parent* and 1 left underscore and 1 right synonym - True
+stmt s1, s2;
+Select s1 such that Parent*(_,s2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+132 - Select with Parent* and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Parent*(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+133 - Select with Parent* and 1 left underscore and 1 right synonym with 1 common - True
+stmt s1, s2;
+Select s2 such that Parent*(_,s2)
+3, 4, 5, 6, 10, 11
+5000
+134 - Select with Parent* and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Parent*(s1,_)
+2, 5, 9
+5000
+135 - Select with Parent* and 2 underscores - True
+stmt s1, s2; while w;
+Select w such that Parent*(_,_)
+2, 5, 9
+5000
+136 - Select with Uses and 1 right underscore - True
+stmt s;
+Select s such that Uses(3,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+137 - Select with Uses and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Uses(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+138 - Select with Uses and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Uses(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+139 - Select with Modifies and 1 right underscore - True
+stmt s;
+Select s such that Modifies(2,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+140 - Select with Modifies and 1 right underscore and 1 left synonym - True
+stmt s1, s2;
+Select s2 such that Modifies(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+141 - Select with Modifies and 1 right underscore and 1 left synonym with 1 common - True
+stmt s1, s2;
+Select s1 such that Modifies(s1,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+142 - Select with Pattern and 1 left underscore and 1 synonym (Exact) - True
+stmt s; assign a; variable v;
+Select s pattern a(_, "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+143 - Select with Pattern and 1 left underscore and 1 synonym (Exact) - False
+stmt s; assign a; variable v;
+Select s pattern a(_, "c")
+none
+5000
+144 - Select with Pattern and 1 left underscore and 1 synonym (Subtree) - True
+stmt s; assign a; variable v;
+Select s pattern a(_, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+145 - Select with Pattern and 1 left underscore and 1 synonym (Subtree) - False
+stmt s; assign a; variable v;
+Select s pattern a(_, _"c"_)
+none
+5000
+146 - Select with Pattern and 1 right underscore and 1 synonym (Anything) - True
+stmt s; assign a; variable v;
+Select s pattern a("x", _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+147 - Select with Pattern and 1 right underscore (Anything) - False
+stmt s; assign a; variable v;
+Select s pattern a("v", _)
+none
+5000
+148 - Select with Pattern and 1 right underscore and 2 synonyms (Anything) - True
+stmt s; assign a; variable v;
+Select s pattern a(v, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+149 - Select with Pattern and 1 right underscore and 2 synonyms with 1 common (Anything) - True
+stmt s; assign a; variable v;
+Select a pattern a(v, _)
+1, 3, 4, 6, 7, 8, 10, 11
+5000
+150 - Select with Pattern and 1 right underscore and 2 synonyms with 1 common (Anything) - True
+stmt s; assign a; variable v;
+Select v pattern a(v, _)
+x, I, a, z, c
+5000
+151 - Select with Pattern and 2 underscores (Anything) - True
+stmt s; assign a; variable v;
+Select s pattern a(_, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+152 - Select with Follows + Pattern and 1 synonym with no common (Exact) - True
+stmt s; assign a; variable v;
+Select s such that Follows(2,7) pattern a("x", "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+153 - Select with Follows + Pattern and 1 synonym with no common (Exact) - False
+stmt s; assign a; variable v;
+Select s such that Follows(2,8) pattern a("x", "y")
+none
+5000
+154 - Select with Follows + Pattern and 2 synonyms with no common (Exact) - True
+stmt s; assign a; while w;
+Select w such that Follows(2,s) pattern a("x", "y")
+2, 5, 9
+5000
+155 - Select with Follows + Pattern and 2 synonyms with no common (Exact) - False
+stmt s; assign a; while w;
+Select w such that Follows(5,s) pattern a("x", "y")
+none
+5000
+156 - Select with Follows + Pattern and 2 synonyms with no common (Exact) - True
+stmt s; assign a; while w; variable v;
+Select w such that Follows(4,5) pattern a(v, "y")
+2, 5, 9
+5000
+157 - Select with Follows + Pattern and 2 synonyms with no common (Exact) - False
+stmt s; assign a; while w; variable v;
+Select w such that Follows(4,5) pattern a(v, "c")
+none
+5000
+158 - Select with Follows + Pattern and 3 synonyms with no common (Subtree) - True
+stmt s, s1, s2; assign a; variable v;
+Select s such that Follows(s1,s2) pattern a("x", _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+159 - Select with Follows + Pattern and 3 synonyms with no common (Subtree) - True
+stmt s, s1, s2; assign a; variable v;
+Select s such that Follows(s1,5) pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+160 - Select with Follows + Pattern and 4 synonyms with no common (Subtree) - True
+stmt s, s1, s2; assign a; variable v;
+Select s such that Follows(s1,s2) pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+161 - Select with Follows + Pattern and 1 synonym with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a such that Follows(4, 5) pattern a("x", "y")
+3, 10
+5000
+162 - Select with Follows + Pattern and 2 synonyms with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select s such that Follows(2,s) pattern a("x", "y")
+7
+5000
+163 - Select with Follows + Pattern and 2 synonyms with 1 common (Exact) - True
+stmt s; assign a; variable v;
+Select a such that Follows(2,7) pattern a(v, "y")
+3, 7, 10
+5000
+164 - Select with Follows + Pattern and 3 synonyms with 1 common (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select a such that Follows(s1,s2) pattern a("x", _"y"_)
+1, 3, 10
+5000
+165 - Select with Follows + Pattern and 3 synonyms with 1 common (Subtree) - True
+stmt s; assign a; variable v;
+Select v such that Follows(s,7) pattern a(v, _"y"_)
+x, z
+5000
+166 - Select with Follows + Pattern and 4 synonyms with 1 common (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select a such that Follows(s1,s2) pattern a(v, _"y"_)
+1, 3, 7, 10
+5000
+167 - Select with Follows + Pattern and 2 synonyms with 1 common between clauses (Exact) - True
+stmt s; assign a; variable v;
+Select s such that Follows(2,a) pattern a("z", "y")
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+168 - Select with Follows + Pattern and 2 synonyms with 1 common between clauses (Exact) - False
+stmt s; assign a; variable v;
+Select s such that Follows(1,a) pattern a("x", "y")
+none
+5000
+169 - Select with Follows + Pattern and 2 synonyms with 1 common between all (Exact) - True
+stmt s; assign a; variable v;
+Select a such that Follows(a,4) pattern a("x", "y")
+3
+5000
+170 - Select with Follows + Pattern and 2 synonyms with 1 common between all (Exact) - False
+stmt s; assign a; variable v;
+Select a such that Follows(4,a) pattern a("x", "y")
+none
+5000
+171 - Select with Follows + Pattern and 3 synonyms with 1 common between clauses (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select s1 such that Follows(a,s2) pattern a("x", _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+172 - Select with Follows + Pattern and 3 synonyms with 1 common between clauses (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select s2 such that Follows(s1,a) pattern a("x", _"y"_)
+none
+5000
+173 - Select with Uses + Pattern and 3 synonyms with 1 common between clauses (Subtree) - True
+stmt s; assign a; variable v;
+Select s such that Uses(1,v) pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+174 - Select with Uses + Pattern and 3 synonyms with 1 common between clauses (Subtree) - False
+stmt s; assign a; variable v;
+Select s such that Uses(2,v) pattern a(v, _"y"_)
+none
+5000
+175 - Select with Follows + Pattern and 3 synonyms with 1 common between all (Subtree) - True
+stmt s; assign a; variable v;
+Select a such that Follows(a,s) pattern a("x", _"y"_)
+1, 3, 10
+5000
+176 - Select with Follows + Pattern and 3 synonyms with 1 common between all (Subtree) - False
+stmt s; assign a; variable v;
+Select a such that Follows(s,a) pattern a("x", _"y"_)
+none
+5000
+177 - Select with Uses + Pattern and 3 synonyms with 1 common between all (Subtree) - True
+stmt s; assign a; variable v;
+Select v such that Uses(1,v) pattern a(v, _"y"_)
+x, z
+5000
+178 - Select with Uses + Pattern and 3 synonyms with 1 common between all (Subtree) - False
+stmt s; assign a; variable v;
+Select v such that Uses(2,v) pattern a(v, _"y"_)
+none
+5000
+179 - Select with Follows + Pattern and 4 synonyms with 1 common between clauses (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select s1 such that Follows(a,s2) pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+180 - Select with Follows + Pattern and 4 synonyms with 1 common between clauses (Subtree) - False
+stmt s1, s2; assign a1, a2; variable v;
+Select s2 such that Follows(a1,a2) pattern a2(v, _"y"_)
+none
+5000
+181 - Select with Uses + Pattern and 4 synonyms with 1 common between clauses (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select s1 such that Uses(s2,v) pattern a(v, _"y"_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+182 - Select with Uses + Pattern and 4 synonyms with 1 common between clauses (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select s1 such that Uses(s2,v) pattern a(v, _"c"_)
+none
+5000
+183 - Select with Follows + Pattern and 4 synonyms with 1 common between all (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select a such that Follows(s1,a) pattern a(v, _"y"_)
+7
+5000
+184 - Select with Follows + Pattern and 4 synonyms with 1 common between all (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select a such that Follows(a,s2) pattern a(v, _"b"_)
+none
+5000
+185 - Select with Uses + Pattern and 4 synonyms with 1 common between all (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select v such that Uses(s1,v) pattern a(v, _"y"_)
+x, z
+5000
+186 - Select with Uses + Pattern and 4 synonyms with 1 common between all (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select v such that Uses(s2,v) pattern a(v, _"b"_)
+none
+5000
+187 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select s1 such that Uses(s1,v) pattern a(v, _"y"_)
+1
+5000
+188 - Select with Uses + Pattern and 4 synonyms with 2 common (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select s2 such that Uses(s2,v) pattern a(v, _"b"_)
+none
+5000
+189 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+stmt s1, s2; assign a; variable v;
+Select a such that Uses(s1,v) pattern a(v, _"y"_)
+1, 3, 7, 10
+5000
+190 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - False
+stmt s1, s2; assign a; variable v;
+Select a such that Uses(s2,v) pattern a(v, _"b"_)
+none
+5000
+191 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - True
+stmt s1, s2; assign a; variable v1, v2;
+Select v2 such that Uses(a,v1) pattern a(v2, _"y"_)
+x, z
+5000
+192 - Select with Uses + Pattern and 4 synonyms with 2 commons (Subtree) - False
+stmt s1, s2; assign a; variable v1, v2;
+Select v2 such that Uses(a,v1) pattern a(v2, _"a"_)
+none
+5000
+193 - Select constants - True
+constant c;
+Select c
+2, 23, 0, 32
+5000
+194 - Select program lines - True
 prog_line pl;
 Select pl
-
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 5000
-10 - Combo Stress Test 10
-constant co;
-Select co
-
+195 - Testing assign and while statements with Follows - True
+stmt s1, s2; assign a; variable v; while w;
+Select a such that Follows(a,w)
+1, 4, 8
 5000
-11 - Combo Stress Test 11
-
-Select BOOLEAN
-true
+196 - Testing assign and while statements with Follows* - True
+stmt s1, s2; assign a; variable v; while w;
+Select a such that Follows*(a,w)
+1, 3, 4, 7, 8
 5000
-12 - Combo Stress Test 12
-stmt s;
-Select s.stmt#
-
+197 - Testing assign statements with Parent - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select a such that Parent(s1,a)
+3, 4, 6, 10, 11
 5000
-13 - Combo Stress Test 13
-variable v;
-Select v.varName
-
+198 - Testing while statements with Parent - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Parent(w1,w2)
+2
 5000
-14 - Combo Stress Test 14
-procedure p;
-Select p.procName
-
+199 - Testing while statements with Parent* - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w2 such that Parent*(w1,w2)
+5
 5000
-15 - Combo Stress Test 15
-constant co;
-Select co.value
-
+200 - Testing assign and while statements with Parent* - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Parent*(w1,a)
+2, 5, 9
 5000
-16 - Combo Stress Test 16
-stmt s1; assign a1; 
-Select a1.stmt# such that Affects(s1,a1) 
-
+201 - Testing assign statements with Uses - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select a such that Uses(a,v)
+1, 3, 4, 6, 7, 8, 10, 11
 5000
-17 - Combo Stress Test 17
-stmt s1,s2; assign a1,a2; 
-Select a1 such that Affects(s1,a1) such that Affects(a2,s2) 
-
+202 - Testing assign statements with Uses - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Uses(a,v)
+y, z, x, am, awesome, b, v, can, do, it
 5000
-18 - Combo Stress Test 18
-stmt s1,s2,s3; assign a1,a2,a3; 
-Select s1 such that Affects(a1,a2) and Affects(a3,s1) such that Affects(s2,s3) 
-
+203 - Testing while statements with Uses - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Uses(w1,v)
+2, 5, 9
 5000
-19 - Combo Stress Test 19
-stmt s1,s2,s3; assign a1,a2,a3,a4,a5; 
-Select s3 such that Affects(s1,a1) such that Affects(s2,a2) and Affects(a3,a4) such that Affects(s3,a5) 
-
+204 - Testing while statements with Uses - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Uses(w1,v)
+i, y, am, awesome, j, b, can, do, it
 5000
-20 - Combo Stress Test 20
-stmt s1,s2,s3,s4,s5,s6; assign a1,a2,a3,a4; 
-Select a3.stmt# such that Affects(a1,a2) such that Affects(s1,s2) and Affects(s3,s4) such that Affects(a3,a4) and Affects(s5,s6) 
-
+205 - Testing assign statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select a such that Modifies(a,v)
+1, 3, 4, 6, 7, 8, 10, 11
 5000
-21 - Combo Stress Test 21
-stmt s1,s2,s3,s4,s5,s6,s7; assign a1,a2,a3,a4,a5; 
-Select a1.stmt# such that Affects(s1,s2) such that Affects(a1,s3) and Affects(s4,a2) and Affects(a3,s5) and Affects(s6,a4) such that Affects(a5,s7) 
-
+206 - Testing assign statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Modifies(a,v)
+x, I, a, z, c
 5000
-22 - Combo Stress Test 22
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9; assign a1,a2,a3,a4,a5; 
-Select s3.stmt# such that Affects(s1,s2) such that Affects(s3,s4) such that Affects(a1,s5) such that Affects(s6,s7) such that Affects(a2,s8) such that Affects(s9,a3) and Affects(a4,a5) 
-
+207 - Testing while statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select w1 such that Modifies(w1,v)
+2, 5, 9
 5000
-23 - Combo Stress Test 23
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10; assign a1,a2,a3,a4,a5,a6; 
-Select s2.stmt# such that Affects(a1,s1) such that Affects(s2,s3) and Affects(s4,s5) such that Affects(a2,s6) and Affects(s7,a3) such that Affects(a4,a5) and Affects(a6,s8) and Affects(s9,s10) 
-
+208 - Testing while statements with Modifies - True
+stmt s1, s2; assign a; variable v; while w1, w2;
+Select v such that Modifies(w1,v)
+x, I, a
 5000
-24 - Combo Stress Test 24
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9; assign a1,a2,a3,a4,a5,a6,a7,a8,a9; 
-Select s7 such that Affects(s1,s2) and Affects(s3,a1) such that Affects(s4,a2) and Affects(s5,s6) and Affects(a3,a4) such that Affects(s7,a5) such that Affects(s8,a6) such that Affects(s9,a7) such that Affects(a8,a9) 
-
+209 - Testing assign and while statements - True
+stmt s1, s2; assign a; variable v; while w;
+Select w such that Parent(w,a) pattern a(v, _"y"_)
+2, 9
 5000
-25 - Combo Stress Test 25
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12; assign a1,a2,a3,a4,a5,a6,a7,a8; 
-Select s2 such that Affects(s1,s2) and Affects(s3,a1) such that Affects(s4,a2) such that Affects(s5,s6) such that Affects(a3,a4) such that Affects(a5,s7) such that Affects(a6,s8) such that Affects(s9,s10) such that Affects(s11,a7) and Affects(a8,s12) 
-
-5000
-26 - Combo Stress Test 26
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12; 
-Select s3.stmt# such that Affects(a1,a2) and Affects(a3,s1) and Affects(a4,s2) and Affects(a5,s3) and Affects(s4,a6) such that Affects(s5,s6) such that Affects(s7,a7) such that Affects(s8,a8) such that Affects(s9,a9) and Affects(a10,s10) such that Affects(a11,a12) 
-
-5000
-27 - Combo Stress Test 27
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13; 
-Select a13.stmt# such that Affects(s1,s2) such that Affects(a1,a2) such that Affects(s3,a3) such that Affects(s4,s5) such that Affects(a4,a5) and Affects(a6,s6) and Affects(s7,s8) and Affects(s9,a7) such that Affects(a8,a9) such that Affects(s10,a10) and Affects(a11,a12) and Affects(a13,s11) 
-
-5000
-28 - Combo Stress Test 28
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17; 
-Select s4 such that Affects(a1,a2) and Affects(s1,a3) and Affects(a4,s2) such that Affects(a5,a6) such that Affects(s3,a7) such that Affects(a8,s4) such that Affects(a9,a10) and Affects(a11,s5) and Affects(s6,s7) and Affects(a12,a13) such that Affects(a14,s8) such that Affects(a15,a16) such that Affects(s9,a17) 
-
-5000
-29 - Combo Stress Test 29
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12; 
-Select a4.stmt# such that Affects(s1,a1) such that Affects(s2,s3) and Affects(s4,s5) and Affects(s6,s7) and Affects(s8,a2) such that Affects(a3,s9) and Affects(s10,s11) such that Affects(a4,s12) and Affects(s13,a5) and Affects(a6,a7) and Affects(s14,a8) and Affects(a9,a10) and Affects(a11,a12) and Affects(s15,s16) 
-
-5000
-30 - Combo Stress Test 30
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15; 
-Select s1.stmt# such that Affects(s1,a1) such that Affects(s2,a2) and Affects(s3,a3) and Affects(a4,a5) such that Affects(a6,s4) and Affects(s5,a7) and Affects(a8,s6) such that Affects(s7,a9) such that Affects(a10,a11) and Affects(s8,s9) and Affects(s10,s11) and Affects(s12,s13) such that Affects(a12,s14) and Affects(a13,s15) such that Affects(a14,a15) 
-
-5000
-31 - Combo Stress Test 31
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16; 
-Select a3.stmt# such that Affects(s1,s2) and Affects(a1,a2) such that Affects(s3,s4) and Affects(a3,s5) such that Affects(a4,a5) such that Affects(a6,a7) such that Affects(a8,s6) and Affects(s7,a9) such that Affects(a10,s8) such that Affects(s9,s10) such that Affects(a11,a12) such that Affects(s11,s12) and Affects(s13,s14) such that Affects(s15,a13) and Affects(s16,a14) such that Affects(a15,a16) 
-
-5000
-32 - Combo Stress Test 32
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20; 
-Select s14 such that Affects(a1,s1) and Affects(a2,a3) and Affects(s2,a4) and Affects(a5,a6) and Affects(s3,a7) and Affects(a8,a9) such that Affects(a10,a11) and Affects(a12,a13) and Affects(s4,a14) such that Affects(s5,s6) and Affects(s7,a15) such that Affects(s8,a16) such that Affects(s9,s10) and Affects(s11,a17) and Affects(s12,a18) such that Affects(a19,s13) such that Affects(s14,a20) 
-
-5000
-33 - Combo Stress Test 33
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16; 
-Select s6.stmt# such that Affects(a1,a2) such that Affects(a3,a4) such that Affects(s1,a5) and Affects(s2,a6) such that Affects(s3,s4) and Affects(s5,s6) such that Affects(s7,s8) and Affects(a7,s9) and Affects(a8,s10) such that Affects(a9,a10) such that Affects(a11,s11) such that Affects(s12,a12) such that Affects(s13,s14) such that Affects(s15,s16) such that Affects(a13,a14) and Affects(s17,s18) such that Affects(s19,a15) and Affects(s20,a16) 
-
-5000
-34 - Combo Stress Test 34
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19; 
-Select a11.stmt# such that Affects(s1,a1) such that Affects(s2,s3) and Affects(a2,a3) such that Affects(a4,a5) and Affects(s4,a6) and Affects(a7,a8) and Affects(s5,s6) and Affects(a9,a10) and Affects(s7,s8) and Affects(s9,s10) and Affects(s11,a11) such that Affects(a12,s12) and Affects(a13,s13) and Affects(s14,s15) and Affects(s16,s17) and Affects(a14,a15) such that Affects(a16,a17) and Affects(s18,a18) and Affects(s19,a19) 
-
-5000
-35 - Combo Stress Test 35
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19; 
-Select a4 such that Affects(a1,s1) and Affects(a2,a3) such that Affects(a4,s2) such that Affects(s3,s4) such that Affects(a5,s5) and Affects(s6,s7) and Affects(s8,a6) such that Affects(a7,s9) such that Affects(s10,a8) such that Affects(s11,s12) and Affects(a9,a10) and Affects(a11,a12) such that Affects(a13,s13) and Affects(a14,s14) such that Affects(a15,a16) such that Affects(s15,a17) such that Affects(s16,s17) and Affects(s18,s19) and Affects(s20,a18) and Affects(s21,a19) 
-
-5000
-36 - Combo Stress Test 36
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23; 
-Select s18 such that Affects(s1,a1) such that Affects(a2,a3) and Affects(s2,s3) such that Affects(a4,s4) such that Affects(a5,s5) such that Affects(a6,a7) such that Affects(a8,a9) such that Affects(a10,a11) and Affects(a12,s6) and Affects(s7,s8) such that Affects(a13,a14) such that Affects(a15,s9) and Affects(s10,s11) such that Affects(s12,a16) and Affects(s13,a17) and Affects(s14,a18) and Affects(s15,a19) and Affects(s16,s17) and Affects(a20,a21) and Affects(a22,a23) and Affects(s18,s19) 
-
-5000
-37 - Combo Stress Test 37
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21; 
-Select a2.stmt# such that Affects(s1,s2) and Affects(s3,a1) such that Affects(a2,s4) such that Affects(s5,a3) and Affects(s6,s7) such that Affects(a4,a5) and Affects(a6,a7) such that Affects(s8,s9) and Affects(a8,s10) and Affects(s11,a9) and Affects(s12,s13) and Affects(s14,a10) such that Affects(s15,a11) such that Affects(a12,s16) and Affects(s17,s18) such that Affects(a13,a14) and Affects(a15,a16) such that Affects(a17,s19) and Affects(a18,s20) such that Affects(a19,a20) such that Affects(s21,s22) and Affects(s23,a21) 
-
-5000
-38 - Combo Stress Test 38
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28; 
-Select s1 such that Affects(s1,s2) such that Affects(a1,a2) and Affects(a3,s3) such that Affects(a4,a5) such that Affects(a6,a7) and Affects(a8,s4) and Affects(s5,a9) such that Affects(a10,s6) such that Affects(a11,a12) and Affects(a13,a14) such that Affects(s7,s8) and Affects(a15,a16) and Affects(s9,s10) and Affects(s11,a17) and Affects(a18,a19) and Affects(a20,a21) and Affects(s12,a22) and Affects(s13,a23) such that Affects(a24,a25) and Affects(a26,a27) such that Affects(s14,s15) and Affects(a28,s16) and Affects(s17,s18) 
-
-5000
-39 - Combo Stress Test 39
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28; 
-Select a5.stmt# such that Affects(s1,a1) such that Affects(s2,s3) such that Affects(a2,s4) and Affects(a3,s5) such that Affects(a4,s6) and Affects(s7,a5) such that Affects(s8,a6) such that Affects(a7,a8) and Affects(a9,s9) and Affects(s10,a10) such that Affects(s11,a11) and Affects(a12,a13) such that Affects(a14,s12) such that Affects(a15,s13) and Affects(s14,s15) such that Affects(s16,a16) such that Affects(a17,s17) such that Affects(s18,a18) and Affects(a19,a20) such that Affects(a21,a22) such that Affects(a23,a24) and Affects(a25,s19) such that Affects(a26,a27) and Affects(a28,s20) 
-
-5000
-40 - Combo Stress Test 40
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28; 
-Select a8 such that Affects(a1,a2) such that Affects(a3,a4) and Affects(a5,a6) such that Affects(s1,s2) and Affects(a7,s3) and Affects(s4,s5) such that Affects(a8,s6) and Affects(a9,a10) and Affects(a11,a12) and Affects(a13,a14) and Affects(s7,s8) and Affects(s9,s10) and Affects(a15,a16) and Affects(a17,s11) and Affects(s12,s13) and Affects(s14,s15) such that Affects(s16,s17) such that Affects(a18,s18) and Affects(a19,a20) and Affects(a21,s19) and Affects(a22,a23) and Affects(a24,a25) such that Affects(a26,a27) such that Affects(s20,s21) such that Affects(s22,a28) 
-
-5000
-41 - Combo Stress Test 41
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25; 
-Select s8.stmt# such that Affects(a1,s1) such that Affects(a2,s2) and Affects(s3,a3) such that Affects(s4,s5) and Affects(s6,s7) such that Affects(a4,a5) and Affects(a6,a7) and Affects(a8,a9) such that Affects(s8,a10) and Affects(a11,s9) such that Affects(s10,a12) such that Affects(s11,s12) and Affects(a13,s13) and Affects(a14,s14) such that Affects(s15,a15) such that Affects(a16,s16) such that Affects(s17,a17) such that Affects(s18,a18) and Affects(a19,s19) and Affects(s20,s21) and Affects(a20,a21) such that Affects(a22,a23) and Affects(s22,a24) such that Affects(s23,s24) and Affects(s25,a25) such that Affects(s26,s27) 
-
-5000
-42 - Combo Stress Test 42
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25; 
-Select a20 such that Affects(s1,a1) such that Affects(a2,a3) and Affects(a4,s2) such that Affects(s3,a5) and Affects(a6,s4) such that Affects(s5,a7) such that Affects(s6,a8) and Affects(s7,s8) such that Affects(a9,s9) and Affects(a10,a11) such that Affects(a12,a13) such that Affects(s10,s11) and Affects(a14,s12) such that Affects(s13,a15) and Affects(a16,a17) and Affects(s14,s15) such that Affects(s16,s17) and Affects(s18,a18) and Affects(a19,s19) such that Affects(a20,s20) such that Affects(s21,a21) and Affects(a22,a23) such that Affects(s22,s23) such that Affects(s24,s25) such that Affects(s26,s27) and Affects(a24,s28) such that Affects(a25,s29) 
-
-5000
-43 - Combo Stress Test 43
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31; 
-Select a17 such that Affects(a1,s1) and Affects(s2,a2) and Affects(a3,a4) and Affects(s3,a5) such that Affects(s4,a6) and Affects(a7,a8) and Affects(a9,s5) and Affects(a10,s6) such that Affects(a11,s7) and Affects(s8,a12) and Affects(s9,a13) such that Affects(s10,s11) and Affects(a14,s12) and Affects(s13,s14) and Affects(a15,s15) and Affects(a16,a17) and Affects(a18,s16) and Affects(s17,a19) such that Affects(a20,a21) and Affects(a22,s18) such that Affects(s19,s20) and Affects(s21,a23) and Affects(s22,a24) and Affects(a25,a26) and Affects(s23,a27) and Affects(s24,a28) such that Affects(a29,a30) such that Affects(s25,a31) 
-
-5000
-44 - Combo Stress Test 44
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22; 
-Select a21.stmt# such that Affects(s1,s2) such that Affects(s3,a1) such that Affects(a2,s4) and Affects(s5,s6) such that Affects(s7,s8) and Affects(a3,s9) and Affects(s10,a4) and Affects(a5,a6) such that Affects(s11,a7) such that Affects(a8,a9) such that Affects(s12,s13) and Affects(s14,s15) such that Affects(s16,s17) such that Affects(s18,s19) such that Affects(a10,a11) such that Affects(a12,a13) such that Affects(s20,a14) and Affects(s21,s22) such that Affects(s23,s24) such that Affects(a15,s25) and Affects(s26,a16) and Affects(s27,s28) such that Affects(a17,s29) such that Affects(s30,s31) such that Affects(s32,a18) and Affects(a19,s33) and Affects(a20,s34) and Affects(s35,s36) and Affects(a21,a22) 
-
-5000
-45 - Combo Stress Test 45
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29; 
-Select s31 such that Affects(a1,s1) such that Affects(s2,s3) such that Affects(a2,s4) and Affects(s5,a3) and Affects(s6,s7) such that Affects(s8,a4) such that Affects(a5,a6) and Affects(s9,a7) and Affects(s10,a8) and Affects(s11,a9) such that Affects(a10,s12) such that Affects(s13,s14) such that Affects(s15,a11) such that Affects(a12,a13) and Affects(a14,a15) and Affects(a16,s16) such that Affects(s17,a17) such that Affects(s18,a18) such that Affects(a19,a20) and Affects(s19,a21) such that Affects(a22,a23) and Affects(s20,s21) such that Affects(a24,s22) such that Affects(s23,s24) such that Affects(s25,s26) such that Affects(s27,s28) and Affects(a25,a26) and Affects(s29,a27) and Affects(a28,s30) and Affects(a29,s31) 
-
-5000
-46 - Combo Stress Test 46
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31; 
-Select s3.stmt# such that Affects(s1,s2) such that Affects(s3,s4) such that Affects(a1,a2) such that Affects(s5,a3) and Affects(s6,a4) such that Affects(s7,s8) and Affects(a5,a6) such that Affects(a7,s9) such that Affects(a8,s10) and Affects(s11,s12) such that Affects(s13,a9) such that Affects(s14,a10) such that Affects(s15,a11) and Affects(a12,s16) and Affects(s17,s18) and Affects(s19,a13) such that Affects(a14,s20) such that Affects(s21,a15) such that Affects(s22,a16) such that Affects(a17,s23) such that Affects(s24,a18) and Affects(s25,a19) and Affects(a20,a21) such that Affects(a22,s26) and Affects(a23,s27) and Affects(a24,s28) such that Affects(s29,a25) and Affects(a26,a27) such that Affects(s30,a28) and Affects(s31,a29) and Affects(a30,a31) 
-
-5000
-47 - Combo Stress Test 47
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35; 
-Select a15.stmt# such that Affects(a1,a2) and Affects(s1,a3) and Affects(a4,s2) such that Affects(s3,a5) and Affects(s4,a6) such that Affects(a7,a8) and Affects(s5,a9) such that Affects(a10,a11) and Affects(a12,s6) such that Affects(a13,s7) and Affects(a14,s8) and Affects(s9,a15) such that Affects(a16,s10) and Affects(s11,a17) such that Affects(s12,s13) such that Affects(s14,a18) and Affects(a19,s15) such that Affects(s16,a20) and Affects(a21,s17) such that Affects(a22,a23) and Affects(a24,s18) and Affects(a25,s19) and Affects(s20,s21) such that Affects(a26,a27) such that Affects(a28,s22) such that Affects(s23,a29) such that Affects(a30,s24) and Affects(s25,a31) and Affects(s26,a32) and Affects(a33,s27) and Affects(a34,a35) such that Affects(s28,s29) 
-
-5000
-48 - Combo Stress Test 48
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35; 
-Select s26 such that Affects(a1,a2) such that Affects(a3,s1) such that Affects(s2,s3) and Affects(a4,a5) and Affects(s4,a6) and Affects(s5,s6) such that Affects(s7,a7) and Affects(a8,a9) such that Affects(s8,a10) such that Affects(a11,a12) and Affects(a13,s9) such that Affects(s10,a14) such that Affects(a15,a16) and Affects(s11,a17) such that Affects(s12,s13) and Affects(a18,a19) such that Affects(s14,s15) and Affects(a20,s16) and Affects(a21,a22) and Affects(s17,s18) such that Affects(a23,a24) and Affects(s19,a25) such that Affects(s20,a26) such that Affects(a27,a28) such that Affects(a29,s21) such that Affects(s22,s23) such that Affects(a30,a31) such that Affects(s24,s25) such that Affects(s26,s27) such that Affects(s28,a32) and Affects(s29,s30) such that Affects(a33,s31) such that Affects(a34,a35) 
-
-5000
-49 - Combo Stress Test 49
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39; 
-Select s8.stmt# such that Affects(s1,s2) and Affects(a1,s3) and Affects(a2,s4) and Affects(a3,a4) and Affects(s5,s6) such that Affects(a5,a6) such that Affects(s7,a7) such that Affects(a8,s8) such that Affects(a9,s9) such that Affects(a10,a11) such that Affects(s10,a12) such that Affects(a13,s11) and Affects(a14,a15) and Affects(a16,s12) and Affects(a17,a18) and Affects(s13,s14) and Affects(s15,a19) and Affects(s16,a20) such that Affects(a21,a22) and Affects(s17,a23) and Affects(a24,a25) such that Affects(s18,a26) and Affects(s19,s20) and Affects(a27,a28) such that Affects(s21,s22) such that Affects(a29,a30) such that Affects(s23,s24) and Affects(s25,a31) and Affects(a32,s26) such that Affects(a33,s27) and Affects(s28,a34) such that Affects(s29,a35) such that Affects(a36,a37) and Affects(a38,a39) 
-
-5000
-50 - Combo Stress Test 50
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36; 
-Select a2 such that Affects(s1,a1) such that Affects(s2,a2) and Affects(s3,a3) such that Affects(a4,a5) such that Affects(s4,s5) such that Affects(a6,s6) such that Affects(a7,s7) such that Affects(a8,a9) such that Affects(a10,a11) such that Affects(s8,s9) such that Affects(s10,s11) and Affects(a12,s12) and Affects(s13,s14) such that Affects(a13,s15) such that Affects(s16,a14) such that Affects(a15,s17) such that Affects(s18,s19) and Affects(a16,a17) such that Affects(a18,s20) and Affects(a19,a20) and Affects(a21,s21) such that Affects(a22,s22) and Affects(a23,s23) and Affects(a24,s24) and Affects(a25,a26) such that Affects(a27,s25) such that Affects(a28,a29) such that Affects(a30,a31) such that Affects(a32,s26) and Affects(a33,a34) and Affects(a35,s27) such that Affects(s28,s29) such that Affects(s30,s31) such that Affects(a36,s32) such that Affects(s33,s34) 
-
-5000
-51 - Combo Stress Test 51
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33; 
-Select a3 such that Affects(a1,s1) and Affects(s2,s3) and Affects(s4,s5) such that Affects(s6,s7) such that Affects(s8,a2) such that Affects(s9,s10) such that Affects(a3,s11) such that Affects(a4,a5) such that Affects(s12,s13) and Affects(a6,a7) and Affects(s14,a8) and Affects(s15,a9) and Affects(s16,a10) such that Affects(s17,s18) and Affects(a11,a12) and Affects(a13,s19) such that Affects(s20,s21) such that Affects(s22,s23) such that Affects(a14,a15) such that Affects(s24,a16) such that Affects(s25,a17) and Affects(s26,a18) and Affects(a19,s27) such that Affects(a20,a21) such that Affects(s28,s29) and Affects(s30,a22) and Affects(s31,s32) and Affects(a23,a24) and Affects(s33,a25) such that Affects(a26,a27) such that Affects(a28,a29) and Affects(s34,s35) such that Affects(a30,a31) and Affects(a32,s36) and Affects(s37,s38) and Affects(a33,s39) 
-
-5000
-52 - Combo Stress Test 52
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39; 
-Select a35.stmt# such that Affects(s1,a1) and Affects(a2,s2) and Affects(a3,a4) such that Affects(a5,s3) and Affects(a6,s4) such that Affects(s5,s6) such that Affects(a7,s7) such that Affects(s8,s9) such that Affects(s10,a8) and Affects(a9,s11) such that Affects(s12,s13) such that Affects(a10,s14) such that Affects(a11,s15) and Affects(s16,s17) such that Affects(a12,a13) and Affects(a14,a15) such that Affects(s18,a16) such that Affects(a17,s19) and Affects(a18,a19) and Affects(a20,a21) and Affects(s20,s21) and Affects(s22,a22) such that Affects(a23,s23) such that Affects(a24,a25) and Affects(s24,a26) such that Affects(a27,a28) such that Affects(s25,a29) and Affects(s26,s27) and Affects(s28,s29) such that Affects(a30,a31) and Affects(s30,a32) such that Affects(a33,s31) and Affects(s32,s33) such that Affects(a34,s34) and Affects(a35,a36) and Affects(a37,a38) such that Affects(s35,a39) 
-
-5000
-53 - Combo Stress Test 53
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35; 
-Select a7 such that Affects(s1,s2) such that Affects(a1,a2) and Affects(a3,a4) such that Affects(a5,a6) and Affects(s3,a7) such that Affects(s4,a8) and Affects(s5,a9) and Affects(a10,a11) and Affects(s6,a12) such that Affects(a13,s7) and Affects(s8,s9) such that Affects(s10,s11) and Affects(s12,a14) and Affects(a15,s13) such that Affects(s14,a16) and Affects(s15,a17) such that Affects(a18,s16) and Affects(s17,a19) and Affects(a20,s18) such that Affects(s19,s20) and Affects(a21,s21) such that Affects(s22,a22) and Affects(s23,a23) such that Affects(s24,s25) such that Affects(s26,s27) such that Affects(s28,a24) and Affects(a25,a26) and Affects(s29,s30) such that Affects(s31,a27) such that Affects(s32,a28) such that Affects(a29,a30) and Affects(a31,a32) and Affects(s33,a33) such that Affects(s34,a34) and Affects(a35,s35) and Affects(s36,s37) such that Affects(s38,s39) such that Affects(s40,s41) 
-
-5000
-54 - Combo Stress Test 54
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36; 
-Select a19.stmt# such that Affects(s1,a1) such that Affects(a2,a3) and Affects(a4,s2) and Affects(a5,s3) and Affects(s4,s5) such that Affects(a6,a7) and Affects(s6,a8) and Affects(s7,s8) and Affects(s9,a9) such that Affects(a10,a11) such that Affects(a12,a13) and Affects(s10,s11) such that Affects(a14,s12) and Affects(s13,s14) and Affects(a15,s15) and Affects(s16,a16) and Affects(s17,a17) such that Affects(s18,a18) and Affects(s19,s20) and Affects(s21,a19) and Affects(a20,s22) such that Affects(s23,s24) such that Affects(s25,s26) and Affects(s27,s28) and Affects(s29,s30) and Affects(a21,a22) such that Affects(s31,a23) such that Affects(a24,a25) such that Affects(a26,a27) such that Affects(s32,s33) and Affects(a28,s34) and Affects(a29,a30) such that Affects(a31,s35) such that Affects(a32,s36) such that Affects(s37,s38) such that Affects(s39,a33) and Affects(a34,a35) and Affects(s40,s41) and Affects(s42,a36) 
-
-5000
-55 - Combo Stress Test 55
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37; 
-Select a5.stmt# such that Affects(a1,s1) and Affects(s2,a2) such that Affects(s3,a3) and Affects(a4,a5) and Affects(s4,a6) and Affects(a7,a8) and Affects(a9,a10) such that Affects(a11,s5) and Affects(s6,s7) and Affects(a12,a13) such that Affects(a14,s8) such that Affects(s9,s10) such that Affects(a15,a16) such that Affects(s11,s12) such that Affects(a17,a18) such that Affects(s13,a19) and Affects(s14,s15) and Affects(a20,s16) such that Affects(s17,s18) and Affects(a21,a22) and Affects(s19,s20) such that Affects(s21,a23) such that Affects(s22,s23) and Affects(a24,s24) and Affects(s25,a25) such that Affects(s26,a26) such that Affects(s27,s28) and Affects(s29,s30) such that Affects(s31,s32) and Affects(a27,a28) such that Affects(s33,a29) and Affects(s34,s35) such that Affects(s36,a30) such that Affects(s37,a31) such that Affects(a32,s38) such that Affects(a33,s39) such that Affects(s40,s41) and Affects(s42,a34) such that Affects(a35,a36) and Affects(a37,s43) 
-
-5000
-56 - Combo Stress Test 56
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37; 
-Select a22.stmt# such that Affects(s1,s2) such that Affects(s3,s4) such that Affects(a1,a2) such that Affects(a3,a4) such that Affects(s5,a5) such that Affects(a6,s6) and Affects(a7,s7) such that Affects(s8,a8) and Affects(s9,a9) and Affects(s10,a10) such that Affects(s11,a11) such that Affects(s12,s13) such that Affects(a12,a13) and Affects(a14,a15) and Affects(s14,a16) and Affects(s15,a17) and Affects(a18,s16) such that Affects(s17,s18) such that Affects(s19,s20) such that Affects(a19,a20) and Affects(s21,s22) such that Affects(s23,s24) such that Affects(s25,a21) such that Affects(a22,s26) and Affects(a23,s27) such that Affects(s28,a24) and Affects(s29,a25) such that Affects(a26,a27) and Affects(s30,s31) and Affects(s32,s33) and Affects(s34,a28) such that Affects(a29,s35) and Affects(s36,a30) and Affects(a31,s37) such that Affects(a32,s38) and Affects(s39,s40) and Affects(s41,a33) such that Affects(s42,a34) and Affects(a35,s43) and Affects(a36,s44) such that Affects(a37,s45) 
-
-5000
-57 - Combo Stress Test 57
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36; 
-Select a4.stmt# such that Affects(s1,s2) and Affects(s3,s4) and Affects(s5,s6) such that Affects(a1,s7) and Affects(a2,s8) and Affects(a3,s9) such that Affects(a4,s10) and Affects(a5,a6) such that Affects(s11,a7) and Affects(a8,s12) and Affects(s13,s14) such that Affects(s15,a9) such that Affects(a10,s16) such that Affects(s17,a11) and Affects(s18,a12) such that Affects(s19,a13) such that Affects(s20,s21) such that Affects(s22,a14) and Affects(s23,s24) and Affects(a15,s25) such that Affects(s26,a16) and Affects(a17,s27) and Affects(s28,s29) and Affects(s30,s31) such that Affects(s32,s33) and Affects(s34,s35) such that Affects(a18,a19) and Affects(s36,a20) such that Affects(s37,s38) such that Affects(a21,a22) such that Affects(a23,a24) such that Affects(a25,s39) and Affects(s40,a26) and Affects(a27,s41) and Affects(s42,a28) and Affects(a29,a30) and Affects(s43,s44) and Affects(a31,s45) and Affects(a32,s46) such that Affects(a33,s47) and Affects(a34,a35) and Affects(a36,s48) 
-
-5000
-58 - Combo Stress Test 58
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42; 
-Select a29 such that Affects(a1,s1) and Affects(a2,a3) and Affects(s2,a4) and Affects(a5,a6) such that Affects(a7,s3) such that Affects(s4,s5) such that Affects(a8,a9) such that Affects(s6,s7) such that Affects(a10,s8) such that Affects(s9,s10) such that Affects(s11,a11) such that Affects(a12,a13) and Affects(s12,s13) such that Affects(s14,a14) and Affects(a15,a16) such that Affects(s15,a17) and Affects(s16,s17) and Affects(s18,a18) and Affects(s19,s20) such that Affects(s21,s22) and Affects(s23,s24) and Affects(a19,a20) such that Affects(s25,s26) and Affects(a21,s27) such that Affects(a22,a23) such that Affects(a24,a25) such that Affects(a26,a27) and Affects(s28,s29) such that Affects(a28,a29) such that Affects(s30,s31) such that Affects(s32,s33) such that Affects(a30,s34) and Affects(a31,s35) and Affects(a32,a33) and Affects(s36,s37) and Affects(s38,a34) such that Affects(s39,a35) and Affects(s40,a36) such that Affects(a37,s41) and Affects(a38,a39) and Affects(a40,s42) such that Affects(s43,a41) and Affects(s44,a42) 
-
-5000
-59 - Combo Stress Test 59
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46; 
-Select s34.stmt# such that Affects(a1,a2) and Affects(a3,s1) such that Affects(s2,a4) such that Affects(s3,a5) and Affects(a6,s4) and Affects(s5,s6) such that Affects(s7,s8) and Affects(s9,a7) such that Affects(s10,a8) such that Affects(a9,s11) and Affects(a10,s12) and Affects(a11,s13) and Affects(a12,a13) such that Affects(a14,a15) such that Affects(a16,s14) and Affects(a17,a18) and Affects(a19,s15) such that Affects(a20,a21) such that Affects(s16,s17) such that Affects(s18,a22) such that Affects(s19,a23) such that Affects(a24,s20) and Affects(s21,a25) and Affects(a26,s22) such that Affects(a27,s23) such that Affects(a28,s24) such that Affects(s25,a29) such that Affects(a30,a31) such that Affects(s26,s27) such that Affects(a32,a33) such that Affects(s28,s29) such that Affects(a34,a35) and Affects(a36,s30) such that Affects(a37,a38) such that Affects(s31,a39) and Affects(a40,a41) and Affects(s32,s33) such that Affects(s34,s35) such that Affects(a42,s36) and Affects(a43,s37) and Affects(a44,a45) such that Affects(s38,s39) and Affects(s40,s41) and Affects(s42,a46) 
-
-5000
-60 - Combo Stress Test 60
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51; 
-Select a32.stmt# such that Affects(a1,a2) such that Affects(a3,a4) such that Affects(s1,s2) such that Affects(s3,s4) such that Affects(s5,a5) such that Affects(a6,s6) and Affects(a7,s7) such that Affects(a8,s8) and Affects(a9,a10) and Affects(s9,a11) such that Affects(a12,a13) and Affects(a14,s10) and Affects(a15,s11) such that Affects(s12,a16) and Affects(s13,s14) such that Affects(s15,a17) such that Affects(a18,s16) such that Affects(a19,a20) such that Affects(a21,a22) and Affects(s17,a23) and Affects(s18,a24) such that Affects(s19,a25) such that Affects(a26,a27) and Affects(a28,s20) such that Affects(a29,s21) and Affects(a30,a31) and Affects(a32,a33) and Affects(a34,a35) and Affects(a36,a37) such that Affects(a38,s22) and Affects(s23,a39) such that Affects(s24,s25) such that Affects(s26,a40) and Affects(s27,s28) and Affects(a41,s29) such that Affects(a42,s30) such that Affects(a43,s31) such that Affects(s32,a44) such that Affects(s33,a45) such that Affects(a46,s34) such that Affects(a47,a48) and Affects(s35,s36) and Affects(a49,s37) such that Affects(s38,s39) and Affects(a50,a51) 
-
-5000
-61 - Combo Stress Test 61
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46; 
-Select a12.stmt# such that Affects(s1,s2) such that Affects(s3,a1) and Affects(s4,a2) and Affects(s5,s6) such that Affects(a3,s7) such that Affects(s8,a4) such that Affects(s9,a5) such that Affects(a6,a7) such that Affects(a8,s10) such that Affects(a9,a10) and Affects(s11,s12) such that Affects(a11,a12) such that Affects(s13,a13) such that Affects(s14,a14) and Affects(s15,s16) such that Affects(a15,s17) and Affects(a16,s18) such that Affects(s19,a17) and Affects(s20,a18) such that Affects(s21,s22) such that Affects(a19,s23) such that Affects(s24,a20) such that Affects(a21,a22) and Affects(a23,s25) such that Affects(a24,a25) and Affects(s26,s27) and Affects(a26,s28) and Affects(s29,s30) and Affects(a27,s31) and Affects(a28,s32) and Affects(s33,s34) such that Affects(s35,s36) such that Affects(s37,s38) such that Affects(s39,a29) and Affects(a30,a31) and Affects(a32,s40) such that Affects(a33,s41) such that Affects(a34,a35) such that Affects(a36,a37) and Affects(a38,a39) and Affects(a40,s42) such that Affects(a41,a42) and Affects(s43,a43) and Affects(a44,a45) such that Affects(a46,s44) such that Affects(s45,s46) 
-
-5000
-62 - Combo Stress Test 62
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45; 
-Select a41 such that Affects(s1,s2) and Affects(a1,s3) and Affects(s4,a2) such that Affects(s5,s6) and Affects(a3,s7) and Affects(s8,a4) and Affects(a5,s9) and Affects(s10,a6) and Affects(s11,a7) such that Affects(a8,s12) such that Affects(a9,s13) such that Affects(a10,s14) and Affects(s15,s16) such that Affects(a11,a12) such that Affects(s17,a13) and Affects(a14,a15) such that Affects(a16,s18) and Affects(s19,s20) such that Affects(s21,a17) such that Affects(a18,a19) such that Affects(a20,s22) and Affects(a21,s23) and Affects(s24,a22) and Affects(s25,s26) such that Affects(a23,s27) such that Affects(s28,a24) such that Affects(a25,s29) and Affects(s30,s31) such that Affects(s32,s33) such that Affects(a26,a27) such that Affects(a28,s34) and Affects(s35,s36) such that Affects(a29,a30) and Affects(a31,s37) and Affects(a32,s38) such that Affects(a33,a34) and Affects(a35,s39) and Affects(s40,s41) such that Affects(s42,a36) and Affects(s43,a37) and Affects(s44,a38) such that Affects(s45,a39) such that Affects(s46,a40) and Affects(a41,a42) and Affects(s47,a43) and Affects(a44,a45) such that Affects(s48,s49) 
-
-5000
-63 - Combo Stress Test 63
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51; 
-Select s37.stmt# such that Affects(s1,a1) and Affects(a2,s2) such that Affects(s3,s4) and Affects(s5,s6) and Affects(s7,a3) and Affects(s8,a4) and Affects(a5,a6) such that Affects(s9,s10) such that Affects(s11,s12) such that Affects(s13,a7) such that Affects(s14,s15) such that Affects(s16,a8) such that Affects(a9,s17) such that Affects(s18,s19) and Affects(a10,s20) such that Affects(a11,s21) such that Affects(a12,a13) and Affects(a14,s22) and Affects(a15,a16) and Affects(s23,s24) such that Affects(s25,s26) such that Affects(s27,a17) and Affects(a18,a19) such that Affects(s28,s29) and Affects(a20,s30) such that Affects(a21,s31) and Affects(a22,a23) and Affects(a24,a25) such that Affects(a26,a27) and Affects(s32,s33) and Affects(a28,a29) and Affects(s34,s35) and Affects(s36,a30) and Affects(s37,a31) and Affects(a32,a33) and Affects(s38,a34) and Affects(a35,a36) such that Affects(a37,s39) such that Affects(a38,s40) such that Affects(a39,a40) and Affects(a41,a42) and Affects(a43,a44) and Affects(a45,a46) and Affects(a47,a48) and Affects(a49,s41) such that Affects(s42,s43) such that Affects(s44,a50) such that Affects(a51,s45) 
-
-5000
-64 - Combo Stress Test 64
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51; 
-Select a22.stmt# such that Affects(a1,s1) and Affects(a2,a3) such that Affects(a4,a5) and Affects(s2,a6) and Affects(a7,a8) such that Affects(s3,s4) such that Affects(s5,a9) such that Affects(s6,s7) such that Affects(s8,s9) such that Affects(s10,s11) such that Affects(s12,s13) and Affects(s14,a10) and Affects(a11,s15) and Affects(s16,s17) and Affects(s18,s19) and Affects(s20,s21) and Affects(s22,a12) such that Affects(a13,a14) such that Affects(a15,a16) and Affects(s23,s24) and Affects(a17,s25) such that Affects(s26,a18) such that Affects(a19,a20) such that Affects(a21,a22) and Affects(s27,a23) and Affects(s28,a24) and Affects(a25,s29) and Affects(a26,s30) such that Affects(a27,a28) and Affects(s31,s32) and Affects(a29,a30) and Affects(s33,a31) and Affects(a32,a33) and Affects(s34,a34) such that Affects(a35,a36) such that Affects(s35,a37) and Affects(s36,a38) and Affects(s37,a39) and Affects(a40,a41) and Affects(a42,s38) and Affects(s39,a43) and Affects(s40,s41) such that Affects(s42,s43) and Affects(s44,s45) such that Affects(a44,s46) and Affects(a45,a46) and Affects(a47,a48) such that Affects(a49,a50) and Affects(a51,s47) 
-
-5000
-65 - Combo Stress Test 65
-stmt s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s24,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45; assign a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35,a36,a37,a38,a39,a40,a41,a42,a43,a44,a45,a46,a47,a48,a49,a50,a51,a52,a53,a54,a55; 
-Select a17.stmt# such that Affects(a1,s1) such that Affects(a2,s2) such that Affects(s3,s4) and Affects(a3,a4) such that Affects(a5,s5) such that Affects(a6,s6) such that Affects(s7,a7) and Affects(a8,s8) and Affects(a9,a10) such that Affects(a11,s9) and Affects(s10,s11) and Affects(a12,s12) and Affects(s13,s14) such that Affects(s15,s16) such that Affects(s17,a13) such that Affects(a14,s18) such that Affects(s19,s20) and Affects(a15,s21) and Affects(a16,a17) such that Affects(a18,a19) and Affects(s22,a20) and Affects(a21,a22) such that Affects(a23,s23) and Affects(a24,a25) and Affects(s24,a26) such that Affects(a27,s25) and Affects(s26,s27) such that Affects(s28,s29) and Affects(s30,a28) such that Affects(s31,a29) and Affects(s32,s33) and Affects(a30,s34) and Affects(s35,a31) such that Affects(a32,a33) and Affects(a34,a35) and Affects(a36,a37) such that Affects(a38,a39) and Affects(s36,a40) and Affects(s37,s38) such that Affects(a41,s39) and Affects(a42,a43) such that Affects(a44,a45) and Affects(a46,a47) such that Affects(a48,a49) and Affects(a50,s40) such that Affects(a51,s41) and Affects(a52,s42) and Affects(a53,s43) and Affects(a54,a55) such that Affects(s44,s45) 
-
-5000
+210 - Select stmtList only
+stmtLst sl;
+Select sl
+1, 3, 6, 10
