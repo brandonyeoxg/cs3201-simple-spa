@@ -293,7 +293,7 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollows(Relation * t_relation) {
   SET_OF_RESULTS_INDICES *results;
 
   // Follows(given_line, l)
-  // retrieve from Follows(pl1, pl2)
+  // retrieve from Follows(s1, s2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_FOLLOWS);
 
   if (results != nullptr) {
@@ -315,6 +315,15 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollows(Relation * t_relation) {
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+
+  // Follows*(given_line, l)
+  // retrieve from Follows*(s1, s2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_FOLLOWS_STAR);
+
+  if (results != nullptr) {
+    return results;
+  }
 
   // Follows*(_, s2) or Follows*(s1, _)
   if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
