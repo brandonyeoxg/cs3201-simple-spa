@@ -142,6 +142,8 @@ private:
   const std::string KEY_ALL_AFFECTS = "Affects/s1<stmt>/s2<stmt>";
   const std::string KEY_ALL_FOLLOWS_STAR = "Follows*/s1<stmt>/s2<stmt>";
   const std::string KEY_ALL_FOLLOWS = "Follows/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_PARENT_STAR = "Parent*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_PARENT = "Parent/s1<stmt>/s2<stmt>";
 
   const std::string KEY_NEXT_STAR = "Next*";
   const std::string KEY_NEXT = "Next";
@@ -170,6 +172,9 @@ private:
   SET_OF_RESULTS_INDICES *getCacheForFollows(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForFollowsStar(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForAffects(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForAffectsStar(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForParent(Relation *t_relation);
+  SET_OF_RESULTS_INDICES *getCacheForParentStar(Relation *t_relation);
 
   // for relationships with (given_parameter, common synonym)
   // extract result from cached (common synonym, common synonym) if present

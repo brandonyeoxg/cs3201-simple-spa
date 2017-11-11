@@ -215,9 +215,12 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
       return getCacheForFollowsStar(t_relation);
     case queryType::RType::AFFECTS:
       return getCacheForAffects(t_relation);
-    //case queryType::RType::AFFECTS_:
-    //case queryType::RType::PARENT:
-    //case queryType::RType::PARENT_:
+    case queryType::RType::AFFECTS_:
+      return getCacheForAffectsStar(t_relation);
+    case queryType::RType::PARENT:
+      return getCacheForParent(t_relation);
+    case queryType::RType::PARENT_:
+      return getCacheForParentStar(t_relation);
   }
 
   return nullptr;
@@ -344,8 +347,50 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
   SET_OF_RESULTS_INDICES *results;
 
   // Affects(given_line, l)
-  // retrieve from Affects(pl1, pl2)
+  // retrieve from Affects(s1, s2)
   results = getResultFromTwoSynonyms(t_relation, KEY_ALL_AFFECTS);
+
+  if (results != nullptr) {
+    return results;
+  }
+
+  return nullptr;
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffectsStar(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+
+  // Affects*(given_line, l)
+  // retrieve from Affects*(s1, s2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_AFFECTS_STAR);
+
+  if (results != nullptr) {
+    return results;
+  }
+
+  return nullptr;
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForParent(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+
+  // Parent(given_line, l)
+  // retrieve from Parent(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_PARENT);
+
+  if (results != nullptr) {
+    return results;
+  }
+
+  return nullptr;
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getCacheForParentStar(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+
+  // Parent*(given_line, l)
+  // retrieve from Parent*(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_PARENT_STAR);
 
   if (results != nullptr) {
     return results;
