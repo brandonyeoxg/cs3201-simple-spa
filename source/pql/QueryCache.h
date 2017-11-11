@@ -51,8 +51,8 @@
 
     Follows(_, s2) & Follows*(_, s2) [has optimization]
     Follows(s1, _) & Follows*(s1, _) [has optimization]
-    Follows(0, s2)
-    Follows*(0, s2)
+    Follows(0, s2) [has optimization]
+    Follows*(0, s2) [has optimization]
     Follows(s1, 0)
     Follows*(s1, 0)
 
@@ -60,9 +60,9 @@
     Parent(s1, _)
     Parent*(_, s1)
     Parent*(s1, _)
-    Parent(0, s1)
+    Parent(0, s1) [has optimization]
     Parent(s1, 0)
-    Parent*(0, s1)
+    Parent*(0, s1) [has optimization]
     Parent*(s1, 0)
 
     Affects(a1, a2)
@@ -72,9 +72,9 @@
     Affects*(a1, _)
     Affects*(_, a2)
     Affects(a1, 0)
-    Affects(0, a2)
+    Affects(0, a2) [has optimization]
     Affects*(a1, 0)
-    Affects*(0, a2)
+    Affects*(0, a2) [has optimization]
 
     Uses(s1, _)
     Modifies(s1, _)
