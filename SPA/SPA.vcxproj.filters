@@ -28,12 +28,6 @@
     <ClCompile Include="..\source\VarTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AST.cpp">
-      <Filter>PKB\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ASTBuilder.cpp">
-      <Filter>PKB\AST</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -233,15 +227,6 @@
     </ClInclude>
     <ClInclude Include="..\source\VarTable.h">
       <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AST.h">
-      <Filter>PKB\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ASTBuilder.h">
-      <Filter>PKB\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ASTBuilderAPI.h">
-      <Filter>PKB\AST</Filter>
     </ClInclude>
     <ClInclude Include="..\source\StringUtil.h">
       <Filter>Util</Filter>
@@ -476,9 +461,6 @@
     </Filter>
     <Filter Include="PKB\Relationship Table">
       <UniqueIdentifier>{a8c379f3-62de-4a55-9618-aa69599f4b0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PKB\AST">
-      <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
     </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>

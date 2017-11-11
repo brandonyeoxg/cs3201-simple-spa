@@ -17,8 +17,6 @@
     <ClCompile Include="..\source\AffectsTable.cpp" />
     <ClCompile Include="..\source\AssignPatternEvaluator.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
-    <ClCompile Include="..\source\AST.cpp" />
-    <ClCompile Include="..\source\ASTBuilder.cpp" />
     <ClCompile Include="..\source\CallsExtractor.cpp" />
     <ClCompile Include="..\source\CallsTable.cpp" />
     <ClCompile Include="..\source\CallsEvaluator.cpp" />
@@ -87,9 +85,6 @@
     <ClInclude Include="..\source\AffectsTable.h" />
     <ClInclude Include="..\source\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\AssignTable.h" />
-    <ClInclude Include="..\source\AST.h" />
-    <ClInclude Include="..\source\ASTBuilder.h" />
-    <ClInclude Include="..\source\ASTBuilderAPI.h" />
     <ClInclude Include="..\source\CallsExtractor.h" />
     <ClInclude Include="..\source\CallsTable.h" />
     <ClInclude Include="..\source\CallsEvaluator.h" />
