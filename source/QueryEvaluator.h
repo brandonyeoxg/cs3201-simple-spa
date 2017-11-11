@@ -17,6 +17,7 @@
 #include "With.h"
 #include "PkbReadOnly.h"
 #include "QueryPreProcessor.h"
+#include "pql\QueryCache.h"
 #include "Relationship.h"
 #include "Patterns.h"
 #include "Evaluator.h"
@@ -24,6 +25,7 @@
 #include "Formatter.h"
 #include "QueryUtil.h"
 #include "WithEvaluator.h"
+#include "QueryOptimiser.h"
 
 #ifndef QUERYEVALUATOR_H
 #define QUERYEVALUATOR_H
@@ -47,15 +49,15 @@ public:
   * @param t_patterns A queue to store all the pattern clauses in the query.
   * @param t_synonymsList An unordered_map to store all the different synonyms and the number of times it is used in the query.
   */
-  QueryEvaluator(PkbReadOnly *t_pkb, std::queue<Grammar> t_selects, std::queue<Relation> t_relations, std::queue<Pattern> t_patterns, std::queue<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
+  QueryEvaluator(PkbReadOnly *t_pkb, std::vector<Grammar> t_selects, std::vector<Relation> t_relations, std::vector<Pattern> t_patterns, std::vector<With> t_withs, MAP_OF_SYNONYMS_TO_COUNTS t_synonymsList)
     : m_pkb(t_pkb),
-      m_selectedSynonym(""),
       m_selects(t_selects),
       m_relations(t_relations),
       m_patterns(t_patterns),
       m_withs(t_withs),
       m_synonymsUsedInQuery(t_synonymsList),
       m_isSelectOnly(true) {
+    m_cache = new QueryCache();
     m_table = new IntermediateTable();
   };
 
@@ -63,7 +65,12 @@ public:
   * A destructor.
   */
   ~QueryEvaluator() {
+    delete m_cache;
     delete m_table;
+
+    for (auto& table : m_tables) {
+      delete table;
+    }
   };
 
   /**
@@ -75,18 +82,18 @@ public:
 
 private:
   PkbReadOnly *m_pkb; /**< A PKB pointer. The PKB instance that was created in the TestWrapper.cpp. */
-  SYNONYM_NAME m_selectedSynonym; /**< A string. The synonym that the query selects. */
-  SYNONYM_TYPE m_selectedType; /**< A string. The type of the synonym that the query selects. */
-  MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
-  std::queue<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
-  std::queue<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
-  std::queue<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
-  std::queue<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
-  std::queue<LIST_OF_SELECT_RESULTS> m_selectResults; /**< A list queue. It stores the results of the selected synonyms in the query. */
-  std::queue<SET_OF_RELATION_RESULTS> m_relationResults; /**< An unordered map queue. It stores the results of the such that clauses in the query. */
-  std::queue<SET_OF_PATTERN_RESULTS> m_patternResults; /**< An unordered map queue. It stores the results of the pattern clauses in the query. */
+  QueryCache *m_cache; /**< A QueryCache pointer. The QueryCache instance to cache and get results. */
   IntermediateTable *m_table; /**< A intermediate table pointer. The intermediate table instance to store and merge the results of the clauses in the query. */
-  BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses*/
+  MAP_OF_SYNONYMS_TO_COUNTS m_synonymsUsedInQuery; /**< A map of synonyms used and the number of times it has been used in the query. */
+  std::vector<Grammar> m_selects; /**< A grammar queue. It stores the synonyms to be selected in the query. */
+  std::vector<Relation> m_relations; /**< A relation queue. It stores the such that clauses in the query. */
+  std::vector<Pattern> m_patterns; /**< A pattern queue. It stores the pattern clauses in the query. */
+  std::vector<With> m_withs; /**< A with queue. It stores the with clauses in the query. */
+  BOOLEAN m_isSelectOnly; /**< A boolean. It indicates whether the query is only Select without any other clauses. */
+  std::unordered_map<SYNONYM_NAME, Grammar> m_synsToBeRewritten; /**< An unordered map. It stores the synonym to be rewritten and the Grammar Object to replace it with. */
+  std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> m_noSyns;
+  std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> m_withSyns;
+  std::vector<IntermediateTable*> m_tables;
 
   /**
   * A private function to get the results of every clause in the query from the PKB.
@@ -99,11 +106,12 @@ private:
   /**
   * A private function to process all the with clauses.
   * Loop through the with queue and process all the with clauses.
-  * @param t_with A with object that stores the with clause
+  * @param t_with A with object that stores the with clause.
+  * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to store the results.
   * @return true if all of the with clauses are true or has results
   * otherwise false if there are one clause which is false or has no results.
   */
-  BOOLEAN getWithResult(With t_with);
+  BOOLEAN getWithResult(With *t_with, INTEGER t_tableIdx);
 
   /**
   * A private function to get the results of the select clause in the query from the PKB.
@@ -118,42 +126,46 @@ private:
   * A private function to get the results of the relation clause in the query from the PKB.
   * Call the API from PKB to get the results of each and every relation clause in the queues.
   * @param t_relation A relation object that stores the relation clause.
+  * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to use.
   * @return true if the relation clause has non-empty results
   * otherwise false if the relation clause returns an empty result.
   */
-  BOOLEAN getRelationResultFromPkb(Relation t_relation);
+  BOOLEAN getRelationResultFromPkb(Relation *t_relation, INTEGER t_tableIdx);
 
   /**
   * A private function to get the results of the pattern clause in the query from the PKB.
   * Call the API from PKB to get the results of each and every pattern clause in the queues.
   * @param t_pattern A pattern object that stores the pattern clause.
+  * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to use.
   * @return true if the pattern clause has non-empty results
   * otherwise false if the pattern clause returns an empty result.
   */
-  BOOLEAN getPatternResultFromPkb(Pattern t_pattern);
+  BOOLEAN getPatternResultFromPkb(Pattern *t_pattern, INTEGER t_tableIdx);
 
   /**
   * A private function to store the select results.
   * It takes in the select result to be store into the queue.
   * @param t_result A string vector which holds the result returned from PKB.
   */
-  void storeSelectResultFromPkb(LIST_OF_SELECT_RESULTS t_result);
+  BOOLEAN storeSelectResultFromPkb(Grammar t_select, LIST_OF_RESULTS_INDICES t_result);
 
   /**
   * A private function to store the relation result if it is needed.
   * It takes in the relation and the relation result to check whether there is a need to store it.
   * @param t_relation A relation object which holds the relation clause that was evaluated to the parameter t_result.
+  * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to store the results.
   * @param t_result An unordered map which holds the result of the relation clause returned from PKB.
   */
-  BOOLEAN storeRelationResultFromPkb(Relation t_relation, SET_OF_RELATION_RESULTS t_result);
+  BOOLEAN storeRelationResultFromPkb(Relation *t_relation, SET_OF_RESULTS_INDICES t_result, INTEGER t_tableIdx);
   
   /**
   * A private function to store the pattern result if it is needed.
   * It takes in the pattern and the pattern result to check whether there is a need to store it.
   * @param t_pattern A pattern object which holds the pattern clause that was evaluated to the parameter t_result.
+  * @param t_tableIdx An index to indicate the which intermediate result table it is supposed to store the results.
   * @param t_result An unordered map which holds the result of the pattern clause returned from PKB.
   */
-  BOOLEAN storePatternResultFromPkb(Pattern t_pattern, SET_OF_PATTERN_RESULTS t_result);
+  BOOLEAN storePatternResultFromPkb(Pattern *t_pattern, SET_OF_RESULTS_INDICES t_result, INTEGER t_tableIdx);
 
   /**
   * A private function to evaluate the final result of the query.
@@ -161,12 +173,6 @@ private:
   * @return A vector of strings as the query result.
   */
   LIST_OF_RESULTS evaluateFinalResult();
-
-  void rewriteSynAsInt(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_INTEGERS t_synToInt);
-  void rewriteSynAsStr(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_STRING t_synToStr);
-  void rewriteSynAsSyn(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_SYNONYMS t_synToSyn);
-  void rewriteSynAsIntList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_INTEGERS t_synToIntList);
-  void rewriteSynAsStrList(MAP_OF_SYNONYMS_TO_BE_REWRITTEN_AS_LIST_OF_STRINGS t_synToStrList);
 };
 
 #endif QUERYEVALUATOR_H

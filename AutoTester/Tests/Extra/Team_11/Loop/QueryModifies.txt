@@ -1,0 +1,235 @@
+1 - Int Ident Modifies
+
+Select BOOLEAN such that Modifies(20, "inBattle")
+true
+5000
+2 - Int Ident NotModifies
+
+Select BOOLEAN such that Modifies(20, "sleep")
+false
+5000
+3 - Int Ident - 2ndArg cannot be a procedure
+
+Select BOOLEAN such that Modifies(22, "IfMultiple")
+false
+5000
+4 - Int Ident - 2nd Arg cannot be an expression
+
+Select BOOLEAN such that Modifies(27, "love - 20")
+false
+5000
+5 - Int Underscore - There is a variable on the LHS
+
+Select BOOLEAN such that Modifies(15, _)
+true
+5000
+6 - Int Underscore - While Loop
+
+Select BOOLEAN such that Modifies(16, _)
+true
+5000
+7 - Int Underscore - If Stmt
+
+Select BOOLEAN such that Modifies(23, _)
+true
+5000
+8 - Ident Ident
+
+Select BOOLEAN such that Modifies("IfWhile", "sleep")
+true
+5000
+9 - Ident Ident - Variable not in same procedure
+
+Select BOOLEAN such that Modifies("IfWhile", "jiraya")
+false
+5000
+10 - Ident Ident - Argument swap - NoResult
+
+Select BOOLEAN such that Modifies("knowledge", "IfWhile")
+false
+5000
+11 - Ident Underscore
+
+Select BOOLEAN such that Modifies("WhileIf", _)
+true
+5000
+12 - Int Variable - One Assignment Statement
+variable v;
+Select v such that Modifies(1, v)
+sarada
+5000
+13 - Int Variable - One Level While Loop
+variable v;
+Select v such that Modifies(16, v)
+kakashi, attack
+5000
+14 - Int Variable - Two Level While Loop
+variable v;
+Select v such that Modifies(12, v)
+jiraya, naruto
+5000
+15 - Int Variable - Multi Level While Loop
+variable v;
+Select v such that Modifies(3, v)
+naruto, sakura, attack, shadowClone, jiraya, kakashi, sarada, inBattle
+5000
+16 - Int Variable - One Level If-else
+variable v;
+Select v such that Modifies(37, v)
+knowledge, shadowClone
+5000
+17 - Int Variable - Two Level If-else
+variable v;
+Select v such that Modifies(30, v)
+himawari, hinata, knowledge
+5000
+18 - Int Variable - Multi Level If-else
+variable v;
+Select v such that Modifies(23, v)
+boruto, hinata, himawari, knowledge, shadowClone, naruto, love,kakashi
+5000
+19 - Stmt Ident - Assignment
+stmt s;
+Select s such that Modifies(s, "shikamaru")
+2
+5000
+20 - Stmt Ident - Mostly Inside While
+stmt s;
+Select s such that Modifies(s, "inBattle")
+3,20,56,64,66,67
+5000
+21 - Stmt Ident - Mostly If
+stmt s;
+Select s such that Modifies(s, "dream")
+61,62,72
+5000
+22 - Stmt Ident - WhileIfAssignments
+stmt s;
+Select s such that Modifies(s, "naruto")
+3,4,6,10,12,15,23,26,40,51,54,57,58,59
+5000
+23 - Stmt Ident - WhileIfAssignments
+stmt s;
+Select s such that Modifies(s, "kakashi")
+3,6,10,16,17,23,43,44,45,47,50,51,52
+5000
+24 - Assign Ident
+assign a;
+Select a such that Modifies(a, "naruto")
+4, 15,40,54,59
+5000
+25 - While Ident
+while w;
+Select w such that Modifies(w, "naruto")
+3,6,10,12,57
+5000
+26 - If Ident
+if f;
+Select f such that Modifies(f, "naruto")
+23,26,51,58
+5000
+27 - ProgLine Ident
+prog_line pl;
+Select pl such that Modifies(pl, "naruto")
+3,4,6,10,12,15,23,26,40,51,54,57,58,59
+5000
+28 - Call Ident
+call cl;
+Select cl such that Modifies(cl, "naruto")
+none
+5000
+29 - Procedure Ident
+procedure p;
+Select p such that Modifies(p, "naruto")
+WhileMultiple,IfMultiple,WhileIf
+5000
+30 - Variable Ident
+variable v;
+Select v such that Modifies(v, "naruto")
+none
+5000
+31 - Stmt Underscore
+stmt s;
+Select s such that Modifies(s, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72
+5000
+32 - Assign Underscore
+assign a;
+Select a such that Modifies(a, _)
+1,2,4,5,7,8,9,11,14,15,17,18,19,20,21,22,24,25,27,28,29,31,33,34,35,36,38,39,40,41,42,43,45,46,47,48,49,50,52,53,54,55,56,59,60,62,63,65,67,68,69,71,72
+5000
+33 - While Underscore
+while w;
+Select w such that Modifies(w, _)
+3,6,10,12,13,16,57,66,70
+5000
+34 - If Underscore
+if if;
+Select if such that Modifies(if, _)
+23,26,30,32,37,44,51,58,61,64
+5000
+35 - Procedure Underscore
+procedure p;
+Select p such that Modifies(p, _)
+WhileMultiple,IfMultiple,WhileIf, IfWhile
+5000
+36 - Invalid Arguments
+stmt s1, s2;
+Select s1 such that Modifies(s1, s2)
+none
+5000
+37 - Stmt Variable
+stmt s; variable v;
+Select s such that Modifies(s, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72
+5000
+38 - Stmt Variable
+stmt s; variable v;
+Select v such that Modifies(s, v)
+sarada,shikamaru,naruto,sakura,attack,shadowClone,jiraya,kakashi,inBattle,knowledge,boruto,himawari,hinata,love,sasuke,dream,sleep
+5000
+39 - Assign Variable
+assign a; variable v;
+Select a such that Modifies (a, v)
+1,2,4,5,7,8,9,11,14,15,17,18,19,20,21,22,24,25,27,28,29,31,33,34,35,36,38,39,40,41,42,43,45,46,47,48,49,50,52,53,54,55,56,59,60,62,63,65,67,68,69,71,72
+5000
+40 - Assign Variable
+assign a; variable v;
+Select v such that Modifies (a, v)
+sarada,shikamaru,naruto,sakura,attack,shadowClone,jiraya,kakashi,inBattle,knowledge,boruto,himawari,hinata,love,sasuke,dream,sleep
+5000
+41 - While Variable
+while w; variable v;
+Select w such that Modifies(w, v)
+3,6,10,12,13,16,57,66,70
+5000
+42 - While Variable
+while w; variable v;
+Select v such that Modifies(w, v)
+naruto, sakura, attack, shadowClone, jiraya, kakashi, sarada, inBattle, sasuke, knowledge, sleep
+5000
+43 - If Variable
+if if; variable v;
+Select if such that Modifies(if, v)
+23,26,30,32,37,44,51,58,61,64
+5000
+44 - If Variable
+if if; variable v;
+Select v such that Modifies(if, v)
+boruto, hinata, himawari, knowledge, shadowClone, naruto, love,kakashi, sasuke, dream, inBattle, sleep
+5000
+45 - Procedure Variable
+procedure p; variable v;
+Select p such that Modifies(p, v)
+WhileMultiple,IfMultiple,WhileIf, IfWhile
+5000
+46 - Procedure Variable
+procedure p; variable v;
+Select v such that Modifies(p, v)
+sarada,shikamaru,naruto,sakura,attack,shadowClone,jiraya,kakashi,inBattle,knowledge,boruto,himawari,hinata,love,sasuke,dream,sleep
+5000
+47 - Ident Variable
+variable v;
+Select v such that Modifies("IfMultiple", v)
+boruto, hinata, himawari, knowledge, shadowClone, naruto, love,kakashi
+5000

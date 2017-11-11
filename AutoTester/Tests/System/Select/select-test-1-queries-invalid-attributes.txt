@@ -1,0 +1,170 @@
+1.1 - Select Invalid Test for p.varName
+procedure p;
+Select p.varName
+none
+5000
+1.2 - Select Invalid Test for p.value
+procedure p;
+Select p.value
+none
+5000
+1.3 - Select Invalid Test for p.stmt#
+procedure p;
+Select p.stmt#
+none
+5000
+2.1 - Select Invalid Test for s.procName
+stmt s;
+Select s.procName
+none
+5000
+2.2 - Select Invalid Test for s.varName
+stmt s;
+Select s.varName
+none
+5000
+2.3 - Select Invalid Test for s.value
+stmt s;
+Select s.value
+none
+5000
+3.1 - Select Invalid Test for a.procName
+assign a;
+Select a.procName
+none
+5000
+3.2 - Select Invalid Test for a.varName
+assign a;
+Select a.varName
+none
+5000
+3.3 - Select Invalid Test for a.value
+assign a;
+Select a.value
+none
+5000
+4.1 - Select Invalid Test for c.varName
+call c;
+Select c.varName
+none
+5000
+4.2 - Select Invalid Test for c.value
+call c;
+Select c.value
+none
+5000
+5.1 - Select Invalid Test for if.procName
+if ifs;
+Select ifs.procName
+none
+5000
+5.2 - Select Invalid Test for if.varName
+if ifs;
+Select ifs.varName
+none
+5000
+5.3 - Select Invalid Test for if.value
+if ifs;
+Select ifs.value
+none
+5000
+6.1 - Select Invalid Test for w.procName
+while w;
+Select w.procName
+none
+5000
+6.2 - Select Invalid Test for w.varName
+while w;
+Select w.varName
+none
+5000
+6.3 - Select Invalid Test for w.value
+while w;
+Select w.value
+none
+5000
+7.1 - Select Invalid Test for co.procName
+constant co;
+Select co.procName
+none
+5000
+7.2 - Select Invalid Test for co.varName
+constant co;
+Select co.varName
+none
+5000
+7.3 - Select Invalid Test for co.stmt#
+constant co;
+Select co.stmt#
+none
+5000
+8.1 - Select Invalid Test for v.procName
+variable v;
+Select v.procName
+none
+5000
+8.2 - Select Invalid Test for v.value
+variable v;
+Select v.value
+none
+5000
+8.3 - Select Invalid Test for v.stmt#
+variable v;
+Select v.stmt#
+none
+5000
+9.1 - Select Invalid Test for v.procName
+variable v;
+Select v.procName
+none
+5000
+9.2 - Select Invalid Test for v.value
+variable v;
+Select v.value
+none
+5000
+9.3 - Select Invalid Test for v.stmt#
+variable v;
+Select v.stmt#
+none
+5000
+10.1 - Select Invalid Test for pl.procName
+prog_line pl;
+Select pl.procName
+none
+5000
+10.2 - Select Invalid Test for pl.value
+prog_line pl;
+Select pl.value
+none
+5000
+10.3 - Select Invalid Test for pl.stmt#
+prog_line pl;
+Select pl.stmt#
+none
+5000
+10.4 - Select Invalid Test for pl.varName
+prog_line pl;
+Select pl.varName
+none
+5000
+11.1 - Select Invalid Test for sl.procName
+stmtLst sl;
+Select sl.procName
+none
+5000
+11.2 - Select Invalid Test for sl.value
+stmtLst sl;
+Select sl.value
+none
+5000
+11.3 - Select Invalid Test for sl.stmt#
+stmtLst sl;
+Select sl.stmt#
+none
+5000
+11.4 - Select Invalid Test for sl.varName
+stmtLst sl;
+Select sl.varName
+none
+5000

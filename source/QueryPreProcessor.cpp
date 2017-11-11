@@ -41,6 +41,22 @@ std::queue<With> QueryPreProcessor::getWith(void) {
   return m_withQueue;
 }
 
+std::vector<Grammar> QueryPreProcessor::getSelectVector(void) {
+  return m_selectVectorQE;
+}
+
+std::vector<Relation> QueryPreProcessor::getSuchThatVector(void) {
+  return m_relationVectorQE;
+}
+
+std::vector<Pattern> QueryPreProcessor::getPatternVector(void) {
+  return m_patternVectorQE;
+}
+
+std::vector<With> QueryPreProcessor::getWithVector(void) {
+  return m_withVectorQE;
+}
+
 std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void) {
   return m_synonymMap;
 }
@@ -54,6 +70,7 @@ std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
   std::string declaration = t_Input.substr(0, t_Input.find(delimiter));
 
   declaration = m_stringUtil.trimString(declaration);
+  declaration = m_stringUtil.reduceString(declaration);
   return declaration;
 }
 
@@ -62,6 +79,7 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
 
   query = m_stringUtil.trimString(query);
+  query = m_stringUtil.reduceString(query);
   return query;
 }
 
@@ -72,7 +90,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     return true;
   } else {
     std::vector<std::string> declarationVector;
-    //std::cout << t_declarationInput << "test1" << std::endl;
 
     std::string starterString;
     //tokens are split by ;
@@ -91,24 +108,25 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
           declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
           prev_pos = pos + 1;
         }
+        //CASE: as it is -1 +1, assign a; fails. to reimplement
         if (pos > prev_pos) {
-          declarationVector.push_back(starterString.substr(prev_pos + 1, pos - prev_pos - 1)); //prev pos + 1 so that we can delete the trailing space in "; "
+          
+          declarationVector.push_back(starterString.substr(prev_pos, pos - prev_pos));
         } prev_pos = pos + 1;
       }
       if (prev_pos < starterString.length()) {
-        declarationVector.push_back(starterString.substr(prev_pos + 1, std::string::npos));  //prev pos + 1 so that we can delete the trailing space in "; "
+        declarationVector.push_back(starterString.substr(prev_pos, std::string::npos));  //prev pos + 1 so that we can delete the trailing space in "; "
       }
     }
 
-    std::string delimiterSpace = " ";
     std::string tempString;
 
     for (std::size_t j = 0; j != declarationVector.size(); ++j) {
       tempString = declarationVector.at(j);
       tempString = m_stringUtil.trimString(tempString);
 
-      std::string entity = tempString.substr(0, tempString.find(delimiterSpace));
-      std::string variables = tempString.substr(tempString.find(delimiterSpace) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
+      std::string entity = tempString.substr(0, tempString.find(WHITESPACE));
+      std::string variables = tempString.substr(tempString.find(WHITESPACE) + 1, tempString.size()); //same for this as delimiter is "; Select" variables split individually
 
       entity = m_stringUtil.trimString(entity);
       variables = m_stringUtil.trimString(variables);
@@ -137,7 +155,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
           variableVector.push_back(variables.substr(prev_pos, std::string::npos));
         }
 
-        //std::cout << "Size of variable vector: " << variableVector.size() << std::endl;
 
         int counterL = 0;
         for (auto l = variableVector.begin(); l != variableVector.end(); l++, counterL++) {
@@ -193,12 +210,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string selectStatement;
   std::string suchThatStatement;
   std::string patternStatement;
-  std::string delimiterSpace = " ";
-  std::string withStatement;
   std::string delimiterSelect = "Select";
   std::string delimiterSuchThat = "such that";
   std::string delimiterPattern = "pattern";
   std::string delimiterWith = "with";
+  std::string withStatement;
   std::string tempStatement;
   std::string tempStatement2;
 
@@ -225,28 +241,36 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int tempSpaceLoc;
 
-    selectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find(delimiterSpace));
-    t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(delimiterSpace), t_queryInput.find_last_not_of(delimiterSpace));
-    tempSpaceLoc = t_queryInput.find(delimiterSpace);
-    std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(delimiterSpace));
-    selectStatement.append(" ");
-    selectStatement.append(tempSelectStatement);
-    secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
-    //secondStatement = t_queryInput.substr(secondStatement.find_first_not_of(delimiterSpace) + 1, secondStatement.size());
-    secondStatement = m_stringUtil.trimString(secondStatement);
+    //Case 1: no tuples
+    if (t_queryInput.find('<') == std::string::npos && t_queryInput.find('>') == std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find(WHITESPACE));
+      t_queryInput = t_queryInput.substr(t_queryInput.find(WHITESPACE));
+      t_queryInput = t_queryInput.substr(t_queryInput.find_first_not_of(WHITESPACE), t_queryInput.find_last_not_of(WHITESPACE));
+      tempSpaceLoc = t_queryInput.find(WHITESPACE);
+      std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(WHITESPACE));
+      selectStatement.append(WHITESPACE);
+      selectStatement.append(tempSelectStatement);
+      secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
+      secondStatement = m_stringUtil.trimString(secondStatement);
 
+    //Case 2: with tuples
+    } else if (t_queryInput.find('<') != std::string::npos && t_queryInput.find('>') != std::string::npos) {
+      selectStatement = t_queryInput.substr(0, t_queryInput.find('>') + 1);
+      t_queryInput = t_queryInput.substr(t_queryInput.find('>') + 1);
+      t_queryInput = m_stringUtil.trimString(t_queryInput);
+      secondStatement = t_queryInput;
+    }
     while (true) {
       //secondStatement = m_stringUtil.trimString(secondStatement);
-      secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+      secondTempStatement = secondStatement.substr(0, secondStatement.find(WHITESPACE));
       if (secondTempStatement == "such") {
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace));
-        secondTempStatement = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE));
+        secondTempStatement = secondStatement.substr(0, secondStatement.find(WHITESPACE));
         if (secondTempStatement == "that") {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-         
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
           m_relationVector.push_back(suchThatStatement);
 
@@ -255,15 +279,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             break;
           }
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
-          prevClause = delimiterSuchThat;
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
+          m_prevClause = delimiterSuchThat;
 
         }
 
       } else if (secondTempStatement == "pattern") {
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
 
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
 
         //case 1: where with, such that, pattern still exists and such that is the next token
         if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -276,7 +300,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 2: where with, such that, pattern still exists and pattern is the next token
         } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
@@ -289,7 +313,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 3: where with, such that, pattern still exists and with is the next token
         } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
@@ -302,7 +326,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 4: where with, such that only exists and such that is the next token
         } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -314,7 +338,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 5: where with, such that only exists and with is the next token
         } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
@@ -326,7 +350,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 6: where with, pattern only exists and pattern is the next token
         } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
@@ -338,7 +362,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 7: where with, pattern only exists and with is the next token
         } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
@@ -350,7 +374,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 8: where such that, pattern only exists and pattern is the next token
         } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
@@ -362,7 +386,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 9: where such that, pattern only exists and such that is the next token
         } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
@@ -374,7 +398,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 10: where such that exists only
         } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
@@ -385,7 +409,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 11: where pattern exists only
         } else if (secondStatement.find(delimiterPattern) != std::string::npos
@@ -396,7 +420,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 12: where with exists only
         } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
@@ -407,7 +431,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 13: where and exists after pattern and there is such that, pattern, with after it
         } else if (secondStatement.find("and") != std::string::npos
@@ -421,7 +445,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 14: where and exists and such that and pattern exists and and is the next token
         } else if (secondStatement.find("and") != std::string::npos
@@ -435,7 +459,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 15: where and exists and such that and pattern exists and with and such that next token
         } else if (secondStatement.find("and") != std::string::npos
@@ -449,7 +473,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
         } else if (secondStatement.find("and") != std::string::npos
@@ -463,7 +487,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 17: where and exists and such that and pattern exists and with and with is the next token
         } else if (secondStatement.find("and") != std::string::npos
@@ -477,7 +501,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 18: where and and such that and pattern exists and and is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -490,7 +514,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 19: where and and such that and pattern exists and such that is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -503,7 +527,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 20: where and and such that and pattern exists and pattern is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -516,7 +540,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 21: where and and such that and with exists and and is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -529,7 +553,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 22: where and and such that and with exists and such that is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -542,7 +566,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 23: where and and such that and with exists and with is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -555,7 +579,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 24: where and and pattern and with exists and and is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -568,7 +592,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 25: where and and pattern and with exists and pattern is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -581,7 +605,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 26: where and and pattern and with exists and with is the first token
         } else if (secondStatement.find("and") != std::string::npos
@@ -594,7 +618,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 27: where and and such that exists only and such that first
         } else if (secondStatement.find("and") != std::string::npos
@@ -606,7 +630,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 28: where and and such that exists only and and first
         } else if (secondStatement.find("and") != std::string::npos
@@ -618,7 +642,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 29: where and and pattern exists only and and first
         } else if (secondStatement.find("and") != std::string::npos
@@ -630,7 +654,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 30: where and and pattern exists only and pattern first
         } else if (secondStatement.find("and") != std::string::npos
@@ -642,7 +666,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 31: where and and with exists only and with first
         } else if (secondStatement.find("and") != std::string::npos
@@ -654,7 +678,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 32: where and and with exists only and and first
         } else if (secondStatement.find("and") != std::string::npos
@@ -666,7 +690,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 32: where and exists only
         } else if (secondStatement.find("and") != std::string::npos
@@ -677,7 +701,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
           m_patternVector.push_back(patternStatement);
           secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-          prevClause = delimiterPattern;
+          m_prevClause = delimiterPattern;
 
           //Case 33: no more other clause behind
         } else {
@@ -688,13 +712,14 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       } else if (secondTempStatement == "with") {
 
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        //Old Method
+        /*secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
         withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
         secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
-        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+        secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
 
-        withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+        withStatementRight = secondStatement.substr(0, secondStatement.find(WHITESPACE));
 
         withStatement.append(withStatementLeft);
         withStatement.append("=");
@@ -703,18 +728,21 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         m_withVector.push_back(withStatement);
         withStatement = "";
         //push with statement into a data structure;
-        if (secondStatement.find(delimiterSpace) == std::string::npos) {
+        if (secondStatement.find(WHITESPACE) == std::string::npos) {
           break;
         }
-        secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-        secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
-        prevClause = delimiterWith;
+        secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+        secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
+        m_prevClause = delimiterWith;*/
+
+        //New Method
+        secondStatement = multiClauseProcessor(secondStatement, delimiterWith);
 
       } else if (secondTempStatement == "and") {
-        if (prevClause.compare(delimiterSuchThat) == 0) {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+        if (m_prevClause.compare(delimiterSuchThat) == 0) {
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           suchThatStatement = secondStatement.substr(0, secondStatement.find(BRACKET_CLOSE) + 1);
 
           m_relationVector.push_back(suchThatStatement);
@@ -723,13 +751,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             break;
           }
           //
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
-          prevClause = delimiterSuchThat;;
-        } else if (prevClause.compare(delimiterPattern) == 0) {
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
+          m_prevClause = delimiterSuchThat;;
+        } else if (m_prevClause.compare(delimiterPattern) == 0) {
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
           //
 
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
 
           //case 1: where with, such that, pattern still exists and such that is the next token
           if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -742,7 +770,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 2: where with, such that, pattern still exists and pattern is the next token
           } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
@@ -755,7 +783,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 3: where with, such that, pattern still exists and with is the next token
           } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
@@ -768,7 +796,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 4: where with, such that only exists and such that is the next token
           } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
@@ -780,7 +808,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 5: where with, such that only exists and with is the next token
           } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
@@ -792,7 +820,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 6: where with, pattern only exists and pattern is the next token
           } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
@@ -804,7 +832,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 7: where with, pattern only exists and with is the next token
           } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
@@ -816,7 +844,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 8: where such that, pattern only exists and pattern is the next token
           } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
@@ -828,7 +856,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 9: where such that, pattern only exists and such that is the next token
           } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
@@ -840,7 +868,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 10: where such that exists only
           } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
@@ -851,7 +879,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 11: where pattern exists only
           } else if (secondStatement.find(delimiterPattern) != std::string::npos
@@ -862,7 +890,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 12: where with exists only
           } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
@@ -873,7 +901,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 13: where and exists after pattern and there is such that, pattern, with after it
           } else if (secondStatement.find("and") != std::string::npos
@@ -887,7 +915,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 14: where and exists and such that and pattern exists and and is the next token
           } else if (secondStatement.find("and") != std::string::npos
@@ -901,7 +929,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 15: where and exists and such that and pattern exists and with and such that next token
           } else if (secondStatement.find("and") != std::string::npos
@@ -915,7 +943,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
           } else if (secondStatement.find("and") != std::string::npos
@@ -929,7 +957,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 17: where and exists and such that and pattern exists and with and with is the next token
           } else if (secondStatement.find("and") != std::string::npos
@@ -943,7 +971,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 18: where and and such that and pattern exists and and is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -956,7 +984,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 19: where and and such that and pattern exists and such that is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -969,7 +997,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 20: where and and such that and pattern exists and pattern is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -982,7 +1010,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 21: where and and such that and with exists and and is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -995,7 +1023,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 22: where and and such that and with exists and such that is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -1008,7 +1036,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 23: where and and such that and with exists and with is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -1021,7 +1049,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 24: where and and pattern and with exists and and is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -1034,7 +1062,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 25: where and and pattern and with exists and pattern is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -1047,7 +1075,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 26: where and and pattern and with exists and with is the first token
           } else if (secondStatement.find("and") != std::string::npos
@@ -1060,7 +1088,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 27: where and and such that exists only and such that first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1072,7 +1100,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 28: where and and such that exists only and and first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1084,7 +1112,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 29: where and and pattern exists only and and first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1096,7 +1124,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 30: where and and pattern exists only and pattern first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1108,7 +1136,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 31: where and and with exists only and with first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1120,7 +1148,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 32: where and and with exists only and and first
           } else if (secondStatement.find("and") != std::string::npos
@@ -1132,7 +1160,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 32: where and exists only
           } else if (secondStatement.find("and") != std::string::npos
@@ -1143,24 +1171,24 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             patternStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
             m_patternVector.push_back(patternStatement);
             secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
-            prevClause = delimiterPattern;
+            m_prevClause = delimiterPattern;
 
             //Case 33: no more other clause behind
           } else {
 
-            patternStatement = secondStatement.substr(secondStatement.size());
+            patternStatement = secondStatement.substr(0, secondStatement.size());
             m_patternVector.push_back(patternStatement);
 
           }
-        } else if (prevClause.compare(delimiterWith) == 0) {
-
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(delimiterSpace), secondStatement.size());
+        } else if (m_prevClause.compare(delimiterWith) == 0) {
+          //Old method
+          /*secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+          secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
           withStatementLeft = secondStatement.substr(0, secondStatement.find(OPERATOR_EQUAL));
           secondStatement = secondStatement.substr(secondStatement.find(OPERATOR_EQUAL) + 1, secondStatement.size());
-          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
+          secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
 
-          withStatementRight = secondStatement.substr(0, secondStatement.find(delimiterSpace));
+          withStatementRight = secondStatement.substr(0, secondStatement.find(WHITESPACE));
 
           withStatement.append(withStatementLeft);
           withStatement.append("=");
@@ -1169,66 +1197,288 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           m_withVector.push_back(withStatement);
           withStatement = "";
           //push with statement into a data structure;
-          if (secondStatement.find(delimiterSpace) == std::string::npos) {
+          if (secondStatement.find(WHITESPACE) == std::string::npos) {
             break;
           }
-          secondStatement = secondStatement.substr(secondStatement.find(delimiterSpace), secondStatement.size());
-          secondStatement.erase(0, secondStatement.find_first_not_of(delimiterSpace));
-          prevClause = delimiterWith;
+          secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+          secondStatement.erase(0, secondStatement.find_first_not_of(WHITESPACE));
+          m_prevClause = delimiterWith;*/
 
+          //New Method
+          secondStatement = multiClauseProcessor(secondStatement, delimiterWith);
         }
       } else {
         break;
       }
-
     }
   }
-  std::cout << "Relation Vector size: " << m_relationVector.size() << std::endl;
-  std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
-  std::cout << "with Vector size: " << m_withVector.size() << std::endl;
+  //std::cout << "Relation Vector size: " << m_relationVector.size() << std::endl;
+  //std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
+  //std::cout << "with Vector size: " << m_withVector.size() << std::endl;
 
-  //parsing selectStatement: this code will only work for iteration 1. use find_first_of for future iterations
-  std::string synonym = selectStatement.substr(selectStatement.find(" "), selectStatement.size());
-  synonym = m_stringUtil.trimString(synonym);
+  std::string synonymOriginal = selectStatement.substr(selectStatement.find(WHITESPACE), selectStatement.size());
+  synonymOriginal = m_stringUtil.trimString(synonymOriginal);
+  std::string synonym;
+  std::string synonymAttribute;
 
-  Grammar g1;
-  
-  //std::cout << "before adding anything into selectqueue: " << m_selectQueue.size() << std::endl;
-  //storing select queue synonyms
-  int counterM = 0;
-  for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
-    if (m_selectQueue.size() == 1) {
-      break;
+  //Case 1:Tuple exists
+  if (synonymOriginal.find('<') != std::string::npos && synonymOriginal.find('>') != std::string::npos) {
+    std::vector<std::string> synonymOriginalVector;
+    int synonymCount = 0;
+
+    //check whether '<>' or ' <  > ' exists
+    std::string synonymOriginalTemp = synonymOriginal;
+    char subLeft = '<';
+
+    size_t pos = synonymOriginalTemp.find(subLeft, 0);
+    while (pos != std::string::npos) {
+    pos = synonymOriginalTemp.find(subLeft, pos + 1);
+    if (synonymOriginalTemp.find_first_not_of(WHITESPACE) == '>') {
+        return false;
+      }
     }
-    g1 = m_grammarVector.at(counterM);
-    std::string grammarName = g1.getName();
+
+    std::string synonymOriginalTemp2 = synonymOriginal;
+    //Check whether '<s,>' exists
+    if (synonymOriginalTemp2.find(',') != std::string::npos) {
+      synonymOriginalTemp2 = synonymOriginalTemp2.substr(synonymOriginalTemp2.find('<') + 1, synonymOriginalTemp2.find('>') - 1);
+      synonymOriginalTemp2 = m_stringUtil.trimString(synonymOriginalTemp2);
+      if (synonymOriginalTemp2.at(0) == ',') {
+        return false;
+      }
+      if (synonymOriginalTemp2.at(synonymOriginalTemp2.size()-1) == ',') {
+        return false;
+      }
+    }
+
+    synonymOriginalVector = stringVectorTokenizer(",<>", synonymOriginal, synonymOriginalVector);
     
-    //std::cout << grammarName << " this is the grammarName" << std::endl;
-    if (grammarName == synonym) {
-      m_selectQueue.push(g1);       
-      //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
-      //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
-    } else if (synonym == BOOLEAN_QPP) {
-      g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
-      m_selectQueue.push(g1);
-    }
-  }
+    //For each synonym in < >, validate and process synonyms
+    for (auto syn = synonymOriginalVector.begin(); syn != synonymOriginalVector.end(); syn++, synonymCount++) {
+      synonymOriginal = synonymOriginalVector.at(synonymCount);
+      synonymOriginal = m_stringUtil.trimString(synonymOriginal);
+      synonymAttribute = "";
 
-  if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
-    g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
-    m_selectQueue.push(g1);
+      //if after post trim string, there is still whitespace = " p1 p2 " -> "p1 p2" space in between
+      if (synonymOriginal.find(WHITESPACE) != std::string::npos) {
+        return false;
+      }
+      if (synonymOriginal.find('.') != std::string::npos) {
+        synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
+        synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
+      } else {
+        synonym = synonymOriginal;
+      }
+      synonym = m_stringUtil.trimString(synonym);
+      synonymAttribute = m_stringUtil.trimString(synonymAttribute);
+
+      Grammar g1;
+
+      //storing select queue synonyms
+
+      //Case 1: synonym attribute exists
+      if (synonymAttribute != "") {
+        int counterU = 0;
+        for (auto u = m_grammarVector.begin(); u != m_grammarVector.end(); u++, counterU++) {
+          /*if (m_selectQueue.size() == 1) {
+            break;
+          }*/
+          g1 = m_grammarVector.at(counterU);
+          std::string grammarName = g1.getName();
+
+          if (grammarName == synonym) {
+
+            //validate attributes
+            if (synonymAttribute == PROCNAME) {
+              if (g1.getType() == queryType::GType::CALL || g1.getType() == queryType::GType::PROC) {
+                g1.setAType(queryType::AType::PROC_NAME);
+              } else {
+                return false;
+              }
+            } else if (synonymAttribute == VARNAME) {
+              if (g1.getType() == queryType::GType::VAR) {
+                g1.setAType(queryType::AType::VAR_NAME);
+              } else {
+                return false;
+              }
+
+            } else if (synonymAttribute == VALUE) {
+              if (g1.getType() == queryType::GType::CONST) {
+                g1.setAType(queryType::AType::VALUE);
+              } else {
+                return false;
+              }
+
+            } else if (synonymAttribute == STMT_NO) {
+              if (g1.getType() == queryType::GType::STMT
+                || g1.getType() == queryType::GType::ASGN
+                || g1.getType() == queryType::GType::CALL
+                || g1.getType() == queryType::GType::IF
+                || g1.getType() == queryType::GType::WHILE) {
+                g1.setAType(queryType::AType::STMT_NUM);
+              } else {
+                return false;
+              }
+            }
+
+            m_selectQueue.push(g1);
+            m_selectVectorQE.push_back(g1);
+            m_synonymMap.insert({ g1.getName(), 1 });
+
+          } else if (synonym == BOOLEAN_QPP) {
+            return false;
+          } /*else {
+            return false;
+          }*/
+        }
+
+        //Case 2: synonym attribute does not exist
+      } else {
+        int counterM = 0;
+        for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
+          /*if (m_selectQueue.size() == 1) {
+            break;
+          }*/
+          g1 = m_grammarVector.at(counterM);
+          std::string grammarName = g1.getName();
+
+          if (grammarName == synonym) {
+            m_selectQueue.push(g1);
+            m_selectVectorQE.push_back(g1);
+            m_synonymMap.insert({ g1.getName(), 1 });
+          } else if (synonym == BOOLEAN_QPP) {
+            return false;
+          }
+        }
+
+        /*if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
+          g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
+          m_selectQueue.push(g1);
+        }*/
+      }
+    }
+    //Case 2: where either < or > exists only
+  } else if (synonymOriginal.find('<') == std::string::npos && synonymOriginal.find('>') != std::string::npos
+    || synonymOriginal.find('<') != std::string::npos && synonymOriginal.find('>') == std::string::npos) {
+    return false;
+
+    //Case 3: where no <> exists
+  } else {
+    synonymOriginal = m_stringUtil.trimString(synonymOriginal);
+    //selecting synonym with attributes
+
+    if (synonymOriginal.find('.') != std::string::npos) {
+      synonym = synonymOriginal.substr(0, synonymOriginal.find('.'));
+      synonymAttribute = synonymOriginal.substr(synonymOriginal.find('.') + 1, synonymOriginal.size());
+    } else {
+      synonym = synonymOriginal;
+    }
+    synonym = m_stringUtil.trimString(synonym);
+    synonymAttribute = m_stringUtil.trimString(synonymAttribute);
+
+    Grammar g1;
+
+    //storing select queue synonyms
+
+    //Case 1: synonym attribute exists
+    if (synonymAttribute != "") {
+      int counterU = 0;
+      for (auto u = m_grammarVector.begin(); u != m_grammarVector.end(); u++, counterU++) {
+        if (m_selectQueue.size() == 1) {
+          break;
+        }
+        g1 = m_grammarVector.at(counterU);
+        std::string grammarName = g1.getName();
+
+        if (grammarName == synonym) {
+
+          //validate attributes
+          if (synonymAttribute == PROCNAME) {
+            if (g1.getType() == queryType::GType::CALL || g1.getType() == queryType::GType::PROC) {
+              g1.setAType(queryType::AType::PROC_NAME);
+            } else {
+              return false;
+            }
+          } else if (synonymAttribute == VARNAME) {
+            if (g1.getType() == queryType::GType::VAR) {
+              g1.setAType(queryType::AType::VAR_NAME);
+            } else {
+              return false;
+            }
+
+          } else if (synonymAttribute == VALUE) {
+            if (g1.getType() == queryType::GType::CONST) {
+              g1.setAType(queryType::AType::VALUE);
+            } else {
+              return false;
+            }
+
+          } else if (synonymAttribute == STMT_NO) {
+            if (g1.getType() == queryType::GType::STMT
+              || g1.getType() == queryType::GType::ASGN
+              || g1.getType() == queryType::GType::CALL
+              || g1.getType() == queryType::GType::IF
+              || g1.getType() == queryType::GType::WHILE) {
+              g1.setAType(queryType::AType::STMT_NUM);
+            } else {
+              return false;
+            }
+          }
+
+          m_selectQueue.push(g1);
+          m_selectVectorQE.push_back(g1);
+
+        } else if (synonym == BOOLEAN_QPP) {
+          return false;
+        }
+      }
+
+      //Case 2: synonym attribute does not exist
+    } else {
+
+      int counterM = 0;
+      for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
+        if (m_selectQueue.size() == 1) {
+          break;
+        }
+        g1 = m_grammarVector.at(counterM);
+        std::string grammarName = g1.getName();
+
+        //std::cout << grammarName << " this is the grammarName" << std::endl;
+        if (grammarName == synonym) {
+          m_selectQueue.push(g1);
+          m_selectVectorQE.push_back(g1);
+          //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
+          //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
+        } else if (synonym == BOOLEAN_QPP) {
+          g1 = Grammar(queryType::GType::BOOLEAN, "BOOLEAN");
+          m_selectQueue.push(g1);
+          m_selectVectorQE.push_back(g1);
+        }
+      }
+
+      if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
+        g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
+        m_selectQueue.push(g1);
+        m_selectVectorQE.push_back(g1);
+      }
+    }
+
+    //Checks if the select statement synonym is not declared
+    if (m_selectQueue.size() == 0) {
+      return false;
+    }
+
+    Grammar selectGrammar = m_selectQueue.front();
+    if (selectGrammar.getType() != queryType::GType::BOOLEAN) {
+      m_synonymMap.insert({ selectGrammar.getName(), 1 });
+    }
   }
 
   //Checks if the select statement synonym is not declared
   if (m_selectQueue.size() == 0) {
     return false;
   }
-
-  //std::cout << "This is select queue size: " << m_selectQueue.size() << std::endl;
-  Grammar selectGrammar = m_selectQueue.front();
-  m_synonymMap.insert({ selectGrammar.getName(), 1 });
-  //std::cout << "Select queue front Grammar name: " << selectGrammar.getName() << std::endl;
-
   //if design abstraction object does not exist
   if (m_relationVector.empty()) {
     std::cout << "relation vector is empty" << std::endl;
@@ -1237,76 +1487,102 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   else {
     int counterB = 0;
     for (auto b = m_relationVector.begin(); b != m_relationVector.end(); b++, counterB++) {
-      //Trim whitespaces for such that statement.
-      /*suchThatStatement = m_stringUtil.trimString(suchThatStatement);
-      std::string delimiterDesignAbstraction = "such that";*/
-      //std::string designAbstractions = suchThatStatement.substr(suchThatStatement.find(delimiterDesignAbstraction) + 10, suchThatStatement.size()); //"such that " is 10 characters
       std::string designAbstractions = m_relationVector.at(counterB);                                                                                                                                              //IMPT: to be worked on in the future for more complex queries
       designAbstractions = m_stringUtil.trimString(designAbstractions);
 
       std::string delimiterBracket = "(";
+      //Validation checks
+
+      //confirm only one ( and ) exists
+      //Check for equal number of matching brackets
+      size_t openBracketCheck = std::count(designAbstractions.begin(), designAbstractions.end(), '(');
+      size_t closeBracketCheck = std::count(designAbstractions.begin(), designAbstractions.end(), ')');
+
+      if ((openBracketCheck != closeBracketCheck) || openBracketCheck != 1) {
+        return false;
+      }
+
       std::string designAbstractionEntity = designAbstractions.substr(0, designAbstractions.find(delimiterBracket));
       std::string designAbstractionObject = designAbstractions.substr(designAbstractions.find(delimiterBracket), designAbstractions.size());
 
       designAbstractionEntity = m_stringUtil.trimString(designAbstractionEntity);
       designAbstractionObject = m_stringUtil.trimString(designAbstractionObject);
 
-      //std::cout << designAbstractionEntity << std::endl;
-      std::vector<std::string> designAbstractionVectorNew;
+      //checks for invalid design abstractions
+      if (designAbstractionEntity == "Follows"
+        || designAbstractionEntity == "Follows*"
+        || designAbstractionEntity == "Parent"
+        || designAbstractionEntity == "Parent*"
+        || designAbstractionEntity == "Uses"
+        || designAbstractionEntity == "Modifies"
+        || designAbstractionEntity == "Calls"
+        || designAbstractionEntity == "Calls*"
+        || designAbstractionEntity == "Next"
+        || designAbstractionEntity == "Next*"
+        || designAbstractionEntity == "Affects"
+        || designAbstractionEntity == "Affects*") {
 
-      designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
+        std::vector<std::string> designAbstractionVectorNew;
 
-      //test method to print vector string values
+        designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
 
-      std::string sTName1 = designAbstractionVectorNew.front();
-      std::string sTName2 = designAbstractionVectorNew.back();
+        std::string sTName1 = designAbstractionVectorNew.front();
+        std::string sTName2 = designAbstractionVectorNew.back();
 
-      //Check if design abstraction parameter one contains "" and has design entity as below
-      if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
-        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
-        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
-        || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+        //Check if design abstraction parameter one contains "" and has design entity as below
+        if (sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+          || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+          || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+          || sTName1.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
 
-        return false;
-      }
+          return false;
+        }
 
-      //Check if design abstraction parameter two contains "" and has design entity as below
-      if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
-        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
-        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
-        || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
+        //Check if design abstraction parameter two contains "" and has design entity as below
+        if (sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows"
+          || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Follows*"
+          || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent"
+          || sTName2.find('"') != std::string::npos && designAbstractionEntity == "Parent*") {
 
-        return false;
-      }
+          return false;
+        }
 
-      int sTInt1 = 0;
-      int sTInt2 = 0;
+        int sTInt1 = 0;
+        int sTInt2 = 0;
 
-      std::stringstream convert(sTName1);
-      if (!(convert >> sTInt1)) {
-        sTInt1 = 0;
-      }
-      std::stringstream convert2(sTName2);
-      if (!(convert2 >> sTInt2)) {
-        sTInt2 = 0;
-      }
+        std::stringstream convert(sTName1);
+        if (!(convert >> sTInt1)) {
+          sTInt1 = 0;
+        }
+        std::stringstream convert2(sTName2);
+        if (!(convert2 >> sTInt2)) {
+          sTInt2 = 0;
+        }
 
-      int counterK = 0;
-      int counterQ = 0;
+        int counterK = 0;
+        int counterQ = 0;
 
-      //storing designabstractionqueue synonyms
+        //storing designabstractionqueue synonyms
 
-      Grammar g1;
-      Grammar g2;
+        Grammar g1;
+        Grammar g2;
 
-      //case: both synonyms are the same. e.g Follows(s, s)
-      if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
-        //return empty list
-        std::cout << "return an empty list of strings" << std::endl;
-        return false;
-      }
+        //case: both synonyms are the same. e.g Follows(s, s)
+        if (designAbstractionEntity == "Follows"
+          || designAbstractionEntity == "Follows*"
+          || designAbstractionEntity == "Parent"
+          || designAbstractionEntity == "Parent*"
+          || designAbstractionEntity == "Uses"
+          || designAbstractionEntity == "Modifies"
+          || designAbstractionEntity == "Calls"
+          || designAbstractionEntity == "Calls*"
+          || designAbstractionEntity == "Next") {
+          if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
+            //return empty list
+            return false;
+          }
+        }
 
-      else {
         //Checks for no declaration first before moving on to check for synonyms
         //Follows and Follows*
         if (designAbstractionEntity == "Follows" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
@@ -1318,6 +1594,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //Number, _
           } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1325,6 +1602,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //_, Number
           } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
@@ -1332,6 +1610,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             // _, _
           } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1339,6 +1618,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
           }
 
@@ -1352,6 +1632,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //Number, _
           } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1359,6 +1640,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //_, Number
           } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
@@ -1366,6 +1648,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             // _, _
           } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1373,6 +1656,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
           }
 
@@ -1382,10 +1666,12 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           //Number, String
           if (sTInt1 > 0 && sTName2.find('"') != std::string::npos) {
+            removeCharsFromString(sTName2, "\\\"");
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //Number, _
           } else if (sTInt1 > 0 && sTName2 == OPERATOR_UNDERSCORE) {
@@ -1393,20 +1679,26 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //String, String
           } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+            removeCharsFromString(sTName1, "\\\"");
+            removeCharsFromString(sTName2, "\\\"");
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //String, _
           } else if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
+            removeCharsFromString(sTName1, "\\\"");
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
           }
 
@@ -1416,20 +1708,34 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           //String, _
           if (sTName1.find('"') != std::string::npos && sTName2 == OPERATOR_UNDERSCORE) {
+            removeCharsFromString(sTName1, "\\\"");
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //_, String
           } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2.find('"') != std::string::npos) {
+            removeCharsFromString(sTName2, "\\\"");
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
+            //String, String
+          } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+            removeCharsFromString(sTName1, "\\\"");
+            removeCharsFromString(sTName2, "\\\"");
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
           }
 
+          //Next, Next*
         } else if (designAbstractionEntity == "Next" && m_grammarVector.empty() && synonym == BOOLEAN_QPP
           || designAbstractionEntity == "Next*" && m_grammarVector.empty() && synonym == BOOLEAN_QPP) {
           // Number, _
@@ -1438,13 +1744,31 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //_, Number
-          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
+
+            //Number, Number
+          } else if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
+
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
           }
 
           //Affects, Affects*
@@ -1457,22 +1781,44 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
 
             //_, Number
-          } if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTInt2 > 0) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
+
+            //Number, Number
+          } else if (sTInt1 > 0 && sTInt2 > 0) {
+            g1 = Grammar(queryType::GType::STMT_NO, sTName1);
+            g2 = Grammar(queryType::GType::STMT_NO, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
+
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
           }
         }
         counterK = 0;
+        bool moveOn = false;
         for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
           Grammar tempGrammar = m_grammarVector.at(counterK);
           std::string grammarName = tempGrammar.getName();
 
           counterQ = 0;
-          if (m_suchThatQueue.size() == 1 && counterK > 2) {
+          //if (m_suchThatQueue.size() == 1 && counterK > 2) {
+          //  break;
+          //}
+          if (moveOn) {
             break;
           }
           if (sTName1 == grammarName) {
@@ -1517,6 +1863,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::PROC
               || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::ST_LST
               || designAbstractionEntity == "Next*" && g1.getType() == queryType::GType::CONST) {
+              return false;
+            }
+
+            //Checks if Affects contains the correct parameters
+            if (designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::IF
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::WHILE
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::CONST
+              || designAbstractionEntity == "Affects" && g1.getType() == queryType::GType::CALL) {
+              return false;
+            }
+
+            //Checks if Affects* contains the correct parameters
+            if (designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::PROC
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::IF
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::ST_LST
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::WHILE
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::VAR
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::CONST
+              || designAbstractionEntity == "Affects*" && g1.getType() == queryType::GType::CALL) {
               return false;
             }
 
@@ -1579,6 +1947,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1587,12 +1977,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
                   m_synonymMap.insert({ sTName2, 1 });
                 } else {
                   m_synonymMap[sTName2]++;
                 }
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTInt2 > 0) {
 
@@ -1605,13 +1998,18 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
 
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1619,11 +2017,18 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
+
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
@@ -1677,10 +2082,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
-                //check is any design abstraction synonyms contains constant c
-                if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
                   return false;
                 }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1688,23 +2111,31 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
                   m_synonymMap.insert({ sTName2, 1 });
                 } else {
                   m_synonymMap[sTName2]++;
                 }
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTInt2 > 0) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1712,19 +2143,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
+
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
           } else if (sTName1.find('"') != std::string::npos) {
 
-            //Checks if Next/Next* contains the correct parameters: no string
+            //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
             if (designAbstractionEntity == "Next"
-              || designAbstractionEntity == "Next*") {
+              || designAbstractionEntity == "Next*"
+              || designAbstractionEntity == "Affects"
+              || designAbstractionEntity == "Affects*") {
               return false;
             }
 
@@ -1784,6 +2224,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
                   m_synonymMap.insert({ sTName2, 1 });
@@ -1802,12 +2243,17 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1815,14 +2261,19 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
+
           } else if (sTName1 == OPERATOR_UNDERSCORE) {
             if (designAbstractionEntity == "Uses" || designAbstractionEntity == "Modifies") {
               return false;
@@ -1875,6 +2326,28 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
+                //Checks if Affects contains the correct parameters
+                if (designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
+                //Checks if Affects* contains the correct parameters
+                if (designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::PROC
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::IF
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::ST_LST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::WHILE
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::VAR
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CONST
+                  || designAbstractionEntity == "Affects*" && g2.getType() == queryType::GType::CALL) {
+                  return false;
+                }
+
                 //check is any design abstraction synonyms contains constant c
                 if (g1.getType() == queryType::GType::CONST || g2.getType() == queryType::GType::CONST) {
                   return false;
@@ -1882,6 +2355,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
                   m_synonymMap.insert({ sTName2, 1 });
@@ -1900,12 +2374,15 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
 
-                //Checks if Next/Next* contains the correct parameters: no string
+                //Checks if Next/Next*/Affects/AFfects* contains the correct parameters: no string
                 if (designAbstractionEntity == "Next"
-                  || designAbstractionEntity == "Next*") {
+                  || designAbstractionEntity == "Next*"
+                  || designAbstractionEntity == "Affects"
+                  || designAbstractionEntity == "Affects*") {
                   return false;
                 }
 
@@ -1913,20 +2390,27 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
+                m_relationVectorQE.push_back(DAO);
+                counterK = 0;
+                moveOn = true;
                 break;
               }
             }
           }
         }
-        //Relation DAO(designAbstractionEntity, g1, g2);
-        //m_suchThatQueue.push(DAO);
-      }
-      if (m_suchThatQueue.size() == 0) {
+        if (m_suchThatQueue.size() == 0) {
+          return false;
+        }
+      } //newly added condition checking for properly defined DAO
+      else {
         return false;
       }
     }
@@ -1939,8 +2423,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   } else {
     int counterC = 0;
     for (auto c = m_patternVector.begin(); c != m_patternVector.end(); c++, counterC++) {
-      //std::string patternEntity = patternStatement.substr(0, patternStatement.find(delimiterSpace));
-      //std::string patternObject = patternStatement.substr(patternStatement.find(delimiterSpace), patternStatement.size());
+      //std::string patternEntity = patternStatement.substr(0, patternStatement.find(WHITESPACE));
+      //std::string patternObject = patternStatement.substr(patternStatement.find(WHITESPACE), patternStatement.size());
       std::string patternObject = m_patternVector.at(counterC);
 
       patternObject = m_stringUtil.trimString(patternObject);
@@ -1992,6 +2476,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (patternOfGrammar.getType() == queryType::GType::ASGN) {
         std::string patternLeftName = patternVector.front();
 
+        patternLeftName = m_stringUtil.trimString(patternLeftName);
+
         //left side: string
         if (patternLeftName.find('"') != std::string::npos) {
           removeCharsFromString(patternLeftName, "\\\" ");
@@ -2032,7 +2518,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         std::string patternRightName = patternVector.back();
 
         patternRightName = m_stringUtil.trimString(patternRightName);
-
         //Check for equal number of matching brackets
         size_t n1 = std::count(patternRightName.begin(), patternRightName.end(), '(');
         size_t n2 = std::count(patternRightName.begin(), patternRightName.end(), ')');
@@ -2060,30 +2545,217 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
 
         //Check for any brackets that are: ()
-        //std::vector<size_t> positions; // holds all the positions that sub occurs within str
+        std::vector<size_t> positionsOpenBracket; // holds all the positions that sub occurs within str
 
         std::string patternRightNameTemp = patternRightName;
-        char sub = '(';
 
-        size_t pos3 = patternRightNameTemp.find(sub, 0);
-        while (pos3 != std::string::npos) {
-          //positions.push_back(pos);
-          pos3 = patternRightNameTemp.find(sub, pos3 + 1);
-          if (patternRightNameTemp.find_first_not_of(" \t") == ')') {
-            return false;
-          }
-        }
-
+        //Subtree exists
         if ((patternRightName.find('"') != std::string::npos) && patternRightName.front() == '_' && patternRightName.back() == '_') {
           removeCharsFromString(patternRightName, "\\\" _");
           //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
           patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+
+          //Checks if the first argument or last argument within the pattern RHS string is an operator
+          if (patternExpressionVector.at(0) == OPERATOR_PLUS || patternExpressionVector.back() == OPERATOR_PLUS) {
+            return false;
+          } else if (patternExpressionVector.at(0) == OPERATOR_MINUS || patternExpressionVector.back() == OPERATOR_MINUS) {
+            return false;
+          } else if (patternExpressionVector.at(0) == OPERATOR_MULTIPLY || patternExpressionVector.back() == OPERATOR_MULTIPLY) {
+            return false;
+          }
+
+          //Validation of patterns
+          int patCount = 0;
+          for (auto pat = patternExpressionVector.begin(); pat != patternExpressionVector.end(); pat++, patCount++) {
+            //for cases with only single element(operators are already caugh above)
+            if (patternExpressionVector.size() == 1) {
+              if (patternExpressionVector.front() == BRACKET_OPEN) {
+                return false;
+              } else if (patternExpressionVector.front() == BRACKET_CLOSE) {
+                return false;
+              }
+
+            //cases where patternvector size contains more than one element
+            } else {
+              if (patCount == 0) {
+                //at the start
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  return false;
+
+                  //everything else, numbers, strings
+                } else {
+                  if (patternExpressionVector.at(patCount + 1) == BRACKET_OPEN) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                    return false;
+                  }
+                }
+
+              } else if (patCount < patternExpressionVector.size() - 1) {
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  if (patternExpressionVector.at(patCount - 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == OPERATOR_PLUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MINUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MULTIPLY) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                    return false;
+                  }
+                }
+
+              } else if (patCount == patternExpressionVector.size() - 1) {
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  return false;
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  if (patternExpressionVector.at(patCount - 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == OPERATOR_PLUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MINUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MULTIPLY) {
+                  return false;
+                }
+              }
+            }
+          }
+          
+
           grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
           isSubTree = true;
+
+          //Subtree does not exist
         } else if (patternRightName.find('"') != std::string::npos && patternRightName.front() != '_' && patternRightName.back() != '_') {
           removeCharsFromString(patternRightName, "\\\" ");
           //grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
           patternExpressionVector = patternVectorTokenizer("()+-*", patternRightName, patternExpressionVector);
+          
+          //Checks if the first argument or last argument within the pattern RHS string is an operator
+          if (patternExpressionVector.at(0) == OPERATOR_PLUS || patternExpressionVector.back() == OPERATOR_PLUS) {
+            return false;
+          } else if (patternExpressionVector.at(0) == OPERATOR_MINUS || patternExpressionVector.back() == OPERATOR_MINUS) {
+            return false;
+          } else if (patternExpressionVector.at(0) == OPERATOR_MULTIPLY || patternExpressionVector.back() == OPERATOR_MULTIPLY) {
+            return false;
+          }
+
+          //Validation of patterns
+          int patCount = 0;
+          for (auto pat = patternExpressionVector.begin(); pat != patternExpressionVector.end(); pat++, patCount++) {
+            //for cases with only single element(operators are already caugh above)
+            if (patternExpressionVector.size() == 1) {
+              if (patternExpressionVector.front() == BRACKET_OPEN) {
+                return false;
+              } else if (patternExpressionVector.front() == BRACKET_CLOSE) {
+                return false;
+              }
+
+              //cases where patternvector size contains more than one element
+            } else {
+              if (patCount == 0) {
+                //at the start
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  return false;
+
+                  //everything else, numbers, strings
+                } else {
+                  if (patternExpressionVector.at(patCount + 1) == BRACKET_OPEN) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                    return false;
+                  }
+                }
+
+              } else if (patCount < patternExpressionVector.size() - 1) {
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  if (patternExpressionVector.at(patCount - 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == OPERATOR_PLUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MINUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MULTIPLY) {
+                  if (patternExpressionVector.at(patCount + 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                    return false;
+                  }
+                }
+
+              } else if (patCount == patternExpressionVector.size() - 1) {
+                if (patternExpressionVector.at(patCount) == BRACKET_OPEN) {
+                  return false;
+                } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
+                  if (patternExpressionVector.at(patCount - 1) == OPERATOR_PLUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MINUS) {
+                    return false;
+                  } else if (patternExpressionVector.at(patCount - 1) == OPERATOR_MULTIPLY) {
+                    return false;
+                  }
+                } else if (patternExpressionVector.at(patCount) == OPERATOR_PLUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MINUS
+                  || patternExpressionVector.at(patCount) == OPERATOR_MULTIPLY) {
+                  return false;
+                }
+              }
+            }
+          }
+
+
           grammarPatternRight = Grammar(patternExpressionVector, patternRightName, queryType::GType::STR);
         } else if (patternRightName == OPERATOR_UNDERSCORE) {
           grammarPatternRight = Grammar(queryType::GType::STR, patternRightName);
@@ -2097,6 +2769,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         if (patternLeftName.find('"') != std::string::npos) {
           removeCharsFromString(patternLeftName, "\\\" ");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
+          patternLeftName = m_stringUtil.trimString(patternLeftName);
         } else if (patternLeftName == OPERATOR_UNDERSCORE) {
           removeCharsFromString(patternLeftName, "\"");
           grammarPatternLeft = Grammar(queryType::GType::STR, patternLeftName);
@@ -2138,12 +2811,14 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       } else if (patternOfGrammar.getType() == queryType::GType::IF) {
         std::string ifPatternParam1;
         std::string ifPatternParam2;
-
         //check there are 3 parameters for if pattern clause
         if (patternVector.size() == 3) {
 
           ifPatternParam1 = patternVector.at(1);
           ifPatternParam2 = patternVector.at(2);
+
+          ifPatternParam1 = m_stringUtil.trimString(ifPatternParam1);
+          ifPatternParam2 = m_stringUtil.trimString(ifPatternParam2);
 
           //check to make sure both pattern parameters are _
           if (ifPatternParam1 != OPERATOR_UNDERSCORE || ifPatternParam2 != OPERATOR_UNDERSCORE) {
@@ -2194,11 +2869,14 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         } else {
           return false;
         }
+      } else {
+        return false;
       }
 
       //create pattern object
       Pattern patternObjectCreated(patternOfGrammar, grammarPatternLeft, grammarPatternRight, isSubTree);
       m_patternQueue.push(patternObjectCreated);
+      m_patternVectorQE.push_back(patternObjectCreated);
 
     }
   }
@@ -2212,7 +2890,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     int counterD=0;
     for (auto d = m_withVector.begin(); d != m_withVector.end(); d++, counterD++) {
       //withStatement = m_stringUtil.trimString(withStatement);
-      //std::string withObject = withStatement.substr(withStatement.find(delimiterSpace), withStatement.size());
+      //std::string withObject = withStatement.substr(withStatement.find(WHITESPACE), withStatement.size());
       std::string withObject = m_withVector.at(counterD);
       withObject = m_stringUtil.trimString(withObject);
 
@@ -2248,8 +2926,68 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       if (!(convertRight >> withRightInt)) {
         withRightInt = 0;
       }
-      //Check if both are strings
-      if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos)
+        //Case 1: Check orientation of parameters: left integer, right attribute
+      if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
+        isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 2: left string, right attribute
+      } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+        isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 3: left attribute, right attribute
+      } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
+        isWithTrue = withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 4: left attribute, right integer
+      } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
+        isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 5: left attribute, right string
+      } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+        isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 6: SPECIAL CASE synonym with no attributes used. number = pl
+      } else if (withLeftInt > 0 && withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withRightInt == 0) {
+        isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 7: SPECIAL CASE synonym with no attributes used. pl = number
+      } else if (withRightInt > 0 && withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withLeftInt == 0) {
+        isWithTrue = withClauseAttNumNoSynonymAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 8: SPECIAL CASE left syn no attribute, right syn attribute
+      } else if (withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withRight.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+        isWithTrue = withClauseSynAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 9: SPECIAL CASE left syn attribute, right syn no attribute
+      } else if (withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withLeft.find('.') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+        isWithTrue = withClauseSynAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 10: SPECIAL CASE both sides pl synonyms
+      } else if (withLeft.find('"') == std::string::npos && withLeft.find('.') == std::string::npos && withRight.find('"') == std::string::npos && withRight.find('.') == std::string::npos && withLeftInt == 0 && withRightInt == 0) {
+        isWithTrue = withClauseSynSyn(withLeft, withRight, withLeftGrammar, withRightGrammar);
+        if (isWithTrue == false) {
+          return false;
+        }
+        //Case 11: Both sides strings
+      } else if (withLeft.find('"') != std::string::npos && withRight.find('"') != std::string::npos && withLeftInt == 0 && withRightInt == 0) {
         if (withLeft != withRight) {
           return false;
         } else if (withLeft == withRight) {
@@ -2260,66 +2998,31 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           With withObjectCreated(withLeftGrammar, withRightGrammar);
           m_withQueue.push(withObjectCreated);
+          m_withVectorQE.push_back(withObjectCreated);
         }
-
-        //Check if both left and right are numbers
-        if (withLeftInt > 0 && withRightInt > 0 && withLeftInt != withRightInt) {
+        //Case 12: Both sides integers
+      } else if (withLeftInt > 0 && withRightInt > 0) {
+        if (withLeftInt != withRightInt) {
           return false;
-        } else if (withLeftInt > 0 && withRightInt > 0 && withLeftInt == withRightInt) {
-          withLeftGrammar = Grammar(queryType::GType::CONST, withLeft);
-          withRightGrammar = Grammar(queryType::GType::CONST, withRight);
+        } else if (withLeftInt == withRightInt) {
+          withLeftGrammar = Grammar(queryType::GType::STMT_NO, withLeft);
+          withRightGrammar = Grammar(queryType::GType::STMT_NO, withRight);
 
           With withObjectCreated(withLeftGrammar, withRightGrammar);
           m_withQueue.push(withObjectCreated);
-        }
+          m_withVectorQE.push_back(withObjectCreated);
 
-        //Check orientation of parameters: left integer, right attribute
-        if (withLeftInt > 0 && withRight.find('.') != std::string::npos) {
-          isWithTrue = withClauseAttNum(withRight, withLeft, withLeftGrammar, withRightGrammar);
-          if (isWithTrue == false) {
-            return false;
-          }
-          //Case 2: left string, right attribute
-        } else if (withLeft.find('"') != std::string::npos && withRight.find('.') != std::string::npos) {
-          isWithTrue = withClauseAttString(withRight, withLeft, withLeftGrammar, withRightGrammar);
-          if (isWithTrue == false) {
-            return false;
-          }
-          //Case 3: left attribute, right attribute
-        } else if (withLeft.find('.') != std::string::npos && withRight.find('.') != std::string::npos) {
-          withClauseAttAtt(withLeft, withRight, withLeftGrammar, withRightGrammar);
-
-          //Case 4: left attribute, right integer
-        } else if (withLeft.find('.') != std::string::npos && withRightInt > 0) {
-          isWithTrue = withClauseAttNum(withLeft, withRight, withLeftGrammar, withRightGrammar);
-          if (isWithTrue == false) {
-            return false;
-          }
-          //Case 5: left attribute, right string
-        } else if (withLeft.find('.') != std::string::npos && withRight.find('"') != std::string::npos) {
-          isWithTrue = withClauseAttString(withLeft, withRight, withLeftGrammar, withRightGrammar);
-          if (isWithTrue == false) {
-            return false;
-          }
-          //Case 6: SPECIAL CASE synonym with no attributes used.
-        } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
-          isWithTrue = withClauseAttNumNoSynonymAtt(withRight, withLeft, withLeftGrammar, withRightGrammar);
-          if (isWithTrue == false) {
-            return false;
-          }
-          //Case 7: SPECIAL CASE synonym with no attributes used.
-        } else if (withRight.find('.') == std::string::npos && withLeft.find('"') != std::string::npos) {
-          return false;
-          //Case of string left side int right side
-        } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
-          return false;
-          //Case of int left side string right side
-        } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
-          return false;
-          //Case 7: SPECIAL CASE synonym with no attributes used.
-        } else {
-          return false;
         }
+        //Case 13: string left side int right side
+      } else if (withLeftInt > 0 && withRight.find('"') != std::string::npos) {
+        return false;
+        //Case 14: int right side string left side
+      } else if (withRightInt > 0 && withLeft.find('"') != std::string::npos) {
+        return false;
+        //Case 15: all other cases
+      } else {
+        return false;
+      }
     }
   }
   std::cout << "withQueue size: " << m_withQueue.size() << std::endl;
@@ -2425,6 +3128,10 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
   
   //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
   if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
@@ -2452,6 +3159,8 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
     || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
     With withObjectCreated(withLeftGrammar, withRightGrammar); 
     m_withQueue.push(withObjectCreated);
+    m_withVectorQE.push_back(withObjectCreated);
+
     return true;
   } else {
     return false;
@@ -2468,10 +3177,19 @@ bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, st
   }
 
   withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+
   
   if(withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
     m_withQueue.push(withObjectCreated);
+    m_withVectorQE.push_back(withObjectCreated);
+
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+    if (got == m_synonymMap.end()) {
+      m_synonymMap.insert({ withSynonym, 1 });
+    } else {
+      m_synonymMap[withSynonym]++;
+    }
     return true;
   } else {
     return false;
@@ -2481,6 +3199,7 @@ bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, st
 bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string inputString, Grammar withLeftGrammar, Grammar withRightGrammar) {
   std::string tempAttribute = attribute;
   std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
+
   std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
 
   withTempSynonym = m_stringUtil.trimString(withTempSynonym);
@@ -2488,7 +3207,12 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
 
   withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
 
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
+
   removeCharsFromString(inputString, "\"");
+  inputString = m_stringUtil.trimString(inputString);
   withRightGrammar = Grammar(queryType::GType::STR, inputString);
 
   if (withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::PROC
@@ -2496,17 +3220,110 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
     || withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && withLeftGrammar.getType() == queryType::GType::VAR) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
     m_withQueue.push(withObjectCreated);
+    m_withVectorQE.push_back(withObjectCreated);
+
     return true;
   } else {
     return false;
   }
 }
 
-void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
+bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
   withLeftGrammar = withAttributeProcessor(leftAttribute, withLeftGrammar);
   withRightGrammar = withAttributeProcessor(rightAttribute, withRightGrammar);
+
+  With withObjectCreated;
+
+  if (withLeftGrammar.getAttr() == queryType::AType::INVALID || withRightGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
+
+  withObjectCreated = With(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
+  m_withVectorQE.push_back(withObjectCreated);
+
+
+  return true;
+  
+}
+
+bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+    }
+  }
+
+  withRightGrammar = withAttributeProcessor(rightSynonym, withRightGrammar);
+
+  if (withRightGrammar.getAttr() == queryType::AType::INVALID) {
+    return false;
+  }
+
+  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    m_withVectorQE.push_back(withObjectCreated);
+
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+    if (got == m_synonymMap.end()) {
+      m_synonymMap.insert({ leftSynonym, 1 });
+    } else {
+      m_synonymMap[leftSynonym]++;
+    }
+    return true;
+  } else {
+    return false;
+  }
+
   With withObjectCreated(withLeftGrammar, withRightGrammar);
   m_withQueue.push(withObjectCreated);
+  m_withVectorQE.push_back(withObjectCreated);
+
+}
+
+bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+  int counterS = 0;
+  for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
+    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
+      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+    }
+  }
+
+  int counterS2 = 0;
+  for (auto s2 = m_grammarVector.begin(); s2 != m_grammarVector.end(); s2++, counterS2++) {
+    if (m_grammarVector.at(counterS2).getName() == rightSynonym) {
+      withRightGrammar = Grammar(m_grammarVector.at(counterS2).getType(), rightSynonym);
+    }
+  }
+
+  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE && withRightGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(withLeftGrammar, withRightGrammar);
+    m_withQueue.push(withObjectCreated);
+    m_withVectorQE.push_back(withObjectCreated);
+
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+    if (got == m_synonymMap.end()) {
+      m_synonymMap.insert({ leftSynonym, 1 });
+    } else {
+      m_synonymMap[leftSynonym]++;
+    }
+    got = m_synonymMap.find(rightSynonym);
+    if (got == m_synonymMap.end()) {
+      m_synonymMap.insert({ rightSynonym, 1 });
+    } else {
+      m_synonymMap[rightSynonym]++;
+    }
+    return true;
+  } else {
+    return false;
+  }
+
+  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  m_withQueue.push(withObjectCreated);
+  m_withVectorQE.push_back(withObjectCreated);
+
 }
 
 Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
@@ -2521,19 +3338,682 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
     if (m_grammarVector.at(counterS).getName() == withSynonym) {
       if (withAttribute == PROCNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::PROC_NAME);        
+        withGrammar.setAType(queryType::AType::PROC_NAME);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == VARNAME) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::VAR_NAME);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == VALUE) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::VALUE);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
       } else if (withAttribute == STMT_NO) {
         withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
         withGrammar.setAType(queryType::AType::STMT_NUM);
+        std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+        if (got == m_synonymMap.end()) {
+          m_synonymMap.insert({ withSynonym, 1 });
+        } else {
+          m_synonymMap[withSynonym]++;
+        }
+      } else {
+        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        withGrammar.setAType(queryType::AType::INVALID);
       }
-
     }
   }
   return withGrammar;
+}
+
+std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause) {
+  std::string delimiterSelect = "Select";
+  std::string delimiterSuchThat = "such that";
+  std::string delimiterPattern = "pattern";
+  std::string delimiterWith = "with";
+
+  std::string tempStatement;
+
+  secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+
+  secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
+
+  //case 1: where with, such that, pattern still exists and such that is the next token
+  if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+
+    //Case 2: where with, such that, pattern still exists and pattern is the next token
+  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+
+    //Case 3: where with, such that, pattern still exists and with is the next token
+  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 4: where with, such that only exists and such that is the next token
+  } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 5: where with, such that only exists and with is the next token
+  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 6: where with, pattern only exists and pattern is the next token
+  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 7: where with, pattern only exists and with is the next token
+  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 8: where such that, pattern only exists and pattern is the next token
+  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 9: where such that, pattern only exists and such that is the next token
+  } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 10: where such that exists only
+  } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 11: where pattern exists only
+  } else if (secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 12: where with exists only
+  } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 13: where and exists after pattern and there is such that, pattern, with after it
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 14: where and exists and such that and pattern exists and and is the next token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 15: where and exists and such that and pattern exists and with and such that next token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 17: where and exists and such that and pattern exists and with and with is the next token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
+    && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 18: where and and such that and pattern exists and and is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find("and") < secondStatement.find(delimiterPattern)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 19: where and and such that and pattern exists and such that is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 20: where and and such that and pattern exists and pattern is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 21: where and and such that and with exists and and is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
+    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 22: where and and such that and with exists and such that is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 23: where and and such that and with exists and with is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterWith) < secondStatement.find("and")
+    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 24: where and and pattern and with exists and and is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
+    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 25: where and and pattern and with exists and pattern is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterPattern) < secondStatement.find("and")
+    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 26: where and and pattern and with exists and with is the first token
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterWith) < secondStatement.find("and")
+    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 27: where and and such that exists only and such that first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    
+
+    //Case 28: where and and such that exists only and and first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) != std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterSuchThat) > secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 29: where and and pattern exists only and and first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterPattern) > secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 30: where and and pattern exists only and pattern first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) != std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos
+    && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    
+
+    //Case 31: where and and with exists only and with first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith) - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    
+
+    //Case 32: where and and with exists only and and first
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) != std::string::npos
+    && secondStatement.find(delimiterWith) > secondStatement.find("and")) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 32: where and exists only
+  } else if (secondStatement.find("and") != std::string::npos
+    && secondStatement.find(delimiterSuchThat) == std::string::npos
+    && secondStatement.find(delimiterPattern) == std::string::npos
+    && secondStatement.find(delimiterWith) == std::string::npos) {
+
+    tempStatement = secondStatement.substr(0, secondStatement.find("and") - 1);
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+    secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+    
+
+    //Case 33: no more other clause behind
+  } else {
+    tempStatement = secondStatement;
+    if (whichClause == "pattern") {
+      m_patternVector.push_back(tempStatement);
+      m_prevClause = delimiterPattern;
+    } else if (whichClause == "with") {
+      m_withVector.push_back(tempStatement);
+      m_prevClause = delimiterWith;
+    }
+  }
+
+  return secondStatement;
 }

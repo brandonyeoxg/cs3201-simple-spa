@@ -35,10 +35,22 @@ public:
   Grammar(std::vector<std::string> t_vector, std::string t_name, int t_type);
 
   /**
-  * A Setter that returns the attribute of this Grammar object
+  * A Setter that sets the name of this Grammar object.
+  * The name of the grammar object is changed to the name in the parameter.
+  */
+  void Grammar::setName(STRING t_name);
+
+  /**
+  * A Setter that sets the GType of this Grammar object.
+  * The GType of the grammar object is changed to the GType in the parameter.
+  */
+  void Grammar::setGType(queryType::GType t_gType);
+
+  /**
+  * A Setter that sets the attribute of this Grammar object
   * The returned AType is an enum type that identifies the Grammar as either a Statement or a Variable, and is able to further specify a type of Statement or Variable.
   */
-  void Grammar::setAType(queryType::AType aType);
+  void Grammar::setAType(queryType::AType t_aType);
 
   /**
   * A Getter that returns the type of this Grammar object.
@@ -69,16 +81,34 @@ public:
   std::vector<std::string> getVector();
 
   /**
-  * A Getter that returns the value of this Grammar object.
-  * The returned string is the value of the variable as specified by the query.
-  * @return The value of this Grammar object.
+  * A public function to check whether the grammar object has an attribute.
+  * If the grammar object has an attribute, it will return true else return false.
+  * @return true if the grammar object has an attribute else return false.
   */
-  std::string getValue();
+  bool hasAttr();
 
   /**
   * A public function that prints the content of this Grammar object.
   */
   void toString();
+
+  /**
+  * A public function to compare the GType.
+  * It checks whether the two given GType are same.
+  * @param t_type1 The first GType to be compared.
+  * @param t_type2 The second GType to be compared.
+  * @return true if the two GTypes are same else return false.
+  */
+  static bool isSameGType(queryType::GType t_type1, queryType::GType t_type2);
+
+  /**
+  * A public function to compare the AType.
+  * It checks whether the two given AType are same.
+  * @param t_type1 The first AType to be compared.
+  * @param t_type2 The second AType to be compared.
+  * @return true if the two ATypes are same else return false.
+  */
+  static bool isSameAType(queryType::AType t_type1, queryType::AType t_type2);
 
   /**
   * A public function to check the GType of the given GType.
@@ -221,7 +251,6 @@ private:
   queryType::AType m_attr; /**< attribute of this Grammar object */
   std::vector<std::string> m_vector; /**< vector of this Grammar object for pattern*/
   std::string m_name; /**< name of this Grammar object */
-  std::string m_value; /**< value of this Grammar object */
   static int PROC;
   static int STLST;
   static int STMT;

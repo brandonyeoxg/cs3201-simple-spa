@@ -3,7 +3,7 @@
 #include "ParentEvaluator.h"
 
 bool ParentEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
-  if (t_g2.getName() == "_") {
+  if (StringUtil::isUnderscore(t_g2.getName())) {
     if (t_pkb->isParentOfAnything(std::stoi(t_g1.getName()))) {
       //std::cout << "Is Parent of Anything!\n";
       return true;
@@ -11,7 +11,7 @@ bool ParentEvaluator::isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t
       //std::cout << "Is not Parent of Anything!\n";
       return false;
     }
-  } else if (t_g1.getName() == "_") {
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
     if (t_pkb->isChildrenOfAnything(std::stoi(t_g2.getName()))) {
       //std::cout << "Is Children of Anything!\n";
       return true;
@@ -40,71 +40,71 @@ bool ParentEvaluator::hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar 
   }
 }
 
-SET_OF_RESULTS ParentEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES ParentEvaluator::evaluateRightSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g1.getType() == queryType::GType::STMT_NO) {
-    std::vector<int> stmtIntVector = t_pkb->getChildrenOf(std::stoi(t_g1.getName()));
+    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getChildrenOf(std::stoi(t_g1.getName()));
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    m_result[t_g2.getName()] = stmtStrVector;
-  } else if (t_g1.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getChildrenOfAnything();
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    m_result[0] = stmtVector;
+  } else if (StringUtil::isUnderscore(t_g1.getName())) {
+    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getChildrenOfAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
-    m_result[t_g2.getName()] = stmtStrVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g2);
+    m_result[0] = stmtVector;
   }
 
   return m_result;
 }
 
-SET_OF_RESULTS ParentEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES ParentEvaluator::evaluateLeftSynonym(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
   if (t_g2.getType() == queryType::GType::STMT_NO) {
     int stmtNo;
     try {
       stmtNo = t_pkb->getParentOf(std::stoi(t_g2.getName()));
-    } catch (const std::invalid_argument& ia) {
+    } catch (InvalidArgumentException ia) {
       //std::cout << "Invalid Argument Exception - No Results for getFollowedBy(s2)\n";
       return m_result;
     }
 
-    std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
-    m_result[t_g1.getName()] = stmtVector;
-  } else if (t_g2.getName() == "_") {
-    std::vector<int> stmtIntVector = t_pkb->getParentOfAnything();
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtNo, t_g1);
+    m_result[0] = stmtVector;
+  } else if (StringUtil::isUnderscore(t_g2.getName())) {
+    LIST_OF_STMT_NUMS stmtIntVector = t_pkb->getParentOfAnything();
     if (stmtIntVector.empty()) {
       return m_result;
     }
 
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
-    m_result[t_g1.getName()] = stmtStrVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, stmtIntVector, t_g1);
+    m_result[0] = stmtVector;
   }
 
   return m_result;
 }
 
-SET_OF_RESULTS ParentEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
+SET_OF_RESULTS_INDICES ParentEvaluator::evaluateBothSynonyms(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2) {
   std::unordered_map<int, queryType::GType> typeOfStmts = t_pkb->getTypeOfStatementTable();
 
-  std::unordered_map<int, std::vector<int>> allParents = t_pkb->getAllParents();
+  MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS allParents = t_pkb->getAllParents();
   if (allParents.empty()) {
     return m_result;
   }
 
   for (auto& x : allParents) {
-    std::vector<std::string> stmtStrVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
-    if (!stmtStrVector.empty()) {
-      std::vector<std::string> stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtStrVector);
-      if (!stmtVector.empty()) {
-        m_result[std::to_string(x.first)] = stmtVector;
+    LIST_OF_STMT_NUMS stmtVector = EvaluatorUtil::filterStmts(typeOfStmts, x.second, t_g2);
+    if (!stmtVector.empty()) {
+      LIST_OF_STMT_NUMS stmts = EvaluatorUtil::filterStmts(typeOfStmts, x.first, t_g1, stmtVector);
+      if (!stmts.empty()) {
+        m_result[x.first] = stmts;
       }
     }
   

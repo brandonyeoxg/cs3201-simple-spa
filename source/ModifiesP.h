@@ -49,6 +49,7 @@ public:
   * @param t_procIdx the procedure index that is checked.
   */
   LIST_OF_VAR_NAMES getVarNamesWithProcIdx(PROC_INDEX t_idx);
+  LIST_OF_VAR_INDICES getVarIndicesWithProcIdx(PROC_INDEX t_idx);
 
   /**
   * Returns the list of procedure names that are modified by the variable.
@@ -57,6 +58,7 @@ public:
   * @param t_varIdx the variable index that is checked.
   */
   LIST_OF_PROC_NAMES getProcNamesWithVarIdx(VAR_INDEX t_varIdx);
+  LIST_OF_PROC_INDICES getProcIndicesWithVarIdx(VAR_INDEX t_idx);
 
   /**
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
@@ -64,6 +66,7 @@ public:
   * 
   */
   MAP_OF_PROC_TO_VAR getAllProcToVar(); 
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX& getAllProcToVarByIdx();
 
   /**
   * Returns a list of procedures that modifies something.
@@ -71,13 +74,17 @@ public:
   * 
   */
   LIST_OF_PROC_NAMES getAllProcNames(); 
-
+  LIST_OF_PROC_INDICES& getAllProcIndices();
 private:
-  std::unordered_map<PROC_INDEX, LIST_OF_VAR_NAMES> m_procToVarNames;
-  std::unordered_map<PROC_INDEX, VAR_HASH_SET> m_procToVarSet;
-  std::unordered_map<VAR_INDEX, LIST_OF_PROC_NAMES> m_varToProcNames;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_NAMES m_procToVarNames;
+  MAP_OF_PROC_INDEX_TO_LIST_OF_VAR_INDICES m_procToVarIndices;
+  MAP_OF_PROC_INDEX_TO_VAR_HASH_SET m_procToVarSet;
+  MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_NAMES m_varToProcNames;
+  MAP_OF_VAR_INDEX_TO_LIST_OF_PROC_INDICES m_varToProcIndices;
   MAP_OF_PROC_TO_VAR m_allProcNamesToVarNames;
+  MAP_OF_PROC_INDEX_TO_VAR_INDEX m_allProcIndicesToVarIndices;
   LIST_OF_PROC_NAMES m_procNames;
+  LIST_OF_PROC_INDICES m_procIndices;
 
   /**
   * Helper method to insert the modifies relation for procedures with procedure as a key and variable name as the value.
@@ -85,7 +92,7 @@ private:
   * @param t_procIdx the procedure index that has the modifies relation.
   * @param t_varName the variable name of the variable that is modified.
   */
-  void insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName);
+  void insertModifiesWithProcAsKey(PROC_INDEX t_procIdx, const VAR_NAME& t_varName, VAR_INDEX t_varIdx);
   
   /**
   * Helper method to insert the modifies relation for procedures with procedure as a key and a variable index hash set as the value.
@@ -101,14 +108,14 @@ private:
   * @param t_varIdx the variable index that is modified.
   * @param t_procName the name of the procedure that has the is modifies relation.
   */
-  void insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName);
+  void insertModifiesWithVarAsKey(VAR_INDEX t_varIdx, const PROC_NAME& t_procName, PROC_INDEX t_procIdx);
 
   /**
   * Helper method to insert the procedure name that has a modifies relation.
   *
   * @param t_name the name of the procedure that has the is modifies relation.
   */
-  void insertModifiesProcName(const PROC_NAME& t_name);
+  void insertModifiesProcName(const PROC_NAME& t_name, PROC_INDEX t_procIdx);
 
   /**
   * Helper method to insert modifies relation where the procedure name is mapped to a variable name.
@@ -116,5 +123,6 @@ private:
   * @param t_name the name of the procedure that has the is modifies relation.
   */
   void insertModifiesProcAndVarName(const PROC_NAME& t_procName, const VAR_NAME& t_varName);
+  void insertModifiesProcAndVarIndices(PROC_INDEX t_procIdx, VAR_INDEX t_varIdx);
 };
 

@@ -1,0 +1,130 @@
+1 - Int Int NoLink
+
+Select BOOLEAN such that Affects (1, 2)
+false
+5000
+2 - Int Int BothVar LHS
+
+Select BOOLEAN such that Affects (1,5)
+false
+5000
+3 - Int Int HasResult
+
+Select BOOLEAN such that Affects (9, 14)
+true
+5000
+4 - Int Int VarBeingUsedTwice InControlPath
+
+Select BOOLEAN such that Affects (9, 15)
+true
+5000
+5 - Int Int DiffStmtList
+
+Select BOOLEAN such that Affects (46, 48)
+false
+5000
+6 - Int Int DiffProcedure
+
+Select BOOLEAN such that Affects(55, 62)
+false
+5000
+7 - Int Int SameInt HasControlPath
+
+Select BOOLEAN such that Affects (18,18)
+true
+5000
+8 - Int Int SameInt NoControlPath
+
+Select BOOLEAN such that Affects (2, 2)
+false
+5000
+9 - Int Int FirstArg > SecondArg HasControlPath
+
+Select BOOLEAN such that Affects (17,11)
+true
+5000
+10 - Int Int FirstArg > SecondArg NoControlPath
+
+Select BOOLEAN such that Affects (41,28)
+false
+5000
+11 - Int Underscore NoResult
+
+Select BOOLEAN such that Affects (2, _)
+false
+5000
+12 - Int Underscore HasResult
+
+Select BOOLEAN such that Affects (9, _)
+true
+5000
+13 - Underscore Int HasResult
+
+Select BOOLEAN such that Affects(_, 67)
+true
+5000
+14 - Underscore Underscore
+
+Select BOOLEAN such that Affects(_, _)
+true
+5000
+15 - Int Stmt - OutsideWhile Affects InsideWhile
+stmt s;
+Select s such that Affects (9, s)
+14,15,18
+5000
+16 - Int ProgLine - InsideIf Affects OutsideIf
+prog_line pl;
+Select pl such that Affects (46, pl)
+50,53
+5000
+17 - Int Assign - Affect NextLine Only
+assign a;
+Select a such that Affects (27, a)
+28
+5000
+18 - While Int - Invalid Arg
+while w;
+Select w such that Affects(w, 11)
+none
+5000
+19 - Int While - Invalid Arg
+while w;
+Select w such that Affects(56, w)
+none
+5000
+20 - If Int - Invalid Arg
+if f;
+Select f such that Affects (f, 69)
+none
+5000
+21 - Int If - Invalid Arg
+if f;
+Select f such that Affects(64, f)
+none
+5000
+22 - Underscore Assign
+assign a;
+Select a such that Affects (_, a)
+8,11,14,15,17,18,21,28,33,34,35,38,42,45,50,53,60,62,63,67,71,72
+5000
+23 - Assign Int
+assign a;
+Select a such that Affects (a,18)
+9,18
+5000
+24 - Assign Underscore
+assign a;
+Select a such that Affects(a, _)
+4,9,14,15,17,18,20,22,27,28,29,31,33,41,46,48,49,59,65,69,71
+5000
+25 - Assign Assign SameSynonym
+assign a;
+Select a such that Affects(a,a)
+18,71
+5000
+26 - Assign Assign DiffSynonym
+assign a1,a2;
+Select a1 such that Affects(a1,a2)
+4,9,14,15,17,18,20,22,27,28,29,31,33,41,46,48,49,59,65,69,71
+5000

@@ -1,7 +1,8 @@
 #pragma once
 #include "Extractor.h"
+#include <algorithm>
 
-/*
+/**
 * Handles extractions for the Calls relation.
 *
 * @author Brandon
@@ -14,9 +15,14 @@ public:
   ~CallsExtractor() {};
 
   void extractDesign();
+  void hasCyclicCall();
+  void hasNonExistantCall();
 
 private:
+  void populateCallsIdx();
   void populateCallsStarMap();
   void populateCalledByStarMap();
+  void populateAllCallsLists();
+  void populateAllCallsMap();
 };
 

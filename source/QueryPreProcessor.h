@@ -130,7 +130,27 @@ public:
   * @param withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  void QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A specialised method that takes in 2 synonyms that only has an attribute on one side and calls other methods to process
+  * @param leftSynonym being the side that does not have an attribute
+  * @param rightSynonym being the side that has an attribute
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
+
+  /**
+  * A method that takes in 2 synonyms that does not have any attributes and processes it
+  * @param leftSynonym being the synonym that does not have an attribute
+  * @param rightSynonym being the synonym that does not have an attribute
+  * @param withLeftGrammar being the Grammar to be formed on the left side
+  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @return true if with clause is parsed and processed properly. false if it fails.
+  */
+  bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
 
   /**
   * A method that takes in a string that contains an attribute and processes it
@@ -139,6 +159,14 @@ public:
   * @return Grammar object with its attributes
   */
   Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
+
+  /**
+  * A method that takes in the query that contains multiple clauses and processes it 
+  * @param attribute being the string that contains the attribute
+  * @param withGrammar being the Grammar to be formed on the left side
+  * @return string that has been parsed and substringed.
+  */
+  std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause);
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //--------------------------------Getter Methods------------------------------------------//
@@ -169,6 +197,30 @@ public:
   std::queue<With> QueryPreProcessor::getWith(void);
 
   /**
+  * A getter method for the Select vector variables.
+  * @return a Grammar object Queue containing all variables within the Select clause.
+  */
+  std::vector<Grammar> QueryPreProcessor::getSelectVector(void);
+
+  /**
+  * A getter method for the Such That vector variables.
+  * @return a Relation object Queue containing all variables within the Such That clause.
+  */
+  std::vector<Relation> QueryPreProcessor::getSuchThatVector(void);
+
+  /**
+  * A getter method for the Pattern vector variables.
+  * @return a Pattern object Queue containing all variables within the Pattern clause.
+  */
+  std::vector<Pattern> QueryPreProcessor::getPatternVector(void);
+
+  /**
+  * A getter method for the With vector variables.
+  * @return a With object Queue containing all variables within the With clause.
+  */
+  std::vector<With> QueryPreProcessor::getWithVector(void);
+
+  /**
   * A getter method for the Grammar vector variables.
   * @return a Grammar object Vector containing all variables declared within the declaration.
   */
@@ -189,6 +241,11 @@ private:
   std::queue<Relation> m_suchThatQueue;
   std::queue<Pattern> m_patternQueue;
   std::queue<With> m_withQueue;
+  std::string m_prevClause;
+  std::vector<Grammar> m_selectVectorQE;
+  std::vector<Relation> m_relationVectorQE;
+  std::vector<Pattern> m_patternVectorQE;
+  std::vector<With> m_withVectorQE;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_synonymMap;
   std::vector<Relation> m_RelationVector;

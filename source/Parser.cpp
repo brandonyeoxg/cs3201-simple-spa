@@ -15,6 +15,7 @@
 #include "SyntaxUnknownCommandException.h"
 #include "SyntaxEmptyLineException.h"
 #include "SyntaxInvalidTerm.h"
+#include "SyntaxDuplicateProc.h"
 
 int Parser::parse (NAME t_filename) throw() {
   m_readStream = std::ifstream (t_filename);
@@ -39,6 +40,9 @@ void Parser::parseForProcedure() {
       throw SyntaxOpenBraceException(m_curLineNum);
     }
     m_curProcIdx = m_pkbWriteOnly->insertProcedure(procName);
+    if (m_curProcIdx == INVALID_INDEX) {
+      throw SyntaxDuplicateProc(m_curLineNum);
+    }
     LIST_OF_STMT_NUMS stmtLst;
     LIST_OF_PROG_LINES progLine;
     parseStmtLst(stmtLst, progLine);
@@ -117,7 +121,7 @@ void Parser::parseAssignStmt() {
     throw SyntaxUnknownCommandException(m_nextToken, m_curLineNum);
   } 
   LIST_OF_TOKENS tokenisedExpr = parseExpr();
-  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr);
+  m_pkbWriteOnly->insertAssignStmt(m_curLineNum, varName, tokenisedExpr, m_curProcIdx);
 }
 
 void Parser::parseCallStmt() {

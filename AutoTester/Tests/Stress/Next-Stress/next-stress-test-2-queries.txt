@@ -1,0 +1,5 @@
+1 - Next* Functionality Stress Test
+prog_line pl1, pl2;
+Select BOOLEAN such that Next*(pl1,pl2)
+true
+5000

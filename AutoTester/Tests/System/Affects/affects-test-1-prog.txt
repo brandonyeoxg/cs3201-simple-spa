@@ -1,0 +1,14 @@
+procedure Dynames{
+  a=1;
+  while i{
+    b=a+2*b;}
+  if j then{
+    call Kyrios;}
+  else{
+    a=b*1-a*2;}
+  a=b-3*a;
+}
+
+procedure Kyrios{
+  a=a+c;
+}

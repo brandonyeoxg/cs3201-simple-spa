@@ -273,7 +273,7 @@ public:
   * @param t_index an integer argument.
   * @return the name of the variable.
   */
-  virtual VAR_NAME getVarNameFromIdx(STMT_NUM t_index) = 0;
+  virtual VAR_NAME getVarNameFromIdx(VAR_INDEX t_idx) = 0;
 
   /**
   * Method that returns the vector of variables that are stored within VarTable.
@@ -281,6 +281,7 @@ public:
   */
   virtual LIST_OF_VAR_NAMES& getAllVarNames() = 0;
 
+  virtual LIST_OF_VAR_INDICES& getAllVarIndices() = 0;
   ///////////////////////////////////////////////////////
   //  AssignTable
   ///////////////////////////////////////////////////////
@@ -301,13 +302,14 @@ public:
   * The representation is a variable mapped to all statement number under that variable.
   */
   virtual MAP_OF_VAR_NAME_TO_STMT_NUMS getAllVarNameWithAssignStmt() = 0;
-
+  virtual MAP_OF_VAR_INDEX_TO_STMT_NUMS getAllVarIndicesWithAssignStmt() = 0;
 
   /*
   * Returns all assignment statements in a representation.
   * The repsentation is a statement number mapped to the variable in that statement number.
   */
   virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarName() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarIndex() = 0;
   ///////////////////////////////////////////////////////
   //  ConstantTable
   ///////////////////////////////////////////////////////
@@ -317,7 +319,9 @@ public:
   * @return a list of constants (strings).
   */
   virtual LIST_OF_RESULTS getAllConstants() = 0;
-
+  virtual LIST_OF_CONSTANT_INDICES getAllConstantsByIdx() = 0;
+  virtual CONSTANT_TERM getConstantFromIdx(int t_constantIdx) = 0;
+  virtual CONSTANT_INDEX getConstantIdxFromConstant(CONSTANT_TERM t_constant) = 0;
   ///////////////////////////////////////////////////////
   //  Pattern Matching
   ///////////////////////////////////////////////////////
@@ -328,7 +332,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a(_, _"x + y + h"_).
   *   Gets list of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -336,7 +340,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _""_).
   *   Gets list of statements with any expression on right hand side, and given variable on left hand side.
@@ -353,7 +357,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndExactPattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** Pattern a("x", _"y + x"_).
   *   Gets list of statements with given variable name on left hand side, and subtree pattern match on right hand side.
@@ -362,7 +366,7 @@ public:
   *   @return list of statement numbers with match (will be empty list if there is none)
   *   @author jazlyn
   */
-  virtual LIST_OF_ASSIGN_STMTS_FOR_PATTERN getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
+  virtual LIST_OF_STMT_NUMS getAllAssignStmtByVarAndSubtreePattern(std::string t_varName, std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, "x + y + h").
   *   Gets map of statements with exact pattern match on right hand side, and any variable on left hand side.
@@ -371,7 +375,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarByExactPattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** variable v; Pattern a(v, _"x + y + h"_).
   *   Gets map of statements with subtree pattern match on right hand side, and any variable on left hand side.
@@ -380,7 +384,7 @@ public:
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   *   @author jazlyn
   */
-  virtual MAP_OF_STMT_NUM_TO_VAR_NAME getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllAssignStmtWithVarBySubtreePattern(std::vector<std::string> t_patternTokens) = 0;
 
   /** For Pattern w("x", _), where w is a common synonym for all while statements.
   *   Gets list of while statements that uses a given variable.
@@ -394,7 +398,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllWhileStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllWhileStmtsWithVar() = 0;
 
   /** For Pattern w(_,  _), where w is a common synonym for all while statements.
   *   Gets list of all while statements.
@@ -414,7 +418,7 @@ public:
   *   Map will be returned with statement number as key, and variable name as value.
   *   @return map of statement numbers to their respective variable names (will be empty if none)
   */
-  virtual std::unordered_map<STMT_NUM, VAR_NAME> getAllIfStmtsWithVar() = 0;
+  virtual MAP_OF_STMT_NUM_TO_VAR_INDEX getAllIfStmtsWithVar() = 0;
 
   /** For Pattern i(_,  _), where i is a common synonym for all if statements.
   *   Gets list of all if statements.
@@ -448,64 +452,64 @@ public:
   * @return a vector of precedures that calls t_proc2.
   */
   virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
-
+  virtual LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls(t_proc1, p) holds.
   * @param t_proc1 a procedure that calls p.
   * @return a vector of precedures that are called by t_proc1.
   */
   virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
-
+  virtual LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls*(p, t_proc2) holds.
   * @param t_proc2 a procedure to be called*.
   * @return a vector of precedure that fulfills the relationship.
   */
   virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
-
+  virtual LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls*(t_proc1, p) holds.
   * @param t_proc1 a procedure that calls* p.
   * @return a vector of precedures that fulfills the relationship.
   */
   virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
-
+  virtual  LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx) = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls relationship.
   * @return the entire map that keep tracks of the calls relationship.
   */
   virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
-
+  virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx() = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls* relationship.
   * @return the entire map that keep tracks of the calls* relationship.
   */
   virtual MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES getAllCallsStar() = 0; //calls*(proc1, proc2) 
-
+  virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that calls another procedure.
   * @return the vector of keys within the callsMap.
   */
   virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
-
+  virtual LIST_OF_PROC_INDICES getCallsAnythingByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that calls* another procedure.
   * @return the vector of keys within the callsStarMap.
   */
   virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
-
+  virtual LIST_OF_PROC_INDICES getCallsStarAnythingByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that called by another procedure.
   * @return the vector of keys within the calledByMap.
   */
   virtual LIST_OF_PROC_NAMES getCalledByAnything() = 0; //calls(_, proc2)
-
+  virtual LIST_OF_PROC_INDICES getCalledByAnythingByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that called by* another procedure.
   * @return the vector of keys within the calledByStarMap.
   */
   virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
-
+  virtual LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx() = 0;
   /**
   * Method that checks if a calls relationship exists in the SIMPLE program.
   * @return true if relationship exists, false if otherwise.
@@ -524,6 +528,9 @@ public:
   */
   virtual BOOLEAN isCalledByAnything(PROC_NAME t_proc2) = 0;
 
+  virtual PROC_NAME getProcNameFromCallStmtNum(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_STMT_NUMS getStmtNumsFromProcName(PROC_NAME t_procName) = 0;
+
   ///////////////////////////////////////////////////////
   //  ProcTable
   ///////////////////////////////////////////////////////
@@ -532,6 +539,11 @@ public:
   */
   virtual LIST_OF_RESULTS getAllProcsName() = 0;
 
+  virtual LIST_OF_PROC_INDICES getAllProcsIndices() = 0;
+
+  virtual PROC_NAME getProcNameFromIdx(PROC_INDEX t_idx) = 0;
+
+  virtual PROC_INDEX getProcIdxFromName(PROC_NAME t_name) = 0;
   ///////////////////////////////////////////////////////
   //  ModifiesP methods
   ///////////////////////////////////////////////////////
@@ -560,7 +572,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   virtual LIST_OF_VAR_NAMES getModifiesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
-
+  virtual LIST_OF_VAR_INDICES getModifiesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) = 0;
   /*
   * Returns the list of procedure names that are modified by the variable.
   * Used in the query evaluator for Modifies(p, "x").
@@ -568,21 +580,21 @@ public:
   * @param t_varName the variable name that is checked.
   */
   virtual LIST_OF_PROC_NAMES getModifiesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
-
+  virtual LIST_OF_PROC_INDICES getModifiesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) = 0;
   /*
   * Returns a results of a set of procedures mapped to a list of variables that they modifies.
   * Used in the query evaluator for Modifies(p, x);
   *
   */
   virtual MAP_OF_PROC_TO_VAR getModifiesPAllProcToVar() = 0;
-
+  virtual MAP_OF_PROC_INDEX_TO_VAR_INDEX getModifiesPAllProcToVarByIdx() = 0;
   /*
   * Returns a list of procedures that modifies something.
   * Used in the query evaluator for  Modifies(p, _)
   *
   */
   virtual LIST_OF_PROC_NAMES getModifiesPAllProcNames() = 0;
-
+  virtual LIST_OF_PROC_INDICES getModifiesPAllProcIndices() = 0;
   ///////////////////////////////////////////////////////
   //  UsesP methods
   ///////////////////////////////////////////////////////
@@ -611,6 +623,7 @@ public:
   * @param t_procName the procedure name that is checked.
   */
   virtual LIST_OF_VAR_NAMES getUsesPVarNamesWithProcIdx(const PROC_NAME& t_procName) = 0;
+  virtual LIST_OF_VAR_INDICES getUsesPVarIndicesWithProcIdx(const PROC_NAME& t_procName) = 0;
 
   /*
   * Returns the list of procedure names that are used by the variable.
@@ -619,6 +632,7 @@ public:
   * @param t_varName the variable name that is checked.
   */
   virtual LIST_OF_PROC_NAMES getUsesPProcNamesWithVarIdx(const VAR_NAME& t_varName) = 0;
+  virtual LIST_OF_PROC_INDICES getUsesPProcIndicesWithVarIdx(const VAR_NAME& t_varName) = 0;
 
   /*
   * Returns a results of a set of procedures mapped to a list of variables that they uses.
@@ -626,6 +640,7 @@ public:
   *
   */
   virtual MAP_OF_PROC_TO_VAR getUsesPAllProcToVar() = 0;
+  virtual MAP_OF_PROC_INDEX_TO_VAR_INDEX getUsesPAllProcToVarByIdx() = 0;
 
   /*
   * Returns a list of procedures that uses something.
@@ -633,6 +648,7 @@ public:
   *
   */
   virtual LIST_OF_PROC_NAMES getUsesPAllProcNames() = 0;
+  virtual LIST_OF_PROC_INDICES getUsesPAllProcIndices() = 0;
 
   ///////////////////////////////////////////////////////
   //  Uses methods
@@ -652,6 +668,7 @@ public:
   * @return a vector of variables that satisfy the condition.
   */
   virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of statement numbers that uses variable t_varName.
@@ -667,6 +684,7 @@ public:
   * @return an unordered_map that satisfy the condition.
   */
   virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses() = 0;
+  virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx() = 0;
 
   /**
   * Method that checks if uses(t_lineNum, _) holds.
@@ -700,6 +718,7 @@ public:
   * @return a vector of variables that satisfy the condition.
   */
   virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
+  virtual LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
   * Method that returns the vector of statement numbers that modifies variable t_varName.
@@ -715,6 +734,7 @@ public:
   * @return an unordered_map that satisfy the condition.
   */
   virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies() = 0;
+  virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx() = 0;
 
   /**
   * Method that checks if modifies(t_lineNum, _) holds.
@@ -828,4 +848,61 @@ public:
   *   @return true if given line has at least one line that can be executed before it, else false
   */
   virtual BOOLEAN hasLineBefore(PROG_LINE t_line) = 0;
+
+  ///////////////////////////////////////////////////////
+  //  Affects Extractor
+  ///////////////////////////////////////////////////////
+
+  /**
+  * Get the map of all affects relationships in the source program i.e. affects(a1, a2) where 
+  * both a1 and a2 are synonyms.
+  * @return the map of all affects.
+  */
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffects() = 0;
+
+  /**
+  * Get the list of stmt# that affects the stmt# in the parameter.
+  * e.g. affects(a, 12)
+  * @param t_modifiesLine the stmt# input
+  * @return the list of affects stmt#.
+  */
+  virtual LIST_OF_AFFECTS_STMTS getAffects(STMT_NUM t_modifiesLine) = 0;
+
+  /**
+  * Get the list of stmt# that affected by the stmt# in the parameter.
+  * e.g. affects(2, a)
+  * @param t_usesLine the stmt# input
+  * @return the list of stmt#.
+  */
+  virtual LIST_OF_AFFECTS_STMTS getAffectedBy(STMT_NUM t_usesLine) = 0;
+
+  /**
+  * Checks if affects(a1, a2) is true, where a1 and a2 are known stmt#.
+  * @param t_modifiesLine the stmt# that affects
+  * @param t_usesLine the stmt# that is affected by t_modifiesLine
+  * @return true if the relationship holds.
+  */
+  virtual BOOLEAN isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0;
+
+  /**
+  * 
+  */
+  virtual BOOLEAN hasAffectsRelationship() = 0; // affects(_,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsAnything() = 0;  // affects(a,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByAnything() = 0; // affects(_,a)
+  virtual BOOLEAN isAffectsAnything(STMT_NUM t_modifiesLine) = 0; // affects(1,_)
+  virtual BOOLEAN isAffectedByAnything(STMT_NUM t_usesLines) = 0; // affects(_,12)
+
+  ///////////////////////////////////////////////////////
+  //  Affects* Extractor
+  ///////////////////////////////////////////////////////
+  virtual MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS getAllAffectsStar() = 0; // affects*(a1,a2)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsStar(STMT_NUM t_modifiesLine) = 0; // affects*(2,a)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByStar(STMT_NUM t_usesLine) = 0; // affects*(a,12)
+  virtual BOOLEAN isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) = 0; // affects*(1,12)
+  virtual BOOLEAN hasAffectsRelationshipStar() = 0; // affects*(_,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectsAnythingStar() = 0;  // affects*(a,_)
+  virtual LIST_OF_AFFECTS_STMTS getAffectedByAnythingStar() = 0; // affects*(_,a)
+  virtual BOOLEAN isAffectsAnythingStar(STMT_NUM t_modifiesLine) = 0; // affects*(1,_)
+  virtual BOOLEAN isAffectedByAnythingStar(STMT_NUM t_usesLines) = 0; // affects*(_,12)
 };

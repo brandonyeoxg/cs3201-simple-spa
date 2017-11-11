@@ -8,31 +8,50 @@
 
 #include "ConstantTable.h"
 
-/**
-* A constructor.
-* Instantiates an unordered map (hashmap) of line numbers to vector of line numbers associated.
-*/
-ConstantTable::ConstantTable() {
-  std::set<int> m_listOfConstants;
-  std::unordered_map<int, std::string> m_constantMap;
-}
 
-int ConstantTable::insertConstant(std::string t_constant) {
+ConstantTable::ConstantTable() {}
+
+CONSTANT_INDEX ConstantTable::insertConstant(std::string t_constant) {
   int index = m_constantMap.size();
   //check if t_constant exists in the set. If it does, do not add into the map.
   if (m_constantSet.find(t_constant) != m_constantSet.end()) {
     return 0;
   } else {
     m_constantSet.insert(t_constant);
+    m_constantSetByIdx.insert(index);
     m_constantMap.emplace(index, t_constant);
+    m_constantByIdxMap.emplace(t_constant, index);
     return index;
   }
 
 }
+CONSTANT_TERM ConstantTable::getConstantFromIdx(int t_constantIdx) {
+  if (m_constantMap.find(t_constantIdx) == m_constantMap.end()) {
+    //if index is not present in map, throw exception
+    throw std::invalid_argument("key constantIdx does not exist in ConstantTable");
+  } else {
+    return m_constantMap[t_constantIdx];
+  }
+}
+
+CONSTANT_INDEX ConstantTable::getConstantIdxFromConstant(CONSTANT_TERM t_constant) {
+  if (m_constantByIdxMap.find(t_constant) == m_constantByIdxMap.end()) {
+    //if index is not present in map, throw exception
+    throw std::invalid_argument("key constant does not exist in ConstantTable");
+  } else {
+    return m_constantByIdxMap[t_constant];
+  }
+}
 
 LIST_OF_RESULTS ConstantTable::getAllConstants() {
   LIST_OF_RESULTS values;
-  //copy the m_allFollows set to values vector.
+  //copy the m_constants set to values vector.
   values.assign(m_constantSet.begin(), m_constantSet.end());
+  return values;
+}
+
+LIST_OF_CONSTANT_INDICES ConstantTable::getAllConstantsByIdx() {
+  LIST_OF_CONSTANT_INDICES values;
+  values.assign(m_constantSetByIdx.begin(), m_constantSetByIdx.end());
   return values;
 }

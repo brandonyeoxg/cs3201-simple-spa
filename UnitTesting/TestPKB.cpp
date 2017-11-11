@@ -13,7 +13,7 @@ namespace UnitTesting {
   public:
 
     TEST_METHOD(TestPKBInsertFollow) {
-      std::unordered_map<int, std::vector<int>> test = {
+      MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS test = {
         { 1,{ 2, 3, 4 } },
         { 2,{ 3, 4 } },
         { 3,{ 4 } }
@@ -36,7 +36,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestPKBGetFollows) {
-      std::unordered_map<int, std::vector<int>> test = {
+      MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS test = {
         { 1,{ 2, 3, 4 } },
         { 2,{ 3, 4 } },
         { 3,{ 4 } }
@@ -50,7 +50,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestPKBTypeOfStatementTable) {
-      std::unordered_map<int, queryType::GType> testTypeOfStatementTable = {
+      MAP_OF_STMT_NUM_TO_GTYPE testTypeOfStatementTable = {
         {1, queryType::GType::ASGN},
         {2, queryType::GType::WHILE },
         {3, queryType::GType::IF }
@@ -67,7 +67,7 @@ namespace UnitTesting {
     }
 
     TEST_METHOD(TestPKBInsertStatementTypeTable) {
-      std::unordered_map<queryType::GType, std::vector<int>> testStatementTypeTable = {
+      MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS testStatementTypeTable = {
         { queryType::GType::ASGN, {1, 2, 3}},
         { queryType::GType::WHILE, {4, 5}},
         { queryType::GType::IF, {6}}
