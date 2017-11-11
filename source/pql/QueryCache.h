@@ -123,18 +123,11 @@ private:
   
   ////////// Keys for Clauses in the Cache map /////////////////
   //  To be used for optimizing cache retrieval
-  const std::string KEY_ALL_NEXT_STAR = "Next*/s1/s2";  /**< Key for Next*(s1, s2) */
-  const std::string KEY_NEXT_STAR_RIGHT_SYN = "Next*/_/s";
-  const std::string KEY_NEXT_STAR_LEFT_SYN = "Next*/s/_";
-
-  const std::string KEY_NEXT_RIGHT_SYN = "Next/_/s";
-  const std::string KEY_NEXT_LEFT_SYN = "Next/s/_";
-
-  const std::string KEY_FOLLOWS_RIGHT_SYN = "Follows/_/s";
-  const std::string KEY_FOLLOWS_LEFT_SYN = "Follows/s/_";
-
-  const std::string KEY_FOLLOWS_STAR_RIGHT_SYN = "Follows*/_/s";
-  const std::string KEY_FOLLOWS_STAR_LEFT_SYN = "Follows*/s/_";
+  const std::string KEY_ALL_NEXT_STAR = "Next*/s1<progLine>/s2<progLine>";  /**< Key for Next*(s1, s2) */
+  const std::string KEY_NEXT_STAR = "Next*";
+  const std::string KEY_NEXT = "Next";
+  const std::string KEY_FOLLOWS = "Follows";
+  const std::string KEY_FOLLOWS_STAR = "Follows*";
 
   bool isPatternCacheable(Pattern *t_pattern);
   bool isRelationCacheable(Relation *t_relation);
