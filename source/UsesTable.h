@@ -31,6 +31,9 @@ public:
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES getUsesStmtMap();
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getUsesVarMap();
 
+  //method called by the DesignExtractor
+  void populateUsesAnythingRelationships();
+
 private:
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES m_usesStmtMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES m_usesStmtByIdxMap;
@@ -43,6 +46,8 @@ private:
 
   SET_OF_VAR_NAMES m_allVariablesUsed;
   SET_OF_VAR_INDICES m_allVariablesUsedByIdx;
+  LIST_OF_VAR_INDICES m_allVariablesUsedList;
 
   SET_OF_STMT_NUMS m_allStmtNumsUsed;
+  LIST_OF_STMT_NUMS m_allStmtNumsUsedList;
 };

@@ -2,6 +2,7 @@
 
 void UsesExtractor::extractDesign() {
   populateUsesByCallStatements();
+  populateUsesAnythingRelationships();
 }
 
 void UsesExtractor::populateUsesByCallStatements() {
@@ -40,4 +41,9 @@ void UsesExtractor::populateUsesByCallStatements() {
       }
     }
   }
+}
+
+void UsesExtractor::populateUsesAnythingRelationships() {
+  UsesTable* usesTable = m_pkb->getUsesTable();
+  usesTable->populateUsesAnythingRelationships();
 }
