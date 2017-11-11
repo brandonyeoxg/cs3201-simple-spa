@@ -23,6 +23,7 @@ namespace UnitTesting {
       m_testFollowTable->insertFollows(3, 4);
       m_testFollowTable->populateFollowsMatrix(4);
       m_testFollowTable->populateAllFollowsMap();
+      m_testFollowTable->populateFollowsAnythingRelationships();
     }
     TEST_METHOD(TestInsertFollow) {
       //test insertFollows method.

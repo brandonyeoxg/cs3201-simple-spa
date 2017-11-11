@@ -62,8 +62,6 @@ namespace IntegrationTesting
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       // Follow table should be populated with 1 follows relation
-      actual = followTable->getFollowsAnything();
-      Assert::AreEqual(actual.size(), size_t(2));
       Assert::IsTrue(m_pkb->isFollows(1, 2));
       Assert::IsTrue(m_pkb->isFollows(2, 3));
       Assert::IsFalse(m_pkb->isFollows(0, 1));
