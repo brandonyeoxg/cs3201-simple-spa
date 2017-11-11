@@ -42,7 +42,7 @@ def genWhile(nest,string,depth):
     else:
         a = randint(1,5)
         if (a==1):
-            return string+"\n"+(nest * "  ")+genRandAsgn()+((nest) * "}")
+            return string+((nest+1) * "  ")+genRandAsgn()+"\n"+(nest * "  ")+((nest) * "}")
         elif (a==2):
             return string+((nest+1) * "  ")+genRandAsgn()+((nest) * "}")
         elif (a==3):
@@ -50,13 +50,13 @@ def genWhile(nest,string,depth):
             while not(i==1):
                 string += (i*"  ")+genRandAsgn()+"}\n"
                 i=i-1
-            return string
+            return string[:-1]
         else:
             i=nest+1
             while not(i==1):
                 i=i-1
-                string += "\n"+(i*"  ")+genRandAsgn()+"}"
-            return string
+                string += ((i+1)*"  ")+genRandAsgn()+"\n"+(i*"  ")+"}\n"
+            return string[:-1]
 
 def genIf(nest,string,depth):
     if not(depth==nest):
@@ -65,11 +65,42 @@ def genIf(nest,string,depth):
     else:
         i=nest+1
         while not(i==1):
-            string += (i*"  ")+genRandAsgn()+"}\n"
+            for j in range(randint(1,10)):
+                string += (i*"  ")+genRandAsgn()+"\n"
+            string = string[:-1]+"}\n"
             i=i-1
             string += (i*"  ") + "else{\n" + ((i+1)*"  ") + genRandAsgn() + "}\n"
-        return string
+        return string[:-1]
+
+def genProcs(n):
+    procs=[]
+    abc123=["a","b",'c','d','r','c','m','y','R','C','M','Y','A','B','C','D','J','j','P','p','V','v','E','e','I','i','O','o','U','u','W','w','T','t','1','2','3','4','5','6','7','8','9','0']
+    alpha=len(abc123)-10
+    for i in range(n):
+        PNL = randint(0,20)
+        procName = abc123[randint(0,alpha-1)]
+        for j in range(PNL):
+            procName += abc123[randint(0,len(abc123)-1)]
+        procs.append(procName)
+        print("procedure "+procName+"{")
+        for k in range(randint(1,100)):
+            a=randint(0,5)
+            if (a==1):
+                print("  "+genRandAsgn())
+            elif (a==2):
+                gen2(randint(1,6))
+            elif (a==3):
+                gen3(n%5)
+            elif (a==4):
+                gen4(randint(n%7,n%7+2))
+            elif (a==5):
+                print(genWhile(0,"",randint(1,10)))
+            else:
+                print(genIf(0,"",randint(1,10)))
+        print("}")
+    return procs
 
 #print(genRandAsgn())
-print(genWhile(0,"",50))
-
+#print(genWhile(0,"",50))
+a=genProcs(15)
+print(a)
