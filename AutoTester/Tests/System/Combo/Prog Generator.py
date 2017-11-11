@@ -65,14 +65,14 @@ def genIf(nest,string,depth):
     else:
         i=nest+1
         while not(i==1):
-            for j in range(randint(1,10)):
+            for j in range(randint(1,3)):
                 string += (i*"  ")+genRandAsgn()+"\n"
             string = string[:-1]+"}\n"
             i=i-1
             string += (i*"  ") + "else{\n" + ((i+1)*"  ") + genRandAsgn() + "}\n"
         return string[:-1]
 
-def genProcs(n):
+def genProcs(n,nests):
     procs=[]
     abc123=["a","b",'c','d','r','c','m','y','R','C','M','Y','A','B','C','D','J','j','P','p','V','v','E','e','I','i','O','o','U','u','W','w','T','t','1','2','3','4','5','6','7','8','9','0']
     alpha=len(abc123)-10
@@ -81,26 +81,36 @@ def genProcs(n):
         procName = abc123[randint(0,alpha-1)]
         for j in range(PNL):
             procName += abc123[randint(0,len(abc123)-1)]
-        procs.append(procName)
+        while procName in procs:
+            procName = abc123[randint(0,alpha-1)]
+            for j in range(PNL):
+                procName += abc123[randint(0,len(abc123)-1)]
         print("procedure "+procName+"{")
-        for k in range(randint(1,100)):
-            a=randint(0,5)
-            if (a==1):
-                print("  "+genRandAsgn())
-            elif (a==2):
-                gen2(randint(1,6))
-            elif (a==3):
-                gen3(n%5)
-            elif (a==4):
-                gen4(randint(n%7,n%7+2))
+        for k in range(randint(1,12)):
+            a=randint(0,10)
+            if (a==4):
+                print(genIf(0,"",nests))
+            elif (a==1 or a==7):
+                if not(len(procs)==0):
+                    print("  call "+procs[randint(0,len(procs)-1)]+";")
             elif (a==5):
-                print(genWhile(0,"",randint(1,10)))
+                print(genWhile(0,"",nests))
             else:
-                print(genIf(0,"",randint(1,10)))
-        print("}")
+                print("  "+genRandAsgn())
+        print("}\n")
+        procs.append(procName)
     return procs
 
 #print(genRandAsgn())
-#print(genWhile(0,"",50))
-a=genProcs(15)
-print(a)
+print(genWhile(0,"",10))
+print()
+print(genWhile(0,"",50))
+print()
+print(genIf(0,"",50))
+#a=genProcs(1,1)
+#a.extend(genProcs(3,randint(1,3)))
+#a.extend(genProcs(1,10))
+#a.extend(genProcs(1,50))
+#a.extend(genProcs(1,100))
+
+#print(a)
