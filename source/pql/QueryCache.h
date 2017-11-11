@@ -31,10 +31,10 @@
 
     Next(p1, p2)
     Next*(p1, p2)
-    Next(_, p2) and Next*(_, p2)
-    Next(p1, _) and Next*(p1, _)
-    Next(0, p2)
-    Next*(0, p2)
+    Next(_, p2) and Next*(_, p2) [has optimization]
+    Next(p1, _) and Next*(p1, _) [has optimization]
+    Next(0, p2) [has optimization]
+    Next*(0, p2) [has optimization]
     Next(p1, 0)
     Next*(p1, 0)
 
@@ -48,8 +48,8 @@
     Calls(0, proc2)
     Calls*(0, proc2)
 
-    Follows(_, s2) & Follows*(_, s2)
-    Follows(s1, _) & Follows*(s1, _)
+    Follows(_, s2) & Follows*(_, s2) [has optimization]
+    Follows(s1, _) & Follows*(s1, _) [has optimization]
     Follows(0, s2)
     Follows*(0, s2)
     Follows(s1, 0)
