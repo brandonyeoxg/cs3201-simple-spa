@@ -418,4 +418,173 @@ def MultiRGA(n):
         ranGenAffects(i,15+i)
     return None
 
-MultiRGA(50)
+def ranGenAffects_(n,idx):
+    print(str(idx)+" - Combo Stress Test "+str(idx))
+    stmt=0
+    asgn=0
+    
+    line3="such that "
+    for i in range(n):
+        a=randint(1,4)
+        if (a==1):
+            stmt+=2
+            line3+="Affects*(s"+str(stmt-1)+",s"+str(stmt)+") "
+        elif (a==2):
+            asgn+=2
+            line3+="Affects*(a"+str(asgn-1)+",a"+str(asgn)+") "
+        elif (a==3):
+            asgn+=1
+            stmt+=1
+            line3+="Affects*(s"+str(stmt)+",a"+str(asgn)+") "
+        else:
+            asgn+=1
+            stmt+=1
+            line3+="Affects*(a"+str(asgn)+",s"+str(stmt)+") "
+
+        a=randint(0,1)
+        if a:
+            line3+="and "
+        else:
+            line3+="such that "
+    if a:
+        line3=line3[:-4]
+    else:
+        line3=line3[:-10]
+
+    a=randint(1,5)
+    if (a==1):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+" " + line3
+        else:
+            line3 = "a"+str(asgn)+" " + line3
+    elif (a==2):
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+" " + line3
+        else:
+            line3 = "s"+str(stmt)+" " + line3
+    elif (a==3):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+".stmt# " + line3
+        else:
+            line3 = "a"+str(asgn)+".stmt#  " + line3
+    else:
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+".stmt# " + line3
+        else:
+            line3 = "s"+str(stmt)+".stmt#  " + line3
+    line3 = "Select " + line3
+
+    declarations = [stmt,asgn]
+    line2=""
+    for d in range(len(declarations)):
+        if (d==0):
+            if not(declarations[d]==0):
+                line2 += "stmt "
+                for i in range(1,declarations[d]+1):
+                    line2 += "s"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+        else:
+            if not(declarations[d]==0):
+                line2 += "assign "
+                for i in range(1,declarations[d]+1):
+                    line2 += "a"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+    print(line2)
+    print(line3)
+    print()
+    print(5000)
+    return None
+
+def ranGenNext_(n,idx):
+    print(str(idx)+" - Combo Stress Test "+str(idx))
+    stmt=0
+    asgn=0
+    
+    line3="such that "
+    for i in range(n):
+        a=randint(1,4)
+        if (a==1):
+            stmt+=2
+            line3+="Next*(s"+str(stmt-1)+",s"+str(stmt)+") "
+        elif (a==2):
+            asgn+=2
+            line3+="Next*(a"+str(asgn-1)+",a"+str(asgn)+") "
+        elif (a==3):
+            asgn+=1
+            stmt+=1
+            line3+="Next*(s"+str(stmt)+",a"+str(asgn)+") "
+        else:
+            asgn+=1
+            stmt+=1
+            line3+="Next*(a"+str(asgn)+",s"+str(stmt)+") "
+
+        a=randint(0,1)
+        if a:
+            line3+="and "
+        else:
+            line3+="such that "
+    if a:
+        line3=line3[:-4]
+    else:
+        line3=line3[:-10]
+
+    a=randint(1,5)
+    if (a==1):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+" " + line3
+        else:
+            line3 = "a"+str(asgn)+" " + line3
+    elif (a==2):
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+" " + line3
+        else:
+            line3 = "s"+str(stmt)+" " + line3
+    elif (a==3):
+        if (stmt>0):
+            line3 = "s"+str(randint(1,stmt))+".stmt# " + line3
+        else:
+            line3 = "a"+str(asgn)+".stmt#  " + line3
+    else:
+        if (asgn>0):
+            line3 = "a"+str(randint(1,asgn))+".stmt# " + line3
+        else:
+            line3 = "s"+str(stmt)+".stmt#  " + line3
+    line3 = "Select " + line3
+
+    declarations = [stmt,asgn]
+    line2=""
+    for d in range(len(declarations)):
+        if (d==0):
+            if not(declarations[d]==0):
+                line2 += "stmt "
+                for i in range(1,declarations[d]+1):
+                    line2 += "s"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+        else:
+            if not(declarations[d]==0):
+                line2 += "prog_line "
+                for i in range(1,declarations[d]+1):
+                    line2 += "a"+str(i)+","
+                line2=line2[:-1]
+                line2+="; "
+    print(line2)
+    print(line3)
+    print()
+    print(5000)
+    return None
+
+def MultiRGA_(n):
+    for i in range(1,n+1):
+        ranGenAffects_(i,15+i)
+    return None
+
+def MultiRGN_(n):
+    for i in range(1,n+1):
+        ranGenNext_(i,15+i)
+    return None
+
+MultiRGA_(50)
+MultiRGN_(50)
