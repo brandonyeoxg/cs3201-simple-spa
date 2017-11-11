@@ -1,0 +1,102 @@
+procedure A {
+	and = and + 2 * variable + ((Modifies * Uses - assign) + 5 + 7 * pattern - with) + such * that;
+	while and {
+		Uses = Modifies + tab13 * 5 - 9 + 5 + 7;
+	}
+	call stmt;
+	if pattern then {
+		such = with * and + (and + 2 * variable) - 5 + 7;
+	}
+	else {
+		tab13 = pattern + 8 * 5 + (Modifies - Uses + (assign - with + and) * variable) - tab13 + (assign - 4 * 8 + 3) - (5 * 7) + pattern;
+	}
+	call Modifies;
+}
+
+procedure stmt {
+	pattern = with + and - such + that + (5 * 7);
+	call Key;
+	Uses = with * pattern;
+}
+
+procedure Modifies {
+	Modifies = Uses * 3 + 4 - 1000 - 5 + and;
+	tab13 = Modifies - Uses * and;
+	call Chair;
+	tab13 = Modifies - pattern + with * such;
+	while Modifies {
+		Uses = Modifies;
+	}
+}
+
+procedure Key {
+	variable = tab13 + 3 * Modifies - and;
+	and = variable + tab13;
+	call Wire;
+	call Cave;
+}
+
+procedure Wire {
+	call Sugar;
+	call Sugar;
+}
+
+procedure Sugar {
+	and = Modifies - Uses * 7;
+	call Salt;
+	Modifies = Uses + 9;
+}
+
+procedure Salt {
+	Uses = Uses;
+	call Tab13;
+	call Tab13;
+}
+
+procedure Tab13 {
+	such = 0 + and - tab13;
+	call Chair;
+}
+
+procedure Chair {
+	call Kite;
+	while Uses {
+		and = and;
+		assign = assignment - and;
+		assignment = and * with - 50;
+	}
+}
+
+procedure Kite {
+	call Wifi;
+	assign = pattern * such + that - 5;
+	if assign then {
+		Modifies = with - pattern + 3 * 4;
+	}
+	else {
+		variable = 100 + 3 - 2;
+	}
+}
+
+procedure Cave {
+	call Smile;
+	call Wifi;
+	pattern = and - with * 4 + 2 - 100;
+}
+
+procedure Smile {
+	call Pencil;
+	Modifies = Uses + 1;
+	Uses = pattern * 100 - 2 * 5 + pattern - assign;
+	assign = assign + assign + assign;
+}
+
+procedure Pencil {
+	variable = variable + variable * 2;
+	call Kite;
+}
+
+procedure Wifi {
+	assignment = assignment + pattern + assign - and * 100 - 20 + 5 * 2;
+	and = Uses;
+}

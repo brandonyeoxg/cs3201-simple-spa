@@ -85,7 +85,7 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   }
   t_lmt = mergeLmt(ifLmt, elseLmt);
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(t_nextLine);
-  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(t_nextLine, t_curProgLine)) {
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParentStar(t_nextLine, t_curProgLine)) {
     return;
   }
   // Combine lms with lmt
@@ -105,7 +105,7 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
     queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
-    if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(stmts[1], t_curProgLine)) {
+    if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParentStar(stmts[1], t_curProgLine)) {
       return;
     }
     // Combine lms with lmt
@@ -397,7 +397,7 @@ void AffectsTable::traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_
   t_lmt = mergeLmt(ifLmt, elseLmt);
   t_lastUses = mergeLmt(ifLastUses, elseLastUses);
   stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(t_nextLine);
-  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(t_nextLine, t_curProgLine)) {
+  if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParentStar(t_nextLine, t_curProgLine)) {
     return;
   }
   // Combine lms with lmt
@@ -423,7 +423,7 @@ void AffectsTable::traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE
   // For while one stmt leads to stmt lst the other stmt if any leads to the next stmt in the cur stmt lst.
   if (stmts.size() > 1) {
     queryType::GType stmtType = m_pkbTablesOnly->getStatementTable()->getTypeOfStatement(stmts[1]);
-    if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParent(stmts[1], t_curProgLine)) {
+    if (stmtType == queryType::GType::WHILE && m_pkbTablesOnly->getParentTable()->isParentStar(stmts[1], t_curProgLine)) {
       return;
     }
     traverseCfgWithBound(stmts[1], t_endBound, stmts[1], t_lmt, t_lastUses);

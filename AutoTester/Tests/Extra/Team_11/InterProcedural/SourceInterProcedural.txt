@@ -1,0 +1,204 @@
+procedure Aaron {
+		kindness = love + exercise;
+		love = exercise * stress;
+		stress = stress + 5;
+		stress = love * 100;
+		call Ben;
+}
+
+procedure Ben {
+		call Colin;
+		call Damith;
+		call Hugh;
+		call Steven;
+}
+
+procedure Colin {
+		while laugh {
+			call Damith;
+			difficulty = exam + love - happy;
+		}
+		exam = stress + difficulty * 200;
+		call Thilina;
+}
+
+procedure Cristina {
+		while love {
+			lecture = kindness + love;
+		}
+		call Parvathy;
+		if stress then {
+			happy = exercise + lecture - stress;
+		}
+		else {
+			love = exercise * happy - difficulty;
+		}
+		call Wynne;
+		call Thilina;
+}
+
+procedure Damith {
+		call EeChien;
+		exam = easy + laugh - 2;
+}
+
+procedure EeChien {
+		if tired then {
+			lecture = skip + cancel * 10;
+			call Hugh;
+		}
+		else {
+			call Gary;
+		}
+		skip = 100 * 10;
+}
+
+procedure Gary {
+		call Wynne;
+		while exercise {
+			kindness = exam - 100 + 2 * 5 * love;
+		}
+		call Steven;
+}
+
+procedure Hugh {
+		call UncleSoo;
+		if difficulty then {
+			cancel = stress * difficulty;
+		}
+		else {
+			stress = cancel + 10;
+		}
+		call Ian;
+}
+
+procedure Ian {
+		laugh = exam * difficulty + 2;
+		call Jin;
+		stress = tired + easy - laugh;
+}
+
+procedure Jin {
+		call Cristina;
+}
+
+procedure MinYen {
+		lecture = kindness * love - tired;
+		if lecture then {
+			lecture = cancel * skip + laugh * difficulty;
+		}
+		else {
+			call UncleSoo;
+		}
+}
+
+procedure Parvathy {
+		call Wynne;
+		if exam then {
+			laugh = stress * tired;
+		}
+		else {
+			tutorial = cancel * skip + easy;
+			cancel = tutorial * skip - easy;
+			skip = tutorial * easy;
+			easy = cancel - easy;
+		}
+		call Thilina;
+		while tired {
+			exercise = difficulty * skip + tutorial * cancel - exercise;
+		}
+}
+
+procedure RayYan {
+		kindness = love * exam - difficulty - tutorial - lecture * tired * 5 + 3;
+		happy = love * exam;
+		tutorial = love * tired;
+		exam = 1 * 1 * easy;
+		tired = exam * stress;
+}
+
+procedure Steven {
+		exercise = love - exam * lecture;
+		call WeeSun;
+		if cancel then {
+			difficulty = easy * 5 + 20;
+		}
+		else { 
+			love = lecture + skip;
+		}
+}
+
+procedure Thilina {
+		if happy then {
+			call MinYen;
+			lecture = skip + cancel;
+			call RayYan;
+			exercise = lecture * easy + kindness;
+			lecture = lecture - exercise;
+			easy = lecture + cancel + 100;
+			laugh = easy - 5;
+		}
+		else {
+			tutorial = cancel - 5 * laugh + 3;
+			easy = tutorial + cancel;
+		}
+}
+
+procedure UncleSoo {
+		exam = difficulty * 100 * stress;
+		call Wynne;
+		while laugh {
+			stress = 100 * exam * difficulty;
+		}
+}
+
+procedure WeeSun {
+		easy = kindness * love;
+		tutorial = easy * love;
+		while love {
+			if difficulty then {
+				love = tutorial * easy;
+			}
+			else {
+				tutorial = tutorial * 5;
+			}
+			call Thilina;
+		}
+		while tutorial {
+			cancel = lecture * kindness - love;
+		}
+		if skip then {
+			lecture = happy * tired;
+		}
+		else {
+			love = tutorial + happy;
+		}
+		while easy {
+			laugh = lecture - cancel;
+		}
+		while lecture {
+			happy = lecture + 100;
+		}
+}
+
+procedure Wynne {
+	happy = love * kindness + 5;
+	stress = happy - 100 * 20 + lecture * skip;
+	tutorial = difficulty * easy + stress;
+	stress = stress * love;
+	stress = 100 - (20 * 5 + (kindness - happy)) * stress * skip * 5 - 20 + 100;
+	kindness = tutorial + cancel;
+	happy = kindness - stress * tutorial;
+	lecture = difficulty + 100;
+	while lecture {
+		kindess = kindness - happy + tutorial;
+		}
+	tutorial = lecture - stress;
+	if love then {
+		skip = stress + happy - difficulty * tutorial;
+		}
+		else {
+		cancel = kindness * lecture - easy + 5 - 100;
+		}
+	stress = tutorial + 5 + lecture;
+}

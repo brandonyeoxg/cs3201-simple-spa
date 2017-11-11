@@ -1,0 +1,393 @@
+procedure AyamPenyet {
+1		ayam = 1 + (broccoli + (5 - (9 * (chilli + ayam - 30) + 100 * 2 - date * 20) + (((1 - 5 * 20) - 100 * egg) + fish - ginger + broccoli) - (ayam - honey) * ginger - fish + 100 - 20 * 4) + 20 - 3 * (ginger + broccoli) - fish);
+2		broccoli = ayam - fish * chilli + egg;
+3		broccoli = fish + broccoli - egg * ginger;
+4		egg = date + ayam - fish + iceCream * jam - ketchup;
+5		date = date - date + date * date;
+6		mushroom = date + fish - iceCream;
+7		lime = broccoli + ayam - chilli * egg;
+8		egg = honey - nutmeg * oats + pea - ayam;
+9		fish = lime + egg + jam - nutmeg * oats + pea - date * fish + ayam;
+10		call MeeSiam;
+11		lime = fish + jam - ayam - broccoli + oats - date;
+12		chilli = date * fish + lime - broccoli * oats;
+13		fish = broccoli * oats - jam - date * 10 - 5 + 9 * 20 + oats;
+14		oats = broccoli * ayam - fish + oats;
+15		if oats then {
+16			if broccoli then {
+17				broccoli = oats + fish - oats * date + broccoli + jam - pea;
+18				fish = broccoli + oats - ayam + broccoli - ketchup;
+19				oats = 9 + 100 - 20 + ketchup * 20 - pea + date;
+20				date = broccoli - ayam + chilli - date;
+21				broccoli = jam + iceCream - ginger;
+22				call CarrotCake;
+			}
+			else {
+23				call MalaHotpot;
+24				oats = broccoli + fish - 20;
+25				ginger = 100 * 2 - date * 20;
+26				chilli = chilli + ayam - 30;
+27				fish = fish - ginger + broccoli;
+28				ayam = ayam - honey;
+29				broccoli = iceCream + jam;
+30				oats = ayam + fish + pea - 100;
+			}
+31			honey = fish + jam - ayam - broccoli + oats - date;
+32			date = date * fish + lime - broccoli * oats;
+33			jam = broccoli * oats - jam - date * 10 - 5 + 9 * 20 + oats;
+34			date = broccoli * ayam - fish + oats;
+		}
+		else {
+35			fish = (broccoli * oats - jam) - (date * 10) - 5 + (9 * 20) + oats;
+36			broccoli = honey - nutmeg * oats + pea - ayam;
+37			call MalaHotpot;
+38			iceCream = nutmeg * oats;
+39			honey = fish + iceCream * jam;
+		}
+40		call WantonMee;
+41		call McSpicy;
+42		call Rojak;
+43		oats = chilli + ayam - 3;
+}
+
+procedure MeeSiam {
+44		call NasiLemak;
+45		while iceCream {
+46			chilli = ayam + 100 - 20 * 5 + ketchup - egg;
+47			egg = ketchup - ayam + chilli;
+48			while ayam {
+49				while chilli {
+50					while ketchup {
+51						ketchup = 1 - 5 * 20;
+52						oats = 9 + 100 - 20 + ketchup * 20;
+53						ayam = 5 + 9 * 20;
+54						ketchup = (1 - 5 * 20) - 100 * egg;
+					}
+				}
+55				while ayam {
+56					chilli = ketchup;
+57					fish = 9 + 100 - 20 + ketchup * 20;
+58					egg = 100 * 2 - date * 20;
+59					chilli = chilli;
+60					chilli = chilli + ketchup * 20;
+61					ayam = oats - 20 + 30 * (100 - 5 + egg) + 9 - 20 * 10;
+				}
+62				ketchup = ayam + fish - 100 + 20 * 5 - 9 - 20 * 10;
+63				ayam = ketchup + fish - 100 + 20 * 5;
+64				while fish {
+65					fish = fish;
+66					fish = fish + fish;
+67					fish = ketchup - egg * 5 + chilli - 20 * 9;
+				}
+			}
+		}
+68		chilli = ketchup + (ayam - egg) + 5 * (100 - 20 + (chilli + egg - ketchup) + oats) - fish;
+69		fish = chilli - ketchup + (ayam - egg) + 5 * (100 - 20);
+70		call CharKwayTeow;
+}
+
+procedure CarrotCake {
+71		ginger = iceCream + ketchup - chilli + jam * 5 - 9 + date - 100;
+72		iceCream = ginger - ketchup + 9 - 5 * date - 100;
+73		iceCream = chilli - 20 * 9;
+74		chilli = 9 + 100 - 20 + ketchup * 20;
+75		jam = chilli + egg - ketchup;
+76		while jam {
+77			while egg {
+78				while jam {
+79					if egg then {
+80						egg = ketchup - egg * 5;
+81						call MeeSiam;
+82						jam = chilli + ketchup * 20;
+					} 
+					else {
+83						ketchup = egg * oats - jam + ginger;
+84						while date {
+85							date = ketchup - iceCream + ginger - 9 + 100 * 5;
+						}
+86						egg = chilli + egg - ketchup;
+87						ketchup = date + iceCream + 100 - 9;
+					}
+				}
+88				if jam then {
+89					ketchup = egg + chilli - ketchup;
+90					egg = chilli + egg;
+91					ginger = ginger - ketchup + 9;
+				}
+				else {
+92					ketchup = ginger + chilli - 5 * 100 - 20 * egg;
+93					date = jam + 20 + ketchup * 20;
+94					while jam {
+95						jam = ketchup + chilli * 20;
+96						chilli = 20 * 10 + 9 - 100 * 20 - ketchup;
+					}
+97					chilli = iceCream + 9 + 100 - 20 + ketchup;
+				}
+98				while chilli {
+99					iceCream = ketchup + chilli - 9 + 20 * 100;
+				}
+100				iceCream = iceCream + ginger - jam;
+101				call MalaHotpot;
+102				call BakKutTeh;
+103				jam = ketchup + 20 - 100;
+			}
+		}
+}
+
+procedure MalaHotpot {
+104		iceCream = pea - lime * 100 - 20 + honey * fish;
+105		pea = lime + 20 - 5 * fish + pea;
+106		lime = 20 * 100 + fish;
+107		iceCream = iceCream * 100 - 2 + 9 * 100;
+108		pea = lime - iceCream + fish - 20 * 100;
+109		while lime {
+110			if pea then {
+111				while lime {
+112					if pea then {
+113						lime = iceCream + lime - pea + fish * 20;
+114						fish = 20 * lime - 2 + 50 - 9 + 1;
+115						call BakKutTeh;
+116						lime = iceCream + fish - pea - 20 + 100;
+117						pea = iceCream + 10;
+					}
+					else {
+118						pea = lime - 10 + 100 - fish;
+119						fish = pea + lime - 100 * 20 + 5 - iceCream;
+120						call BeeHoon;
+121						fish = pea + 100 - 5 * 20 + 9 + iceCream;
+					}
+				}
+			}
+			else {
+122				honey = honey + 20 - 100 * fish;
+123				while honey {
+124					fish = honey + 20 + iceCream + 10;
+				}
+125				honey = fish - pea - 20;
+126				if fish then {
+127					honey = fish - 2 + 50 - 9 + 1;
+				}
+				else {
+128					iceCream = honey * (lime - iceCream);
+				}
+129				pea = 9 + iceCream;
+130				call CurryFishHead;
+131				pea = lime + iceCream - 10;
+			}
+		}
+132		iceCream = pea + lime + iceCream - 10;
+133		call Bingsu;
+}
+
+procedure WantonMee {
+134		mushroom = nutmeg + broccoli + ayam - 100 * 9 - 20 + oats - 100 * 5 + date - pea;
+135		broccoli = ayam - 100 * 9 - 20;
+136		oats = broccoli + nutmeg + broccoli + ayam - 100 * 9;
+137		pea = pea + oats - nutmeg + broccoli + ayam - 100 * 9;
+138		call CurryFishHead;
+139		date = (date * 10) - 5;
+140		mushroom = mushroom + fish * 10 - broccoli * 100 + ayam;
+141		ayam = oats * 9 - pea * 5 + ayam;
+142		while ayam {
+143			oats = pea + oats - broccoli + ayam;
+144			oats = oats - 100 * 9;
+145			broccoli = 9 - 20 + oats - 100 * 5;
+		}
+146		call Bingsu;
+147		broccoli = mushroom + nutmeg + ayam;
+148		nutmeg = nutmeg + broccoli + ayam - 100 * 9;
+}
+
+procedure Rojak {
+149		iceCream = honey + chilli - 100 * 5 + fish + 9 - 20 - date;
+150		fish = iceCream + honey - chilli * 5 - fish + 9 - 20;
+151		honey = fish - 100;
+152		while fish {
+153			iceCream = honey + fish - 100 * 5 + fish - 20;
+154			date = 100 * 5 + fish - date;
+155			while honey {
+156				honey = chilli - 100 * 20 + date - iceCream;
+157				iceCream = chilli + 20 * 100;
+158				fish = iceCream + date - honey;
+			}
+159			iceCream = honey + chilli - fish;
+		}
+160		call WantonMee;
+161		honey = fish * 100 - date;
+162		call Bingsu;
+163		if date then {
+164			iceCream = fish + honey;
+		}
+		else {
+165			iceCream = chilli + 20 + 10 * 5 - 9;
+		}
+166		call Takoyaki;
+167		chilli = iceCream + honey + chilli - fish;
+168		fish = honey + chilli - 100 * 5;
+}
+
+procedure NasiLemak {
+169		while honey {
+170			call FriedRice;
+171			while honey {
+172				call FriedRice;
+173				while honey {
+174					call FriedRice;
+				}
+			}
+175			while honey {
+176				call FriedRice;
+			}
+		}
+177		if honey then {
+178			call BakKutTeh;
+179			if honey then {
+180				call BakKutTeh;
+			}
+			else {
+181				call BakKutTeh;
+			}
+		}
+		else {
+182			call BakKutTeh;
+		}
+}
+
+procedure CharKwayTeow {
+183		ginger = fish + mushroom - 100 * 5 + nutmeg - egg;
+184		fish = egg + 100 * 5 - 20 + nutmeg;
+185		call FriedRice;
+186		while nutmeg {
+187			ginger = fish + 5 - nutmeg;
+		}
+188		call McSpicy;
+189		fish = ginger * 100 - 5;
+190		egg = fish - 2 + 50 - 9 + 1;
+191		call CurryFishHead;
+192		ginger = egg + fish - 2 + 50 - 9 + 1;
+}
+
+procedure CurryFishHead {
+193		chilli = broccoli + (5 - (9 * (chilli + ayam - 30) + 100 * 2 - date * 20));
+194		call Laksa;
+195		broccoli = chilli + ayam - date;
+196		ayam = date + chilli;
+}
+
+procedure Bingsu {
+197		jam = nutmeg + broccoli + ayam - 100 * 9;
+198		ketchup = nutmeg + broccoli + ayam - 100 * 9;
+199		nutmeg = 100 * 9;
+200		while nutmeg {
+201			jam = nutmeg + broccoli + ayam - 100 * 9;
+202			call BeeHoon;
+		}
+203		if jam then {
+204			ketchup = ayam - 100 * 9;
+205			broccoli = nutmeg + broccoli;
+206			call YongTauFoo;
+207			call RotiPrata;
+208			ayam = ayam - 100 * 9;
+		}
+		else {
+209			jam = nutmeg + broccoli + ayam - 100 * 9;
+210			ayam = nutmeg + broccoli;
+211			call BeeHoon;
+212			call HokkienMee;
+213			nutmeg = 100 * 9;
+		}
+}
+
+procedure Takoyaki {
+214		date = iceCream + chilli + 20 + 10 * 5 - 9;
+215		call RotiPrata;
+216		chilli = chilli + 20 + 10 * 5 - 9;
+}
+
+procedure BakKutTeh {
+217		broccoli = fish + broccoli - egg * ginger;
+218		egg = fish + ginger - 100 * 9;
+219		ginger = 20 + 10 * 5 - 9 * iceCream;
+220		call McSpicy;
+221		call BeeHoon;
+222		call HokkienMee;
+223		ginger = broccoli + egg + fish - ginger * iceCream;
+}
+
+procedure FriedRice {
+224		broccoli = fish + broccoli - egg * ginger;
+225		fish = ginger * 9 + 100 - 20 + 1;
+226		egg = broccoli + 20 * 9 - fish * ginger;
+227		broccoli = ginger * 20;
+228		egg = ginger;
+229		fish = egg * 100 * 9 - 20;
+}
+
+procedure McSpicy {
+230		ayam = broccoli + chilli;
+231		call Zinger;
+232		call Zinger;
+233		chilli = ayam + broccoli - date;
+}
+
+procedure Zinger {
+234		date = iceCream + fish;
+235		fish = 20 + fish * 100;
+236		ginger = 100 * 5;
+}
+
+procedure BeeHoon {
+237		nutmeg = jam + ketchup - lime * 100 + 2;
+238		call LorMee;
+239		jam = lime - 100 * 9;
+240		call Popiah;
+241		lime = jam - nutmeg + 100 * 9;
+}
+
+procedure Laksa {
+242		oats = pea + ketchup - chilli * 100 - 5 + 20;
+243		call Zinger;
+244		chilli = pea + 20 * (100 * 9);
+245		call LorMee;
+246		pea = ginger * honey - oats;
+247		oats = lime + 5 + pea;
+248		call Popiah;
+249		lime = ketchup + pea;
+}
+
+procedure HokkienMee {
+250		lime = (ayam - honey) * ginger;
+251		honey = ayam * ginger + 100;
+252		call LorMee;
+253		honey = lime + ginger - ayam;
+254		call Popiah;
+255		ginger = lime * ayam;
+}
+
+procedure RotiPrata {
+256		oats = 9 * (chilli + ayam - 30) + 100 * 2 - date * 20;
+257		pea = 1 - 5 * 20;
+258		call YongTauFoo;
+259		ayam = oats + date;
+}
+
+procedure YongTauFoo {
+260		fish = 5 - (9 * (chilli + ayam - 30) + 100 * 2 - date * 20) + (((1 - 5 * 20) - 100 * egg) + fish - ginger + broccoli) - (ayam - honey) * ginger - fish + 100 - 20 * 4;
+261		call LorMee;
+262		ginger = broccoli * (100 - 9);
+263		broccoli = fish + (100 * 9);
+264		call Popiah;
+265		broccoli = fish + broccoli - 9;
+}
+
+procedure LorMee {
+266		egg = iceCream + ginger * 5;
+267		call Popiah;
+268		chilli = fish - 10 + egg;
+}
+
+procedure Popiah {
+269		ayam = broccoli * 9;
+270		pea = ginger + honey * 5;
+271		nutmeg = ayam + honey;
+}

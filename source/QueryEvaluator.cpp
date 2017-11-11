@@ -214,12 +214,12 @@ BOOLEAN QueryEvaluator::getRelationResultFromPkb(Relation *t_relation, INTEGER t
   Grammar g1 = t_relation->getG1();
   Grammar g2 = t_relation->getG2();
 
-  /*if (m_cache->isCacheable(t_relation)) {
-    SET_OF_RESULTS *cachedResults = m_cache->getCache(t_relation);
+  if (m_cache->isCacheable(t_relation)) {
+    SET_OF_RESULTS_INDICES *cachedResults = m_cache->getCache(t_relation);
     if (cachedResults) {
       return storeRelationResultFromPkb(t_relation, *cachedResults, t_tableIdx);
     }
-  }*/
+  }
 
   // Get the respective evaluators to get the results of the relation clauses
   if (QueryUtil::isAllUnderscores(g1, g2)) {
@@ -243,9 +243,9 @@ BOOLEAN QueryEvaluator::getRelationResultFromPkb(Relation *t_relation, INTEGER t
     return false;
   }
 
-  /*if (m_cache->isCacheable(t_relation)) {
+  if (m_cache->isCacheable(t_relation)) {
     m_cache->cache(t_relation, result);
-  }*/
+  }
 
   // Store the result
   return storeRelationResultFromPkb(t_relation, result, t_tableIdx);
@@ -259,12 +259,12 @@ BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern *t_pattern, INTEGER t_ta
   Grammar g2 = t_pattern->getRight();
   BOOLEAN isExact = !t_pattern->isSubtree();
 
-  /*if (m_cache->isCacheable(t_pattern)) {
-    SET_OF_RESULTS *cachedResults = m_cache->getCache(t_pattern);
+  if (m_cache->isCacheable(t_pattern)) {
+    SET_OF_RESULTS_INDICES *cachedResults = m_cache->getCache(t_pattern);
     if (cachedResults) {
       return storePatternResultFromPkb(t_pattern, *cachedResults, t_tableIdx);
     }
-  }*/
+  }
 
   // Get the respective evaluators to get the results of the pattern clauses
   if (QueryUtil::isAnythingWithAnyPattern(g1, g2)) {
@@ -292,9 +292,9 @@ BOOLEAN QueryEvaluator::getPatternResultFromPkb(Pattern *t_pattern, INTEGER t_ta
     return false;
   }
 
-  /*if (m_cache->isCacheable(t_pattern)) {
+  if (m_cache->isCacheable(t_pattern)) {
     m_cache->cache(t_pattern, result);
-  }*/
+  }
 
   // Store the result
   return storePatternResultFromPkb(t_pattern, result, t_tableIdx);

@@ -1,0 +1,1245 @@
+1 - Tuple MultipleElem DiffSynonym
+stmt s1, s2;
+Select <s1, s2>
+Too large Test case, need to manually run python generator
+5000
+2 - Tuple MultipleElem DiffEntity
+stmt s; variable v;
+Select <s, v>
+Too large Test case, need to manually run python generator
+5000
+3 - 1 suchthat 2 with 2 pattern
+stmt s; call c; procedure p; assign a; variable v; while w;
+Select <s,p,w,v,a> such that Modifies(p,v) with p.procName = "Eleven" and s.stmt# = c.stmt# pattern w(v,_) and a(_,_"3"_)
+Too large Test case, need to manually run python generator
+5000
+4 - select all stmt
+stmt s;
+Select s
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+5 - select all assign
+assign a;
+Select a
+1,2,4,5,7,8,9,10,12,13,15,16,17,19,20,21,22,23,24,25,26,27,28,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,49,50,52,53,55,56,57,58,59,60,61,62,63,65,67,68,69,70,71,73,74,75,76,77,78,79,81,83,84,85,86,87,90,91,92,93,94,95,98,99,101,102,103,106,107,108,109,110,111,112,113,114,115,116,117,118,120,121,122,124,125,126,127,128,129,130,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,147,148,150,152,153,156,157,158,159,161,162,163,164,166,167,168,169,170,172,173,175,177,178,179,181,182,183
+5000
+6 - select all whiles
+while w;
+Select w
+3,14,29,48,54,66,72,80,82,88,89,149,151,154,155,160,171,174,176
+5000
+7 - select all ifs
+if i;
+Select i
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+8 - Entity concatenates ValidSynonym
+if ifs;
+Select ifs
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+9 - select all calls
+call cl;
+Select cl
+11,51,100,105
+5000
+10 - select all constants
+constant c;
+Select c
+1,2,3,4,5,7,8,9,10,12,13,14,15,16,17,18,19,20,22,23,24,25,26,28,31,34,35,37,41,43,44,45,46,47,48,49,53,54,64,69,70,71,72,73,74,77,78,79,81,88,91,99,100,120,122,123
+5000
+11 - Synonym with entity name, Two seemingly entity,
+variable constant;
+Select constant
+alpaca,antelope,badger,bear,bird,camel,anaconda,cat,dog,deer,cow,elephant,dinosaur,dolphin,eagle,earthworm,eel,flea,fly,flamingo,gazelle,gorilla,hawk,hedgehog,human,hamster,iguana,jaguar
+5000
+12 - select all variables
+variable v;
+Select v
+alpaca,antelope,badger,bear,bird,camel,anaconda,cat,dog,deer,cow,elephant,dinosaur,dolphin,eagle,earthworm,eel,flea,fly,flamingo,gazelle,gorilla,hawk,hedgehog,human,hamster,iguana,jaguar
+5000
+13 - select all procedures
+procedure p;
+Select p
+Ten, Eleven, Twelve
+5000
+14 - select all prog_lines
+prog_line pl;
+Select pl
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+15 - Synonym cannot have underscore NoResult
+prog_line prog_line;
+Select prog_line
+none
+5000
+16 - BlankDeclaration BlankSelection
+
+
+none
+5000
+17 - BlankDeclaration BlankSelection
+
+Select s
+none
+5000
+18 - BlankSelection
+stmt s;
+
+none
+5000
+19 - Single AttrRef All Stmt HasResult
+stmt s;
+Select s.stmt#
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+20 - Single AttrRef All Assign HasResult
+assign a;
+Select a.stmt#
+1,2,4,5,7,8,9,10,12,13,15,16,17,19,20,21,22,23,24,25,26,27,28,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,49,50,52,53,55,56,57,58,59,60,61,62,63,65,67,68,69,70,71,73,74,75,76,77,78,79,81,83,84,85,86,87,90,91,92,93,94,95,98,99,101,102,103,106,107,108,109,110,111,112,113,114,115,116,117,118,120,121,122,124,125,126,127,128,129,130,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,147,148,150,152,153,156,157,158,159,161,162,163,164,166,167,168,169,170,172,173,175,177,178,179,181,182,183
+5000
+21 - Single AttrRef All While HasResult
+while w;
+Select w.stmt#
+3,14,29,48,54,66,72,80,82,88,89,149,151,154,155,160,171,174,176
+5000
+22 - Single AttrRef All If HasResult
+if i;
+Select i.stmt#
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+23 - Single AttrRef All CallStmt HasResult
+call cl;
+Select cl.stmt#
+11,51,100,105
+5000
+24 - Single AttrRef All CallProcName HasResult
+call cl;
+Select cl.procName
+Eleven, Twelve
+5000
+25 - Single AttrRef All Constant HasResult
+constant c;
+Select c.value
+1,2,3,4,5,7,8,9,10,12,13,14,15,16,17,18,19,20,22,23,24,25,26,28,31,34,35,37,41,43,44,45,46,47,48,49,53,54,64,69,70,71,72,73,74,77,78,79,81,88,91,99,100,120,122,123
+5000
+26 - Single AttrRef All Variable HasResult
+variable v;
+Select v.varName
+alpaca,antelope,badger,bear,bird,camel,anaconda,cat,dog,deer,cow,elephant,dinosaur,dolphin,eagle,earthworm,eel,flea,fly,flamingo,gazelle,gorilla,hawk,hedgehog,human,hamster,iguana,jaguar
+5000
+27 - Single AttrRef All Procedure HasResult
+procedure p;
+Select p.procName
+Ten, Eleven, Twelve
+5000
+28 - Tuple SingleElem HasResult
+stmt s;
+Select <s>
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+29 - Tuple MultipleElem SameSynonym
+stmt s;
+Select <s, s>
+1 1,2 2,3 3,4 4,5 5,6 6,7 7,8 8,9 9,10 10,11 11,12 12,13 13,14 14,15 15,16 16,17 17,18 18,19 19,20 20,21 21,22 22,23 23,24 24,25 25,26 26,27 27,28 28,29 29,30 30,31 31,32 32,33 33,34 34,35 35,36 36,37 37,38 38,39 39,40 40,41 41,42 42,43 43,44 44,45 45,46 46,47 47,48 48,49 49,50 50,51 51,52 52,53 53,54 54,55 55,56 56,57 57,58 58,59 59,60 60,61 61,62 62,63 63,64 64,65 65,66 66,67 67,68 68,69 69,70 70,71 71,72 72,73 73,74 74,75 75,76 76,77 77,78 78,79 79,80 80,81 81,82 82,83 83,84 84,85 85,86 86,87 87,88 88,89 89,90 90,91 91,92 92,93 93,94 94,95 95,96 96,97 97,98 98,99 99,100 100,101 101,102 102,103 103,104 104,105 105,106 106,107 107,108 108,109 109,110 110,111 111,112 112,113 113,114 114,115 115,116 116,117 117,118 118,119 119,120 120,121 121,122 122,123 123,124 124,125 125,126 126,127 127,128 128,129 129,130 130,131 131,132 132,133 133,134 134,135 135,136 136,137 137,138 138,139 139,140 140,141 141,142 142,143 143,144 144,145 145,146 146,147 147,148 148,149 149,150 150,151 151,152 152,153 153,154 154,155 155,156 156,157 157,158 158,159 159,160 160,161 161,162 162,163 163,164 164,165 165,166 166,167 167,168 168,169 169,170 170,171 171,172 172,173 173,174 174,175 175,176 176,177 177,178 178,179 179,180 180,181 181,182 182,183 183
+5000
+30 - Tuple SingleElem AttrRef
+assign a;
+Select <a.stmt#>
+1,2,4,5,7,8,9,10,12,13,15,16,17,19,20,21,22,23,24,25,26,27,28,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,49,50,52,53,55,56,57,58,59,60,61,62,63,65,67,68,69,70,71,73,74,75,76,77,78,79,81,83,84,85,86,87,90,91,92,93,94,95,98,99,101,102,103,106,107,108,109,110,111,112,113,114,115,116,117,118,120,121,122,124,125,126,127,128,129,130,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,147,148,150,152,153,156,157,158,159,161,162,163,164,166,167,168,169,170,172,173,175,177,178,179,181,182,183
+5000
+31 - Tuple MultipleElem CallPermutation
+call cl;
+Select <cl.stmt#, cl.procName>
+11 Eleven,51 Twelve,100 Eleven,105 Twelve
+5000
+32 - Select boolean without any clauses
+
+Select BOOLEAN
+true
+5000
+33 - Select boolean with invalid query
+
+Select BOOLEAN dwervtegcewf
+false
+5000
+34 - None
+assign a; constant c;
+Select a with a.stmt#=c.value
+1,2,4,5,7,8,9,10,12,13,15,16,17,19,20,22,23,24,25,26,28,31,34,35,41,43,44,45,46,49,53,69,70,71,73,74,77,78,79,81,91,99,120,122
+5000
+35 - Invalid: Synonym not declared
+stmt s;
+Select p such that Calls(p,_)
+none
+5000
+36 - Invalid: Typo error
+stmt s; procedure p1,p2;
+Selectt s suchthat Calls(p1, p2)
+none
+5000
+37 - select boolean typo error
+procedure p1,p2;
+Select BOOLEAN suchthat Calls(p1,p2)
+false
+5000
+38 - Synonym declaration test
+procedure Japan,Tokyo,Osaka;
+Select Japan such that Calls(Tokyo, Osaka)
+Ten, Eleven, Twelve
+5000
+39 - callstar boolean return true
+
+Select BOOLEAN such that Calls*("Ten","Eleven")
+true
+5000
+40 - callstar boolean return false
+
+Select BOOLEAN such that Calls*("Eleven","Ten")
+false
+5000
+41 - callstar boolean underscore on second arg returns true
+
+Select BOOLEAN such that Calls*("Ten",_)
+true
+5000
+42 - callstar boolean underscore on second arg returns false
+
+Select BOOLEAN such that Calls*("Eleven",_)
+false
+5000
+43 - callstar boolean underscore on first arg returns true
+
+Select BOOLEAN such that Calls*(_,"Eleven")
+true
+5000
+44 - callstar boolean underscore on first arg returns false
+
+Select BOOLEAN such that Calls*(_,"Ten")
+false
+5000
+45 - callstar boolean underscore on both arg returns true
+
+Select BOOLEAN such that Calls*(_,_)
+true
+5000
+46 - callstar 1 clause 1 synonym on first arg has result
+procedure p;
+Select p such that Calls*(p, "Eleven")
+Ten
+5000
+47 - callstar 1 clause 1 synonym on first arg no result
+procedure p;
+Select p such that Calls*(p, "Ten")
+none
+5000
+48 - callstar 1 clause 1 synonym on second arg has result
+procedure p;
+Select p such that Calls*("Ten",p)
+Eleven, Twelve
+5000
+49 - callstar 1 clause 1 synonym on second arg no result
+procedure p;
+Select p such that Calls*("Eleven",p)
+none
+5000
+50 - callstar 1 clause 1 synonym on first arg + underscore on second arg
+procedure p;
+Select p such that Calls*(p, _)
+Ten
+5000
+51 - callstar 1 clause 1 synonym on second arg + underscore on first arg
+procedure p;
+Select p such that Calls*(_, p)
+Eleven, Twelve
+5000
+52 - callstar 1 clause 2 synonym on both arg select first arg
+procedure p1,p2;
+Select p1 such that Calls*(p1,p2)
+Ten
+5000
+53 - callstar 1 clause 2 synonym on both arg select second arg
+procedure p1,p2;
+Select p2 such that Calls*(p1,p2)
+Eleven, Twelve
+5000
+54 - callstar 1 clause 2 synonym on both arg select tuple
+procedure p1,p2;
+Select <p1,p2> such that Calls(p1,p2)
+Ten Eleven, Ten Twelve
+5000
+55 - NoDeclaration ValidRelation False
+
+Select BOOLEAN such that Follows (s, a)
+false
+5000
+56 - uses boolean both arg given return true
+
+Select BOOLEAN such that Uses(36,"deer")
+true
+5000
+57 - uses boolean both arg given return false
+
+Select BOOLEAN such that Uses(36,"human")
+false
+5000
+58 - uses boolean underscore on second arg return true
+
+Select BOOLEAN such that Uses(4,_)
+true
+5000
+59 - uses boolean underscore on second arg return false
+
+Select BOOLEAN such that Uses(5,_)
+false
+5000
+60 - uses boolean for 2 clauses both true
+
+Select BOOLEAN such that Uses(36,"deer") and Uses(4,_)
+true
+5000
+61 - uses boolean for 2 clauses one true one false
+
+Select BOOLEAN such that Uses(36,"human") and Uses(_,175)
+false
+5000
+62 - uses synonym on first arg underscore on second arg select stmt
+stmt s;
+Select s such that Uses(s, _)
+2,3,4,6,7,8,10,11,12,13,14,16,18,19,20,21,22,23,24,25,27,29,30,31,33,34,36,37,39,40,41,42,43,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,65,66,67,68,69,71,72,74,76,79,80,81,82,84,85,88,89,90,91,93,95,96,97,99,100,101,102,103,104,105,107,108,109,110,112,113,116,117,119,120,121,122,123,124,125,126,128,129,130,131,132,134,135,136,138,140,142,143,144,145,146,147,148,149,150,151,152,153,154,155,157,159,160,161,165,166,168,170,171,172,174,176,180,182
+5000
+63 - uses synonym on first arg underscore on second arg select assign
+assign a;
+Select a such that Uses(a, _)
+2,4,7,8,10,12,13,16,19,20,21,22,23,24,25,27,31,33,34,36,39,40,41,42,43,46,49,50,52,53,55,56,57,58,59,60,61,65,67,68,69,71,74,76,79,81,84,85,90,91,93,95,99,101,102,103,107,108,109,110,112,113,116,117,120,121,122,124,125,126,128,129,130,131,132,134,135,136,140,142,143,144,145,146,147,148,150,152,153,157,159,161,166,168,170,172,182
+5000
+64 - uses synonym on first arg underscore on second arg select while
+while w;
+Select w such that Uses(w,_)
+3,14,29,48,54,66,72,80,82,88,89,149,151,154,155,160,171,174,176
+5000
+65 - uses synonym on first arg underscore on second arg select if
+if i;
+Select i such that Uses(i,_)
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+66 - uses synonym on first arg underscore on second arg select proc
+procedure p;
+Select p such that Uses(p,_)
+Ten,Eleven,Twelve
+5000
+67 - uses synonym on first arg underscore on second arg select progline
+prog_line n;
+Select n such that Uses(n,_)
+2,3,4,6,7,8,10,11,12,13,14,16,18,19,20,21,22,23,24,25,27,29,30,31,33,34,36,37,39,40,41,42,43,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,65,66,67,68,69,71,72,74,76,79,80,81,82,84,85,88,89,90,91,93,95,96,97,99,100,101,102,103,104,105,107,108,109,110,112,113,116,117,119,120,121,122,123,124,125,126,128,129,130,131,132,134,135,136,138,140,142,143,144,145,146,147,148,149,150,151,152,153,154,155,157,159,160,161,165,166,168,170,171,172,174,176,180,182
+5000
+68 - invalid query: uses do not take underscore on first arg
+variable v;
+Select v such that Uses(_,v)
+none
+5000
+69 - uses second arg given, get stmt
+stmt s;
+Select s such that Uses(s, "bird")
+3,6
+5000
+70 - uses second arg given, get stmt
+stmt s;
+Select s such that Uses(s, "badger")
+13,14,18,24,27,47,48,51,64,66,67,72,74,80,82,84,85,95,96,97,99,104,105,112,113,117,119,123,125,126,130,146,147,165,168,170
+5000
+71 - uses second arg given, get assigns
+assign a;
+Select a such that Uses(a, "anaconda")
+16,42,84,85,112,113,142,166,172
+5000
+72 - uses second arg given, get whiles
+while w;
+Select w such that Uses(w, "cat")
+3,14,48,80,88,89,149,160,171,174
+5000
+73 - uses second arg given, get ifs
+if i;
+Select i such that Uses(i, "flamingo")
+165,47,96,97,104
+5000
+74 - uses second arg given, get calls
+call c;
+Select c such that Uses(c, "dog")
+11,100
+5000
+75 - uses first arg given, indirect relation, get variable
+variable v;
+Select v such that Uses(138, v)
+cat,camel,anaconda,earthworm,human
+5000
+76 - uses first arg given, direct relation, get variable
+variable v;
+Select v such that Uses(144, v)
+human
+5000
+77 - uses first arg given, no variable, boundary test
+variable v;
+Select v such that Uses(184,v)
+none
+5000
+78 - uses multiple synonym select stmt
+stmt s; variable v;
+Select s such that Uses(s, v)
+2,3,4,6,7,8,10,11,12,13,14,16,18,19,20,21,22,23,24,25,27,29,30,31,33,34,36,37,39,40,41,42,43,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,65,66,67,68,69,71,72,74,76,79,80,81,82,84,85,88,89,90,91,93,95,96,97,99,100,101,102,103,104,105,107,108,109,110,112,113,116,117,119,120,121,122,123,124,125,126,128,129,130,131,132,134,135,136,138,140,142,143,144,145,146,147,148,149,150,151,152,153,154,155,157,159,160,161,165,166,168,170,171,172,174,176,180,182
+5000
+79 - uses multiple synonym select assign
+assign a; variable v;
+Select a such that Uses(a, v)
+2,4,7,8,10,12,13,16,19,20,21,22,23,24,25,27,31,33,34,36,39,40,41,42,43,46,49,50,52,53,55,56,57,58,59,60,61,65,67,68,69,71,74,76,79,81,84,85,90,91,93,95,99,101,102,103,107,108,109,110,112,113,116,117,120,121,122,124,125,126,128,129,130,131,132,134,135,136,140,142,143,144,145,146,147,148,150,152,153,157,159,161,166,168,170,172,182
+5000
+80 - uses multiple synonym select while
+while w;variable v;
+Select w such that Uses(w,v)
+3,14,29,48,54,66,72,80,82,88,89,149,151,154,155,160,171,174,176
+5000
+81 - uses multiple synonym select if
+if i;variable v;
+Select i such that Uses(i,v)
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+82 - uses multiple synonym select proc
+procedure p;variable v;
+Select p such that Uses(p,v)
+Ten,Eleven,Twelve
+5000
+83 - uses multiple synonym select progline
+prog_line n;variable v;
+Select n such that Uses(n,v)
+2,3,4,6,7,8,10,11,12,13,14,16,18,19,20,21,22,23,24,25,27,29,30,31,33,34,36,37,39,40,41,42,43,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,65,66,67,68,69,71,72,74,76,79,80,81,82,84,85,88,89,90,91,93,95,96,97,99,100,101,102,103,104,105,107,108,109,110,112,113,116,117,119,120,121,122,123,124,125,126,128,129,130,131,132,134,135,136,138,140,142,143,144,145,146,147,148,149,150,151,152,153,154,155,157,159,160,161,165,166,168,170,171,172,174,176,180,182
+5000
+84 - no common synonym return none if no v
+stmt s; variable v;
+Select s such that Uses(1,v)
+none
+5000
+85 - no common synonym return stmts if has v
+stmt s; variable v;
+Select s such that Uses(2,v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+86 - no common synonym return all stmts
+stmt s,s1; variable v;
+Select s1 such that Uses(s, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+87 - no common synonym return all assigns
+assign a; stmt s; variable v;
+Select a such that Uses(s, v)
+1,2,4,5,7,8,9,10,12,13,15,16,17,19,20,21,22,23,24,25,26,27,28,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,49,50,52,53,55,56,57,58,59,60,61,62,63,65,67,68,69,70,71,73,74,75,76,77,78,79,81,83,84,85,86,87,90,91,92,93,94,95,98,99,101,102,103,106,107,108,109,110,111,112,113,114,115,116,117,118,120,121,122,124,125,126,127,128,129,130,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,147,148,150,152,153,156,157,158,159,161,162,163,164,166,167,168,169,170,172,173,175,177,178,179,181,182,183
+5000
+88 - no common synonym return all whiles
+while w; stmt s; variable v;
+Select w such that Uses(s,v)
+3,14,29,48,54,66,72,80,82,88,89,149,151,154,155,160,171,174,176
+5000
+89 - no common synonym return all ifs
+if i; stmt s; variable v;
+Select i such that Uses(s,v)
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+90 - no common synonym return all calls
+call c; stmt s; variable v;
+Select c such that Uses(s,v)
+11,51,100,105
+5000
+91 - no common synonym return all variables
+stmt s; variable v,v1;
+Select v1 such that Uses(s,v)
+alpaca,antelope,badger,bear,bird,camel,anaconda,cat,dog,deer,cow,elephant,dinosaur,dolphin,eagle,earthworm,eel,flea,fly,flamingo,gazelle,gorilla,hawk,hedgehog,human,hamster,iguana,jaguar
+5000
+92 - no common synonym return all procedure
+procedure p; stmt s; variable v;
+Select p such that Uses(s,v)
+Ten,Eleven,Twelve
+5000
+93 - no common synonym return all constants
+constant c; stmt s; variable v;
+Select c such that Uses(c,v)
+none
+5000
+94 - no common synonym return all proglines
+stmt s; variable v; prog_line n;
+Select n such that Uses(s,v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183
+5000
+95 - nextstar same synonym on both args select s
+stmt s;
+Select s such that Next*(s,s)
+3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,48,49,50,51,52,53,54,55,56,57,58,59,60,66,67,68,72,73,74,75,76,80,81,82,83,84,85,88,89,90,91,92,93,94,149,150,151,152,153,154,155,156,157,158,159,160,161,162,171,172,173,174,175,176,177,178,179,180,181,182
+5000
+96 - nextstar s c and nextstar c s select s
+stmt s; call c;
+Select s such that Next*(s,c) and Next*(c,s)
+3,4,5,6,7,8,9,10,11,12,48,49,50,51,52,53
+5000
+97 - next a w and nextstar a i select a
+assign a; while w; if i;
+Select a such that Next(a,w) and Next*(a,i)
+2,9,12,13,26,28,34,40,43,53,60,65,68,71,76,79,81,84,85,87,94,170,173,175,178,181,182
+5000
+98 - next n1 n2 and nextstar n2 n3 select n2
+prog_line pl1, pl2, pl3;
+Select pl2 such that Next(pl1, pl2) and Next*(pl2, pl3)
+2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,149,150,151,152,153,154,155,156,157,158,159,160,161,162,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182
+5000
+99 - suchthat + with
+stmt s; assign a; call c;
+Select s such that Next(s,a) with s.stmt# = c.stmt#
+11,51,100,105
+5000
+100 - None
+assign a;
+Select a such that Affects*(27,a)
+36,39,41,43,55,56, 57, 58,59,60,61,65,68,69,90,93,110, 116, 120,  122, 124, 125, 129, 130, 131, 132,148
+5000
+101 - None
+assign a;
+Select a such that Affects*(27,a) pattern a("earthworm",_)
+43
+5000
+102 - None
+assign a;
+Select a such that Affects(1,a)
+2,20,21,76,128,130
+5000
+103 - None
+assign a;
+Select a such that Affects(a,_)
+1, 2, 4, 5, 8, 9, 10, 12, 13, 15, 16, 17, 20, 22, 23, 25, 26, 27, 28, 31, 34, 35, 36, 39, 40, 41, 42, 44, 45, 46, 49, 50, 52, 55, 56, 57, 58, 59, 60, 61, 62, 63, 65, 67, 68, 69, 83, 84, 85, 87, 90, 91, 94, 101, 103, 106, 107, 108, 113, 114, 118, 120, 124, 139, 157, 161, 162, 164, 173
+5000
+104 - None
+assign a; constant c;
+Select a such that Affects*(a, _) with a.stmt# = c.value
+1,2,4,5,8,9,10,12,13,15,16,17,20,22,23,25,26,28,31,34,35,41,44,45,46,49,69,91,120
+5000
+105 - None
+assign a; prog_line n;
+Select a such that Affects(a, n) with a.stmt# = 15
+15
+5000
+106 - affects a1 a2 and affects a2 a1 select assign
+assign a1,a2;
+Select a1 such that Affects(a1,a2) and Affects(a2,a1)
+8,10,16,20,23,39,68,90,157,161
+5000
+107 - affects a1 a2 and affects a2 a1 select tuple
+assign a1,a2;
+Select <a1,a2> such that Affects(a1,a2) and Affects(a2,a1)
+8 10,10 8,16 16,20 20,23 23,39 39,68 68,90 90,157 161,161 157
+5000
+108 - PatternAssign Whitespace Tab HasResult True
+assign a;
+	   Select 	  BOOLEAN 	 pattern   	a    	(	   _	   ,    	_	     )
+true
+5000
+109 - PatternWhile
+while w; variable v;
+Select BOOLEAN pattern w(v, _)
+true
+5000
+110 - PatternAssign NoArguments
+assign a;
+Select BOOLEAN pattern a(,)
+false
+5000
+111 - PatternAssign PartialMatch Underscore ExprDiffSubtree NoResult False
+assign a;
+Select BOOLEAN pattern a (_, _"74-88"_)
+false
+5000
+112 - PatternAssign PartialMatch Underscore ExprSameSubtree HasResult True
+assign a;
+Select BOOLEAN pattern a(_, _"badger * 99"_)
+true
+5000
+113 - PatternAssign PartialMatch Underscore ExprBracketPresent HasResult True
+assign a;
+Select BOOLEAN pattern a(_, _"(100*74+(24+24)+5*2)"_)
+true
+5000
+114 - PatternAssign PartialMatch Underscore ExprBracketCountInconsistent NoResult False
+assign a;
+Select BOOLEAN pattern a(_, _"((24+24)"_)
+false
+5000
+115 - PatternAssign PartialMatch Underscore ExprBracketIllegal NoResult False
+assign a;
+Select BOOLEAN pattern a(_, _"{24+24}"_)
+false
+5000
+116 - PatternAssign Ident Underscore
+assign a;
+Select a pattern a("dog", _)
+25,106,161,181,182
+5000
+117 - PatternAssign PartialMatch Variable ExprDigit HasResult
+assign a; variable v;
+Select v pattern a(v, _"9"_)
+cat,badger,cow,bear,earthworm,flamingo,jaguar,eel
+5000
+118 - PatternAssign ExactMatch Variable ExprDigit HasResult
+assign a; variable v;
+Select v pattern a(v, "9")
+cat
+5000
+119 - PatternAssign PartialMatch Variable ExprDigitBracket HasResult
+assign a; variable v;
+Select v pattern a(v, _"(9)"_)
+cat,badger,cow,bear,earthworm,flamingo,jaguar,eel
+5000
+120 - PatternAssign ExactMatch Variable ExprDiffBracketSamePostFix HasResult
+assign a; variable v;
+Select v pattern a(v, "((100 + 91) - 47 + 8) + 4 - 3")
+bear
+5000
+121 - PatternAssign ExactMatch Variable ExprDiffBracketDiffPostFix NoResult
+assign a; variable v;
+Select v pattern a(v, "100  + (91 - 47 + 8) + 4 + 3")
+none
+5000
+122 - PatternModifiesSelect 1 Common Syn
+assign a; variable v; procedure p;
+Select v pattern a(v, _) such that Modifies(p, v)
+alpaca,antelope,badger,bear,camel,anaconda,cat,deer,cow,,dog,elephant,dinosaur,eagle,eel,earthworm,flea,fly,gazelle,gorilla,hawk,hedgehog,dolphin,flamingo,human,hamster,iguana,jaguar,
+5000
+123 - PatternUSes 1 Common Syn, SelectUses 1 Common Syn, HasResult
+assign a; while w; variable v;
+Select w pattern a(v, _) such that Uses(w, v) 
+3, 14, 29, 48, 54, 66, 72, 80, 82, 88, 89, 149, 151, 154, 155, 160, 171, 174, 176
+5000
+124 - PatternParent 1 Common Syn, SelectParent 1 Common Syn, HasResult
+assign a; stmt s;
+Select s pattern a(_, _"flamingo"_) such that Parent(s, a)
+97
+5000
+125 - PatternParentStar 1 Common Syn, SelectParentStar 1 Common Syn, HasResult
+assign a; stmt s;
+Select s pattern a("flamingo", _) such that Parent*(s, a)
+47,48,64,72,88,89,96,97,104,119,123,138,149,151,154,155,165,171,174
+5000
+126 - PatternFollows 1 Common Syn, SelectFollows 1 Common Syn, HasResult
+assign a; stmt s;
+Select s pattern a(_,_) such that Follows(s, a)
+1,101,102,105,106,107,108,11,110,111,112,113,114,116,117,119,120,121,123,124,125,126,127,128,130,132,134,135,136,138,139,14,141,142,143,145,146,149,15,152,154,156,157,16,161,165,166,167,169,172,176,177,18,19,20,21,23,25,27,29,3,31,32,33,35,38,39,4,41,42,44,45,47,49,51,52,55,56,57,58,59,61,62,64,66,67,7,70,72,73,74,75,77,8,80,82,83,86,88,90,91,92,93,96,98
+5000
+127 - PatternNext 1 Common Syn, SelectNext 1 Common Syn, HasResult
+assign a; stmt s;
+Select s pattern a(_, _) such that Next(a,s)
+100,102,103,107,108,109,11,111,112,113,114,115,116,117,118,119,121,122,123,125,126,127,128,129,131,132,133,135,136,137,138,14,140,142,143,144,145,146,147,148,151,153,154,155,157,158,16,160,162,165,167,168,17,170,171,173,174,176,178,18,180,183,2,20,21,22,24,25,26,28,29,3,32,33,34,36,37,39,40,42,43,45,46,47,48,5,50,51,53,54,56,57,58,59,6,60,62,63,64,66,68,71,72,74,75,76,78,79,8,80,82,84,87,88,89,9,91,92,93,94,96,99
+5000
+128 - PatternSelectFollows 1 Common Syn HasResult
+while w; stmt s;
+Select w pattern w(_, _) such that Follows(s, w)
+3,14,29,66,72,80,82,88,151,154,160,171,174,176
+5000
+129 - None
+if i;
+Select i pattern i(_,_,_)
+6,18,30,37,47,64,96,97,104,119,123,138,165,180
+5000
+130 - uses syn on 1st arg and modifies syn on 1st arg select v boundary test
+variable v;
+Select v such that Uses(184,v) and Modifies(96,v)
+none
+5000
+131 - uses syn on 1st arg and modifies syn on 1st arg select v
+variable v;
+Select v such that Uses(96,v) and Modifies(96,v)
+flamingo,earthworm,cow,elephant,human,hamster,dog,cat,anaconda,eagle,iguana,jaguar
+5000
+132 - nextstar i w and uses w ident
+while w; if i;
+Select w such that Next*(i,w) and Uses(w, "badger")
+14,48,66,72,80,82
+5000
+133 - affects int s and parent w s
+stmt s; while w;
+Select w such that Affects(1,s) and Parent(w,s)
+72
+5000
+134 - test variation such that instead of and clause
+variable v;
+Select v such that Uses(96,v) such that Modifies(96,v)
+flamingo,earthworm,cow,elephant,human,hamster,dog,cat,anaconda,eagle,iguana,jaguar
+5000
+135 - test variation inverted
+variable v;
+Select v such that Modifies(96,v) and Uses(96,v)
+flamingo,earthworm,cow,elephant,human,hamster,dog,cat,anaconda,eagle,iguana,jaguar
+5000
+136 - uses syn on 2nd arg and modifies syn on 2nd arg select s
+stmt s;
+Select s such that Uses(s,"flamingo") and Modifies(s,"cat")
+165,171,47,48,51,96,97,104,105
+5000
+137 - suchthat + with
+stmt s;
+Select s such that Modifies(s,"flamingo") with s.stmt# = 47
+47
+5000
+138 - with + suchthat
+stmt s;
+Select s with s.stmt# = 47 such that Uses(s,"flamingo")
+47
+5000
+139 - suchthat + pattern assign
+assign a; while w;
+Select a such that Next(a,w) pattern a(_,_"badger"_)
+13,84,85,170
+5000
+140 - suchthat + pattern while
+while w; variable v; call c;
+Select v such that Next*(w,c) pattern w(v,_)
+alpaca,anaconda,dinosaur,cow,cat,hawk
+5000
+141 - suchthat + pattern if
+stmt s; if i;
+Select s such that Next*(s,s) pattern i(_,_,_)
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 66, 67, 68, 72, 73, 74, 75, 76, 80, 81, 82, 83, 84, 85, 88, 89, 90, 91, 92, 93, 94, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182
+5000
+142 - next with stmt number s1 select s1
+stmt s1;
+Select s1 such that Next(s1,_) with s1.stmt# = 4
+4
+5000
+143 - next with stmt number s2 select s1
+stmt s1,s2;
+Select s1 such that Next*(s1,s2) with s2.stmt# = 8
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+144 - suchthat + with
+assign a1,a2;
+Select a2 such that Affects (a1, a2) with a1.stmt# = 1
+2,20,21,76,128,130
+5000
+145 - suchthat + with
+assign a; constant c;
+Select <a,c> such that Affects(_,a) with a.stmt# = c.value
+2 2,4 4,7 7,8 8,10 10,12 12,13 13,16 16,19 19,20 20,22 22,23 23,24 24,25 25,31 31,34 34,41 41,43 43,46 46,49 49,53 53,69 69,71 71,74 74,79 79,81 81,91 91,99 99,120 120,122 122
+5000
+146 - suchthat + suchthat
+prog_line n1,n2;
+Select n2 such that Affects*(n1,n1) and Follows*(n1,n2)
+9, 11, 12, 17, 18, 21, 22, 24, 25, 26, 40, 91, 92, 93, 94, 158, 162
+5000
+147 - 3 suchthat
+stmt s; while w;
+Select s such that Affects*(2,s) and Next(s,w) and Uses(s,"anaconda")
+84,85
+5000
+148 - 3 suchthat
+assign a1,a2; stmt s;
+Select a1 such that Follows(s,a1) and Affects(a1,a2) and Affects(a2,a1)
+8,16,20,39,68,157
+5000
+149 - 3 suchthat
+procedure p1, p2; variable v;
+Select p1 such that Modifies (p1, v) and Calls(p1, p2) and Uses(p2, v)
+Ten
+5000
+150 - 3 with
+stmt s1,s2; constant c; while w;
+Select s1 with s1.stmt# = c.value and s1.stmt# = s2.stmt# and s2.stmt# = w.stmt#
+3,14,48,54,72,88
+5000
+151 - 3 with
+call c1,c2; prog_line n; procedure p;
+Select <n,p.procName,c2.procName> with p.procName = c1.procName and n = c1.stmt# and c1.procName = c2.procName
+11 Eleven Eleven,51 Twelve Twelve,100 Eleven Eleven,105 Twelve Twelve
+5000
+152 - 3 pattern
+assign a;
+Select a pattern a(_,_) and a(_,_"badger"_) and a("flamingo",_)
+74,125,130,170
+5000
+153 - 3 pattern
+assign a; variable v;
+Select <a,v> pattern a(v,_) and a(v,_"badger"_) and a("flamingo",_)
+74 flamingo,125 flamingo,130 flamingo,170 flamingo
+5000
+154 - suchthat + with + suchthat
+stmt s; constant c;
+Select s such that Uses(s,"flamingo") with s.stmt# = c.value such that Modifies(s,"flamingo")
+47,48
+5000
+155 - suchthat + suchthat + with
+stmt s; constant c;
+Select s such that Uses(s,"flamingo") such that Modifies(s,"flamingo") with s.stmt# = c.value
+47,48
+5000
+156 - suchthat + suchthat + with
+variable v1; stmt s1,s2;
+Select v1 such that Modifies(s1,v1) and Next(s1,s2) with s2.stmt# = 17
+anaconda
+5000
+157 - suchthat + suchthat + with
+while w; variable v;
+Select w such that Uses(w,v) and Modifies(w,v) with v.varName = "flamingo"
+48,171
+5000
+158 - with + suchthat + suchthat
+stmt s; constant c;
+Select s with s.stmt# = c.value such that Uses(s,"flamingo") such that Modifies(s,"flamingo")
+47,48
+5000
+159 - suchthat + suchthat + with
+stmt s1, s2; assign a; constant c;
+Select s1 such that Parent(s1, s2) and Parent*(s2, a) with a.stmt#=c.value
+3,14,29,30,47,64,88,96
+5000
+160 - suchthat + suchthat + with
+variable v1,v2; stmt s;
+Select <s,v1.varName,v2.varName> such that Uses(s,v1) and Uses(s,v2) with s.stmt# = 11
+11 cow cow,11 cow elephant,11 cow human,11 cow hamster,11 cow dog,11 cow earthworm,11 cow cat,11 elephant cow,11 elephant elephant,11 elephant human,11 elephant hamster,11 elephant dog,11 elephant earthworm,11 elephant cat,11 human cow,11 human elephant,11 human human,11 human hamster,11 human dog,11 human earthworm,11 human cat,11 hamster cow,11 hamster elephant,11 hamster human,11 hamster hamster,11 hamster dog,11 hamster earthworm,11 hamster cat,11 dog cow,11 dog elephant,11 dog human,11 dog hamster,11 dog dog,11 dog earthworm,11 dog cat,11 earthworm cow,11 earthworm elephant,11 earthworm human,11 earthworm hamster,11 earthworm dog,11 earthworm earthworm,11 earthworm cat,11 cat cow,11 cat elephant,11 cat human,11 cat hamster,11 cat dog,11 cat earthworm,11 cat cat
+5000
+161 - suchthat + suchthat + with
+stmt s; call c;
+Select <s,c> such that Affects*(8,s) and Follows*(s,c) with c.procName = "Eleven"
+10 11,99 100
+5000
+162 - suchthat + with + suchthat
+stmt s; constant c; while w;
+Select s such that Next*(s,s) with s.stmt# = c.value such that Next(s,w)
+9,12,26,34,43,53,81,88
+5000
+163 - suchthat + suchthat + with
+assign a; if i; call c;
+Select <a,i> such that Next(a,i) and Parent*(i,c) with c.procName = "Twelve"
+46 47,95 96
+5000
+164 - suchthat + suchthat + with
+assign a; prog_line n; while w;
+Select a such that Next(a,n) and Next*(n,n) with n=w.stmt#
+2,9,12,13,26,28,34,40,43,53,60,65,68,71,76,79,81,84,85,87,94,150,153,158,159,162,170,173,175,178,181,182
+5000
+165 - suchthat + with + suchthat
+stmt s1,s2,s3;
+Select <s1,s2,s3> such that Next(s1,s2) with s2.stmt#=101 such that Next(s1,s3)
+97 101 98, 97 101 101
+5000
+166 - suchthat + with + with
+assign a; stmt s; constant c;
+Select a such that Affects(a,s) with s.stmt# = a.stmt# and a.stmt# = c.value
+16,20,23
+5000
+167 - with + with + suchthat
+stmt s1,s2; if i; while w;
+Select i.stmt# such that Parent*(s1,s2) with s1.stmt# = i.stmt# and s2.stmt# = w.stmt#
+64,47,165
+5000
+168 - with + suchthat + with
+assign a1,a2; constant c;
+Select <a1,a2> with a1.stmt# = 8 such that Affects*(a1,a2) with a2.stmt# = c.value
+8 4,8 8,8 10,8 13,8 16,8 19,8 20,8 22,8 23,8 25,8 31,8 41,8 43,8 46,8 53,8 69,8 74,8 79,8 81,8 91,8 99,8 120,8 122
+5000
+169 - pattern + suchthat + suchthat
+assign a; variable v; while w;
+Select v pattern a(v, _) such that Follows(w, a) and Uses(w,v)
+cat
+5000
+170 - suchthat + suchthat + pattern
+while w; call c; variable v;
+Select c.procName such that Modifies(c,v) and Parent*(w,c) pattern w("alpaca",_)
+Eleven
+5000
+171 - suchthat + suchthat + pattern
+if i; variable v;
+Select v such that Uses(i,v) and Follows*(1,i) pattern i("badger",_,_)
+antelope,badger,camel,gorilla,flamingo,earthworm,cow,elephant,human,hamster,dog,cat,anaconda,eagle,iguana,jaguar
+5000
+172 - suchthat + suchthat + pattern
+procedure p1,p2; variable v; assign a;
+Select a such that Calls(p1,p2) and Uses(p2,v) pattern a(v,_)
+4, 8, 12, 13, 15, 16, 17, 21, 22, 23, 25, 26, 32, 33, 34, 35, 42, 43, 45, 50, 53, 57, 59, 62, 63, 68, 73, 74, 75, 76, 77, 78, 83, 84, 87, 91, 92, 93, 94, 98, 99, 101, 102, 106, 107, 108, 109, 115, 116, 117, 118, 120, 122, 125, 126, 127, 128, 130, 131, 133, 134, 136, 139, 140, 141, 143, 144, 145, 148, 150, 152, 153, 156, 157, 158, 161, 162, 163, 164, 167, 168, 170, 172, 173, 175, 178, 179, 181, 182, 183
+5000
+173 - suchthat + suchthat + pattern
+assign a1,a2; variable v;
+Select v such that Next*(a1,a2) and Next*(a2,a1) pattern a1(v,_)
+badger,bear,antelope,anaconda,cat,deer,cow,camel,dog,elephant,dinosaur,eagle,eel,earthworm,fly,flamingo,flea,hawk,hedgehog
+5000
+174 - suchthat + pattern + pattern
+while w; assign a; variable v;
+Select <w.stmt#,v.varName> such that Parent*(w,a) pattern w(v,_) pattern a(_,_"2"_)
+3 alpaca,14 anaconda,29 dinosaur,54 anaconda,72 dinosaur,88 anaconda,89 cat,149 hamster,151 cow,171 flamingo,174 eagle
+5000
+175 - pattern + with + with
+assign a; variable v; constant c;
+Select a pattern a (v, _) with v.varName = "antelope" and a.stmt# = c.value
+2,10,20,46
+5000
+176 - pattern + pattern + suchthat
+while w; assign a;
+Select a such that Follows*(w,a) pattern w("anaconda",_) and a(_,_"2"_)
+28
+5000
+177 - pattern + pattern + with
+assign a; constant c;
+Select a pattern a(_,_"2"_) with a.stmt# = c.value pattern a(_,_"badger"_)
+24
+5000
+178 - suchthat + with + pattern
+assign a1,a2; variable v;
+Select v such that Affects (a1, a2) with a1.stmt# = 1 pattern a2(v,_)
+antelope,cow,flamingo,earthworm
+5000
+179 - suchthat + pattern + with
+assign a; variable v; procedure p;
+Select <a,v,p> such that Modifies(p,v) pattern a(v,_) with v.varName = "anaconda"
+12 anaconda Ten,12 anaconda Eleven,12 anaconda Twelve,16 anaconda Ten,16 anaconda Eleven,16 anaconda Twelve,152 anaconda Ten,152 anaconda Eleven,152 anaconda Twelve,163 anaconda Ten,163 anaconda Eleven,163 anaconda Twelve,164 anaconda Ten,164 anaconda Eleven,164 anaconda Twelve,173 anaconda Ten,173 anaconda Eleven,173 anaconda Twelve,183 anaconda Ten,183 anaconda Eleven,183 anaconda Twelve
+5000
+180 - suchthat + with + pattern
+stmt s1,s2; assign a;
+Select <s1,s2> such that Affects(s1,s2) with s1.stmt# = a.stmt# pattern a("gorilla",_)
+63 67,63 71,120 122
+5000
+181 - suchthat + pattern + with
+assign a; while w;
+Select <a,w> such that Next(a,w) pattern a("dinosaur",_) with w.stmt# = 29
+28 29,40 29
+5000
+182 - suchthat + with + pattern
+assign a; stmt s; variable v;
+Select v such that Affects*(5, s) with s.stmt# = a.stmt# pattern a(v,_)
+bear,anaconda,cow,earthworm,hedgehog,flamingo,human,iguana,jaguar,eel
+5000
+183 - 4 suchthat
+assign a,a1; while w; if i; variable v;
+Select <w,a1> such that Uses(a,v) and Modifies(w,v) such that Parent(w,a1) and Follows*(w,i)
+3 4,3 5,14 15,14 16,14 17,14 25,14 26,80 81,80 85,176 177,176 178
+5000
+184 - suchthat + suchthat + suchthat + with
+stmt s1,s2; while w; assign a;
+Select s1 such that Next(s1,w) and Next*(s2,w) and Next*(s1,s2) with s1.stmt# = a.stmt#
+2,9,12,13,26,28,34,40,43,53,60,65,68,71,76,79,81,84,85,87,94,150,153,158,159,162,170,173,175,178,181,182
+5000
+185 - suchthat + suchthat + pattern + with
+prog_line n; while w; variable v;
+Select w such that Affects(n,132) and Parent(w,n) pattern w(v,_) with v.varName = "anaconda"
+54
+5000
+186 - suchthat + with + suchthat + suchthat
+assign a; constant c; variable v;
+Select a such that Next*(a,a) with a.stmt# = c.value such that Modifies(a,v) and Uses(a,v)
+7,16,20,23
+5000
+187 - suchthat + suchthat + suchthat + with
+variable v; stmt s,s1; assign a;
+Select v such that Uses(s, v) and Follows(s, a) and Next*(s1,s) with s1.stmt# = 149
+cow,elephant,human,hamster,dog,earthworm,cat
+5000
+188 - pattern + suchthat + with + with
+assign a; variable v; stmt s; constant c;
+Select v pattern a(v, _) such that Modifies(a,v) with a.stmt# = c.value and s.stmt#=c.value
+alpaca,anaconda,antelope,badger,bear,camel,cat,cow,deer,dinosaur,dog,eagle,earthworm,eel,elephant,flamingo,flea,gazelle,gorilla,hawk,human
+5000
+189 - suchthat + with + with + pattern
+prog_line n1,n2; assign a; constant c;
+Select n2 such that Affects(n1,n2) with n1 = c.value and n1 = a.stmt# pattern a(_,_"badger"_)
+27,79,81,91,131
+5000
+190 - pattern + suchthat + suchthat + with
+assign a; procedure p; constant c; variable v;
+Select v pattern a(v,_) such that Calls(_,p) and Modifies (p, v) with a.stmt# = c.value
+anaconda,cat,cow,dog,eagle,earthworm,eel,flamingo
+5000
+191 - pattern + suchthat + suchthat + with
+assign a1, a2; variable v; constant c;
+Select v pattern a1(v, _) such that Follows(a1,a2) such that Modifies(a2, v) with a2.stmt# = c.value
+cow,dinosaur,flamingo,gorilla
+5000
+192 - suchthat + suchthat + with
+stmt s; if i;
+Select <s,i> such that Next*(100,i) such that Modifies(s,"flamingo") with s.stmt# = i.stmt#
+119 119,123 123,138 138
+5000
+193 - suchthat + suchthat + pattern + pattern
+assign a; while w; if i;
+Select a such that Next*(170,a) and Parent(i,a) pattern w(_,_) and a("dog",_)
+181,182
+5000
+194 - suchthat + suchthat + suchthat + with
+stmt s; procedure p; while w; variable v;
+Select <s,p> such that Next(s,w) and Modifies(s,v) and Modifies(p,v) with v.varName = "anaconda"
+12 Ten,12 Eleven,12 Twelve,47 Ten,47 Eleven,47 Twelve,151 Ten,151 Eleven,151 Twelve,173 Ten, 173 Eleven,173 Twelve
+5000
+195 - suchthat + with + suchthat + with
+stmt s,s1; assign a; call c; if i; 
+Select <s,c.procName,a> such that Parent*(s,c) with s.stmt# = i.stmt# such that Follows(s1,c) with s1.stmt# = a.stmt#
+6 Eleven 10,47 Twelve 50,96 Eleven 99,97 Eleven 99
+5000
+196 - pattern + pattern + suchthat + with
+assign a; variable v; if i; constant c;
+Select <a,v,i> pattern i(v,_,_) and a("badger",_) such that Next*(a,a) with a.stmt# = c.value
+17 anaconda 165,17 badger 96,17 bird 6,17 cat 138,17 cat 180,17 dinosaur 47,17 dog 18,17 dolphin 30,17 earthworm 37,17 flamingo 97,17 gorilla 64,17 human 119,17 iguana 104,17 iguana 123,4 anaconda 165,4 badger 96,4 bird 6,4 cat 138,4 cat 180,4 dinosaur 47,4 dog 18,4 dolphin 30,4 earthworm 37,4 flamingo 97,4 gorilla 64,4 human 119,4 iguana 104,4 iguana 123
+5000
+197 - with + pattern + suchthat + suchthat
+stmt s; assign a; while w;
+Select s with w.stmt# = 29 pattern a("cow",_) such that Parent*(w,a) and Next(a,s)
+29,33,34,43
+5000
+198 - 4 suchthat 1 with
+assign a,a1; variable v;
+Select a1 such that Modifies(a,"anaconda") and Affects*(_,a) such that Uses(a1,v) and Next*(a,a1) with v.varName = "antelope"
+4, 8, 20, 22, 31, 36, 46, 53, 56, 110, 116, 124, 131, 148
+5000
+199 - 3 suchthat 2 with
+assign a,a1; constant c;
+Select a1 such that Modifies(a,"anaconda") and Affects*(_,a) and Next*(a,a1) with a.stmt# = 12 and a1.stmt# = c.value
+4, 5, 7, 8, 9, 10, 12, 13, 15, 16, 17, 19, 20, 22, 23, 24, 25, 26, 28, 31, 34, 35, 41, 43, 44, 45, 46, 49, 53, 69, 70, 71, 73, 74, 77, 78, 79, 81, 91, 99, 120, 122
+5000
+200 - 3 suchthat 1 with 1 pattern
+assign a,a1; variable v; if i;
+Select <a1,v> such that Modifies(a,"anaconda") and Next*(a,a1) and Parent*(i,a) with i.stmt# = 165 pattern a1(v,_)
+172 cow,173 anaconda,175 flamingo,177 eel,178 cow,179 cat,181 dog,182 dog,183 anaconda
+5000
+201 - 2 suchthat 1 with 2 pattern
+assign a,a1; variable v,v1; stmt s;
+Select <a,a1,v,v1> such that Modifies(a,"anaconda") and Next*(s,a1) with s.stmt# = a.stmt# pattern a1(v,_"17"_) and a(v1,_)
+12 110 fly anaconda,12 111 jaguar anaconda,12 135 eel anaconda,12 143 earthworm anaconda,12 147 iguana anaconda,12 32 cow anaconda,12 58 deer anaconda,12 99 human anaconda,152 156 flamingo anaconda,152 158 eagle anaconda,152 163 anaconda anaconda,16 110 fly anaconda,16 111 jaguar anaconda,16 135 eel anaconda,16 143 earthworm anaconda,16 147 iguana anaconda,16 32 cow anaconda,16 58 deer anaconda,16 99 human anaconda,164 168 cat anaconda,164 178 cow anaconda,164 181 dog anaconda,173 181 dog anaconda,173 178 cow anaconda
+5000
+202 - 2 suchthat 2 with 1 pattern
+procedure p1,p2; variable v; while w;
+Select <p2,w,v> such that Calls*(p1,p2) and Modifies(p2,v) with p1.procName = "Ten" and v.varName = "earthworm" pattern w(v,_)
+Eleven 160 earthworm
+5000
+203 - 2 suchthat 3 with
+procedure p1,p2,p3; variable v;
+Select <p2,p3,v> such that Calls*(p1,p2) and Modifies(p3,v) with p1.procName = "Ten" and v.varName = "earthworm" and p2.procName = p3.procName  
+Eleven Eleven earthworm
+5000
+204 - 5 suchthat 1 with
+stmt s1,s2,s3; while w; assign a;
+Select s3 such that Next*(w,_) and Parent(w,s1) and Parent(s1,s2) with s2.stmt# = a.stmt# such that Next(s1,s2) and Follows(s2,s3)
+8,11,20,24,32,36,84,91,153,157,162,176,178
+5000
+205 - 5 suchthat 1 pattern
+stmt s1,s2,s3; while w; variable v;
+Select <v,s3> such that Next*(w,_) and Parent(w,s1) and Parent(s1,s2) pattern w(v,_) such that Next(s1,s2) and Follows(s2,s3)
+alpaca 8,alpaca 11,anaconda 20,anaconda 24,dinosaur 32,dinosaur 36,cat 84,anaconda 91,hamster 153,dog 157,hamster 162,flamingo 176,eagle 178
+5000
+206 - 4 suchthat 2 pattern
+stmt s1,s2; assign a; while w; variable v1,v2;
+Select <v1,a,v2> such that Parent(w,s1) and Parent(s1,s2) pattern w(v,_) such that Next(s1,s2) and Follows(s2,a) pattern a(v2,_"8"_)
+anaconda 20 antelope,anaconda 24 deer
+5000
+207 - 4 suchthat 2 with
+stmt s1,s2,s3; while w; constant c; call calls;
+Select calls.procName such that Parent(w,s1) and Parent(s1,s2) with w.stmt# = c.value such that Next(s1,s2) and Follows(s2,s3) with s3.stmt# = calls.stmt#
+Eleven
+5000
+208 - 4 suchthat 1 with 1 pattern
+stmt s1,s2,s3; while w; constant c; variable v;
+Select <w.stmt#,v.varName,s3> such that Parent(w,s1) and Parent(s1,s2) with w.stmt# = c.value such that Next(s1,s2) and Follows(s2,s3) pattern w(v,_)
+3 alpaca 8,3 alpaca 11,14 anaconda 20,14 anaconda 24,88 anaconda 91
+5000
+209 - 3 suchthat 2 with 1 pattern
+stmt s1,s2,s3; while w; assign a;
+Select <w, s3> such that Next*(w,_) and Parent(s1,s2) with s2.stmt# = 155 such that Follows*(s3,s1) with s3.stmt# = a.stmt# pattern a("earthworm",_)
+3 153,14 153,29 153,48 153,54 153,66 153,72 153,80 153,82 153,88 153,89 153,149 153,151 153,154 153,155 153,160 153,171 153,174 153,176 153
+5000
+210 - suchthat + suchthat + with
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+211 - suchthat + and + with
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Affects*(s1,s2) and Follows*(s2,c) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+212 - suchthat + suchthat + with (inverted tuple)
+stmt s1,s2; call c; procedure p;
+Select <p,c> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+Eleven 11,Twelve 51,Eleven 100
+5000
+213 - suchthat + suchthat + with (inverted with)
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Affects*(s1,s2) such that Follows*(s2,c) with c.procName = p.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+214 - suchthat + suchthat + with (inverted suchthat)
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Follows*(s2,c) such that Affects*(s1,s2) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+215 - suchthat + suchthat + with (tuple variation)
+stmt s1,s2; call c; procedure p;
+Select <c.stmt#,p> such that Follows*(s2,c) such that Affects*(s1,s2) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+216 - suchthat + suchthat + with (tuple variation)
+stmt s1,s2; call c; procedure p;
+Select <c.procName,p> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+Eleven Eleven,Twelve Twelve
+5000
+217 - suchthat + suchthat + with (tuple variation)
+stmt s1,s2; call c; procedure p;
+Select <c,p.procName> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+218 - suchthat + suchthat + with (tuple variation)
+stmt s1,s2; call c; procedure p;
+Select <c.stmt#,p.procName> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+219 - suchthat + suchthat + with (tuple variation)
+stmt s1,s2; call c; procedure p;
+Select <c.procName,p.procName> such that Affects*(s1,s2) such that Follows*(s2,c) with p.procName = c.procName
+Eleven Eleven,Twelve Twelve
+5000
+220 - suchthat + and + with (inverted suchthat)
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Follows*(s2,c) and Affects*(s1,s2) with p.procName = c.procName
+11 Eleven,51 Twelve,100 Eleven
+5000
+221 - suchthat + with + suchthat (inverted with)
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Affects*(s1,s2) with p.procName = c.procName such that Follows*(s2,c)
+11 Eleven,51 Twelve,100 Eleven
+5000
+222 - suchthat + with + suchthat
+stmt s1,s2; call c; procedure p;
+Select <c,p> such that Affects*(s1,s2) with c.procName = p.procName such that Follows*(s2,c)
+11 Eleven,51 Twelve,100 Eleven
+5000
+223 - with + suchthat + suchthat
+stmt s1,s2; call c; procedure p;
+Select <c,p> with p.procName = c.procName such that Affects*(s1,s2) such that Follows*(s2,c)
+11 Eleven,51 Twelve,100 Eleven
+5000
+224 - with + suchthat + suchthat (inverted with)
+stmt s1,s2; call c; procedure p;
+Select <c,p> with c.procName = p.procName such that Affects*(s1,s2) such that Follows*(s2,c)
+11 Eleven,51 Twelve,100 Eleven
+5000
+225 - with + suchthat + and
+stmt s1,s2; call c; procedure p;
+Select <c,p> with p.procName = c.procName such that Affects*(s1,s2) and Follows*(s2,c)
+11 Eleven,51 Twelve,100 Eleven
+5000
+226 - with + suchthat + suchthat (inverted suchthat)
+stmt s1,s2; call c; procedure p;
+Select <c,p> with p.procName = c.procName such that Follows*(s2,c) such that Affects*(s1,s2)
+11 Eleven,51 Twelve,100 Eleven
+5000
+227 - with + suchthat + and (inverted suchthat)
+stmt s1,s2; call c; procedure p;
+Select <c,p> with p.procName = c.procName such that Follows*(s2,c) and Affects*(s1,s2)
+11 Eleven,51 Twelve,100 Eleven
+5000
+228 - suchthat + suchthat + with + pattern
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+229 - suchthat + and + with + pattern
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) and Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+230 - suchthat + suchthat + with + pattern (inverted with)
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) such that Parent*(s,a) with c.value = a.stmt# pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+231 - suchthat + suchthat + with + pattern (tuple variation)
+stmt s; assign a; constant c;
+Select <a.stmt#,s> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+232 - suchthat + suchthat + with + pattern (tuple variation)
+stmt s; assign a; constant c;
+Select <a,s.stmt#> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+233 - suchthat + suchthat + with + pattern (tuple variation)
+stmt s; assign a; constant c;
+Select <a.stmt#,s.stmt#> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+234 - suchthat + suchthat + with + pattern (inverted tuple)
+stmt s; assign a; constant c;
+Select <s,a> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+14 24,18 24,72 74,64 74
+5000
+235 - suchthat + suchthat + with + pattern (inverted suchthat)
+stmt s; assign a; constant c;
+Select <a,s> such that Parent*(a,a) such that Next*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+236 - suchthat + suchthat + pattern + with
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) such that Parent*(s,a) pattern a(_,_"badger"_) with a.stmt# = c.value
+24 14, 24 18, 74 72, 74 64
+5000
+237 - suchthat + suchthat + pattern + with
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+238 - suchthat + with + suchthat + pattern
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) with a.stmt# = c.value such that Parent*(s,a) pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+239 - suchthat + pattern + suchthat + with
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) pattern a(_,_"badger"_) such that Parent*(s,a) with a.stmt# = c.value
+24 14, 24 18, 74 72, 74 64
+5000
+240 - suchthat + with + pattern + suchthat
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) with a.stmt# = c.value pattern a(_,_"badger"_) such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+241 - suchthat + pattern + with + suchthat
+stmt s; assign a; constant c;
+Select <a,s> such that Next*(a,a) pattern a(_,_"badger"_) with a.stmt# = c.value such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+242 - with + suchthat + suchthat + pattern
+stmt s; assign a; constant c;
+Select <a,s> with a.stmt# = c.value such that Next*(a,a) such that Parent*(s,a) pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+243 - with + suchthat + and + pattern
+stmt s; assign a; constant c;
+Select <a,s> with a.stmt# = c.value such that Next*(a,a) and Parent*(s,a) pattern a(_,_"badger"_)
+24 14, 24 18, 74 72, 74 64
+5000
+244 - with + pattern + suchthat + suchthat
+stmt s; assign a; constant c;
+Select <a,s> with a.stmt# = c.value pattern a(_,_"badger"_) such that Next*(a,a) such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+245 - with + pattern + suchthat + and
+stmt s; assign a; constant c;
+Select <a,s> with a.stmt# = c.value pattern a(_,_"badger"_) such that Next*(a,a) and Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+246 - with + suchthat + pattern + suchthat
+stmt s; assign a; constant c;
+Select <a,s> with a.stmt# = c.value such that Next*(a,a) pattern a(_,_"badger"_) such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+247 - pattern + suchthat + suchthat + with
+stmt s; assign a; constant c;
+Select <a,s> pattern a(_,_"badger"_) such that Next*(a,a) such that Parent*(s,a) with a.stmt# = c.value
+24 14, 24 18, 74 72, 74 64
+5000
+248 - pattern + suchthat + with + suchthat
+stmt s; assign a; constant c;
+Select <a,s> pattern a(_,_"badger"_) such that Next*(a,a) with a.stmt# = c.value such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
+249 - pattern + with + suchthat + suchthat
+stmt s; assign a; constant c;
+Select <a,s> pattern a(_,_"badger"_) with a.stmt# = c.value such that Next*(a,a) such that Parent*(s,a)
+24 14, 24 18, 74 72, 74 64
+5000
