@@ -96,6 +96,7 @@ namespace UnitTesting {
       testParentTable->insertParent(1, 2);
       testParentTable->insertParent(1, 3);
       testParentTable->insertParent(2, 4);
+      testParentTable->populateParentAnythingRelationships();
       static const int arr[] = { 2, 3, 4 };
       LIST_OF_STMT_NUMS actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       LIST_OF_STMT_NUMS expected = testParentTable->getChildrenOfAnything();
@@ -107,6 +108,7 @@ namespace UnitTesting {
       testParentTable->insertParent(1, 2);
       testParentTable->insertParent(1, 3);
       testParentTable->insertParent(2, 4);
+      testParentTable->populateParentAnythingRelationships();
       static const int arr[] = { 1, 2 };
       LIST_OF_STMT_NUMS actual(arr, arr + sizeof(arr) / sizeof(arr[0]));
       LIST_OF_STMT_NUMS expected = testParentTable->getParentOfAnything();

@@ -106,44 +106,24 @@ MAP_OF_STMT_NUM_TO_LIST_OF_STMT_NUMS ParentTable::getAllParents() {
 LIST_OF_STMT_NUMS ParentTable::getChildrenOfAnything() {
   //parent(_,s2) s2 variable
   //return list of children i.e. keys of m_parentMap
-  LIST_OF_STMT_NUMS result;
-  for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
-    result.push_back(it->first);
-  }
-
-  return result;
+  return m_allChildren;
 }
 
 LIST_OF_STMT_NUMS ParentTable::getParentOfAnything() {
   //return list of parents i.e. keys of m_childMap
-  LIST_OF_STMT_NUMS result;
-  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
-    result.push_back(it->first);
-  }
-
-  return result;
+  return m_allParents;
 }
 
 LIST_OF_STMT_NUMS ParentTable::getChildrenStarOfAnything() {
   //parent*(_, s2)
   //return list of children* i.e. keys of parentedByStarMap
-  LIST_OF_STMT_NUMS result;
-  for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
-    result.push_back(it->first);
-  }
-
-  return result;
+  return m_allChildrenStar;
 }
 
 LIST_OF_STMT_NUMS ParentTable::getParentStarOfAnything() {
   //parent*(s1, _)
   //return list of parent* i.e. keys of parentStarMap
-  std::vector<int> result;
-  for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
-    result.push_back(it->first);
-  }
-
-  return result;
+  return m_allParentStar;
 }
 
 BOOLEAN ParentTable::hasParentRelationship() {
@@ -247,7 +227,6 @@ void ParentTable::populateParentMatrix(TOTAL_NUMBER_OF_STMTS total) {
   }
 }
 
-//include here for unit testing purposes.
 void ParentTable::populateParentStarMap() {
   for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
     int parent = it->first;
@@ -264,6 +243,42 @@ void ParentTable::populateParentStarMap() {
       }
     }
     m_parentStarMap[parent] = childrenStar;
+  }
+}
+
+void ParentTable::populateParentedByStarMap() {
+  for (auto mapItr = m_parentMap.begin(); mapItr != m_parentMap.end(); mapItr++) {
+    int baseStmtNo = mapItr->first;
+    LIST_OF_STMT_NUMS stmtsOfParentedBy;
+    stmtsOfParentedBy.push_back(mapItr->second);
+    auto nextParentLink = m_parentMap.find(mapItr->second);
+    while (nextParentLink != m_parentMap.end()) {
+      stmtsOfParentedBy.push_back(nextParentLink->second);
+      nextParentLink = m_parentMap.find(nextParentLink->second);
+    }
+    m_parentedByStarMap.insert({ baseStmtNo, stmtsOfParentedBy });
+  }
+}
+
+void ParentTable::populateParentAnythingRelationships() {
+  //pre-process for getParentOfAnything()
+  for (auto it = m_childMap.begin(); it != m_childMap.end(); ++it) {
+    m_allParents.push_back(it->first);
+  }
+
+  //pre-process for getChildrenOfAnything()
+  for (auto it = m_parentMap.begin(); it != m_parentMap.end(); ++it) {
+    m_allChildren.push_back(it->first);
+  }
+
+  //pre-process for getParentStarAnything()
+  for (auto it = m_parentStarMap.begin(); it != m_parentStarMap.end(); ++it) {
+    m_allParentStar.push_back(it->first);
+  }
+
+  //pre-process for getChildrenStarOfAnything()
+  for (auto it = m_parentedByStarMap.begin(); it != m_parentedByStarMap.end(); ++it) {
+    m_allChildrenStar.push_back(it->first);
   }
 }
 
