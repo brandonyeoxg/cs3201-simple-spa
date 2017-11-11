@@ -145,7 +145,7 @@ std::string QueryCache::getKeyWithRelation(Relation t_relation) {
 std::string QueryCache::getKeyWithGrammar(Grammar t_grammar) {
 
   if (QueryUtil::isSynonym(t_grammar)) {
-    return "/s";
+    return "/s" + getTypeWithSynonym(t_grammar);
   } else if (QueryUtil::isUnderscore(t_grammar)) {
     return "/_";
   } else {
@@ -158,9 +158,38 @@ std::string QueryCache::getKeyWithPairGrammar(Grammar t_grammar1, Grammar t_gram
   assert(QueryUtil::hasTwoSynonyms(t_grammar1, t_grammar2));
 
   if (QueryUtil::areBothSameSynonyms(t_grammar1, t_grammar2)) {
-    return "/s/s";
-  } else {
-    return "/s1/s2"; // different synonyms
+    return "/s" + getTypeWithSynonym(t_grammar1) + "/s" + getTypeWithSynonym(t_grammar2);
+  } else {  // different synonyms
+    return "/s1" + getTypeWithSynonym(t_grammar1) + "/s2" + getTypeWithSynonym(t_grammar2); 
+  }
+}
+
+std::string QueryCache::getTypeWithSynonym(Grammar t_grammar) {
+  assert(QueryUtil::isSynonym(t_grammar));
+
+  switch (t_grammar.getType()) {
+    case queryType::GType::PROC:
+      return "<proc>";
+    case queryType::GType::ST_LST:
+      return "<stmtList>";
+    case queryType::GType::STMT:
+      return "<stmt>";
+    case queryType::GType::ASGN:
+      return "<assign>";
+    case queryType::GType::WHILE:
+      return "<while>";
+    case queryType::GType::IF:
+      return "<if>";
+    case queryType::GType::CALL:
+      return "<call>";
+    case queryType::GType::VAR:
+      return "<var>";
+    case queryType::GType::CONST:
+      return "<const>";
+    case queryType::GType::PROG_LINE:
+      return "<progLine>";
+    default:
+      assert(false);  // not supposed to happen
   }
 }
 
@@ -201,17 +230,13 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
       results->insert({ g1Name, list });
       return results;
     }
-  } else if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {
-    // Next*(_, p2)
-    if (isKeyInMap(KEY_NEXT_RIGHT_SYN, m_cache)) {
-      return &m_cache.at(KEY_NEXT_RIGHT_SYN);  // use Next(_, p2)
-    }
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {
-    // Next*(p1, _)
-    if (isKeyInMap(KEY_NEXT_LEFT_SYN, m_cache)) {
-      return &m_cache.at(KEY_NEXT_LEFT_SYN); // use Next(p1, _)
+  } else if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
+    || QueryUtil::hasOneLeftSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())) {
+    // Next*(_, p2) or Next*(p1, _)
+    std::string key = getKey(*t_relation);
+    key.replace(key.find(KEY_NEXT_STAR), KEY_NEXT_STAR.length(), KEY_NEXT);
+    if (isKeyInMap(key, m_cache)) {
+      return &m_cache.at(key);  // use Next(_, p2) or Next(p1, _)
     }
   }
 
@@ -219,17 +244,15 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {
-    // Next(_, p2)
-    if (isKeyInMap(KEY_NEXT_STAR_RIGHT_SYN, m_cache)) {
-      return &m_cache.at(KEY_NEXT_STAR_RIGHT_SYN);  // use Next*(_, p2)
-    }
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {
-    // Next(p1, _)
-    if (isKeyInMap(KEY_NEXT_STAR_LEFT_SYN, m_cache)) {
-      return &m_cache.at(KEY_NEXT_STAR_LEFT_SYN); // use Next*(p1, _)
+
+  // Next(_, p2) or Next(p1, _)
+  if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
+    || QueryUtil::hasOneLeftSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())) {
+    
+    std::string key = getKey(*t_relation);
+    key.replace(key.find(KEY_NEXT), KEY_NEXT.length(), KEY_NEXT_STAR);
+    if (isKeyInMap(key, m_cache)) {
+      return &m_cache.at(key);  // use Next*(_, p2) or Next*(p1, _)
     }
   }
 
@@ -237,35 +260,33 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollows(Relation * t_relation) {
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {
-    // Follows(_, s2)
-    if (isKeyInMap(KEY_FOLLOWS_STAR_RIGHT_SYN, m_cache)) {
-      return &m_cache.at(KEY_FOLLOWS_STAR_RIGHT_SYN);  // use Follows*(_, s2)
-    }
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {
-    // Follows(s1, _)
-    if (isKeyInMap(KEY_FOLLOWS_STAR_LEFT_SYN, m_cache)) {
-      return &m_cache.at(KEY_FOLLOWS_STAR_LEFT_SYN); // use Follows*(s1, _)
+
+  // Follows(_, s2) or Follows(s1, _)
+  if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
+    || QueryUtil::hasOneLeftSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())) {
+
+    std::string key = getKey(*t_relation);
+    key.replace(key.find(KEY_FOLLOWS), KEY_FOLLOWS.length(), KEY_FOLLOWS_STAR);
+    if (isKeyInMap(key, m_cache)) {
+      return &m_cache.at(key);  // use Follows*(_, s2) or Follows*(s1, _)
     }
   }
+
   return nullptr;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relation) {
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG1())) {
-    // Follows*(_, s2)
-    if (isKeyInMap(KEY_FOLLOWS_RIGHT_SYN, m_cache)) {
-      return &m_cache.at(KEY_FOLLOWS_RIGHT_SYN);  // use Follows(_, s2)
-    }
-  } else if (QueryUtil::hasOneLeftSynonym(t_relation->getG1(), t_relation->getG2())
-    && QueryUtil::isUnderscore(t_relation->getG2())) {
-    // Follows*(s1, _)
-    if (isKeyInMap(KEY_FOLLOWS_LEFT_SYN, m_cache)) {
-      return &m_cache.at(KEY_FOLLOWS_LEFT_SYN); // use Follows(s1, _)
+
+  // Follows*(_, s2) or Follows*(s1, _)
+  if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
+    || QueryUtil::hasOneLeftSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())) {
+
+    std::string key = getKey(*t_relation);
+    key.replace(key.find(KEY_FOLLOWS_STAR), KEY_FOLLOWS_STAR.length(), KEY_FOLLOWS);
+    if (isKeyInMap(key, m_cache)) {
+      return &m_cache.at(key);  // use Follows(_, s2) or Follows(s1, _)
     }
   }
+
   return nullptr;
 }

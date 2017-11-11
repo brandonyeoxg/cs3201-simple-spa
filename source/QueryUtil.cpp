@@ -24,8 +24,16 @@ bool QueryUtil::hasOneRightSynonym(Grammar t_g1, Grammar t_g2) {
   return (t_g1.getType() == queryType::GType::STMT_NO || t_g1.getType() == queryType::GType::STR) && t_g2.getType() != queryType::GType::STMT_NO && t_g2.getType() != queryType::GType::STR;
 }
 
+bool QueryUtil::hasOneRightSynonymWithUnderscore(Grammar t_g1, Grammar t_g2) {
+  return hasOneRightSynonym(t_g1, t_g2) && isUnderscore(t_g1);
+}
+
 bool QueryUtil::hasOneLeftSynonym(Grammar t_g1, Grammar t_g2) {
   return t_g1.getType() != queryType::GType::STMT_NO && t_g1.getType() != queryType::GType::STR && (t_g2.getType() == queryType::GType::STMT_NO || t_g2.getType() == queryType::GType::STR);
+}
+
+bool QueryUtil::hasOneLeftSynonymWithUnderscore(Grammar t_g1, Grammar t_g2) {
+  return hasOneLeftSynonym(t_g1, t_g2) && isUnderscore(t_g2);
 }
 
 bool QueryUtil::hasTwoSynonyms(Grammar t_g1, Grammar t_g2) {
