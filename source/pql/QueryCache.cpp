@@ -224,27 +224,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheFromOtherRelations(Relation *t_rela
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+  
+  // Next*(given_line, l)
+  // retrieve from Next*(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_NEXT_STAR);
+
+  if (results != nullptr) {
+    return results;
+  }
 
   // Next*(given_line, l)
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && !QueryUtil::isUnderscore(t_relation->getG1())) {
-    SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+  // retrieve from Next*(s1, s2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_NEXT_STAR_STMT);
 
-    if (isKeyInMap(KEY_ALL_NEXT_STAR, m_cache)) { // retrieve from Next*(pl1, pl2)
-      
-      int g1Name = std::stoi(t_relation->getG1().getName());
-      auto list = m_cache.at(KEY_ALL_NEXT_STAR).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
-    } else if (isKeyInMap(KEY_ALL_NEXT_STAR_STMT, m_cache)) { // retrieve from Next*(s1, s2)
-
-      int g1Name = std::stoi(t_relation->getG1().getName());
-      auto list = m_cache.at(KEY_ALL_NEXT_STAR_STMT).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
-    } else {
-      return nullptr;
-    }
+  if (results != nullptr) {
+    return results;
   }
   
   // Next*(_, p2) or Next*(p1, _)
@@ -347,4 +342,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
       return nullptr;
     }
   }
+}
+
+SET_OF_RESULTS_INDICES * QueryCache::getResultFromTwoSynonyms(Relation * t_relation, std::string t_key) {
+  // check if right parameter is synonym and left parameter is a given parameter
+  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
+    && !QueryUtil::isUnderscore(t_relation->getG1())) {
+    SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+
+    if (isKeyInMap(t_key, m_cache)) { // retrieve from given key
+
+      int g1Name = std::stoi(t_relation->getG1().getName());  // name from Grammar must be integer
+      auto list = m_cache.at(t_key).at(g1Name);
+      results->insert({ g1Name, list });
+      return results;
+    }
+  }
+
+  return nullptr;
 }

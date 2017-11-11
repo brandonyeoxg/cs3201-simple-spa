@@ -169,6 +169,10 @@ private:
   SET_OF_RESULTS_INDICES *getCacheForFollowsStar(Relation *t_relation);
   SET_OF_RESULTS_INDICES *getCacheForAffects(Relation *t_relation);
 
+  // for relationships with (given_parameter, common synonym)
+  // extract result from cached (common synonym, common synonym) if present
+  SET_OF_RESULTS_INDICES *getResultFromTwoSynonyms(Relation *t_relation, std::string t_key);
+
   template <typename T, typename G>
   bool isKeyInMap(T key, std::unordered_map<T, G> map);
 };
