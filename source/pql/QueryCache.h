@@ -111,8 +111,18 @@ public:
   */
   bool isCacheable(Clause *t_clause);
 
-  ////////// exposed for debugging only
-  // Converts a Clause object of Pattern or Relation type to a string to be used as a key
+  /** Converts a Clause object of Pattern or Relation type to a string to be used as a key.
+  *   Clause can only be of Pattern or Relation type.
+  *
+  *   Key design: 
+  *   [Relation]/[_/s/s1]<type>/[_/s/s1]<type>
+  *     i.e. Next(s1, s2) would mean "Next/s1<progLine>/s2<progLine>"
+  *   Pattern_[While/If/Assign]
+  *     i.e. pattern w(v, _) would mean "Pattern_While"
+  *
+  *   @param t_clause clause
+  *   @return key representing the clause
+  */
   std::string getKey(Clause &t_clause);
 
   ///////////////// for debugging
