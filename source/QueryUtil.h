@@ -63,6 +63,14 @@ public:
   */
   static bool hasOneRightSynonym(Grammar t_g1, Grammar t_g2);
 
+  /** Checks if two given Grammar objects represent this relationship (_, s).
+  *   @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  *   @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  *   @return true if right is synonym and left is underscore, else return false.
+  *   @author jazlyn
+  */
+  static bool hasOneRightSynonymWithUnderscore(Grammar t_g1, Grammar t_g2);
+
   /**
   * A public function to check if only the first paramter is a synonym.
   * Given two parameters, it will check if the first parameter is a synonym
@@ -72,6 +80,14 @@ public:
   * @return true if only the first parameter is a synonym else return false.
   */
   static bool hasOneLeftSynonym(Grammar t_g1, Grammar t_g2);
+
+  /** Checks if two given Grammar objects represent this relationship (s, _).
+  *   @param t_g1 A grammar object which holds the first parameter of a relation clause.
+  *   @param t_g2 A grammar object which holds the second parameter of a relation clause.
+  *   @return true if left is synonym and right is underscore, else return false.
+  *   @author jazlyn
+  */
+  static bool hasOneLeftSynonymWithUnderscore(Grammar t_g1, Grammar t_g2);
 
   /**
   * A public function to check if both paramters are synonyms.
