@@ -39,6 +39,7 @@
     Next*(p1, 0)
 
     Calls(proc1, proc2)
+    Calls*(proc1, proc2)
     Calls(proc1, _)
     Calls*(proc1, _)
     Calls(_, proc2)
