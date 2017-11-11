@@ -140,7 +140,9 @@ private:
   const std::string KEY_ALL_NEXT_STMT = "Next/s1<stmt>/s2<stmt>";
   const std::string KEY_ALL_AFFECTS_STAR = "Affects*/s1<stmt>/s2<stmt>";
   const std::string KEY_ALL_AFFECTS = "Affects/s1<stmt>/s2<stmt>";
-  
+  const std::string KEY_ALL_FOLLOWS_STAR = "Follows*/s1<stmt>/s2<stmt>";
+  const std::string KEY_ALL_FOLLOWS = "Follows/s1<stmt>/s2<stmt>";
+
   const std::string KEY_NEXT_STAR = "Next*";
   const std::string KEY_NEXT = "Next";
   const std::string KEY_FOLLOWS = "Follows";

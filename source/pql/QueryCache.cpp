@@ -257,27 +257,22 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNextStar(Relation * t_relation) 
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
-  SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
+  SET_OF_RESULTS_INDICES *results;
 
   // Next(given_line, l)
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && !QueryUtil::isUnderscore(t_relation->getG1())) {
+  // retrieve from Next(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_NEXT);
 
-    if (isKeyInMap(KEY_ALL_NEXT, m_cache)) {  // retrieve from Next(pl1, pl2)
-      
-      int g1Name = std::stoi(t_relation->getG1().getName());
-      auto list = m_cache.at(KEY_ALL_NEXT).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
-    } else if (isKeyInMap(KEY_ALL_NEXT_STMT, m_cache)) { // retrieve from Next(s1, s2)
+  if (results != nullptr) {
+    return results;
+  }
 
-      int g1Name = std::stoi(t_relation->getG1().getName());
-      auto list = m_cache.at(KEY_ALL_NEXT_STMT).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
-    } else {
-      return nullptr;
-    }
+  // Next(given_line, l)
+  // retrieve from Next(s1, s2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_NEXT_STMT);
+
+  if (results != nullptr) {
+    return results;
   }
 
   // Next(_, p2) or Next(p1, _)
@@ -295,6 +290,15 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForNext(Relation * t_relation) {
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollows(Relation * t_relation) {
+  SET_OF_RESULTS_INDICES *results;
+
+  // Follows(given_line, l)
+  // retrieve from Follows(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_FOLLOWS);
+
+  if (results != nullptr) {
+    return results;
+  }
 
   // Follows(_, s2) or Follows(s1, _)
   if (QueryUtil::hasOneRightSynonymWithUnderscore(t_relation->getG1(), t_relation->getG2())
@@ -327,21 +331,18 @@ SET_OF_RESULTS_INDICES * QueryCache::getCacheForFollowsStar(Relation * t_relatio
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getCacheForAffects(Relation * t_relation) {
-  // Affects(given, s1)
-  if (QueryUtil::hasOneRightSynonym(t_relation->getG1(), t_relation->getG2())
-    && !QueryUtil::isUnderscore(t_relation->getG1())) {
-    SET_OF_RESULTS_INDICES *results = new SET_OF_RESULTS_INDICES();
 
-    if (isKeyInMap(KEY_ALL_AFFECTS, m_cache)) { // retrieve from Affects(s1, s2)
+  SET_OF_RESULTS_INDICES *results;
 
-      int g1Name = std::stoi(t_relation->getG1().getName());
-      auto list = m_cache.at(KEY_ALL_AFFECTS).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
-    } else {
-      return nullptr;
-    }
+  // Affects(given_line, l)
+  // retrieve from Affects(pl1, pl2)
+  results = getResultFromTwoSynonyms(t_relation, KEY_ALL_AFFECTS);
+
+  if (results != nullptr) {
+    return results;
   }
+
+  return nullptr;
 }
 
 SET_OF_RESULTS_INDICES * QueryCache::getResultFromTwoSynonyms(Relation * t_relation, std::string t_key) {
