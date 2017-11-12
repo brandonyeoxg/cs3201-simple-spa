@@ -13,9 +13,6 @@
     <ClCompile Include="..\source\QueryResultProjector.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PKB.cpp">
-      <Filter>PKB</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
@@ -199,6 +196,9 @@
     <ClCompile Include="..\source\pkb\relationshipTables\StmtListTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pkb\PKB.cpp">
+      <Filter>PKB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -212,9 +212,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessor.h">
       <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB.h">
-      <Filter>PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
@@ -250,12 +247,6 @@
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\PkbWriteOnly.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PkbReadOnly.h">
-      <Filter>PKB</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Evaluator.h">
       <Filter>PQL\Relationships\Evaluator</Filter>
     </ClInclude>
@@ -321,9 +312,6 @@
     </ClInclude>
     <ClInclude Include="..\source\ExtractorFactory.h">
       <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PkbTablesOnly.h">
-      <Filter>PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\CallsExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
@@ -456,6 +444,18 @@
     </ClInclude>
     <ClInclude Include="..\source\pkb\relationshipTables\StmtListTable.h">
       <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\PKB.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\PkbReadOnly.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\PkbTablesOnly.h">
+      <Filter>PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\PkbWriteOnly.h">
+      <Filter>PKB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

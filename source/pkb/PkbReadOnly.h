@@ -1,9 +1,9 @@
 #pragma once
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "Grammar.h"
+#include "../Grammar.h"
 
 /**
 * Represents an interface for ReadOnly methods in the PKB.

@@ -1,5 +1,5 @@
 #pragma once
-#include "PkbTablesOnly.h"
+#include "pkb/PkbTablesOnly.h"
 #include "AffectsExtractor.h"
 /**
  * Represents a wrapper which extracts further complicated design abstractions from the PKB tables.
