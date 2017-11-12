@@ -6,7 +6,7 @@
 #include "query-types/Clause.h"
 #include "query-types/Pattern.h"
 #include "query-types/Relation.h"
-#include "../QueryUtil.h"
+#include "../util/QueryUtil.h"
 
 /** 
 *   Class for caching results intra-query.

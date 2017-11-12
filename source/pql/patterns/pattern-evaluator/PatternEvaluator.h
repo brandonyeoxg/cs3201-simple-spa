@@ -7,7 +7,7 @@
 #include "../../../GlobalTypeDef.h"
 #include "../../../pkb/PkbReadOnly.h"
 #include "../../query-types/Grammar.h"
-#include "../../../Formatter.h"
+#include "../../../util/Formatter.h"
 
 class PatternEvaluator {
 public:

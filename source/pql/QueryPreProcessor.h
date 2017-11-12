@@ -17,7 +17,7 @@
 #include "../pql/query-types/Pattern.h"
 #include "../pql/query-types/With.h"
 #include "../pkb/PKB.h"
-#include "../StringUtil.h"
+#include "../util/StringUtil.h"
 #include "../GlobalTypeDef.h"
 
 class QueryPreProcessor

@@ -7,7 +7,7 @@
 #include "../pql/query-types/Relation.h"
 #include "../pql/query-types/Pattern.h"
 #include "../pql/query-types/With.h"
-#include "../QueryUtil.h"
+#include "../util/QueryUtil.h"
 #include "../pkb/PkbReadOnly.h"
 
 class QueryOptimiser {

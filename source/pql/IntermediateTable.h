@@ -8,7 +8,7 @@
 #include "../GlobalTypeDef.h"
 #include "query-types/Grammar.h"
 #include "../pkb/PkbReadOnly.h"
-#include "../Formatter.h"
+#include "../util/Formatter.h"
 
 class IntermediateTable {
 public:

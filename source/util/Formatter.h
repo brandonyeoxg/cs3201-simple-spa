@@ -7,8 +7,8 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
-#include "pkb/PkbReadOnly.h"
+#include "../GlobalTypeDef.h"
+#include "../pkb/PkbReadOnly.h"
 
 class Formatter {
 public:

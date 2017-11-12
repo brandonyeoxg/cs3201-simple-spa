@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 /**
 * Handles utility methods for manipulation of strings.
 *

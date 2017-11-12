@@ -7,8 +7,8 @@
 #include "../../../GlobalTypeDef.h"
 #include "../../../pkb/PkbReadOnly.h"
 #include "../../query-types/Grammar.h"
-#include "../../../EvaluatorUtil.h"
-#include "../../../StringUtil.h"
+#include "../../../util/EvaluatorUtil.h"
+#include "../../../util/StringUtil.h"
 
 class Evaluator {
 public:

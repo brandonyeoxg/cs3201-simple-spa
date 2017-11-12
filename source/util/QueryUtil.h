@@ -8,8 +8,8 @@
 #include <unordered_map>
 #include <queue>
 
-#include "GlobalTypeDef.h"
-#include "pql/query-types/Grammar.h"
+#include "../GlobalTypeDef.h"
+#include "../pql/query-types/Grammar.h"
 
 class QueryUtil {
 public:

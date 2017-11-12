@@ -1,5 +1,5 @@
 #include "ParserDriver.h"
-#include "..\StringUtil.h"
+#include "../util/StringUtil.h"
 #include "..\SyntaxOpenBraceException.h"
 #include "..\SyntaxNoEndOfStatementException.h"
 #include "..\SyntaxUnknownCommandException.h"

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../GlobalTypeDef.h"
-#include "../../QueryUtil.h"
-#include "../../StringUtil.h"
+#include "../../util/QueryUtil.h"
+#include "../../util/StringUtil.h"
 
 class Clause {
 public:

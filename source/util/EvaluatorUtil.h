@@ -9,9 +9,9 @@
 #include <algorithm>
 #include <iterator>
 
-#include "GlobalTypeDef.h"
-#include "pql/query-types/Grammar.h"
-#include "pkb/PkbReadOnly.h"
+#include "../GlobalTypeDef.h"
+#include "../pql/query-types/Grammar.h"
+#include "../pkb/PkbReadOnly.h"
 
 class EvaluatorUtil {
 public:

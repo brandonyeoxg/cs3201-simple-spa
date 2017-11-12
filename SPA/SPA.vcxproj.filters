@@ -4,26 +4,11 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\StringUtil.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
       <Filter>test-drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Formatter.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryUtil.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\EvaluatorUtil.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\TokeniserUtil.cpp">
-      <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp">
       <Filter>PKB\PatternMatch</Filter>
@@ -196,6 +181,21 @@
     <ClCompile Include="..\source\pql\QueryResultProjector.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\util\EvaluatorUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\util\Formatter.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\util\QueryUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\util\StringUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\util\TokeniserUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -203,9 +203,6 @@
     </ClInclude>
     <ClInclude Include="..\source\VarTable.h">
       <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\StringUtil.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SyntaxErrorException.h">
       <Filter>FrontEnd\Exception</Filter>
@@ -237,18 +234,6 @@
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Formatter.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryUtil.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\EvaluatorUtil.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\TokeniserUtil.h">
-      <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pkb\patternMatch\PatternMatch.h">
       <Filter>PKB\PatternMatch</Filter>
@@ -452,6 +437,21 @@
       <Filter>PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\WithEvaluator.h" />
+    <ClInclude Include="..\source\util\EvaluatorUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\util\Formatter.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\util\QueryUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\util\StringUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\util\TokeniserUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">

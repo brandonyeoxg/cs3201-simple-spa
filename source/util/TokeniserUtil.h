@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 
 /**
 * Handles tokenising of string based on the SIMPLE grammar rules. 

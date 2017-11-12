@@ -8,8 +8,8 @@
 #include <stack>
 
 #include "Parser.h"
-#include "StringUtil.h"
-#include "TokeniserUtil.h"
+#include "util/StringUtil.h"
+#include "util/TokeniserUtil.h"
 #include "SyntaxOpenBraceException.h"
 #include "SyntaxNoEndOfStatementException.h"
 #include "SyntaxUnknownCommandException.h"

@@ -22,8 +22,8 @@
 #include "../pql/patterns/Patterns.h"
 #include "../pql/relationships/evaluators/Evaluator.h"
 #include "IntermediateTable.h"
-#include "../Formatter.h"
-#include "../QueryUtil.h"
+#include "../util/Formatter.h"
+#include "../util/QueryUtil.h"
 #include "QueryOptimiser.h"
 
 #ifndef QUERYEVALUATOR_H
