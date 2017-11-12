@@ -72,17 +72,19 @@ private:
   MAP_OF_STMT_NUM_TO_SET_OF_STMT_NUMS m_affectedByList;
 
   BOOLEAN traverseCfgWithinBound(PROG_LINE &t_nextLine, PROG_LINE t_endBound, 
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
-  BOOLEAN handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
-  BOOLEAN handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
-  BOOLEAN handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
-  BOOLEAN handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
+    MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  BOOLEAN handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  BOOLEAN handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  BOOLEAN handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  BOOLEAN handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
 
   BOOLEAN isContainerStmt(queryType::GType t_type);
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeTable(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
+  MAP_OF_VAR_INDEX_TO_SET_OF_STMT_NUMS mergeTable(MAP_OF_VAR_INDEX_TO_SET_OF_NUMS, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS);
   PROG_LINE getRealStartBound(PROG_LINE t_startBound);
-  void handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars);
-  void handleInsertionForAffectsStar(VAR_NAME t_curModifiesVar, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, SET_OF_STMT_NUMS t_usesStmt, SET_OF_STMT_NUMS &t_lookedAt);
   void insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine);
+ 
+  void updateLutWithSameModifiesAndUses(VAR_INDEX modifiesIdx, LIST_OF_VAR_INDICES usesVars, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  void updateLutWithOtherUses(VAR_INDEX modifiesIdx, LIST_OF_VAR_INDICES usesVars, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut);
+  void updateLmt(PROG_LINE t_nextLine, VAR_INDEX modifiesIdx, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt);
 };
 

@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "../../Grammar.h"
+#include "../../pql/query-types/Grammar.h"
 #include "../../GlobalTypeDef.h"
 
 class StatementTable {

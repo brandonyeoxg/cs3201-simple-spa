@@ -392,9 +392,13 @@ SET_OF_RESULTS_INDICES * QueryCache::getResultFromTwoSynonyms(Relation * t_relat
     if (isKeyInMap(t_key, m_cache)) { // retrieve from given key
 
       int g1Name = std::stoi(t_relation->getG1().getName());  // name from Grammar must be integer
-      auto list = m_cache.at(t_key).at(g1Name);
-      results->insert({ g1Name, list });
-      return results;
+      
+      if (isKeyInMap(g1Name, m_cache.at(t_key))) {
+        auto list = m_cache.at(t_key).at(g1Name);
+        results->insert({ g1Name, list });
+        return results;
+      }
+      
     }
   }
 
