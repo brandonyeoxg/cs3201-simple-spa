@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ProcTable.h"
+#include "pkb/relationshipTables/ProcTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

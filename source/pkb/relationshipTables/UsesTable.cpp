@@ -24,9 +24,7 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
       m_usesVarMap[t_varName] = vector; //old imp.
       m_usesVarByIdxMap[t_varIdx] = vector;
       insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
-      //insert into sets
-      m_allVariablesUsed.insert(t_varName); //old imp.
-      m_allVariablesUsedByIdx.insert(t_varIdx);
+      //insert into set
       m_allStmtNumsUsed.insert(t_lineNum);
       inserted = true;
     }
@@ -39,8 +37,6 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
     m_usesVarByIdxMap.emplace(t_varIdx, newVector);
     insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
-    m_allVariablesUsed.insert(t_varName); //old imp.
-    m_allVariablesUsedByIdx.insert(t_varIdx);
     m_allStmtNumsUsed.insert(t_lineNum);
   }
 }
@@ -136,9 +132,6 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
     return vector;
   }
 }
-MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUses() {
-  return m_usesVarMap;
-}
 
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUsesByIdx() {
   return m_usesVarByIdxMap;
@@ -157,15 +150,6 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUsesAnything() {
   return m_allStmtNumsUsedList;
 }
 
-LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() { //obsolete
-  LIST_OF_VAR_NAMES results;
-  results.assign(m_allVariablesUsed.begin(), m_allVariablesUsed.end());
-  return results;
-}
-
-LIST_OF_VAR_INDICES UsesTable::getAllUsesVarNamesByIdx() {
-  return m_allVariablesUsedList;
-}
 
 UsesTable::UsesTable() {}
 
@@ -179,5 +163,4 @@ MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getUsesVarMap() {
 
 void UsesTable::populateUsesAnythingRelationships() {
   m_allStmtNumsUsedList.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
-  m_allVariablesUsedList.assign(m_allVariablesUsedByIdx.begin(), m_allVariablesUsedByIdx.end());
 }

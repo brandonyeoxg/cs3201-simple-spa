@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 #include "GlobalTypeDef.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 
 class Formatter {
 public:

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "PkbWriteOnly.h"
+#include "pkb/PkbWriteOnly.h"
 #include "SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
 

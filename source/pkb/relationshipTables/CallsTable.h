@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 #include "ProcTable.h"
 /**
 * Represents the calls relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that

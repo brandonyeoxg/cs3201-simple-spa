@@ -5,8 +5,8 @@
 
 #include "Parser.h"
 #include "AffectsExtractor.h"
-#include "PKB.h"
-#include "PkbTablesOnly.h"
+#include "pkb/PKB.h"
+#include "pkb/PkbTablesOnly.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

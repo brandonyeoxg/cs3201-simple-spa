@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "Parser.h"
-#include "PKB.h"
+#include "pkb/PKB.h"
 #include "AffectsTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

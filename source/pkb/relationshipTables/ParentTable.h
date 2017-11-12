@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "GlobalTypeDef.h"
-#include "InvalidArgumentException.h"
+#include "../../GlobalTypeDef.h"
+#include "../../InvalidArgumentException.h"
 
 /**
 * Represents the parent relationship table, which is a vector of unordered_maps to

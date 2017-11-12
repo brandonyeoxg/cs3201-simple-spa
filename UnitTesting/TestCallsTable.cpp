@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "CallsTable.h"
+#include "pkb/relationshipTables/CallsTable.h"
 #include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
