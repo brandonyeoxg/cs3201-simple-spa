@@ -1,9 +1,9 @@
 #include "ParserDriver.h"
 #include "../util/StringUtil.h"
-#include "..\SyntaxOpenBraceException.h"
-#include "..\SyntaxNoEndOfStatementException.h"
-#include "..\SyntaxUnknownCommandException.h"
-#include "..\SyntaxEmptyLineException.h"
+#include "../exception/SyntaxOpenBraceException.h"
+#include "../exception/SyntaxNoEndOfStatementException.h"
+#include "../exception/SyntaxUnknownCommandException.h"
+#include "../exception/SyntaxEmptyLineException.h"
 
 ParserDriver::~ParserDriver()
 {

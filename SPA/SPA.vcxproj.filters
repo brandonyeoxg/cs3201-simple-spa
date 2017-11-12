@@ -204,21 +204,6 @@
     <ClInclude Include="..\source\VarTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SyntaxErrorException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxOpenBraceException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxUnknownCommandException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxEmptyLineException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
@@ -228,9 +213,6 @@
     </ClInclude>
     <ClInclude Include="..\source\UsesTable.h">
       <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxInvalidTerm.h">
-      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
@@ -246,18 +228,6 @@
     </ClInclude>
     <ClInclude Include="..\source\pql\QueryCache.h">
       <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxCyclicCalls.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxDuplicateProc.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\InvalidArgumentException.h">
-      <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SyntaxNonExistantProcedure.h">
-      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pkb\relationshipTables\ModifiesTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -451,6 +421,36 @@
     </ClInclude>
     <ClInclude Include="..\source\util\TokeniserUtil.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\InvalidArgumentException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxCyclicCalls.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxDuplicateProc.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxEmptyLineException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxErrorException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxInvalidTerm.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxNoEndOfStatementException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxNonExistantProcedure.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxOpenBraceException.h">
+      <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\exception\SyntaxUnknownCommandException.h">
+      <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
