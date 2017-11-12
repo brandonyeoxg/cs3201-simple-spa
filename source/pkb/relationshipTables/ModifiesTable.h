@@ -48,7 +48,6 @@ public:
   * @param t_lineNum the stmt#
   * @return the list of variables.
   */
-  LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum);
 
   /**

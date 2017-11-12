@@ -706,7 +706,6 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
   virtual LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**

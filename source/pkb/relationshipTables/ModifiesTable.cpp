@@ -98,18 +98,6 @@ bool ModifiesTable::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   }
 }
 
-LIST_OF_VAR_NAMES ModifiesTable::getModifies(STMT_NUM t_lineNum) {
-  LIST_OF_VAR_NAMES vector;
-  auto itr = m_modifiesStmtMap.find(t_lineNum);
-  if (itr == m_modifiesStmtMap.end()) {
-    return vector;  //empty, no results
-  } else {
-    vector = itr->second;
-    return vector;
-  }
-
-}
-
 LIST_OF_VAR_INDICES ModifiesTable::getModifiesByIdx(STMT_NUM t_lineNum) {
   LIST_OF_VAR_INDICES vector;
   auto itr = m_modifiesStmtByIdxMap.find(t_lineNum);

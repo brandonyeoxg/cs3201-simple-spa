@@ -794,9 +794,6 @@ void PKB::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDE
 BOOLEAN PKB::isModifies(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_modifiesTable->isModifies(t_lineNum, t_varName);
 }
-LIST_OF_VAR_NAMES PKB::getModifies(STMT_NUM t_lineNum) {
-  return m_modifiesTable->getModifies(t_lineNum);
-}
 LIST_OF_VAR_INDICES PKB::getModifiesByIdx(STMT_NUM t_lineNum) {
   return m_modifiesTable->getModifiesByIdx(t_lineNum);
 }
