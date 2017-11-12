@@ -557,7 +557,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_01) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -594,7 +593,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_02) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -630,6 +628,33 @@ public:
     Assert::IsTrue(nextTable.hasLineBefore(5));
 
     Assert::IsFalse(nextTable.hasLineBefore(1));
+  }
+
+  TEST_METHOD(nextTable_emptyResults) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+    MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES expectedMap, resultMap;
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = {};
+
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getLinesAfter(4);
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getAllLinesBefore(500);
+    Assert::IsTrue(expected == result);
+
+    expectedMap = MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES();
+
+    resultMap = nextTable.getAllNext();
+    Assert::IsTrue(expectedMap == resultMap);
+
+    resultMap = nextTable.getAllNextStar();
+    Assert::IsTrue(expectedMap == resultMap);
   }
 
 private:
