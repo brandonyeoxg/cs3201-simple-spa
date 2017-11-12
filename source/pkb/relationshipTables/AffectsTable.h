@@ -1,6 +1,6 @@
 #pragma once
-#include "GlobalTypeDef.h"
-#include "pkb/PkbTablesOnly.h"
+#include "../../GlobalTypeDef.h"
+#include "../PkbTablesOnly.h"
 
 /**
 * Represents the affects relationship.

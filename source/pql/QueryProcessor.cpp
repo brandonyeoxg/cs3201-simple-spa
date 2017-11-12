@@ -12,15 +12,9 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
 
   declaration = qpp.splitStringDeclaration(t_stringInput);
   isTokenizedDeclaration = qpp.tokenizeDeclaration(declaration);
-  
+ 
     query = qpp.splitStringQuery(t_stringInput);
     isTokenized = qpp.tokenizeQuery(query);
-    
-    //Old Queues to be passed to QE
-    std::queue<Grammar> selectQueue = qpp.getSelect();
-    std::queue<Relation> suchThatQueue = qpp.getSuchThat();
-    std::queue<Pattern> patternQueue = qpp.getPattern();
-    std::queue<With> withQueue = qpp.getWith();
 
     //New Vectors to be passed to QE
     std::vector<Grammar> selectVector = qpp.getSelectVector();
@@ -32,11 +26,8 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
     std::unordered_map<std::string, int> unorderedMap = qpp.getSynonym();
 
     if (isTokenized == true && isTokenizedDeclaration == true) {
-      //Grammar testGrammar = selectQueue.front();
-      //std::cout << "This is QueryProcessor testing selectQueue output: " << testGrammar.getName() << std::endl;
-      //QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectQueue, suchThatQueue, patternQueue, withQueue, unorderedMap);
-      
-      //New QueryEvaluator Constructor
+   
+     //New QueryEvaluator Constructor
       QueryEvaluator *qe = new QueryEvaluator(m_pkb, selectVector, suchThatVector, patternVector, withVector, unorderedMap);
       evaluatedResults = qe->evaluateQuery();
       delete qe;
@@ -45,8 +36,8 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
   
   std::vector<Grammar> selectVectorValidate = qpp.getSelectVector();
   if (!selectVectorValidate.empty() && selectVectorValidate.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()\
-    || (isTokenizedDeclaration == false && isTokenized == true)
-    || (isTokenizedDeclaration == true && isTokenized == false && selectVectorValidate.empty()) && isSelectBooleanExists) {
+    || (isTokenizedDeclaration == false && isTokenized == true && isSelectBooleanExists)
+    || (isTokenizedDeclaration == true && isTokenized == false && isSelectBooleanExists)) {
     evaluatedResults.push_back(FALSE);
   }
 

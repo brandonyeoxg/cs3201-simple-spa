@@ -1,6 +1,6 @@
 #pragma once
 #include "../pkb/PkbTablesOnly.h"
-#include "../AffectsExtractor.h"
+#include "../design-extractor/AffectsExtractor.h"
 /**
  * Represents a wrapper which extracts further complicated design abstractions from the PKB tables.
  * Designs are extracted through the ExtractorFactory.

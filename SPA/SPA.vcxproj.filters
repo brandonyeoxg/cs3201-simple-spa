@@ -16,9 +16,6 @@
     <ClCompile Include="..\source\pkb\relationshipTables\NextTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AffectsTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\pql\QueryCache.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
     <ClCompile Include="..\source\design-extractor\UsesPExtractor.cpp">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AffectsExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pql\relationships\Relationship.cpp">
@@ -196,23 +190,20 @@
     <ClCompile Include="..\source\util\TokeniserUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\AffectsTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\design-extractor\AffectsExtractor.cpp">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\VarTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesP.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
@@ -221,9 +212,6 @@
       <Filter>PKB\PatternMatch</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pkb\relationshipTables\NextTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pql\QueryCache.h">
@@ -311,9 +299,6 @@
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
     <ClInclude Include="..\source\design-extractor\UsesPExtractor.h">
-      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pql\relationships\Relationship.h">
@@ -450,6 +435,12 @@
     </ClInclude>
     <ClInclude Include="..\source\exception\SyntaxUnknownCommandException.h">
       <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\AffectsTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\design-extractor\AffectsExtractor.h">
+      <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
