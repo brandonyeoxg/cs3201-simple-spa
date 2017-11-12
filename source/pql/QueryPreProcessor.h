@@ -59,14 +59,14 @@ public:
   * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
-  STRING splitStringDeclaration(STRING t_Input);
+  STRING splitStringDeclaration(STRING t_input);
 
   /**
   * Method takes in a string containing both the declaration and query and returns query.
   * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
-  STRING splitStringQuery(STRING t_Input);
+  STRING splitStringQuery(STRING t_input);
 
 
   /**

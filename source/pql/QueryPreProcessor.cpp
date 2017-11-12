@@ -50,18 +50,18 @@ std::vector<Grammar> QueryPreProcessor::getGrammarVector(void) {
   return m_grammarVector;
 }
 
-STRING QueryPreProcessor::splitStringDeclaration(STRING t_Input) {
+STRING QueryPreProcessor::splitStringDeclaration(STRING t_input) {
   std::string delimiter = "Select";
-  std::string declaration = t_Input.substr(0, t_Input.find(delimiter));
+  std::string declaration = t_input.substr(0, t_input.find(delimiter));
 
   declaration = m_stringUtil.trimString(declaration);
   declaration = m_stringUtil.reduceString(declaration);
   return declaration;
 }
 
-STRING QueryPreProcessor::splitStringQuery(STRING t_Input) {
+STRING QueryPreProcessor::splitStringQuery(STRING t_input) {
   std::string delimiter = "Select";
-  std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
+  std::string query = t_input.substr(t_input.find(delimiter), t_input.size());
 
   query = m_stringUtil.trimString(query);
   //query = m_stringUtil.reduceString(query);
