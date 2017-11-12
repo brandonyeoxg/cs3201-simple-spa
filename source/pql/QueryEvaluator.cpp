@@ -15,6 +15,24 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
   QueryOptimiser opt = QueryOptimiser(m_pkb, m_selects, m_relations, m_patterns, m_withs);
   opt.divideClausesIntoGroups(m_noSyns, m_withSyns);
 
+  int numOfGroups = m_withSyns.size();
+  for (int i = 0; i < numOfGroups; ++i) {
+    auto grp = m_withSyns.top().first;
+    std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *finalGrp = new std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>();
+    std::queue<Clause*> *queue = new std::queue<Clause*>();
+    int numOfClauses = grp->size();
+    for (int j = 0; j < numOfClauses; ++j) {
+      queue->push(grp->top());
+      grp->pop();
+    }
+    
+    opt.sortClausesWithinGroup(queue, finalGrp);
+    m_syns.push(std::make_pair(finalGrp, m_withSyns.top().second));
+    m_withSyns.pop();
+
+    delete queue;
+  }
+
   bool hasResult = getResultFromPkb();
   if (hasResult) {
     return evaluateFinalResult();
@@ -78,10 +96,10 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
     tableIdx = 1;
   }
 
-  int numOfGroups = m_withSyns.size();
+  int numOfGroups = m_syns.size();
   for (int i = 0; i < numOfGroups; ++i) {
     m_isSelectOnly = false;
-    std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int> group = m_withSyns.top();
+    std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int> group = m_syns.top();
     numOfClauses = group.first->size();
     m_tables.push_back(new IntermediateTable());
     for (int j = 0; j < numOfClauses; ++j) {
@@ -117,8 +135,9 @@ BOOLEAN QueryEvaluator::getResultFromPkb() {
 
       group.first->pop();
     }
-
-    m_withSyns.pop();
+ 
+    m_syns.pop();
+    delete group.first;
   }
 
   return true;
