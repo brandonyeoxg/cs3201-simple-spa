@@ -6,7 +6,7 @@
 
 #include "GlobalTypeDef.h"
 #include "PatternEvaluator.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 
 class WhilePatternEvaluator: public PatternEvaluator {
 public:

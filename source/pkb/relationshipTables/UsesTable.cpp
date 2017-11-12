@@ -24,9 +24,7 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
       m_usesVarMap[t_varName] = vector; //old imp.
       m_usesVarByIdxMap[t_varIdx] = vector;
       insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
-      //insert into sets
-      m_allVariablesUsed.insert(t_varName); //old imp.
-      m_allVariablesUsedByIdx.insert(t_varIdx);
+      //insert into set
       m_allStmtNumsUsed.insert(t_lineNum);
       inserted = true;
     }
@@ -39,8 +37,6 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
     m_usesVarByIdxMap.emplace(t_varIdx, newVector);
     insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
-    m_allVariablesUsed.insert(t_varName); //old imp.
-    m_allVariablesUsedByIdx.insert(t_varIdx);
     m_allStmtNumsUsed.insert(t_lineNum);
   }
 }
@@ -136,9 +132,6 @@ LIST_OF_STMT_NUMS UsesTable::getStmtUses(VAR_NAME t_varName) {
     return vector;
   }
 }
-MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUses() {
-  return m_usesVarMap;
-}
 
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS UsesTable::getAllStmtUsesByIdx() {
   return m_usesVarByIdxMap;
@@ -154,22 +147,9 @@ bool UsesTable::isUsesAnything(STMT_NUM t_lineNum) {
 
 }
 LIST_OF_STMT_NUMS UsesTable::getStmtUsesAnything() {
-  LIST_OF_STMT_NUMS results;
-  results.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
-  return results;
+  return m_allStmtNumsUsedList;
 }
 
-LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() {
-  LIST_OF_VAR_NAMES results;
-  results.assign(m_allVariablesUsed.begin(), m_allVariablesUsed.end());
-  return results;
-}
-
-LIST_OF_VAR_INDICES UsesTable::getAllUsesVarNamesByIdx() {
-  LIST_OF_VAR_INDICES results;
-  results.assign(m_allVariablesUsedByIdx.begin(), m_allVariablesUsedByIdx.end());
-  return results;
-}
 
 UsesTable::UsesTable() {}
 
@@ -179,4 +159,8 @@ MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES UsesTable::getUsesStmtMap() {
 
 MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getUsesVarMap() {
   return m_usesVarMap;
+}
+
+void UsesTable::populateUsesAnythingRelationships() {
+  m_allStmtNumsUsedList.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
 }

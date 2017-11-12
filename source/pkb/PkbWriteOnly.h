@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 
 /**
 * Represents an interface for WriteOnly methods in the PKB.

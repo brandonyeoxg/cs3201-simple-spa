@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "FollowTable.h"
-#include "ParentTable.h"
-#include "VarTable.h"
-#include "PKB.h"
-#include "DesignExtractor.h"
+#include "pkb/PKB.h"
+#include "design-extractor/DesignExtractor.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "test-drivers/ParserDriver.h"
-#include "PkbWriteOnly.h"
-#include "PKB.h"
+#include "pkb/PkbWriteOnly.h"
+#include "pkb/PKB.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

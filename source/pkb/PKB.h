@@ -6,31 +6,31 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 
 #include "PkbWriteOnly.h"
 #include "PkbReadOnly.h"
 #include "PkbTablesOnly.h"
 
-#include "FollowTable.h"
-#include "ParentTable.h"
-#include "VarTable.h"
-#include "ProcTable.h"
-#include "VarTable.h"
-#include "AssignTable.h"
-#include "StatementTable.h"
-#include "ConstantTable.h"
-#include "pkb/patternMatch/PatternMatch.h"
-#include "ModifiesP.h"
-#include "UsesP.h"
-#include "CallsTable.h"
-#include "UsesTable.h"
-#include "ModifiesTable.h"
-#include "StmtListTable.h"
-#include "pkb/relationshipTables/NextTable.h"
-#include "DesignExtractor.h"
+#include "relationshipTables/FollowTable.h"
+#include "relationshipTables/ParentTable.h"
+#include "relationshipTables/VarTable.h"
+#include "relationshipTables/ProcTable.h"
+#include "relationshipTables/VarTable.h"
+#include "relationshipTables/AssignTable.h"
+#include "relationshipTables/StatementTable.h"
+#include "relationshipTables/ConstantTable.h"
+#include "patternMatch/PatternMatch.h"
+#include "relationshipTables/ModifiesP.h"
+#include "relationshipTables/UsesP.h"
+#include "relationshipTables/CallsTable.h"
+#include "relationshipTables/UsesTable.h"
+#include "relationshipTables/ModifiesTable.h"
+#include "relationshipTables/StmtListTable.h"
+#include "relationshipTables/NextTable.h"
+#include "../design-extractor/DesignExtractor.h"
 
-#include "Grammar.h"
+#include "../Grammar.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 
@@ -946,7 +946,6 @@ public:
   * Get the map of all uses relationship i.e. for uses(s, v) where s and v are synonyms.
   * @return the map that contains all uses relationship.
   */
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
 
 
@@ -1004,7 +1003,6 @@ public:
   * Get the map of all modifies relationship i.e. for modifies(s, v) where s and v are synonyms.
   * @return the map that contains all uses relationship.
   */
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
 
   /**

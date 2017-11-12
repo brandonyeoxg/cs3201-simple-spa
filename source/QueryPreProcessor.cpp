@@ -433,6 +433,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       secondStatement = t_queryInput;
     }
     while (true) {
+      
       //secondStatement = m_stringUtil.trimString(secondStatement);
       secondTempStatement = secondStatement.substr(0, secondStatement.find(WHITESPACE));
       if (secondTempStatement == "such") {
@@ -812,6 +813,10 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
         designAbstractionVectorNew = stringVectorTokenizer("() ,;\\", designAbstractionObject, designAbstractionVectorNew);
 
+        if (designAbstractionVectorNew.size() != 2) {
+          return false;
+        }
+
         std::string sTName1 = designAbstractionVectorNew.front();
         std::string sTName2 = designAbstractionVectorNew.back();
 
@@ -863,7 +868,9 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           || designAbstractionEntity == "Calls"
           || designAbstractionEntity == "Calls*"
           || designAbstractionEntity == "Next") {
-          if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 && sTName1 != OPERATOR_UNDERSCORE)) {
+          if ((sTInt1 == sTInt2 && sTInt1 != 0) || (sTName1 == sTName2 
+            && sTName1 != OPERATOR_UNDERSCORE && sTName2 != OPERATOR_UNDERSCORE
+            && sTName1.find('"') == std::string::npos && sTName2.find('"') == std::string::npos)) {
             //return empty list
             return false;
           }
@@ -1012,6 +1019,16 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
             //String, String
           } else if (sTName1.find('"') != std::string::npos && sTName2.find('"') != std::string::npos) {
+            removeCharsFromString(sTName1, "\\\"");
+            removeCharsFromString(sTName2, "\\\"");
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
+            
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
             removeCharsFromString(sTName1, "\\\"");
             removeCharsFromString(sTName2, "\\\"");
             g1 = Grammar(queryType::GType::STR, sTName1);

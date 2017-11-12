@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "FollowTable.h"
+#include "pkb/relationshipTables/FollowTable.h"
 #include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

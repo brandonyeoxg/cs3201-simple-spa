@@ -802,9 +802,6 @@ LIST_OF_VAR_INDICES PKB::getUsesByIdx(STMT_NUM t_lineNum) {
 LIST_OF_STMT_NUMS PKB::getStmtUses(VAR_NAME t_varName) {
   return m_usesTable->getStmtUses(t_varName);
 }
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtUses() {
-  return m_usesTable->getAllStmtUses();
-}
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtUsesByIdx() {
   return m_usesTable->getAllStmtUsesByIdx();
 }
@@ -835,9 +832,6 @@ LIST_OF_VAR_INDICES PKB::getModifiesByIdx(STMT_NUM t_lineNum) {
 }
 LIST_OF_STMT_NUMS PKB::getStmtModifies(VAR_NAME t_varName) {
   return m_modifiesTable->getStmtModifies(t_varName);
-}
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> PKB::getAllStmtModifies() {
-  return m_modifiesTable->getAllStmtModifies();
 }
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS PKB::getAllStmtModifiesByIdx() {
   return m_modifiesTable->getAllStmtModifiesByIdx();

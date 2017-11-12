@@ -2,6 +2,7 @@
 
 void ModifiesExtractor::extractDesign() {
   populateModifiesByCallStatements();
+  populateModifiesAnythingRelationships();
 }
 
 void ModifiesExtractor::populateModifiesByCallStatements() {
@@ -40,4 +41,9 @@ void ModifiesExtractor::populateModifiesByCallStatements() {
       }
     }
   }
+}
+
+void ModifiesExtractor::populateModifiesAnythingRelationships() {
+  ModifiesTable* modifiesTable = m_pkb->getModifiesTable();
+  modifiesTable->populateModifiesAnythingRelationships();
 }
