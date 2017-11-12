@@ -27,6 +27,7 @@ public:
     Assert::IsTrue(nextTable.isNext(0, 500));
 
     // test out of bounds number
+    Assert::IsFalse(nextTable.isNext(501, 3));
     Assert::IsFalse(nextTable.isNext(600, 700));
   }
 
