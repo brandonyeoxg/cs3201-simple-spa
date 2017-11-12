@@ -157,14 +157,11 @@
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h" />
-    <ClInclude Include="..\source\UsesP.h" />
-    <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\util\EvaluatorUtil.h" />
     <ClInclude Include="..\source\util\Formatter.h" />
     <ClInclude Include="..\source\util\QueryUtil.h" />
     <ClInclude Include="..\source\util\StringUtil.h" />
     <ClInclude Include="..\source\util\TokeniserUtil.h" />
-    <ClInclude Include="..\source\VarTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>
