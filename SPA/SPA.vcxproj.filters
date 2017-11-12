@@ -201,18 +201,9 @@
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\VarTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesP.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
