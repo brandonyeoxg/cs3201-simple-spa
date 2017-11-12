@@ -77,23 +77,12 @@ private:
   BOOLEAN handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
   BOOLEAN handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
   BOOLEAN handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut);
-  ///////////////////////////////////////////////////////
-  //  Affects
-  ///////////////////////////////////////////////////////
-  //void traverseCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  //void traverseContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  //void traverseNonContainerCfgWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, queryType::GType t_type);
-  //void traverseIfStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  //void traverseWhileStmtWithBound(PROG_LINE t_curProgLine, PROG_LINE t_endBound, PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-
-  //void handleAffectsOnAssgnStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);
-  /*void handleAffectsOnCallStmt(PROG_LINE t_curProgLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt);*/
 
   BOOLEAN isContainerStmt(queryType::GType t_type);
   MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergeTable(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS);
   PROG_LINE getRealStartBound(PROG_LINE t_startBound);
   void handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars);
-  void handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars);
+  void handleInsertionForAffectsStar(VAR_NAME t_curModifiesVar, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, SET_OF_STMT_NUMS t_usesStmt, SET_OF_STMT_NUMS &t_lookedAt);
   void insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine);
 };
 
