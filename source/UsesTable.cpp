@@ -154,21 +154,17 @@ bool UsesTable::isUsesAnything(STMT_NUM t_lineNum) {
 
 }
 LIST_OF_STMT_NUMS UsesTable::getStmtUsesAnything() {
-  LIST_OF_STMT_NUMS results;
-  results.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
-  return results;
+  return m_allStmtNumsUsedList;
 }
 
-LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() {
+LIST_OF_VAR_NAMES UsesTable::getAllUsesVarNames() { //obsolete
   LIST_OF_VAR_NAMES results;
   results.assign(m_allVariablesUsed.begin(), m_allVariablesUsed.end());
   return results;
 }
 
 LIST_OF_VAR_INDICES UsesTable::getAllUsesVarNamesByIdx() {
-  LIST_OF_VAR_INDICES results;
-  results.assign(m_allVariablesUsedByIdx.begin(), m_allVariablesUsedByIdx.end());
-  return results;
+  return m_allVariablesUsedList;
 }
 
 UsesTable::UsesTable() {}
@@ -179,4 +175,9 @@ MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES UsesTable::getUsesStmtMap() {
 
 MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS UsesTable::getUsesVarMap() {
   return m_usesVarMap;
+}
+
+void UsesTable::populateUsesAnythingRelationships() {
+  m_allStmtNumsUsedList.assign(m_allStmtNumsUsed.begin(), m_allStmtNumsUsed.end());
+  m_allVariablesUsedList.assign(m_allVariablesUsedByIdx.begin(), m_allVariablesUsedByIdx.end());
 }

@@ -28,6 +28,9 @@ public:
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES getModifiesStmtMap();
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getModifiesVarMap();
 
+  //method called by the DesignExtractor
+  void populateModifiesAnythingRelationships();
+
 private:
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES m_modifiesStmtMap;
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_INDICES m_modifiesStmtByIdxMap;
@@ -40,8 +43,10 @@ private:
 
   SET_OF_VAR_NAMES m_allVariablesModified;
   SET_OF_VAR_INDICES m_allVariablesModifiedByIdx;
+  LIST_OF_VAR_INDICES m_allVariablesModifiedList;
 
   SET_OF_STMT_NUMS m_allStmtNumsModified;
+  LIST_OF_STMT_NUMS m_allStmtNumsModifiedList;
 
 
 };

@@ -153,21 +153,17 @@ bool ModifiesTable::isModifiesAnything(STMT_NUM t_lineNum) {
 
 }
 LIST_OF_STMT_NUMS ModifiesTable::getStmtModifiesAnything() {
-  LIST_OF_STMT_NUMS results;
-  results.assign(m_allStmtNumsModified.begin(), m_allStmtNumsModified.end());
-  return results;
+  return m_allStmtNumsModifiedList;
 }
 
-LIST_OF_VAR_NAMES ModifiesTable::getAllModifiesVarNames() {
+LIST_OF_VAR_NAMES ModifiesTable::getAllModifiesVarNames() { //obsolete
   LIST_OF_VAR_NAMES results;
   results.assign(m_allVariablesModified.begin(), m_allVariablesModified.end());
   return results;
 }
 
 LIST_OF_VAR_INDICES ModifiesTable::getAllModifiesVarNamesByIdx() {
-  LIST_OF_VAR_INDICES results;
-  results.assign(m_allVariablesModifiedByIdx.begin(), m_allVariablesModifiedByIdx.end());
-  return results;
+  return m_allVariablesModifiedList;
 }
 
 //Constructor.
@@ -180,4 +176,9 @@ MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES ModifiesTable::getModifiesStmtMap() {
 
 MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS ModifiesTable::getModifiesVarMap() {
   return m_modifiesVarMap;
+}
+
+void ModifiesTable::populateModifiesAnythingRelationships() {
+  m_allStmtNumsModifiedList.assign(m_allStmtNumsModified.begin(), m_allStmtNumsModified.end());
+  m_allVariablesModifiedList.assign(m_allVariablesModifiedByIdx.begin(), m_allVariablesModifiedByIdx.end());
 }
