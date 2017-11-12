@@ -2318,7 +2318,7 @@ std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* t_chars
   return t_vector;
 }
 
-bool QueryPreProcessor::withClauseAttNum(std::string t_attribute, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseAttNum(std::string t_attribute, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   std::string tempAttribute = t_attribute;
   std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
   std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
@@ -2365,7 +2365,7 @@ bool QueryPreProcessor::withClauseAttNum(std::string t_attribute, std::string t_
   }
 }
 
-bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string t_withSynonym, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string t_withSynonym, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
 
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
@@ -2393,7 +2393,7 @@ bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string t_withSynonym, 
   }
 }
 
-bool QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string t_inputString, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string t_inputString, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   std::string tempAttribute = t_attribute;
   std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
 
@@ -2424,7 +2424,7 @@ bool QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string
   }
 }
 
-bool QueryPreProcessor::withClauseAttAtt(std::string t_leftAttribute, std::string t_rightAttribute, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseAttAtt(std::string t_leftAttribute, std::string t_rightAttribute, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   t_withLeftGrammar = withAttributeProcessor(t_leftAttribute, t_withLeftGrammar);
   t_withRightGrammar = withAttributeProcessor(t_rightAttribute, t_withRightGrammar);
 
@@ -2442,7 +2442,7 @@ bool QueryPreProcessor::withClauseAttAtt(std::string t_leftAttribute, std::strin
   
 }
 
-bool QueryPreProcessor::withClauseSynAtt(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseSynAtt(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
     if (m_grammarVector.at(counterS).getName() == t_leftSynonym) {
@@ -2476,7 +2476,7 @@ bool QueryPreProcessor::withClauseSynAtt(std::string t_leftSynonym, std::string 
 
 }
 
-bool QueryPreProcessor::withClauseSynSyn(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+BOOLEAN QueryPreProcessor::withClauseSynSyn(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
     if (m_grammarVector.at(counterS).getName() == t_leftSynonym) {
@@ -2572,7 +2572,7 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string t_attribute, Gramm
   return t_withGrammar;
 }
 
-std::string QueryPreProcessor::multiClauseProcessor(std::string t_secondStatement, std::string t_whichClause) {
+STRING QueryPreProcessor::multiClauseProcessor(std::string t_secondStatement, std::string t_whichClause) {
   std::string delimiterSelect = "Select";
   std::string delimiterSuchThat = "such that";
   std::string delimiterPattern = "pattern";
