@@ -38,60 +38,64 @@ void Relation::toString() {
 Relation::Relation(std::string t_type, Grammar t_g1, Grammar t_g2) {
   if (t_type.compare(FLS) == 0) {
     m_type = queryType::RType::FOLLOWS;
-    setWeights(6);
+    setWeights(19);
   } else if (t_type.compare(FLS_) == 0) {
     m_type = queryType::RType::FOLLOWS_;
-    setWeights(7);
+    setWeights(20);
   } else if (t_type.compare(PRT) == 0) {
     m_type = queryType::RType::PARENT;
-    setWeights(4);
+    setWeights(17);
   } else if (t_type.compare(PRT_) == 0) {
     m_type = queryType::RType::PARENT_;
-    setWeights(5);
+    setWeights(18);
   } else if (t_type.compare(USE) == 0) {
     m_type = queryType::RType::USES;
-    setWeights(8);
+    setWeights(21);
   } else if (t_type.compare(MDF) == 0) {
     m_type = queryType::RType::MODIFIES;
-    setWeights(3);
+    setWeights(16);
   } else if (t_type.compare(CLS) == 0) {
     m_type = queryType::RType::CALLS;
-    setWeights(1);
+    setWeights(14);
   } else if (t_type.compare(CLS_) == 0) {
     m_type = queryType::RType::CALLS_;
-    setWeights(2);
+    setWeights(15);
   } else if (t_type.compare(NXT) == 0) {
     m_type = queryType::RType::NEXT;
-    setWeights(9);
+    setWeights(22);
   } else if (t_type.compare(NXT_) == 0) {
     m_type = queryType::RType::NEXT_;
-    setWeights(10);
+    setWeights(23);
   } else if (t_type.compare(AFS) == 0) {
     m_type = queryType::RType::AFFECTS;
-    setWeights(11);
+    setWeights(24);
   } else if (t_type.compare(AFS_) == 0) {
     m_type = queryType::RType::AFFECTS_;
-    setWeights(12);
+    setWeights(25);
   }
 
   m_g1 = t_g1;
   m_g2 = t_g2;
 
   if (QueryUtil::isAllUnderscores(t_g1, t_g2)) {
-    addWeights(1);
+    addWeights(2);
   } else if ((StringUtil::isUnderscore(t_g1.getName()) && Grammar::isStmtNo(t_g2.getType()))
     || (Grammar::isStmtNo(t_g1.getType()) && StringUtil::isUnderscore(t_g2.getName()))) {
-    addWeights(2);
-  } else if (QueryUtil::hasNoSynonyms(t_g1, t_g2)) {
     addWeights(3);
+  } else if (QueryUtil::hasNoSynonyms(t_g1, t_g2)) {
+    addWeights(4);
   } else if (QueryUtil::hasOneLeftSynonym(t_g1, t_g2) || QueryUtil::hasOneRightSynonym(t_g1, t_g2)) {
     if (Grammar::isStmtNo(t_g1.getType()) || Grammar::isStmtNo(t_g2.getType())) {
-      addWeights(4);
-    } else {
       addWeights(5);
+    } else {
+      addWeights(6);
     }
   } else if (QueryUtil::hasTwoSynonyms(t_g1, t_g2)) {
-    addWeights(6);
+    if (Relation::isNextStar(m_type) || Relation::isAffects(m_type) || Relation::isAffectsStar(m_type)) {
+      addWeights(1);
+    } else {
+      addWeights(7);
+    }   
   } else {
     addWeights(0);
   } 
