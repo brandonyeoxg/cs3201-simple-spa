@@ -53,21 +53,21 @@ public:
 
   /**
   * Method takes in a string and removes all characters specified in charsToRemove.
-  * @param str is the input string.
-  * @param charsToRemove are the characters to be removed from the string.
+  * @param t_str is the input string.
+  * @param t_charsToRemove are the characters to be removed from the string.
   */
-  void removeCharsFromString(std::string & str, char * charsToRemove);
+  void removeCharsFromString(std::string & t_str, char * t_charsToRemove);
 
   /**
   * Method takes in a string containing both the declaration and query and returns declaration.
-  * @param str is the input string.
+  * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
   std::string splitStringDeclaration(std::string t_Input);
 
   /**
   * Method takes in a string containing both the declaration and query and returns query.
-  * @param str is the input string.
+  * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
   std::string splitStringQuery(std::string t_Input);
@@ -80,93 +80,93 @@ public:
 
   /**
   * A tokenizing method which removes the characters specified in the string character
-  * in the targeted string targetString and then pushes them into the vector
-  * @return a string vector containing the string tokens
+  * in the targeted string t_targetString and then pushes them into the vector
+  * @return a string vector t_vector containing the string tokens
   */
-  std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector);
+  std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* t_charsToRemove, std::string t_targetString, std::vector<std::string> t_vector);
 
   /**
   * A tokenizing method tailored for patterns which removes the characters specified in the string character
-  * in the targeted string patternRightName and then pushes them into the vector
-  * @return a string vector containing the string tokens
+  * in the targeted string t_patternRightName and then pushes them into the vector
+  * @return a string vector t_vector containing the string tokens
   */
-  std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsToRemove, std::string patternRightName, std::vector<std::string> vector);
+  std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* t_charsToRemove, std::string t_patternRightName, std::vector<std::string> t_vector);
 
   /**
   * A method that takes in an attribute string and number and calls other methods to process
-  * @param attribute being the side that has an attribute
-  * @param integer being a constant for constant value or stmt#
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_attribute being the side that has an attribute
+  * @param t_integer being a constant for constant value or stmt#
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttNum(std::string t_attribute, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
 
   /**
   * A method that takes in an attribute string and string and calls other methods to process
-  * @param attribute being the side that has an attribute
-  * @param string being a string for procName/varName
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_attribute being the side that has an attribute
+  * @param t_string being a string for procName/varName
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string string, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string t_string, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
   
   /**
   * A specialised method for synonyms with no attributes that takes in an attribute string and number and calls other methods to process
-  * @param attribute being the side that has an attribute
-  * @param integer being a constant for constant value or stmt#
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_attribute being the side that has an attribute
+  * @param t_integer being a constant for constant value or stmt#
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string t_attribute, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
 
   /**
   * A method that takes in 2 attribute strings and calls other methods to process
-  * @param leftAttribute being the left side that has an attribute
-  * @param rightAttribute being the left side that has an attribute
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_leftAttribute being the left side that has an attribute
+  * @param t_rightAttribute being the left side that has an attribute
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseAttAtt(std::string t_leftAttribute, std::string t_rightAttribute, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
 
   /**
   * A specialised method that takes in 2 synonyms that only has an attribute on one side and calls other methods to process
-  * @param leftSynonym being the side that does not have an attribute
-  * @param rightSynonym being the side that has an attribute
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_leftSynonym being the side that does not have an attribute
+  * @param t_rightSynonym being the side that has an attribute
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseSynAtt(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
 
   /**
   * A method that takes in 2 synonyms that does not have any attributes and processes it
-  * @param leftSynonym being the synonym that does not have an attribute
-  * @param rightSynonym being the synonym that does not have an attribute
-  * @param withLeftGrammar being the Grammar to be formed on the left side
-  * @param withRightGrammar being the Grammar to be formed on the right side
+  * @param t_leftSynonym being the synonym that does not have an attribute
+  * @param t_rightSynonym being the synonym that does not have an attribute
+  * @param t_withLeftGrammar being the Grammar to be formed on the left side
+  * @param t_withRightGrammar being the Grammar to be formed on the right side
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
-  bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar);
+  bool QueryPreProcessor::withClauseSynSyn(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
 
   /**
   * A method that takes in a string that contains an attribute and processes it
-  * @param attribute being the string that contains the attribute
-  * @param withGrammar being the Grammar to be formed on the left side
+  * @param t_attribute being the string that contains the attribute
+  * @param t_withGrammar being the Grammar to be formed on the left side
   * @return Grammar object with its attributes
   */
-  Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar);
+  Grammar QueryPreProcessor::withAttributeProcessor(std::string t_attribute, Grammar t_withGrammar);
 
   /**
   * A method that takes in the query that contains multiple clauses and processes it 
-  * @param attribute being the string that contains the attribute
-  * @param withGrammar being the Grammar to be formed on the left side
-  * @return string that has been parsed and substringed.
+  * @param t_secondStatement is the current statement that has been parsed through
+  * @param t_whichClause being the type of clause that it is being parsed in
+  * @return t_secondStatement that has been parsed and substringed.
   */
-  std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause);
+  std::string QueryPreProcessor::multiClauseProcessor(std::string t_secondStatement, std::string t_whichClause);
 
   /**
   * A boolean method for checking whether "Select BOOLEAN" exists or not.
@@ -180,25 +180,25 @@ public:
 
   /**
   * A getter method for the Select vector variables.
-  * @return a Grammar object Queue containing all variables within the Select clause.
+  * @return a Grammar object Vector containing all variables within the Select clause.
   */
   std::vector<Grammar> QueryPreProcessor::getSelectVector(void);
 
   /**
   * A getter method for the Such That vector variables.
-  * @return a Relation object Queue containing all variables within the Such That clause.
+  * @return a Relation object Vector containing all variables within the Such That clause.
   */
   std::vector<Relation> QueryPreProcessor::getSuchThatVector(void);
 
   /**
   * A getter method for the Pattern vector variables.
-  * @return a Pattern object Queue containing all variables within the Pattern clause.
+  * @return a Pattern object Vector containing all variables within the Pattern clause.
   */
   std::vector<Pattern> QueryPreProcessor::getPatternVector(void);
 
   /**
   * A getter method for the With vector variables.
-  * @return a With object Queue containing all variables within the With clause.
+  * @return a With object Vector containing all variables within the With clause.
   */
   std::vector<With> QueryPreProcessor::getWithVector(void);
 
