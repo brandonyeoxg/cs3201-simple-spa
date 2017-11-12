@@ -11,8 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\AffectsExtractor.cpp" />
-    <ClCompile Include="..\source\AffectsTable.cpp" />
+    <ClCompile Include="..\source\design-extractor\AffectsExtractor.cpp" />
     <ClCompile Include="..\source\design-extractor\CallsExtractor.cpp" />
     <ClCompile Include="..\source\design-extractor\DesignExtractor.cpp" />
     <ClCompile Include="..\source\design-extractor\ExtractorFactory.cpp" />
@@ -25,6 +24,7 @@
     <ClCompile Include="..\source\design-extractor\UsesPExtractor.cpp" />
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp" />
     <ClCompile Include="..\source\pkb\PKB.cpp" />
+    <ClCompile Include="..\source\pkb\relationshipTables\AffectsTable.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\AssignTable.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\CallsTable.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\ConstantTable.cpp" />
@@ -78,8 +78,7 @@
     <ClCompile Include="..\source\util\TokeniserUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\AffectsExtractor.h" />
-    <ClInclude Include="..\source\AffectsTable.h" />
+    <ClInclude Include="..\source\design-extractor\AffectsExtractor.h" />
     <ClInclude Include="..\source\design-extractor\CallsExtractor.h" />
     <ClInclude Include="..\source\design-extractor\DesignExtractor.h" />
     <ClInclude Include="..\source\design-extractor\Extractor.h" />
@@ -109,6 +108,7 @@
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
     <ClInclude Include="..\source\pkb\PkbWriteOnly.h" />
+    <ClInclude Include="..\source\pkb\relationshipTables\AffectsTable.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\AssignTable.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\CallsTable.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\ConstantTable.h" />

@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "Parser.h"
-#include "AffectsExtractor.h"
+#include "design-extractor/AffectsExtractor.h"
 #include "pkb/PKB.h"
 #include "pkb/PkbTablesOnly.h"
 

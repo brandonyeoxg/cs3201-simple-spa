@@ -7,7 +7,7 @@
 #include "UsesExtractor.h"
 #include "NextExtractor.h"
 #include "FollowsExtractor.h"
-#include "../AffectsExtractor.h"
+#include "AffectsExtractor.h"
 
 Extractor* ExtractorFactory::makeExtractor(DESIGN_TYPE t_type, PkbTablesOnly* t_pkb) {
   switch (t_type) {
