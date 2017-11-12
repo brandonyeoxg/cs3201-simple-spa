@@ -26,7 +26,8 @@ LIST_OF_RESULTS QueryEvaluator::evaluateQuery() {
       grp->pop();
     }
     
-    opt.sortClausesWithinGroup(queue, finalGrp);
+    std::unordered_set<SYNONYM_NAME> synList;
+    opt.sortClausesWithinGroup(queue, finalGrp, synList);
     m_syns.push(std::make_pair(finalGrp, m_withSyns.top().second));
     m_withSyns.pop();
 
