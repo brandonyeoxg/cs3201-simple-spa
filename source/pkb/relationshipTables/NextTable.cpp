@@ -95,7 +95,7 @@ LIST_OF_PROG_LINES NextTable::getAllLinesBefore(PROG_LINE t_line) {
 }
 
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES NextTable::getAllNext() {
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map;
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map = MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES();
   map.insert(m_afterGraph.begin(), m_afterGraph.end());
   return map;
 }
