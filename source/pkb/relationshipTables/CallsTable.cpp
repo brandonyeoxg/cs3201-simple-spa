@@ -360,11 +360,9 @@ void CallsTable::populateCallsStarMap() {
 }
 
 void CallsTable::populateCalledByStarMap() {
-  //copy the calledByMap in first, then
   //for every key in calledByMap,
   //for every element in vector, if exists as key in calledByMap,
   //check that vector & append all distinct proc_names.
-  //for every key in callsMap
   for (auto it = m_calledByMap.begin(); it != m_calledByMap.end(); ++it) {
     PROC_NAME proc = it->first;
     LIST_OF_PROC_NAMES procNames = it->second;
@@ -392,6 +390,7 @@ void CallsTable::populateCalledByStarMap() {
 }
 
 void CallsTable::populateAllCallsLists() {
+  //copy the sets to vectors
   m_allCallsByIdxList.assign(m_allCallsByIdx.begin(), m_allCallsByIdx.end());
   m_allCalledByByIdxList.assign(m_allCalledByByIdx.begin(), m_allCalledByByIdx.end());
 }

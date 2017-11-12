@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////
 //  Affects
 ///////////////////////////////////////////////////////
-BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
+BOOLEAN AffectsTable::hasAffectsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
   MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   // Checks if they are with in a while stmt
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
@@ -13,17 +13,17 @@ BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_end
   return traverseCfgWithinBound(realStartBound, t_endBound, lms, lut);
 }
 
-BOOLEAN AffectsTable::isAffects(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
+BOOLEAN AffectsTable::isAffects(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine) {
   m_isEarlyExit = true; m_isAffectsStar = false;
   return hasAffectsFromBounds(t_modifiesLine, t_usesLine, t_modifiesLine, t_usesLine);
 }
 
-BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine) {
+BOOLEAN AffectsTable::isAffectsStar(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine) {
   m_isEarlyExit = m_isAffectsStar = true;
   return hasAffectsFromBounds(t_modifiesLine, t_usesLine, t_modifiesLine, t_usesLine);
 }
 
-PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound) {
   // Check if the startBound is a container stmt
   MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
@@ -32,7 +32,7 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBou
   return {m_affectsList, m_affectedByList};
 }
 
-PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
+PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound) {
   MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   m_isAffectsStar = true;
