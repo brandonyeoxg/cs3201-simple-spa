@@ -9,10 +9,12 @@
 #include <unordered_set>
 #include "../../GlobalTypeDef.h"
 #include "ProcTable.h"
+
 /**
-* Represents the calls relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
-track which line is followed by which lines.
+* Represents the calls relations made in the program.
+* The relations are stored in different representation for fast retrieval from PQL through the PKB.
 *
+* @author pengcheng
 */
 class CallsTable {
 public:
