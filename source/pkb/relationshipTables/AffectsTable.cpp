@@ -247,13 +247,9 @@ BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO
   return false;
 }
 
-BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {
-  return t_type == queryType::GType::IF || t_type == queryType::GType::WHILE;
-}
-
-MAP_OF_VAR_INDEX_TO_SET_OF_STMT_NUMS AffectsTable::mergeTable(MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_lmt1, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_lmt2) {
-  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS mergedList = t_lmt1;
-  for (auto& mItr : t_lmt2) {
+MAP_OF_VAR_INDEX_TO_SET_OF_STMT_NUMS AffectsTable::mergeTable(MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_table1, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_table2) {
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS mergedList = t_table1;
+  for (auto& mItr : t_table2) {
     auto mergedItr = mergedList.find(mItr.first);
     if (mergedItr == mergedList.end()) {
       mergedList.insert({mItr.first, mItr.second});

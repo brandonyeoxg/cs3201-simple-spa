@@ -23,23 +23,23 @@ Pattern::Pattern(Grammar t_clause, Grammar t_left, Grammar t_right, bool t_subtr
   setSubtree(t_subtree);
   setWeights(0);
   if (QueryUtil::isAnythingWithAnyPattern(t_left, t_right)) {
-    addWeights(1);
+    addWeights(8);
   } else if (QueryUtil::isAnythingWithExactPattern(t_left, t_right, true)) {
-    addWeights(4);
+    addWeights(11);
   } else if (QueryUtil::isAnythingWithSubPattern(t_left, t_right, false)) {
-    addWeights(4);
+    addWeights(11);
   } else if (QueryUtil::isVarWithAnyPattern(t_left, t_right)) {
-    addWeights(2);
+    addWeights(9);
   } else if (QueryUtil::isSynonymWithAnyPattern(t_left, t_right)) {
-    addWeights(5);
+    addWeights(12);
   } else if (QueryUtil::isVarWithExactPattern(t_left, t_right, true)) {
-    addWeights(3);
+    addWeights(10);
   } else if (QueryUtil::isVarWithSubPattern(t_left, t_right, false)) {
-    addWeights(3);
+    addWeights(10);
   } else if (QueryUtil::isSynonymWithExactPattern(t_left, t_right, true)) {
-    addWeights(6);
+    addWeights(13);
   } else if (QueryUtil::isSynonymWithSubPattern(t_left, t_right, false)) {
-    addWeights(6);
+    addWeights(13);
   } else {
     addWeights(0);
   }

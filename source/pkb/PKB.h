@@ -189,17 +189,17 @@ public:
   /**
   * Method that checks if follows(s1, s2) holds.
   * Checks if s2 exists as the first element in vector mapped to key s1.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * @param t_s1 the stmt# that is being followed by t_s2.
+  * @param t_s2 the stmt# that follows t_s1.
   * @return true if the relationship holds, false if otherwise.
   */
   BOOLEAN isFollows(STMT_NUM t_s1, STMT_NUM t_s2);
 
   /**
   * Method that checks if follows*(s1, s2) holds.
-  * Checks if s2 exists within the vector mapped to key s1.
-  * @param s1 an integer argument.
-  * @param s2 an integer argument.
+  * Checks if (s1, s2) is true in the 2D matrix.
+  * @param t_s1 the s1 in the above relation.
+  * @param s2 an the s2 in the above relation.
   * @return true if the relationship holds, false if otherwise.
   */
   BOOLEAN isFollowsStar(STMT_NUM t_s1, STMT_NUM t_s2);
@@ -207,14 +207,14 @@ public:
   /**
   * Method that returns the line number that follows(s1, s) holds, where s is a variable and s1 is a known line number.
   * Returns the first element in the vector mapped to key s1.
-  * @param s1 an integer argument.
+  * @param t_s1 the stmt# that followed by the answer.
   * @return the line number that line s1 follows.
   */
   STMT_NUM getFollows(STMT_NUM t_s1);
 
   /**
   * Method that returns the line number that follows(s, s2) holds, where s is a variable and s2 is a known line number.
-  * @param s2 an integer argument.
+  * @param t_s2 the stmt# that follows the ansewer.
   * @return the line number that is followed by line s2.
   */
   STMT_NUM getFollowedBy(STMT_NUM t_s2);
@@ -222,16 +222,16 @@ public:
   /**
   * Method that returns the list of line numbers that follows*(s1, s) holds, where s is a variable and s1 is a known line number.
   * Returns the first element in the vector mapped to key s1.
-  * @param s1 an integer argument.
-  * @return the vector of line numbers that line s1 follows*.
+  * @param t_s1 the s1 in the above relation.
+  * @return the vector of line numbers.
   */
   LIST_OF_STMT_NUMS getFollowsStar(STMT_NUM t_s1);
 
   /**
   * Method that returns the list of line numbers that follows*(s, s2) holds, where s is a variable and s2 is a known line number.
   * Returns the vector of keys that the vector mapped to the key contains s2.
-  * @param s1 an integer argument.
-  * @return the vector of line numbers that are followedBy* s2.
+  * @param t_s1 the s1 in the above relation.
+  * @return the vector of line numbers.
   */
   LIST_OF_STMT_NUMS getFollowedByStar(STMT_NUM t_s2);
 
@@ -422,10 +422,11 @@ public:
   MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable();
 
   /**
-  * Method that insert statement number and GType into typeofStatementTable.
-  * @param t_lineNum a STMT_NUM argument.
-  * @param t_type a GType argument.
-  * @return true if insertion is successful, false if otherwise.
+  * Inserts the statement into an unordered_map of stmt# mapped to a type of statement.
+  *
+  * @param t_lineNum is the stmt#.
+  * @param t_type the type of statement.
+  * @return true if insertion is successful.
   */
   BOOLEAN insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
 
@@ -436,10 +437,10 @@ public:
   MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
 
   /**
-  * Method that insert statement number and GType into statementTypeTable.
-  * @param t_lineNum a STMT_NUM argument.
-  * @param t_type a GType argument.
-  * @return true if insertion is successful, false if otherwise.
+  * Inserts the statement into an unordered_map of a statement type mapped to a vector of stmt#.
+  * @param t_type the type of statement.
+  * @param t_lineNum is the stmt#.
+  * @return true if insertion is successful.
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
