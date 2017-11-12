@@ -107,8 +107,10 @@ BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO
       }
     }
     lutEntry->second.clear();
-    for (auto &stmtYetToAdd : tempStmtNumStorage) {
-      lutEntry->second.insert(stmtYetToAdd);
+    if (m_isAffectsStar) {
+      for (auto &stmtYetToAdd : tempStmtNumStorage) {
+        lutEntry->second.insert(stmtYetToAdd);
+      }
     }
     SET_OF_STMT_NUMS lookedAt;
     for (auto &usesVar : usesVars) {
