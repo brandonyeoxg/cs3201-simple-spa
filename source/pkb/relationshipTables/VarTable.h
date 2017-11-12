@@ -6,8 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
-
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /**
 * Represents the variable table, which is a vector of unordered_maps to 

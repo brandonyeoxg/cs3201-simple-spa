@@ -122,7 +122,10 @@ BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO
       // populate lut
       auto &stmtsFromLut = t_lut.find(usesVar)->second;
       if (m_isAffectsStar == true) {
-          handleInsertionForAffectsStar(modifiesVar, t_lmt, t_lut, stmtsFromLut, lookedAt);
+        //handleInsertionForAffectsStar(modifiesVar, t_lmt, t_lut, stmtsFromLut, lookedAt);
+        for (auto &stmtFromLut : stmtsFromLut) {
+          lutEntry->second.insert(stmtFromLut);
+        }
       }
       for (auto &stmtFromLmt : usesFromLmt->second) {
         lutEntry->second.insert(stmtFromLmt);
@@ -176,17 +179,17 @@ BOOLEAN AffectsTable::handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_S
   if (t_lmt.empty()) {
     return false;
   }
-  for (auto modifiesVar : modifiesVars) {
-    auto isModifiesInLmt = t_lmt.find(modifiesVar);
-    if (isModifiesInLmt == t_lmt.end()) {
+  for (auto& mItr : modifiesVars) {
+    auto lmtEntry = t_lmt.find(mItr);
+    if (lmtEntry == t_lmt.end()) {
       continue;
     }
-    t_lmt.erase(isModifiesInLmt);
-    auto isModifiesInLut = t_lut.find(modifiesVar);
-    if (isModifiesInLut == t_lut.end()) {
+    t_lmt.erase(lmtEntry);
+    auto lutEntry = t_lut.find(mItr);
+    if (lutEntry == t_lut.end()) {
       continue;
     }
-    t_lut.erase(isModifiesInLut);
+    t_lut.erase(lutEntry);
   }
   return false;
 }
@@ -239,21 +242,34 @@ BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_
       && m_isEarlyExit) {
     return true;
   }
-  tempLmt = mergeTable(tempLmt, t_lmt);
-  tempLut = mergeTable(tempLut, t_lut);
-  int itrCount = 1;
-  if (m_isAffectsStar) {
-    itrCount = 2;
-  }
-
-  for (int i = 0; i < itrCount; ++i) {
+  if (!m_isAffectsStar) {
     nextStmt = stmtLst.front();
+    tempLmt = mergeTable(tempLmt, t_lmt);
+    tempLut = mergeTable(tempLut, t_lut);
     if (traverseCfgWithinBound(nextStmt, stmtLst.back(), tempLmt, tempLut)
-      && m_isEarlyExit) {
+        && m_isEarlyExit) {
       return true;
     }
     tempLmt = mergeTable(tempLmt, t_lmt);
     tempLut = mergeTable(tempLut, t_lut);
+  } else {
+    // While the
+    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS prevLmt = tempLmt, prevLut = tempLut;
+    BOOLEAN isNotSame = true;
+    while (isNotSame) {
+      nextStmt = stmtLst.front();
+      if (traverseCfgWithinBound(nextStmt, stmtLst.back(), tempLmt, tempLut)
+          && m_isEarlyExit) {
+        return true;
+      }
+      tempLmt = mergeTable(tempLmt, t_lmt);
+      tempLut = mergeTable(tempLut, t_lut);
+      if (prevLut == tempLut) {
+        isNotSame = false;
+      }
+      prevLmt = tempLmt;
+      prevLut = tempLut;
+    }
   }
 
   t_lmt = tempLmt;

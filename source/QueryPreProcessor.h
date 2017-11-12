@@ -16,7 +16,7 @@
 #include "Relation.h"
 #include "Pattern.h"
 #include "With.h"
-#include "PKB.h"
+#include "pkb/PKB.h"
 #include "StringUtil.h"
 #include "GlobalTypeDef.h"
 

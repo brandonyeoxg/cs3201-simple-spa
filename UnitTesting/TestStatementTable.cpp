@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "StatementTable.h"
+#include "pkb/relationshipTables/StatementTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

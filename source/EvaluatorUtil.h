@@ -11,7 +11,7 @@
 
 #include "GlobalTypeDef.h"
 #include "Grammar.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 
 class EvaluatorUtil {
 public:

@@ -7,7 +7,7 @@
 #include "GlobalTypeDef.h"
 #include "Evaluator.h"
 #include "Relation.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 #include "InvalidArgumentException.h"
 
 class FollowsEvaluator: public Evaluator {

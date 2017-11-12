@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "UsesP.h"
+#include "pkb/relationshipTables/UsesP.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

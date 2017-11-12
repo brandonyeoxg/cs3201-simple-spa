@@ -8,7 +8,7 @@
 #include "Pattern.h"
 #include "With.h"
 #include "QueryUtil.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 
 class QueryOptimiser {
 public:

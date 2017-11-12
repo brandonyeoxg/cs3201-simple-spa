@@ -6,8 +6,8 @@
 #include <vector>
 #include <unordered_map>
 
-#include "Grammar.h"
-#include "GlobalTypeDef.h"
+#include "../../Grammar.h"
+#include "../../GlobalTypeDef.h"
 
 class StatementTable {
 public:

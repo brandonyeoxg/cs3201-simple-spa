@@ -1026,6 +1026,16 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             Relation DAO(designAbstractionEntity, g1, g2);
             m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
+            
+            //_, _
+          } else if (sTName1 == OPERATOR_UNDERSCORE && sTName2 == OPERATOR_UNDERSCORE) {
+            removeCharsFromString(sTName1, "\\\"");
+            removeCharsFromString(sTName2, "\\\"");
+            g1 = Grammar(queryType::GType::STR, sTName1);
+            g2 = Grammar(queryType::GType::STR, sTName2);
+            Relation DAO(designAbstractionEntity, g1, g2);
+            m_suchThatQueue.push(DAO);
+            m_relationVectorQE.push_back(DAO);
           }
 
           //Next, Next*

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "UsesTable.h"
+#include "pkb/relationshipTables/UsesTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -75,11 +75,6 @@ namespace UnitTesting {
       static const int arr[] = { 1, 2, 3 };
       LIST_OF_STMT_NUMS expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(m_usesTable->getStmtUsesAnything() == expected);
-    }
-    TEST_METHOD(TestUsesTable_GetAllUsesVarNames) {
-      static const std::string arr[] = { "x", "y" };
-      LIST_OF_VAR_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      Assert::IsTrue(m_usesTable->getAllUsesVarNames() == expected);
     }
   };
 }

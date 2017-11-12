@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ParentTable.h"
+#include "pkb/relationshipTables/ParentTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -1,16 +1,16 @@
 #pragma once
-#include "FollowTable.h"
-#include "ParentTable.h"
-#include "AssignTable.h"
-#include "VarTable.h"
-#include "ProcTable.h"
-#include "CallsTable.h"
-#include "ModifiesP.h"
-#include "UsesP.h"
-#include "StatementTable.h"
-#include "ModifiesTable.h"
-#include "UsesTable.h"
-#include "pkb/relationshipTables/NextTable.h"
+#include "relationshipTables/FollowTable.h"
+#include "relationshipTables/ParentTable.h"
+#include "relationshipTables/AssignTable.h"
+#include "relationshipTables/VarTable.h"
+#include "relationshipTables/ProcTable.h"
+#include "relationshipTables/CallsTable.h"
+#include "relationshipTables/ModifiesP.h"
+#include "relationshipTables/UsesP.h"
+#include "relationshipTables/StatementTable.h"
+#include "relationshipTables/ModifiesTable.h"
+#include "relationshipTables/UsesTable.h"
+#include "relationshipTables/NextTable.h"
 /**
 * Represents an interface for tables that resides in the PKB.
 * The methods listed in this API is used by the Design Extractor

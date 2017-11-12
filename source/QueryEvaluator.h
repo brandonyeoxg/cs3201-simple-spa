@@ -15,7 +15,7 @@
 #include "Relation.h"
 #include "Pattern.h"
 #include "With.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 #include "QueryPreProcessor.h"
 #include "pql\QueryCache.h"
 #include "Relationship.h"

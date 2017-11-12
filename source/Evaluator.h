@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include "GlobalTypeDef.h"
-#include "PkbReadOnly.h"
+#include "pkb/PkbReadOnly.h"
 #include "Grammar.h"
 #include "EvaluatorUtil.h"
 #include "StringUtil.h"
