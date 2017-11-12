@@ -49,11 +49,13 @@ public:
 
     nextTable.insertNextRelationship(2, 4);
     nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(0, 500); // Test a large number
     nextTable.executeAfterAllNextInserts();
 
     Assert::IsTrue(nextTable.isNextStar(0, 5));
 
     // test out of bounds number
+    Assert::IsFalse(nextTable.isNextStar(501, 3));
     Assert::IsFalse(nextTable.isNextStar(600, 700));
   }
 
