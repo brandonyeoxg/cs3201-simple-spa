@@ -1,629 +1,322 @@
-procedure C4ed3U5{
-  call D1n0SauR;
-  if A1aTr3oN then{
-    call D1n0SauR;}
-  else{
-    while B0ar{
-      if D1n0SauR then{
-        C4ed3U5=cU1L+1;}
-      else{
-        while C4ed3U5{
-          while A1aTr3oN{
-            call D1n0SauR;
-            call D1n0SauR;
-            D1n0SauR=aTt4cC+b4TtL3;
-            b4TtL3=cU1L- C4ed3U5;}}}}}
+procedure boIMJ{
+  of = 100;
+  step = steal * 10 + started + 1 - a;
+  old = Azi * 100 + C4ed3U5 - C4ed3U5 - on * Caribbean;
+  stop = A1aTr3oN * 3202 - 3202 * Ari * 4243;
 }
 
-procedure D1n0SauR{
-  D1n0SauR=aTt4cC+b4TtL3*cU1L- C4ed3U5;
-  aTt4cC=((((((iNv1nciB1e)))+b4TtL3))*cU1L) - ((C4ed3U5));
-  d41AmaDuR = cU1L- (C4ed3U5 + b4TtL3)*D1n0SauR;
-}
-
-procedure A66eRAt10n{
-  while inF35tOr{
-    a1Ar4K=1;
-    if HyDR4l1Sk then{
-      call bRo0dLoRD;}
-    else{
-      Br0ODlInG=2;}}
-}
-
-procedure bRo0dLoRD{
-  Z3rgLiNg=3;
-  call uLtR4115k;
-  MuT41isk=4;
-}
-
-procedure uLtR4115k{
-  eNt4ro=5;
-}
-
-procedure NyDu5{
-  while Z3rgLiNg{
-    call Ru5H;
-    while HyDR4l1Sk{
-      r04Ch = r04Ch * (((10 + 20)));
-      if Br0ODlInG then{
-        call h1V3;}
-      else{
-        MuT41isk = 2*(((((MuT41isk) + MuT41isk)*MuT41isk)-MuT41isk)*4);
-        call Ru5H;
-        while a1Ar4K{
-          call Ru5H;
-          while inF35tOr{
-            call Ru5H;}}
-        call Ru5H;}
-      call Ru5H;
-      call Ru5H;}}
-  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
-  call h1V3;
-  call Ru5H;
-}
-
-procedure h1V3{
-  qU3En = qU3En + 2;
-  Z3rgLiNg=Z3rgLiNg*Z3rgLiNg*3+(Z3rgLiNg+2)*4;
-  call Ru5H;
-}
-
-procedure Ru5H{
-  while eNt4ro{
-    Z3rgLiNg = Z3rgLiNg * (Z3rgLiNg + Z3rgLiNg) - (Z3rgLiNg + (2-3)*Z3rgLiNg);
-    a1Ar4K = a1Ar4K-1;
-    eNt4ro = eNt4ro-1;
-    Z3rgLiNg = 0;}
-}
-
-procedure Alexander{
-  How = does*a*bas+ard*orphan*son+of+a+wh-re+scotsman;
-  dropped = in*the*middle*of*a;
-  forgotten = spot*in*the+caribbean;
-  By = providence*impoverished+squalor;
-  Grow = up*to*be*a*Hero+Scholar;
-  if tenDollar then{
-    founding = father-father;
-	gotALot = farther;}
-  else{
-	working = a*lot*harder;
-	beingALot= smarter;
-	byBeing = a*selfStarter;
-	By = 14;}
-  They = placed*him*in*charge*of+trading-charter;
-  while slaves{
-    slaves = slaughtered + cartedAway;
-	AcrossTheWaves = struggled+keptHisGuardUp;
-	inside = longing*something+to+be+aPartOf;
-	brother = beg*steal+borrow+barter;}
-  Hurricane = came;
-  Man = Man - devastation;
-  while Hurricane{
-    future = future-1;}
-  temple = pen;
-  brain = pen;
-  testament = 2+pain;
-  while wordGoesAround{
-    kid = insane;
-	bookCollection = to*Mainland;
-	Education = Education +1;
-	World = know*your+name;
-	Whats = your + name;}
-  name = Alexander + Hamilton;
-  myName = Alexander + Hamilton;
-  haventDone = 1000000*things;
-  Just = you *wait;
-  Just = you * wait;
-  while ten{
-    father=split;
-	father = full*of*it;
-	debt=ridden;
-	if twoYears then{
-	  halfDead = Alex + Mother;
-	  sitting = sick;
-	  scent = thick;}
-	else{
-	  Alex = got+better;
-	  Mother = went-quick;}}
-  cousin = movedIn;
-  cousin = su1cId3;
-  Left=ruined*pride;
-  voice=Alex+you*got*to*fend*for*yourself;
-  started = retreating+reading*everything*thats*on*his*shelf;
-  lessAstute = Nothing + Left + To + do;
-  he = dead+destitute-senseOfRestitution;
-  while working{
-    boss = LateMothers+landlord;
-	trading=sugarcane+rum+allTheThings*he*cantAfford;}
-  scammin = every*book*he+can+get+his+hands+on;
-  plannin = for+future;
-  stands = bow+of*aShip;
-  NewYork = you*can*be+a+New*Man;
-  NewYork = you*can*be+a+New*Man;
-  Just = you * wait;
-  NewYork = you*can*be+a+New*Man;
-  Just = you * wait;
-  NewYork = you*can*be+a+New*Man;
-  Just = you * wait;
-  NewYork = NewYork;
-  Just = you * wait;
-  Alexander = Hamilton;
-  wings = waiting*for+you;
-  you = never*back*down;
-  you = never*learnt+2+take+your+time;
-  Alexander = Hamilton;
-  alexander = hamilton;
-  AmericaSings = for*you;
-  will = they *know*what*you*overcame;
-  will=they+know+you+rewrote+the+game;
-  TheWorld= Will - BeTheSame;
-  Ship = harbour+now;
-  see = you*can+spot+him;
-  anotherImmigrant = 0+1;
-  rep = rep - enemies;
-  America = America - him;
-  We = fought*with*him;
-  Me = I+died+for*him;
-  Me = I*trusted*him;
-  Me = I*Loved+him;
-  AndMe = Im*the+damn*fool+that+shot*him;
-  haventDone = 1000000*things;
-  Just = you * wait;
-  Whats = your + name * man;
-  Alexander = Hamilton;
-}
-
-procedure RightHandMan{
-  Howe = British+Admiral;
-  Howe = troops+on+the*water;
-  NewYorkHarbor = 32000*troops;
-  NewYorkHarbor = 32000*troops;
-  When = they+surround+troops;
-  As = they*surround*troops;
-  When = they+surround+troops;
-  As = they*surround*troops;
-  As = kid + in * Caribbean;
-  kid = wish*war;
-  kid = poor;
-  war = only + way + to + rise*up;
-  if tellMyStory then{
-    kid = (die+on+the+battlefield)*(in+glory);}
-  else{
-    kid = rise*up;}
-  kid = fight+for+this*land;
-  oneMan = give+us+the*command;
-  we = rise*up;
-  understand=only*way+rise*up;
-  we=rise*up;
-  Here=he+comes;
-  Here=comes+the*general;
-  and = Ladies + Gentlemen;
-  Here=comes+the*general;
-  moment = you+been+for;
-  Here=comes+the*general;
-  pride= mount*Vernon;
-  Here=comes+the*general;
-  General = George*Washington;
-  WeAre = Outgunned;
-  WeAre = Outmanned;
-  WeAre = Outnumbered;
-  WeAre = Outplanned;
-  We = make+an+all*out*stand;
-  General=need+Right*Hand*Man;
-  while beReal{
-    beReal = second;
-    beReal = millisecond;
-    guard = guard-1;
-    people = how+I+feel+a*second;}
-  General = model+of+the+modern*major*general;
-  General = venerated*Virginian*Veteran;
-  men = lining + up;
-  Pedestal = General;
-  writing = letter*2*relatives;
-  embellishing = General*(elegance+eloquence);
-  room = elephant;
-  face=truth;
-  BritishCannons = BOOM;
-  fleeting=hope*success;
-  while leading{
-    leading=leading-people*retreating;}
-  bleeding = 0;
-  Brooklyn=British;
-  rook=rook-knight;
-  WeAre = Outgunned;
-  WeAre = Outmanned;
-  WeAre = Outnumbered;
-  WeAre = Outplanned;
-  We = make+an+all*out*stand;
-  General=need+Right*Hand*Man;
-  incoming = INCOMING;
-  while batteringBattery{
-    if damages then{
-      We=stop*them;}
-    else{
-      We=rob*them;
-      them=them-advantages;}}
-  We = take+a*stand;
-  stamina=God*granted;
-  Hamilton = 0*abandon*ship;
-  Hamilton = steal*BrittishCannon+shoot;
-  BrittishCannon=BOOM;
-  spray = blood +sh1t;
-  BrittishCannon=BOOM;
-  abandon=Kips*Bay;
-  BrittishCannon=BOOM;
-  goes=another+ship;
-  BrittishCannon=BOOM;
-  lost=SouthernTip;
-  BrittishCannon=BOOM;
-  Harlem=run*quick;
-  slip=cant*afford;
-  giddyUp=guns+horses;
-  General = divvy*forces;
-  forces=skittish;
-  British=cut+city+up;
-  close=giving*up;
-  General=facing+mad*scrutiny;
-  General=scream*in+the*face+of+this*mass*mutiny;
-  men=with+General;
-  men = defend*America;
-  ride = midnight;
-  manhattan = in*the*distance;
-  everywhere=0-at*once;
-  assistance=dire*need;
-}
-
-procedure GunsAndShips{
-  army=ragtag+volunteer+in*need*ofAShower;
-  superpower=global*superpower-army;
-  quagmire=victorious;
-  battlfield=battlefield-army;
-  higher =Betsy*Ross*Flag;
-  secretWeapon=immigrant;
-  immigrant=unafraid+to+step*in;
-  British=British-immigrant*confusing*confounding;
-  Frenchman = favourite*fighting+give*it*up;
-  Frenchman = Lafayette;
-  horse = by*reins;
-  redcoats = redcoats+red*bl00dst41ns;
-  Frenchman = Lafayette;
-  Frenchman = 0*stop;
-  British=British-Frenchman;
-  British=British-Frenchman*100000;
-  Frenchman = Lafayette;
-  Frenchman=engaging*British;
-  Frenchman=escaping*British;
-  Frenchman=enraging*British;
-  Frenchman = Lafayette;
-  France = Frenchman + funds;
-  Frenchman = France + guns + ships;
-  balance = balance + 100;
-  Rochambeau = rendezvouz;
-  consolidate=gifts;
-  Yorktown = war*end;
-  sea=cut*off;
-  succeed=someone*else+we*need;
-  General = i*know;
-  General = Hamilton;
-}
-
-procedure Yorktown{
-  battle=Yorktown*1781;
-  Lafayette=Monsieur*Hamilton;
-  Hamilton=Monsieur*Lafayette;
-  Lafayette=in*command*where*you*belong;
-  Hamilton=how+you+say+no+sweat;
-  finally=onTheField;
-  had=quite*a+run;
-  immigrants=get+the+job+done;
-  if weWin then{
-    Lafayette=back+to+France;}
-  else{
-    people=Lafayette+freedom;}
-  freedom=Hamilton+Lafayette;
-  Hamilton=lead+your+men;
-  otherSide=see*you;
-  Til=we*meet+again;
-  i=not+throwing+away+my*shot;
-  i=not+throwing+away+my*shot;
-  Hamilton=country;
-  country=young+scrappy+hungry;
-  i=not+throwing+away+my*shot;
-  i=not+throwing+away+my*shot;
-  Til=world*upsideDown;
-  Til=world*upsideDown;
-  i=imagine*death*so*much;
-  death=memory;
-  whereItGetsMe=on+my+feet;
-  whereItGetsMe=enemy*ahead*of*me;
-  if endOfMe then{
-    me=me+friend;}
-  else{
-    me=me+weapon+command+men;}
-  Eliza=expecting*Hamilton;
-  Eliza=expecting;
-  we=gotta+go;
-  gotta=get+the+job+done;
-  gotta=start+new+nation;
-  gotta=meet+my+son;
-  gun=gun-bullets;
-  what=WHAT;
-  gun=gun-bullets;
-  what=WHAT;
-  move=under*cover;
-  move=as+1;
-  night=1+shot+2+live*another*day;
-  cannot=stray*gunshot+give*us*away;
-  fight=up+close;
-  seize=moment;
-  stay=in*it;
-  that=meet*the+business+end*of*a*bayonet;
-  codeword=Rochambeau;
-  Rochambeau=ROCHAMBEAU;
-  you=have+your+orders;
-  now=go*man*go;
-  begins=American*Experiment;
-  friends=scattered+to+the*winds;
-  Laurens=South+Carolina;
-  Laurens=redefining+bravery;
-  while slavery{
-    free=0-free;}
-  British=0;
-  Lafayette=Chesapeake*Bay;
-  plan=would+work;
-  inside=spy;
-  spy=Hercules+Mulligan;
-  Mulligan=tailor+spy+on+British;
-  Mulligan=measurements+information;
-  Mulligan=smuggle;
-}
-
-procedure NonStop{
-  war=over;
-  NewYork=i;
-  war=over;
-  NewYork=i;
-  studies=finished;
-  i=practice*law;
-  i=practice*law;
-  Burr=work*next+door;
-  start=very+same+time;
-  Alexander=Hamilton+1;
-  account=rise+to+the+top;
-  Maaaaaan=man+non*stop;
-  nonstop=NONSTOP;
-  jury=Gentlemen;
-  Hamilton=curious;
-  aware=making+history;
-  first=murder+trial;
-  nation=brand*new;
-  liberty=deliberation;
-  nonstop=NONSTOP;
-  prove=shadow+of+a*doubt;
-  with=assitant*council;
-  council=co-council;
-  Hamilton=sit+down;
-  client=Levi+Weeks;
-  client=innocent;
-  call FirstWitness;
-  hamilton=ok;
-  Hamilton=1+more+thing;
-  assume=smartest+in*the*room;
-  assume=smartest+in*the*room;
-  assume=smartest+in*the*room;
-  soon=attitude;
-  attitude=doom;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-}
-
-procedure FirstWitness{
-  First=Witness;
-  Witness=First;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-}
-
-procedure Hamilton{
-  alexander=hamilton;
-  hamilton=alexander;
-  Alexander=Hamilton;
-  Hamilton=Alexander;
-  Alex=Hamilton;
-  Hamilton=Alex;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  call Hamilton;
-  call jjjj;
-}
-
-procedure jjjj{
-call D1n0SauR;
-  if A1aTr3oN then{
-    call D1n0SauR;}
-  else{
-    while B0ar{
-      if D1n0SauR then{
-        C4ed3U5=cU1L+1;}
-      else{
-        while C4ed3U5{
-          while A1aTr3oN{
-            call D1n0SauR;
-            call D1n0SauR;
-            D1n0SauR=aTt4cC+b4TtL3;
-            b4TtL3=cU1L- C4ed3U5;}}}}}
-call D1n0SauR;
-  if A1aTr3oN then{
-    call D1n0SauR;}
-  else{
-    while B0ar{
-      if D1n0SauR then{
-        C4ed3U5=cU1L+1;}
-      else{
-        while C4ed3U5{
-          while A1aTr3oN{
-            call D1n0SauR;
-            call D1n0SauR;
-            D1n0SauR=aTt4cC+b4TtL3;
-            b4TtL3=cU1L- C4ed3U5;}}}}}
-call D1n0SauR;
-  if A1aTr3oN then{
-    call D1n0SauR;}
-  else{
-    while B0ar{
-      if D1n0SauR then{
-        C4ed3U5=cU1L+1;}
-      else{
-        while C4ed3U5{
-          while A1aTr3oN{
-            call D1n0SauR;
-            call D1n0SauR;
-            D1n0SauR=aTt4cC+b4TtL3;
-            b4TtL3=cU1L- C4ed3U5;}}}}}
-  call D1n0SauR;
-  if A1aTr3oN then{
-    call D1n0SauR;}
-  else{
-    while B0ar{
-      if D1n0SauR then{
-        C4ed3U5=cU1L+1;}
-      else{
-        while C4ed3U5{
-          while A1aTr3oN{
-            call D1n0SauR;
-            call D1n0SauR;
-            D1n0SauR=aTt4cC+b4TtL3;
-            b4TtL3=cU1L- C4ed3U5;}}}}}
-			
-	write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  write=like+running+out+of+time;
-  write=day*and*night+like+running+out+of+time;
-  everyday=fight+like+running+out+of+time;
-  fighting=keep+on+in+the*mean*time;
-  corruption=such+an*old*song;
-  we=can*sing+along*in*harmony;
-  Albany=corruption*1000000;
-  colony=economy*0;
-  economy=0;
-  Hamilton=public+service;
-  while i {
-	if d then {
-		b = a;
-	}
-	else {
-		c = z;
-	}
-	a = ff;
+procedure Roe9{
+  fURry = on - Azi + Caribbean - off * 100 - 1 - Cry;
+  while i0{
+    while i1{
+      while i2{
+        while i3{
+          while i4{
+            while i5{
+              while i6{
+                while i7{
+                  while i8{
+                    while i9{
+                      while i10{
+                        while i11{
+                          while i12{
+                            while i13{
+                              while i14{
+                                while i15{
+                                  while i16{
+                                    while i17{
+                                      while i18{
+                                        while i19{
+                                          while i20{
+                                            while i21{
+                                              while i22{
+                                                while i23{
+                                                  while i24{
+                                                    while i25{
+                                                      while i26{
+                                                        while i27{
+                                                          while i28{
+                                                            while i29{
+                                                              while i30{
+                                                                while i31{
+                                                                  while i32{
+                                                                    while i33{
+                                                                      while i34{
+                                                                        while i35{
+                                                                          while i36{
+                                                                            while i37{
+                                                                              while i38{
+                                                                                while i39{
+                                                                                  while i40{
+                                                                                    while i41{
+                                                                                      while i42{
+                                                                                        while i43{
+                                                                                          while i44{
+                                                                                            while i45{
+                                                                                              while i46{
+                                                                                                while i47{
+                                                                                                  while i48{
+                                                                                                    while i49{
+                                                                                                      Z3rgLiNg = off + 3201 + fURry;
+                                                                                                    }
+                                                                                                    stop = started - stay + stay * 4 - face - A1aTr3oN * of + C4ed3U5;
+                                                                                                  }
+                                                                                                  stay = Caribbean + 2;
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                        off = C4ed3U5 - fURry - fURry * a * off + Z3rgLiNg - a1Ar4K + on - a - 2;
+                                                                                      }
+                                                                                    }
+                                                                                    Caribbean = stay * Azi;
+                                                                                  }
+                                                                                  a = A1aTr3oN * 3202 - fURry + started + of + fURry * oN - a - stop - started;
+                                                                                }
+                                                                                Z3rgLiNg = ok + on * of - stay - stop - of + 2 * Ari * Cry - Caribbean;
+                                                                              }
+                                                                            }
+                                                                            Z3rgLiNg = C4ed3U5 * a1Ar4K + a1Ar4K - ok + Ari * Azi - stay + fURry * of;
+                                                                          }
+                                                                          Cry = steal - stop - started + a + Z3rgLiNg + 100 * 3201 - Z3rgLiNg + 3201 - 4 + 3;
+                                                                        }
+                                                                        A1aTr3oN = 10 - face * stay - off + Caribbean;
+                                                                      }
+                                                                    }
+                                                                    face = 4243 + 100 + A1aTr3oN * off * 4;
+                                                                  }
+                                                                }
+                                                                started = on + 3201 * a1Ar4K + C4ed3U5 + 10 + 10;
+                                                              }
+                                                              fURry = ok + 2 * 3202 * A1aTr3oN + 100 + 10 - Z3rgLiNg * 100;
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          stay = stop - started;
+        }
+        old = 3201 * C4ed3U5 - 3202 - face - face * stay;
+      }
+    }
+    off = ok - on * on - on + off + old - 100 + 3 - a1Ar4K + 2;
   }
+  Caribbean = stop;
+}
+
+procedure JBECw3{
+  Azi = ofAShower - Ari * 1 + of;
+  off = 4243 - Caribbean + stop - ofAShower + started + 2 + on * 3202 + Caribbean;
+  oN = 3201;
+  off = Caribbean;
+  if i0 then{
+    if i1 then{
+      if i2 then{
+        if i3 then{
+          if i4 then{
+            if i5 then{
+              if i6 then{
+                if i7 then{
+                  if i8 then{
+                    if i9 then{
+                      if i10 then{
+                        if i11 then{
+                          if i12 then{
+                            if i13 then{
+                              if i14 then{
+                                if i15 then{
+                                  if i16 then{
+                                    if i17 then{
+                                      if i18 then{
+                                        if i19 then{
+                                          if i20 then{
+                                            if i21 then{
+                                              if i22 then{
+                                                if i23 then{
+                                                  if i24 then{
+                                                    if i25 then{
+                                                      if i26 then{
+                                                        if i27 then{
+                                                          if i28 then{
+                                                            if i29 then{
+                                                              if i30 then{
+                                                                if i31 then{
+                                                                  if i32 then{
+                                                                    if i33 then{
+                                                                      if i34 then{
+                                                                        if i35 then{
+                                                                          if i36 then{
+                                                                            if i37 then{
+                                                                              if i38 then{
+                                                                                if i39 then{
+                                                                                  if i40 then{
+                                                                                    if i41 then{
+                                                                                      if i42 then{
+                                                                                        if i43 then{
+                                                                                          if i44 then{
+                                                                                            if i45 then{
+                                                                                              if i46 then{
+                                                                                                if i47 then{
+                                                                                                  if i48 then{
+                                                                                                    if i49 then{
+                                                                                                      stop = 100 * ok - 1 * Caribbean - fURry - Caribbean + steal - 4;}
+                                                                                                    else{
+                                                                                                      Azi = 3 - Cry + C4ed3U5 + a * oN + ofAShower + face * 3202;}}
+                                                                                                  else{
+                                                                                                    off = stay - stay + 4 + step * stop * Ari;}
+                                                                                                  old = ofAShower;}
+                                                                                                else{
+                                                                                                  ok = off + C4ed3U5 * on + old - ok + a;}
+                                                                                                off = Z3rgLiNg + oN + started;}
+                                                                                              else{
+                                                                                                started = old * old;}
+                                                                                              off = 100;}
+                                                                                            else{
+                                                                                              step = face + step - C4ed3U5 + A1aTr3oN - 4243 + fURry + 100 * old * oN;}
+                                                                                            ok = ok - stop;}
+                                                                                          else{
+                                                                                            started = 2 * Caribbean + Caribbean + 3 - face * a1Ar4K * a1Ar4K - ok;}}
+                                                                                        else{
+                                                                                          step = on * oN * 3;}}
+                                                                                      else{
+                                                                                        ok = old * Caribbean - 10 * on * oN - 2 + 10;}}
+                                                                                    else{
+                                                                                      a = on - Azi - steal - 4243;}}
+                                                                                  else{
+                                                                                    ofAShower = 3202 + Z3rgLiNg;}}
+                                                                                else{
+                                                                                  ok = Azi * stay * 2 - fURry - 10 * on + Azi + ofAShower + A1aTr3oN + started;}}
+                                                                              else{
+                                                                                C4ed3U5 = 100 * 3202;}}
+                                                                            else{
+                                                                              stay = Cry * Caribbean + fURry + started;}
+                                                                            on = 4243 + 3201;
+                                                                            fURry = step * of + Caribbean;}
+                                                                          else{
+                                                                            Caribbean = 4 + of + A1aTr3oN;}
+                                                                          C4ed3U5 = Z3rgLiNg * on - Caribbean * step;}
+                                                                        else{
+                                                                          oN = a - 2 * of;}
+                                                                        oN = step - 3202 + 3201 + 2 + old - ok * a * Z3rgLiNg + Caribbean;
+                                                                        of = on * 3201 * 3 - a + 4 - stay - oN;
+                                                                        ofAShower = 3202 * ok - Azi + oN - Ari * 3201;}
+                                                                      else{
+                                                                        a = of - 4243 - of;}
+                                                                      a = 2 * Azi - Caribbean - ofAShower - ofAShower;
+                                                                      a = 2 + oN + Azi + 100 + of;}
+                                                                    else{
+                                                                      stop = ok - Cry + old;}
+                                                                    stay = step + 1 * Z3rgLiNg * 3201 + face - fURry - 4 * stop * 3201 + started + A1aTr3oN;
+                                                                    Azi = C4ed3U5 - 3202 * old;}
+                                                                  else{
+                                                                    Cry = of - ofAShower + Ari * fURry + a1Ar4K - a * a * stay + Ari * 4243 + Z3rgLiNg;}}
+                                                                else{
+                                                                  fURry = a1Ar4K - 100 - stop - old + Z3rgLiNg + steal * steal + a * Ari + Caribbean;}}
+                                                              else{
+                                                                stop = step - a - C4ed3U5 * stay * stay + oN + 3202 + Cry - ok - A1aTr3oN + started;}}
+                                                            else{
+                                                              face = ofAShower * 4243 + Caribbean * Ari;}
+                                                            old = 100 * a + A1aTr3oN * Cry - A1aTr3oN * 10;
+                                                            A1aTr3oN = old - started + stop * 3201;}
+                                                          else{
+                                                            face = steal + 4 * Caribbean * face * Z3rgLiNg * 3 + on - 4243;}
+                                                          stop = 2 + stop - 100 - ok;
+                                                          step = stay - old;
+                                                          off = of - ok * 100;}
+                                                        else{
+                                                          Cry = fURry * of + 1 + ofAShower * started - Z3rgLiNg + 3202 * 10 * oN;}
+                                                        Azi = 4243 - off - a - 3 * stay;}
+                                                      else{
+                                                        stay = 4243 + 4243;}}
+                                                    else{
+                                                      Cry = Caribbean - 3 - C4ed3U5;}}
+                                                  else{
+                                                    Caribbean = 4 + C4ed3U5;}}
+                                                else{
+                                                  started = off - Caribbean;}
+                                                C4ed3U5 = steal * 10 + started - Ari * steal + steal - A1aTr3oN + A1aTr3oN * 3201 - 100 - 4;}
+                                              else{
+                                                Caribbean = A1aTr3oN * 3201;}
+                                              C4ed3U5 = face + on - 3202 * fURry * of + 3201 * Cry + old - of * 2 * 100;
+                                              A1aTr3oN = ofAShower;}
+                                            else{
+                                              fURry = Azi - Ari - C4ed3U5 * on * face - 4243 - 4;}}
+                                          else{
+                                            stop = a1Ar4K;}
+                                          of = ofAShower * 4243 + old * oN + on - a * Ari;}
+                                        else{
+                                          old = oN + fURry - 2 - stop * 1 - old - steal - 2;}}
+                                      else{
+                                        A1aTr3oN = oN - a1Ar4K * 100;}
+                                      Ari = Ari - 3202;}
+                                    else{
+                                      fURry = of * stay * stay * 3202 * oN + fURry * old - fURry * started + stop;}}
+                                  else{
+                                    step = a1Ar4K * Cry + C4ed3U5 + old - 2 + on + on - steal + 3202;}}
+                                else{
+                                  ok = stay * fURry * C4ed3U5 * 1 * 1 * 4 + fURry + C4ed3U5 + 1;}
+                                Azi = 3201 + a - stop - step + old + face + 100 * 3202;}
+                              else{
+                                face = face - a - stop + off;}
+                              old = ok - face + of - stay + Cry;}
+                            else{
+                              started = old * of + oN - stay * A1aTr3oN * a1Ar4K + 2 - 3 + fURry * old + oN;}}
+                          else{
+                            fURry = Caribbean + Caribbean + steal;}}
+                        else{
+                          off = on - Caribbean - A1aTr3oN * ofAShower * old * old;}
+                        step = a1Ar4K - of + oN * Caribbean;}
+                      else{
+                        oN = 4 - 2 - stay + 4243 * 10 * Azi;}
+                      Ari = started * on;}
+                    else{
+                      Cry = old - a1Ar4K * 1 - steal - 1;}}
+                  else{
+                    steal = ofAShower - started - 4 + Cry + off * ofAShower - step - face - started + 1 - 1;}}
+                else{
+                  steal = old * old * of - Ari - ok - Ari;}
+                a1Ar4K = stop * steal;
+                old = off - on + 4 - 1 * a1Ar4K + face;
+                steal = stay - 3 * of - Azi;}
+              else{
+                oN = 3 * 10 + 3 * started - step * 10 * 4243 + ok;}
+              a = old;}
+            else{
+              stay = Azi * Z3rgLiNg - 3202 * A1aTr3oN * Azi + A1aTr3oN - ok * stay;}}
+          else{
+            a = of + fURry + oN - 4 + 4243;}}
+        else{
+          Caribbean = Cry * Azi + step - face * 4 + of + stop * Cry + started - 1;}}
+      else{
+        oN = step + steal + 100 + stay - 1 * of + 10 * on * fURry + C4ed3U5;}}
+    else{
+      steal = steal - a1Ar4K - steal * face + of + old;}}
+  else{
+    Ari = 10 * ofAShower - ok;}
+}
+
+procedure PM8DcT1A{
+  stay = of + 3201 + fURry * fURry - stay * 4243 + Z3rgLiNg + ofAShower + face * on - Azi;
 }
