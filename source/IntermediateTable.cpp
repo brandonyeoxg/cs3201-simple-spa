@@ -61,10 +61,10 @@ BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable*> t_tables)
       continue;
     }
 
-    for (auto& syn : table->m_synonyms) {
-      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(syn.second);
+    for (int i = 0; i < table->m_synonyms.size(); ++i) {
+      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(table->m_synonyms[i]);
       if (got == m_synonymRowChecker.end()) {
-        insertSynonym(syn.second);
+        insertSynonym(table->m_synonyms[i]);
       }  
     }
 
