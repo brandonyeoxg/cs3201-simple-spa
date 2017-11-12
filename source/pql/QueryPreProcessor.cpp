@@ -2237,9 +2237,9 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   return isTokenized;
 }
 
-void QueryPreProcessor::removeCharsFromString(std::string &str, char* charsToRemove) {
-  for (unsigned int i = 0; i < strlen(charsToRemove); ++i) {
-    str.erase(remove(str.begin(), str.end(), charsToRemove[i]), str.end());
+void QueryPreProcessor::removeCharsFromString(std::string &t_str, char* t_charsToRemove) {
+  for (unsigned int i = 0; i < strlen(t_charsToRemove); ++i) {
+    t_str.erase(remove(t_str.begin(), t_str.end(), t_charsToRemove[i]), t_str.end());
   }
 }
 
@@ -2249,120 +2249,120 @@ void QueryPreProcessor::printVector(std::vector<std::string> t_vector) {
   }
 }
 
-std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* charsToRemove, std::string targetString, std::vector<std::string> vector) {
+std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* t_charsToRemove, std::string t_targetString, std::vector<std::string> t_vector) {
   int pos1;
   int prev_pos_new = 0;
 
-  while ((pos1 = targetString.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
+  while ((pos1 = t_targetString.find_first_of(t_charsToRemove, prev_pos_new)) != std::string::npos) {
     if (pos1 > prev_pos_new) {
-      vector.push_back(targetString.substr(prev_pos_new, pos1 - prev_pos_new));
+      t_vector.push_back(t_targetString.substr(prev_pos_new, pos1 - prev_pos_new));
     }
     prev_pos_new = pos1 + 1;
   }
-  if (prev_pos_new < targetString.length()) {
-    vector.push_back(targetString.substr(prev_pos_new, std::string::npos));
+  if (prev_pos_new < t_targetString.length()) {
+    t_vector.push_back(t_targetString.substr(prev_pos_new, std::string::npos));
   }
-  return vector;
+  return t_vector;
 }
 
-std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* charsToRemove, std::string patternRightName, std::vector<std::string> vector) {
+std::vector<std::string> QueryPreProcessor::patternVectorTokenizer(char* t_charsToRemove, std::string t_patternRightName, std::vector<std::string> t_vector) {
   int pos1 = 0;
   int prev_pos_new = 0;
   std::string c;
 
-  while ((pos1 = patternRightName.find_first_of(charsToRemove, prev_pos_new)) != std::string::npos) {
+  while ((pos1 = t_patternRightName.find_first_of(t_charsToRemove, prev_pos_new)) != std::string::npos) {
     if (prev_pos_new == 0) {
-      c = patternRightName.at(prev_pos_new);
+      c = t_patternRightName.at(prev_pos_new);
       if (c == "+") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "-") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "*") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "(") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == ")") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       }
 
     }
     if (pos1 > prev_pos_new) {
-      vector.push_back(patternRightName.substr(prev_pos_new, pos1 - prev_pos_new));
-      c = patternRightName.at(pos1);
+      t_vector.push_back(t_patternRightName.substr(prev_pos_new, pos1 - prev_pos_new));
+      c = t_patternRightName.at(pos1);
       if (c == "+") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "-") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "*") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "(") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == ")") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       }
 
     //character next to previous token is a bracket, operator
     } else if (pos1 = prev_pos_new) {
-      c = patternRightName.at(pos1);
+      c = t_patternRightName.at(pos1);
       if (c == "+") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "-") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "*") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == "(") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       } else if (c == ")") {
-        vector.push_back(c);
+        t_vector.push_back(c);
       }
     } 
     prev_pos_new = pos1 + 1;
   }
-  if (prev_pos_new < patternRightName.length()) {
-    vector.push_back(patternRightName.substr(prev_pos_new, std::string::npos));
+  if (prev_pos_new < t_patternRightName.length()) {
+    t_vector.push_back(t_patternRightName.substr(prev_pos_new, std::string::npos));
   }
-  return vector;
+  return t_vector;
 }
 
-bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  std::string tempAttribute = attribute;
+bool QueryPreProcessor::withClauseAttNum(std::string t_attribute, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+  std::string tempAttribute = t_attribute;
   std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
   std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
 
   withTempSynonym = m_stringUtil.trimString(withTempSynonym);
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
 
-  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+  t_withLeftGrammar = withAttributeProcessor(t_attribute, t_withLeftGrammar);
 
-  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+  if (t_withLeftGrammar.getAttr() == queryType::AType::INVALID) {
     return false;
   }
   
   //Case 2.1: GType:Stmt, asgn, while, if, call, GType: Stmt# attribute
-  if (withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::PROG_LINE
+  if (t_withLeftGrammar.getType() == queryType::GType::STMT && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::ASGN && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::WHILE && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::IF && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::CALL && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::PROG_LINE
     ) {
 
-    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+    t_withRightGrammar = Grammar(queryType::GType::STMT_NO, t_integer);
 
     //Case 2.2: GType: CONSTANT, AType: VALUE
-  } else if (withLeftGrammar.getType() == queryType::GType::CONST
-    && withLeftGrammar.getAttr() == queryType::AType::VALUE) {
+  } else if (t_withLeftGrammar.getType() == queryType::GType::CONST
+    && t_withLeftGrammar.getAttr() == queryType::AType::VALUE) {
 
-    withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+    t_withRightGrammar = Grammar(queryType::GType::STMT_NO, t_integer);
   }
-  if (withLeftGrammar.getAttr() == queryType::AType::VALUE && withLeftGrammar.getType() == queryType::GType::CONST
-    || withLeftGrammar.getType() == queryType::GType::STMT && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::ASGN && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::WHILE && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::IF && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
-    || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
-    With withObjectCreated(withLeftGrammar, withRightGrammar); 
+  if (t_withLeftGrammar.getAttr() == queryType::AType::VALUE && t_withLeftGrammar.getType() == queryType::GType::CONST
+    || t_withLeftGrammar.getType() == queryType::GType::STMT && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::ASGN && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::WHILE && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::IF && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::CALL && t_withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
+    || t_withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
+    With withObjectCreated(t_withLeftGrammar, t_withRightGrammar); 
     m_withVectorQE.push_back(withObjectCreated);
 
     return true;
@@ -2371,27 +2371,27 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
   }
 }
 
-bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, std::string integer, Grammar withLeftGrammar, Grammar withRightGrammar) {
+bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string t_withSynonym, std::string t_integer, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
 
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
-    if (m_grammarVector.at(counterS).getName() == withSynonym) {
-      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+    if (m_grammarVector.at(counterS).getName() == t_withSynonym) {
+      t_withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), t_withSynonym);
     }
   }
 
-  withRightGrammar = Grammar(queryType::GType::STMT_NO, integer);
+  t_withRightGrammar = Grammar(queryType::GType::STMT_NO, t_integer);
 
   
-  if(withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
-    With withObjectCreated(withLeftGrammar, withRightGrammar);
+  if(t_withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
     m_withVectorQE.push_back(withObjectCreated);
 
-    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(t_withSynonym);
     if (got == m_synonymMap.end()) {
-      m_synonymMap.insert({ withSynonym, 1 });
+      m_synonymMap.insert({ t_withSynonym, 1 });
     } else {
-      m_synonymMap[withSynonym]++;
+      m_synonymMap[t_withSynonym]++;
     }
     return true;
   } else {
@@ -2399,8 +2399,8 @@ bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, st
   }
 }
 
-bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string inputString, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  std::string tempAttribute = attribute;
+bool QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string t_inputString, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+  std::string tempAttribute = t_attribute;
   std::string withTempSynonym = tempAttribute.substr(0, tempAttribute.find("."));
 
   std::string withTempAttribute = tempAttribute.substr(tempAttribute.find(".") + 1, tempAttribute.size());
@@ -2408,20 +2408,20 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
   withTempSynonym = m_stringUtil.trimString(withTempSynonym);
   withTempAttribute = m_stringUtil.trimString(withTempAttribute);
 
-  withLeftGrammar = withAttributeProcessor(attribute, withLeftGrammar);
+  t_withLeftGrammar = withAttributeProcessor(t_attribute, t_withLeftGrammar);
 
-  if (withLeftGrammar.getAttr() == queryType::AType::INVALID) {
+  if (t_withLeftGrammar.getAttr() == queryType::AType::INVALID) {
     return false;
   }
 
-  removeCharsFromString(inputString, "\"");
-  inputString = m_stringUtil.trimString(inputString);
-  withRightGrammar = Grammar(queryType::GType::STR, inputString);
+  removeCharsFromString(t_inputString, "\"");
+  t_inputString = m_stringUtil.trimString(t_inputString);
+  t_withRightGrammar = Grammar(queryType::GType::STR, t_inputString);
 
-  if (withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::PROC
-    || withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::CALL
-    || withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && withLeftGrammar.getType() == queryType::GType::VAR) {
-    With withObjectCreated(withLeftGrammar, withRightGrammar);
+  if (t_withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && t_withLeftGrammar.getType() == queryType::GType::PROC
+    || t_withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && t_withLeftGrammar.getType() == queryType::GType::CALL
+    || t_withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && t_withLeftGrammar.getType() == queryType::GType::VAR) {
+    With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
     m_withVectorQE.push_back(withObjectCreated);
 
     return true;
@@ -2430,17 +2430,17 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
   }
 }
 
-bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string rightAttribute, Grammar withLeftGrammar, Grammar withRightGrammar) {
-  withLeftGrammar = withAttributeProcessor(leftAttribute, withLeftGrammar);
-  withRightGrammar = withAttributeProcessor(rightAttribute, withRightGrammar);
+bool QueryPreProcessor::withClauseAttAtt(std::string t_leftAttribute, std::string t_rightAttribute, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
+  t_withLeftGrammar = withAttributeProcessor(t_leftAttribute, t_withLeftGrammar);
+  t_withRightGrammar = withAttributeProcessor(t_rightAttribute, t_withRightGrammar);
 
   With withObjectCreated;
 
-  if (withLeftGrammar.getAttr() == queryType::AType::INVALID || withRightGrammar.getAttr() == queryType::AType::INVALID) {
+  if (t_withLeftGrammar.getAttr() == queryType::AType::INVALID || t_withRightGrammar.getAttr() == queryType::AType::INVALID) {
     return false;
   }
 
-  withObjectCreated = With(withLeftGrammar, withRightGrammar);
+  withObjectCreated = With(t_withLeftGrammar, t_withRightGrammar);
   m_withVectorQE.push_back(withObjectCreated);
 
 
@@ -2448,84 +2448,84 @@ bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string 
   
 }
 
-bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+bool QueryPreProcessor::withClauseSynAtt(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
-    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
-      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+    if (m_grammarVector.at(counterS).getName() == t_leftSynonym) {
+      t_withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), t_leftSynonym);
     }
   }
 
-  withRightGrammar = withAttributeProcessor(rightSynonym, withRightGrammar);
+  t_withRightGrammar = withAttributeProcessor(t_rightSynonym, t_withRightGrammar);
 
-  if (withRightGrammar.getAttr() == queryType::AType::INVALID) {
+  if (t_withRightGrammar.getAttr() == queryType::AType::INVALID) {
     return false;
   }
 
-  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
-    With withObjectCreated(withLeftGrammar, withRightGrammar);
+  if (t_withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
     m_withVectorQE.push_back(withObjectCreated);
 
-    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(t_leftSynonym);
     if (got == m_synonymMap.end()) {
-      m_synonymMap.insert({ leftSynonym, 1 });
+      m_synonymMap.insert({ t_leftSynonym, 1 });
     } else {
-      m_synonymMap[leftSynonym]++;
+      m_synonymMap[t_leftSynonym]++;
     }
     return true;
   } else {
     return false;
   }
 
-  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
   m_withVectorQE.push_back(withObjectCreated);
 
 }
 
-bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string rightSynonym, Grammar withLeftGrammar, Grammar withRightGrammar) {
+bool QueryPreProcessor::withClauseSynSyn(std::string t_leftSynonym, std::string t_rightSynonym, Grammar t_withLeftGrammar, Grammar t_withRightGrammar) {
   int counterS = 0;
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
-    if (m_grammarVector.at(counterS).getName() == leftSynonym) {
-      withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), leftSynonym);
+    if (m_grammarVector.at(counterS).getName() == t_leftSynonym) {
+      t_withLeftGrammar = Grammar(m_grammarVector.at(counterS).getType(), t_leftSynonym);
     }
   }
 
   int counterS2 = 0;
   for (auto s2 = m_grammarVector.begin(); s2 != m_grammarVector.end(); s2++, counterS2++) {
-    if (m_grammarVector.at(counterS2).getName() == rightSynonym) {
-      withRightGrammar = Grammar(m_grammarVector.at(counterS2).getType(), rightSynonym);
+    if (m_grammarVector.at(counterS2).getName() == t_rightSynonym) {
+      t_withRightGrammar = Grammar(m_grammarVector.at(counterS2).getType(), t_rightSynonym);
     }
   }
 
-  if (withLeftGrammar.getType() == queryType::GType::PROG_LINE && withRightGrammar.getType() == queryType::GType::PROG_LINE) {
-    With withObjectCreated(withLeftGrammar, withRightGrammar);
+  if (t_withLeftGrammar.getType() == queryType::GType::PROG_LINE && t_withRightGrammar.getType() == queryType::GType::PROG_LINE) {
+    With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
     m_withVectorQE.push_back(withObjectCreated);
 
-    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
+    std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(t_leftSynonym);
     if (got == m_synonymMap.end()) {
-      m_synonymMap.insert({ leftSynonym, 1 });
+      m_synonymMap.insert({ t_leftSynonym, 1 });
     } else {
-      m_synonymMap[leftSynonym]++;
+      m_synonymMap[t_leftSynonym]++;
     }
-    got = m_synonymMap.find(rightSynonym);
+    got = m_synonymMap.find(t_rightSynonym);
     if (got == m_synonymMap.end()) {
-      m_synonymMap.insert({ rightSynonym, 1 });
+      m_synonymMap.insert({ t_rightSynonym, 1 });
     } else {
-      m_synonymMap[rightSynonym]++;
+      m_synonymMap[t_rightSynonym]++;
     }
     return true;
   } else {
     return false;
   }
 
-  With withObjectCreated(withLeftGrammar, withRightGrammar);
+  With withObjectCreated(t_withLeftGrammar, t_withRightGrammar);
   m_withVectorQE.push_back(withObjectCreated);
 
 }
 
-Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar withGrammar) {
-  std::string withSynonym = attribute.substr(0, attribute.find("."));
-  std::string withAttribute = attribute.substr(attribute.find(".") + 1, attribute.size());
+Grammar QueryPreProcessor::withAttributeProcessor(std::string t_attribute, Grammar t_withGrammar) {
+  std::string withSynonym = t_attribute.substr(0, t_attribute.find("."));
+  std::string withAttribute = t_attribute.substr(t_attribute.find(".") + 1, t_attribute.size());
 
   withSynonym = m_stringUtil.trimString(withSynonym);
   withAttribute = m_stringUtil.trimString(withAttribute);
@@ -2534,8 +2534,8 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
   for (auto s = m_grammarVector.begin(); s != m_grammarVector.end(); s++, counterS++) {
     if (m_grammarVector.at(counterS).getName() == withSynonym) {
       if (withAttribute == PROCNAME) {
-        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::PROC_NAME);
+        t_withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        t_withGrammar.setAType(queryType::AType::PROC_NAME);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ withSynonym, 1 });
@@ -2543,8 +2543,8 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
           m_synonymMap[withSynonym]++;
         }
       } else if (withAttribute == VARNAME) {
-        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::VAR_NAME);
+        t_withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        t_withGrammar.setAType(queryType::AType::VAR_NAME);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ withSynonym, 1 });
@@ -2552,8 +2552,8 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
           m_synonymMap[withSynonym]++;
         }
       } else if (withAttribute == VALUE) {
-        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::VALUE);
+        t_withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        t_withGrammar.setAType(queryType::AType::VALUE);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ withSynonym, 1 });
@@ -2561,8 +2561,8 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
           m_synonymMap[withSynonym]++;
         }
       } else if (withAttribute == STMT_NO) {
-        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::STMT_NUM);
+        t_withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        t_withGrammar.setAType(queryType::AType::STMT_NUM);
         std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
         if (got == m_synonymMap.end()) {
           m_synonymMap.insert({ withSynonym, 1 });
@@ -2570,15 +2570,15 @@ Grammar QueryPreProcessor::withAttributeProcessor(std::string attribute, Grammar
           m_synonymMap[withSynonym]++;
         }
       } else {
-        withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
-        withGrammar.setAType(queryType::AType::INVALID);
+        t_withGrammar = Grammar(m_grammarVector.at(counterS).getType(), withSynonym);
+        t_withGrammar.setAType(queryType::AType::INVALID);
       }
     }
   }
-  return withGrammar;
+  return t_withGrammar;
 }
 
-std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause) {
+std::string QueryPreProcessor::multiClauseProcessor(std::string t_secondStatement, std::string t_whichClause) {
   std::string delimiterSelect = "Select";
   std::string delimiterSuchThat = "such that";
   std::string delimiterPattern = "pattern";
@@ -2586,943 +2586,943 @@ std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement,
 
   std::string tempStatement;
 
-  secondStatement = secondStatement.substr(secondStatement.find(WHITESPACE), secondStatement.size());
+  t_secondStatement = t_secondStatement.substr(t_secondStatement.find(WHITESPACE), t_secondStatement.size());
 
-  secondStatement = secondStatement.substr(secondStatement.find_first_not_of(WHITESPACE), secondStatement.size());
+  t_secondStatement = t_secondStatement.substr(t_secondStatement.find_first_not_of(WHITESPACE), t_secondStatement.size());
 
   //case 1: where with, such that, pattern still exists and such that is the next token
-  if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  if (t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterWith)
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
 
     //Case 2: where with, such that, pattern still exists and pattern is the next token
-  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterWith)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
 
     //Case 3: where with, such that, pattern still exists and with is the next token
-  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     
 
     //Case 4: where with, such that only exists and such that is the next token
-  } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterWith)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     
 
     //Case 5: where with, such that only exists and with is the next token
-  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     
 
     //Case 6: where with, pattern only exists and pattern is the next token
-  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterWith)
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     
 
     //Case 7: where with, pattern only exists and with is the next token
-  } else if (secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     
 
     //Case 8: where such that, pattern only exists and pattern is the next token
-  } else if (secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     
 
     //Case 9: where such that, pattern only exists and such that is the next token
-  } else if (secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     
 
     //Case 10: where such that exists only
-  } else if (secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     
 
     //Case 11: where pattern exists only
-  } else if (secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     
 
     //Case 12: where with exists only
-  } else if (secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") == std::string::npos) {
+  } else if (t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") == std::string::npos) {
 
-    tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+    tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
     tempStatement = m_stringUtil.trimString(tempStatement);
-    if (whichClause == "pattern") {
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
-    } else if (whichClause == "with") {
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
-    } else if (whichClause == "such that") {
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
     }
-    secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+    t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     
 
     //Case 13: where and exists after pattern and there is such that, pattern, with after it
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
-    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 14: where and exists and such that and pattern exists and and is the next token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
-    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
 
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 15: where and exists and such that and pattern exists and with and such that next token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 16: where and exists and such that and pattern and with exists and pattern is the next token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterPattern) < secondStatement.find("and")
-    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 17: where and exists and such that and pattern exists and with and with is the next token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)
-    && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 18: where and and such that and pattern exists and and is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find("and") < secondStatement.find(delimiterPattern)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterPattern)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 19: where and and such that and pattern exists and such that is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterPattern)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterPattern)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 20: where and and such that and pattern exists and pattern is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 21: where and and such that and with exists and and is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") < secondStatement.find(delimiterSuchThat)
-    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterSuchThat)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 22: where and and such that and with exists and such that is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 23: where and and such that and with exists and with is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterWith) < secondStatement.find("and")
-    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterSuchThat)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterSuchThat)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 24: where and and pattern and with exists and and is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find("and") < secondStatement.find(delimiterPattern)
-    && secondStatement.find("and") < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterPattern)
+    && t_secondStatement.find("and") < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 25: where and and pattern and with exists and pattern is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterPattern) < secondStatement.find("and")
-    && secondStatement.find(delimiterPattern) < secondStatement.find(delimiterWith)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find(delimiterWith)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 26: where and and pattern and with exists and with is the first token
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterWith) < secondStatement.find("and")
-    && secondStatement.find(delimiterWith) < secondStatement.find(delimiterPattern)) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find("and")
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find(delimiterPattern)) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 27: where and and such that exists only and such that first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterSuchThat) < secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) < t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterSuchThat));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterSuchThat));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterSuchThat), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterSuchThat), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 28: where and and such that exists only and and first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) != std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterSuchThat) > secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) != std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) > t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 29: where and and pattern exists only and and first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterPattern) > secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) > t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 30: where and and pattern exists only and pattern first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) != std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos
-    && secondStatement.find(delimiterPattern) < secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) != std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) < t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterPattern));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterPattern));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterPattern), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterPattern), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 31: where and and with exists only and with first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterWith) < secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterWith) < t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find(delimiterWith));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find(delimiterWith));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find(delimiterWith), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find(delimiterWith), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 32: where and and with exists only and and first
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) != std::string::npos
-    && secondStatement.find(delimiterWith) > secondStatement.find("and")) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) != std::string::npos
+    && t_secondStatement.find(delimiterWith) > t_secondStatement.find("and")) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 32: where and exists only
-  } else if (secondStatement.find("and") != std::string::npos
-    && secondStatement.find(delimiterSuchThat) == std::string::npos
-    && secondStatement.find(delimiterPattern) == std::string::npos
-    && secondStatement.find(delimiterWith) == std::string::npos) {
+  } else if (t_secondStatement.find("and") != std::string::npos
+    && t_secondStatement.find(delimiterSuchThat) == std::string::npos
+    && t_secondStatement.find(delimiterPattern) == std::string::npos
+    && t_secondStatement.find(delimiterWith) == std::string::npos) {
 
     int andValidate = 0;
 
-    andValidate = secondStatement.find("and");
+    andValidate = t_secondStatement.find("and");
 
-    if (secondStatement.at(andValidate - 1) == ')' || secondStatement.at(andValidate - 1) == ' ') {
+    if (t_secondStatement.at(andValidate - 1) == ')' || t_secondStatement.at(andValidate - 1) == ' ') {
 
-      tempStatement = secondStatement.substr(0, secondStatement.find("and"));
+      tempStatement = t_secondStatement.substr(0, t_secondStatement.find("and"));
       tempStatement = m_stringUtil.trimString(tempStatement);
-      if (whichClause == "pattern") {
+      if (t_whichClause == "pattern") {
         m_patternVector.push_back(tempStatement);
         m_prevClause = delimiterPattern;
-      } else if (whichClause == "with") {
+      } else if (t_whichClause == "with") {
         m_withVector.push_back(tempStatement);
         m_prevClause = delimiterWith;
-      } else if (whichClause == "such that") {
+      } else if (t_whichClause == "such that") {
         m_relationVector.push_back(tempStatement);
         m_prevClause = delimiterSuchThat;
       }
-      secondStatement = secondStatement.substr(secondStatement.find("and"), secondStatement.size());
+      t_secondStatement = t_secondStatement.substr(t_secondStatement.find("and"), t_secondStatement.size());
     } else {
-      return secondStatement;
+      return t_secondStatement;
     }
 
     //Case 33: no more other clause behind
   } else {
-    tempStatement = secondStatement;
-    if (whichClause == "pattern") {
+    tempStatement = t_secondStatement;
+    if (t_whichClause == "pattern") {
       m_patternVector.push_back(tempStatement);
       m_prevClause = delimiterPattern;
       m_secondStatementTemp = "";
-      secondStatement = "";
-    } else if (whichClause == "with") {
+      t_secondStatement = "";
+    } else if (t_whichClause == "with") {
       m_withVector.push_back(tempStatement);
       m_prevClause = delimiterWith;
       m_secondStatementTemp = "";
-      secondStatement = "";
-    } else if (whichClause == "such that") {
+      t_secondStatement = "";
+    } else if (t_whichClause == "such that") {
       m_relationVector.push_back(tempStatement);
       m_prevClause = delimiterSuchThat;
       m_secondStatementTemp = "";
-      secondStatement = "";
+      t_secondStatement = "";
     }
   }
 
-  return secondStatement;
+  return t_secondStatement;
 }
 
 /**

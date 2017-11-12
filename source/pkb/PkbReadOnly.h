@@ -451,52 +451,44 @@ public:
   * @param t_proc2 a procedure to be called.
   * @return a vector of precedures that calls t_proc2.
   */
-  virtual LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2) = 0;
   virtual LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls(t_proc1, p) holds.
   * @param t_proc1 a procedure that calls p.
   * @return a vector of precedures that are called by t_proc1.
   */
-  virtual LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1) = 0;
   virtual LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls*(p, t_proc2) holds.
   * @param t_proc2 a procedure to be called*.
   * @return a vector of precedure that fulfills the relationship.
   */
-  virtual LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2) = 0;
   virtual LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx) = 0;
   /**
   * Method to get a vector of procedure p that the relationship calls*(t_proc1, p) holds.
   * @param t_proc1 a procedure that calls* p.
   * @return a vector of precedures that fulfills the relationship.
   */
-  virtual LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1) = 0;
   virtual  LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx) = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls relationship.
   * @return the entire map that keep tracks of the calls relationship.
   */
-  virtual MAP_OF_PROC_NAMES getAllCalls() = 0;
   virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx() = 0;
   /**
   * Method that returns the entire map of line numbers that satisfy the calls* relationship.
   * @return the entire map that keep tracks of the calls* relationship.
   */
-  virtual MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES getAllCallsStar() = 0; //calls*(proc1, proc2) 
   virtual MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that calls another procedure.
   * @return the vector of keys within the callsMap.
   */
-  virtual LIST_OF_PROC_NAMES getCallsAnything() = 0;  //calls(proc1, _)
   virtual LIST_OF_PROC_INDICES getCallsAnythingByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that calls* another procedure.
   * @return the vector of keys within the callsStarMap.
   */
-  virtual LIST_OF_PROC_NAMES getCallsStarAnything() = 0;  //calls*(proc1, _)
   virtual LIST_OF_PROC_INDICES getCallsStarAnythingByIdx() = 0;
   /**
   * Method that returns the vector of procedure names that called by another procedure.
@@ -508,7 +500,6 @@ public:
   * Method that returns the vector of procedure names that called by* another procedure.
   * @return the vector of keys within the calledByStarMap.
   */
-  virtual LIST_OF_PROC_NAMES getCalledByStarAnything() = 0; //calls*(_, proc2)
   virtual LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx() = 0;
   /**
   * Method that checks if a calls relationship exists in the SIMPLE program.
@@ -667,7 +658,6 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
   virtual LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
@@ -716,7 +706,6 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual LIST_OF_VAR_NAMES getModifies(STMT_NUM t_lineNum) = 0;
   virtual LIST_OF_VAR_INDICES getModifiesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
