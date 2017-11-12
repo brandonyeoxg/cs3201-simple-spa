@@ -4,11 +4,11 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
-#include "pkb/PkbReadOnly.h"
-#include "Grammar.h"
-#include "EvaluatorUtil.h"
-#include "StringUtil.h"
+#include "../../../GlobalTypeDef.h"
+#include "../../../pkb/PkbReadOnly.h"
+#include "../../../Grammar.h"
+#include "../../../EvaluatorUtil.h"
+#include "../../../StringUtil.h"
 
 class Evaluator {
 public:

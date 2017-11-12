@@ -4,17 +4,16 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
+#include "../../../GlobalTypeDef.h"
 #include "Evaluator.h"
-#include "Relation.h"
-#include "pkb/PkbReadOnly.h"
-#include "InvalidArgumentException.h"
+#include "../../../Relation.h"
+#include "../../../pkb/PkbReadOnly.h"
 
-class FollowsEvaluator: public Evaluator {
+class FollowsStarEvaluator : public Evaluator {
 public:
-  FollowsEvaluator() {};
+  FollowsStarEvaluator() {};
 
-  ~FollowsEvaluator() {};
+  ~FollowsStarEvaluator() {};
 
   BOOLEAN isRelationTrue(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);
   BOOLEAN hasRelationship(PkbReadOnly *t_pkb, Grammar t_g1, Grammar t_g2);

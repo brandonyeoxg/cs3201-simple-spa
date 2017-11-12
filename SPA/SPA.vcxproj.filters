@@ -28,45 +28,6 @@
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\FollowsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Relationship.cpp">
-      <Filter>PQL\Relationships</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\FollowsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\NextEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\NextStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AffectsEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AffectsStarEvaluator.cpp">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
     </ClCompile>
@@ -199,6 +160,45 @@
     <ClCompile Include="..\source\AffectsExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\Relationship.cpp">
+      <Filter>PQL\Relationships</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\AffectsEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\CallsEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\CallsStarEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\FollowsEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\FollowsStarEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\ModifiesEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\NextEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\NextStarEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\ParentEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\ParentStarEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\relationships\evaluators\UsesEvaluator.cpp">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -247,50 +247,8 @@
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\Evaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Patterns.h">
       <Filter>PQL\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Relationship.h">
-      <Filter>PQL\Relationships</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\UsesEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\NextEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\NextStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AffectsStarEvaluator.h">
-      <Filter>PQL\Relationships\Evaluator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
@@ -456,6 +414,48 @@
     </ClInclude>
     <ClInclude Include="..\source\AffectsExtractor.h">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\Relationship.h">
+      <Filter>PQL\Relationships</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\AffectsEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\CallsEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\CallsStarEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\Evaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\FollowsEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\FollowsStarEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\ModifiesEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\NextEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\NextStarEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\ParentEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\ParentStarEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\relationships\evaluators\UsesEvaluator.h">
+      <Filter>PQL\Relationships\Evaluator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
