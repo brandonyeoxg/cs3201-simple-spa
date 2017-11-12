@@ -50,7 +50,7 @@ std::vector<Grammar> QueryPreProcessor::getGrammarVector(void) {
   return m_grammarVector;
 }
 
-std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
+STRING QueryPreProcessor::splitStringDeclaration(STRING t_Input) {
   std::string delimiter = "Select";
   std::string declaration = t_Input.substr(0, t_Input.find(delimiter));
 
@@ -59,7 +59,7 @@ std::string QueryPreProcessor::splitStringDeclaration(std::string t_Input) {
   return declaration;
 }
 
-std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
+STRING QueryPreProcessor::splitStringQuery(STRING t_Input) {
   std::string delimiter = "Select";
   std::string query = t_Input.substr(t_Input.find(delimiter), t_Input.size()); //same for this as delimiter is "; Select"
 
@@ -69,7 +69,7 @@ std::string QueryPreProcessor::splitStringQuery(std::string t_Input) {
 }
 
 
-BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
+BOOLEAN QueryPreProcessor::tokenizeDeclaration(STRING t_declarationInput) {
   bool isTokenized = false;
   if (t_declarationInput == "") {
     return true;
@@ -316,7 +316,7 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
   return isTokenized;
 }
 
-BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
+BOOLEAN QueryPreProcessor::tokenizeQuery(STRING t_queryInput) {
   bool isTokenized = false;
   std::vector<std::string> queryVector;
   std::string selectStatement;
@@ -2243,12 +2243,6 @@ void QueryPreProcessor::removeCharsFromString(std::string &t_str, char* t_charsT
   }
 }
 
-void QueryPreProcessor::printVector(std::vector<std::string> t_vector) {
-  for (auto i = t_vector.begin(); i != t_vector.end(); ++i) {
-    std::cout <<"vector printing function: "<< *i << std::endl;
-  }
-}
-
 std::vector<std::string> QueryPreProcessor::stringVectorTokenizer(char* t_charsToRemove, std::string t_targetString, std::vector<std::string> t_vector) {
   int pos1;
   int prev_pos_new = 0;
@@ -3529,6 +3523,6 @@ std::string QueryPreProcessor::multiClauseProcessor(std::string t_secondStatemen
 * A boolean method for checking whether "Select BOOLEAN" exists or not.
 * @return true if exists, false if not.
 */
-bool QueryPreProcessor::isSelectBoolean(void) {
+BOOLEAN QueryPreProcessor::isSelectBoolean(void) {
   return m_selectBOOLEANExists;
 }
