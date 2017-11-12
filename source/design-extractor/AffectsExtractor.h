@@ -1,6 +1,6 @@
 #pragma once
-#include "design-extractor/Extractor.h"
-#include "AffectsTable.h"
+#include "Extractor.h"
+#include "../pkb/relationshipTables/AffectsTable.h"
 #include <algorithm>
 
 /**
