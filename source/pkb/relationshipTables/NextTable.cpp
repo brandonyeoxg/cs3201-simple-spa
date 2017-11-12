@@ -49,6 +49,10 @@ void NextTable::executeAfterAllNextInserts() {
 }
 
 bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+  if (t_line1 >= MAX_LINE_NUM || t_line2 >= MAX_LINE_NUM) {
+    return false;
+  }
+  
   return m_isNextTable.at(t_line1).at(t_line2);
 }
 
@@ -91,7 +95,7 @@ LIST_OF_PROG_LINES NextTable::getAllLinesBefore(PROG_LINE t_line) {
 }
 
 MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES NextTable::getAllNext() {
-  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map;
+  MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES map = MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES();
   map.insert(m_afterGraph.begin(), m_afterGraph.end());
   return map;
 }

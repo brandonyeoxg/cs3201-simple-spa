@@ -354,13 +354,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
     }
   }
 
-  /*std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
-  if (got == m_synonymMap.end()) {
-    m_synonymMap.insert({ sTName2, 1 });
-  } else {
-    m_synonymMap[sTName2]++;
-  }*/
-
   isTokenized = true;
   return isTokenized;
 }
@@ -380,7 +373,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   std::string tempStatement2;
 
   std::string secondStatement;
-  m_secondStatementTemp = "not zero";
+
   std::string prevClause = "";
   std::string secondTempStatement;
   std::string withStatementLeft;
@@ -399,6 +392,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
   //Case 1: only select statements
   if (t_queryInput.find(delimiterSuchThat) == std::string::npos && t_queryInput.find(delimiterPattern) == std::string::npos && t_queryInput.find(delimiterWith) == std::string::npos) {
     selectStatement = t_queryInput;
+    selectStatement = m_stringUtil.reduceString(selectStatement);
+    selectStatement = m_stringUtil.trimString(selectStatement);
+
+    if (selectStatement.find("Select BOOLEAN") != std::string::npos) {
+      m_selectBOOLEANExists = true;
+    }
+
     m_selectVector.push_back(selectStatement);
   } else {
     int tempSpaceLoc;
@@ -412,11 +412,21 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       std::string tempSelectStatement = t_queryInput.substr(0, t_queryInput.find(WHITESPACE));
       selectStatement.append(WHITESPACE);
       selectStatement.append(tempSelectStatement);
+
+      if (selectStatement.find("Select BOOLEAN") != std::string::npos) {
+        m_selectBOOLEANExists = true;
+      }
+
       secondStatement = t_queryInput.substr(tempSpaceLoc, t_queryInput.size());
       secondStatement = m_stringUtil.trimString(secondStatement);
 
     //Case 2: with tuples
     } else if (t_queryInput.find('<') != std::string::npos && t_queryInput.find('>') != std::string::npos) {
+
+      if (selectStatement.find("Select BOOLEAN") != std::string::npos) {
+        m_selectBOOLEANExists = true;
+      }
+
       selectStatement = t_queryInput.substr(0, t_queryInput.find('>') + 1);
       t_queryInput = t_queryInput.substr(t_queryInput.find('>') + 1);
       t_queryInput = m_stringUtil.trimString(t_queryInput);
@@ -491,11 +501,13 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
     }
   }
-  //std::cout << "Relation Vector size: " << m_relationVector.size() << std::endl;
-  //std::cout << "pattern Vector size: " << m_patternVector.size() << std::endl;
-  //std::cout << "with Vector size: " << m_withVector.size() << std::endl;
+  std::string synonymOriginal;
 
-  std::string synonymOriginal = selectStatement.substr(selectStatement.find(WHITESPACE), selectStatement.size());
+  if (selectStatement.find(WHITESPACE) != std::string::npos) {
+    synonymOriginal = selectStatement.substr(selectStatement.find(WHITESPACE), selectStatement.size());
+  } else if (selectStatement.find('<') != std::string::npos) {
+    synonymOriginal = selectStatement.substr(selectStatement.find('<'), selectStatement.size());
+  }
   synonymOriginal = m_stringUtil.trimString(synonymOriginal);
   std::string synonym;
   std::string synonymAttribute;
@@ -606,9 +618,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
           } else if (synonym == BOOLEAN_QPP) {
             return false;
-          } /*else {
-            return false;
-          }*/
+          } 
         }
 
         //Case 2: synonym attribute does not exist
@@ -629,11 +639,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             return false;
           }
         }
-
-        /*if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
-          g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
-          m_selectQueue.push(g1);
-        }*/
       }
     }
     //Case 2: where either < or > exists only
@@ -702,6 +707,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             } else {
               return false;
             }
+          } else {
+            return false;
           }
 
           m_selectQueue.push(g1);
@@ -727,8 +734,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         if (grammarName == synonym) {
           m_selectQueue.push(g1);
           m_selectVectorQE.push_back(g1);
-          //std::cout << "This is select queue size currently: " << m_selectQueue.size() << std::endl;
-          //std::cout << "pushed " << grammarName << " into select queue" << std::endl;
         } else if (synonym == BOOLEAN_QPP) {
           g1 = Grammar(queryType::GType::BOOLEAN, "BOOLEAN");
           m_selectQueue.push(g1);
@@ -1091,14 +1096,25 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
         }
         counterK = 0;
         bool moveOn = false;
+        
+        //New Method
+        //std::unordered_map<std::string, Grammar>::const_iterator mapIt = m_grammarMap.find(sTName1);
+
+        //synonym does not exist
+        /*if (mapIt == m_grammarMap.end()) {
+          return false;
+        } else {
+          m_grammarMap.
+        }*/
+
+
+        //Old Method
         for (auto k = m_grammarVector.begin(); k != m_grammarVector.end(); k++, counterK++) {
           Grammar tempGrammar = m_grammarVector.at(counterK);
           std::string grammarName = tempGrammar.getName();
 
           counterQ = 0;
-          //if (m_suchThatQueue.size() == 1 && counterK > 2) {
-          //  break;
-          //}
+
           if (moveOn) {
             break;
           }
@@ -1181,7 +1197,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             } else {
               m_synonymMap[sTName1]++;
             }
-            //std::cout << "created new grammar1 object: " << g1.getName() << std::endl;
+
             for (auto q = m_grammarVector.begin(); q != m_grammarVector.end(); q++, counterQ++) {
               Grammar tempGrammar2 = m_grammarVector.at(counterQ);
               std::string grammarName2 = tempGrammar2.getName();
@@ -1255,7 +1271,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                   return false;
                 }
 
-                //std::cout << "created new grammar2 object: " << g2.getName() << std::endl;
                 Relation DAO(designAbstractionEntity, g1, g2);
                 m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
@@ -1869,6 +1884,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                       return false;
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
                       return false;
+                    } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                      return false;
                     }
                   } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
                     return false;
@@ -1889,6 +1906,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
                       return false;
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                      return false;
+                    } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
                       return false;
                     }
                   } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
@@ -1974,6 +1993,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                       return false;
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
                       return false;
+                    } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
+                      return false;
                     }
                   } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
                     return false;
@@ -1994,6 +2015,8 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MINUS) {
                       return false;
                     } else if (patternExpressionVector.at(patCount + 1) == OPERATOR_MULTIPLY) {
+                      return false;
+                    } else if (patternExpressionVector.at(patCount + 1) == BRACKET_CLOSE) {
                       return false;
                     }
                   } else if (patternExpressionVector.at(patCount) == BRACKET_CLOSE) {
@@ -3305,4 +3328,12 @@ std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement,
   }
 
   return secondStatement;
+}
+
+/**
+* A boolean method for checking whether "Select BOOLEAN" exists or not.
+* @return true if exists, false if not.
+*/
+bool QueryPreProcessor::isSelectBoolean(void) {
+  return m_selectBOOLEANExists;
 }

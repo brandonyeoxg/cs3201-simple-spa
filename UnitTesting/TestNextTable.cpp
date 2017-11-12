@@ -25,6 +25,10 @@ public:
     Assert::IsTrue(nextTable.isNext(0, 3));
     Assert::IsTrue(nextTable.isNext(0, 1));
     Assert::IsTrue(nextTable.isNext(0, 500));
+
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNext(501, 3));
+    Assert::IsFalse(nextTable.isNext(600, 700));
   }
 
   TEST_METHOD(isNextStar) {
@@ -45,10 +49,14 @@ public:
 
     nextTable.insertNextRelationship(2, 4);
     nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(0, 500); // Test a large number
     nextTable.executeAfterAllNextInserts();
 
     Assert::IsTrue(nextTable.isNextStar(0, 5));
 
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNextStar(501, 3));
+    Assert::IsFalse(nextTable.isNextStar(600, 700));
   }
 
   TEST_METHOD(isNext_isNextStar_01) {
@@ -549,7 +557,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_01) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -586,7 +593,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_02) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -622,6 +628,33 @@ public:
     Assert::IsTrue(nextTable.hasLineBefore(5));
 
     Assert::IsFalse(nextTable.hasLineBefore(1));
+  }
+
+  TEST_METHOD(nextTable_emptyResults) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+    MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES expectedMap, resultMap;
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = {};
+
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getLinesAfter(4);
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getAllLinesBefore(500);
+    Assert::IsTrue(expected == result);
+
+    expectedMap = MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES();
+
+    resultMap = nextTable.getAllNext();
+    Assert::IsTrue(expectedMap == resultMap);
+
+    resultMap = nextTable.getAllNextStar();
+    Assert::IsTrue(expectedMap == resultMap);
   }
 
 private:

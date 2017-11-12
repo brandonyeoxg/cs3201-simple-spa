@@ -168,6 +168,12 @@ public:
   */
   std::string QueryPreProcessor::multiClauseProcessor(std::string secondStatement, std::string whichClause);
 
+  /**
+  * A boolean method for checking whether "Select BOOLEAN" exists or not.
+  * @return true if exists, false if not.
+  */
+  bool QueryPreProcessor::isSelectBoolean(void);
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //--------------------------------Getter Methods------------------------------------------//
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +257,8 @@ private:
   std::unordered_map<std::string, int> m_validationMap;
   std::unordered_map<std::string, Grammar> m_grammarMap;
   std::unordered_map<std::string, int> m_synonymMap;
+
+  bool m_selectBOOLEANExists = false;
 
   StringUtil m_stringUtil;
   static std::string PROCEDURE;
