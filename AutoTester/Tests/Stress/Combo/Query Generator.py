@@ -530,7 +530,7 @@ def ranGenNext_(n,idx):
     else:
         line3=line3[:-10]
 
-    a=randint(1,5)
+    a=randint(1,3)
     if (a==1):
         if (stmt>0):
             line3 = "s"+str(randint(1,stmt))+" " + line3
@@ -541,16 +541,11 @@ def ranGenNext_(n,idx):
             line3 = "a"+str(randint(1,asgn))+" " + line3
         else:
             line3 = "s"+str(stmt)+" " + line3
-    elif (a==3):
+    else:
         if (stmt>0):
             line3 = "s"+str(randint(1,stmt))+".stmt# " + line3
         else:
             line3 = "a"+str(asgn)+".stmt#  " + line3
-    else:
-        if (asgn>0):
-            line3 = "a"+str(randint(1,asgn))+".stmt# " + line3
-        else:
-            line3 = "s"+str(stmt)+".stmt#  " + line3
     line3 = "Select " + line3
 
     declarations = [stmt,asgn]
@@ -586,5 +581,5 @@ def MultiRGN_(n):
         ranGenNext_(i,15+i)
     return None
 
-MultiRGA_(50)
+#MultiRGA_(50)
 MultiRGN_(50)
