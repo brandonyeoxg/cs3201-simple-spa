@@ -6,7 +6,7 @@
 #include "CppUnitTest.h"
 #include "test-drivers\ParserDriver.h"
 #include "pkb/PKB.h"
-#include "SyntaxErrorException.h"
+#include "exception/SyntaxErrorException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include "../../GlobalTypeDef.h"
-#include "../../InvalidArgumentException.h"
+#include "../../exception/InvalidArgumentException.h"
 
 /** 
 * Represents the follow relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that

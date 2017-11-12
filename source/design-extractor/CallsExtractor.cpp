@@ -1,7 +1,7 @@
 #include "CallsExtractor.h"
 #include "../pkb/relationshipTables/CallsTable.h"
-#include "../SyntaxCyclicCalls.h"
-#include "../SyntaxNonExistantProcedure.h"
+#include "../exception/SyntaxCyclicCalls.h"
+#include "../exception/SyntaxNonExistantProcedure.h"
 void CallsExtractor::extractDesign() {
   populateCallsStarMap();
   populateCalledByStarMap();

@@ -8,14 +8,14 @@
 #include <stack>
 
 #include "Parser.h"
-#include "StringUtil.h"
-#include "TokeniserUtil.h"
-#include "SyntaxOpenBraceException.h"
-#include "SyntaxNoEndOfStatementException.h"
-#include "SyntaxUnknownCommandException.h"
-#include "SyntaxEmptyLineException.h"
-#include "SyntaxInvalidTerm.h"
-#include "SyntaxDuplicateProc.h"
+#include "util/StringUtil.h"
+#include "util/TokeniserUtil.h"
+#include "exception/SyntaxOpenBraceException.h"
+#include "exception/SyntaxNoEndOfStatementException.h"
+#include "exception/SyntaxUnknownCommandException.h"
+#include "exception/SyntaxEmptyLineException.h"
+#include "exception/SyntaxInvalidTerm.h"
+#include "exception/SyntaxDuplicateProc.h"
 
 int Parser::parse (NAME t_filename) throw() {
   m_readStream = std::ifstream (t_filename);
