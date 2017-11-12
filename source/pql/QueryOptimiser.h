@@ -32,7 +32,7 @@ public:
       m_withs(t_withs) {};
 
   void divideClausesIntoGroups(std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> &t_noSyns, std::priority_queue<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>, std::vector<std::pair<std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses>*, int>>, QueryOptimiser::compareGroups> &t_withSyns);
-  void sortClausesWithinGroup(std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> &t_group);
+  void sortClausesWithinGroup(std::queue<Clause*> *t_group, std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *t_finalGrp);
 
 private:
   PkbReadOnly *m_pkb;
