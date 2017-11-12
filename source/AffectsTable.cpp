@@ -4,7 +4,7 @@
 //  Affects
 ///////////////////////////////////////////////////////
 BOOLEAN AffectsTable::hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd) {
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, lut;
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   // Checks if they are with in a while stmt
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   m_targetStart = t_targetStart;
@@ -25,7 +25,7 @@ BOOLEAN AffectsTable::isAffectsStar(STMT_NUM t_modifiesLine, STMT_NUM t_usesLine
 
 PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
   // Check if the startBound is a container stmt
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, lut;
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   m_isAffectsStar = false;
   traverseCfgWithinBound(realStartBound, t_endBound, lms, lut);
@@ -33,7 +33,7 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsListsFromBounds(STMT_NUM t_startBou
 }
 
 PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound) {
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS lms, lut;
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS lms, lut;
   PROG_LINE realStartBound = getRealStartBound(t_startBound);
   m_isAffectsStar = true;
   traverseCfgWithinBound(realStartBound, t_endBound, lms, lut);
@@ -41,7 +41,7 @@ PAIR_OF_AFFECTS_LIST AffectsTable::getAffectsStarListsFromBounds(STMT_NUM t_star
 }
 
 BOOLEAN AffectsTable::traverseCfgWithinBound(PROG_LINE &t_nextLine, PROG_LINE t_endBound,
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
   if (t_nextLine == INVALID_PROG_LINE) {
     return false;
   }
@@ -82,13 +82,13 @@ BOOLEAN AffectsTable::traverseCfgWithinBound(PROG_LINE &t_nextLine, PROG_LINE t_
   return traverseCfgWithinBound(t_nextLine, t_endBound, t_lmt, t_lut);
 }
 
-BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
+BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
   VarTable *varTable = m_pkbTablesOnly->getVarTable();
   StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
   ModifiesTable *modifiesTable = m_pkbTablesOnly->getModifiesTable();
   UsesTable *usesTable = m_pkbTablesOnly->getUsesTable();
-  VAR_NAME modifiesVar = modifiesTable->getModifies(t_nextLine).front();
-  LIST_OF_VAR_NAMES usesVars = usesTable->getUses(t_nextLine);
+  VAR_INDEX modifiesVar = modifiesTable->getModifiesByIdx(t_nextLine).front();
+  LIST_OF_VAR_INDICES usesVars = usesTable->getUsesByIdx(t_nextLine);
   auto *cfg = m_pkbTablesOnly->getNextTable()->getAfterGraph();
   if (t_lmt.empty()) {
     t_lmt.insert({ modifiesVar , {t_nextLine} });
@@ -167,8 +167,8 @@ BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO
   //traversing part of the algo
   return false;
 }
-BOOLEAN AffectsTable::handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
-  LIST_OF_VAR_NAMES modifiesVars = m_pkbTablesOnly->getModifiesTable()->getModifies(t_nextLine);
+BOOLEAN AffectsTable::handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
+  LIST_OF_VAR_INDICES modifiesVars = m_pkbTablesOnly->getModifiesTable()->getModifiesByIdx(t_nextLine);
   auto *cfg = m_pkbTablesOnly->getNextTable()->getAfterGraph();
   auto &hasNextLine = cfg->find(t_nextLine);
   if (hasNextLine == cfg->end()) {
@@ -193,9 +193,9 @@ BOOLEAN AffectsTable::handleCallStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_S
   }
   return false;
 }
-BOOLEAN AffectsTable::handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLmt = t_lmt, elseLmt = t_lmt;
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS ifLut = t_lut, elseLut = t_lut;
+BOOLEAN AffectsTable::handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS ifLmt = t_lmt, elseLmt = t_lmt;
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS ifLut = t_lut, elseLut = t_lut;
   PROG_LINE curLine = t_nextLine;
   LIST_OF_STMT_NUMS stmtLst = m_pkbTablesOnly->getParentTable()->getChildrenOf(t_nextLine);
   auto &nextStmts = m_nextTable->getAfterGraph()->find(t_nextLine);
@@ -227,8 +227,8 @@ BOOLEAN AffectsTable::handleIfStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET
   }
   return false;
 }
-BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut) {
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS tempLmt = t_lmt, tempLut = t_lut;
+BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS tempLmt = t_lmt, tempLut = t_lut;
   auto &nextStmts = m_nextTable->getAfterGraph()->find(t_nextLine);
   if (nextStmts == m_nextTable->getAfterGraph()->end()) {
     t_nextLine == INVALID_PROG_LINE;
@@ -254,7 +254,7 @@ BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_
     tempLut = mergeTable(tempLut, t_lut);
   } else {
     // While the
-    MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS prevLmt = tempLmt, prevLut = tempLut;
+    MAP_OF_VAR_INDEX_TO_SET_OF_NUMS prevLmt = tempLmt, prevLut = tempLut;
     BOOLEAN isNotSame = true;
     while (isNotSame) {
       nextStmt = stmtLst.front();
@@ -287,42 +287,12 @@ BOOLEAN AffectsTable::handleWhileStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_NAME_TO_
   return false;
 }
 
-void AffectsTable::handleInsertionForAffectsStar(VAR_NAME t_curModifiesVar, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, SET_OF_STMT_NUMS t_usesStmt, SET_OF_STMT_NUMS &t_lookedAt) {
-  auto lutEntry = t_lut.find(t_curModifiesVar);
-  if (lutEntry == t_lut.end()) {
-    return;
-  }
-  SET_OF_STMT_NUMS numNotYetVisited;
-  for (auto &usesToBeAdded : t_usesStmt) {
-    auto& varsLookedAt = t_lookedAt.find(usesToBeAdded);
-    if (varsLookedAt == t_lookedAt.end()) {
-      t_lookedAt.insert(usesToBeAdded);
-      numNotYetVisited.insert(usesToBeAdded);
-    }
-  }
-  if (numNotYetVisited.empty() == true) {
-    return;
-  }
-  for (auto &usesToBeAdded : numNotYetVisited) {
-    lutEntry->second.insert(usesToBeAdded);
-    // add the new modifications here
-    // check exist in lmt
-    VAR_NAME usesVarToBeAdded = m_pkbTablesOnly->getModifiesTable()->getModifies(usesToBeAdded)[0];
-    auto &usesExistInLmt = t_lmt.find(usesVarToBeAdded);
-    if (usesExistInLmt == t_lmt.end()) {
-      continue;
-    }
-    auto &usesInLut = t_lut.find(usesVarToBeAdded);
-    handleInsertionForAffectsStar(t_curModifiesVar, t_lmt, t_lut, usesInLut->second, t_lookedAt);
-  }
-}
-
 BOOLEAN AffectsTable::isContainerStmt(queryType::GType t_type) {
   return t_type == queryType::GType::IF || t_type == queryType::GType::WHILE;
 }
 
-MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS AffectsTable::mergeTable(MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS t_lmt1, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS t_lmt2) {
-  MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS mergedList = t_lmt1;
+MAP_OF_VAR_INDEX_TO_SET_OF_STMT_NUMS AffectsTable::mergeTable(MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_lmt1, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS t_lmt2) {
+  MAP_OF_VAR_INDEX_TO_SET_OF_NUMS mergedList = t_lmt1;
   for (auto& mItr : t_lmt2) {
     auto mergedItr = mergedList.find(mItr.first);
     if (mergedItr == mergedList.end()) {
