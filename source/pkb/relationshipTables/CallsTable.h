@@ -101,7 +101,7 @@ public:
   * Get the list of procedures that calls any other procedures i.e. calls(p1, _).
   * @return the list of procedures.
   */
-  LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_NAMES getCallsAnything();
   LIST_OF_PROC_INDICES getCallsAnythingByIdx();
 
   /**
