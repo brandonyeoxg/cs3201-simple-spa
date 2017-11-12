@@ -924,7 +924,6 @@ public:
   * @param t_lineNum the stmt#
   * @return the list of variables.
   */
-  LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
 
   /**

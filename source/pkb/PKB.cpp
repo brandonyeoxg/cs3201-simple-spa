@@ -514,8 +514,8 @@ LIST_OF_STMT_NUMS PKB::getWhileStmtByVar(STRING t_varName) {
   LIST_OF_STMT_NUMS whileStmts = getStatementTypeTable().at(queryType::GType::WHILE);
   
   for (auto stmtNum : whileStmts) {
-    assert(getUses(stmtNum).size() > 0);
-    if (getUses(stmtNum).at(0) == t_varName) {
+    assert(getUsesByIdx(stmtNum).size() > 0);
+    if (getUsesByIdx(stmtNum).at(0) == getVarIdxFromName(t_varName)) {
       list.push_back(stmtNum);
     }
   }
@@ -556,8 +556,8 @@ LIST_OF_STMT_NUMS PKB::getIfStmtByVar(STRING t_varName) {
   LIST_OF_STMT_NUMS ifStmts = getStatementTypeTable().at(queryType::GType::IF);
 
   for (auto stmtNum : ifStmts) {
-    assert(getUses(stmtNum).size() > 0);
-    if (getUses(stmtNum).at(0) == t_varName) {
+    assert(getUsesByIdx(stmtNum).size() > 0);
+    if (getUsesByIdx(stmtNum).at(0) == getVarIdxFromName(t_varName)) {
       list.push_back(stmtNum);
     }
   }
@@ -765,9 +765,6 @@ void PKB::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_
 }
 BOOLEAN PKB::isUses(STMT_NUM t_lineNum, VAR_NAME t_varName) {
   return m_usesTable->isUses(t_lineNum, t_varName);
-}
-LIST_OF_VAR_NAMES PKB::getUses(STMT_NUM t_lineNum) {
-  return m_usesTable->getUses(t_lineNum);
 }
 LIST_OF_VAR_INDICES PKB::getUsesByIdx(STMT_NUM t_lineNum) {
   return m_usesTable->getUsesByIdx(t_lineNum);

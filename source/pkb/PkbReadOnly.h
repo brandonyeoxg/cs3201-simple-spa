@@ -658,7 +658,6 @@ public:
   * @param t_lineNum an integer argument.
   * @return a vector of variables that satisfy the condition.
   */
-  virtual LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum) = 0;
   virtual LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum) = 0;
 
   /**
