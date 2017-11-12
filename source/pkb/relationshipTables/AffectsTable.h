@@ -33,7 +33,7 @@ public:
   * @param t_targetEnd if specified, check for any affects before the target end.
   *
   */
-  BOOLEAN hasAffectsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
+  BOOLEAN hasAffectsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound, PROG_LINE t_targetStart, PROG_LINE t_targetEnd);
 
   /**
   * Returns true if there is an affects relation with the modifies line and uses line.
@@ -41,7 +41,7 @@ public:
   * @param t_usesLine the uses line.
   *
   */
-  BOOLEAN isAffects(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine); 
+  BOOLEAN isAffects(PROG_LINE t_modfiesLine, PROG_LINE t_usesLine);
 
   /**
   * Returns true if there is an affects* relation with the modifies line and uses line.
@@ -49,7 +49,7 @@ public:
   * @param t_usesLine the uses line.
   *
   */
-  BOOLEAN isAffectsStar(STMT_NUM t_modfiesLine, STMT_NUM t_usesLine);
+  BOOLEAN isAffectsStar(PROG_LINE t_modfiesLine, PROG_LINE t_usesLine);
 
   /**
   * Returns a pair list, the affects list and affected by list, from the start bound and end bound
@@ -57,7 +57,7 @@ public:
   * @param t_endBound the end bound for the affects to end at.
   *
   */
-  PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
+  PAIR_OF_AFFECTS_LIST getAffectsListsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound);
  
   ///////////////////////////////////////////////////////
   //  Affects*
@@ -68,7 +68,7 @@ public:
   * @param t_endBound the end bound for the affects* to end at.
   *
   */
-  PAIR_OF_AFFECTS_LIST getAffectsStarListsFromBounds(STMT_NUM t_startBound, STMT_NUM t_endBound);
+  PAIR_OF_AFFECTS_LIST getAffectsStarListsFromBounds(PROG_LINE t_startBound, PROG_LINE t_endBound);
 
 private:
   PkbTablesOnly* m_pkbTablesOnly;
