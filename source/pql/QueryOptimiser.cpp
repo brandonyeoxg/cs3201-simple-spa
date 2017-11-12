@@ -52,90 +52,126 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
           && clause->getClauseType() == queryType::clauseType::RELATION) {
           Relation *existingRelation = (Relation*)existingClause;
           Relation *relation = (Relation*)clause;
-          if (relation->getG1().getName() == existingRelation->getG1().getName()
-            || relation->getG1().getName() == existingRelation->getG2().getName()
-            || relation->getG2().getName() == existingRelation->getG1().getName()
-            || relation->getG2().getName() == existingRelation->getG2().getName()) {
+          if ((QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingRelation->getG1())
+            && relation->getG1().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingRelation->getG2())
+            && relation->getG1().getName() == existingRelation->getG2().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingRelation->getG1())
+            && relation->getG2().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingRelation->getG2())
+            && relation->getG2().getName() == existingRelation->getG2().getName())) {
             hasCommon = true;        
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::RELATION
           && clause->getClauseType() == queryType::clauseType::PATTERN) {
           Relation *existingRelation = (Relation*)existingClause;
           Pattern *pattern = (Pattern*)clause;
-          if (pattern->getStmt().getName() == existingRelation->getG1().getName()
-            || pattern->getStmt().getName() == existingRelation->getG2().getName()
-            || pattern->getLeft().getName() == existingRelation->getG1().getName()
-            || pattern->getLeft().getName() == existingRelation->getG2().getName()) {
+          if ((QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingRelation->getG1())
+            && pattern->getStmt().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingRelation->getG2())
+              && pattern->getStmt().getName() == existingRelation->getG2().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingRelation->getG1())
+              && pattern->getLeft().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingRelation->getG2())
+              && pattern->getLeft().getName() == existingRelation->getG2().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::RELATION
           && clause->getClauseType() == queryType::clauseType::WITH) {
           Relation *existingRelation = (Relation*)existingClause;
           With *with = (With*)clause;
-          if (with->getG1().getName() == existingRelation->getG1().getName()
-            || with->getG1().getName() == existingRelation->getG2().getName()
-            || with->getG2().getName() == existingRelation->getG1().getName()
-            || with->getG2().getName() == existingRelation->getG2().getName()) {
+          if ((QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingRelation->getG1())
+            && with->getG1().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingRelation->getG2())
+              && with->getG1().getName() == existingRelation->getG2().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingRelation->getG1())
+              && with->getG2().getName() == existingRelation->getG1().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingRelation->getG2())
+              && with->getG2().getName() == existingRelation->getG2().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::PATTERN
           && clause->getClauseType() == queryType::clauseType::PATTERN) {
           Pattern *existingPattern = (Pattern*)existingClause;
           Pattern *pattern = (Pattern*)clause;
-          if (pattern->getStmt().getName() == existingPattern->getStmt().getName()
-            || pattern->getStmt().getName() == existingPattern->getLeft().getName()
-            || pattern->getLeft().getName() == existingPattern->getStmt().getName()
-            || pattern->getLeft().getName() == existingPattern->getLeft().getName()) {
+          if ((QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingPattern->getStmt())
+            && pattern->getStmt().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && pattern->getStmt().getName() == existingPattern->getLeft().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingPattern->getStmt())
+              && pattern->getLeft().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && pattern->getLeft().getName() == existingPattern->getLeft().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::PATTERN
           && clause->getClauseType() == queryType::clauseType::RELATION) {
           Pattern *existingPattern = (Pattern*)existingClause;
           Relation *relation = (Relation*)clause;
-          if (relation->getG1().getName() == existingPattern->getStmt().getName()
-            || relation->getG1().getName() == existingPattern->getLeft().getName()
-            || relation->getG2().getName() == existingPattern->getStmt().getName()
-            || relation->getG2().getName() == existingPattern->getLeft().getName()) {
+          if ((QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingPattern->getStmt())
+            && relation->getG1().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && relation->getG1().getName() == existingPattern->getLeft().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingPattern->getStmt())
+              && relation->getG2().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && relation->getG2().getName() == existingPattern->getLeft().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::PATTERN
           && clause->getClauseType() == queryType::clauseType::WITH) {
           Pattern *existingPattern = (Pattern*)existingClause;
           With *with = (With*)clause;
-          if (with->getG1().getName() == existingPattern->getStmt().getName()
-            || with->getG1().getName() == existingPattern->getLeft().getName()
-            || with->getG2().getName() == existingPattern->getStmt().getName()
-            || with->getG2().getName() == existingPattern->getLeft().getName()) {
+          if ((QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingPattern->getStmt())
+            && with->getG1().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && with->getG1().getName() == existingPattern->getLeft().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingPattern->getStmt())
+              && with->getG2().getName() == existingPattern->getStmt().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingPattern->getLeft())
+              && with->getG2().getName() == existingPattern->getLeft().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::WITH
           && clause->getClauseType() == queryType::clauseType::WITH) {
           With *existingWith = (With*)existingClause;
           With *with = (With*)clause;
-          if (with->getG1().getName() == existingWith->getG1().getName()
-            || with->getG1().getName() == existingWith->getG2().getName()
-            || with->getG2().getName() == existingWith->getG1().getName()
-            || with->getG2().getName() == existingWith->getG2().getName()) {
+          if ((QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingWith->getG1())
+            && with->getG1().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(with->getG1()) && QueryUtil::isSynonym(existingWith->getG2())
+              && with->getG1().getName() == existingWith->getG2().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingWith->getG1())
+              && with->getG2().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(with->getG2()) && QueryUtil::isSynonym(existingWith->getG2())
+              && with->getG2().getName() == existingWith->getG2().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::WITH
           && clause->getClauseType() == queryType::clauseType::RELATION) {
           With *existingWith = (With*)existingClause;
           Relation *relation = (Relation*)clause;
-          if (relation->getG1().getName() == existingWith->getG1().getName()
-            || relation->getG1().getName() == existingWith->getG2().getName()
-            || relation->getG2().getName() == existingWith->getG1().getName()
-            || relation->getG2().getName() == existingWith->getG2().getName()) {
+          if ((QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingWith->getG1())
+            && relation->getG1().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(relation->getG1()) && QueryUtil::isSynonym(existingWith->getG2())
+              && relation->getG1().getName() == existingWith->getG2().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingWith->getG1())
+              && relation->getG2().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(relation->getG2()) && QueryUtil::isSynonym(existingWith->getG2())
+              && relation->getG2().getName() == existingWith->getG2().getName())) {
             hasCommon = true;
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::WITH
           && clause->getClauseType() == queryType::clauseType::PATTERN) {
           With *existingWith = (With*)existingClause;
           Pattern *pattern = (Pattern*)clause;
-          if (pattern->getStmt().getName() == existingWith->getG1().getName()
-            || pattern->getStmt().getName() == existingWith->getG2().getName()
-            || pattern->getLeft().getName() == existingWith->getG1().getName()
-            || pattern->getLeft().getName() == existingWith->getG2().getName()) {        
+          if ((QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingWith->getG1())
+            && pattern->getStmt().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(pattern->getStmt()) && QueryUtil::isSynonym(existingWith->getG2())
+            && pattern->getStmt().getName() == existingWith->getG2().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingWith->getG1())
+            && pattern->getLeft().getName() == existingWith->getG1().getName())
+            || (QueryUtil::isSynonym(pattern->getLeft()) && QueryUtil::isSynonym(existingWith->getG2())
+            && pattern->getLeft().getName() == existingWith->getG2().getName())) {
             hasCommon = true;
           }
         }
@@ -189,7 +225,7 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
 }
 
 void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *t_finalGrp, std::unordered_set<SYNONYM_NAME> t_synList) {
-  std::queue<Clause*> *tempGrp = new std::queue<Clause*>();
+  std::queue<Clause*> tempGrp = std::queue<Clause*>();
   BOOLEAN hasOtherClauses = false;
   if (t_group->empty()) {
     return;
@@ -200,14 +236,14 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
     if (clause->isRelationType()) {
       Relation* cls = (Relation*)clause;
       if (Relation::isNextStar(cls->getType()) || Relation::isAffects(cls->getType()) || Relation::isAffectsStar(cls->getType())) {
-        tempGrp->push(cls);
+        tempGrp.push(cls);
         t_group->pop();
         continue;
       }
       auto &syn1Itr = t_synList.find(cls->getG1().getName());
       auto &syn2Itr = t_synList.find(cls->getG2().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
-        tempGrp->push(cls);
+        tempGrp.push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
@@ -225,7 +261,7 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       auto &syn1Itr = t_synList.find(cls->getStmt().getName());
       auto &syn2Itr = t_synList.find(cls->getLeft().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
-        tempGrp->push(cls);
+        tempGrp.push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
@@ -243,7 +279,7 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       auto &syn1Itr = t_synList.find(cls->getG1().getName());
       auto &syn2Itr = t_synList.find(cls->getG2().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
-        tempGrp->push(cls);
+        tempGrp.push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
@@ -261,15 +297,15 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
   }
   
   if (!hasOtherClauses) {
-    while (!tempGrp->empty()) {
-      numOfClauses = tempGrp->size();
+    while (!tempGrp.empty()) {
+      numOfClauses = tempGrp.size();
       for (int i = 0; i < numOfClauses; ++i) {
-        Clause *clause = tempGrp->front();
+        Clause *clause = tempGrp.front();
         Relation* cls = (Relation*)clause;
         auto &syn1Itr = t_synList.find(cls->getG1().getName());
         auto &syn2Itr = t_synList.find(cls->getG2().getName());
         if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
-          tempGrp->push(cls);
+          tempGrp.push(cls);
         } else {
           cls->setWeights(t_finalGrp->size() + 1);
           t_finalGrp->push(cls);
@@ -283,13 +319,11 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
         }
       }
 
-      tempGrp->pop();
+      tempGrp.pop();
     }
-
-    delete tempGrp;
   }
 
-  sortClausesWithinGroup(tempGrp, t_finalGrp, t_synList);
+  sortClausesWithinGroup(&tempGrp, t_finalGrp, t_synList);
 }
 
 INTEGER QueryOptimiser::getDynamicWeights(Clause* t_clause) {
