@@ -1,5 +1,5 @@
 #include "ParentExtractor.h"
-#include "ParentTable.h"
+#include "pkb/relationshipTables/ParentTable.h"
 
 void ParentExtractor::extractDesign() {
   populateParentedByStarMap();

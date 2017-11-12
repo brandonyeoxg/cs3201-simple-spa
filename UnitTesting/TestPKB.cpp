@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "FollowTable.h"
-#include "ParentTable.h"
-#include "VarTable.h"
 #include "PKB.h"
 #include "DesignExtractor.h"
 

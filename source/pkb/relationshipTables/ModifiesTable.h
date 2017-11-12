@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <set>
 
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 class ModifiesTable {
 public:

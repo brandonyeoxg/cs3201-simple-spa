@@ -1,6 +1,6 @@
 #pragma once
 #include <unordered_map>
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 #include "VarTable.h"
 /**
  * Represents the assignments statements made in the program.

@@ -19,15 +19,6 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\FollowTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParentTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\VarTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -37,23 +28,8 @@
     <ClCompile Include="..\source\Pattern.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProcTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AssignTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ConstantTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\StatementTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CallsTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\FollowsEvaluator.cpp">
       <Filter>PQL\Relationships\Evaluator</Filter>
@@ -109,12 +85,6 @@
     <ClCompile Include="..\source\IfPatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ModifiesP.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesP.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\ExtractorFactory.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClCompile>
@@ -132,15 +102,6 @@
     </ClCompile>
     <ClCompile Include="..\source\DesignExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\UsesTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ModifiesTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\StmtListTable.cpp">
-      <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ModifiesExtractor.cpp">
       <Filter>FrontEnd\DesignExtractor\Extractors</Filter>
@@ -199,6 +160,45 @@
     <ClCompile Include="..\source\Clause.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\ParentTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\ProcTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\StatementTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\UsesP.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\UsesTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\VarTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\AssignTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\CallsTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\ConstantTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\FollowTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\ModifiesP.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\ModifiesTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pkb\relationshipTables\StmtListTable.cpp">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -218,12 +218,6 @@
     </ClInclude>
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowTable.h">
-      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\VarTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -252,30 +246,15 @@
     <ClInclude Include="..\source\SyntaxEmptyLineException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProcTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AssignTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Relation.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ConstantTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\StatementTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PkbWriteOnly.h">
       <Filter>PKB</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PkbReadOnly.h">
       <Filter>PKB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\CallsTable.h">
-      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Evaluator.h">
       <Filter>PQL\Relationships\Evaluator</Filter>
@@ -337,9 +316,6 @@
     <ClInclude Include="..\source\IfPatternEvaluator.h">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ModifiesP.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\UsesP.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
@@ -368,12 +344,6 @@
       <Filter>FrontEnd\DesignExtractor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\UsesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModifiesTable.h">
-      <Filter>PKB\Relationship Table</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\StmtListTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ModifiesExtractor.h">
@@ -447,6 +417,45 @@
     </ClInclude>
     <ClInclude Include="..\source\SyntaxNonExistantProcedure.h">
       <Filter>FrontEnd\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\ModifiesTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\ParentTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\ProcTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\StatementTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\UsesP.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\UsesTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\VarTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\AssignTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\CallsTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\ConstantTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\FollowTable.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\ModifiesP.h">
+      <Filter>PKB\Relationship Table</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pkb\relationshipTables\StmtListTable.h">
+      <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

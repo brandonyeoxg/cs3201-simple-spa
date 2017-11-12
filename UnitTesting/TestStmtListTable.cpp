@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "StmtListTable.h"
+#include "pkb/relationshipTables/StmtListTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

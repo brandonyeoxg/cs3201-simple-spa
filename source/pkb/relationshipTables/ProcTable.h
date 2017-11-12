@@ -2,7 +2,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /**
  * Represents a procedure table.

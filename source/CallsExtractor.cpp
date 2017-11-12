@@ -1,5 +1,5 @@
 #include "CallsExtractor.h"
-#include "CallsTable.h"
+#include "pkb/relationshipTables/CallsTable.h"
 #include "SyntaxCyclicCalls.h"
 #include "SyntaxNonExistantProcedure.h"
 void CallsExtractor::extractDesign() {

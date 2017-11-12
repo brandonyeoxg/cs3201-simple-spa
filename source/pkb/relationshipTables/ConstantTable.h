@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 class ConstantTable {
 public:

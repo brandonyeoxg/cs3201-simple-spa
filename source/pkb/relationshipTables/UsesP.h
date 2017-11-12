@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 /**
 * Represents the uses relationship for procedures.
 * If a procedure A calls procedure B, the uses relationship of procedure B is also stored as belonging to procedure A in the table.

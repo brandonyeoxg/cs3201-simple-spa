@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ModifiesP.h"
+#include "pkb/relationshipTables/ModifiesP.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

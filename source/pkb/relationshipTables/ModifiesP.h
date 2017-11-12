@@ -1,6 +1,6 @@
 #pragma once
 #include <unordered_set>
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /**
 * Represents the modifies relationship for procedures.
