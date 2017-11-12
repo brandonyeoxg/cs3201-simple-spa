@@ -11,12 +11,11 @@
 #include "../../GlobalTypeDef.h"
 #include "../../exception/InvalidArgumentException.h"
 
-/** 
-* Represents the follow relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
-track which line is followed by which lines.
-* @author pengcheng
-* @date 8/27/2017
+/**
+* Represents the follows relations made in the program.
+* The relations are stored in different representation for fast retrieval from PQL through the PKB.
 *
+* @author pengcheng
 */
 class FollowTable {
 public:

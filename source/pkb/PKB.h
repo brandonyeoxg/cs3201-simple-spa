@@ -422,10 +422,11 @@ public:
   MAP_OF_STMT_NUM_TO_GTYPE getTypeOfStatementTable();
 
   /**
-  * Method that insert statement number and GType into typeofStatementTable.
-  * @param t_lineNum a STMT_NUM argument.
-  * @param t_type a GType argument.
-  * @return true if insertion is successful, false if otherwise.
+  * Inserts the statement into an unordered_map of stmt# mapped to a type of statement.
+  *
+  * @param t_lineNum is the stmt#.
+  * @param t_type the type of statement.
+  * @return true if insertion is successful.
   */
   BOOLEAN insertTypeOfStatementTable(STMT_NUM t_lineNum, queryType::GType t_type);
 
@@ -436,10 +437,10 @@ public:
   MAP_OF_GTYPE_TO_LIST_OF_STMT_NUMS  getStatementTypeTable();
 
   /**
-  * Method that insert statement number and GType into statementTypeTable.
-  * @param t_lineNum a STMT_NUM argument.
-  * @param t_type a GType argument.
-  * @return true if insertion is successful, false if otherwise.
+  * Inserts the statement into an unordered_map of a statement type mapped to a vector of stmt#.
+  * @param t_type the type of statement.
+  * @param t_lineNum is the stmt#.
+  * @return true if insertion is successful.
   */
   BOOLEAN insertStatementTypeTable(queryType::GType t_type, STMT_NUM t_lineNum);
 
