@@ -40,7 +40,7 @@ public:
   * @param t_declarationInput is the input declaration string.
   * @return true if there is no errors. else returns false.
   */
-  BOOLEAN tokenizeDeclaration(std::string t_declarationInput);
+  BOOLEAN tokenizeDeclaration(STRING t_declarationInput);
 
   /**
   * Method takes in the query parsed string and generates the Grammar objects for 
@@ -49,34 +49,98 @@ public:
   * @param t_queryInput is the input query string.
   * @return true if there is no errors. else returns false.
   */
-  BOOLEAN tokenizeQuery(std::string t_queryInput);
-
-  /**
-  * Method takes in a string and removes all characters specified in charsToRemove.
-  * @param t_str is the input string.
-  * @param t_charsToRemove are the characters to be removed from the string.
-  */
-  void removeCharsFromString(std::string & t_str, char * t_charsToRemove);
+  BOOLEAN tokenizeQuery(STRING t_queryInput);
 
   /**
   * Method takes in a string containing both the declaration and query and returns declaration.
   * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
-  std::string splitStringDeclaration(std::string t_Input);
+  STRING splitStringDeclaration(STRING t_Input);
 
   /**
   * Method takes in a string containing both the declaration and query and returns query.
   * @param t_Input is the input string.
   * @return declaration portion of the query input.
   */
-  std::string splitStringQuery(std::string t_Input);
+  STRING splitStringQuery(STRING t_Input);
+
 
   /**
-  * Method takes in a vector containing strings and prints out the strings.
-  * @param t_vector is the input vector containing strings.
+  * A boolean method for checking whether "Select BOOLEAN" exists or not.
+  * @return true if exists, false if not.
   */
-  void QueryPreProcessor::printVector(std::vector<std::string> t_vector);
+  BOOLEAN QueryPreProcessor::isSelectBoolean(void);
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------Getter Methods------------------------------------------//
+////////////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+  * A getter method for the Select vector variables.
+  * @return a Grammar object Vector containing all variables within the Select clause.
+  */
+  std::vector<Grammar> QueryPreProcessor::getSelectVector(void);
+
+  /**
+  * A getter method for the Such That vector variables.
+  * @return a Relation object Vector containing all variables within the Such That clause.
+  */
+  std::vector<Relation> QueryPreProcessor::getSuchThatVector(void);
+
+  /**
+  * A getter method for the Pattern vector variables.
+  * @return a Pattern object Vector containing all variables within the Pattern clause.
+  */
+  std::vector<Pattern> QueryPreProcessor::getPatternVector(void);
+
+  /**
+  * A getter method for the With vector variables.
+  * @return a With object Vector containing all variables within the With clause.
+  */
+  std::vector<With> QueryPreProcessor::getWithVector(void);
+
+  /**
+  * A getter method for the Synonym Unordered Map variables.
+  * @return an unordered map containing 2 values(string synonym, int number of times it appears) declared within query statement.
+  */
+  std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
+
+private:
+  std::vector<std::string> m_selectVector;
+  std::vector<std::string> m_relationVector;
+  std::vector<std::string> m_patternVector;
+  std::vector<std::string> m_withVector;
+
+  std::string m_prevClause;
+  std::string m_secondStatementTemp;
+  std::vector<Grammar> m_selectVectorQE;
+  std::vector<Relation> m_relationVectorQE;
+  std::vector<Pattern> m_patternVectorQE;
+  std::vector<With> m_withVectorQE;
+  std::vector<Grammar> m_grammarVector;
+  std::unordered_map<std::string, int> m_validationMap;
+
+  std::unordered_map<std::string, int> m_synonymMap;
+
+  bool m_selectBOOLEANExists = false;
+
+  StringUtil m_stringUtil;
+  static std::string PROCEDURE;
+  static std::string STMTLST;
+  static std::string STMT;
+  static std::string ASSIGN;
+  static std::string WHILE;
+  static std::string IF;
+  static std::string VARIABLE;
+  static std::string CONSTANT;
+  static std::string PROG_LINE;
+  static std::string BOOLEAN_QPP;
+  static std::string CALL;
+  static std::string PROCNAME;
+  static std::string VARNAME;
+  static std::string VALUE;
+  static std::string STMT_NO;
 
   /**
   * A tokenizing method which removes the characters specified in the string character
@@ -111,7 +175,7 @@ public:
   * @return true if with clause is parsed and processed properly. false if it fails.
   */
   bool QueryPreProcessor::withClauseAttString(std::string t_attribute, std::string t_string, Grammar t_withLeftGrammar, Grammar t_withRightGrammar);
-  
+
   /**
   * A specialised method for synonyms with no attributes that takes in an attribute string and number and calls other methods to process
   * @param t_attribute being the side that has an attribute
@@ -161,46 +225,12 @@ public:
   Grammar QueryPreProcessor::withAttributeProcessor(std::string t_attribute, Grammar t_withGrammar);
 
   /**
-  * A method that takes in the query that contains multiple clauses and processes it 
+  * A method that takes in the query that contains multiple clauses and processes it
   * @param t_secondStatement is the current statement that has been parsed through
   * @param t_whichClause being the type of clause that it is being parsed in
   * @return t_secondStatement that has been parsed and substringed.
   */
   std::string QueryPreProcessor::multiClauseProcessor(std::string t_secondStatement, std::string t_whichClause);
-
-  /**
-  * A boolean method for checking whether "Select BOOLEAN" exists or not.
-  * @return true if exists, false if not.
-  */
-  bool QueryPreProcessor::isSelectBoolean(void);
-
-////////////////////////////////////////////////////////////////////////////////////////////
-//--------------------------------Getter Methods------------------------------------------//
-////////////////////////////////////////////////////////////////////////////////////////////
-
-  /**
-  * A getter method for the Select vector variables.
-  * @return a Grammar object Vector containing all variables within the Select clause.
-  */
-  std::vector<Grammar> QueryPreProcessor::getSelectVector(void);
-
-  /**
-  * A getter method for the Such That vector variables.
-  * @return a Relation object Vector containing all variables within the Such That clause.
-  */
-  std::vector<Relation> QueryPreProcessor::getSuchThatVector(void);
-
-  /**
-  * A getter method for the Pattern vector variables.
-  * @return a Pattern object Vector containing all variables within the Pattern clause.
-  */
-  std::vector<Pattern> QueryPreProcessor::getPatternVector(void);
-
-  /**
-  * A getter method for the With vector variables.
-  * @return a With object Vector containing all variables within the With clause.
-  */
-  std::vector<With> QueryPreProcessor::getWithVector(void);
 
   /**
   * A getter method for the Grammar vector variables.
@@ -209,46 +239,11 @@ public:
   std::vector<Grammar> QueryPreProcessor::getGrammarVector(void);
 
   /**
-  * A getter method for the Synonym Unordered Map variables.
-  * @return an unordered map containing 2 values(string synonym, int number of times it appears) declared within query statement.
+  * Method takes in a string and removes all characters specified in charsToRemove.
+  * @param t_str is the input string.
+  * @param t_charsToRemove are the characters to be removed from the string.
   */
-  std::unordered_map<std::string, int> QueryPreProcessor::getSynonym(void);
-
-private:
-  std::vector<std::string> m_selectVector;
-  std::vector<std::string> m_relationVector;
-  std::vector<std::string> m_patternVector;
-  std::vector<std::string> m_withVector;
-
-  std::string m_prevClause;
-  std::string m_secondStatementTemp;
-  std::vector<Grammar> m_selectVectorQE;
-  std::vector<Relation> m_relationVectorQE;
-  std::vector<Pattern> m_patternVectorQE;
-  std::vector<With> m_withVectorQE;
-  std::vector<Grammar> m_grammarVector;
-  std::unordered_map<std::string, int> m_validationMap;
-
-  std::unordered_map<std::string, int> m_synonymMap;
-
-  bool m_selectBOOLEANExists = false;
-
-  StringUtil m_stringUtil;
-  static std::string PROCEDURE;
-  static std::string STMTLST;
-  static std::string STMT;
-  static std::string ASSIGN;
-  static std::string WHILE;
-  static std::string IF;
-  static std::string VARIABLE;
-  static std::string CONSTANT;
-  static std::string PROG_LINE;
-  static std::string BOOLEAN_QPP;
-  static std::string CALL;
-  static std::string PROCNAME;
-  static std::string VARNAME;
-  static std::string VALUE;
-  static std::string STMT_NO;
+  void removeCharsFromString(std::string & t_str, char * t_charsToRemove);
 };
 
 #endif QUERYPREPROCESSOR_H
