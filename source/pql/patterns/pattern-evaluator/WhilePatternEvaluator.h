@@ -4,15 +4,15 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
+#include "../../../GlobalTypeDef.h"
 #include "PatternEvaluator.h"
-#include "pkb/PkbReadOnly.h"
+#include "../../../pkb/PkbReadOnly.h"
 
-class AssignPatternEvaluator: public PatternEvaluator {
+class WhilePatternEvaluator: public PatternEvaluator {
 public:
-  AssignPatternEvaluator() {};
+  WhilePatternEvaluator() {};
 
-  ~AssignPatternEvaluator() {};
+  ~WhilePatternEvaluator() {};
 
   SET_OF_RESULTS_INDICES getAllStmtsWithVarAndExactPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2);
   SET_OF_RESULTS_INDICES getAllStmtsWithVarAndSubPattern(PkbReadOnly *t_pkb, Grammar t_stmt, Grammar t_g1, Grammar t_g2);

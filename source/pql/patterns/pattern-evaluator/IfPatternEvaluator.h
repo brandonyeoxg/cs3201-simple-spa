@@ -4,9 +4,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
+#include "../../../GlobalTypeDef.h"
 #include "PatternEvaluator.h"
-#include "pkb/PkbReadOnly.h"
+#include "../../../pkb/PkbReadOnly.h"
 
 class IfPatternEvaluator: public PatternEvaluator {
 public:

@@ -4,10 +4,10 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
-#include "pkb/PkbReadOnly.h"
-#include "Grammar.h"
-#include "Formatter.h"
+#include "../../../GlobalTypeDef.h"
+#include "../../../pkb/PkbReadOnly.h"
+#include "../../../Grammar.h"
+#include "../../../Formatter.h"
 
 class PatternEvaluator {
 public:

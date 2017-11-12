@@ -31,18 +31,6 @@
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Patterns.cpp">
-      <Filter>PQL\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\AssignPatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\WhilePatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\IfPatternEvaluator.cpp">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\IntermediateTable.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
@@ -199,6 +187,18 @@
     <ClCompile Include="..\source\pql\relationships\evaluators\UsesEvaluator.cpp">
       <Filter>PQL\Relationships\Evaluator</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pql\patterns\Patterns.cpp">
+      <Filter>PQL\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\patterns\pattern-evaluator\AssignPatternEvaluator.cpp">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\patterns\pattern-evaluator\IfPatternEvaluator.cpp">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.cpp">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -247,23 +247,8 @@
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\Patterns.h">
-      <Filter>PQL\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
       <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\AssignPatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\WhilePatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\IfPatternEvaluator.h">
-      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\UsesP.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -456,6 +441,21 @@
     </ClInclude>
     <ClInclude Include="..\source\pql\relationships\evaluators\UsesEvaluator.h">
       <Filter>PQL\Relationships\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\patterns\Patterns.h">
+      <Filter>PQL\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\patterns\pattern-evaluator\AssignPatternEvaluator.h">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\patterns\pattern-evaluator\IfPatternEvaluator.h">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\patterns\pattern-evaluator\PatternEvaluator.h">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.h">
+      <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

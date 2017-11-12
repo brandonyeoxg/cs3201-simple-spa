@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Pattern.h"
-#include "PatternEvaluator.h"
-#include "AssignPatternEvaluator.h"
-#include "WhilePatternEvaluator.h"
-#include "IfPatternEvaluator.h"
+#include "../../Pattern.h"
+#include "pattern-evaluator/PatternEvaluator.h"
+#include "pattern-evaluator/AssignPatternEvaluator.h"
+#include "pattern-evaluator/WhilePatternEvaluator.h"
+#include "pattern-evaluator/IfPatternEvaluator.h"
 
 
 class Patterns {

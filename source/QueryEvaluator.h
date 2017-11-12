@@ -19,7 +19,7 @@
 #include "QueryPreProcessor.h"
 #include "pql\QueryCache.h"
 #include "pql/relationships/Relationship.h"
-#include "Patterns.h"
+#include "pql/patterns/Patterns.h"
 #include "pql/relationships/evaluators/Evaluator.h"
 #include "IntermediateTable.h"
 #include "Formatter.h"
