@@ -15,4 +15,5 @@ public:
   void extractDesign();
 private:
   void populateUsesByCallStatements();
+  void populateUsesAnythingRelationships();
 };
