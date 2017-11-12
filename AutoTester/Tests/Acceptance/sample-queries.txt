@@ -110,7 +110,7 @@ Romeo, c, x
 5000
 23 - Testing Multiple Such That Clauses
 procedure p; stmtLst sl; stmt s; assign a; while w; if ifs; call c; prog_line n; variable v; constant co;
-Select v such  that  Uses  (		12 	,	  v  		)  and  Modifies (11, v)
+Select v such that  Uses  (		12 	,	  v  		)  and  Modifies (11, v)
 Romeo, x, c
 5000
 24 - Testing Multiple Pattern Clauses with more than 1 common synonyms
