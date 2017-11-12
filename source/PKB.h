@@ -946,7 +946,6 @@ public:
   * Get the map of all uses relationship i.e. for uses(s, v) where s and v are synonyms.
   * @return the map that contains all uses relationship.
   */
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
 
 
@@ -1004,7 +1003,6 @@ public:
   * Get the map of all modifies relationship i.e. for modifies(s, v) where s and v are synonyms.
   * @return the map that contains all uses relationship.
   */
-  MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies();
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx();
 
   /**

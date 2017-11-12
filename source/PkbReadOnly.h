@@ -683,7 +683,6 @@ public:
   * For example: stmt s, variable v; uses(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtUses() = 0;
   virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx() = 0;
 
   /**
@@ -733,7 +732,6 @@ public:
   * For example: stmt s, variable v; modifies(s, v).
   * @return an unordered_map that satisfy the condition.
   */
-  virtual MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getAllStmtModifies() = 0;
   virtual MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtModifiesByIdx() = 0;
 
   /**

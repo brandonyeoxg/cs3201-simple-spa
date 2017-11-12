@@ -25,8 +25,6 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
       m_modifiesVarByIdxMap[t_varIdx] = vector;
       insertToModifiesStmtMap(t_lineNum, t_varName, t_varIdx);
       //insert into sets
-      m_allVariablesModified.insert(t_varName);
-      m_allVariablesModifiedByIdx.insert(t_varIdx);
       m_allStmtNumsModified.insert(t_lineNum);
       inserted = true;
     }
@@ -39,8 +37,6 @@ void ModifiesTable::insertModifiesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum
     m_modifiesVarByIdxMap.emplace(t_varIdx, newVector);
     insertToModifiesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
-    m_allVariablesModified.insert(t_varName);
-    m_allVariablesModifiedByIdx.insert(t_varIdx);
     m_allStmtNumsModified.insert(t_lineNum);
   }
 }
@@ -135,9 +131,6 @@ LIST_OF_STMT_NUMS ModifiesTable::getStmtModifies(VAR_NAME t_varName) {
     return vector;
   }
 }
-std::unordered_map<VAR_NAME, LIST_OF_STMT_NUMS> ModifiesTable::getAllStmtModifies() {
-  return m_modifiesVarMap;
-}
 
 MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS ModifiesTable::getAllStmtModifiesByIdx() {
   return m_modifiesVarByIdxMap;
@@ -156,16 +149,6 @@ LIST_OF_STMT_NUMS ModifiesTable::getStmtModifiesAnything() {
   return m_allStmtNumsModifiedList;
 }
 
-LIST_OF_VAR_NAMES ModifiesTable::getAllModifiesVarNames() { //obsolete
-  LIST_OF_VAR_NAMES results;
-  results.assign(m_allVariablesModified.begin(), m_allVariablesModified.end());
-  return results;
-}
-
-LIST_OF_VAR_INDICES ModifiesTable::getAllModifiesVarNamesByIdx() {
-  return m_allVariablesModifiedList;
-}
-
 //Constructor.
 ModifiesTable::ModifiesTable() {
 }
@@ -180,5 +163,4 @@ MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS ModifiesTable::getModifiesVarMap() {
 
 void ModifiesTable::populateModifiesAnythingRelationships() {
   m_allStmtNumsModifiedList.assign(m_allStmtNumsModified.begin(), m_allStmtNumsModified.end());
-  m_allVariablesModifiedList.assign(m_allVariablesModifiedByIdx.begin(), m_allVariablesModifiedByIdx.end());
 }
