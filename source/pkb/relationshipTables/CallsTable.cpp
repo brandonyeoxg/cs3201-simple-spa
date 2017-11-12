@@ -117,16 +117,6 @@ BOOLEAN CallsTable::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
 }
 
 
-LIST_OF_PROC_NAMES CallsTable::getCalls(PROC_NAME t_proc2) {
-  LIST_OF_PROC_NAMES procNames;
-  if (m_callsMap.find(t_proc2) != m_callsMap.end()) {
-    procNames = m_callsMap[t_proc2];
-    return procNames;
-  } else {
-    return procNames;
-  }
-}
-
 LIST_OF_PROC_INDICES CallsTable::getCallsByIdx(PROC_INDEX t_proc2Idx) {
   LIST_OF_PROC_INDICES procIndices;
   if (m_callsMapByIdx.find(t_proc2Idx) != m_callsMapByIdx.end()) {
@@ -134,16 +124,6 @@ LIST_OF_PROC_INDICES CallsTable::getCallsByIdx(PROC_INDEX t_proc2Idx) {
     return procIndices;
   } else {
     return procIndices;
-  }
-}
-
-LIST_OF_PROC_NAMES CallsTable::getCalledBy(PROC_NAME t_proc1) {
-  LIST_OF_PROC_NAMES procNames;
-  if (m_calledByMap.find(t_proc1) != m_calledByMap.end()) {
-    procNames = m_calledByMap[t_proc1];
-    return procNames;
-  } else {
-    return procNames;
   }
 }
 
@@ -157,16 +137,6 @@ LIST_OF_PROC_INDICES CallsTable::getCalledByByIdx(PROC_INDEX t_proc1Idx) {
   }
 }
 
-LIST_OF_PROC_NAMES CallsTable::getCallsStar(PROC_NAME t_proc2) {
-  LIST_OF_PROC_NAMES procNames;
-  if (m_callsStarMap.find(t_proc2) != m_callsStarMap.end()) {
-    procNames = m_callsStarMap[t_proc2];
-    return procNames;
-  } else {
-    return procNames;
-  }
-}
-
 LIST_OF_PROC_INDICES CallsTable::getCallsStarByIdx(PROC_INDEX t_proc2Idx) {
   LIST_OF_PROC_INDICES procIndices;
   if (m_callsStarMapByIdx.find(t_proc2Idx) != m_callsStarMapByIdx.end()) {
@@ -174,16 +144,6 @@ LIST_OF_PROC_INDICES CallsTable::getCallsStarByIdx(PROC_INDEX t_proc2Idx) {
     return procIndices;
   } else {
     return procIndices;
-  }
-}
-
-LIST_OF_PROC_NAMES CallsTable::getCalledByStar(PROC_NAME t_proc1) {
-  LIST_OF_PROC_NAMES procNames;
-  if (m_calledByStarMap.find(t_proc1) != m_calledByStarMap.end()) {
-    procNames = m_calledByStarMap[t_proc1];
-    return procNames;
-  } else {
-    return procNames;
   }
 }
 
@@ -197,43 +157,17 @@ LIST_OF_PROC_INDICES CallsTable::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
   }
 }
 
-MAP_OF_PROC_NAMES CallsTable::getAllCalls() {
-  std::unordered_map<PROC_NAME, PROC_NAME> allCalls;
-  for (auto it = m_callsMap.begin(); it != m_callsMap.end(); ++it) {
-    LIST_OF_PROC_NAMES procNames = it->second;
-    for (int i = 0; i < procNames.size(); i++) {
-      allCalls.emplace(it->first, procNames[i]);
-    }
-  }
-  return allCalls;
-}
-
 MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES CallsTable::getAllCallsByIdx() {
 
   return m_callsMapByIdx;
-}
-
-MAP_OF_PROC_NAME_TO_LIST_OF_PROC_NAMES CallsTable::getAllCallsStar() {
-  return m_callsStarMap;
 }
 
 MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES CallsTable::getAllCallsStarByIdx() {
   return m_callsStarMapByIdx;
 }
 
-LIST_OF_PROC_NAMES CallsTable::getCallsAnything() { //obselete
-  LIST_OF_PROC_NAMES procNames;
-  //copy the m_allFollows set to values vector.
-  procNames.assign(m_allCalls.begin(), m_allCalls.end());
-  return procNames;
-}
-
 LIST_OF_PROC_INDICES CallsTable::getCallsAnythingByIdx() {
   return m_allCallsByIdxList;
-}
-
-LIST_OF_PROC_NAMES CallsTable::getCallsStarAnything() {
-  return getCallsAnything();  //same result
 }
 
 LIST_OF_PROC_INDICES CallsTable:: getCallsStarAnythingByIdx() {
@@ -251,9 +185,6 @@ LIST_OF_PROC_INDICES CallsTable::getCalledByAnythingByIdx() {
   return m_allCalledByByIdxList;
 }
 
-LIST_OF_PROC_NAMES CallsTable::getCalledByStarAnything() {
-  return getCalledByAnything(); //same result
-}
 
 LIST_OF_PROC_INDICES CallsTable::getCalledByStarAnythingByIdx() {
   return getCalledByAnythingByIdx(); //same result

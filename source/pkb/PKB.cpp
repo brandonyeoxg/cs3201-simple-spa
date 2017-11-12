@@ -603,50 +603,26 @@ BOOLEAN PKB::isCalls(PROC_NAME t_proc1, PROC_NAME t_proc2) {
 BOOLEAN PKB::isCallsStar(PROC_NAME t_proc1, PROC_NAME t_proc2) {
   return m_callsTable->isCallsStar(t_proc1, t_proc2);
 }
-LIST_OF_PROC_NAMES PKB::getCalls(PROC_NAME t_proc2) {
-  return m_callsTable->getCalls(t_proc2);
-}
 LIST_OF_PROC_INDICES PKB::getCallsByIdx(PROC_INDEX t_proc2Idx) {
   return m_callsTable->getCallsByIdx(t_proc2Idx);
-}
-LIST_OF_PROC_NAMES PKB::getCalledBy(PROC_NAME t_proc1) {
-  return m_callsTable->getCalledBy(t_proc1);
 }
 LIST_OF_PROC_INDICES PKB::getCalledByByIdx(PROC_INDEX t_proc1Idx) {
   return m_callsTable->getCalledByByIdx(t_proc1Idx);
 }
-LIST_OF_PROC_NAMES PKB::getCallsStar(PROC_NAME t_proc2) {
-  return m_callsTable->getCallsStar(t_proc2);
-}
 LIST_OF_PROC_INDICES PKB::getCallsStarByIdx(PROC_INDEX t_proc2Idx) {
   return m_callsTable->getCallsStarByIdx(t_proc2Idx);
-}
-LIST_OF_PROC_NAMES PKB::getCalledByStar(PROC_NAME t_proc1) {
-  return m_callsTable->getCalledByStar(t_proc1);
 }
 LIST_OF_PROC_INDICES PKB::getCalledByStarByIdx(PROC_INDEX t_proc1Idx) {
   return m_callsTable->getCalledByStarByIdx(t_proc1Idx);
 }
-MAP_OF_PROC_NAMES PKB::getAllCalls() {
-  return m_callsTable->getAllCalls();
-}
 MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES PKB::getAllCallsByIdx() {
   return m_callsTable->getAllCallsByIdx();
-}
-std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> PKB::getAllCallsStar() {
-  return m_callsTable->getAllCallsStar();
 }
 MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES PKB::getAllCallsStarByIdx() {
   return m_callsTable->getAllCallsStarByIdx();
 }
-LIST_OF_PROC_NAMES PKB::getCallsAnything() {
-  return m_callsTable->getCallsAnything();
-}
 LIST_OF_PROC_INDICES PKB::getCallsAnythingByIdx() {
   return m_callsTable->getCallsAnythingByIdx();
-}
-LIST_OF_PROC_NAMES PKB::getCallsStarAnything() {
-  return m_callsTable->getCallsStarAnything();
 }
 LIST_OF_PROC_INDICES PKB::getCallsStarAnythingByIdx() {
   return m_callsTable->getCallsStarAnythingByIdx();
@@ -656,9 +632,6 @@ LIST_OF_PROC_NAMES PKB::getCalledByAnything() {
 }
 LIST_OF_PROC_INDICES PKB::getCalledByAnythingByIdx() {
   return m_callsTable->getCalledByAnythingByIdx();
-}
-LIST_OF_PROC_NAMES PKB::getCalledByStarAnything() {
-  return m_callsTable->getCalledByStarAnything();
 }
 LIST_OF_PROC_INDICES PKB::getCalledByStarAnythingByIdx() {
   return m_callsTable->getCalledByStarAnythingByIdx();

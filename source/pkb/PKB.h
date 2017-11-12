@@ -693,7 +693,6 @@ public:
   * @param t_proc2 the procedure being called
   * @return the list of procedures that call t_proc2.
   */
-  LIST_OF_PROC_NAMES getCalls(PROC_NAME t_proc2);
   LIST_OF_PROC_INDICES getCallsByIdx(PROC_INDEX t_proc2Idx);
 
   /**
@@ -702,7 +701,6 @@ public:
   * @param t_proc1 the procedure that calls other procedures
   * @return the list of procedures that are called by t_proc1.
   */
-  LIST_OF_PROC_NAMES getCalledBy(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByByIdx(PROC_INDEX t_proc1Idx);
 
   /**
@@ -711,7 +709,6 @@ public:
   * @param t_proc2 the procedure being called directly/indirectly
   * @return the list of procedures that call* t_proc2.
   */
-  LIST_OF_PROC_NAMES getCallsStar(PROC_NAME t_proc2);
   LIST_OF_PROC_INDICES getCallsStarByIdx(PROC_INDEX t_proc2Idx);
 
   /**
@@ -720,35 +717,30 @@ public:
   * @param t_proc1 the procedure that directly/indirectly calls other procedures
   * @return the list of procedures that are called by t_proc1.
   */
-  LIST_OF_PROC_NAMES getCalledByStar(PROC_NAME t_proc1);
   LIST_OF_PROC_INDICES getCalledByStarByIdx(PROC_INDEX t_proc1Idx);
 
   /**
   * Get the map of calls relationship i.e. for calls(p1, p2) where p1, p2 are synonyms.
   * @return the map that contains all calls relationship.
   */
-  MAP_OF_PROC_NAMES getAllCalls();
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsByIdx();
 
   /**
   * Get the map of calls* relationship i.e. for calls*(p1, p2) where p1, p2 are synonyms.
   * @return the map that contains all calls* relationship.
   */
-  std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> getAllCallsStar();
   MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES getAllCallsStarByIdx();
 
   /**
   * Get the list of procedures that calls any other procedures i.e. calls(p1, _).
   * @return the list of procedures.
   */
-  LIST_OF_PROC_NAMES getCallsAnything();
   LIST_OF_PROC_INDICES getCallsAnythingByIdx();
 
   /**
   * Get the list of procedures that call* any other procedures i.e. calls*(p1, _).
   * @return the list of procedures.
   */
-  LIST_OF_PROC_NAMES getCallsStarAnything();
   LIST_OF_PROC_INDICES getCallsStarAnythingByIdx();
 
   /**
@@ -762,7 +754,6 @@ public:
   * Get the list of procedures that called by* any other procedures i.e. calls*(_, p2).
   * @return the list of procedures.
   */
-  LIST_OF_PROC_NAMES getCalledByStarAnything();
   LIST_OF_PROC_INDICES getCalledByStarAnythingByIdx();
 
   /**
