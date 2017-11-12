@@ -179,30 +179,6 @@ public:
 ////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
-  * A getter method for the Select Queue variables.
-  * @return a Grammar object Queue containing all variables within the Select clause.
-  */
-  std::queue<Grammar> QueryPreProcessor::getSelect(void);
-
-  /**
-  * A getter method for the Such That Queue variables.
-  * @return a Relation object Queue containing all variables within the Such That clause.
-  */
-  std::queue<Relation> QueryPreProcessor::getSuchThat(void);
-
-  /**
-  * A getter method for the Pattern Queue variables.
-  * @return a Pattern object Queue containing all variables within the Pattern clause.
-  */
-  std::queue<Pattern> QueryPreProcessor::getPattern(void);
-
-  /**
-  * A getter method for the With Queue variables.
-  * @return a With object Queue containing all variables within the With clause.
-  */
-  std::queue<With> QueryPreProcessor::getWith(void);
-
-  /**
   * A getter method for the Select vector variables.
   * @return a Grammar object Queue containing all variables within the Select clause.
   */
@@ -243,10 +219,7 @@ private:
   std::vector<std::string> m_relationVector;
   std::vector<std::string> m_patternVector;
   std::vector<std::string> m_withVector;
-  std::queue<Grammar> m_selectQueue;
-  std::queue<Relation> m_suchThatQueue;
-  std::queue<Pattern> m_patternQueue;
-  std::queue<With> m_withQueue;
+
   std::string m_prevClause;
   std::string m_secondStatementTemp;
   std::vector<Grammar> m_selectVectorQE;
@@ -255,7 +228,7 @@ private:
   std::vector<With> m_withVectorQE;
   std::vector<Grammar> m_grammarVector;
   std::unordered_map<std::string, int> m_validationMap;
-  std::unordered_map<std::string, Grammar> m_grammarMap;
+
   std::unordered_map<std::string, int> m_synonymMap;
 
   bool m_selectBOOLEANExists = false;

@@ -25,21 +25,6 @@ QueryPreProcessor::~QueryPreProcessor()
 {
 }
 
-std::queue<Grammar> QueryPreProcessor::getSelect(void) {
-  return m_selectQueue;
-}
-
-std::queue<Relation> QueryPreProcessor::getSuchThat(void) {
-  return m_suchThatQueue;
-}
-
-std::queue<Pattern> QueryPreProcessor::getPattern(void) {
-  return m_patternQueue;
-}
-
-std::queue<With> QueryPreProcessor::getWith(void) {
-  return m_withQueue;
-}
 
 std::vector<Grammar> QueryPreProcessor::getSelectVector(void) {
   return m_selectVectorQE;
@@ -201,9 +186,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
-
           } else if (entity == STMTLST) {
             Grammar g(queryType::GType::ST_LST, variableVector.at(counterL));
             m_grammarVector.push_back(g);
@@ -214,9 +196,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
             } else {
               return false;
             }
-
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else if (entity == STMT) {
             Grammar g(queryType::GType::STMT, variableVector.at(counterL));
@@ -229,8 +208,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else if (entity == ASSIGN) {
             Grammar g(queryType::GType::ASGN, variableVector.at(counterL));
@@ -243,9 +220,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
-
           } else if (entity == WHILE) {
             Grammar g(queryType::GType::WHILE, variableVector.at(counterL));
             m_grammarVector.push_back(g);
@@ -256,9 +230,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
             } else {
               return false;
             }
-
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else if (entity == IF) {
             Grammar g(queryType::GType::IF, variableVector.at(counterL));
@@ -271,9 +242,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
-
           } else if (entity == VARIABLE) {
             Grammar g(queryType::GType::VAR, variableVector.at(counterL));
             m_grammarVector.push_back(g);
@@ -285,8 +253,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else if (entity == CONSTANT) {
             Grammar g(queryType::GType::CONST, variableVector.at(counterL));
@@ -299,8 +265,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else if (entity == PROG_LINE) {
             Grammar g(queryType::GType::PROG_LINE, variableVector.at(counterL));
@@ -313,9 +277,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
-
           } else if (entity == BOOLEAN_QPP) {
             Grammar g(queryType::GType::BOOLEAN, variableVector.at(counterL));
             m_grammarVector.push_back(g);
@@ -327,8 +288,7 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
+
 
           } else if (entity == CALL) {
             Grammar g(queryType::GType::CALL, variableVector.at(counterL));
@@ -341,8 +301,6 @@ BOOLEAN QueryPreProcessor::tokenizeDeclaration(std::string t_declarationInput) {
               return false;
             }
 
-            //New map for replacing vector
-            m_grammarMap.insert({ g.getName(), g });
 
           } else {
             return false;
@@ -596,7 +554,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               }
             }
 
-            m_selectQueue.push(g1);
             m_selectVectorQE.push_back(g1);
             m_synonymMap.insert({ g1.getName(), 1 });
 
@@ -616,7 +573,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           std::string grammarName = g1.getName();
 
           if (grammarName == synonym) {
-            m_selectQueue.push(g1);
             m_selectVectorQE.push_back(g1);
             m_synonymMap.insert({ g1.getName(), 1 });
           } else if (synonym == BOOLEAN_QPP) {
@@ -652,7 +608,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
     if (synonymAttribute != "") {
       int counterU = 0;
       for (auto u = m_grammarVector.begin(); u != m_grammarVector.end(); u++, counterU++) {
-        if (m_selectQueue.size() == 1) {
+        if (m_selectVectorQE.size() == 1) {
           break;
         }
         g1 = m_grammarVector.at(counterU);
@@ -694,8 +650,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           } else {
             return false;
           }
-
-          m_selectQueue.push(g1);
           m_selectVectorQE.push_back(g1);
 
         } else if (synonym == BOOLEAN_QPP) {
@@ -708,7 +662,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       int counterM = 0;
       for (auto m = m_grammarVector.begin(); m != m_grammarVector.end(); m++, counterM++) {
-        if (m_selectQueue.size() == 1) {
+        if (m_selectVectorQE.size() == 1) {
           break;
         }
         g1 = m_grammarVector.at(counterM);
@@ -716,35 +670,32 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
         //std::cout << grammarName << " this is the grammarName" << std::endl;
         if (grammarName == synonym) {
-          m_selectQueue.push(g1);
           m_selectVectorQE.push_back(g1);
         } else if (synonym == BOOLEAN_QPP) {
           g1 = Grammar(queryType::GType::BOOLEAN, "BOOLEAN");
-          m_selectQueue.push(g1);
           m_selectVectorQE.push_back(g1);
         }
       }
 
       if (synonym == BOOLEAN_QPP && m_grammarVector.size() == 0) {
         g1 = Grammar(queryType::GType::BOOLEAN, g1.getName());
-        m_selectQueue.push(g1);
         m_selectVectorQE.push_back(g1);
       }
     }
 
     //Checks if the select statement synonym is not declared
-    if (m_selectQueue.size() == 0) {
+    if (m_selectVectorQE.size() == 0) {
       return false;
     }
 
-    Grammar selectGrammar = m_selectQueue.front();
+    Grammar selectGrammar = m_selectVectorQE.front();
     if (selectGrammar.getType() != queryType::GType::BOOLEAN) {
       m_synonymMap.insert({ selectGrammar.getName(), 1 });
     }
   }
 
   //Checks if the select statement synonym is not declared
-  if (m_selectQueue.size() == 0) {
+  if (m_selectVectorQE.size() == 0) {
     return false;
   }
   //if design abstraction object does not exist
@@ -869,7 +820,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //Number, _
@@ -877,7 +827,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, Number
@@ -885,7 +834,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             // _, _
@@ -893,7 +841,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
           }
@@ -907,7 +854,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //Number, _
@@ -915,7 +861,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, Number
@@ -923,7 +868,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             // _, _
@@ -931,7 +875,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
           }
@@ -946,7 +889,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //Number, _
@@ -954,7 +896,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //String, String
@@ -964,7 +905,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
+
             m_relationVectorQE.push_back(DAO);
 
             //String, _
@@ -973,7 +914,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
           }
@@ -988,7 +928,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, String
@@ -997,7 +936,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //String, String
@@ -1007,7 +945,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
             
             //_, _
@@ -1017,7 +954,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
           }
 
@@ -1029,7 +965,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, Number
@@ -1037,7 +972,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //Number, Number
@@ -1045,7 +979,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, _
@@ -1053,7 +986,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
           }
 
@@ -1066,7 +998,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, Number
@@ -1074,7 +1005,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //Number, Number
@@ -1082,7 +1012,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STMT_NO, sTName1);
             g2 = Grammar(queryType::GType::STMT_NO, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
 
             //_, _
@@ -1090,22 +1019,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             g1 = Grammar(queryType::GType::STR, sTName1);
             g2 = Grammar(queryType::GType::STR, sTName2);
             Relation DAO(designAbstractionEntity, g1, g2);
-            m_suchThatQueue.push(DAO);
             m_relationVectorQE.push_back(DAO);
           }
         }
         counterK = 0;
         bool moveOn = false;
-        
-        //New Method
-        //std::unordered_map<std::string, Grammar>::const_iterator mapIt = m_grammarMap.find(sTName1);
-
-        //synonym does not exist
-        /*if (mapIt == m_grammarMap.end()) {
-          return false;
-        } else {
-          m_grammarMap.
-        }*/
 
 
         //Old Method
@@ -1272,7 +1190,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 }
 
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
@@ -1293,7 +1210,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1312,7 +1228,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 removeCharsFromString(sTName2, "\\\"");
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1321,7 +1236,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1406,7 +1320,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 }
 
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
@@ -1420,7 +1333,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               } else if (sTInt2 > 0) {
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1438,7 +1350,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 removeCharsFromString(sTName2, "\\\"");
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1447,7 +1358,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1519,7 +1429,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 }
 
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
@@ -1538,7 +1447,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1556,13 +1464,11 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 removeCharsFromString(sTName2, "\\\"");
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 break;
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1650,7 +1556,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 }
 
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(sTName2);
                 if (got == m_synonymMap.end()) {
@@ -1669,7 +1574,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
                 g2 = Grammar(queryType::GType::STMT_NO, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 break;
               } else if (sTName2.find('"') != std::string::npos) {
@@ -1685,7 +1589,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
                 removeCharsFromString(sTName2, "\\\"");
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1693,7 +1596,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
               } else if (sTName2 == OPERATOR_UNDERSCORE) {
                 g2 = Grammar(queryType::GType::STR, sTName2);
                 Relation DAO(designAbstractionEntity, g1, g2);
-                m_suchThatQueue.push(DAO);
                 m_relationVectorQE.push_back(DAO);
                 counterK = 0;
                 moveOn = true;
@@ -1702,7 +1604,7 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
             }
           }
         }
-        if (m_suchThatQueue.size() == 0) {
+        if (m_relationVectorQE.size() == 0) {
           return false;
         }
       } //newly added condition checking for properly defined DAO
@@ -1711,7 +1613,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
     }
   }
-  std::cout << "suchThatQueue size: " << m_suchThatQueue.size() << std::endl;
   
   //creation of pattern object
   if (m_patternVector.empty()) {
@@ -2185,13 +2086,10 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
 
       //create pattern object
       Pattern patternObjectCreated(patternOfGrammar, grammarPatternLeft, grammarPatternRight, isSubTree);
-      m_patternQueue.push(patternObjectCreated);
       m_patternVectorQE.push_back(patternObjectCreated);
 
     }
   }
-
-  std::cout << "patternQueue size: " << m_patternQueue.size() << std::endl;
 
   //creation of with object
   if (m_withVector.empty()) {
@@ -2308,7 +2206,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           withRightGrammar = Grammar(queryType::GType::STR, withRight);
 
           With withObjectCreated(withLeftGrammar, withRightGrammar);
-          m_withQueue.push(withObjectCreated);
           m_withVectorQE.push_back(withObjectCreated);
         }
         //Case 12: Both sides integers
@@ -2320,7 +2217,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
           withRightGrammar = Grammar(queryType::GType::STMT_NO, withRight);
 
           With withObjectCreated(withLeftGrammar, withRightGrammar);
-          m_withQueue.push(withObjectCreated);
           m_withVectorQE.push_back(withObjectCreated);
 
         }
@@ -2336,8 +2232,6 @@ BOOLEAN QueryPreProcessor::tokenizeQuery(std::string t_queryInput) {
       }
     }
   }
-  std::cout << "withQueue size: " << m_withQueue.size() << std::endl;
-
 
   isTokenized = true;
   return isTokenized;
@@ -2469,7 +2363,6 @@ bool QueryPreProcessor::withClauseAttNum(std::string attribute, std::string inte
     || withLeftGrammar.getType() == queryType::GType::CALL && withLeftGrammar.getAttr() == queryType::AType::STMT_NUM
     || withLeftGrammar.getType() == queryType::GType::PROG_LINE && withTempAttribute == "") {
     With withObjectCreated(withLeftGrammar, withRightGrammar); 
-    m_withQueue.push(withObjectCreated);
     m_withVectorQE.push_back(withObjectCreated);
 
     return true;
@@ -2492,7 +2385,6 @@ bool QueryPreProcessor::withClauseAttNumNoSynonymAtt(std::string withSynonym, st
   
   if(withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
-    m_withQueue.push(withObjectCreated);
     m_withVectorQE.push_back(withObjectCreated);
 
     std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(withSynonym);
@@ -2530,7 +2422,6 @@ bool QueryPreProcessor::withClauseAttString(std::string attribute, std::string i
     || withLeftGrammar.getAttr() == queryType::AType::PROC_NAME && withLeftGrammar.getType() == queryType::GType::CALL
     || withLeftGrammar.getAttr() == queryType::AType::VAR_NAME && withLeftGrammar.getType() == queryType::GType::VAR) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
-    m_withQueue.push(withObjectCreated);
     m_withVectorQE.push_back(withObjectCreated);
 
     return true;
@@ -2550,7 +2441,6 @@ bool QueryPreProcessor::withClauseAttAtt(std::string leftAttribute, std::string 
   }
 
   withObjectCreated = With(withLeftGrammar, withRightGrammar);
-  m_withQueue.push(withObjectCreated);
   m_withVectorQE.push_back(withObjectCreated);
 
 
@@ -2574,7 +2464,6 @@ bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string ri
 
   if (withLeftGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
-    m_withQueue.push(withObjectCreated);
     m_withVectorQE.push_back(withObjectCreated);
 
     std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
@@ -2589,7 +2478,6 @@ bool QueryPreProcessor::withClauseSynAtt(std::string leftSynonym, std::string ri
   }
 
   With withObjectCreated(withLeftGrammar, withRightGrammar);
-  m_withQueue.push(withObjectCreated);
   m_withVectorQE.push_back(withObjectCreated);
 
 }
@@ -2611,7 +2499,6 @@ bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string ri
 
   if (withLeftGrammar.getType() == queryType::GType::PROG_LINE && withRightGrammar.getType() == queryType::GType::PROG_LINE) {
     With withObjectCreated(withLeftGrammar, withRightGrammar);
-    m_withQueue.push(withObjectCreated);
     m_withVectorQE.push_back(withObjectCreated);
 
     std::unordered_map<std::string, int>::const_iterator got = m_synonymMap.find(leftSynonym);
@@ -2632,7 +2519,6 @@ bool QueryPreProcessor::withClauseSynSyn(std::string leftSynonym, std::string ri
   }
 
   With withObjectCreated(withLeftGrammar, withRightGrammar);
-  m_withQueue.push(withObjectCreated);
   m_withVectorQE.push_back(withObjectCreated);
 
 }
