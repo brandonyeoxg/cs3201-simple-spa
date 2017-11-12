@@ -12,13 +12,13 @@
 #include <sstream>
 #include <vector>
 #include <queue>
-#include "pql/query-types/Grammar.h"
-#include "pql/query-types/Relation.h"
-#include "pql/query-types/Pattern.h"
-#include "pql/query-types/With.h"
-#include "pkb/PKB.h"
-#include "StringUtil.h"
-#include "GlobalTypeDef.h"
+#include "../pql/query-types/Grammar.h"
+#include "../pql/query-types/Relation.h"
+#include "../pql/query-types/Pattern.h"
+#include "../pql/query-types/With.h"
+#include "../pkb/PKB.h"
+#include "../StringUtil.h"
+#include "../GlobalTypeDef.h"
 
 class QueryPreProcessor
 {

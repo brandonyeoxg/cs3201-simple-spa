@@ -5,7 +5,7 @@
 #include <list>
 #include <vector>
 
-#include "GlobalTypeDef.h"
+#include "../GlobalTypeDef.h"
 
 /**
 *  A class used to format the output string vector into a string list.

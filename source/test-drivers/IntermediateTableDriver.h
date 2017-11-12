@@ -1,5 +1,5 @@
 #pragma once
-#include "../IntermediateTable.h"
+#include "../pql/IntermediateTable.h"
 class IntermediateTableDriver : public IntermediateTable
 {
 public:

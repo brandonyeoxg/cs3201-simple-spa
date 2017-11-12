@@ -5,10 +5,10 @@
 #include <vector>
 #include <unordered_map>
 
-#include "GlobalTypeDef.h"
-#include "pql/query-types/Grammar.h"
-#include "pkb/PkbReadOnly.h"
-#include "Formatter.h"
+#include "../GlobalTypeDef.h"
+#include "query-types/Grammar.h"
+#include "../pkb/PkbReadOnly.h"
+#include "../Formatter.h"
 
 class IntermediateTable {
 public:

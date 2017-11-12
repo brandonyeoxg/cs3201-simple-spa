@@ -2,7 +2,7 @@
 #include "CppUnitTest.h"
 #include "pkb/PkbWriteOnly.h"
 #include "pkb/PKB.h"
-#include "QueryEvaluator.h"
+#include "pql/QueryEvaluator.h"
 #include "pql/query-types/Grammar.h"
 #include "pql/query-types/Relation.h"
 #include "pql/query-types/Pattern.h"

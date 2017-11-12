@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\source\QueryEvaluator.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryPreProcessor.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryProcessor.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryResultProjector.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>FrontEnd</Filter>
     </ClCompile>
@@ -21,9 +9,6 @@
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\IntermediateTable.cpp">
-      <Filter>PQL</Filter>
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
       <Filter>test-drivers</Filter>
@@ -40,9 +25,6 @@
     <ClCompile Include="..\source\TokeniserUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\WithEvaluator.cpp">
-      <Filter>PQL\Withs</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp">
       <Filter>PKB\PatternMatch</Filter>
     </ClCompile>
@@ -53,9 +35,6 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pql\QueryCache.cpp">
-      <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryOptimiser.cpp">
       <Filter>PQL</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pkb\relationshipTables\ParentTable.cpp">
@@ -199,20 +178,26 @@
     <ClCompile Include="..\source\pql\query-types\With.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pql\IntermediateTable.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\QueryEvaluator.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\QueryOptimiser.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\QueryPreProcessor.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\QueryProcessor.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\QueryResultProjector.cpp">
+      <Filter>PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\QueryEvaluator.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryResultProjector.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryPreProcessor.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessor.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Parser.h">
       <Filter>FrontEnd</Filter>
     </ClInclude>
@@ -250,9 +235,6 @@
     <ClInclude Include="..\source\SyntaxInvalidTerm.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\IntermediateTable.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
     </ClInclude>
@@ -268,9 +250,6 @@
     <ClInclude Include="..\source\TokeniserUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\WithEvaluator.h">
-      <Filter>PQL\Withs</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\pkb\patternMatch\PatternMatch.h">
       <Filter>PKB\PatternMatch</Filter>
     </ClInclude>
@@ -281,9 +260,6 @@
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
     <ClInclude Include="..\source\pql\QueryCache.h">
-      <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryOptimiser.h">
       <Filter>PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SyntaxCyclicCalls.h">
@@ -457,6 +433,25 @@
     <ClInclude Include="..\source\pql\query-types\With.h">
       <Filter>PQL\Query Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\pql\IntermediateTable.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryEvaluator.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryOptimiser.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryPreProcessor.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryProcessor.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\QueryResultProjector.h">
+      <Filter>PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\WithEvaluator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PKB">
@@ -503,9 +498,6 @@
     </Filter>
     <Filter Include="Util">
       <UniqueIdentifier>{8c04ec46-dcef-42ec-99a8-d4b91c11c55f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PQL\Withs">
-      <UniqueIdentifier>{caeb84a4-5766-4c6c-88ca-b56f3cb2048b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

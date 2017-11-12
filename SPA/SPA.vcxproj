@@ -25,7 +25,6 @@
     <ClCompile Include="..\source\design-extractor\UsesPExtractor.cpp" />
     <ClCompile Include="..\source\EvaluatorUtil.cpp" />
     <ClCompile Include="..\source\Formatter.cpp" />
-    <ClCompile Include="..\source\IntermediateTable.cpp" />
     <ClCompile Include="..\source\pkb\patternMatch\PatternMatch.cpp" />
     <ClCompile Include="..\source\pkb\PKB.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\AssignTable.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="..\source\pkb\relationshipTables\UsesP.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\UsesTable.cpp" />
     <ClCompile Include="..\source\pkb\relationshipTables\VarTable.cpp" />
+    <ClCompile Include="..\source\pql\IntermediateTable.cpp" />
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\AssignPatternEvaluator.cpp" />
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\IfPatternEvaluator.cpp" />
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.cpp" />
@@ -52,6 +52,11 @@
     <ClCompile Include="..\source\pql\query-types\Relation.cpp" />
     <ClCompile Include="..\source\pql\query-types\With.cpp" />
     <ClCompile Include="..\source\pql\QueryCache.cpp" />
+    <ClCompile Include="..\source\pql\QueryEvaluator.cpp" />
+    <ClCompile Include="..\source\pql\QueryOptimiser.cpp" />
+    <ClCompile Include="..\source\pql\QueryPreProcessor.cpp" />
+    <ClCompile Include="..\source\pql\QueryProcessor.cpp" />
+    <ClCompile Include="..\source\pql\QueryResultProjector.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\CallsEvaluator.cpp" />
@@ -65,18 +70,12 @@
     <ClCompile Include="..\source\pql\relationships\evaluators\ParentStarEvaluator.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\UsesEvaluator.cpp" />
     <ClCompile Include="..\source\pql\relationships\Relationship.cpp" />
-    <ClCompile Include="..\source\QueryOptimiser.cpp" />
     <ClCompile Include="..\source\QueryUtil.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
-    <ClCompile Include="..\source\QueryEvaluator.cpp" />
-    <ClCompile Include="..\source\QueryPreProcessor.cpp" />
-    <ClCompile Include="..\source\QueryProcessor.cpp" />
-    <ClCompile Include="..\source\QueryResultProjector.cpp" />
     <ClCompile Include="..\source\StringUtil.cpp" />
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp" />
     <ClCompile Include="..\source\TokeniserUtil.cpp" />
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
-    <ClCompile Include="..\source\WithEvaluator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsExtractor.h" />
@@ -95,7 +94,6 @@
     <ClInclude Include="..\source\EvaluatorUtil.h" />
     <ClInclude Include="..\source\Formatter.h" />
     <ClInclude Include="..\source\GlobalTypeDef.h" />
-    <ClInclude Include="..\source\IntermediateTable.h" />
     <ClInclude Include="..\source\InvalidArgumentException.h" />
     <ClInclude Include="..\source\pkb\patternMatch\PatternMatch.h" />
     <ClInclude Include="..\source\pkb\PKB.h" />
@@ -118,6 +116,7 @@
     <ClInclude Include="..\source\pkb\relationshipTables\UsesP.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\UsesTable.h" />
     <ClInclude Include="..\source\pkb\relationshipTables\VarTable.h" />
+    <ClInclude Include="..\source\pql\IntermediateTable.h" />
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\PatternEvaluator.h" />
@@ -129,6 +128,11 @@
     <ClInclude Include="..\source\pql\query-types\Relation.h" />
     <ClInclude Include="..\source\pql\query-types\With.h" />
     <ClInclude Include="..\source\pql\QueryCache.h" />
+    <ClInclude Include="..\source\pql\QueryEvaluator.h" />
+    <ClInclude Include="..\source\pql\QueryOptimiser.h" />
+    <ClInclude Include="..\source\pql\QueryPreProcessor.h" />
+    <ClInclude Include="..\source\pql\QueryProcessor.h" />
+    <ClInclude Include="..\source\pql\QueryResultProjector.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\AffectsEvaluator.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\CallsEvaluator.h" />
@@ -143,13 +147,8 @@
     <ClInclude Include="..\source\pql\relationships\evaluators\ParentStarEvaluator.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\UsesEvaluator.h" />
     <ClInclude Include="..\source\pql\relationships\Relationship.h" />
-    <ClInclude Include="..\source\QueryOptimiser.h" />
     <ClInclude Include="..\source\QueryUtil.h" />
     <ClInclude Include="..\source\Parser.h" />
-    <ClInclude Include="..\source\QueryEvaluator.h" />
-    <ClInclude Include="..\source\QueryPreProcessor.h" />
-    <ClInclude Include="..\source\QueryProcessor.h" />
-    <ClInclude Include="..\source\QueryResultProjector.h" />
     <ClInclude Include="..\source\StringUtil.h" />
     <ClInclude Include="..\source\SyntaxDuplicateProc.h" />
     <ClInclude Include="..\source\SyntaxEmptyLineException.h" />

@@ -10,21 +10,20 @@
 #include <algorithm>
 #include <iterator>
 
-#include "GlobalTypeDef.h"
-#include "pql/query-types/Grammar.h"
-#include "pql/query-types/Relation.h"
-#include "pql/query-types/Pattern.h"
-#include "pql/query-types/With.h"
-#include "pkb/PkbReadOnly.h"
+#include "../GlobalTypeDef.h"
+#include "../pql/query-types/Grammar.h"
+#include "../pql/query-types/Relation.h"
+#include "../pql/query-types/Pattern.h"
+#include "../pql/query-types/With.h"
+#include "../pkb/PkbReadOnly.h"
 #include "QueryPreProcessor.h"
-#include "pql\QueryCache.h"
-#include "pql/relationships/Relationship.h"
-#include "pql/patterns/Patterns.h"
-#include "pql/relationships/evaluators/Evaluator.h"
+#include "../pql\QueryCache.h"
+#include "../pql/relationships/Relationship.h"
+#include "../pql/patterns/Patterns.h"
+#include "../pql/relationships/evaluators/Evaluator.h"
 #include "IntermediateTable.h"
-#include "Formatter.h"
-#include "QueryUtil.h"
-#include "WithEvaluator.h"
+#include "../Formatter.h"
+#include "../QueryUtil.h"
 #include "QueryOptimiser.h"
 
 #ifndef QUERYEVALUATOR_H

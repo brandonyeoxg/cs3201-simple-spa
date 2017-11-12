@@ -1,7 +1,7 @@
 #pragma once
 #ifndef QUERYPROCESSOR_H
 #define QUERYPROCESSOR_H
-#include "pkb/PKB.h"
+#include "../pkb/PKB.h"
 #include "QueryPreProcessor.h"
 #include "QueryEvaluator.h"
 #include "QueryResultProjector.h"
