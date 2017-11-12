@@ -87,60 +87,20 @@ BOOLEAN AffectsTable::handleAssignStmt(PROG_LINE &t_nextLine, MAP_OF_VAR_INDEX_T
   StatementTable *stmtTable = m_pkbTablesOnly->getStatementTable();
   ModifiesTable *modifiesTable = m_pkbTablesOnly->getModifiesTable();
   UsesTable *usesTable = m_pkbTablesOnly->getUsesTable();
-  VAR_INDEX modifiesVar = modifiesTable->getModifiesByIdx(t_nextLine).front();
+  VAR_INDEX modifiesIndex = modifiesTable->getModifiesByIdx(t_nextLine).front();
   LIST_OF_VAR_INDICES usesVars = usesTable->getUsesByIdx(t_nextLine);
   auto *cfg = m_pkbTablesOnly->getNextTable()->getAfterGraph();
   if (t_lmt.empty()) {
-    t_lmt.insert({ modifiesVar , {t_nextLine} });
-    t_lut.insert({ modifiesVar, {} });
+    t_lmt.insert({ modifiesIndex , {t_nextLine} });
+    t_lut.insert({ modifiesIndex, {} });
   } else {
     // Update lut
-    auto &lutEntry = t_lut.find(modifiesVar);
-    if (lutEntry == t_lut.end()) {
-      t_lut.insert({ modifiesVar,{} });
-    }
-    lutEntry = t_lut.find(modifiesVar);
-    SET_OF_STMT_NUMS tempStmtNumStorage;
-    for (auto &useVar : usesVars) {
-      if (modifiesVar == useVar) {
-        tempStmtNumStorage = lutEntry->second;
-      }
-    }
-    lutEntry->second.clear();
-    if (m_isAffectsStar) {
-      for (auto &stmtYetToAdd : tempStmtNumStorage) {
-        lutEntry->second.insert(stmtYetToAdd);
-      }
-    }
-    SET_OF_STMT_NUMS lookedAt;
-    for (auto &usesVar : usesVars) {
-      // query lmt if they have uses
-      auto &usesFromLmt = t_lmt.find(usesVar);
-      if (usesFromLmt == t_lmt.end()) {
-        continue;
-      }
-      // populate lut
-      auto &stmtsFromLut = t_lut.find(usesVar)->second;
-      if (m_isAffectsStar == true) {
-        //handleInsertionForAffectsStar(modifiesVar, t_lmt, t_lut, stmtsFromLut, lookedAt);
-        for (auto &stmtFromLut : stmtsFromLut) {
-          lutEntry->second.insert(stmtFromLut);
-        }
-      }
-      for (auto &stmtFromLmt : usesFromLmt->second) {
-        lutEntry->second.insert(stmtFromLmt);
-      }
-    }
+    updateLutWithSameModifiesAndUses(modifiesIndex, usesVars, t_lut);
+    updateLutWithOtherUses(modifiesIndex, usesVars, t_lmt, t_lut);
     // Update lmt
-    auto &lmtEntry = t_lmt.find(modifiesVar);
-    if (lmtEntry == t_lmt.end()) {
-      t_lmt.insert({ modifiesVar,{} });
-    }
-    lmtEntry = t_lmt.find(modifiesVar);
-    lmtEntry->second.clear();
-    lmtEntry->second.insert(t_nextLine);
-
+    updateLmt(t_nextLine, modifiesIndex, t_lmt);
     // Update affects list
+    auto &lutEntry = t_lut.find(modifiesIndex);
     for (auto &useStmt : lutEntry->second) {
       if (m_isEarlyExit) {
         if (m_targetStart == INVALID_PROG_LINE && m_targetEnd == INVALID_PROG_LINE) {
@@ -321,10 +281,6 @@ PROG_LINE AffectsTable::getRealStartBound(PROG_LINE t_startBound) {
   return realStartBound;
 }
 
-void AffectsTable::handleInsertionForAffectsStar(PROG_LINE t_nextLine, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lmt, MAP_OF_VAR_NAME_TO_SET_OF_STMT_NUMS &t_lut, VAR_NAME t_modifiesVar, LIST_OF_VAR_NAMES t_usesVars) {
-
-}
-
 void AffectsTable::insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_usesLine) {
   // insert into 'a' list
   auto aItr = m_affectsList.find(t_modifiesLine);
@@ -340,4 +296,57 @@ void AffectsTable::insertIntoAffectsLists(PROG_LINE t_modifiesLine, PROG_LINE t_
   } else {
     bItr->second.insert(t_modifiesLine);
   }
+}
+
+void AffectsTable::updateLutWithSameModifiesAndUses(VAR_INDEX modifiesIdx, LIST_OF_VAR_INDICES usesVars, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
+  // Update lut
+  auto &lutEntry = t_lut.find(modifiesIdx);
+  if (lutEntry == t_lut.end()) {
+    t_lut.insert({ modifiesIdx,{} });
+  }
+  lutEntry = t_lut.find(modifiesIdx);
+  SET_OF_STMT_NUMS tempStmtNumStorage;
+  for (auto &useVar : usesVars) {
+    if (modifiesIdx == useVar) {
+      tempStmtNumStorage = lutEntry->second;
+    }
+  }
+  lutEntry->second.clear();
+  if (m_isAffectsStar) {
+    for (auto &stmtYetToAdd : tempStmtNumStorage) {
+      lutEntry->second.insert(stmtYetToAdd);
+    }
+  }
+}
+
+void AffectsTable::updateLutWithOtherUses(VAR_INDEX modifiesIdx, LIST_OF_VAR_INDICES usesVars, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lut) {
+  auto &lutEntry = t_lut.find(modifiesIdx);
+  for (auto &usesVar : usesVars) {
+    // query lmt if they have uses
+    auto &usesFromLmt = t_lmt.find(usesVar);
+    if (usesFromLmt == t_lmt.end()) {
+      continue;
+    }
+    // populate lut
+    auto &stmtsFromLut = t_lut.find(usesVar)->second;
+    if (m_isAffectsStar == true) {
+      for (auto &stmtFromLut : stmtsFromLut) {
+        lutEntry->second.insert(stmtFromLut);
+      }
+    }
+    for (auto &stmtFromLmt : usesFromLmt->second) {
+      lutEntry->second.insert(stmtFromLmt);
+    }
+  }
+}
+
+void AffectsTable::updateLmt(PROG_LINE t_nextLine, VAR_INDEX modifiesIdx, MAP_OF_VAR_INDEX_TO_SET_OF_NUMS &t_lmt) {
+  // Update lmt
+  auto &lmtEntry = t_lmt.find(modifiesIdx);
+  if (lmtEntry == t_lmt.end()) {
+    t_lmt.insert({ modifiesIdx,{} });
+  }
+  lmtEntry = t_lmt.find(modifiesIdx);
+  lmtEntry->second.clear();
+  lmtEntry->second.insert(t_nextLine);
 }
