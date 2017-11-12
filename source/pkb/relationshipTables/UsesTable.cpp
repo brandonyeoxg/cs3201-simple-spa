@@ -14,14 +14,14 @@
 void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx) {
   BOOLEAN inserted = false;
   //if var name already exists in stmtVarMap, check if vector has lineNum. if so, return index (0).
-  auto iterator = m_usesVarMap.find(t_varName); //old imp.
+  auto iterator = m_usesVarMap.find(t_varName); 
   auto itr = m_usesVarByIdxMap.find(t_varIdx);
   if (itr != m_usesVarByIdxMap.end()) {
     LIST_OF_STMT_NUMS vector = itr->second;
     if (std::find(vector.begin(), vector.end(), t_lineNum) == vector.end()) {
       //if cannot find in vector, it means it's a valid insertion. Enter to both maps.
       vector.push_back(t_lineNum);
-      m_usesVarMap[t_varName] = vector; //old imp.
+      m_usesVarMap[t_varName] = vector; 
       m_usesVarByIdxMap[t_varIdx] = vector;
       insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
       //insert into set
@@ -33,7 +33,7 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
     //not found in usesVarMap, new insertion to the map.
     LIST_OF_STMT_NUMS newVector;
     newVector.push_back(t_lineNum);
-    m_usesVarMap.emplace(t_varName, newVector); //old imp.
+    m_usesVarMap.emplace(t_varName, newVector); 
     m_usesVarByIdxMap.emplace(t_varIdx, newVector);
     insertToUsesStmtMap(t_lineNum, t_varName, t_varIdx);
     //insert into sets
@@ -45,41 +45,41 @@ void UsesTable::insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_IN
 void UsesTable::insertToUsesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName, VAR_INDEX t_varIdx) {
   BOOLEAN inserted = false;
   //check if lineNum exists as key
-  auto iterator = m_usesStmtMap.find(t_lineNum);  //old imp.
+  auto iterator = m_usesStmtMap.find(t_lineNum);  
   auto itr = m_usesStmtByIdxMap.find(t_lineNum);
   if (itr != m_usesStmtByIdxMap.end()) {
     //if have, check if varname exists in vector. if does, return false
-    LIST_OF_VAR_NAMES vector = iterator->second;  //old imp.
+    LIST_OF_VAR_NAMES vector = iterator->second;  
     LIST_OF_VAR_INDICES varIndices = itr->second;
-    UNORDERED_SET_OF_NAMES varNamesSet(vector.begin(), vector.end()); //old imp.
+    UNORDERED_SET_OF_NAMES varNamesSet(vector.begin(), vector.end()); 
     UNORDERED_SET_OF_VAR_INDICES varIdxSet(varIndices.begin(), varIndices.end()); 
     if (std::find(vector.begin(), vector.end(), t_varName) == vector.end()) {
       //else, valid insertion. Append varName to vector and replace in the map.
-      vector.push_back(t_varName); //old imp.
+      vector.push_back(t_varName); 
       varIndices.push_back(t_varIdx);
-      varNamesSet.insert(t_varName); //old imp.
+      varNamesSet.insert(t_varName); 
       varIdxSet.insert(t_varIdx);
-      m_usesStmtMap[t_lineNum] = vector; //old imp.
+      m_usesStmtMap[t_lineNum] = vector; 
       m_usesStmtByIdxMap[t_lineNum] = varIndices;
-      m_usesStmtSet[t_lineNum] = varNamesSet; //old imp.
+      m_usesStmtSet[t_lineNum] = varNamesSet; 
       m_usesStmtByIdxSet[t_lineNum] = varIdxSet;
       inserted = true;
     }
   } 
   if(inserted == false) {
     //if lineNum does not exist... create new vector and emplace
-    LIST_OF_VAR_NAMES newVector; //old imp.
+    LIST_OF_VAR_NAMES newVector; 
     LIST_OF_VAR_INDICES newIndices;
-    UNORDERED_SET_OF_NAMES newVarNamesSet; //old imp.
+    UNORDERED_SET_OF_NAMES newVarNamesSet; 
     UNORDERED_SET_OF_VAR_INDICES newVarIdxSet;
-    newVector.push_back(t_varName); //old imp.
+    newVector.push_back(t_varName); 
     newIndices.push_back(t_varIdx);
-    newVarNamesSet.insert(t_varName); //old imp.
+    newVarNamesSet.insert(t_varName); 
     newVarIdxSet.insert(t_varIdx);
-    m_usesStmtMap.emplace(t_lineNum, newVector);  //old imp.
+    m_usesStmtMap.emplace(t_lineNum, newVector);  
     m_usesStmtByIdxMap.emplace(t_lineNum, newIndices);
 
-    m_usesStmtSet.emplace(t_lineNum, newVarNamesSet); //old imp.
+    m_usesStmtSet.emplace(t_lineNum, newVarNamesSet); 
     m_usesStmtByIdxSet.emplace(t_lineNum, newVarIdxSet);
   }
 }
