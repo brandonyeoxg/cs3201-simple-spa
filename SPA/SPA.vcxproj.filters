@@ -406,7 +406,6 @@
     <ClInclude Include="..\source\pql\QueryResultProjector.h">
       <Filter>PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\WithEvaluator.h" />
     <ClInclude Include="..\source\util\EvaluatorUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
