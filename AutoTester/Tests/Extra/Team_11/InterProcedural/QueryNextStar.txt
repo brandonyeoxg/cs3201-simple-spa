@@ -79,7 +79,7 @@ Select <w, cl> such that Next*(w, cl)
 10 11,10 14,15 17,15 21,15 22,31 33,83 87
 5000
 17 - If If
-ifs f1, f2;
+if f1, f2;
 Select <f1, f2> such that Next*(f1, f2)
 84 84,84 90
 5000
