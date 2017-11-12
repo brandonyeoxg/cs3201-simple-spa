@@ -188,9 +188,8 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
   }
 }
 
-void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *t_finalGrp) {
+void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *t_finalGrp, std::unordered_set<SYNONYM_NAME> t_synList) {
   std::queue<Clause*> *tempGrp = new std::queue<Clause*>();
-  std::unordered_set<SYNONYM_NAME> synList;
   BOOLEAN hasOtherClauses = false;
   if (t_group->empty()) {
     return;
@@ -205,56 +204,56 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
         t_group->pop();
         continue;
       }
-      auto &syn1Itr = synList.find(cls->getG1().getName());
-      auto &syn2Itr = synList.find(cls->getG2().getName());
-      if (!synList.empty() && syn1Itr == synList.end() && syn2Itr == synList.end()) {
+      auto &syn1Itr = t_synList.find(cls->getG1().getName());
+      auto &syn2Itr = t_synList.find(cls->getG2().getName());
+      if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp->push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
         if (QueryUtil::isSynonym(cls->getG1())) {
-          synList.insert(cls->getG1().getName());
+          t_synList.insert(cls->getG1().getName());
         }
 
         if (QueryUtil::isSynonym(cls->getG1())) {
-          synList.insert(cls->getG2().getName());
+          t_synList.insert(cls->getG2().getName());
         }
       }
     } else if (clause->isPatternType()) {
       Pattern* cls = (Pattern*)clause;
-      auto &syn1Itr = synList.find(cls->getStmt().getName());
-      auto &syn2Itr = synList.find(cls->getLeft().getName());
-      if (!synList.empty() && syn1Itr == synList.end() && syn2Itr == synList.end()) {
+      auto &syn1Itr = t_synList.find(cls->getStmt().getName());
+      auto &syn2Itr = t_synList.find(cls->getLeft().getName());
+      if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp->push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
         if (QueryUtil::isSynonym(cls->getStmt())) {
-          synList.insert(cls->getStmt().getName());
+          t_synList.insert(cls->getStmt().getName());
         }
 
         if (QueryUtil::isSynonym(cls->getLeft())) {
-          synList.insert(cls->getLeft().getName());
+          t_synList.insert(cls->getLeft().getName());
         }
       }
     } else if (clause->getClauseType() == queryType::clauseType::WITH) {
       With* cls = (With*)clause;
-      auto &syn1Itr = synList.find(cls->getG1().getName());
-      auto &syn2Itr = synList.find(cls->getG2().getName());
-      if (!synList.empty() && syn1Itr == synList.end() && syn2Itr == synList.end()) {
+      auto &syn1Itr = t_synList.find(cls->getG1().getName());
+      auto &syn2Itr = t_synList.find(cls->getG2().getName());
+      if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp->push(cls);
         hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
         if (QueryUtil::isSynonym(cls->getG1())) {
-          synList.insert(cls->getG1().getName());
+          t_synList.insert(cls->getG1().getName());
         }
         
         if (QueryUtil::isSynonym(cls->getG1())) {
-          synList.insert(cls->getG2().getName());
+          t_synList.insert(cls->getG2().getName());
         }      
       }
     }
@@ -267,19 +266,19 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       for (int i = 0; i < numOfClauses; ++i) {
         Clause *clause = tempGrp->front();
         Relation* cls = (Relation*)clause;
-        auto &syn1Itr = synList.find(cls->getG1().getName());
-        auto &syn2Itr = synList.find(cls->getG2().getName());
-        if (!synList.empty() && syn1Itr == synList.end() && syn2Itr == synList.end()) {
+        auto &syn1Itr = t_synList.find(cls->getG1().getName());
+        auto &syn2Itr = t_synList.find(cls->getG2().getName());
+        if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
           tempGrp->push(cls);
         } else {
           cls->setWeights(t_finalGrp->size() + 1);
           t_finalGrp->push(cls);
           if (QueryUtil::isSynonym(cls->getG1())) {
-            synList.insert(cls->getG1().getName());
+            t_synList.insert(cls->getG1().getName());
           }
 
           if (QueryUtil::isSynonym(cls->getG1())) {
-            synList.insert(cls->getG2().getName());
+            t_synList.insert(cls->getG2().getName());
           }
         }
       }
@@ -290,7 +289,7 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
     delete tempGrp;
   }
 
-  sortClausesWithinGroup(tempGrp, t_finalGrp);
+  sortClausesWithinGroup(tempGrp, t_finalGrp, t_synList);
 }
 
 INTEGER QueryOptimiser::getDynamicWeights(Clause* t_clause) {
