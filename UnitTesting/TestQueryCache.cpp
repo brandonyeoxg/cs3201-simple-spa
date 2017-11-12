@@ -23,46 +23,51 @@ public:
 
     relation = Relation("Next*", Grammar(11, "_"), Grammar(9, "p1"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Next*/_/s");
+    Assert::IsTrue(key == "Next*/_/s<progLine>");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Affects*", Grammar(3, "s4"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Affects*/s1/s2");
+    Assert::IsTrue(key == "Affects*/s1<assign>/s2<assign>");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Parent*", Grammar(3, "s5"), Grammar(3, "s5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Parent*/s/s");
+    Assert::IsTrue(key == "Parent*/s<assign>/s<assign>");
+    Logger::WriteMessage(key.c_str());
+
+    relation = Relation("Parent*", Grammar(3, "s5"), Grammar(11, "s"));
+    key = cache.getKey(relation);
+    Assert::IsTrue(key == "Parent*/s<assign>/+s");
     Logger::WriteMessage(key.c_str());
 
     // Uses(a5, "s2")
     relation = Relation("Uses", Grammar(3, "a5"), Grammar(11, "s2"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Uses/s/+s2");
+    Assert::IsTrue(key == "Uses/s<assign>/+s2");
     Logger::WriteMessage(key.c_str());
 
     // 2 common synonyms
     relation = Relation("Uses", Grammar(3, "a5"), Grammar(7, "s2"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Uses/s1/s2");
+    Assert::IsTrue(key == "Uses/s1<assign>/s2<var>");
     Logger::WriteMessage(key.c_str());
 
     // Uses("s1", a5)
     relation = Relation("Uses", Grammar(11, "s1"), Grammar(3, "a5"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Uses/+s1/s");
+    Assert::IsTrue(key == "Uses/+s1/s<assign>");
     Logger::WriteMessage(key.c_str());
 
     // given name with same format as internal representation "s"
     relation = Relation("Calls", Grammar(0, "proc1"), Grammar(11, "s"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Calls/s/+s");
+    Assert::IsTrue(key == "Calls/s<proc>/+s");
     Logger::WriteMessage(key.c_str());
 
     relation = Relation("Calls", Grammar(11, "s"), Grammar(0, "proc1"));
     key = cache.getKey(relation);
-    Assert::IsTrue(key == "Calls/+s/s");
+    Assert::IsTrue(key == "Calls/+s/s<proc>");
     Logger::WriteMessage(key.c_str());
   }
 
@@ -245,7 +250,7 @@ public:
     expected = SET_OF_RESULTS_INDICES();
     expected.insert({ 1,{ 1, 2, 3, 4 } });
 
-    clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));
+    clause = new Relation("Next*", Grammar(11, "1"), Grammar(9, "line3"));  // get Next*(1, line3)
 
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
@@ -300,6 +305,60 @@ public:
     expected = toCache;
 
     clause = new Relation("Next", Grammar(9, "line5"), Grammar(11, "_"));  // Next(line5, _)
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(getCacheFromOtherClauses04) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS_INDICES();
+    toCache.insert({ 1,{ 1, 2, 3, 4 } });
+    toCache.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next", Grammar(9, "line1"), Grammar(9, "line2"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Next(line1, line2)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Next", Grammar(11, "2"), Grammar(9, "line3"));  // get Next(2, line3)
+
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+    Assert::IsTrue(*results == expected);
+  }
+
+  TEST_METHOD(getCacheFromOtherClauses05) {
+    Clause *clause;
+    QueryCache cache = QueryCache();
+    SET_OF_RESULTS_INDICES *results, expected, toCache;
+
+    toCache = SET_OF_RESULTS_INDICES();
+    toCache.insert({ 1,{ 1, 2, 3, 4 } });
+    toCache.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Affects", Grammar(2, "line1"), Grammar(2, "line2"));
+
+    Assert::IsTrue(cache.isCacheable(clause));
+
+    cache.cache(clause, toCache); // cache Affects(line1, line2)
+    results = cache.getCache(clause);
+    Assert::IsFalse(results == nullptr);
+
+    expected = SET_OF_RESULTS_INDICES();
+    expected.insert({ 2,{ 1, 4 } });
+
+    clause = new Relation("Affects", Grammar(11, "2"), Grammar(2, "line3"));  // get Affects(2, line3)
 
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);

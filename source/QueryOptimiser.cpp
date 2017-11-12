@@ -47,6 +47,7 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
       for (int k = 0; k < numOfSyns; ++k) {
         bool hasCommon = false;
         Clause *clause = syns.front();
+        clause->multiplyWeights(getDynamicWeights(clause));
         if (existingClause->getClauseType() == queryType::clauseType::RELATION 
           && clause->getClauseType() == queryType::clauseType::RELATION) {
           Relation *existingRelation = (Relation*)existingClause;
@@ -55,7 +56,7 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
             || relation->getG1().getName() == existingRelation->getG2().getName()
             || relation->getG2().getName() == existingRelation->getG1().getName()
             || relation->getG2().getName() == existingRelation->getG2().getName()) {
-            hasCommon = true;
+            hasCommon = true;        
           }
         } else if (existingClause->getClauseType() == queryType::clauseType::RELATION
           && clause->getClauseType() == queryType::clauseType::PATTERN) {
@@ -152,6 +153,7 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
 
     if (!syns.empty()) {
       std::vector<Clause*> *newGroup = new std::vector<Clause*>();
+      syns.front()->multiplyWeights(getDynamicWeights(syns.front()));
       newGroup->push_back(syns.front());
       allGroupsWithSyns.push_back(newGroup);
       numOfGroups++;
@@ -184,6 +186,56 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
   for (auto* group : allGroupsWithSyns) {
     delete group;
   }
+}
+
+INTEGER QueryOptimiser::getDynamicWeights(Clause* t_clause) {
+  if (t_clause->isRelationType()) {
+    Relation *relation = (Relation*)t_clause;
+    if (Relation::isFollows(relation->getType())) {
+      return m_pkb->getAllFollows().size();
+    } else if (Relation::isFollowsStar(relation->getType())) {
+      return m_pkb->getAllFollowsStar().size();
+    } else if (Relation::isParent(relation->getType())) {
+      return m_pkb->getAllParents().size();
+    } else if (Relation::isParentStar(relation->getType())) {
+      return m_pkb->getAllParentsStar().size();
+    } else if (Relation::isUses(relation->getType())) {
+      if (Grammar::isProc(relation->getG1().getType()) || Grammar::isString(relation->getG1().getType())) {
+        return m_pkb->getUsesPAllProcToVarByIdx().size();
+      } else {
+        return m_pkb->getAllStmtUsesByIdx().size();
+      }  
+    } else if (Relation::isModifies(relation->getType())) {
+      if (Grammar::isProc(relation->getG1().getType()) || Grammar::isString(relation->getG1().getType())) {
+        return m_pkb->getModifiesPAllProcToVarByIdx().size();
+      } else {
+        return m_pkb->getAllStmtModifiesByIdx().size();
+      }
+    } else if (Relation::isCalls(relation->getType())) {
+      return m_pkb->getAllCallsByIdx().size();
+    } else if (Relation::isCallsStar(relation->getType())) {
+      return m_pkb->getAllCallsStarByIdx().size();
+    } else if (Relation::isNext(relation->getType())) {
+      return m_pkb->getAllNext().size();
+    } else if (Relation::isNextStar(relation->getType())) {
+      return m_pkb->getAllNextStar().size();
+    } else if (Relation::isAffects(relation->getType())) {
+      return m_pkb->getAllAffects().size();
+    } else if (Relation::isAffectsStar(relation->getType())) {
+      return m_pkb->getAllAffectsStar().size();
+    }
+  } else if (t_clause->isPatternType()) {
+    Pattern *pattern = (Pattern*)t_clause;
+    if (Grammar::isAssign(pattern->getStmt().getType())) {
+      return m_pkb->getAllAssignStmts().size();
+    } else if (Grammar::isWhile(pattern->getStmt().getType())) {
+      return m_pkb->getAllWhileStmts().size();
+    } else if (Grammar::isIf(pattern->getStmt().getType())) {
+      return m_pkb->getAllIfStmts().size();
+    }
+  }
+
+  return 0;
 }
 
 BOOLEAN QueryOptimiser::hasSelectedSynonyms(Clause* t_clause) {

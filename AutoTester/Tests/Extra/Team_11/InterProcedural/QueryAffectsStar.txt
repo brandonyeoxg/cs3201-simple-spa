@@ -1,0 +1,330 @@
+1 - Get all AffectsStar
+assign a1,a2;
+Select <a1, a2> such that Affects*(a1, a2)
+100 101,100 103,100 106,100 107,100 109,100 111,101 103,101 106,101 107,101 109,101 111,102 103,102 106,102 109,102 110,103 106,103 109,104 107,104 109,104 110,104 111,107 109,107 111,12 13,2 4,50 51,50 52,50 53,51 53,56 56,60 61,69 71,69 72,69 73,69 74,71 72,71 73,71 74,72 73,72 74,73 74,75 76,77 80,81 82,81 85,81 86,81 89,81 92,81 94,82 85,82 86,82 89,82 92,82 94,85 89,85 94,89 94,91 94,91 96,97 100,97 101,97 102,97 103,97 106,97 107,97 109,97 110,97 111,97 98,97 99,98 100,98 101,98 102,98 103,98 106,98 107,98 109,98 110,98 111,98 99,99 102,99 103,99 106,99 109,99 110
+5000
+2 - Int Int NoLinkAtAll
+
+Select BOOLEAN such that Affects*(102, 104)
+false
+5000
+3 - Int Int TopSeemsAffectsBottom
+
+Select BOOLEAN such that Affects*(52, 53)
+false
+5000
+4 - Int Int Different StmtLst If-Else
+
+Select BOOLEAN such that Affects*(36, 37)
+false
+5000
+5 - Int Int WhileSeemsAffectsIf
+
+Select BOOLEAN such that Affects*(15, 16)
+false
+5000
+6 - Int Int AffectsSelf Assign
+
+Select BOOLEAN such that Affects*(100, 100)
+false
+5000
+7 - Int Int AffectsSelf WhileInside
+
+Select BOOLEAN such that Affects*(56, 56)
+true
+5000
+8 - Int Int AffectsSelf IfInside
+
+Select BOOLEAN such that Affects*(72,72)
+false
+5000
+9 - Int Int Skip over Used
+
+Select BOOLEAN such that Affects*(50, 52)
+true
+5000
+10 - Int Int Skip over Modifies
+
+Select BOOLEAN such that Affects*(100, 103)
+true
+5000
+11 - Int Int Skip over While
+
+Select BOOLEAN such that Affects*(104,107)
+true
+5000
+12 - Int Int Skip over If
+
+Select BOOLEAN such that Affects*(107, 111)
+true
+5000
+13 - Int Int Skip over Call InsideNotModified
+
+Select BOOLEAN such that Affects*(69, 71)
+true
+5000
+14 - Int Int Skip over Call InsideModified
+
+Select BOOLEAN such that Affects*(39, 41)
+false
+5000
+15 - Int Int OutsideAssign IntoWhile
+
+Select BOOLEAN such that Affects*(82, 85)
+true
+5000
+16 - Int Int OutsideAssign IntoIf
+
+Select BOOLEAN such that Affects*(107, 109)
+true
+5000
+17 - Int Int InsideWhile Affects InsideIf
+
+Select BOOLEAN such that Affects*(89, 94)
+true
+5000
+18 - Int Int InterProcedural
+
+Select BOOLEAN such that Affects*(65, 57)
+false
+5000
+19 - Int(Assign) Int(While)
+
+Select BOOLEAN such that Affects*(82, 88)
+false
+5000
+20 - Int(Assign) Int(If)
+
+Select BOOLEAN such that Affects*(43, 44)
+false
+5000
+21 - Int(While) Int(Assign)
+
+Select BOOLEAN such that Affects*(83,85)
+false
+5000
+22 - Int(If) Int(Assign)
+
+Select BOOLEAN such that Affects*(44, 45)
+false
+5000
+23 - Int Underscore
+
+Select BOOLEAN such that Affects*(82, _)
+true
+5000
+24 - Underscore Int
+
+Select BOOLEAN such that Affects*(_, 94)
+true
+5000
+25 - Underscore Underscore
+
+Select BOOLEAN such that Affects*(_, _)
+true
+5000
+26 - Int Stmt
+stmt s;
+Select s such that Affects*(82, s)
+85,86,89,92,94
+5000
+27 - Int Assign
+assign a;
+Select a such that Affects*(97, a)
+100,101,102,103,106,107,109,110,111,98,99
+5000
+28 - Int ProgLine - Skip a line inbtwn
+prog_line pl;
+Select pl such that Affects*(50, pl)
+51,52,53
+5000
+29 - Int While
+while w;
+Select w such that Affects*(82, w)
+none
+5000
+30 - Int If
+if f;
+Select f such that Affects*(43, f)
+none
+5000
+31 - Int Call
+call cl;
+Select cl such that Affects*(51, 54)
+none
+5000
+32 - Int Procedure
+procedure pl;
+Select pl such that Affects*(68, pl)
+none
+5000
+33 - Int Variable
+variable v;
+Select v such that Affects*(59, v)
+none
+5000
+34 - Int Constant
+constant c;
+Select c such that Affects*(65, c)
+none
+5000
+35 - Underscore Stmt
+stmt s;
+Select s such that Affects*(_, s)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+36 - Underscore Assign
+assign a;
+Select a such that Affects*(_, a)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+37 - Underscore ProgLine
+prog_line pl;
+Select pl such that Affects*(_, pl)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+38 - Underscore While
+while w;
+Select w such that Affects*(_, w)
+none
+5000
+39 - Underscore If
+if f;
+Select f such that Affects*(_, f)
+none
+5000
+40 - Underscore Call
+call cl;
+Select cl such that Affects*(_, cl)
+none
+5000
+41 - Underscore Procedure
+procedure p;
+Select p such that Affects*(_, p)
+none
+5000
+42 - Underscore Variable
+variable v;
+Select v such that Affects*(_, v)
+none
+5000
+43 - Underscore Constant
+constant c;
+Select c such that Affects*(_, c)
+none
+5000
+44 - Stmt Stmt
+stmt s1,s2;
+Select s1 such that Affects*(s1, s2)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+45 - Stmt Assign
+stmt s; assign a;
+Select s such that Affects*(s, a)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+46 - Assign Stmt
+stmt s; assign a;
+Select a such that Affects*(a, s)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+47 - Assign Assign
+assign a1, a2;
+Select a1 such that Affects*(a1, a2)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+48 - 2Clauses NoCommonSynonym
+stmt s1,s2; assign a1,a2;
+Select s1 such that Affects*(s1, s2) and Affects*(a1,a2)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+49 - 2Clauses 1CommonSynonym SameFront
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s1 such that Affects*(s1, s2) and Affects*(s1, s3)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+50 - 2Clauses 1CommonSynonym SameFront
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s1 such that Affects*(s1, s2) and Affects*(s1, a)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+51 - 2Clauses 1CommonSynonym SameFront
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a1 such that Affects*(a1, a2) and Affects*(a1,a3)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+52 - 2Clauses 1CommonSynonym SameFront
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a1 such that Affects*(a1, a2) and Affects*(a1, s)
+100,101,102,103,104,107,12,2,50,51,56,60,69,71,72,73,75,77,81,82,85,89,91,97,98,99
+5000
+53 - 2Clauses 1CommonSynonym SameBack
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s2 such that Affects*(s1, s2) and Affects*(s3, s2)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+54 - 2Clauses 1CommonSynonym SameBack
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s2 such that Affects*(s1, s2) and Affects*(a, s2)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+55 - 2Clauses 1CommonSynonym SameBack
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a2 such that Affects*(a1, a2) and Affects*(a3,a2)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+56 - 2Clauses 1CommonSynonym SameBack
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a2 such that Affects*(a1, a2) and Affects*(s, a2)
+100,101,102,103,106,107,109,110,111,13,4,51,52,53,56,61,71,72,73,74,76,80,82,85,86,89,92,94,96,98,99
+5000
+57 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s2 such that Affects*(s1, s2) and Affects*(s2, s3)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+58 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s2 such that Affects*(s1, s2) and Affects*(s2, a)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+59 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a such that Affects*(s1, a) and Affects*(a, s2)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+60 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a2 such that Affects*(a1, a2) and Affects*(a2, a3)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+61 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a2 such that Affects*(a1, a2) and Affects*(a2, s)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+62 - 2Clauses 1CommonSynonym Transitive Closure
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s such that Affects*(a1, s) and Affects*(s, a2)
+100,101,102,103,107,51,56,71,72,73,82,85,89,98,99
+5000
+63 - 2Clauses 1CommonSynonym Transitive Closure ToSelf
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s2 such that Affects*(s1, s2) and Affects*(s2, s1)
+56
+5000
+64 - 2Clauses 1CommonSynonym Transitive Closure ToSelf
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select s such that Affects*(a, s) and Affects*(s,a)
+56
+5000
+65 - 2Clauses 1CommonSynonym Transitive Closure ToSelf
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a2 such that Affects*(a1, a2) and Affects*(a2,a1)
+56
+5000
+66 - 2Clauses 1CommonSynonym Transitive Closure ToSelf
+stmt s,s1,s2,s3; assign a, a1,a2,a3;
+Select a such that Affects*(s, a) and Affects*(a,s)
+56
+5000

@@ -28,12 +28,6 @@
     <ClCompile Include="..\source\VarTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AST.cpp">
-      <Filter>PKB\AST</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ASTBuilder.cpp">
-      <Filter>PKB\AST</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
@@ -43,36 +37,6 @@
     <ClCompile Include="..\source\Pattern.cpp">
       <Filter>PQL\Query Types</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\nodes\AssignNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\ConstantNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\ProcedureNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\ProgramNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\StmtListNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\TNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\VariableNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\WhileNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\PlusNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\MinusNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\ProcTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
     </ClCompile>
@@ -81,12 +45,6 @@
     </ClCompile>
     <ClCompile Include="..\source\Relation.cpp">
       <Filter>PQL\Query Types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\MultiplyNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\nodes\DivideNode.cpp">
-      <Filter>PKB\AST\Nodes</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ConstantTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
@@ -270,15 +228,6 @@
     <ClInclude Include="..\source\VarTable.h">
       <Filter>PKB\Relationship Table</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\AST.h">
-      <Filter>PKB\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ASTBuilder.h">
-      <Filter>PKB\AST</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ASTBuilderAPI.h">
-      <Filter>PKB\AST</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\StringUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -291,50 +240,17 @@
     <ClInclude Include="..\source\SyntaxErrorException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\nodes\AssignNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\ConstantNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SyntaxOpenBraceException.h">
       <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\ProcedureNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SyntaxNoEndOfStatementException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\nodes\ProgramNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SyntaxUnknownCommandException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\nodes\StmtListNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SyntaxEmptyLineException.h">
       <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\TNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\VariableNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\WhileNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\PlusNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\TwoChildrenNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\MinusNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProcTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -344,12 +260,6 @@
     </ClInclude>
     <ClInclude Include="..\source\Relation.h">
       <Filter>PQL\Query Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\MultiplyNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\nodes\DivideNode.h">
-      <Filter>PKB\AST\Nodes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ConstantTable.h">
       <Filter>PKB\Relationship Table</Filter>
@@ -552,14 +462,8 @@
     <Filter Include="PKB\Relationship Table">
       <UniqueIdentifier>{a8c379f3-62de-4a55-9618-aa69599f4b0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PKB\AST">
-      <UniqueIdentifier>{1eb91e59-0e07-4d3a-891e-7cc15015ae77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PQL\Query Types">
       <UniqueIdentifier>{2d622d13-b556-443e-8a9e-4ce3c7ae67e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PKB\AST\Nodes">
-      <UniqueIdentifier>{7eaa0571-0185-4f8f-8086-08aa23043856}</UniqueIdentifier>
     </Filter>
     <Filter Include="FrontEnd\Exception">
       <UniqueIdentifier>{a0f72bf2-ffe2-4043-bd2c-fe9a0cf35104}</UniqueIdentifier>
