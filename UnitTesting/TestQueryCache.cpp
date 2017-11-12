@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "pql/QueryCache.h"
-#include "Pattern.h"
-#include "With.h"
+#include "pql/query-types/Pattern.h"
+#include "pql/query-types/With.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

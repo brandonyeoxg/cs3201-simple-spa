@@ -9,7 +9,7 @@
 #include <queue>
 
 #include "GlobalTypeDef.h"
-#include "Grammar.h"
+#include "pql/query-types/Grammar.h"
 
 class QueryUtil {
 public:

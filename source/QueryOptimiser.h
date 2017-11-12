@@ -3,10 +3,10 @@
 #include <queue>
 #include <utility>
 
-#include "Clause.h"
-#include "Relation.h"
-#include "Pattern.h"
-#include "With.h"
+#include "pql/query-types/Clause.h"
+#include "pql/query-types/Relation.h"
+#include "pql/query-types/Pattern.h"
+#include "pql/query-types/With.h"
 #include "QueryUtil.h"
 #include "pkb/PkbReadOnly.h"
 

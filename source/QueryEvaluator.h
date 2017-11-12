@@ -11,10 +11,10 @@
 #include <iterator>
 
 #include "GlobalTypeDef.h"
-#include "Grammar.h"
-#include "Relation.h"
-#include "Pattern.h"
-#include "With.h"
+#include "pql/query-types/Grammar.h"
+#include "pql/query-types/Relation.h"
+#include "pql/query-types/Pattern.h"
+#include "pql/query-types/With.h"
 #include "pkb/PkbReadOnly.h"
 #include "QueryPreProcessor.h"
 #include "pql\QueryCache.h"

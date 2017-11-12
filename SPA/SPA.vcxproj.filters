@@ -19,15 +19,6 @@
     <ClCompile Include="..\source\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Grammar.cpp">
-      <Filter>PQL\Query Types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Pattern.cpp">
-      <Filter>PQL\Query Types</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Relation.cpp">
-      <Filter>PQL\Query Types</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp">
       <Filter>test-drivers</Filter>
     </ClCompile>
@@ -36,9 +27,6 @@
     </ClCompile>
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp">
       <Filter>test-drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\With.cpp">
-      <Filter>PQL\Query Types</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Formatter.cpp">
       <Filter>Util</Filter>
@@ -69,9 +57,6 @@
     </ClCompile>
     <ClCompile Include="..\source\QueryOptimiser.cpp">
       <Filter>PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Clause.cpp">
-      <Filter>PQL\Query Types</Filter>
     </ClCompile>
     <ClCompile Include="..\source\pkb\relationshipTables\ParentTable.cpp">
       <Filter>PKB\Relationship Table</Filter>
@@ -199,6 +184,21 @@
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.cpp">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\pql\query-types\Clause.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\query-types\Grammar.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\query-types\Pattern.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\query-types\Relation.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\pql\query-types\With.cpp">
+      <Filter>PQL\Query Types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -222,12 +222,6 @@
     <ClInclude Include="..\source\StringUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Pattern.h">
-      <Filter>PQL\Query Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Grammar.h">
-      <Filter>PQL\Query Types</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SyntaxErrorException.h">
       <Filter>FrontEnd\Exception</Filter>
     </ClInclude>
@@ -242,9 +236,6 @@
     </ClInclude>
     <ClInclude Include="..\source\SyntaxEmptyLineException.h">
       <Filter>FrontEnd\Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Relation.h">
-      <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\GlobalTypeDef.h" />
     <ClInclude Include="..\source\test-drivers\ParserDriver.h">
@@ -264,9 +255,6 @@
     </ClInclude>
     <ClInclude Include="..\source\test-drivers\IntermediateTableDriver.h">
       <Filter>test-drivers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\With.h">
-      <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Formatter.h">
       <Filter>Util</Filter>
@@ -294,9 +282,6 @@
     </ClInclude>
     <ClInclude Include="..\source\pql\QueryCache.h">
       <Filter>PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Clause.h">
-      <Filter>PQL\Query Types</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryOptimiser.h">
       <Filter>PQL</Filter>
@@ -456,6 +441,21 @@
     </ClInclude>
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.h">
       <Filter>PQL\Patterns\Pattern Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\query-types\Clause.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\query-types\Grammar.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\query-types\Pattern.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\query-types\Relation.h">
+      <Filter>PQL\Query Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\pql\query-types\With.h">
+      <Filter>PQL\Query Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

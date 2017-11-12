@@ -10,7 +10,7 @@
 #include <iterator>
 
 #include "GlobalTypeDef.h"
-#include "Grammar.h"
+#include "pql/query-types/Grammar.h"
 #include "pkb/PkbReadOnly.h"
 
 class EvaluatorUtil {

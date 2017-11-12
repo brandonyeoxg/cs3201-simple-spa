@@ -3,10 +3,10 @@
 #include "pkb/PkbWriteOnly.h"
 #include "pkb/PKB.h"
 #include "QueryEvaluator.h"
-#include "Grammar.h"
-#include "Relation.h"
-#include "Pattern.h"
-#include "With.h"
+#include "pql/query-types/Grammar.h"
+#include "pql/query-types/Relation.h"
+#include "pql/query-types/Pattern.h"
+#include "pql/query-types/With.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

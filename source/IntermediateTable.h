@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "GlobalTypeDef.h"
-#include "Grammar.h"
+#include "pql/query-types/Grammar.h"
 #include "pkb/PkbReadOnly.h"
 #include "Formatter.h"
 

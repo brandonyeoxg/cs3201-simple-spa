@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="..\source\AffectsExtractor.cpp" />
     <ClCompile Include="..\source\AffectsTable.cpp" />
-    <ClCompile Include="..\source\Clause.cpp" />
     <ClCompile Include="..\source\design-extractor\CallsExtractor.cpp" />
     <ClCompile Include="..\source\design-extractor\DesignExtractor.cpp" />
     <ClCompile Include="..\source\design-extractor\ExtractorFactory.cpp" />
@@ -47,6 +46,11 @@
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\IfPatternEvaluator.cpp" />
     <ClCompile Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.cpp" />
     <ClCompile Include="..\source\pql\patterns\Patterns.cpp" />
+    <ClCompile Include="..\source\pql\query-types\Clause.cpp" />
+    <ClCompile Include="..\source\pql\query-types\Grammar.cpp" />
+    <ClCompile Include="..\source\pql\query-types\Pattern.cpp" />
+    <ClCompile Include="..\source\pql\query-types\Relation.cpp" />
+    <ClCompile Include="..\source\pql\query-types\With.cpp" />
     <ClCompile Include="..\source\pql\QueryCache.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.cpp" />
@@ -63,10 +67,7 @@
     <ClCompile Include="..\source\pql\relationships\Relationship.cpp" />
     <ClCompile Include="..\source\QueryOptimiser.cpp" />
     <ClCompile Include="..\source\QueryUtil.cpp" />
-    <ClCompile Include="..\source\Relation.cpp" />
-    <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
-    <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreProcessor.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
@@ -75,13 +76,11 @@
     <ClCompile Include="..\source\test-drivers\IntermediateTableDriver.cpp" />
     <ClCompile Include="..\source\TokeniserUtil.cpp" />
     <ClCompile Include="..\source\test-drivers\ParserDriver.cpp" />
-    <ClCompile Include="..\source\With.cpp" />
     <ClCompile Include="..\source\WithEvaluator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsExtractor.h" />
     <ClInclude Include="..\source\AffectsTable.h" />
-    <ClInclude Include="..\source\Clause.h" />
     <ClInclude Include="..\source\design-extractor\CallsExtractor.h" />
     <ClInclude Include="..\source\design-extractor\DesignExtractor.h" />
     <ClInclude Include="..\source\design-extractor\Extractor.h" />
@@ -124,6 +123,11 @@
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\PatternEvaluator.h" />
     <ClInclude Include="..\source\pql\patterns\pattern-evaluator\WhilePatternEvaluator.h" />
     <ClInclude Include="..\source\pql\patterns\Patterns.h" />
+    <ClInclude Include="..\source\pql\query-types\Clause.h" />
+    <ClInclude Include="..\source\pql\query-types\Grammar.h" />
+    <ClInclude Include="..\source\pql\query-types\Pattern.h" />
+    <ClInclude Include="..\source\pql\query-types\Relation.h" />
+    <ClInclude Include="..\source\pql\query-types\With.h" />
     <ClInclude Include="..\source\pql\QueryCache.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\AffectsEvaluator.h" />
     <ClInclude Include="..\source\pql\relationships\evaluators\AffectsStarEvaluator.h" />
@@ -141,10 +145,7 @@
     <ClInclude Include="..\source\pql\relationships\Relationship.h" />
     <ClInclude Include="..\source\QueryOptimiser.h" />
     <ClInclude Include="..\source\QueryUtil.h" />
-    <ClInclude Include="..\source\Relation.h" />
-    <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\Parser.h" />
-    <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreProcessor.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
@@ -165,7 +166,6 @@
     <ClInclude Include="..\source\UsesP.h" />
     <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\VarTable.h" />
-    <ClInclude Include="..\source\With.h" />
     <ClInclude Include="..\source\WithEvaluator.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

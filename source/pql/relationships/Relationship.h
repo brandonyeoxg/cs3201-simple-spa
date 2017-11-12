@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Relation.h"
+#include "../query-types/Relation.h"
 #include "evaluators/Evaluator.h"
 #include "evaluators/FollowsEvaluator.h"
 #include "evaluators/FollowsStarEvaluator.h"

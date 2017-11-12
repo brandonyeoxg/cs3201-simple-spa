@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 #include "Grammar.h"
 #include "Clause.h"
 

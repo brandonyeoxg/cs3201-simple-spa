@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <string>
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 
 /**A class representing the multiple types of grammar used in SIMPLE. It is used to store the name of the given grammar and the type of grammar specified.
 *  @author Ryan Tan

@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "GlobalTypeDef.h"
+#include "../../GlobalTypeDef.h"
 #include "Grammar.h"
 #include "Clause.h"
 

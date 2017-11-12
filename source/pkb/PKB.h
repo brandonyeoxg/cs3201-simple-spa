@@ -30,7 +30,7 @@
 #include "relationshipTables/NextTable.h"
 #include "../design-extractor/DesignExtractor.h"
 
-#include "../Grammar.h"
+#include "../pql/query-types/Grammar.h"
 
 class PKB: public PkbWriteOnly, public PkbReadOnly, public PkbTablesOnly {
 

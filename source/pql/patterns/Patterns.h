@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Pattern.h"
+#include "../query-types/Pattern.h"
 #include "pattern-evaluator/PatternEvaluator.h"
 #include "pattern-evaluator/AssignPatternEvaluator.h"
 #include "pattern-evaluator/WhilePatternEvaluator.h"

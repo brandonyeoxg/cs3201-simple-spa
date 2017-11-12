@@ -6,7 +6,7 @@
 
 #include "../../../GlobalTypeDef.h"
 #include "../../../pkb/PkbReadOnly.h"
-#include "../../../Grammar.h"
+#include "../../query-types/Grammar.h"
 #include "../../../EvaluatorUtil.h"
 #include "../../../StringUtil.h"
 
