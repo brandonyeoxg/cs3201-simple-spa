@@ -164,7 +164,7 @@ BOOLEAN FollowTable::isFollowedByAnything(STMT_NUM t_s1) {
 
 void FollowTable::populateFollowsMatrix(TOTAL_NUMBER_OF_STMTS total) {
   m_followsMatrix = BOOLEAN_MATRIX(total+1, std::vector<bool>(total+1, false));
-  //for every key in m_followMap
+  //for every key in m_followMap, get the vector of stmt# and populate matrix.
   for (auto it = m_followMap.begin(); it != m_followMap.end(); ++it) {
     STMT_NUM s1 = it->first;
     LIST_OF_STMT_NUMS numList = it->second;
