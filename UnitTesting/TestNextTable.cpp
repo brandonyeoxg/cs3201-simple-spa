@@ -25,6 +25,9 @@ public:
     Assert::IsTrue(nextTable.isNext(0, 3));
     Assert::IsTrue(nextTable.isNext(0, 1));
     Assert::IsTrue(nextTable.isNext(0, 500));
+
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNext(600, 700));
   }
 
   TEST_METHOD(isNextStar) {
@@ -49,6 +52,8 @@ public:
 
     Assert::IsTrue(nextTable.isNextStar(0, 5));
 
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNextStar(600, 700));
   }
 
   TEST_METHOD(isNext_isNextStar_01) {
