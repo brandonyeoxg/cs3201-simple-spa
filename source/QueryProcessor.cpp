@@ -12,7 +12,7 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
 
   declaration = qpp.splitStringDeclaration(t_stringInput);
   isTokenizedDeclaration = qpp.tokenizeDeclaration(declaration);
-  
+ 
     query = qpp.splitStringQuery(t_stringInput);
     isTokenized = qpp.tokenizeQuery(query);
     
@@ -45,8 +45,8 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
   
   std::vector<Grammar> selectVectorValidate = qpp.getSelectVector();
   if (!selectVectorValidate.empty() && selectVectorValidate.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()\
-    || (isTokenizedDeclaration == false && isTokenized == true)
-    || (isTokenizedDeclaration == true && isTokenized == false && selectVectorValidate.empty()) && isSelectBooleanExists) {
+    || (isTokenizedDeclaration == false && isTokenized == true && isSelectBooleanExists)
+    || (isTokenizedDeclaration == true && isTokenized == false && isSelectBooleanExists)) {
     evaluatedResults.push_back(FALSE);
   }
 
