@@ -49,6 +49,10 @@ void NextTable::executeAfterAllNextInserts() {
 }
 
 bool NextTable::isNext(PROG_LINE t_line1, PROG_LINE t_line2) {
+  if (t_line1 >= MAX_LINE_NUM || t_line2 >= MAX_LINE_NUM) {
+    return false;
+  }
+  
   return m_isNextTable.at(t_line1).at(t_line2);
 }
 
