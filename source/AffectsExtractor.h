@@ -1,5 +1,5 @@
 #pragma once
-#include "Extractor.h"
+#include "design-extractor/Extractor.h"
 #include "AffectsTable.h"
 #include <algorithm>
 

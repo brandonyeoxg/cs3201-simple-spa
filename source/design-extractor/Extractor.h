@@ -1,5 +1,5 @@
 #pragma once
-#include "pkb/PkbTablesOnly.h"
+#include "../pkb/PkbTablesOnly.h"
 
 /*
 * Represents an interface for an Extractor.

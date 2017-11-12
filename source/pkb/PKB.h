@@ -28,7 +28,7 @@
 #include "relationshipTables/ModifiesTable.h"
 #include "relationshipTables/StmtListTable.h"
 #include "relationshipTables/NextTable.h"
-#include "../DesignExtractor.h"
+#include "../design-extractor/DesignExtractor.h"
 
 #include "../Grammar.h"
 
