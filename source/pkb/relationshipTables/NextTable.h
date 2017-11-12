@@ -116,7 +116,8 @@ public:
   const std::map<PROG_LINE, std::vector<PROG_LINE>> *getAfterGraph();
 
 private:
-  PROG_LINE MAX_LINE_NUM;                                     /**< Number is used to track the largest program line number in given source program. Used to initialize data structures. */
+  PROG_LINE MAX_LINE_NUM;                                     /**< Number is used to track the largest program line number in given source program (offset +1). 
+                                                                    Used to initialize data structures. */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_afterGraph;   /**< Graph representation of lines after each program line */
   std::map<PROG_LINE, std::vector<PROG_LINE>> m_beforeGraph;  /**< Graph representation of lines before each program line */
   std::vector<std::vector<bool>> m_isNextTable;               /**< 2D matrix to maintain boolean representation of existence of Next relationship between two lines */
