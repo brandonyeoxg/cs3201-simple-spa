@@ -101,16 +101,51 @@ def genProcs(n,nests):
         procs.append(procName)
     return procs
 
+def genProcs2(n,nests,lines):
+    procs=[]
+    abc123=["a","b",'c','d','r','c','m','y','R','C','M','Y','A','B','C','D','J','j','P','p','V','v','E','e','I','i','O','o','U','u','W','w','T','t','1','2','3','4','5','6','7','8','9','0']
+    alpha=len(abc123)-10
+    for i in range(n):
+        PNL = lines
+        procName = abc123[randint(0,alpha-1)]
+        for j in range(PNL):
+            procName += abc123[randint(0,len(abc123)-1)]
+        while procName in procs:
+            procName = abc123[randint(0,alpha-1)]
+            for j in range(PNL):
+                procName += abc123[randint(0,len(abc123)-1)]
+        print("procedure "+procName+"{")
+        for k in range(randint(1,12)):
+            a=randint(0,20)
+            if (a==4):
+                print(genIf(0,"",nests))
+            elif (a==1 or a==7 or a==13 or a==17):
+                if not(len(procs)==0):
+                    print("  call "+procs[randint(0,len(procs)-1)]+";")
+            elif (a==5):
+                print(genWhile(0,"",nests))
+            else:
+                print("  "+genRandAsgn())
+        print("}\n")
+        procs.append(procName)
+    return procs
+
 #print(genRandAsgn())
+"""
 print(genWhile(0,"",10))
 print()
 print(genWhile(0,"",50))
 print()
 print(genIf(0,"",50))
+"""
 #a=genProcs(1,1)
 #a.extend(genProcs(3,randint(1,3)))
 #a.extend(genProcs(1,10))
 #a.extend(genProcs(1,50))
 #a.extend(genProcs(1,100))
 
+a=genProcs2(1,50,4)
+a.extend(genProcs2(1,100,3))
+a.extend(genProcs2(1,50,5))
+a.extend(genProcs2(1,100,7))
 #print(a)
