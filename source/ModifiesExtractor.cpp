@@ -2,6 +2,7 @@
 
 void ModifiesExtractor::extractDesign() {
   populateModifiesByCallStatements();
+  populateModifiesAnythingRelationships();
 }
 
 void ModifiesExtractor::populateModifiesByCallStatements() {
