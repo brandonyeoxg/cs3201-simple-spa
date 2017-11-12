@@ -8,7 +8,7 @@
 // include your other headers here
 #include "AbstractWrapper.h"
 #include "Parser.h"
-#include "QueryProcessor.h"
+#include "pql/QueryProcessor.h"
 #include "design-extractor/DesignExtractor.h"
 #include "pkb/PKB.h"
 

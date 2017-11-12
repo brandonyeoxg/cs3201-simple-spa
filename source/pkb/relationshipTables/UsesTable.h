@@ -8,18 +8,76 @@
 #include <set>
 #include "../../GlobalTypeDef.h"
 
-
+/**
+* Represents the uses relations made in the program.
+* The relations are stored in different representation for fast retrieval from PQL through the PKB.
+*
+* @author pengcheng
+*/
 class UsesTable {
 public:
+
+  /**
+  * Inserts an uses relation into the table.
+  *
+  * @param t_varName is the name of the variable that the statement is using.
+  * @param t_lineNum is the stmt#.
+  * @param t_varIdx is the index of the variable in VarTable.
+  */
   void insertUsesForStmt(VAR_NAME t_varName, STMT_NUM t_lineNum, VAR_INDEX t_varIdx);
+
+  /**
+  * Inserts an uses relation into the stmtMap representation.
+  * Provides duality (2-way) mapping between stmt# and variable name/indices.
+  *
+  * @param t_varName is the name of the variable that the statement is using.
+  * @param t_lineNum is the stmt#.
+  * @param t_varIdx is the index of the variable in VarTable.
+  */
   void insertToUsesStmtMap(STMT_NUM t_lineNum, VAR_NAME t_varName, VAR_INDEX t_varIdx);
+
+  /**
+  * Checks if uses(lineNum, varName) is true.
+  * @param t_lineNum the stmt#
+  * @param t_varName the variable being used
+  * @return true if the relationship holds.
+  */
   BOOLEAN isUses(STMT_NUM t_lineNum, VAR_NAME t_varName);
+
+  /**
+  * Get the list of variables that are being used in stmt# lineNum.
+  * @param t_lineNum the stmt#
+  * @return the list of variables.
+  */
   LIST_OF_VAR_NAMES getUses(STMT_NUM t_lineNum);
   LIST_OF_VAR_INDICES getUsesByIdx(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that use the variable varName.
+  * @param t_varName the variable
+  * @return the list of stmt#.
+  */
   LIST_OF_STMT_NUMS getStmtUses(VAR_NAME t_varName);
+
+  /**
+  * Get the map of all uses relationship i.e. for uses(s, v) where s and v are synonyms.
+  * @return the map that contains all uses relationship.
+  */
   MAP_OF_VAR_INDEX_TO_LIST_OF_STMT_NUMS getAllStmtUsesByIdx();
-  BOOLEAN isUsesAnything(STMT_NUM t_lineNum);  //uses(2, _)
-  LIST_OF_STMT_NUMS getStmtUsesAnything(); //uses(s, _)
+
+  /**
+  * Checks if the stmt# uses any variables.
+  * i.e. uses(2, _)
+  * @param t_lineNum the stmt#
+  * @return true if uses(2, _) hold.
+  */
+  BOOLEAN isUsesAnything(STMT_NUM t_lineNum);
+
+  /**
+  * Get the list of stmt# that use any variables i.e. uses(s, _).
+  * @return the list of stmt#
+  */
+  LIST_OF_STMT_NUMS getStmtUsesAnything();
 
   UsesTable();
   ~UsesTable() {};
@@ -27,7 +85,11 @@ public:
   MAP_OF_STMT_NUM_TO_LIST_OF_VAR_NAMES getUsesStmtMap();
   MAP_OF_VAR_NAME_TO_LIST_OF_STMT_NUMS getUsesVarMap();
 
-  //method called by the DesignExtractor
+  /**
+  * Method called by DesignExtractor.
+  * Populates the vectors that store all the unique statement numbers
+  * that involve in uses relationship.
+  */
   void populateUsesAnythingRelationships();
 
 private:

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "pql/QueryCache.h"
-#include "Pattern.h"
-#include "With.h"
+#include "pql/query-types/Pattern.h"
+#include "pql/query-types/With.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -255,6 +255,11 @@ public:
     results = cache.getCache(clause);
     Assert::IsFalse(results == nullptr);
     Assert::IsTrue(*results == expected);
+
+    clause = new Relation("Next*", Grammar(11, "500"), Grammar(9, "line3"));  // get Next*(500, line3)
+
+    results = cache.getCache(clause);
+    Assert::IsTrue(results == nullptr);
   }
 
   TEST_METHOD(getCacheFromOtherClauses02) {

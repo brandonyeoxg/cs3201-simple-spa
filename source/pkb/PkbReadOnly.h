@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "../Grammar.h"
+#include "../pql/query-types/Grammar.h"
 
 /**
 * Represents an interface for ReadOnly methods in the PKB.

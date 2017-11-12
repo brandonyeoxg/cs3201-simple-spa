@@ -5,7 +5,7 @@
 
 #include "Parser.h"
 #include "pkb/PKB.h"
-#include "AffectsTable.h"
+#include "pkb/relationshipTables/AffectsTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

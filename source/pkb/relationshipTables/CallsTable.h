@@ -9,10 +9,12 @@
 #include <unordered_set>
 #include "../../GlobalTypeDef.h"
 #include "ProcTable.h"
+
 /**
-* Represents the calls relationship table. The table consists an unordered_map of line numbers mapped to vectors of line numbers that
-track which line is followed by which lines.
+* Represents the calls relations made in the program.
+* The relations are stored in different representation for fast retrieval from PQL through the PKB.
 *
+* @author pengcheng
 */
 class CallsTable {
 public:
@@ -101,7 +103,7 @@ public:
   * Get the list of procedures that calls any other procedures i.e. calls(p1, _).
   * @return the list of procedures.
   */
-  LIST_OF_PROC_NAMES getCallsAnything();  //calls(proc1, _)
+  LIST_OF_PROC_NAMES getCallsAnything();
   LIST_OF_PROC_INDICES getCallsAnythingByIdx();
 
   /**
