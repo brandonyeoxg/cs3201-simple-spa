@@ -35,7 +35,7 @@ RESULT_LIST QueryProcessor::runQueryProcessor(STRING t_stringInput) {
     }
   
   std::vector<Grammar> selectVectorValidate = qpp.getSelectVector();
-  if (!selectVectorValidate.empty() && selectVectorValidate.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()\
+  if (!selectVectorValidate.empty() && selectVectorValidate.front().getType() == queryType::GType::BOOLEAN && evaluatedResults.empty()
     || (isTokenizedDeclaration == false && isTokenized == true && isSelectBooleanExists)
     || (isTokenizedDeclaration == true && isTokenized == false && isSelectBooleanExists)) {
     evaluatedResults.push_back(FALSE);
