@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "QueryPreProcessor.h"
+#include "pql/QueryPreProcessor.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

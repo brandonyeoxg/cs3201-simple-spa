@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "StringUtil.h"
+#include "util/StringUtil.h"
 
 #include <iostream>
 
