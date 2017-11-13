@@ -106,7 +106,7 @@ LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn
     return {};
   }
   int depthOfTable = m_results.size();
-  for (int i = 0; i < depthOfTable; i++) {
+  for (int i = 0; i < depthOfTable; ++i) {
     STRING_TOKEN result = "";
     for (auto& sItr : t_selectedSyn) {
       if (!Grammar::isStmtNo(sItr.getType()) && !Grammar::isString(sItr.getType())) {
