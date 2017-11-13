@@ -8,7 +8,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithVarAndExactPattern(
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[0] = whileStmts;
   return m_result;
 }
@@ -19,7 +18,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithVarAndSubPattern(Pk
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[0] = whileStmts;
   return m_result;
 }
@@ -30,7 +28,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithVarAndAnyPattern(Pk
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[0] = whileStmts;
   return m_result;
 }
@@ -41,7 +38,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithExactPattern(PkbRea
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[0] = whileStmts;
   return m_result;
 }
@@ -52,7 +48,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithSubPattern(PkbReadO
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(whileStmts);
   m_result[0] = whileStmts;
   return m_result;
 }
@@ -63,7 +58,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsWithAnyPattern(PkbReadO
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(allWhileStmts);
   m_result[0] = allWhileStmts;
   return m_result;
 }
@@ -73,12 +67,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsAndVarWithExactPattern(
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
-
-  /*std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
-  for (auto& x : whileStmtsWithVar) {
-    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
-    whileStmtsWithVarName[x.first] = varName;
-  }*/
 
   m_result = Formatter::formatMapIntIntToMapIntVectorInt(whileStmtsWithVar);
   return m_result;
@@ -90,12 +78,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsAndVarWithSubPattern(Pk
     return m_result;
   }
 
-  /*std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
-  for (auto& x : whileStmtsWithVar) {
-    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
-    whileStmtsWithVarName[x.first] = varName;
-  }*/
-
   m_result = Formatter::formatMapIntIntToMapIntVectorInt(whileStmtsWithVar);
   return m_result;
 }
@@ -105,12 +87,6 @@ SET_OF_RESULTS_INDICES WhilePatternEvaluator::getAllStmtsAndVarWithAnyPattern(Pk
   if (whileStmtsWithVar.empty()) {
     return m_result;
   }
-
-  /*std::unordered_map<STMT_NUM, VAR_NAME> whileStmtsWithVarName;
-  for (auto& x : whileStmtsWithVar) {
-    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
-    whileStmtsWithVarName[x.first] = varName;
-  }*/
 
   m_result = Formatter::formatMapIntIntToMapIntVectorInt(whileStmtsWithVar);
   return m_result;

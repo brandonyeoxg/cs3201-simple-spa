@@ -61,10 +61,10 @@ BOOLEAN IntermediateTable::mergeTables(std::vector<IntermediateTable*> t_tables)
       continue;
     }
 
-    for (auto& syn : table->m_synonyms) {
-      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(syn.second);
+    for (int i = 0; i < table->m_synonyms.size(); ++i) {
+      std::unordered_map<SYNONYM_NAME, SYNONYM_POSITION>::const_iterator got = m_synonymRowChecker.find(table->m_synonyms[i]);
       if (got == m_synonymRowChecker.end()) {
-        insertSynonym(syn.second);
+        insertSynonym(table->m_synonyms[i]);
       }  
     }
 
@@ -106,7 +106,7 @@ LIST_OF_RESULTS IntermediateTable::getResults(std::vector<Grammar> t_selectedSyn
     return {};
   }
   int depthOfTable = m_results.size();
-  for (int i = 0; i < depthOfTable; i++) {
+  for (int i = 0; i < depthOfTable; ++i) {
     STRING_TOKEN result = "";
     for (auto& sItr : t_selectedSyn) {
       if (!Grammar::isStmtNo(sItr.getType()) && !Grammar::isString(sItr.getType())) {

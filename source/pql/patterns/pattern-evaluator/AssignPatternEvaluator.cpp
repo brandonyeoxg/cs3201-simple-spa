@@ -8,7 +8,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithVarAndExactPattern
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(assignStmts);
   m_result[0] = assignStmts;
   return m_result;
 }
@@ -19,7 +18,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithVarAndSubPattern(P
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(assignStmts);
   m_result[0] = assignStmts;
   return m_result;
 }
@@ -30,7 +28,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithVarAndAnyPattern(P
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(assignStmts);
   m_result[0] = assignStmts;
   return m_result;
 }
@@ -41,7 +38,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithExactPattern(PkbRe
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(assignStmts);
   m_result[0] = assignStmts;
   return m_result;
 }
@@ -52,7 +48,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithSubPattern(PkbRead
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(assignStmts);
   m_result[0] = assignStmts;
   return m_result;
 }
@@ -63,7 +58,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsWithAnyPattern(PkbRead
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(allAssignStmts);
   m_result[0] = allAssignStmts;
   return m_result;
 }
@@ -74,12 +68,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsAndVarWithExactPattern
     return m_result;
   }
 
-  /*std::unordered_map<STMT_NUM, VAR_NAME> assignStmtsWithVarName;
-  for (auto& x : assignStmtsWithVar) {
-    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
-    assignStmtsWithVarName[x.first] = varName;
-  }*/
-
   m_result = Formatter::formatMapIntIntToMapIntVectorInt(assignStmtsWithVar);
   return m_result;
 }
@@ -89,12 +77,6 @@ SET_OF_RESULTS_INDICES AssignPatternEvaluator::getAllStmtsAndVarWithSubPattern(P
   if (assignStmtsWithVar.empty()) {
     return m_result;
   }
-
-  /*std::unordered_map<STMT_NUM, VAR_NAME> assignStmtsWithVarName;
-  for (auto& x : assignStmtsWithVar) {
-    VAR_NAME varName = t_pkb->getVarNameFromIdx(x.second);
-    assignStmtsWithVarName[x.first] = varName;
-  }*/
 
   m_result = Formatter::formatMapIntIntToMapIntVectorInt(assignStmtsWithVar);
   return m_result;
