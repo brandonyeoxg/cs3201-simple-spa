@@ -1,16 +1,16 @@
 1 - Common Synonyms Stress Test
 stmt s1, s2, s3;
-Select BOOLEAN such that Follows (s1, s2) Parent(s2,s3)
+Select BOOLEAN such that Follows (s1, s2) and Parent(s2,s3)
 true
 5000
 2 - Common Synonyms Stress Test
 stmt s1, s2, s3; if i; assign a1, a2;
-Select BOOLEAN such that Follows (s1, s2) Parent(s2,s3) Follows*(s1,i) Parent(i,a1) and Parent*(i,a2)
+Select BOOLEAN such that Follows (s1, s2) and Parent(s2,s3) such that Follows*(s1,i) and Parent(i,a1) and Parent*(i,a2)
 true
 5000
 3 - Common Synonyms Stress Test
 stmt s1, s2, s3; if i; assign a1, a2; while w;
-Select w such that Follows (s1, s2) and Parent(s2,s3) Follows*(s1,i) Parent(i,a1) Parent*(i,a2) Follows(s1,w) Follows*(w,i) and Next*(s3,s3) Next(i,a1) Next(i,a2)
+Select w such that Follows (s1, s2) and Parent(s2,s3) such that Follows*(s1,i) and Parent(i,a1) and Parent*(i,a2) and Follows(s1,w) and Follows*(w,i) and Next*(s3,s3) and Next(i,a1) such that Next(i,a2)
 2
 5000
 4 - Common Synonyms Stress Test
