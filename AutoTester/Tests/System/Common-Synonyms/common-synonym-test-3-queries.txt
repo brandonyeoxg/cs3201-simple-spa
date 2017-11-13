@@ -209,12 +209,12 @@ Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with pl.stmt#=2
 none
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
+if ifs; stmt s; variable v; stmt ss;
 Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 true
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
+if ifs; stmt s; variable v; stmt ss;
 Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 5
 5000
