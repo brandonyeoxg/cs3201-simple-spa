@@ -7,7 +7,7 @@
                                          call      cH1ck3N;           }
                                                                             else{
                               call A1P4ca;             }
-                                                                                       call     P1G;}}
+                                                                                       call     p1G;}}
          procedure A1P4ca{
                              while Yzm4{
                                               th3P015On          =   CuzC0;
@@ -37,13 +37,13 @@
       	 	 	 		 	while annoyed{
      call cH1ck3N;
      	  	 	 	   if	st111AnN0y3d then{
-          	  	 	 	 		  	call cH1ck3n;
+          	  	 	 	 		  	call cH1ck3N;
            		 if     st111AnN0y3d then{
-               call	  	 	 	   		 cH1ck3n;
+               call	  	 	 	   		 cH1ck3N;
              	 	if 	 	 st111AnN0y3d then{
-   	 	           call cH1ck3n;
+   	 	           call cH1ck3N;
                	 	  					if st111AnN0y3d then{
- 		 	 	  	                 call cH1ck3n;
+ 		 	 	  	                 call cH1ck3N;
 }
   		 	 	             else{
                  	 		give=up;	 	 	 }}
