@@ -8,7 +8,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithVarAndExactPattern(Pkb
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[0] = ifStmts;
   return m_result;
 }
@@ -19,7 +18,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithVarAndSubPattern(PkbRe
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[0] = ifStmts;
   return m_result;
 }
@@ -30,7 +28,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithVarAndAnyPattern(PkbRe
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[0] = ifStmts;
   return m_result;
 }
@@ -41,7 +38,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithExactPattern(PkbReadOn
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[0] = ifStmts;
   return m_result;
 }
@@ -52,7 +48,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithSubPattern(PkbReadOnly
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(ifStmts);
   m_result[0] = ifStmts;
   return m_result;
 }
@@ -63,7 +58,6 @@ SET_OF_RESULTS_INDICES IfPatternEvaluator::getAllStmtsWithAnyPattern(PkbReadOnly
     return m_result;
   }
 
-  //std::vector<std::string> stmtVector = Formatter::formatVectorIntToVectorStr(allIfStmts);
   m_result[0] = allIfStmts;
   return m_result;
 }

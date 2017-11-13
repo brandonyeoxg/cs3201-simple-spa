@@ -226,7 +226,6 @@ void QueryOptimiser::divideClausesIntoGroups(std::priority_queue<Clause*, std::v
 
 void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::priority_queue<Clause*, std::vector<Clause*>, QueryOptimiser::compareClauses> *t_finalGrp, std::unordered_set<SYNONYM_NAME> t_synList) {
   std::queue<Clause*> tempGrp = std::queue<Clause*>();
-  BOOLEAN hasOtherClauses = false;
   if (t_group->empty()) {
     return;
   }
@@ -235,16 +234,10 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
     Clause *clause = t_group->front();
     if (clause->isRelationType()) {
       Relation* cls = (Relation*)clause;
-      if (Relation::isNextStar(cls->getType()) || Relation::isAffects(cls->getType()) || Relation::isAffectsStar(cls->getType())) {
-        tempGrp.push(cls);
-        t_group->pop();
-        continue;
-      }
       auto &syn1Itr = t_synList.find(cls->getG1().getName());
       auto &syn2Itr = t_synList.find(cls->getG2().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp.push(cls);
-        hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
@@ -262,7 +255,6 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       auto &syn2Itr = t_synList.find(cls->getLeft().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp.push(cls);
-        hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
@@ -280,7 +272,6 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       auto &syn2Itr = t_synList.find(cls->getG2().getName());
       if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
         tempGrp.push(cls);
-        hasOtherClauses = true;
       } else {
         cls->setWeights(t_finalGrp->size() + 1);
         t_finalGrp->push(cls);
@@ -294,33 +285,6 @@ void QueryOptimiser::sortClausesWithinGroup(std::queue<Clause*> *t_group, std::p
       }
     }
     t_group->pop();
-  }
-  
-  if (!hasOtherClauses) {
-    while (!tempGrp.empty()) {
-      numOfClauses = tempGrp.size();
-      for (int i = 0; i < numOfClauses; ++i) {
-        Clause *clause = tempGrp.front();
-        Relation* cls = (Relation*)clause;
-        auto &syn1Itr = t_synList.find(cls->getG1().getName());
-        auto &syn2Itr = t_synList.find(cls->getG2().getName());
-        if (!t_synList.empty() && syn1Itr == t_synList.end() && syn2Itr == t_synList.end()) {
-          tempGrp.push(cls);
-        } else {
-          cls->setWeights(t_finalGrp->size() + 1);
-          t_finalGrp->push(cls);
-          if (QueryUtil::isSynonym(cls->getG1())) {
-            t_synList.insert(cls->getG1().getName());
-          }
-
-          if (QueryUtil::isSynonym(cls->getG1())) {
-            t_synList.insert(cls->getG2().getName());
-          }
-        }
-      }
-
-      tempGrp.pop();
-    }
   }
 
   sortClausesWithinGroup(&tempGrp, t_finalGrp, t_synList);
