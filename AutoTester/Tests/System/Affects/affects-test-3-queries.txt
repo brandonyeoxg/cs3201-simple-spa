@@ -1,0 +1,420 @@
+1 - Affects Functionality Test
+procedure p; stmt s1,s2;
+Select p such that Affects(s1,s2)
+Dynames, Kyrios, Exia,Unicorn, Banshee, PsychoZaku,Freedom, WingZero
+5000
+2 - Affects Functionality Test
+stmt s1,s2; assign a;
+Select s1 such that Affects(s2,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74
+5000
+3 - Affects Functionality Test
+assign a; stmt s; prog_line pl;
+Select a such that Affects(s,pl)
+1, 3, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 35, 37, 39, 40, 44, 45, 46, 47, 49, 50, 51, 55, 57, 58, 60, 61, 62, 63, 65, 71, 72, 73, 74
+5000
+4 - Affects Functionality Test
+stmt s;
+Select BOOLEAN such that Affects(s,47)
+true
+5000
+5 - Affects Functionality Test
+call c; stmt s;
+Select c such that Affects(s,_)
+6, 21, 32, 53, 54, 64
+5000
+6 - Affects Functionality Test
+stmt s2; assign a; prog_line pl;
+Select pl such that Affects(s2,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74
+5000
+7 - Affects Functionality Test
+constant co; stmt s; prog_line pl;
+Select co such that Affects(pl,s)
+1, 2, 3, 4, 5, 13, 18
+5000
+8 - Affects Functionality Test
+stmt s;
+Select BOOLEAN such that Affects(44,s)
+true
+5000
+9 - Affects Functionality Test
+stmtLst c; stmt s;
+Select c such that Affects(_,s)
+1,11,13,14,18,20,21,25,3,30,31,33,35,37,39,42,43,44,45,47,48,49,5,50,53,54,56,57,58,60,62,65,67,68,69,7,70,71,72,74
+5000
+10 - Affects Functionality Test
+variable p;
+Select p such that Affects(65,71)
+Banshee,a,a2,a3,alive,ammo,amputee,attack,away,b,b2,b3,barrel,bazooka,beam,beamSaber,blast,boost,c,claw,conditioning,d,dash,dead,death,desperate,direction,division,drag,empty,forward,game,gundam,i,i2,imprint,in,j,j2,jump,k,k2,lift,living,lowArmour,m,machineGun,melee,mode,nextGen,noAim,noAmmo,noSpin,notDown,purple,reload,rifle,roll,rush,say,shoot,side,slash,smoke,spin,stay,step,striker,stun,takedown,throw,vertical,wall
+5000
+11 - Affects Invalid Test 1
+procedure p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+12 - Affects Invalid Test 2
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+13 - Affects Invalid Test 3
+call p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+14 - Affects Invalid Test 4
+while sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+15 - Affects Invalid Test 5
+if p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+16 - Affects Invalid Test 6
+variable sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+17 - Affects Invalid Test 7
+constant p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+18 - Affects Invalid Test 8
+stmt s1, s2;
+Select s1 such that Affects(s2,"sl")
+none
+5000
+19 - Affects Invalid Test 9
+procedure p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+20 - Affects Invalid Test 10
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+21 - Affects Invalid Test 11
+call p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+22 - Affects Invalid Test 12
+while sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+23 - Affects Invalid Test 13
+if p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+24 - Affects Invalid Test 14
+variable sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+25 - Affects Invalid Test 15
+constant p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+26 - Affects Invalid Test 16
+stmt s1, s2;
+Select s1 such that Affects("sl",s2)
+none
+5000
+27 - Affects* Functionality Test
+procedure p; stmt s1,s2;
+Select p such that Affects*(s1,s2)
+Dynames,Kyrios,Exia, Unicorn,Banshee, PsychoZaku, Freedom, WingZero
+5000
+28 - Affects* Functionality Test
+stmt s1,s2; assign a;
+Select s1 such that Affects*(s2,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74
+5000
+29 - Affects* Functionality Test
+assign a; stmt s; prog_line pl;
+Select a such that Affects*(s,pl)
+1, 3, 5, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 35, 37, 39, 40, 44, 45, 46, 47, 49, 50, 51, 55, 57, 58, 60, 61, 62, 63, 65, 71, 72, 73, 74
+5000
+30 - Affects* Functionality Test
+stmt s;
+Select BOOLEAN such that Affects*(s,3)
+true
+5000
+31 - Affects* Functionality Test
+call c; stmt s;
+Select c such that Affects*(s,_)
+6, 21, 32, 53, 54, 64
+5000
+32 - Affects* Functionality Test
+stmt s2; assign a; prog_line pl;
+Select pl such that Affects*(s2,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74
+5000
+33 - Affects* Functionality Test
+constant co; stmt s; prog_line pl;
+Select co such that Affects*(pl,s)
+1, 2, 3, 4, 5, 13, 18
+5000
+34 - Affects* Functionality Test
+stmt s;
+Select BOOLEAN such that Affects*(65,s)
+true
+5000
+35 - Affects* Functionality Test
+stmtLst c; stmt s;
+Select c such that Affects*(_,s)
+1,11,13,14,18,20,21,25,3,30,31,33,35,37,39,42,43,44,45,47,48,49,5,50,53,54,56,57,58,60,62,65,67,68,69,7,70,71,72,74
+5000
+36 - Affects* Functionality Test
+variable p;
+Select p such that Affects*(39,46)
+Banshee,a,a2,a3,alive,ammo,amputee,attack,away,b,b2,b3,barrel,bazooka,beam,beamSaber,blast,boost,c,claw,conditioning,d,dash,dead,death,desperate,direction,division,drag,empty,forward,game,gundam,i,i2,imprint,in,j,j2,jump,k,k2,lift,living,lowArmour,m,machineGun,melee,mode,nextGen,noAim,noAmmo,noSpin,notDown,purple,reload,rifle,roll,rush,say,shoot,side,slash,smoke,spin,stay,step,striker,stun,takedown,throw,vertical,wall
+5000
+37 - Affects* Invalid Test 1
+procedure p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+38 - Affects* Invalid Test 2
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+39 - Affects* Invalid Test 3
+call p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+40 - Affects* Invalid Test 4
+while sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+41 - Affects* Invalid Test 5
+if p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+42 - Affects* Invalid Test 6
+variable sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+43 - Affects* Invalid Test 7
+constant p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+44 - Affects* Invalid Test 8
+stmt s1, s2;
+Select s1 such that Affects*(s2,"sl")
+none
+5000
+45 - Affects* Invalid Test 9
+procedure p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+46 - Affects* Invalid Test 10
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+47 - Affects* Invalid Test 11
+call p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+48 - Affects* Invalid Test 12
+while sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+49 - Affects* Invalid Test 13
+if p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+50 - Affects* Invalid Test 14
+variable sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+51 - Affects* Invalid Test 15
+constant p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+52 - Affects* Invalid Test 16
+stmt s1, s2;
+Select s1 such that Affects*("sl",s2)
+none
+5000
+53 - Affects Recursive Test
+stmt s;
+Select s such that Affects(s,s)
+3,60,71,22
+5000
+54 - Affects* Recursive Test
+stmt s;
+Select s such that Affects*(s,s)
+3,60,71,22,27,28
+5000
+55 - Affects Recursive Test
+assign s;
+Select s such that Affects(s,s)
+3,60,71,22
+5000
+56 - Affects* Recursive Test
+assign s;
+Select s such that Affects*(s,s)
+3,60,71,22,27,28
+5000
+57 - Affects Recursive Test
+prog_line s;
+Select s such that Affects(s,s)
+3,60,71,22
+5000
+58 - Affects* Recursive Test
+prog_line s;
+Select s such that Affects*(s,s)
+3,60,71,22,27,28
+5000
+59 - Affects Recursive Test
+
+Select BOOLEAN such that Affects(60,60)
+true
+5000
+60 - Affects* Recursive Test
+
+Select BOOLEAN such that Affects*(46,46)
+false
+5000
+61 - Affects Recursive Test
+
+Select BOOLEAN such that Affects(_,_)
+true
+5000
+62 - Affects* Recursive Test
+
+Select BOOLEAN such that Affects*(_,_)
+true
+5000
+63 - Affects Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects(55,58)
+false
+5000
+64 - Affects* Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects*(50,58)
+false
+5000
+65 - Affects Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects(0,1)
+false
+5000
+66 - Affects Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects(74,75)
+false
+5000
+67 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(0,33)
+false
+5000
+66 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(72,105)
+false
+5000
+67 - Extra Affects Test Case Invalid Recursion
+
+Select BOOLEAN such that Affects*(55,55)
+false
+5000
+68 - Extra Affects* Test Case Invalid Recursion
+
+Select BOOLEAN such that Affects*(55,55)
+false
+5000
+69 - Extra Affects Test Case Invalid Due to Modification in Call Stmt
+
+Select BOOLEAN such that Affects(50,55)
+false
+5000
+70 - Extra Affects* Test Case Invalid Due to Modification in Call Stmt
+
+Select BOOLEAN such that Affects*(50,55)
+false
+5000
+71 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Former)
+
+Select BOOLEAN such that Affects(54,55)
+false
+5000
+72 - Extra Affects Test Case Invalid Integer Stmt (Call Stmt, Latter)
+
+Select BOOLEAN such that Affects(49,54)
+false
+5000
+73 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Former)
+
+Select BOOLEAN such that Affects(54,55)
+false
+5000
+74 - Extra Affects* Test Case Invalid Integer Stmt (Call Stmt, Latter)
+
+Select BOOLEAN such that Affects(49,54)
+false
+5000
+75 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Former)
+
+Select BOOLEAN such that Affects(48,49)
+false
+5000
+76 - Extra Affects Test Case Invalid Integer Stmt (If Stmt, Latter)
+
+Select BOOLEAN such that Affects(47,48)
+false
+5000
+77 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Former)
+
+Select BOOLEAN such that Affects*(48,55)
+false
+5000
+78 - Extra Affects* Test Case Invalid Integer Stmt (If Stmt, Latter)
+
+Select BOOLEAN such that Affects*(46,52)
+false
+5000
+79 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Former)
+
+Select BOOLEAN such that Affects(70,71)
+false
+5000
+80 - Extra Affects Test Case Invalid Integer Stmt (While Stmt, Latter)
+
+Select BOOLEAN such that Affects(65,67)
+false
+5000
+81 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Former)
+
+Select BOOLEAN such that Affects*(67,72)
+false
+5000
+82 - Extra Affects* Test Case Invalid Integer Stmt (While Stmt, Latter)
+
+Select BOOLEAN such that Affects*(65,70)
+false
+5000

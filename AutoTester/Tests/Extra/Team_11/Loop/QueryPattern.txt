@@ -1,0 +1,140 @@
+1 - While Underscore Underscore
+while w;
+Select BOOLEAN pattern w(_, _)
+true
+5000
+2 - While Ident(ControlVarNature) Underscore
+while w;
+Select BOOLEAN pattern w("inBattle", _)
+true
+5000
+3 - While Ident(AssignVarNature) Underscore
+while w;
+Select BOOLEAN pattern w("jiraya", _)
+false
+5000
+4 - While Ident(ExprNature) Underscore
+while w;
+Select BOOLEAN pattern w("x+2", _)
+false
+5000
+5 - While Ident(ProcedureNature) Underscore
+while w;
+Select BOOLEAN pattern w("IfMultiple", _)
+false
+5000
+6 - While Variable Underscore
+while w; variable v;
+Select BOOLEAN pattern w(v, _)
+true
+5000
+7 - While Variable ExprExactMatch
+while w; variable v;
+Select BOOLEAN pattern w(v, "attack+100")
+false
+5000
+8 - While Variable PartialMatch
+while w; variable v;
+Select BOOLEAN pattern w(v, _"sageMode*love"_)
+false
+5000
+9 - While Variable Underscore Select-Variable
+while w; variable v;
+Select w pattern w(v, _)
+10,12,13,16,3,57,6,66,70
+5000
+10 - While Variable Underscore Select-While
+while w; variable v;
+Select v pattern w(v, _)
+inBattle,kakashi,naruto,sageMode,sasuke,sleep
+5000
+11 - Common Synonym
+while w1,w2; variable v1,v2;
+Select w1 pattern w1(v1, _) and w1(v2, _)
+10,12,13,16,3,57,6,66,70
+5000
+12 - Common Synonym
+while w1,w2; variable v1,v2;
+Select v1 pattern w1(v1, _) and w2(v1, _)
+inBattle,kakashi,naruto,sageMode,sasuke,sleep
+5000
+13 - If Underscore Underscore Underscore
+if f;
+Select BOOLEAN pattern f(_, _ , _)
+true
+5000
+14 - If TooLittleArg
+if f;
+Select BOOLEAN pattern f(_, _ )
+false
+5000
+15 - If TooManyArg
+if f;
+Select BOOLEAN pattern f(_, _ , _,_)
+false
+5000
+16 - If Ident(ControlVarNature) Underscore Underscore
+if f;
+Select BOOLEAN pattern f("inBattle", _,_)
+true
+5000
+17 - If Ident(AssignVarNature) Underscore Underscore
+if f;
+Select BOOLEAN pattern f("jiraya", _,_)
+false
+5000
+18 - If Ident(ExprNature) Underscore Underscore
+if f;
+Select BOOLEAN pattern f("x+2", _,_)
+false
+5000
+19 - If Ident(ProcedureNature) Underscore Underscore
+if f;
+Select BOOLEAN pattern f("IfMultiple", _,_)
+false
+5000
+20 - If Variable Underscore Underscore
+if f; variable v;
+Select BOOLEAN pattern f(v, _, _)
+true
+5000
+21 - If Variable ExprExactMatch Underscore
+if f; variable v;
+Select BOOLEAN pattern f(v, "attack+100", _)
+false
+5000
+22 - If Variable PartialMatch Underscore
+if f; variable v;
+Select BOOLEAN pattern f(v, _"sageMode*love"_, _)
+false
+5000
+23 - If Variable Underscore Underscore Select-Variable
+if f; variable v;
+Select f pattern f(v, _, _)
+23,26,30,32,37,44,51,58,61,64
+5000
+24 - If Variable Underscore Underscore Select-If
+if f; variable v;
+Select v pattern f(v, _, _)
+dream,hinata,inBattle,love,naruto,sakura,sleep
+5000
+25 - 2Clauses NoCommonSynonym
+while w; if f;
+Select w pattern w(_, _) and f(_, _, _)
+10,12,13,16,3,57,6,66,70
+5000
+26 - 2Clauses 1CommonSynonym
+while w; if f; variable v;
+Select v pattern w(v, _) and f(v, _, _)
+inBattle,naruto,sleep
+5000
+27 - 3Clauses 1CommonSynonym
+while w1, w2; if f; variable v;
+Select v pattern w1(v, _) and w2(v, _) pattern f(v,_,_)
+inBattle,naruto,sleep
+5000
+28 - 4Clauses 1CommonSynonym PerPair
+while w1, w2; if f1, f2; variable v1, v2;
+Select v1 pattern w1(v1, _) pattern f1(v1, _,_) pattern w2(v2, _) pattern f2(v2, _,_)
+inBattle,naruto,sleep
+5000

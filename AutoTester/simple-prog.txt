@@ -3,8 +3,8 @@ procedure main {
   while i {
     x=y;
     I = 0+ am + awesome + 32;
-	while j {
-	  a=b;}}
+    while j {
+      a=b;}}
   z=y;
   c=v;
   while i {

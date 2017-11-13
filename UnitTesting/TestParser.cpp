@@ -5,8 +5,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "test-drivers\ParserDriver.h"
-#include "PKB.h"
-#include "SyntaxErrorException.h"
+#include "pkb/PKB.h"
+#include "exception/SyntaxErrorException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -248,3 +248,33 @@ prog_line pl; stmt s;
 Select s such that Modifies(s,pl)
 none
 5000
+51 - Uses Non-Existence Invalid Test 1
+
+Select BOOLEAN such that Uses(0,"apql")
+false
+5000
+52 - Uses Non-Existence Invalid Test 2
+
+Select BOOLEAN such that Uses(60,"apql")
+false
+5000
+53 - Uses Non-Existence Invalid Test 3
+
+Select BOOLEAN such that Uses(1,"h454rd")
+false
+5000
+54 - Modifies Non-Existence Invalid Test 1
+
+Select BOOLEAN such that Modifies(0,"apql")
+false
+5000
+55 - Modifies Non-Existence Invalid Test 2
+
+Select BOOLEAN such that Modifies(60,"apql")
+false
+5000
+56 - Modifies Non-Existence Invalid Test 3
+
+Select BOOLEAN such that Modifies(1,"h454rd")
+false
+5000

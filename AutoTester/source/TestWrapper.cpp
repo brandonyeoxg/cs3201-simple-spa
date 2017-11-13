@@ -1,5 +1,5 @@
 #include "TestWrapper.h"
-#include "SyntaxErrorException.h"
+#include "exception/SyntaxErrorException.h"
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper() {
@@ -13,10 +13,10 @@ volatile bool TestWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
-  m_pkb = new PKB();
+  m_designExtractor = new DesignExtractor();
+  m_pkb = new PKB(m_designExtractor);
   m_parser = new Parser(m_pkb);
   m_qProcessor = new QueryProcessor(m_pkb);
-  m_designExtractor = new DesignExtractor(m_pkb);
 }
 
 TestWrapper::~TestWrapper() {
@@ -32,11 +32,11 @@ void TestWrapper::parse(std::string filename) {
   // ...rest of your code...
   try {
     m_parser->parse(filename);
+    m_designExtractor->extractRestOfDesignAbstractions(m_pkb);
   } catch (SyntaxErrorException see) {
     std::cout << see.what() << "\n";
     exit(-1);
   }
-  m_designExtractor->extractRestOfDesignAbstractions();
 }
 
 // method to evaluating a query

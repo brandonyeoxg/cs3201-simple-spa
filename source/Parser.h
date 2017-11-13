@@ -4,8 +4,8 @@
 #include <sstream>
 #include <iostream>
 
-#include "PkbWriteOnly.h"
-#include "SyntaxErrorException.h"
+#include "pkb/PkbWriteOnly.h"
+#include "exception/SyntaxErrorException.h"
 #include "GlobalTypeDef.h"
 
 /*

@@ -1,10 +1,9 @@
 #include "ParserDriver.h"
-#include "..\StringUtil.h"
-#include "..\nodes\TNode.h"
-#include "..\SyntaxOpenBraceException.h"
-#include "..\SyntaxNoEndOfStatementException.h"
-#include "..\SyntaxUnknownCommandException.h"
-#include "..\SyntaxEmptyLineException.h"
+#include "../util/StringUtil.h"
+#include "../exception/SyntaxOpenBraceException.h"
+#include "../exception/SyntaxNoEndOfStatementException.h"
+#include "../exception/SyntaxUnknownCommandException.h"
+#include "../exception/SyntaxEmptyLineException.h"
 
 ParserDriver::~ParserDriver()
 {

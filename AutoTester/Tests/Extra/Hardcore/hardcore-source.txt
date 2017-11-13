@@ -1,0 +1,757 @@
+procedure proc1 {
+a = a - a + 71 - 99 * 54;
+    a = 14 - b - c - 17;
+    if d then {
+        e = e - 9 - f;
+    } else {        a = d * b - c - d;
+        g = 35;
+        g = 4 + d - 42 * g;
+    }    b = 4 + d * c + b - 68;
+    d = 56 * d * f;
+    g = 68 * a * 79;
+    f = g;
+    e = f + e - 12 - d * 77;
+}
+procedure proc2 {
+if d then {
+        d = 17 + 42 * 61 * 44 - 2;
+        if b then {
+            while e {
+                e = c * 53 - d * c;
+                while d {
+                    while c {
+                        if g then {
+                            f = e + 16 - 49 * 47;
+                            while c {
+                                g = 23 * 2 - 58;
+                                if e then {
+                                    if d then {
+                                        b = 51 * 66 * 20 - a + g;
+                                        a = d;
+                                        d = g * a - 49 - a - 100;
+                                    } else {
+                                    if d then {
+                                            a = 29 + 23;
+                                        } else {
+                                        b = 14;
+                                            f = 54 * 58 * a;
+                                        }
+                                         }
+                                         a = e + 77 * 48;
+                                } else {
+                                if c then {
+                                        g = d - g * 96 * e + 94;
+                                        e = 97;
+                                        d = 3 - g - 56;
+                                    } else {
+                                    f = a - 34 + 58 + d;
+                                        d = 79;
+                                    }
+                                     }
+                                     g = 12 - 82;
+                                d = c * 35 - a;
+                            }
+                            }
+                            else {
+                            c = f;
+                            if a then {
+                                g = g + f + 36;
+                                while f {
+                                    e = d + d;
+                                    a = a - 28 * 24 + 61;
+                                    d = a + f + 73 - d * c;
+                                }
+                                d = 90;
+                                d = 68 - 19 * d;
+                            } else {
+                             e = a * c;
+                                g = 9;
+                            }
+                             }
+                             e = g - 4 + 48 + 35 - 45;
+                    }
+                     b = d - 45 + 44 * e * 76;
+                    a = 11;
+                    if d then {
+                        b = a + 1 + f + g + c;
+                        while f {
+                            a = 29 - b + a * e + 72;
+                            e = a * 27;
+                            a = e - f * b + b;
+                            while g {
+                                b = 86 - a + b * 72 - c;
+                                while f {
+                                    if e then {
+                                        while e {
+                                            e = 46 - d;
+                                        }
+                                         if f then {
+                                            while g {
+                                                c = 35 + 2 - c * 7 - 94;
+                                                a = 15 + d * 29 + f * c;
+                                            }
+                                             a = 67 * e;
+                                            d = 27 + d * f - 42;
+                                        } else {
+                                          b = b * 20 - 68 * d * 91;
+                                        }
+                                         while e {
+                                            if f then {
+                                                g = d - 88 - 14;
+                                                f = 30;
+                                                while a {
+                                                    a = b + 48 - 26 + 71 * d;
+                                                    d = f + 56 + 36 * g - 52;
+                                                    b = g + d + 53;
+                                                }
+                                                d = 6;
+                                            } else {
+                                             c = d - 75 * f + 44;
+                                                while g {
+                                                    d = 6 + g - g;
+                                                }
+                                                while d {
+                                                    d = 33 * 23 - b + e + e;
+                                                    d = 93 * 62 + c - e - a;
+                                                    g = 79 + d - 90 * 75 + 100;
+                                                }
+                                                  }
+                                                   g = 12 + 44 + 91 * 75;
+                                        }
+                                                               }
+                                                               else {
+                                                                a = a - 53;
+                                        d = 64;
+                                        d = 6 - 48 * f;
+                                    }
+                                     a = 98 * e - d - 38 * d;
+                                    e = 54;
+                                }
+                                a = g + 32 - 59;
+                                d = d * 23;
+                            }
+                               }
+                              b = c - 47 - d * 31 - 37;
+                    }
+                    else {
+                     d = b + 12 + 63 - b;
+                        d = 59 + d + 70 + 21 - 85;
+                    }
+                     }
+                        }
+                           }
+                           else {
+                             b = 18 + f - f - a;
+            if c then {
+                a = 20 * 6 + f + d;
+                d = c + 61 + c;
+            } else {
+             d = 3 * 55;
+                a = f * 41 + f;
+            }
+               e = c;
+        }
+           }
+           else {
+             a = g - 20;
+    }
+      f = g * 42 + a * e + d;
+    f = d - e - 9 - a;
+    a = f + d * f - 2 + d;
+    b = b * 16 - d;
+    if c then {
+        g = c - b;
+    }
+     else {
+     e = 27 * d - 97 + d;
+        c = 84 + g - 82 - 15;
+        d = d * e + a;
+    }
+    }
+    procedure proc3 {
+      d = e + d;
+    g = 100 * 62 * 42 - 2;
+    a = c - 37 * 21;
+    d = a - b * 58 * 77 * d;
+    g = a - 29 - 3;
+    b = 22;
+    f = 10 + 9 + a;
+    f = c;
+    d = b - e * b + 69;
+}
+procedure proc4 {
+c = a * 59 - b;
+    f = f + g - a * 38 + 58;
+    while c {
+        g = 24;
+        if d then {
+            while d {
+                if f then {
+                    b = 98;
+                    if g then {
+                        while g {
+                            e = 54 * 35 * e + 8;
+                            a = 28 + 78 - g;
+                            while c {
+                                if d then {
+                                    a = e;
+                                    while b {
+                                        while e {
+                                            g = d * d * f;
+                                            c = 3 + d + d * 14;
+                                            e = 16 - f * a + e;
+                                            a = 60 + 97 * d;
+                                        }
+                                           g = 1 * 98 - 43 + a;
+                                        b = a - 41 + d - 8 * 73;
+                                    }
+                                     }
+                                     else {
+                                      while a {
+                                        d = e - d;
+                                        c = b - b + 38;
+                                    }
+                                     a = d * e + 67 + b - 54;
+                                    g = a - 39;
+                                    f = c + 66 + g;
+                                }
+                                  c = 85 - b - a - 61;
+                            }
+                               }
+                                  }
+                                  else {
+                                                  f = c;
+                    }
+                      if d then {
+                        if a then {
+                            e = 63 * 37 * 25 * 61 + f;
+                        } else {
+                         while c {
+                                a = 9;
+                            }
+                            }
+                            while f {
+                            g = 81;
+                            while b {
+                                while d {
+                                    e = 11 * 75;
+                                    f = 56 + e * e + 53;
+                                    b = e * 59 - 53 - f - a;
+                                    f = a * c;
+                                }
+                                    }
+                                              d = 65;
+                        }
+                         while c {
+                            d = 22 + c;
+                        }
+                                     c = 42 + 46 - g;
+                    }
+                     else {
+                                         f = g - 58 - 2;
+                        d = d - f + 12 * a;
+                    }
+                       while f {
+                        if a then {
+                            f = 24 * g;
+                            e = 90;
+                        } else {
+                                  c = c * d;
+                            e = 62 + c * d - e - d;
+                        }
+                                    e = 100 - g * 88 + 67;
+                        e = a + a * 35 + 90 * c;
+                    }
+                           }
+                           else {
+                                          f = e * 1 + 78 * b;
+                }
+                 if a then {
+                    a = 80 + 51 * 54;
+                    while e {
+                        a = 7 + 93;
+                    }
+                            c = 95 + 72 - 73 - f + b;
+                    f = 21 + 52 + f + d * 55;
+                }
+                else {
+                            while a {
+                        d = 80 - d;
+                        d = 24 - d;
+                    }
+                            if e then {
+                        d = 84 - d * 1 * 64 - 34;
+                        a = 24 * e - g;
+                        d = 80 + 51 - 40 - 37 * g;
+                    }
+                    else {
+                                     b = 85 * c + c - 27;
+                    }
+                              }
+                                    }
+                                        if f then {
+                e = b - 95;
+                while g {
+                    g = 60 * c;
+                    e = d * d;
+                    e = 71 * 45 + d - e + 30;
+                    if f then {
+                        a = f + 72 * 100 + g;
+                        d = 61;
+                        g = d;
+                        g = 81 - 1 - 56 + g;
+                    }
+                    else {
+                         if d then {
+                            g = 19;
+                        }
+                         else {
+                                b = 22 - c * 4 + 31;
+                            d = c + 10 * c - 94;
+                        }
+                                d = d - b - 12 + d + a;
+                        if d then {
+                            b = d * 41 * a * 78;
+                            d = 40 - 70 * c - f;
+                            while b {
+                                if d then {
+                                    while c {
+                                        a = 1 + b * 5;
+                                        g = b - d;
+                                        g = 18 - 79 - g * 35 + 59;
+                                        if d then {
+                                            e = c + 20 - 14 + 23;
+                                            while e {
+                                                while d {
+                                                    c = 78 * e + 58 * f;
+                                                    g = 57 * 94 + 95 * 14;
+                                                }
+                                                   if c then {
+                                                    while f {
+                                                        while a {
+                                                            a = g - e * 54 - 83 * 92;
+                                                        }
+                                                                    d = a + d * 69 - g - 90;
+                                                    }
+                                                             a = e + 59 * d + 43 + f;
+                                                    a = 27 - d;
+                                                    d = 60 * 63 * 27;
+                                                }
+                                                else {
+                                                       d = 37 * 5 * 44 + d;
+                                                    g = 61 * 90 + g;
+                                                    g = c + a * d * 70 - g;
+                                                    g = 62;
+                                                }
+                                                     while d {
+                                                    a = 33 - 53 - b - c;
+                                                    b = f + 86 + d;
+                                                    g = e * f * g;
+                                                    b = e - 12 * 39 + 5;
+                                                }
+                                                                      }
+                                                                                             a = c;
+                                        }
+                                         else {
+                                             b = 93 + 97;
+                                            d = c + d;
+                                            c = f * 33 + g;
+                                        }
+                                         }
+                                         e = 81 - d * c * 75 + d;
+                                    b = 10 - g + 43 * 49;
+                                }
+                                 else {
+                                                            d = a * b;
+                                    a = d + 28 - f;
+                                    f = 7 - 10 * 81 * 40 - 12;
+                                }
+                                       if b then {
+                                    b = e + g * 39 + 63 - 74;
+                                    g = 84 + d + d;
+                                }
+                                 else {
+                                   a = 22 - b * 27 * d;
+                                    e = 13 * 30 * f;
+                                    e = e;
+                                    b = d - 28 + 97 * 43;
+                                }
+                                 }
+                                 }
+                                 else {
+                                 f = 60 * g * 96 + a;
+                            d = 44 + 98 * e * 39;
+                            d = 7;
+                        }
+                                           }
+                                                     }
+                                                                   g = g + 96 + f + 37 + d;
+                f = a * 95 - a * g - 98;
+            }
+             else {
+                    g = g * d - 92 - 26;
+                while a {
+                    if d then {
+                        b = 95 * b - 82 + 15 - g;
+                        e = 37 - e + 93;
+                        g = 20 + 56;
+                    }
+                    else {
+                      while d {
+                            d = b * 57 - 42 - 63 - e;
+                            if g then {
+                                d = e;
+                            }
+                            else {
+                             a = a - f * g - 91;
+                                a = 48 - d - b + e + 48;
+                                if f then {
+                                    f = f * 37 - b;
+                                }
+                                else {
+                                 a = e - b * d * g * 89;
+                                    a = f - 45 - f + a * a;
+                                    while d {
+                                        if c then {
+                                            b = a;
+                                        }
+                                        else {
+                                          b = 32;
+                                        }
+                                             while c {
+                                            if b then {
+                                                b = b;
+                                                f = f * a - a + d + 67;
+                                                d = e + g * e * 72;
+                                                while g {
+                                                    f = 93 + c + 17 - 65;
+                                                    d = f;
+                                                    a = d - 40;
+                                                    if e then {
+                                                        a = 86 - g * 8;
+                                                        if a then {
+                                                            b = d - 74 - 23 + 37;
+                                                            d = 85 + f * b - a;
+                                                        }
+                                                         else {
+                                                         if f then {
+                                                                d = 44 + e + b;
+                                                                d = d * b;
+                                                                while f {
+                                                                    d = b - d - 70 - d;
+                                                                }
+                                                                  }
+                                                                else {
+                                                                  d = 54 - 92;
+                                                            }
+                                                                                                                }
+                                                                if c then {
+                                                            b = e - f + 49 - 12;
+                                                            if g then {
+                                                                d = f + 11 * f + 93 + c;
+                                                                while c {
+                                                                    b = c + f * f - 24;
+                                                                    f = 32 + 63 * b;
+                                                                }
+                                                                }
+                                                                else {
+                                                                 d = 86 * g - g + 14;
+                                                            }
+                                                             }
+                                                              else {
+                                                               g = c - 87 - d;
+                                                            g = a + 46 + 16 - 97 + 78;
+                                                            c = a - c * 7 - 37;
+                                                        }
+                                                         a = 30 + 12 * 98 * d - 10;
+                                                    }
+                                                     else {
+                                                    g = d + g + 10 - d;
+                                                        if d then {
+                                                            d = c * d - 82 + g;
+                                                            g = b;
+                                                            if e then {
+                                                                d = e - 12;
+                                                            } else {
+                                                               a = 97 * 1;
+                                                                while b {
+                                                                    f = 82;
+                                                                    c = a;
+                                                                    d = e * 24 * 10 + 82;
+                                                                }
+                                                                     }
+                                                                               if d then {
+                                                                b = f + g - 42 - c;
+                                                                f = b + c;
+                                                                if f then {
+                                                                    b = a + e;
+                                                                    a = e + e;
+                                                                    b = d * 13 - 8 * 35;
+                                                                    f = a;
+                                                                }
+                                                                else {
+                                                                 e = c + g * 45;
+                                                                    e = 15 * a - c - 37 * d;
+                                                                    if a then {
+                                                                        g = g + g + 84 * g;
+                                                                        b = c + 5 - g;
+                                                                        d = g + 41 - 52 + d * 54;
+                                                                    }
+                                                                    else {
+                                                                        if e then {
+                                                                            g = b + 90;
+                                                                            while d {
+                                                                                e = 31 * c - d;
+                                                                                e = c - 5 + 48;
+                                                                            }
+                                                                              d = 11 * f + c + a;
+                                                                            d = 88 + 78 - 76;
+                                                                        }
+                                                                        else {
+                                                                           g = c + 57 + e * 30 + 23;
+                                                                            g = 83;
+                                                                            g = 3 + f - 43 + f * 49;
+                                                                        }
+                                                                          if e then {
+                                                                            e = 17 - a - 84 * d * 18;
+                                                                        }
+                                                                         else {
+                                                                         while e {
+                                                                                c = 21 - 74 * 38 - c * 76;
+                                                                                b = b + 38 + 8 * 62;
+                                                                                f = 14 * 31 - g;
+                                                                                if e then {
+                                                                                    while c {
+                                                                                        e = c - 15 + g * 76;
+                                                                                        d = e * d + f + g + b;
+                                                                                        f = f + f;
+                                                                                    }
+                                                                                    }
+                                                                                    else {
+                                                                                    e = 60 * d * d + 65 + e;
+                                                                                    d = b + b * d;
+                                                                                    while d {
+                                                                                        f = 45;
+                                                                                        e = a;
+                                                                                        e = 56;
+                                                                                    }
+                                                                                      }
+                                                                                         }
+                                                                                          f = 27 + c + 12 - 31;
+                                                                        }
+                                                                         while d {
+                                                                            d = 86 + 90;
+                                                                            d = a;
+                                                                            d = a;
+                                                                        }
+                                                                          }
+                                                                           }
+                                                                            while f {
+                                                                    f = 28 + 15 - 64 - c;
+                                                                    d = 55 * 94 + f - 43;
+                                                                    d = c;
+                                                                }
+                                                                 }
+                                                                 else {
+                                                                  a = c - 60 + g;
+                                                                f = d;
+                                                                g = 4 + 76 + 6 + e;
+                                                            }
+                                                             }
+                                                             else {
+                                                             f = 42;
+                                                        }
+                                                        b = g * 53 - g - 38;
+                                                    }
+                                                     }
+                                                     }
+                                                     else {
+                                                     a = d + 42 + 29 * 51 * c;
+                                                while g {
+                                                    b = 60 + g + e - 18 * d;
+                                                    e = 5 - 1 * d - g;
+                                                    while a {
+                                                        e = 20;
+                                                        while c {
+                                                            b = f;
+                                                        }
+                                                          }
+                                                             }
+                                                               a = 22 - 83 - 97 * 90 - 39;
+                                                d = c;
+                                            }
+                                             f = 29 * 35;
+                                        }
+                                           d = 4 * b;
+                                    }
+                                      }
+                                       d = 1 * 59;
+                            }
+                              d = 72 - 78 - 95 * e * 61;
+                            a = 7 * g;
+                        }
+                         d = 58 * b - 76 + b * 32;
+                        b = c - 2 + 98 - g;
+                    }
+                      d = b * a - d + a * 11;
+                }
+                  }
+                    c = d * c + 68 - 81 + d;
+            a = 20 + c + 76;
+        }
+        else {
+          d = 53 - d - a;
+            a = a - g + 97 * d - 18;
+        }
+          e = 7 * e + 55 - 15;
+    }    e = d + d;
+}
+
+procedure proc5 {
+   d = 45;
+    if d then {
+        c = g - e;
+        d = 86 * g + 83;
+    }
+     else {
+     d = d + 83 + 71;
+        while c {
+            d = 90 * a + 5;
+            d = 77 + d;
+        }
+          g = b - g + c + 35 + 83;
+    }
+     g = g * 12 * 79 + 65;
+}
+
+procedure proc6 {
+ if e then {
+        d = 35 + b + 87;
+    }
+     else {
+     while e {
+            c = b;
+        }
+          if a then {
+            d = e + 49 * 79 + 45 + f;
+            g = 41 + 9 * b + e;
+            a = 82 + 1 + f * 45 + 26;
+        }
+        else {
+            b = 48;
+            while c {
+                b = g + c * c - 9;
+                e = b + b - 6 * f;
+            }
+                   f = f;
+            e = f - 91 + d - d;
+        }
+           }
+             f = 90;
+    e = 90 * a - 12 - 21 - 69;
+}
+
+procedure proc7 {
+ if a then {
+        b = b;
+    }
+    else {
+     f = 95 + 3 * g - a + c;
+        if f then {
+            a = 41 + 66 * 83 * 93;
+            if d then {
+                f = d - 10 - 78 - e + 24;
+            }
+             else {
+             e = c - 62 + 56 + d - 11;
+                g = 12 + 93 * d + 59;
+            }
+              e = 78 - b - d;
+        }
+        else {
+              f = e * 51;
+        }
+        }
+         e = a;
+}
+procedure proc8 {
+if b then {
+        g = d - 9 * 62;
+    }
+    else {
+       d = 11 * 97 + e * e;
+        while d {
+            d = 55 - 69 + e * 76;
+            a = g - 41 - g;
+            d = 55 + a;
+            d = b + 95 * a + d + 40;
+        }
+           while g {
+            if e then {
+                if b then {
+                    e = c * d * a;
+                    b = ab + a;
+                    b = g - a * 76 + 86;
+                }
+                else {
+                      while f {
+                        if e then {
+                            b = a;
+                            if d then {
+                                d = 50 * 50 + d + c;
+                                if a then {
+                                    d = 44 - 69 - 73 + b;
+                                    f = 55;
+                                    e = e - 73 - 60;
+                                }
+                                else {
+                                a = d - e - b + f;
+                                    d = 6 * 42;
+                                    d = e + d;
+                                }
+                                 ab = 10;
+                                while d {
+                                    a = b;
+                                    d = 80;
+                                    f = f * d * 62;
+                                }
+                                 }
+                                 else {
+                                  f = g + f * f;
+                            }
+                              d = 48 - b * 13 - 2 * a;
+                            while b {
+                                a = 17;
+                                e = 46 * 44 - a + b;
+                                f = 75;
+                            }
+                                }
+                                 else {
+                                              d = f;
+                            while b {
+                                g = d - 26;
+                                e = 93 - g + 79;
+                            }
+                                            }
+                                                       }
+                                                                    a = 85;
+                }
+                    f = 86 * 92 + g;
+            }
+             else {
+                while a {
+                    a = 41 + 1 * 22 * g - 28;
+                    d = d - e + 35;
+                    g = 85 + d + a - d + 79;
+                }
+                    d = 38 * 38 - 48;
+            }
+                  }
+                       c = 43 * 71 + 48 + e - 25;
+    }
+     d = e + a * e;
+    while g {
+        d = d - a * 26 - 90;
+    }
+      d = 29 * c + 49 + 48 - 40;
+}

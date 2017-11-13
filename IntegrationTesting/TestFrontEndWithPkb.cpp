@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "test-drivers/ParserDriver.h"
-#include "PkbWriteOnly.h"
-#include "PKB.h"
+#include "pkb/PkbWriteOnly.h"
+#include "pkb/PKB.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -62,8 +62,6 @@ namespace IntegrationTesting
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       // Follow table should be populated with 1 follows relation
-      actual = followTable->getFollowsAnything();
-      Assert::AreEqual(actual.size(), size_t(2));
       Assert::IsTrue(m_pkb->isFollows(1, 2));
       Assert::IsTrue(m_pkb->isFollows(2, 3));
       Assert::IsFalse(m_pkb->isFollows(0, 1));
@@ -78,20 +76,14 @@ namespace IntegrationTesting
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
 
       ParentTable* parentTable = m_pkb->getParentTable();
-      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(0));
-
-      editSimpleProgramFile("while i { \nx=y;}");
-      m_parser->parseStmt(dummyStmtList, dummyProgLines);
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(1));
 
       editSimpleProgramFile("while i {\n while j { \n x=y;}}");
       m_parser->parseStmt(dummyStmtList, dummyProgLines);
-      actual = parentTable->getParentOfAnything();
-      Assert::AreEqual(actual.size(), size_t(3));
+      parentTable->populateParentAnythingRelationships();
+      LIST_OF_STMT_NUMS actual = parentTable->getParentOfAnything();
+      Assert::AreEqual(actual.size(), size_t(2));
       actual = parentTable->getChildrenOfAnything();
-      Assert::AreEqual(actual.size(), size_t(3));
+      Assert::AreEqual(actual.size(), size_t(2));
     }
 
     TEST_METHOD(TestParserAndPKBModifiesP) 

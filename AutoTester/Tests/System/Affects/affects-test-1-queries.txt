@@ -1,0 +1,340 @@
+1 - Affects Functionality Test
+procedure p; stmt s1,s2;
+Select p such that Affects(s1,s2)
+Dynames, Kyrios
+5000
+2 - Affects Functionality Test
+stmt s1,s2; assign a;
+Select s1 such that Affects(s2,a)
+1,2,3,4,5,6,7,8
+5000
+3 - Affects Functionality Test
+assign a; stmt s; prog_line pl;
+Select a such that Affects(s,pl)
+1,3,6,7,8
+5000
+4 - Affects Functionality Test
+stmt s;
+Select BOOLEAN such that Affects(s,3)
+true
+5000
+5 - Affects Functionality Test
+call c; stmt s;
+Select c such that Affects(s,_)
+5
+5000
+6 - Affects Functionality Test
+stmt s2; assign a; prog_line pl;
+Select pl such that Affects(s2,a)
+1,2,3,4,5,6,7,8
+5000
+7 - Affects Functionality Test
+constant co; stmt s; prog_line pl;
+Select co such that Affects(pl,s)
+1,2,3
+5000
+8 - Affects Functionality Test
+stmt s;
+Select BOOLEAN such that Affects(1,s)
+true
+5000
+9 - Affects Functionality Test
+stmtLst c; stmt s;
+Select c such that Affects(_,s)
+1,3,5,6,8
+5000
+10 - Affects Functionality Test
+variable p;
+Select p such that Affects(1,3)
+a,i,b,j,c
+5000
+11 - Affects Invalid Test 1
+procedure p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+12 - Affects Invalid Test 2
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+13 - Affects Invalid Test 3
+call p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+14 - Affects Invalid Test 4
+while sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+15 - Affects Invalid Test 5
+if p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+16 - Affects Invalid Test 6
+variable sl; stmt s1, s2;
+Select s1 such that Affects(s2,sl)
+none
+5000
+17 - Affects Invalid Test 7
+constant p; stmt s;
+Select BOOLEAN such that Affects(s,p)
+false
+5000
+18 - Affects Invalid Test 8
+stmt s1, s2;
+Select s1 such that Affects(s2,"sl")
+none
+5000
+19 - Affects Invalid Test 9
+procedure p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+20 - Affects Invalid Test 10
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+21 - Affects Invalid Test 11
+call p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+22 - Affects Invalid Test 12
+while sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+23 - Affects Invalid Test 13
+if p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+24 - Affects Invalid Test 14
+variable sl; stmt s1, s2;
+Select s1 such that Affects(sl,s2)
+none
+5000
+25 - Affects Invalid Test 15
+constant p; stmt s;
+Select BOOLEAN such that Affects(p,s)
+false
+5000
+26 - Affects Invalid Test 16
+stmt s1, s2;
+Select s1 such that Affects("sl",s2)
+none
+5000
+27 - Affects* Functionality Test
+procedure p; stmt s1,s2;
+Select p such that Affects*(s1,s2)
+Dynames, Kyrios
+5000
+28 - Affects* Functionality Test
+stmt s1,s2; assign a;
+Select s1 such that Affects*(s2,a)
+1,2,3,4,5,6,7,8
+5000
+29 - Affects* Functionality Test
+assign a; stmt s; prog_line pl;
+Select a such that Affects*(s,pl)
+1,3,6,7,8
+5000
+30 - Affects* Functionality Test
+stmt s;
+Select BOOLEAN such that Affects*(s,3)
+true
+5000
+31 - Affects* Functionality Test
+call c; stmt s;
+Select c such that Affects*(s,_)
+5
+5000
+32 - Affects* Functionality Test
+stmt s2; assign a; prog_line pl;
+Select pl such that Affects*(s2,a)
+1,2,3,4,5,6,7,8
+5000
+33 - Affects* Functionality Test
+constant co; stmt s; prog_line pl;
+Select co such that Affects*(pl,s)
+1,2,3
+5000
+34 - Affects* Functionality Test
+stmt s;
+Select BOOLEAN such that Affects*(1,s)
+true
+5000
+35 - Affects* Functionality Test
+stmtLst c; stmt s;
+Select c such that Affects*(_,s)
+1,3,5,6,8
+5000
+36 - Affects* Functionality Test
+variable p;
+Select p such that Affects*(1,7)
+a,i,b,j,c
+5000
+37 - Affects* Invalid Test 1
+procedure p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+38 - Affects* Invalid Test 2
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+39 - Affects* Invalid Test 3
+call p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+40 - Affects* Invalid Test 4
+while sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+41 - Affects* Invalid Test 5
+if p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+42 - Affects* Invalid Test 6
+variable sl; stmt s1, s2;
+Select s1 such that Affects*(s2,sl)
+none
+5000
+43 - Affects* Invalid Test 7
+constant p; stmt s;
+Select BOOLEAN such that Affects*(s,p)
+false
+5000
+44 - Affects* Invalid Test 8
+stmt s1, s2;
+Select s1 such that Affects*(s2,"sl")
+none
+5000
+45 - Affects* Invalid Test 9
+procedure p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+46 - Affects* Invalid Test 10
+stmtLst sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+47 - Affects* Invalid Test 11
+call p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+48 - Affects* Invalid Test 12
+while sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+49 - Affects* Invalid Test 13
+if p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+50 - Affects* Invalid Test 14
+variable sl; stmt s1, s2;
+Select s1 such that Affects*(sl,s2)
+none
+5000
+51 - Affects* Invalid Test 15
+constant p; stmt s;
+Select BOOLEAN such that Affects*(p,s)
+false
+5000
+52 - Affects* Invalid Test 16
+stmt s1, s2;
+Select s1 such that Affects*("sl",s2)
+none
+5000
+53 - Affects Recursive Test
+stmt s;
+Select s such that Affects(s,s)
+3
+5000
+54 - Affects* Recursive Test
+stmt s;
+Select s such that Affects*(s,s)
+3
+5000
+55 - Affects Recursive Test
+assign s;
+Select s such that Affects(s,s)
+3
+5000
+56 - Affects* Recursive Test
+assign s;
+Select s such that Affects*(s,s)
+3
+5000
+57 - Affects Recursive Test
+prog_line s;
+Select s such that Affects(s,s)
+3
+5000
+58 - Affects* Recursive Test
+prog_line s;
+Select s such that Affects*(s,s)
+3
+5000
+59 - Affects Recursive Test
+
+Select BOOLEAN such that Affects(3,3)
+true
+5000
+60 - Affects* Recursive Test
+
+Select BOOLEAN such that Affects*(3,3)
+true
+5000
+61 - Affects Recursive Test
+
+Select BOOLEAN such that Affects(_,_)
+true
+5000
+62 - Affects* Recursive Test
+
+Select BOOLEAN such that Affects*(_,_)
+true
+5000
+63 - Affects Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects(1,8)
+false
+5000
+64 - Affects* Different Procedure Invalid Test
+
+Select BOOLEAN such that Affects*(1,8)
+false
+5000
+65 - Affects Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects(0,1)
+false
+5000
+66 - Affects Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects(8,9)
+false
+5000
+67 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(0,3)
+false
+5000
+68 - Affects* Non-Existence Invalid Test
+
+Select BOOLEAN such that Affects*(8,10)
+false
+5000

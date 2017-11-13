@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "ConstantTable.h"
+#include "pkb/relationshipTables/ConstantTable.h"
 #include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

@@ -1,0 +1,122 @@
+procedure WhileMultiple {
+1.	sarada = sakura + sasuke;
+2.	shikamaru = shikamaru + 100;
+3.	while naruto {
+4.		naruto = 2 + kurama;
+5.		sakura = love - 5;
+6.		while sasuke {
+7.			sakura = love + 100;
+8.			sakura = naruto - 100;
+9.			attack = 10 + 100;
+10.			while kakashi {
+11.				shadowClone = naruto + kakashi;
+12.				while sageMode {
+13.					while inBattle {
+14.						jiraya = attack + 100 * knowledge - 5;
+					}
+15.					naruto = attack + 100;
+				}
+16.				while inBattle {
+17.					kakashi = naruto + jiraya;
+18.					attack = attack * 5;
+				}
+			}
+19.			sarada = love * 100;
+		}
+20.		inBattle = sageMode * love * knowledge;
+	}
+21.	knowledge = sleep + inBattle + love + naruto;
+}
+
+procedure IfMultiple {
+22.	boruto = naruto + hinata;
+23.	if inBattle then {
+24.		boruto = attack + 5;
+25.		boruto = shadowClone + 5;
+26.		if naruto then {
+27.			boruto = love - 20;
+28.			boruto = boruto * shadowClone - 20;
+29.			hinata = love + 100;
+30.			if hinata then {
+31.				himawari = love + 100;
+32.				if inBattle then {
+33.					hinata = attack + 100 * naruto * love + 100 - boruto;
+34.					himawari = hinata * naruto + love;
+				}
+				else {
+35.					knowledge = naruto + hinata * himawari - boruto;
+				}
+			}
+			else {
+36.				knowledge = love * 0;
+			}
+37.			if sakura then {
+38.				knowledge = hinata * love - sakura * love;
+			}
+			else {
+39.				shadowClone = shadowClone + 3;
+			}
+40.			naruto = sleep;
+		}
+		else {
+41.			boruto = knowledge + 2;
+42.			love = sarada + boruto;
+		}
+	}
+	else {
+43.		kakashi = inBattle;
+44.		if inBattle then {
+45.			kakashi = sageMode - 5 + boruto - 5;
+46.			shadowClone = 100 * shadowClone;
+		}
+		else {
+47.			kakashi = sleep + 5;
+48.			shadowClone = shadowClone - 10;
+49.			knowledge = sleep + 10;
+		}
+50.		kakashi = shadowClone * 0;
+51.		if love then {
+52.			kakashi = love + 5;
+53.			love = knowledge + shadowClone + sageMode;
+		}
+		else {
+54.			naruto = inBattle;
+55.			boruto = inBattle;
+		}
+	}
+}
+
+procedure WhileIf {
+56.	inBattle = naruto + sasuke;
+57.	while inBattle {
+58.		if naruto then {
+59.			naruto = shadowClone * sageMode * attack + 100;
+		}
+		else {
+60.			sasuke = knowledge * 100 - naruto;
+		}		
+	}
+61.	if sleep then {
+62.		dream = naruto + hinata + boruto + himawari;
+	}
+	else {
+63.		boruto = hinata + himawari - naruto;
+	}
+}
+
+procedure IfWhile {
+64.	if dream then {
+65.		sleep = 100 + 5;
+66.		while sleep {
+67.			inBattle = 100 - 5 - sleep;
+68.			knowledge = 5 - 20;
+		}
+	}
+	else {
+69.		sleep = knowledge + dream;
+	}
+70.	while sleep {
+71.		sleep = sleep + 2;
+	}
+72.	dream = sleep * 5000;
+}

@@ -1,0 +1,190 @@
+1 - Get all pairs of Calls Transitivity
+procedure p1, p2;
+Select <p1, p2> such that Calls* (p1, p2)
+Aaron Ben,Aaron Colin,Aaron Cristina,Aaron Damith,Aaron EeChien,Aaron Gary,Aaron Hugh,Aaron Ian,Aaron Jin,Aaron MinYen,Aaron Parvathy,Aaron RayYan,Aaron Steven,Aaron Thilina,Aaron UncleSoo,Aaron WeeSun,Aaron Wynne,Ben Colin,Ben Cristina,Ben Damith,Ben EeChien,Ben Gary,Ben Hugh,Ben Ian,Ben Jin,Ben MinYen,Ben Parvathy,Ben RayYan,Ben Steven,Ben Thilina,Ben UncleSoo,Ben WeeSun,Ben Wynne,Colin Cristina,Colin Damith,Colin EeChien,Colin Gary,Colin Hugh,Colin Ian,Colin Jin,Colin MinYen,Colin Parvathy,Colin RayYan,Colin Steven,Colin Thilina,Colin UncleSoo,Colin WeeSun,Colin Wynne,Cristina MinYen,Cristina Parvathy,Cristina RayYan,Cristina Thilina,Cristina UncleSoo,Cristina Wynne,Damith Cristina,Damith EeChien,Damith Gary,Damith Hugh,Damith Ian,Damith Jin,Damith MinYen,Damith Parvathy,Damith RayYan,Damith Steven,Damith Thilina,Damith UncleSoo,Damith WeeSun,Damith Wynne,EeChien Cristina,EeChien Gary,EeChien Hugh,EeChien Ian,EeChien Jin,EeChien MinYen,EeChien Parvathy,EeChien RayYan,EeChien Steven,EeChien Thilina,EeChien UncleSoo,EeChien WeeSun,EeChien Wynne,Gary MinYen,Gary RayYan,Gary Steven,Gary Thilina,Gary UncleSoo,Gary WeeSun,Gary Wynne,Hugh Cristina,Hugh Ian,Hugh Jin,Hugh MinYen,Hugh Parvathy,Hugh RayYan,Hugh Thilina,Hugh UncleSoo,Hugh Wynne,Ian Cristina,Ian Jin,Ian MinYen,Ian Parvathy,Ian RayYan,Ian Thilina,Ian UncleSoo,Ian Wynne,Jin Cristina,Jin MinYen,Jin Parvathy,Jin RayYan,Jin Thilina,Jin UncleSoo,Jin Wynne,MinYen UncleSoo,MinYen Wynne,Parvathy MinYen,Parvathy RayYan,Parvathy Thilina,Parvathy UncleSoo,Parvathy Wynne,Steven MinYen,Steven RayYan,Steven Thilina,Steven UncleSoo,Steven WeeSun,Steven Wynne,Thilina MinYen,Thilina RayYan,Thilina UncleSoo,Thilina Wynne,UncleSoo Wynne,WeeSun MinYen,WeeSun RayYan,WeeSun Thilina,WeeSun UncleSoo,WeeSun Wynne
+5000
+2 - Ident(Procedure) Ident(Procedure) OusideCallInside
+
+Select BOOLEAN such that Calls*("Aaron", "Ben")
+true
+5000
+3 - Ident(Procedure) Ident(Procedure) InsideCallOutside
+
+Select BOOLEAN such that Calls*("Colin", "Ben")
+false
+5000
+4 - Ident(Procedure) Ident(Procedure) Distance1
+
+Select BOOLEAN such that Calls*("Aaron", "Ben")
+true
+5000
+5 - Ident(Procedure) Ident(Procedure) Distance2
+
+Select BOOLEAN such that Calls*("Aaron", "Colin")
+true
+5000
+6 - Ident(Procedure) Ident(Procedure) DistanceFar
+
+Select BOOLEAN such that Calls*("Aaron", "RayYan")
+true
+5000
+7 - NonExistent Procedures
+
+Select BOOLEAN such that Calls*("Anand", "Adele")
+false
+5000
+8 - Recursion
+
+Select BOOLEAN such that Calls*("Cristina", "Cristina")
+false
+5000
+9 - Ident(Procedure) Ident(Variable)
+
+Select BOOLEAN such that Calls*("Aaron", "stress")
+false
+5000
+10 - Ident(Variable) Ident(Procedure)
+
+Select BOOLEAN such that Calls*("stress", "Aaron")
+false
+5000
+11 - Ident Underscore
+
+Select BOOLEAN such that Calls*("Ben", _)
+true
+5000
+12 - Underscore Ident
+
+Select BOOLEAN such that Calls*(_, "Steven")
+true
+5000
+13 - Underscore Underscore
+
+Select BOOLEAN such that Calls*(_, _)
+true
+5000
+14 - Ident Call SingleProcedure
+procedure p;
+Select p such that Calls*("Aaron", p)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+15 - Ident Call MultipleProcedure
+procedure p;
+Select p such that Calls*("Ben", p)
+Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+16 - Ident Stmt
+stmt s;
+Select s such that Calls*("Colin", s)
+none
+5000
+17 - Ident Assign
+assign a;
+Select a such that Calls*("Colin", a)
+none
+5000
+18 - Ident While
+while w;
+Select w such that Calls*("Colin", w)
+none
+5000
+19 - Ident If
+if ifs;
+Select ifs such that Calls*("Colin", ifs)
+none
+5000
+20 - Ident ProgLine
+prog_line pl;
+Select pl such that Calls*("Colin", pl)
+none
+5000
+21 - Ident Call
+call call;
+Select call such that Calls*("Colin", call)
+none
+5000
+22 - Ident Variable
+variable v;
+Select v such that Calls*("Colin", v)
+none
+5000
+23 - Ident Constant
+constant c;
+Select c such that Calls*("Colin", c)
+none
+5000
+24 - Procedure Underscore
+procedure p;
+Select p such that Calls*(p, _)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+25 - Underscore Procedure
+procedure p;
+Select p such that Calls*(_, p)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+26 - Underscore Stmt
+stmt s;
+Select s such that Calls*(_, s)
+none
+5000
+27 - Underscore Assign
+assign a;
+Select a such that Calls*(_, a)
+none
+5000
+28 - Underscore While
+while w;
+Select w such that Calls*(_, w)
+none
+5000
+29 - Underscore If
+if ifs;
+Select ifs such that Calls*(_, ifs)
+none
+5000
+30 - Underscore ProgLine
+prog_line pl;
+Select pl such that Calls*(_, pll)
+none
+5000
+31 - Underscore Call
+call call;
+Select call such that Calls*(_, call)
+none
+5000
+32 - Underscore Variable
+variable v;
+Select v such that Calls*(_, v)
+none
+5000
+33 - Underscore Constant
+constant c;
+Select c such that Calls*(_, c)
+none
+5000
+34 - Procedure Ident
+procedure p;
+Select p such that Calls*(p, "Thilina")
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,Parvathy,Steven,WeeSun
+5000
+35 - Procedure Procedure
+procedure p1, p2;
+Select p1 such that Calls*(p1, p2)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+36 - 2Clauses 1CommonSynonym SameFront
+procedure p1, p2, p3;
+Select p1 such that Calls*(p1, p2) and Calls*(p1, p3)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+37 - 2Clauses 1CommonSynonym SameBack
+procedure p1, p2, p3;
+Select p2 such that Calls*(p1, p2) and Calls*(p3, p2)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+38 - 2Clauses 1CommonSynonym Transitive Closure
+procedure p1, p2, p3;
+Select p2 such that Calls*(p1, p2) and Calls*(p2, p3)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000

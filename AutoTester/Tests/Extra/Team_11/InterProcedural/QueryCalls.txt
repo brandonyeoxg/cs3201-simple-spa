@@ -1,0 +1,180 @@
+1 - Get all pairs of Callers and Callees
+procedure p1, p2;
+Select <p1, p2> such that Calls (p1, p2)
+Aaron Ben,Ben Colin,Ben Damith,Ben Hugh,Ben Steven,Colin Damith,Colin Thilina,Cristina Parvathy,Cristina Thilina,Cristina Wynne,Damith EeChien,EeChien Gary,EeChien Hugh,Gary Steven,Gary Wynne,Hugh Ian,Hugh UncleSoo,Ian Jin,Jin Cristina,MinYen UncleSoo,Parvathy Thilina,Parvathy Wynne,Steven WeeSun,Thilina MinYen,Thilina RayYan,UncleSoo Wynne,WeeSun Thilina
+5000
+2 - Ident(Procedure) Ident(Procedure) OusideCallInside
+
+Select BOOLEAN such that Calls("Aaron", "Ben")
+true
+5000
+3 - Ident(Procedure) Ident(Procedure) InsideCallOutside
+
+Select BOOLEAN such that Calls("Colin", "Ben")
+false
+5000
+4 - Ident(Procedure) Ident(Procedure) Transitive Call
+
+Select BOOLEAN such that Calls("Aaron", "Colin")
+false
+5000
+5 - NonExistent Procedures
+
+Select BOOLEAN such that Calls("Anand", "Adele")
+false
+5000
+6 - Recursion
+
+Select BOOLEAN such that Calls("Cristina", "Cristina")
+false
+5000
+7 - Ident(Procedure) Ident(Variable)
+
+Select BOOLEAN such that Calls("Aaron", "stress")
+false
+5000
+8 - Ident(Variable) Ident(Procedure)
+
+Select BOOLEAN such that Calls("stress", "Aaron")
+false
+5000
+9 - Ident Underscore
+
+Select BOOLEAN such that Calls("Ben", _)
+true
+5000
+10 - Underscore Ident
+
+Select BOOLEAN such that Calls(_, "Steven")
+true
+5000
+11 - Underscore Underscore
+
+Select BOOLEAN such that Calls(_, _)
+true
+5000
+12 - Ident Call SingleProcedure
+procedure p;
+Select p such that Calls("Aaron", p)
+Ben
+5000
+13 - Ident Call MultipleProcedure
+procedure p;
+Select p such that Calls("Ben", p)
+Colin, Damith, Hugh, Steven
+5000
+14 - Ident Stmt
+stmt s;
+Select s such that Calls("Colin", s)
+none
+5000
+15 - Ident Assign
+assign a;
+Select a such that Calls("Colin", a)
+none
+5000
+16 - Ident While
+while w;
+Select w such that Calls("Colin", w)
+none
+5000
+17 - Ident If
+if ifs;
+Select ifs such that Calls("Colin", ifs)
+none
+5000
+18 - Ident ProgLine
+prog_line pl;
+Select pl such that Calls("Colin", pl)
+none
+5000
+19 - Ident Call
+call call;
+Select call such that Calls("Colin", call)
+none
+5000
+20 - Ident Variable
+variable v;
+Select v such that Calls("Colin", v)
+none
+5000
+21 - Ident Constant
+constant c;
+Select c such that Calls("Colin", c)
+none
+5000
+22 - Procedure Underscore
+procedure p;
+Select p such that Calls(p, _)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+23 - Underscore Procedure
+procedure p;
+Select p such that Calls(_, p)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+24 - Underscore Stmt
+stmt s;
+Select s such that Calls(_, s)
+none
+5000
+25 - Underscore Assign
+assign a;
+Select a such that Calls(_, a)
+none
+5000
+26 - Underscore While
+while w;
+Select w such that Calls(_, w)
+none
+5000
+27 - Underscore If
+if ifs;
+Select ifs such that Calls(_, ifs)
+none
+5000
+28 - Underscore ProgLine
+prog_line pl;
+Select pl such that Calls(_, pll)
+none
+5000
+29 - Underscore Call
+call call;
+Select call such that Calls(_, call)
+none
+5000
+30 - Underscore Variable
+variable v;
+Select v such that Calls(_, v)
+none
+5000
+31 - Underscore Constant
+constant c;
+Select c such that Calls(_, c)
+none
+5000
+32 - Procedure Ident
+procedure p;
+Select p such that Calls(p, "Thilina")
+Colin,Cristina,Parvathy,WeeSun
+5000
+33 - Procedure Procedure
+procedure p1, p2;
+Select p1 such that Calls(p1, p2)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+34 - 2Clauses 1CommonSynonym SameFront
+procedure p1, p2, p3;
+Select p1 such that Calls(p1, p2) and Calls(p1, p3)
+Aaron,Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000
+35 - 2Clauses 1CommonSynonym SameBack
+procedure p1, p2, p3;
+Select p2 such that Calls(p1, p2) and Calls(p3, p2)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,RayYan,Steven,Thilina,UncleSoo,WeeSun,Wynne
+5000
+36 - 2Clauses 1CommonSynonym Transitive Closure
+procedure p1, p2, p3;
+Select p2 such that Calls(p1, p2) and Calls(p2, p3)
+Ben,Colin,Cristina,Damith,EeChien,Gary,Hugh,Ian,Jin,MinYen,Parvathy,Steven,Thilina,UncleSoo,WeeSun
+5000

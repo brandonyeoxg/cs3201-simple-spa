@@ -135,22 +135,22 @@ true
 5000
 32 - 1 Common Synonym Base Test
 procedure p, p1;
-Select BOOLEAN such that Calls(p,p1) with p.procName="A"
+Select BOOLEAN such that Calls(p,p1) with p.procName="dqebio313eb4"
 true
 5000
 33 - 1 Common Synonym Base Test
 procedure p, p1;
-Select BOOLEAN such that Calls*(p,p1) with p1.procName="B"
+Select BOOLEAN such that Calls*(p,p1) with p1.procName="e13kh90RN8hw4"
 true
 5000
 34 - 1 Common Synonym Base Test
 procedure p; variable v;
-Select BOOLEAN such that Uses(p,v) with v.varName="c"
+Select BOOLEAN such that Uses(p,v) with v.varName="alqoehbm"
 true
 5000
 35 - 1 Common Synonym Base Test
 procedure p; variable v;
-Select BOOLEAN such that Modifies(p,v) with v.varName="c"
+Select BOOLEAN such that Modifies(p,v) with v.varName="alqoehbm"
 true
 5000
 36 - 1 Common Synonym Base Test
@@ -175,7 +175,7 @@ true
 5000
 40 - 1 Common Synonym Base Test
 assign a; variable v;
-Select BOOLEAN pattern a(v,"1") with v.varName="a"
+Select BOOLEAN pattern a(v,_"1"_) with v.varName="e13kh90RN8hw4"
 true
 5000
 41 - 1 Common Synonym Base Test
@@ -185,7 +185,7 @@ true
 5000
 42 - 1 Common Synonym Base Test
 if ifs; variable v;
-Select BOOLEAN pattern ifs(v,_,_) with v.varName="j"
+Select BOOLEAN pattern ifs(v,_,_) with v.varName="ibkbosa"
 true
 5000
 43 - 1 Common Synonym On Multiple Clauses Test
@@ -209,12 +209,12 @@ Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with pl.stmt#=2
 none
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
+if ifs; stmt s; variable v; stmt ss;
 Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 true
 5000
 45 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
+if ifs; stmt s; variable v; stmt ss;
 Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=6
 5
 5000

@@ -1,0 +1,28 @@
+procedure ASSIGNANDCALL {
+	alpha = 5;
+	bravo = alpha * 6;
+	charlie = charlie - bravo;
+	delta = 99;
+	echo = 98 - 2;
+	foxtrot = 78 + foxtrot;
+	call ANOTHERPROCEDURE;
+	golf = delta * alpha - 89 + foxtrot;
+}
+
+procedure ANOTHERPROCEDURE {
+	call THIRDPROCEDURE;
+	delta = 2 - 1;
+	india = 8 - 89 * 132;
+}
+
+procedure THIRDPROCEDURE {
+	charlie = foxtrot + 3;
+	if charlie then {
+		juliet = 4;
+	} else {
+		juliet = 10;
+	}
+	while juliet {
+		romeo = romeo + 1;
+	}
+}

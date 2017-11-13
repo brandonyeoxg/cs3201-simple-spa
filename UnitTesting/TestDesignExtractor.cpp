@@ -2,8 +2,8 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "DesignExtractor.h"
-#include "PKB.h"
+#include "design-extractor/DesignExtractor.h"
+#include "pkb/PKB.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -31,7 +31,7 @@ namespace UnitTesting {
       m_pkb->insertParentRelation(nestedStmtLine, 4);
       nestedStmtLine.push_back(4);
 
-      m_designExtractor = new DesignExtractor(m_pkb);
+      m_designExtractor = new DesignExtractor();
     }
 
     TEST_METHOD_CLEANUP(cleanupDummyPKB) 

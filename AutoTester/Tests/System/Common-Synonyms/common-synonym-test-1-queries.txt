@@ -166,7 +166,7 @@ true
 34 - 1 Common Synonym Base Test
 stmt s, s1;
 Select BOOLEAN such that Parent(s,s1) with s.stmt#=2
-true
+false
 5000
 35 - 1 Common Synonym Base Test
 stmt s; while w;
@@ -209,13 +209,13 @@ Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with pl.stmt#=2
 none
 5000
 43 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
-Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=3
+if ifs; stmt s; variable v; stmt ss;
+Select BOOLEAN such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=4
 true
 5000
 44 - 1 Common Synonym On Multiple Clauses Test
-if ifs; stmt s; variable v; stmt s, ss;
-Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=3
+if ifs; stmt s; variable v; stmt ss;
+Select ifs such that Parent(ifs, s) pattern ifs(v,_,_) with s.stmt#=4
 3
 5000
 45 - 2 Common Synonyms Test

@@ -135,12 +135,12 @@ Select a pattern a (v,_"HuNtSm4N+4"_)
 5000
 28 - Assign Pattern Bracket Invalid Test 1
 assign a;
-Select a pattern a ("b",_"3*d"_)
+Select a pattern a ("d3Ep",_"3*d3Ep"_)
 none
 5000
 29 - Assign Pattern Bracket Invalid Test 2
 assign a;
-Select a pattern a ("b",_"c+e"_)
+Select a pattern a ("d3Ep",_"C41nHuRsT+eMIS5arY"_)
 none
 5000
 30 - While Pattern Functionality Test

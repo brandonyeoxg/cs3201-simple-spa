@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "NextTable.h"
+#include <algorithm>
+
+#include "pkb/relationshipTables/NextTable.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -23,6 +25,10 @@ public:
     Assert::IsTrue(nextTable.isNext(0, 3));
     Assert::IsTrue(nextTable.isNext(0, 1));
     Assert::IsTrue(nextTable.isNext(0, 500));
+
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNext(501, 3));
+    Assert::IsFalse(nextTable.isNext(600, 700));
   }
 
   TEST_METHOD(isNextStar) {
@@ -43,10 +49,14 @@ public:
 
     nextTable.insertNextRelationship(2, 4);
     nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(0, 500); // Test a large number
     nextTable.executeAfterAllNextInserts();
 
     Assert::IsTrue(nextTable.isNextStar(0, 5));
 
+    // test out of bounds number
+    Assert::IsFalse(nextTable.isNextStar(501, 3));
+    Assert::IsFalse(nextTable.isNextStar(600, 700));
   }
 
   TEST_METHOD(isNext_isNextStar_01) {
@@ -200,23 +210,23 @@ public:
 
     expected = { 2, 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(1);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
     expected = {};
     result = nextTable.getAllLinesAfter(2);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
     expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(3);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
     expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(4);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
     expected = { 3, 4, 5, 6 };
     result = nextTable.getAllLinesAfter(6);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
   }
 
   TEST_METHOD(getLinesBefore) {
@@ -276,22 +286,19 @@ public:
 
     expected = { 1, 2, 3, 4 };
     result = nextTable.getAllLinesBefore(1);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
-    expected = { 1, 2, 3, 4 };
     result = nextTable.getAllLinesBefore(2);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
-    expected = { 1, 2, 3, 4 };
     result = nextTable.getAllLinesBefore(3);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
 
-    expected = { 1, 2, 3, 4 };
     result = nextTable.getAllLinesBefore(4);
-    Assert::IsTrue(expected == result);
+    assertTwoVectorsSame(result, expected);
   }
 
-  TEST_METHOD(getAllNextStar) {
+  TEST_METHOD(getAllNextStar_01) {
     NextTable nextTable = NextTable();
     std::vector<PROG_LINE> expected;
 
@@ -320,9 +327,132 @@ public:
     }
 
     for (auto iter : map) {
-      Assert::IsTrue(iter.second == expected);  // Check lines reachable for each line
+      assertTwoVectorsSame(iter.second, expected); // Check lines reachable for each line
     }
+  }
 
+  TEST_METHOD(getAllNextStar_02) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   while ...
+        2     while ...
+        3       while ...
+        4         if ...
+        5           stmt
+                  else
+        6           stmt
+        7         if ...
+        8           stmt
+                  else
+        9           stmt
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 1);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 2);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(4, 5);
+    nextTable.insertNextRelationship(4, 6);
+    nextTable.insertNextRelationship(5, 7);
+    nextTable.insertNextRelationship(6, 7);
+    nextTable.insertNextRelationship(7, 8);
+    nextTable.insertNextRelationship(7, 9);
+    nextTable.insertNextRelationship(9, 3);
+    nextTable.insertNextRelationship(8, 3);
+
+    nextTable.executeAfterAllNextInserts();
+
+    std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
+
+    Assert::IsTrue(map.size() == 9);  // 9 keys in total
+
+    expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    result = map.at(1);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(2);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(3);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(4);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(5);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(6);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(7);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(8);
+    assertTwoVectorsSame(result, expected);
+
+    result = map.at(9);
+    assertTwoVectorsSame(result, expected);
+  }
+
+  TEST_METHOD(getAllNextStar_03) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+
+    /*  1   stmt 
+        2   stmt 
+        3   if ...
+        4     stmt
+            else
+        5     stmt    
+        6   while
+        7     stmt 
+    */
+
+    nextTable.insertNextRelationship(1, 2);
+    nextTable.insertNextRelationship(2, 3);
+    nextTable.insertNextRelationship(3, 4);
+    nextTable.insertNextRelationship(3, 5);
+    nextTable.insertNextRelationship(4, 6);
+    nextTable.insertNextRelationship(5, 6);
+    nextTable.insertNextRelationship(6, 7);
+    nextTable.insertNextRelationship(7, 6);
+
+    nextTable.executeAfterAllNextInserts();
+
+    std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> map = nextTable.getAllNextStar();
+
+    Assert::IsTrue(map.size() == 7);
+
+    expected = { 2, 3, 4, 5, 6, 7 };
+    result = map.at(1);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 3, 4, 5, 6, 7 };
+    result = map.at(2);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 4, 5, 6, 7 };
+    result = map.at(3);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(4);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(5);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(6);
+    assertTwoVectorsSame(result, expected);
+
+    expected = { 6, 7 };
+    result = map.at(7);
+    assertTwoVectorsSame(result, expected);
   }
 
   TEST_METHOD(getAllLinesAfterAnyLine_01) {
@@ -427,7 +557,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_01) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -464,7 +593,6 @@ public:
 
   TEST_METHOD(hasNextRelationship_hasNextLine_hasLineBefore_02) {
     NextTable nextTable = NextTable();
-    std::vector<PROG_LINE> expected, result;
 
     Assert::IsFalse(nextTable.hasNextRelationship());
 
@@ -502,7 +630,41 @@ public:
     Assert::IsFalse(nextTable.hasLineBefore(1));
   }
 
+  TEST_METHOD(nextTable_emptyResults) {
+    NextTable nextTable = NextTable();
+    std::vector<PROG_LINE> expected, result;
+    MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES expectedMap, resultMap;
+
+    nextTable.executeAfterAllNextInserts();
+
+    expected = {};
+
+    result = nextTable.getAllLinesBeforeAnyLine();
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getLinesAfter(4);
+    Assert::IsTrue(expected == result);
+
+    result = nextTable.getAllLinesBefore(500);
+    Assert::IsTrue(expected == result);
+
+    expectedMap = MAP_OF_PROG_LINE_TO_LIST_OF_PROG_LINES();
+
+    resultMap = nextTable.getAllNext();
+    Assert::IsTrue(expectedMap == resultMap);
+
+    resultMap = nextTable.getAllNextStar();
+    Assert::IsTrue(expectedMap == resultMap);
+  }
+
 private:
+
+  // For checking 2 vectors with elements that may be out of order
+  // Given two vectors, sorts the first vector result and checks it has same values as expected
+  void assertTwoVectorsSame(LIST_OF_STMT_NUMS &result, LIST_OF_STMT_NUMS &expected) {
+    std::sort(result.begin(), result.end());
+    Assert::IsTrue(expected == result);
+  }
 
   void printGraph(std::unordered_map<PROG_LINE, std::vector<PROG_LINE>> graph) {
     for (auto iter : graph) {
@@ -514,6 +676,7 @@ private:
   }
 
   void printVector(std::vector<int> vector) {
+    Logger::WriteMessage("Printing vector");
     for (auto iterator : vector) {
       Logger::WriteMessage(std::to_string(iterator).c_str());
     }

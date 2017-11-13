@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "CallsTable.h"
+#include "pkb/relationshipTables/CallsTable.h"
 #include <stdexcept>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -9,15 +9,24 @@ namespace UnitTesting {
   TEST_CLASS(TestCallsTable) {
   private:
     CallsTable* m_callsTable;
+    ProcTable* m_procTable;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByMap;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCallsStarMap;
+    MAP_OF_NAME_TO_SET_OF_NAMES m_testCallsStarSet;
     std::unordered_map<PROC_NAME, LIST_OF_PROC_NAMES> m_testCalledByStarMap;
     std::unordered_map<STMT_NUM, PROC_NAME> m_testCallsStmtMap;
+    std::unordered_map<PROC_NAME, LIST_OF_STMT_NUMS> m_testProcNameToCallsStmtsMap;
 
   public:
     TEST_METHOD_INITIALIZE(InitialiseCallsTable) {
       m_callsTable = new CallsTable();
+      m_procTable = new ProcTable();
+      m_procTable->insertProc("ATLANTA");
+      m_procTable->insertProc("BOSTON");
+      m_procTable->insertProc("CLEVELAND");
+      m_procTable->insertProc("DENVER");
       m_testCallsMap = {
         { "ATLANTA",{ "BOSTON", "CLEVELAND" } },  
         { "CLEVELAND",{ "BOSTON"} },
@@ -46,6 +55,11 @@ namespace UnitTesting {
         {5, "CLEVELAND"},
         {7, "CLEVELAND"}
       };
+
+      m_testProcNameToCallsStmtsMap = {
+        {"BOSTON", {2, 3}},
+        {"CLEVELAND", {5, 7}}
+      };
       m_callsTable->insertCalls("ATLANTA", "BOSTON");
       m_callsTable->insertCallsStmt(2, "BOSTON");
       m_callsTable->insertCalls("CLEVELAND", "BOSTON");
@@ -54,8 +68,17 @@ namespace UnitTesting {
       m_callsTable->insertCallsStmt(5, "CLEVELAND");
       m_callsTable->insertCalls("ATLANTA", "CLEVELAND");
       m_callsTable->insertCallsStmt(7, "CLEVELAND");
+      
       m_callsTable->populateCallsStarMap();
       m_callsTable->populateCalledByStarMap();
+      m_callsTable->populateCallsByIdx(m_procTable);
+      m_callsTable->populateAllCallsLists();
+      m_callsTable->populateAllCallsMap();
+
+    }
+    TEST_METHOD_CLEANUP(cleanTestCalls){
+      delete m_callsTable;
+      delete m_procTable;
     }
     TEST_METHOD(TestInsertCalls) {
       Assert::IsTrue(m_callsTable->getCallsMap() == m_testCallsMap);
@@ -63,6 +86,7 @@ namespace UnitTesting {
     }
     TEST_METHOD(TestInsertCallsStmt) {
       Assert::IsTrue(m_callsTable->getCallsStmtMap() == m_testCallsStmtMap);
+      Assert::IsTrue(m_callsTable->getProcNameToCallsStmtsMap() == m_testProcNameToCallsStmtsMap);
     }
     TEST_METHOD(TestIsCalls) {
       bool expected = m_callsTable->isCalls("ATLANTA", "BOSTON");
@@ -95,45 +119,44 @@ namespace UnitTesting {
       
     }
 
-    TEST_METHOD(TestGetCalls) {
-      static const std::string arr[] = { "BOSTON", "CLEVELAND" };
-      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      LIST_OF_PROC_NAMES actual = m_callsTable->getCalls("ATLANTA");
+    TEST_METHOD(TestGetCallsByIdx) {
+      static const int arr[] = { 1, 2};
+      LIST_OF_PROC_INDICES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_INDICES actual = m_callsTable->getCallsByIdx(0);
       Assert::IsTrue(expected == actual);
 
-      LIST_OF_PROC_NAMES emptyVector;
-      actual = m_callsTable->getCalls("BOSTON");
+      LIST_OF_PROC_INDICES emptyVector;
+      actual = m_callsTable->getCallsByIdx(1);
       Assert::IsTrue(emptyVector == actual);
     }
 
-    TEST_METHOD(TestGetCalledBy) {
-      static const std::string arr[] = { "ATLANTA", "CLEVELAND" };
-      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      LIST_OF_PROC_NAMES actual = m_callsTable->getCalledBy("BOSTON");
+    TEST_METHOD(TestGetCalledByByIdx) {
+      static const int arr[] = { 0, 2 };
+      LIST_OF_PROC_INDICES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_INDICES actual = m_callsTable->getCalledByByIdx(1);
       Assert::IsTrue(expected == actual);
 
-      LIST_OF_PROC_NAMES emptyVector;
-      actual = m_callsTable->getCalledBy("DENVER");
+      LIST_OF_PROC_INDICES emptyVector;
+      actual = m_callsTable->getCalledByByIdx(3);
       Assert::IsTrue(emptyVector == actual);
     }
 
-    TEST_METHOD(TestAllCalls) {
-      std::unordered_map<PROC_NAME, PROC_NAME> expected;
+    TEST_METHOD(TestAllCallsByIdx) {
+      MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES expected;
       expected = {
-        { "ATLANTA", "BOSTON" },
-        { "CLEVELAND", "BOSTON" },
-        { "ATLANTA", "CLEVELAND" },
-        { "DENVER", "CLEVELAND"}
+        { 0, {1, 2}},
+        { 2, {1} },
+        { 3, {2}}
       };
 
-      std::unordered_map<PROC_NAME, PROC_NAME> actual = m_callsTable->getAllCalls();
+      MAP_OF_PROC_INDEX_TO_LIST_OF_PROC_INDICES actual = m_callsTable->getAllCallsByIdx();
       Assert::IsTrue(expected == actual);
     }
 
-    TEST_METHOD(TestGetCallsAnything) {
-      static const std::string arr[] = { "ATLANTA", "CLEVELAND", "DENVER" };
-      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
-      LIST_OF_PROC_NAMES actual = m_callsTable->getCallsAnything();
+    TEST_METHOD(TestGetCallsAnythingByIdx) {
+      static const int arr[] = { 0, 2, 3 };
+      LIST_OF_PROC_INDICES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+      LIST_OF_PROC_INDICES actual = m_callsTable->getCallsAnythingByIdx();
       Assert::IsTrue(expected == actual);
     }
 
@@ -176,13 +199,13 @@ namespace UnitTesting {
       Assert::IsFalse(actual);
     }
 
-    TEST_METHOD(TestGetCallsStar) {
-      LIST_OF_PROC_NAMES actual = m_callsTable->getCallsStar("DENVER");
-      static const std::string arr[] = {  "CLEVELAND", "BOSTON" };
-      LIST_OF_PROC_NAMES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
+    TEST_METHOD(TestGetCallsStarByIdx) {
+      LIST_OF_PROC_INDICES actual = m_callsTable->getCallsStarByIdx(3);
+      static const int arr[] = {  2, 1 };
+      LIST_OF_PROC_INDICES expected(arr, arr + sizeof(arr) / sizeof(arr[0]));
       Assert::IsTrue(expected == actual);
-      actual = m_callsTable->getCallsStar("BOSTON");
-      LIST_OF_PROC_NAMES emptyVector;
+      actual = m_callsTable->getCallsStarByIdx(1);
+      LIST_OF_PROC_INDICES emptyVector;
       Assert::IsTrue(emptyVector == actual);
     }
   };
