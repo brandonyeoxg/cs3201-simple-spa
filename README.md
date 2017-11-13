@@ -28,5 +28,5 @@ doxygen doxygenConfig
 1. Build solution in Visual Studio as Release (or Debug depending on which .bat file is used to run)
 2. Double-click the release_autotester_automate.bat file in the AutoTester folder to run all the tests for acceptance, regression, stress, system and validation
 > * Note: The test cases are in the ./AutoTester/Tests folder
-> * Note: The XML outputs will  be in the ./AutoTester/Output folder
+> * Note: The XML outputs will  be in the ./AutoTester/Output/ReleaseOutput folder (or ./AutoTester/Output/DebugOutput depending on which .bat file is used to run)
 4. Navigate to ./AutoTester/Output folder and open the XML files with Firefox to view the results of the test cases
