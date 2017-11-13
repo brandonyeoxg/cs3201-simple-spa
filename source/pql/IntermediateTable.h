@@ -13,8 +13,34 @@
 class IntermediateTable {
 public:
 
+  /*
+  * Insert the results of one synonym.
+  * Insert the results of one synonym into the intermediate result table.
+  * @param t_synonym the synonym to be inserted into the result table.
+  * @param t_results the results of the synonym to be inserted into the result table.
+  * @return true if the results of the synonym is inserted into the intermediate result table successfully
+  * else return false if the results are not inserted into the intermediate result table.
+  */
   BOOLEAN insertOneSynonym(SYNONYM_NAME t_synonym, LIST_OF_RESULTS_INDICES t_results);
+
+  /*
+  * Insert the results of two synonyms.
+  * Insert the results of two synonyms into the intermediate result table.
+  * @param t_synonym1 the synonym to be inserted into the result table.
+  * @param t_synonym1 the synonym to be inserted into the result table.
+  * @param t_results the results of the synonym to be inserted into the result table.
+  * @return true if the results of the synonym is inserted into the intermediate result table successfully
+  * else return false if the results are not inserted into the intermediate result table.
+  */
   BOOLEAN insertTwoSynonym(SYNONYM_NAME t_synonym1, SYNONYM_NAME t_synonym2, SET_OF_RESULTS_INDICES t_results);
+
+  /*
+  * Merge the vector of intermediate result tables into one intermediate result table. 
+  * Loop through all the intermediate result table to merge together.
+  * @param t_tables the intermediate result tables of all the groups to be merged.
+  * @return true if the results of the tables have been merged successfully
+  * else return false if the tables are not merged successfully.
+  */
   BOOLEAN mergeTables(std::vector<IntermediateTable*> t_tables);
   
   /*
@@ -23,6 +49,10 @@ public:
   * @param t_synonyms list of synonyms to determine which results is output in the intermediate table.
   */
   LIST_OF_RESULTS getResults(std::vector<Grammar> t_synonyms, PkbReadOnly *t_pkb);
+
+  /*
+  * Returns true if the intermediate table has synonyms in the table.
+  */
   BOOLEAN hasSynonyms();
 
   /*
